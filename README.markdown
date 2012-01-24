@@ -20,6 +20,7 @@ INSTALLATION & BUILDING
 -----------------------
 
 Run the `cloneAddons` script in the scripts folder to install the addon dependencies:
+
 * ofxPd
 * ofxAppUtils
 
