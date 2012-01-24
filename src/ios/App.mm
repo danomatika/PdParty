@@ -5,13 +5,17 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
  *
- * See https://github.com/danomatika/ofxPd for documentation
+ * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
-#include "testApp.h"
+#include "App.h"
 
 //--------------------------------------------------------------
-void testApp::setup() {
+void App::setup() {
+
+	cout << ofFilePath::getCurrentWorkingDirectory() << endl;
+	//ofSetDataPathRoot("Resources/data");
+	cout << ofFilePath::getCurrentWorkingDirectory() << endl;
 
 	// register touch events
 	ofRegisterTouchEvents(this);
@@ -27,9 +31,6 @@ void testApp::setup() {
 	
 	ofBackground(127, 127, 127);
 	
-	// set the data path
-	ofSetDataPathRoot("../Resources/data");
-	
 	// the number if libpd ticks per buffer,
 	// used to compute the audio buffer len: tpb * blocksize (always 64)
 	int ticksPerBuffer = 8;	// 8 * 64 = buffer len of 512
@@ -42,69 +43,69 @@ void testApp::setup() {
 }
 
 //--------------------------------------------------------------
-void testApp::update() {
+void App::update() {
 	core.update();
 }
 
 //--------------------------------------------------------------
-void testApp::draw() {
+void App::draw() {
 	core.draw();
 }
 
 //--------------------------------------------------------------
-void testApp::exit() {
+void App::exit() {
 	core.exit();
 }
 
 //--------------------------------------------------------------
-void testApp::touchDown(ofTouchEventArgs &touch) {
+void App::touchDown(ofTouchEventArgs &touch) {
 }
 
 //--------------------------------------------------------------
-void testApp::touchMoved(ofTouchEventArgs &touch) {
-
-}
-
-//--------------------------------------------------------------
-void testApp::touchUp(ofTouchEventArgs &touch) {
+void App::touchMoved(ofTouchEventArgs &touch) {
 
 }
 
 //--------------------------------------------------------------
-void testApp::touchDoubleTap(ofTouchEventArgs &touch) {
+void App::touchUp(ofTouchEventArgs &touch) {
 
 }
 
 //--------------------------------------------------------------
-void testApp::lostFocus() {
+void App::touchDoubleTap(ofTouchEventArgs &touch) {
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotFocus() {
+void App::lostFocus() {
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotMemoryWarning() {
+void App::gotFocus() {
 
 }
 
 //--------------------------------------------------------------
-void testApp::deviceOrientationChanged(int newOrientation) {
+void App::gotMemoryWarning() {
 
 }
 
 //--------------------------------------------------------------
-void testApp::touchCancelled(ofTouchEventArgs& args) {
+void App::deviceOrientationChanged(int newOrientation) {
 
 }
 
 //--------------------------------------------------------------
-void testApp::audioReceived(float * input, int bufferSize, int nChannels) {
+void App::touchCancelled(ofTouchEventArgs& args) {
+
+}
+
+//--------------------------------------------------------------
+void App::audioReceived(float * input, int bufferSize, int nChannels) {
 	core.audioReceived(input, bufferSize, nChannels);
 }
 
-void testApp::audioRequested(float * output, int bufferSize, int nChannels) {
+void App::audioRequested(float * output, int bufferSize, int nChannels) {
 	core.audioRequested(output, bufferSize, nChannels);
 }

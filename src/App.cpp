@@ -5,15 +5,13 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
  *
- * See https://github.com/danomatika/ofxPd for documentation
+ * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
-#include "testApp.h"
-
-#include <Poco/Path.h>
+#include "App.h"
 
 //--------------------------------------------------------------
-void testApp::setup() {
+void App::setup() {
 
 	// the number if libpd ticks per buffer,
 	// used to compute the audio buffer len: tpb * blocksize (always 64)
@@ -27,46 +25,46 @@ void testApp::setup() {
 }
 
 //--------------------------------------------------------------
-void testApp::update() {
+void App::update() {
 	core.update();
 }
 
 //--------------------------------------------------------------
-void testApp::draw() {
+void App::draw() {
 	core.draw();
 }
 
 //--------------------------------------------------------------
-void testApp::exit() {
+void App::exit() {
 	core.exit();
 }
 
 //--------------------------------------------------------------
-void testApp::keyPressed(int key) {
+void App::keyPressed(int key) {
 	core.keyPressed(key);
 }
 
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y) {}
+void App::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button) {}
+void App::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button) {}
+void App::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button) {}
+void App::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void testApp::windowResized(int w, int h) {}
+void App::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void testApp::audioReceived(float * input, int bufferSize, int nChannels) {
+void App::audioReceived(float * input, int bufferSize, int nChannels) {
 	core.audioReceived(input, bufferSize, nChannels);
 }
 
 //--------------------------------------------------------------
-void testApp::audioRequested(float * output, int bufferSize, int nChannels) {
+void App::audioRequested(float * output, int bufferSize, int nChannels) {
 	core.audioRequested(output, bufferSize, nChannels);
 }

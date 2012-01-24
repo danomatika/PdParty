@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30742A5814BA0F600078B38D /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30742A4614BA0F600078B38D /* App.cpp */; };
+		30742A5914BA0F600078B38D /* Bang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30742A4914BA0F600078B38D /* Bang.cpp */; };
+		30742A5A14BA0F600078B38D /* Comment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30742A4B14BA0F600078B38D /* Comment.cpp */; };
+		30742A5B14BA0F600078B38D /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30742A4D14BA0F600078B38D /* Gui.cpp */; };
+		30742A5C14BA0F600078B38D /* Numberbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30742A4F14BA0F600078B38D /* Numberbox.cpp */; };
+		30742A5D14BA0F600078B38D /* Toggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30742A5114BA0F600078B38D /* Toggle.cpp */; };
+		30742A5E14BA0F600078B38D /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30742A5314BA0F600078B38D /* Widget.cpp */; };
 		308C1BB6146B39350067923E /* PdBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 308C1BB0146B39350067923E /* PdBase.cpp */; };
 		308C1BB7146B39350067923E /* PdTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 308C1BB4146B39350067923E /* PdTypes.cpp */; };
 		30B2D0C1142B2C7A000AB5E1 /* AppCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B2D0BF142B2C7A000AB5E1 /* AppCore.cpp */; };
@@ -96,7 +103,6 @@
 		E45BE9830E8CC7DD009D7055 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9790E8CC7DD009D7055 /* OpenGL.framework */; };
 		E45BE9840E8CC7DD009D7055 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
-		E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */; };
 		E4C2424710CC5A17004149E2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424410CC5A17004149E2 /* AppKit.framework */; };
 		E4C2424810CC5A17004149E2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424510CC5A17004149E2 /* Cocoa.framework */; };
 		E4C2424910CC5A17004149E2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424610CC5A17004149E2 /* IOKit.framework */; };
@@ -134,12 +140,29 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		30742A4614BA0F600078B38D /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = App.cpp; sourceTree = "<group>"; };
+		30742A4714BA0F600078B38D /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
+		30742A4914BA0F600078B38D /* Bang.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bang.cpp; sourceTree = "<group>"; };
+		30742A4A14BA0F600078B38D /* Bang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bang.h; sourceTree = "<group>"; };
+		30742A4B14BA0F600078B38D /* Comment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Comment.cpp; sourceTree = "<group>"; };
+		30742A4C14BA0F600078B38D /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		30742A4D14BA0F600078B38D /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
+		30742A4E14BA0F600078B38D /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
+		30742A4F14BA0F600078B38D /* Numberbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Numberbox.cpp; sourceTree = "<group>"; };
+		30742A5014BA0F600078B38D /* Numberbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox.h; sourceTree = "<group>"; };
+		30742A5114BA0F600078B38D /* Toggle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Toggle.cpp; sourceTree = "<group>"; };
+		30742A5214BA0F600078B38D /* Toggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toggle.h; sourceTree = "<group>"; };
+		30742A5314BA0F600078B38D /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
+		30742A5414BA0F600078B38D /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
+		30742A5514BA0F600078B38D /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		308C1BB0146B39350067923E /* PdBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PdBase.cpp; sourceTree = "<group>"; };
 		308C1BB1146B39350067923E /* PdBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdBase.h; sourceTree = "<group>"; };
 		308C1BB2146B39350067923E /* PdMidiReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdMidiReceiver.h; sourceTree = "<group>"; };
 		308C1BB3146B39350067923E /* PdReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdReceiver.h; sourceTree = "<group>"; };
 		308C1BB4146B39350067923E /* PdTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PdTypes.cpp; sourceTree = "<group>"; };
 		308C1BB5146B39350067923E /* PdTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdTypes.h; sourceTree = "<group>"; };
+		308C1BD7146BA5770067923E /* PdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdParser.h; sourceTree = "<group>"; };
+		309B62B714CE58D800E81E34 /* ofxTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTimer.h; sourceTree = "<group>"; };
 		30B2D0BF142B2C7A000AB5E1 /* AppCore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppCore.cpp; sourceTree = "<group>"; };
 		30B2D0C0142B2C7A000AB5E1 /* AppCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCore.h; sourceTree = "<group>"; };
 		30B2D0C4142B2CA5000AB5E1 /* ofxPd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPd.cpp; sourceTree = "<group>"; };
@@ -257,8 +280,6 @@
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		E4B69B5B0A3A1756003C02F2 /* PdParty-macosDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PdParty-macosDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
-		E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = testApp.cpp; path = src/testApp.cpp; sourceTree = SOURCE_ROOT; };
-		E4B69E1F0A3A1BDC003C02F2 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = testApp.h; path = src/testApp.h; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* PdParty-macos-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "PdParty-macos-Info.plist"; sourceTree = "<group>"; };
 		E4C2424410CC5A17004149E2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		E4C2424510CC5A17004149E2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -292,6 +313,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30742A4814BA0F600078B38D /* gui */ = {
+			isa = PBXGroup;
+			children = (
+				30742A4914BA0F600078B38D /* Bang.cpp */,
+				30742A4A14BA0F600078B38D /* Bang.h */,
+				30742A4B14BA0F600078B38D /* Comment.cpp */,
+				30742A4C14BA0F600078B38D /* Comment.h */,
+				30742A4D14BA0F600078B38D /* Gui.cpp */,
+				30742A4E14BA0F600078B38D /* Gui.h */,
+				30742A4F14BA0F600078B38D /* Numberbox.cpp */,
+				30742A5014BA0F600078B38D /* Numberbox.h */,
+				30742A5114BA0F600078B38D /* Toggle.cpp */,
+				30742A5214BA0F600078B38D /* Toggle.h */,
+				30742A5314BA0F600078B38D /* Widget.cpp */,
+				30742A5414BA0F600078B38D /* Widget.h */,
+			);
+			path = gui;
+			sourceTree = "<group>";
+		};
 		308C1BAF146B39350067923E /* cpp */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +343,23 @@
 				308C1BB5146B39350067923E /* PdTypes.h */,
 			);
 			path = cpp;
+			sourceTree = "<group>";
+		};
+		309B620814CE58D600E81E34 /* ofxAppUtils */ = {
+			isa = PBXGroup;
+			children = (
+				309B62A814CE58D800E81E34 /* src */,
+			);
+			name = ofxAppUtils;
+			path = ../../../addons/ofxAppUtils;
+			sourceTree = "<group>";
+		};
+		309B62A814CE58D800E81E34 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				309B62B714CE58D800E81E34 /* ofxTimer.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		30B2D0C2142B2C8B000AB5E1 /* ofxPd */ = {
@@ -491,6 +548,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				309B620814CE58D600E81E34 /* ofxAppUtils */,
 				30B2D0C2142B2C8B000AB5E1 /* ofxPd */,
 			);
 			name = addons;
@@ -556,11 +614,14 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				30742A4614BA0F600078B38D /* App.cpp */,
+				30742A4714BA0F600078B38D /* App.h */,
+				30742A4814BA0F600078B38D /* gui */,
+				30742A5514BA0F600078B38D /* Types.h */,
+				308C1BD7146BA5770067923E /* PdParser.h */,
 				30B2D0BF142B2C7A000AB5E1 /* AppCore.cpp */,
 				30B2D0C0142B2C7A000AB5E1 /* AppCore.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
-				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -662,7 +723,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
-				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				30B2D0C1142B2C7A000AB5E1 /* AppCore.cpp in Sources */,
 				30B2D135142B2CA5000AB5E1 /* ofxPd.cpp in Sources */,
 				30B2D137142B2CA5000AB5E1 /* s_libpdmidi.c in Sources */,
@@ -740,6 +800,13 @@
 				30B2D17F142B2CA5000AB5E1 /* x_time.c in Sources */,
 				308C1BB6146B39350067923E /* PdBase.cpp in Sources */,
 				308C1BB7146B39350067923E /* PdTypes.cpp in Sources */,
+				30742A5814BA0F600078B38D /* App.cpp in Sources */,
+				30742A5914BA0F600078B38D /* Bang.cpp in Sources */,
+				30742A5A14BA0F600078B38D /* Comment.cpp in Sources */,
+				30742A5B14BA0F600078B38D /* Gui.cpp in Sources */,
+				30742A5C14BA0F600078B38D /* Numberbox.cpp in Sources */,
+				30742A5D14BA0F600078B38D /* Toggle.cpp in Sources */,
+				30742A5E14BA0F600078B38D /* Widget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

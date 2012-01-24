@@ -5,7 +5,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
  *
- * See https://github.com/danomatika/ofxPd for documentation
+ * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
 #pragma once
@@ -15,7 +15,7 @@
 #include "AppCore.h"
 
 /// a desktop os app wrapper
-class testApp : public ofBaseApp{
+class App : public ofBaseApp {
 
 	public:
 

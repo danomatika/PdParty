@@ -8,13 +8,25 @@
  * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
-#include "ofMain.h"
-#include "App.h"
+#pragma once
 
-//========================================================================
-int main() {
+#include "Widget.h"
 
-	ofSetupOpenGL(1024, 768, OF_FULLSCREEN); // <-------- setup the GL context
+namespace gui {
 
-	ofRunApp(new App);
-}
+class Comment : public Widget {
+
+	public:
+
+		Comment(Gui& parent, const AtomLine& atomLine);
+
+		void draw();
+		
+		inline string getType() {return s_type;}
+		
+	private:
+		
+		static const string s_type;
+};
+
+} // namespace

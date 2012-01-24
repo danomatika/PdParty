@@ -5,7 +5,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
  *
- * See https://github.com/danomatika/ofxPd for documentation
+ * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
 #pragma once
@@ -14,6 +14,8 @@
 
 #include "ofxPd.h"
 
+#include "gui/Gui.h"
+
 // a namespace for the Pd types
 using namespace pd;
 
@@ -21,15 +23,14 @@ class AppCore : public PdReceiver, public PdMidiReceiver {
 
 	public:
 
+		AppCore() : gui(pd) {}
+
 		// main
 		void setup(const int numOutChannels, const int numInChannels,
 				   const int sampleRate, const int ticksPerBuffer);
 		void update();
 		void draw();
         void exit();
-
-		// do something
-		void playTone(int pitch);
 		
 		// input callbacks
 		void keyPressed(int key);
@@ -58,7 +59,6 @@ class AppCore : public PdReceiver, public PdMidiReceiver {
 		void receiveMidiByte(const int port, const int byte);
 		
 		ofxPd pd;
-		vector<float> scopeArray;
-        
-        int midiChan;
+		
+		gui::Gui gui;
 };
