@@ -16,6 +16,15 @@ A port of Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/
 
 NOTE: THIS IS CURRENTLY IN AN ALPHA STAGE AND LIKELY NOT TO WORK JUST YET ... STAY TUNED.
 
+INSTALLATION & BUILDING
+-----------------------
+
+Run the `cloneAddons` script in the scripts folder to install the addon dependencies:
+* ofxPd
+* ofxAppUtils
+
+Currently, only Xcode projects are provided for MacOS and iOS.
+
 DEVELOPING
 ----------
 
