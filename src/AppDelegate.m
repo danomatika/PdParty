@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 
 #import "PdAudioController.h"
+#import "PdParser.h"
+#import "Log.h"
 
 @interface AppDelegate () {
 
@@ -27,8 +29,8 @@
 //@synthesize viewController = viewController_;
 @synthesize audioController = audioController_;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
     // Override point for customization after application launch.
 	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 	    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
@@ -36,35 +38,41 @@
 	    splitViewController.delegate = (id)navigationController.topViewController;
 	}
 	
+	// init logger
+	[DDLog addLogger:[DDTTYLogger sharedInstance]];
+	[DDLog addLogger:[[DDFileLogger alloc] init]];
+	//ddLogLevel = [preferences logLevel];
+	DDLogInfo(@"loglevel: %d", ddLogLevel);
+	
 	[self setupPd];
 	
     return YES;
 }
 							
-- (void)applicationWillResignActive:(UIApplication *)application
-{
+- (void)applicationWillResignActive:(UIApplication *)application {
+
 	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
 	// Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+
 	// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
 	// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+
 	// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+
 	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
+- (void)applicationWillTerminate:(UIApplication *)application {
+
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
@@ -76,11 +84,11 @@
 																	inputEnabled:NO
 																   mixingEnabled:YES];
 	if (status == PdAudioError) {
-		NSLog(@"Error! Could not configure PdAudioController");
+		DDLogError(@"Error: Could not configure PdAudioController");
 	} else if (status == PdAudioPropertyChanged) {
-		NSLog(@"Warning: some of the audio parameters were not accceptable.");
+		DDLogWarn(@"Warning: Some of the audio parameters were not accceptable");
 	} else {
-		NSLog(@"Audio Configuration successful.");
+		DDLogInfo(@"Audio Configuration successful");
 	}
 	
 	// setup print msg
@@ -103,6 +111,14 @@
 	[self setPlaying:YES];
 	
 	[PdBase sendSymbol:@"test" toReceiver:@"fromOF"];
+	
+			
+	// load gui
+	NSArray *atoms = [PdParser getAtomLines:[PdParser readPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]]];
+	[PdParser printAtoms:atoms];
+	//gui.buildGui(atoms);
+
+	//pd.openPatch("gui.pd");
 }
 
 #pragma mark - PdRecieverDelegate
@@ -120,7 +136,7 @@
         }
 
 		// got the line, so print
-		NSLog(@"Pd Console: %@", printMsg);
+		DDLogInfo(@"Pd Console: %@", printMsg);
 
         [printMsg setString:@""];
         return;
@@ -131,26 +147,26 @@
 }
 
 - (void)receiveBangFromSource:(NSString *)source {
-	NSLog(@"Pd Bang from %@", source);
+	DDLogInfo(@"Pd Bang from %@", source);
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	NSLog(@"Pd Float from %@: %f", source, received);
+	DDLogInfo(@"Pd Float from %@: %f", source, received);
 //	if ([source isEqualToString:@"load-meter"]) {
 //		self.viewController.loadPercentage = (int)received;
 //	}
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	NSLog(@"Pd Symbol from %@: %@", source, symbol);
+	DDLogInfo(@"Pd Symbol from %@: %@", source, symbol);
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	NSLog(@"Pd List from %@", source);
+	DDLogInfo(@"Pd List from %@", source);
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	NSLog(@"Pd Message to %@ from %@", message, source);
+	DDLogInfo(@"Pd Message to %@ from %@", message, source);
 }
 
 #pragma mark - Accessors

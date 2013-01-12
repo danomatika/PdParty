@@ -129,6 +129,14 @@
 		30112F5216A0D78E005421C7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30112F4A16A0D72C005421C7 /* AVFoundation.framework */; };
 		30112F6516A10386005421C7 /* test.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30112F6316A10386005421C7 /* test.pd */; };
 		30112F6616A10386005421C7 /* test_abs.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30112F6416A10386005421C7 /* test_abs.pd */; };
+		30112F6916A14097005421C7 /* PdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30112F6816A14096005421C7 /* PdParser.m */; };
+		30112F6B16A15392005421C7 /* gui.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30112F6A16A15392005421C7 /* gui.pd */; };
+		30112F7916A15C6B005421C7 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 30112F7016A15C6B005421C7 /* DDAbstractDatabaseLogger.m */; };
+		30112F7A16A15C6B005421C7 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 30112F7216A15C6B005421C7 /* DDASLLogger.m */; };
+		30112F7B16A15C6B005421C7 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 30112F7416A15C6B005421C7 /* DDFileLogger.m */; };
+		30112F7C16A15C6B005421C7 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 30112F7616A15C6B005421C7 /* DDLog.m */; };
+		30112F7D16A15C6B005421C7 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 30112F7816A15C6B005421C7 /* DDTTYLogger.m */; };
+		30112F7E16A16156005421C7 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 30112F6D16A15AFA005421C7 /* Log.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -281,6 +289,21 @@
 		30112F5016A0D769005421C7 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30112F6316A10386005421C7 /* test.pd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.pd; sourceTree = "<group>"; };
 		30112F6416A10386005421C7 /* test_abs.pd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_abs.pd; sourceTree = "<group>"; };
+		30112F6716A14096005421C7 /* PdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdParser.h; sourceTree = "<group>"; };
+		30112F6816A14096005421C7 /* PdParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdParser.m; sourceTree = "<group>"; };
+		30112F6A16A15392005421C7 /* gui.pd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gui.pd; sourceTree = "<group>"; };
+		30112F6C16A15AF9005421C7 /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		30112F6D16A15AFA005421C7 /* Log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Log.m; sourceTree = "<group>"; };
+		30112F6F16A15C6B005421C7 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
+		30112F7016A15C6B005421C7 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
+		30112F7116A15C6B005421C7 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
+		30112F7216A15C6B005421C7 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
+		30112F7316A15C6B005421C7 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
+		30112F7416A15C6B005421C7 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
+		30112F7516A15C6B005421C7 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
+		30112F7616A15C6B005421C7 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
+		30112F7716A15C6B005421C7 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
+		30112F7816A15C6B005421C7 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,6 +360,11 @@
 		30112E1116A0CF6C005421C7 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				30112F6E16A15C6A005421C7 /* Lumberjack */,
+				30112F6C16A15AF9005421C7 /* Log.h */,
+				30112F6D16A15AFA005421C7 /* Log.m */,
+				30112F6716A14096005421C7 /* PdParser.h */,
+				30112F6816A14096005421C7 /* PdParser.m */,
 				30112E1616A0CF6C005421C7 /* AppDelegate.h */,
 				30112E1716A0CF6C005421C7 /* AppDelegate.m */,
 				30112E1816A0CF6C005421C7 /* desktop */,
@@ -586,10 +614,28 @@
 		30112F6216A10386005421C7 /* patches */ = {
 			isa = PBXGroup;
 			children = (
+				30112F6A16A15392005421C7 /* gui.pd */,
 				30112F6316A10386005421C7 /* test.pd */,
 				30112F6416A10386005421C7 /* test_abs.pd */,
 			);
 			path = patches;
+			sourceTree = "<group>";
+		};
+		30112F6E16A15C6A005421C7 /* Lumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				30112F6F16A15C6B005421C7 /* DDAbstractDatabaseLogger.h */,
+				30112F7016A15C6B005421C7 /* DDAbstractDatabaseLogger.m */,
+				30112F7116A15C6B005421C7 /* DDASLLogger.h */,
+				30112F7216A15C6B005421C7 /* DDASLLogger.m */,
+				30112F7316A15C6B005421C7 /* DDFileLogger.h */,
+				30112F7416A15C6B005421C7 /* DDFileLogger.m */,
+				30112F7516A15C6B005421C7 /* DDLog.h */,
+				30112F7616A15C6B005421C7 /* DDLog.m */,
+				30112F7716A15C6B005421C7 /* DDTTYLogger.h */,
+				30112F7816A15C6B005421C7 /* DDTTYLogger.m */,
+			);
+			path = Lumberjack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -670,6 +716,7 @@
 				30112F4516A0CF76005421C7 /* PdParty-Info.plist in Resources */,
 				30112F6516A10386005421C7 /* test.pd in Resources */,
 				30112F6616A10386005421C7 /* test_abs.pd in Resources */,
+				30112F6B16A15392005421C7 /* gui.pd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,6 +727,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30112F7E16A16156005421C7 /* Log.m in Sources */,
 				30112EBD16A0CF6C005421C7 /* AppDelegate.m in Sources */,
 				30112EBE16A0CF6C005421C7 /* DetailViewController.m in Sources */,
 				30112EC916A0CF6C005421C7 /* main.m in Sources */,
@@ -768,6 +816,12 @@
 				30112F2E16A0CF6C005421C7 /* PGMidi.mm in Sources */,
 				30112F2F16A0CF6C005421C7 /* PGMidiAllSources.mm in Sources */,
 				30112F3016A0CF6C005421C7 /* PGMidiFind.mm in Sources */,
+				30112F6916A14097005421C7 /* PdParser.m in Sources */,
+				30112F7916A15C6B005421C7 /* DDAbstractDatabaseLogger.m in Sources */,
+				30112F7A16A15C6B005421C7 /* DDASLLogger.m in Sources */,
+				30112F7B16A15C6B005421C7 /* DDFileLogger.m in Sources */,
+				30112F7C16A15C6B005421C7 /* DDLog.m in Sources */,
+				30112F7D16A15C6B005421C7 /* DDTTYLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
