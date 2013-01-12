@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PdBase.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : NSObject <UIApplicationDelegate, PdReceiverDelegate> {
+	BOOL playing_;
+}
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, getter=isPlaying) BOOL playing; // a globally accesible flag to start or stop audio
 
 @end

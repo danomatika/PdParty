@@ -1,6 +1,6 @@
-#N canvas 650 344 409 355 10;
+#N canvas 246 288 409 355 10;
 #X obj 272 270 dac~;
-#N canvas 369 98 675 256 test 0;
+#N canvas 367 95 675 256 test 0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array array1 10 float 3;
 #A 0 0.0857145 0.328572 0.500001 0.57143 0.514287 0.47143 0.357144

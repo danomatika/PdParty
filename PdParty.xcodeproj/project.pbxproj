@@ -127,6 +127,8 @@
 		30112F4F16A0D750005421C7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30112F4E16A0D750005421C7 /* AudioToolbox.framework */; };
 		30112F5116A0D769005421C7 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30112F5016A0D769005421C7 /* CoreMIDI.framework */; };
 		30112F5216A0D78E005421C7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30112F4A16A0D72C005421C7 /* AVFoundation.framework */; };
+		30112F6516A10386005421C7 /* test.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30112F6316A10386005421C7 /* test.pd */; };
+		30112F6616A10386005421C7 /* test_abs.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30112F6416A10386005421C7 /* test_abs.pd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -277,6 +279,8 @@
 		30112F4C16A0D739005421C7 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		30112F4E16A0D750005421C7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30112F5016A0D769005421C7 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		30112F6316A10386005421C7 /* test.pd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.pd; sourceTree = "<group>"; };
+		30112F6416A10386005421C7 /* test_abs.pd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_abs.pd; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -566,6 +570,7 @@
 		30112F3316A0CF76005421C7 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				30112F6216A10386005421C7 /* patches */,
 				30112F3416A0CF76005421C7 /* Default-568h@2x.png */,
 				30112F3516A0CF76005421C7 /* Default.png */,
 				30112F3616A0CF76005421C7 /* Default@2x.png */,
@@ -576,6 +581,15 @@
 				30112F3E16A0CF76005421C7 /* PdParty-Prefix.pch */,
 			);
 			path = res;
+			sourceTree = "<group>";
+		};
+		30112F6216A10386005421C7 /* patches */ = {
+			isa = PBXGroup;
+			children = (
+				30112F6316A10386005421C7 /* test.pd */,
+				30112F6416A10386005421C7 /* test_abs.pd */,
+			);
+			path = patches;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -654,6 +668,8 @@
 				30112F4316A0CF76005421C7 /* MainStoryboard_iPad.storyboard in Resources */,
 				30112F4416A0CF76005421C7 /* MainStoryboard_iPhone.storyboard in Resources */,
 				30112F4516A0CF76005421C7 /* PdParty-Info.plist in Resources */,
+				30112F6516A10386005421C7 /* test.pd in Resources */,
+				30112F6616A10386005421C7 /* test_abs.pd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
