@@ -11,7 +11,7 @@
 #
 
 WD=$(dirname $0)
-destDir=../src/pgmidi
+destDir=../libs/pgmidi
 
 ###
 

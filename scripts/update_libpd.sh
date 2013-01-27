@@ -1,14 +1,14 @@
 #! /bin/bash
 
 WD=$(dirname $0)
-destDir=../src/pd
+destDir=../libs/pd
 
 ###
 
 cd $WD
 
 # get latest source
-git clone git://github.com/libpd/libpd.git
+git clone git://github.com/libpd/libpd.git -b objc_midi
 
 # remove uneeded makefiles
 find libpd -name "GNUmakefile.am" -delete
@@ -17,14 +17,8 @@ find libpd -name "makefile" -delete
 rm libpd/pure-data/extra/makefile.subdir
 
 # we dont need the java or csharp wrappers
-rm libpd/libpd_wrapper/z_jni.c
-rm libpd/libpd_wrapper/z_jni.h
 rm libpd/libpd_wrapper/z_csharp_helper.c
 rm libpd/libpd_wrapper/z_csharp_helper.h
-
-# delete duplicate ringbuffer (for now)
-rm libpd/objc/ringbuffer.h
-rm libpd/objc/ringbuffer.c
 
 # remove expr~ since it's GPL, leave that up to devs
 rm -rf libpd/pure-data/extra/expr~

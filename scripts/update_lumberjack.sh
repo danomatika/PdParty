@@ -1,6 +1,7 @@
 #! /bin/bash
 
 WD=$(dirname $0)
+destDir=../libs/lumberjack
 
 ###
 
@@ -14,7 +15,7 @@ git clone git://github.com/robbiehanson/CocoaLumberjack.git
 mkdir -p ../src/Lumberjack
 
 # copy
-cp -v CocoaLumberjack/Lumberjack/* ../src/Lumberjack
+cp -v CocoaLumberjack/Lumberjack/* $destDir
 
 # cleanup
 rm -rf CocoaLumberjack
