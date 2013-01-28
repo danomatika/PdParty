@@ -11,7 +11,10 @@
 #import "Gui.h"
 
 #import "../Log.h"
+#import "Bang.h"
 #import "Toggle.h"
+#import "Numberbox.h"
+#import "Comment.h"
 
 @implementation Gui
 
@@ -19,26 +22,36 @@
 @synthesize patchWidth;
 @synthesize patchHeight;
 @synthesize fontSize;
+@synthesize scaleX;
+@synthesize scaleY;
 
 - (id)init {
 	self = [super init];
     if(self) {
-		fontSize = 10;
 		widgets = [[NSMutableArray alloc] init];
+		fontSize = 10 * GUI_FONT_SCALE;
+		scaleX = 1.0;
+		scaleY = 1.0;
     }
     return self;
 }
 
 - (void)addComment:(NSArray*) atomLine {
 	DDLogInfo(@"Gui: added Comment");
+	Comment *c = [Comment commentFromAtomLine:atomLine withGui:self];
+	[widgets addObject:c];
 }
 
 - (void)addNumberbox:(NSArray*) atomLine {
 	DDLogInfo(@"Gui: added Numberbox");
+	Numberbox *n = [Numberbox numberboxFromAtomLine:atomLine withGui:self];
+	[widgets addObject:n];
 }
 
 - (void)addBang:(NSArray*) atomLine {
 	DDLogInfo(@"Gui: added Bang");
+	Bang *b = [Bang bangFromAtomLine:atomLine withGui:self];
+	[widgets addObject:b];
 }
 
 - (void)addToggle:(NSArray*) atomLine {
@@ -61,8 +74,12 @@
 				level++;
 				if(level == 1) {
 					patchWidth = [[line objectAtIndex:4] integerValue];
-					patchHeight = [[line objectAtIndex:5] integerValue];;
-					fontSize = [[line objectAtIndex:6] integerValue];;
+					patchHeight = [[line objectAtIndex:5] integerValue];
+					fontSize = [[line objectAtIndex:6] integerValue] * GUI_FONT_SCALE;
+					
+					// set pd gui to ios gui scale amount based on relative sizes
+					scaleX = CGRectGetWidth(self.bounds) / patchWidth;
+					scaleY = CGRectGetHeight(self.bounds) / patchHeight;
 				}
 			}
 			else if([lineType isEqualToString:@"restore"]) {

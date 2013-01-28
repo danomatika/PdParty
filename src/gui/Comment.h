@@ -8,25 +8,33 @@
  * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
-#pragma once
+#import "Widget.h"
 
-#include "Widget.h"
+@class Gui;
 
-namespace gui {
+@interface Comment : Widget
 
-class Comment : public Widget {
++ (id)commentFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
 
-	public:
+@end
 
-		Comment(Gui& parent, const AtomLine& atomLine);
-
-		void draw();
-		
-		inline string getType() {return s_type;}
-		
-	private:
-		
-		static const string s_type;
-};
-
-} // namespace
+//#include "Widget.h"
+//
+//namespace gui {
+//
+//class Comment : public Widget {
+//
+//	public:
+//
+//		Comment(Gui& parent, const AtomLine& atomLine);
+//
+//		void draw();
+//		
+//		inline string getType() {return s_type;}
+//		
+//	private:
+//		
+//		static const string s_type;
+//};
+//
+//} // namespace

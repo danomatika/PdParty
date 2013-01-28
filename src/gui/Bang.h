@@ -8,44 +8,54 @@
  * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
-#pragma once
+#import "Widget.h"
 
-#include "Widget.h"
-#include "ofxTimer.h"
+@class Gui;
 
-namespace gui {
+@interface Bang : Widget
 
-class Bang : public Widget {
+@property (nonatomic, assign) int bangTimeMS;
 
-	public:
++ (id)bangFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
 
-		Bang(Gui& parent, const AtomLine& atomLine);
+@end
 
-		void draw();
-
-		void bang();
-		
-		inline string getType() {return s_type;}
-		
-		/// PdReceiver callbacks
-		void receiveBang(const string& dest);
-		void receiveFloat(const string& dest, float value);
-		void receiveSymbol(const string& dest, const string& symbol);
-		void receiveList(const string& dest, const pd::List& list);
-		void receiveMessage(const string& dest, const string& msg, const pd::List& list);
-		
-		/// input event callbacks
-		void mousePressed(ofMouseEventArgs &e);
-		
-		/// variables
-		bool bangVal;
-		unsigned int bangTimeMS;	///< how long to show the bang
-		
-	private:
-		
-		ofxTimer timer;
-		
-		static const string s_type;
-};
-
-} // namespace
+//#include "Widget.h"
+//#include "ofxTimer.h"
+//
+//namespace gui {
+//
+//class Bang : public Widget {
+//
+//	public:
+//
+//		Bang(Gui& parent, const AtomLine& atomLine);
+//
+//		void draw();
+//
+//		void bang();
+//		
+//		inline string getType() {return s_type;}
+//		
+//		/// PdReceiver callbacks
+//		void receiveBang(const string& dest);
+//		void receiveFloat(const string& dest, float value);
+//		void receiveSymbol(const string& dest, const string& symbol);
+//		void receiveList(const string& dest, const pd::List& list);
+//		void receiveMessage(const string& dest, const string& msg, const pd::List& list);
+//		
+//		/// input event callbacks
+//		void mousePressed(ofMouseEventArgs &e);
+//		
+//		/// variables
+//		bool bangVal;
+//		unsigned int bangTimeMS;	///< how long to show the bang
+//		
+//	private:
+//		
+//		ofxTimer timer;
+//		
+//		static const string s_type;
+//};
+//
+//} // namespace

@@ -8,13 +8,15 @@
  * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
-#import "Toggle.h"
+#import "Bang.h"
 
 #import "Gui.h"
 
-@implementation Toggle
+@implementation Bang
 
-+ (id)toggleFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
+@synthesize bangTimeMS;
+
++ (id)bangFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
 
 	CGRect frame = CGRectMake(
 		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
@@ -22,32 +24,26 @@
 		round([[line objectAtIndex:5] floatValue] * gui.scaleX),
 		round([[line objectAtIndex:5] floatValue] * gui.scaleX));
 
-	Toggle *t = [[Toggle alloc] initWithFrame:frame];
+	Bang *b = [[Bang alloc] initWithFrame:frame];
 
-	//toggleVal = 1;
-	//toggleVal = ofToFloat(atomLine[18]);
-
-	t.init = [[line objectAtIndex:6] integerValue];
-	t.sendName = [line objectAtIndex:7];
-	t.receiveName = [line objectAtIndex:8];
-	t.label.text = [line objectAtIndex:9];
+	b.sendName = [line objectAtIndex:9];
+	b.receiveName = [line objectAtIndex:10];
+	b.label.text = [line objectAtIndex:11];
 	CGRect labelFrame = CGRectMake(
-		[[line objectAtIndex:10] floatValue] * gui.scaleX,
-		[[line objectAtIndex:11] floatValue] * gui.scaleY,
-		t.label.frame.size.width,
-		t.label.frame.size.height
+		round([[line objectAtIndex:12] floatValue] * gui.scaleX),
+		round([[line objectAtIndex:13] floatValue] * gui.scaleY),
+		b.label.frame.size.width,
+		b.label.frame.size.height
 	);
-	t.label.frame = labelFrame;
-	[t addSubview:t.label];
+	b.label.frame = labelFrame;
+	[b addSubview:b.label];
 	
-	//setVal(ofToFloat(atomLine[17]), 0);
-	//[self setValue:[[line objectAtIndex:17] floatValue]];
+	b.bangTimeMS = [[line objectAtIndex:6] integerValue];
 	
 	//setupReceive();
 	//ofAddListener(ofEvents.mousePressed, this, &Toggle::mousePressed);
-	//initVal();
 	
-	return t;
+	return b;
 }
 
 - (id)initWithFrame:(CGRect)frame {    
@@ -64,7 +60,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
     CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
-    CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, 1.0);
 	
     CGRect frame = rect;
 	
@@ -76,20 +72,14 @@
 	CGContextAddLineToPoint(context, 0, frame.size.height-1);
 	CGContextAddLineToPoint(context, 0, 0);
     CGContextStrokePath(context);
-	
-	// toggle
-	CGContextBeginPath(context);
-	CGContextMoveToPoint(context, 2, 2);
-	CGContextAddLineToPoint(context, frame.size.width-3, frame.size.height-3);
-	CGContextStrokePath(context);
-	CGContextBeginPath(context);
-	CGContextMoveToPoint(context, frame.size.width-3, 2);
-	CGContextAddLineToPoint(context, 2, frame.size.height-3);
-	CGContextStrokePath(context);
+
+	// bang
+	CGRect circleFrame = CGRectMake(1, 1, frame.size.width-3, frame.size.height-3);
+	CGContextStrokeEllipseInRect(context, circleFrame);
 }
 
 - (NSString*) getType {
-	return @"Toggle";
+	return @"Bang";
 }
 
 #pragma mark - Touches
@@ -119,40 +109,37 @@
 
 @end
 
+
 //#include "Gui.h"
 //
 //namespace gui {
 //
-//const string Toggle::s_type = "Toggle";
+//const string Bang::s_type = "Bang";
 //
-//Toggle::Toggle(Gui& parent, const AtomLine& atomLine) : Widget(parent) {
+//Bang::Bang(Gui& parent, const AtomLine& atomLine) : Widget(parent) {
+//
+//	bangVal = false;
 //
 //	float x = round(ofToFloat(atomLine[2]) / parent.patchWidth * parent.width);
 //	float y = round(ofToFloat(atomLine[3]) / parent.patchHeight * parent.height);
 //	float w = round(ofToFloat(atomLine[5]) / parent.patchWidth * parent.width);
 //	float h = round(ofToFloat(atomLine[5]) / parent.patchHeight * parent.height);
 //
-//	toggleVal = 1;
-//	//toggleVal = ofToFloat(atomLine[18]);
-//
-//	init = ofToInt(atomLine[6]);
-//	sendName = atomLine[7];
-//	receiveName = atomLine[8];
-//	label = atomLine[9];
-//	labelPos.x = ofToFloat(atomLine[10]) / parent.patchWidth * parent.width;
-//	labelPos.y = ofToFloat(atomLine[11]) / parent.patchHeight * parent.height;
-//	
-//	setVal(ofToFloat(atomLine[17]), 0);
+//	sendName = atomLine[9];
+//	receiveName = atomLine[10];
+//	label = atomLine[11];
+//	labelPos.x = ofToFloat(atomLine[12]) / parent.patchWidth * parent.width;
+//	labelPos.y = ofToFloat(atomLine[13]) / parent.patchHeight * parent.height;
+//	bangTimeMS = ofToInt(atomLine[6]);
 //	
 //	setupReceive();
-//	ofAddListener(ofEvents.mousePressed, this, &Toggle::mousePressed);
-//	initVal();
+//	ofAddListener(ofEvents.mousePressed, this, &Bang::mousePressed);
 //	
 //	rect.set(x, y, w, h);
 //}
 //
-//void Toggle::draw() {
-//	
+//void Bang::draw() {
+//
 //	// fill
 //	ofFill();
 //	ofSetColor(255);
@@ -166,74 +153,54 @@
 //	ofLine(rect.x, rect.y+1+rect.height, rect.x+1+rect.width, rect.y+1+rect.height);
 //	ofLine(rect.x, rect.y, rect.x, rect.y+2+rect.height);
 //	ofLine(rect.x+1+rect.width, rect.y, rect.x+1+rect.width, rect.y+1+rect.height);
-//		
-//	// toggle check
-//	if(val != 0) {
-//		ofEnableSmoothing();
-//		ofLine(rect.x+2, rect.y+2, rect.x-2+rect.width, rect.y-2+rect.height);
-//		ofLine(rect.x-2+rect.width, rect.y+2, rect.x+2, rect.y-2+rect.height);
-//		ofDisableSmoothing();
-//	}
 //	
+//	// center circle outline
+//	ofNoFill();
+//	ofEnableSmoothing();
+//	ofEllipse(rect.x+rect.width/2, rect.y+1+rect.height/2, rect.width, rect.height);
+//	ofDisableSmoothing();
+//	
+//	// fill circle is banged
+//	if(bangVal) {
+//		bangVal = false;
+//		timer.setAlarm(bangTimeMS);
+//	}
+//	if(!timer.alarm()) {
+//		ofFill();
+//		ofEllipse(rect.x+rect.width/2, rect.y+1+rect.height/2, rect.width, rect.height);
+//	}
+//
 //	drawLabel();
 //}
 //
-//void Toggle::toggle() {
-//	if(val == 0)
-//		val = toggleVal;
-//	else
-//		val = 0;
+//void Bang::bang() {
+//	bangVal = true;
+//	parent.pd.sendBang(sendName);
 //}
 //
-//void Toggle::initVal() {
-//	if(init != 0)
-//		sendFloat(val);
+//void Bang::receiveBang(const string& dest) {
+//	bang();
 //}
 //
-//void Toggle::receiveBang(const string& dest) {
-//	toggle();
-//	sendFloat(val);
+//void Bang::receiveFloat(const string& dest, float value) {
+//	bang();
 //}
 //
-//void Toggle::receiveFloat(const string& dest, float value) {
-//	val = value;
-//	sendFloat(val);
+//void Bang::receiveSymbol(const string& dest, const string& symbol) {
+//	bang();
 //}
 //
-//void Toggle::receiveList(const string& dest, const pd::List& list) {
-//	if(list.len() == 0)
-//		return;
-//	
-//	// pass float through, setting the value
-//	if(list.isFloat(0)) {
-//		receiveFloat(receiveName, list.asFloat(0));
-//	}
-//	else if(list.isSymbol(0)) {
-//		// if we receive a set message
-//		if(list.asSymbol(0) == "set") {
-//			// set value but don't pass through
-//			if(list.len() > 1 && list.isFloat(1)) {
-//				val = list.asFloat(1);
-//			}
-//		}
-//		else if(list.asSymbol(0) == "bang") {
-//			// got a bang
-//			receiveBang(receiveName);
-//		}
-//	}
+//void Bang::receiveList(const string& dest, const pd::List& list) {
+//	bang();
 //}
 //
-//void Toggle::receiveMessage(const string& dest, const string& msg, const pd::List& list) {
-//	// set message sets value without sending
-//	if(msg == "set" && list.len() > 0 && list.isFloat(0)) {
-//		val = list.asFloat(0);
-//	}
+//void Bang::receiveMessage(const string& dest, const string& msg, const pd::List& list) {
+//	bang();
 //}
 //
-//void Toggle::mousePressed(ofMouseEventArgs &e) {
+//void Bang::mousePressed(ofMouseEventArgs &e) {
 //	if(e.button == OF_MOUSE_LEFT && rect.inside(e.x, e.y)) {
-//		toggle();
-//		sendFloat(val);
+//		bang();
 //	}
 //}
 //

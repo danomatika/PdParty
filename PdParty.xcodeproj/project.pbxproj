@@ -10,6 +10,9 @@
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
 		30A319F616B61FF700C7729B /* Toggle.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EE16B61FF700C7729B /* Toggle.m */; };
 		30A319F716B61FF700C7729B /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319F016B61FF700C7729B /* Widget.m */; };
+		30A31A0516B6D49300C7729B /* Bang.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A31A0316B6D49300C7729B /* Bang.m */; };
+		30A31A0816B6DBFC00C7729B /* Numberbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A31A0616B6DBFB00C7729B /* Numberbox.m */; };
+		30A31A0B16B6E7B700C7729B /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A31A0916B6E7B700C7729B /* Comment.m */; };
 		30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A716B5A8E500464926 /* UIKit.framework */; };
 		30ABE2AA16B5A8E500464926 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A916B5A8E500464926 /* Foundation.framework */; };
 		30ABE2AC16B5A8E500464926 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2AB16B5A8E500464926 /* CoreGraphics.framework */; };
@@ -147,6 +150,12 @@
 		30A319EF16B61FF700C7729B /* Toggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toggle.h; sourceTree = "<group>"; };
 		30A319F016B61FF700C7729B /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
 		30A319F116B61FF700C7729B /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
+		30A31A0316B6D49300C7729B /* Bang.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bang.m; sourceTree = "<group>"; };
+		30A31A0416B6D49300C7729B /* Bang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bang.h; sourceTree = "<group>"; };
+		30A31A0616B6DBFB00C7729B /* Numberbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Numberbox.m; sourceTree = "<group>"; };
+		30A31A0716B6DBFB00C7729B /* Numberbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox.h; sourceTree = "<group>"; };
+		30A31A0916B6E7B700C7729B /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		30A31A0A16B6E7B700C7729B /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		30ABE2A316B5A8E500464926 /* PdParty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PdParty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30ABE2A716B5A8E500464926 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		30ABE2A916B5A8E500464926 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -331,6 +340,12 @@
 		30A319E516B61FF700C7729B /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				30A31A0A16B6E7B700C7729B /* Comment.h */,
+				30A31A0916B6E7B700C7729B /* Comment.m */,
+				30A31A0716B6DBFB00C7729B /* Numberbox.h */,
+				30A31A0616B6DBFB00C7729B /* Numberbox.m */,
+				30A31A0416B6D49300C7729B /* Bang.h */,
+				30A31A0316B6D49300C7729B /* Bang.m */,
 				30A319EB16B61FF700C7729B /* Gui.h */,
 				30A319EA16B61FF700C7729B /* Gui.m */,
 				30A319EF16B61FF700C7729B /* Toggle.h */,
@@ -836,6 +851,9 @@
 				30A319F416B61FF700C7729B /* Gui.m in Sources */,
 				30A319F616B61FF700C7729B /* Toggle.m in Sources */,
 				30A319F716B61FF700C7729B /* Widget.m in Sources */,
+				30A31A0516B6D49300C7729B /* Bang.m in Sources */,
+				30A31A0816B6DBFC00C7729B /* Numberbox.m in Sources */,
+				30A31A0B16B6E7B700C7729B /* Comment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

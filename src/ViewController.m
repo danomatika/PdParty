@@ -34,14 +34,11 @@
 	
 	// load gui
 	NSArray *atoms = [PdParser getAtomLines:[PdParser readPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]]];
-	[PdParser printAtoms:atoms];
+	//[PdParser printAtoms:atoms];
 	[gui buildGui:atoms];
 	
 	for(Widget *widget in gui.widgets) {
 		[self.view addSubview:widget];
-		DDLogInfo(@"widget %f %f %f %f",
-			widget.frame.origin.x, widget.frame.origin.y,
-			CGRectGetWidth(widget.frame), CGRectGetHeight(widget.frame));
 	}
 }
 

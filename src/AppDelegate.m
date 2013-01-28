@@ -90,7 +90,7 @@
 	//[PdBase computeAudio:true];
 	[self setPlaying:YES];
 	
-	[PdBase sendSymbol:@"test" toReceiver:@"fromOF"];
+	//[PdBase sendSymbol:@"test" toReceiver:@"fromOF"];
 }
 
 #pragma mark - PdRecieverDelegate

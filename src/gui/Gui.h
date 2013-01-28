@@ -12,6 +12,9 @@
 
 #import "Widget.h"
 
+// make font a little bigger compared to in the pd gui
+#define GUI_FONT_SCALE 1.5
+
 @interface Gui : NSObject
 
 @property (nonatomic, retain) NSMutableArray *widgets;
@@ -21,6 +24,9 @@
 @property (nonatomic, assign) int patchWidth;
 @property (nonatomic, assign) int patchHeight;
 @property (nonatomic, assign) int fontSize;
+
+@property (nonatomic, assign) float scaleX;
+@property (nonatomic, assign) float scaleY;
 
 // add a widget using a given atom line aka array of NSStrings
 - (void)addComment:(NSArray*) atomLine;
