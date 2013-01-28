@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
+		30A319F616B61FF700C7729B /* Toggle.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EE16B61FF700C7729B /* Toggle.m */; };
+		30A319F716B61FF700C7729B /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319F016B61FF700C7729B /* Widget.m */; };
 		30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A716B5A8E500464926 /* UIKit.framework */; };
 		30ABE2AA16B5A8E500464926 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A916B5A8E500464926 /* Foundation.framework */; };
 		30ABE2AC16B5A8E500464926 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2AB16B5A8E500464926 /* CoreGraphics.framework */; };
@@ -138,6 +141,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		30A319EA16B61FF700C7729B /* Gui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gui.m; sourceTree = "<group>"; };
+		30A319EB16B61FF700C7729B /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
+		30A319EE16B61FF700C7729B /* Toggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toggle.m; sourceTree = "<group>"; };
+		30A319EF16B61FF700C7729B /* Toggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toggle.h; sourceTree = "<group>"; };
+		30A319F016B61FF700C7729B /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
+		30A319F116B61FF700C7729B /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
 		30ABE2A316B5A8E500464926 /* PdParty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PdParty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30ABE2A716B5A8E500464926 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		30ABE2A916B5A8E500464926 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -319,6 +328,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30A319E516B61FF700C7729B /* gui */ = {
+			isa = PBXGroup;
+			children = (
+				30A319EB16B61FF700C7729B /* Gui.h */,
+				30A319EA16B61FF700C7729B /* Gui.m */,
+				30A319EF16B61FF700C7729B /* Toggle.h */,
+				30A319EE16B61FF700C7729B /* Toggle.m */,
+				30A319F116B61FF700C7729B /* Widget.h */,
+				30A319F016B61FF700C7729B /* Widget.m */,
+			);
+			name = gui;
+			path = src/gui;
+			sourceTree = "<group>";
+		};
 		30ABE29816B5A8E500464926 = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +377,7 @@
 		30ABE2D116B5CE2800464926 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				30A319E516B61FF700C7729B /* gui */,
 				30ABE2E116B5D0FB00464926 /* AppDelegate.h */,
 				30ABE2E216B5D0FB00464926 /* AppDelegate.m */,
 				30ABE2E316B5D0FB00464926 /* Log.h */,
@@ -809,6 +833,9 @@
 				30ABE40B16B5D15400464926 /* PGMidi.mm in Sources */,
 				30ABE40C16B5D15400464926 /* PGMidiAllSources.mm in Sources */,
 				30ABE40D16B5D15400464926 /* PGMidiFind.mm in Sources */,
+				30A319F416B61FF700C7729B /* Gui.m in Sources */,
+				30A319F616B61FF700C7729B /* Toggle.m in Sources */,
+				30A319F716B61FF700C7729B /* Widget.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

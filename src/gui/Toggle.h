@@ -8,41 +8,49 @@
  * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
-#pragma once
+#import "Widget.h"
 
-#include "Widget.h"
+@class Gui;
 
-namespace gui {
+@interface Toggle : Widget
 
-class Toggle : public Widget {
++ (id)toggleFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
 
-	public:
+@end
 
-		Toggle(Gui& parent, const AtomLine& atomLine);
-
-		void draw();
-
-		void toggle();
-		
-		void initVal();
-		
-		inline string getType() {return s_type;}
-		
-		/// PdReceiver callbacks
-		void receiveBang(const string& dest);
-		void receiveFloat(const string& dest, float value);
-		void receiveList(const string& dest, const pd::List& list);
-		void receiveMessage(const string& dest, const string& msg, const pd::List& list);
-		
-		/// input event callbacks
-		void mousePressed(ofMouseEventArgs &e);
-		
-		/// variables
-		float toggleVal;
-		
-	private:
-	
-		static const string s_type;
-};
-
-} // namespace
+//#include "Widget.h"
+//
+//namespace gui {
+//
+//class Toggle : public Widget {
+//
+//	public:
+//
+//		Toggle(Gui& parent, const AtomLine& atomLine);
+//
+//		void draw();
+//
+//		void toggle();
+//		
+//		void initVal();
+//		
+//		inline string getType() {return s_type;}
+//		
+//		/// PdReceiver callbacks
+//		void receiveBang(const string& dest);
+//		void receiveFloat(const string& dest, float value);
+//		void receiveList(const string& dest, const pd::List& list);
+//		void receiveMessage(const string& dest, const string& msg, const pd::List& list);
+//		
+//		/// input event callbacks
+//		void mousePressed(ofMouseEventArgs &e);
+//		
+//		/// variables
+//		float toggleVal;
+//		
+//	private:
+//	
+//		static const string s_type;
+//};
+//
+//} // namespace

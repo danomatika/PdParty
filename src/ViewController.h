@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class Gui;
+
 @interface ViewController : UIViewController
+
+@property (nonatomic, retain) Gui *gui;
 
 @end
