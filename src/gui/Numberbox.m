@@ -51,7 +51,6 @@
 	n.numberLabel.font = [UIFont systemFontOfSize:gui.fontSize];
 	n.numberLabel.preferredMaxLayoutWidth = frame.size.width;
 	n.numberLabel.frame = CGRectMake(2, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
-	n.numberLabel.backgroundColor = [UIColor clearColor];
 	[n addSubview:n.numberLabel];
 	
 	n.label.text = [Widget filterEmptyStringValues:[line objectAtIndex:8]];
@@ -94,6 +93,7 @@
 		
 		self.numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		[self.numberLabel setTextAlignment:NSTextAlignmentLeft];
+		self.numberLabel.backgroundColor = [UIColor clearColor];
 		
 		self.numberLabelFormatter = [[NSNumberFormatter alloc] init];
 		[self.numberLabelFormatter setPaddingCharacter:@" "];
