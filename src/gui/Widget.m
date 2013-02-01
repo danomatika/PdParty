@@ -9,75 +9,157 @@
  *
  */
 #import "Widget.h"
-#import "../Log.h"
+
+#import "Log.h"
+#import "PdDispatcher.h"
+
+// suppress leak as we should be fine in ARC
+// from http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
+#define SuppressPerformSelectorLeakWarning(Stuff) \
+    do { \
+        _Pragma("clang diagnostic push") \
+        _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+        Stuff; \
+        _Pragma("clang diagnostic pop") \
+    } while (0)
 
 @interface Widget () {}
+@property (nonatomic, assign) SEL valueAction;
+@property (nonatomic, assign) id valueTarget;
 @end
 
 @implementation Widget
 
-@synthesize value;
-
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self) {
+    if(self) {
 		self.fillColor = WIDGET_FILL_COLOR;
         self.frameColor = WIDGET_FRAME_COLOR;
 		self.backgroundColor = [UIColor clearColor];
 		
 		self.minValue = 0.0;
         self.maxValue = 1.0;
+		self.value = 0.0;
+		self.init = 0;
 	
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-		label.backgroundColor = [UIColor clearColor];
-		label.textColor = WIDGET_FRAME_COLOR;
-		label.textAlignment = UITextAlignmentLeft;
-    }
+		self.sendName = @"";
+		self.receiveName = @"";
+	
+		self.label = [[UILabel alloc] initWithFrame:CGRectZero];
+		self.label.backgroundColor = [UIColor clearColor];
+		self.label.textColor = WIDGET_FRAME_COLOR;
+		self.label.textAlignment = UITextAlignmentLeft;
+		
+		self.valueTarget = nil;
+		self.valueAction = nil;
+	}
     return self;
 }
 
-#pragma mark - Public 
+- (void)dealloc {
+	if([self hasValidReceiveName]) {
+		[dispatcher removeListener:self forSource:self.receiveName];
+	}
+}
 
-- (void) addValueTarget:(id)target action:(SEL)action {
+- (void)addValueTarget:(id)target action:(SEL)action {
 	self.valueTarget = target;
 	self.valueAction = action;
 }
 
-#pragma mark -
-#pragma mark Overridden getters / setters
+- (BOOL)hasValidSendName {
+	return (self.sendName && ![self.sendName isEqualToString:@""]);
+}
+
+- (BOOL)hasValidReceiveName {
+	return (self.receiveName && ![self.receiveName isEqualToString:@""]);
+}
+
+#pragma mark Sending
+
+- (void)send:(NSString*)message {
+	if([self hasValidSendName]) {
+		[PdBase sendSymbol:message toReceiver:self.sendName];
+	}
+}
+
+- (void)sendFloat:(float)f {
+	if([self hasValidSendName]) {
+		[PdBase sendFloat:f toReceiver:self.sendName];
+	}
+}
+
+- (void)sendInitValue {
+	if(self.init != 0) {
+		[self sendFloat:self.value];
+	}
+}
+
+#pragma mark Overridden Getters & Setters
 
 - (void)setValue:(float)f {
-    value = f;
-    if (self.valueTarget) {
-        [self.valueTarget performSelector:self.valueAction withObject:self];
+	_value = f;
+    if(self.valueTarget) {
+        SuppressPerformSelectorLeakWarning(
+			[self.valueTarget performSelector:self.valueAction withObject:self]
+		);
     }
     [self setNeedsDisplay];
 }
 
-- (NSString*) getType {
+- (void)setReceiveName:(NSString *)name {
+	if(![name isEqualToString:@""]) {
+		[dispatcher removeListener:self forSource:self.receiveName]; // remove old name
+		_receiveName = name;
+		[dispatcher addListener:self forSource:self.receiveName]; // add new one		
+	}
+}
+
+- (NSString*)type {
 	return @"Widget";
 }
 
-#pragma mark - PdListener
+#pragma mark Static Dispatcher
+
+static PdDispatcher *dispatcher = nil;
+
++ (PdDispatcher*)dispatcher {
+  return dispatcher;
+}
+
++ (void)setDispatcher:(PdDispatcher*)d {
+	dispatcher = d;
+}
+
+#pragma Static Utils
+
++ (NSString *)filterEmptyStringValues:(NSString*)atom {
+	if(!atom || [atom isEqualToString:@"-"] || [atom isEqualToString:@"empty"]) {
+		return @"";
+	}
+	return atom;
+}
+
+#pragma mark PdListener
 
 - (void)receiveBangFromSource:(NSString *)source {
-	DDLogInfo(@"%@ dropped bang", [self getType]);
+	DDLogWarn(@"%@ dropped bang", self.type);
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	DDLogInfo(@"%@ dropped float", [self getType]);
+	DDLogWarn(@"%@ dropped float", self.type);
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	DDLogInfo(@"%@ dropped symbol", [self getType]);
+	DDLogWarn(@"%@ dropped symbol", self.type);
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	DDLogInfo(@"%@ dropped list", [self getType]);
+	DDLogWarn(@"%@ dropped list", self.type);
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	DDLogInfo(@"%@ dropped message", [self getType]);
+	DDLogWarn(@"%@ dropped message", self.type);
 }
 
 @end

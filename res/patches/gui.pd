@@ -1,8 +1,8 @@
-#N canvas 552 22 600 600 10;
+#N canvas 141 215 498 483 10;
 #X obj 28 43 tgl 15 0 tgl1-out tgl1-in tgl1 17 7 0 10 -262144 -1 -1
 1 1;
 #X obj 28 81 tgl 15 0 tgl2-out tgl2-in tgl2 17 7 0 10 -262144 -1 -1
-0 1;
+0 127;
 #X obj 120 37 bng 15 500 50 0 bng1-out bng1-in bng1 17 7 0 10 -262144
 -1 -1;
 #X obj 120 84 bng 15 250 50 0 bng2-out bng2-in bng2 17 7 0 10 -262144
@@ -11,7 +11,6 @@
 #X obj 226 17 loadbang;
 #X obj 226 152 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#X obj 62 205 print PD;
 #X msg 226 176 \; tgl1-in \$1 \; bng1-in bang;
 #X obj 49 153 r tgl1-out;
 #X obj 123 153 r bng1-out;
@@ -20,29 +19,35 @@
 #X msg 226 42 1;
 #X obj 225 98 r metro;
 #X text 129 285 a comment .. yeah!;
-#X floatatom 272 376 5 0 0 1 nbox1 nbox1-in -;
+#X floatatom 272 376 5 0 0 1 nbox1 nbox1-in nbox1-out;
 #X floatatom 275 434 5 0 0 3 nbox2 nbox2-in -;
 #X obj 282 266 loadbang;
 #X msg 283 306 \; nbox1-in set 4 \; nbox2-in 10;
 #X obj 408 285 tgl 15 0 changenum empty empty 17 7 0 10 -262144 -1
--1 0 1;
+-1 1 1;
 #X obj 411 330 sel 0;
 #X msg 405 355 4;
 #X obj 409 306 r changenum;
 #X obj 407 386 s nbox1-in;
 #X msg 353 357 10000;
 #X msg 437 356 50000;
+#X obj 62 205 print;
+#X floatatom 156 380 5 0 0 0 nbox3 - -;
+#X floatatom 153 423 5 0 0 2 nbox4 - -;
+#X obj 344 412 r nbox1-out;
+#X obj 354 448 print nbox1;
 #X connect 4 0 6 0;
-#X connect 5 0 12 0;
-#X connect 6 0 8 0;
-#X connect 9 0 7 0;
-#X connect 10 0 7 0;
-#X connect 12 0 11 0;
-#X connect 13 0 4 0;
-#X connect 17 0 18 0;
-#X connect 20 0 21 0;
-#X connect 20 1 25 0;
-#X connect 21 0 23 0;
-#X connect 22 0 20 0;
-#X connect 24 0 23 0;
-#X connect 25 0 23 0;
+#X connect 5 0 11 0;
+#X connect 6 0 7 0;
+#X connect 8 0 25 0;
+#X connect 9 0 25 0;
+#X connect 11 0 10 0;
+#X connect 12 0 4 0;
+#X connect 16 0 17 0;
+#X connect 19 0 20 0;
+#X connect 19 1 24 0;
+#X connect 20 0 22 0;
+#X connect 21 0 19 0;
+#X connect 23 0 22 0;
+#X connect 24 0 22 0;
+#X connect 28 0 29 0;

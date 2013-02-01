@@ -15,6 +15,8 @@
 @interface Numberbox : Widget
 
 @property (nonatomic, assign) int numWidth;
+@property (nonatomic, retain) UILabel *numberLabel; // shows the value
+@property (nonatomic, retain) NSNumberFormatter *numberLabelFormatter; // formats the value
 
 + (id)numberboxFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
 

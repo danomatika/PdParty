@@ -9,8 +9,8 @@
  *
  */
 #import "Gui.h"
+#import "PdParser.h"
 
-#import "../Log.h"
 #import "Bang.h"
 #import "Toggle.h"
 #import "Numberbox.h"
@@ -18,52 +18,53 @@
 
 @implementation Gui
 
-@synthesize widgets;
-@synthesize patchWidth;
-@synthesize patchHeight;
-@synthesize fontSize;
-@synthesize scaleX;
-@synthesize scaleY;
-
 - (id)init {
 	self = [super init];
     if(self) {
-		widgets = [[NSMutableArray alloc] init];
-		fontSize = 10 * GUI_FONT_SCALE;
-		scaleX = 1.0;
-		scaleY = 1.0;
+		self.widgets = [[NSMutableArray alloc] init];
+		self.fontSize = 10 * GUI_FONT_SCALE;
+		self.scaleX = 1.0;
+		self.scaleY = 1.0;
     }
     return self;
 }
 
-- (void)addComment:(NSArray*) atomLine {
-	DDLogInfo(@"Gui: added Comment");
+- (void)addComment:(NSArray*)atomLine {
 	Comment *c = [Comment commentFromAtomLine:atomLine withGui:self];
-	[widgets addObject:c];
+	if(c) {
+		[self.widgets addObject:c];
+		DDLogVerbose(@"Gui: added Comment");
+	}
 }
 
-- (void)addNumberbox:(NSArray*) atomLine {
-	DDLogInfo(@"Gui: added Numberbox");
+- (void)addNumberbox:(NSArray*)atomLine {
 	Numberbox *n = [Numberbox numberboxFromAtomLine:atomLine withGui:self];
-	[widgets addObject:n];
+	if(n) {
+		[self.widgets addObject:n];
+		DDLogVerbose(@"Gui: added Numberbox");
+	}
 }
 
-- (void)addBang:(NSArray*) atomLine {
-	DDLogInfo(@"Gui: added Bang");
+- (void)addBang:(NSArray*)atomLine {
 	Bang *b = [Bang bangFromAtomLine:atomLine withGui:self];
-	[widgets addObject:b];
+	if(b) {
+		[self.widgets addObject:b];
+		DDLogVerbose(@"Gui: added Bang");
+	}
 }
 
-- (void)addToggle:(NSArray*) atomLine {
-	DDLogInfo(@"Gui: added Toggle");
+- (void)addToggle:(NSArray*)atomLine {
 	Toggle *t = [Toggle toggleFromAtomLine:atomLine withGui:self];
-	[widgets addObject:t];
+	if(t) {
+		[self.widgets addObject:t];
+		DDLogVerbose(@"Gui: added Toggle");
+	}
 }
 
-- (void)buildGui:(NSArray*) atomLines {
+- (void)addWidgetsFromAtomLines:(NSArray*)lines {
 	int level = 0;
 	
-	for(NSArray *line in atomLines) {
+	for(NSArray *line in lines) {
 		
 		if(line.count >= 4) {
 		
@@ -73,13 +74,13 @@
 			if([lineType isEqualToString:@"canvas"]) {
 				level++;
 				if(level == 1) {
-					patchWidth = [[line objectAtIndex:4] integerValue];
-					patchHeight = [[line objectAtIndex:5] integerValue];
-					fontSize = [[line objectAtIndex:6] integerValue] * GUI_FONT_SCALE;
+					self.patchWidth = [[line objectAtIndex:4] integerValue];
+					self.patchHeight = [[line objectAtIndex:5] integerValue];
+					self.fontSize = round([[line objectAtIndex:6] integerValue] * GUI_FONT_SCALE);
 					
 					// set pd gui to ios gui scale amount based on relative sizes
-					scaleX = CGRectGetWidth(self.bounds) / patchWidth;
-					scaleY = CGRectGetHeight(self.bounds) / patchHeight;
+					self.scaleX = CGRectGetWidth(self.bounds) / self.patchWidth;
+					self.scaleY = CGRectGetHeight(self.bounds) / self.patchHeight;
 				}
 			}
 			else if([lineType isEqualToString:@"restore"]) {
@@ -106,6 +107,10 @@
 			}
 		}
 	}
+}
+
+- (void)addWidgetsFromPatch:(NSString*)patch {
+	[self addWidgetsFromAtomLines:[PdParser getAtomLines:[PdParser readPatch:patch]]];
 }
 
 @end

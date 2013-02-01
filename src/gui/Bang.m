@@ -12,11 +12,20 @@
 
 #import "Gui.h"
 
+@interface Bang () {
+	NSTimer *flashTimer;
+}
+- (void)stopFlash:(NSTimer*)timer;
+@end
+
 @implementation Bang
 
-@synthesize bangTimeMS;
-
 + (id)bangFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
+
+	if(line.count < 18) { // sanity check
+		DDLogWarn(@"Cannot create Bang, atom line length < 18");
+		return nil;
+	}
 
 	CGRect frame = CGRectMake(
 		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
@@ -26,33 +35,31 @@
 
 	Bang *b = [[Bang alloc] initWithFrame:frame];
 
-	b.sendName = [line objectAtIndex:9];
-	b.receiveName = [line objectAtIndex:10];
-	b.label.text = [line objectAtIndex:11];
-	CGRect labelFrame = CGRectMake(
-		round([[line objectAtIndex:12] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:13] floatValue] * gui.scaleY),
-		b.label.frame.size.width,
-		b.label.frame.size.height
-	);
-	b.label.frame = labelFrame;
-	[b addSubview:b.label];
+	b.sendName = [Widget filterEmptyStringValues:[line objectAtIndex:9]];
+	b.receiveName = [Widget filterEmptyStringValues:[line objectAtIndex:10]];
+	if(![b hasValidSendName] && ![b hasValidReceiveName]) {
+		// drop something we can't interact with
+		DDLogVerbose(@"Dropping Bang, send/receive names are empty");
+		return nil;
+	}
+	
+	b.label.text = [Widget filterEmptyStringValues:[line objectAtIndex:11]];
+	if(![b.label.text isEqualToString:@""]) {
+		b.label.font = [UIFont systemFontOfSize:gui.fontSize];
+		[b.label sizeToFit];
+		CGRect labelFrame = CGRectMake(
+			round([[line objectAtIndex:12] floatValue] * gui.scaleX),
+			round(([[line objectAtIndex:13] floatValue] * gui.scaleY) - gui.fontSize),
+			b.label.frame.size.width,
+			b.label.frame.size.height
+		);
+		b.label.frame = labelFrame;
+		[b addSubview:b.label];
+	}
 	
 	b.bangTimeMS = [[line objectAtIndex:6] integerValue];
 	
-	//setupReceive();
-	//ofAddListener(ofEvents.mousePressed, this, &Toggle::mousePressed);
-	
 	return b;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.fillColor = WIDGET_FILL_COLOR;
-        self.frameColor = WIDGET_FRAME_COLOR;
-    }
-    return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -75,36 +82,63 @@
 
 	// bang
 	CGRect circleFrame = CGRectMake(1, 1, frame.size.width-3, frame.size.height-3);
+	if(self.value != 0) {
+		CGContextFillEllipseInRect(context, circleFrame);
+	}
 	CGContextStrokeEllipseInRect(context, circleFrame);
 }
 
-- (NSString*) getType {
+- (void)bang {
+	if(flashTimer) {
+		[flashTimer invalidate];
+		flashTimer = NULL;
+	}
+	flashTimer = [NSTimer scheduledTimerWithTimeInterval:((float)self.bangTimeMS/1000.f)
+												  target:self
+												selector:@selector(stopFlash:)
+												userInfo:nil
+												 repeats:NO];
+	self.value = 1;
+}
+
+#pragma mark Overridden Getters & Setters
+
+- (NSString*)type {
 	return @"Bang";
 }
 
-#pragma mark - Touches
+#pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//	
-//    UITouch *touch = [touches anyObject];
-//    CGPoint pos = [touch locationInView:self];
-//	
-//    [self mapPointToValue:pos];
-//    [self setNeedsDisplay]; // TODO: the drawing commands in drawRect don't get erased by this command only
+	[self bang];
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-//    UITouch *touch = [touches anyObject];
-//    CGPoint pos = [touch locationInView:self];
-//	if ([self pointIsWithinBounds:pos]) {
-//		[self mapPointToValue:pos];
-//	}
+#pragma mark PdListener
+
+- (void)receiveBangFromSource:(NSString *)source {
+	[self bang];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)receiveFloat:(float)received fromSource:(NSString *)source {
+	[self bang];
 }
 
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
+	[self bang];
+}
+
+- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
+	[self bang];
+}
+
+- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
+	[self bang];
+}
+
+#pragma Private
+
+- (void)stopFlash:(NSTimer*)timer {
+  self.value = 0;
 }
 
 @end

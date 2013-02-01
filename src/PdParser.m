@@ -12,7 +12,7 @@
 
 @implementation PdParser
 
-+ (void)printAtom:(NSArray *) line {
++ (void)printAtom:(NSArray *)line {
 	NSMutableString *string = [[NSMutableString alloc] init];
 	for(int i = 0; i < line.count; ++i) {
 		[string appendString:@"["];
@@ -22,13 +22,13 @@
 	DDLogInfo(@"%@", string);
 }
 
-+ (void)printAtoms:(NSArray *) atomLines {
++ (void)printAtoms:(NSArray *)atomLines {
 	for(int i = 0; i < atomLines.count; ++i) {
 		[PdParser printAtom:[atomLines objectAtIndex:i]];
 	}
 }
 
-+ (NSString *)readPatch:(NSString *) patch {
++ (NSString *)readPatch:(NSString *)patch {
 	
 	NSString *absPath = patch;
 	if(![patch isAbsolutePath]) {
@@ -58,23 +58,30 @@
 											encoding:NSUTF8StringEncoding];
 }
 
-+ (NSArray *)getAtomLines:(NSString *) patchText {
++ (NSArray *)getAtomLines:(NSString *)patchText {
 	
 	NSMutableArray *atomLines = [[NSMutableArray alloc] init];
 	
 	// break string into lines
-	NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"(#((.|\r|\n)*?)[^\\\\])\r{0,1}\n{0,1};\r{0,1}\n"
-														options:NSRegularExpressionCaseInsensitive error:NULL];
-	NSArray *matches = [regexp matchesInString:patchText options:0 range:NSMakeRange(0, patchText.length)];
-	for(NSTextCheckingResult *match in matches) {
+	NSRegularExpression *lineRegexp = [NSRegularExpression regularExpressionWithPattern:@"(#((.|\r|\n)*?)[^\\\\])\r{0,1}\n{0,1};\r{0,1}\n"
+																				options:NSRegularExpressionCaseInsensitive
+																				  error:NULL];
+	NSArray *lineMatches = [lineRegexp matchesInString:patchText options:0 range:NSMakeRange(0, patchText.length)];
+	for(NSTextCheckingResult *lineMatch in lineMatches) {
 	
-		// grab matching string & remove trailing ";\n"
-		NSString *subject = [patchText substringWithRange:NSMakeRange(match.range.location, match.range.length-2)];
-		
-		// split line into string delimited by spaces
-		NSArray* line = [subject componentsSeparatedByString:@" "];
+		// grab matching line as a string & remove trailing ";\n"
+		NSString *line = [patchText substringWithRange:NSMakeRange(lineMatch.range.location, lineMatch.range.length-2)];
 
-		[atomLines addObject:line];
+		
+		// replace whitespace chars with a space, break line into atoms delimited by spaces
+		NSRegularExpression *atomRegexp = [NSRegularExpression regularExpressionWithPattern:@"\t|\r\n?|\n"
+																					options:NSRegularExpressionCaseInsensitive
+																					  error:NULL];
+		NSString *atom = [atomRegexp stringByReplacingMatchesInString:line
+																  options:NSMatchingWithTransparentBounds
+																	range:NSMakeRange(0, line.length)
+															 withTemplate:@" "];
+		[atomLines addObject:[atom componentsSeparatedByString:@" "]];
 	}
 	
 	// verbose

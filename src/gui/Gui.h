@@ -8,34 +8,43 @@
  * See https://github.com/danomatika/robotcowboy for documentation
  *
  */
-#import <Foundation/Foundation.h>
-
 #import "Widget.h"
+#import "Log.h"
+#import "Util.h"
 
 // make font a little bigger compared to in the pd gui
 #define GUI_FONT_SCALE 1.5
 
 @interface Gui : NSObject
 
+// widget array
 @property (nonatomic, retain) NSMutableArray *widgets;
 
+// current view bounds
 @property (nonatomic, assign) CGRect bounds;
 
+// pixel size of original pd patch
 @property (nonatomic, assign) int patchWidth;
 @property (nonatomic, assign) int patchHeight;
+
+// font size loaded from patch
 @property (nonatomic, assign) int fontSize;
 
+// scale amount between view bounds and original patch size
 @property (nonatomic, assign) float scaleX;
 @property (nonatomic, assign) float scaleY;
 
-// add a widget using a given atom line aka array of NSStrings
-- (void)addComment:(NSArray*) atomLine;
-- (void)addNumberbox:(NSArray*) atomLine;
-- (void)addBang:(NSArray*) atomLine;
-- (void)addToggle:(NSArray*) atomLine;
+// add a widget using a given atom line (array of NSStrings)
+- (void)addComment:(NSArray*)atomLine;
+- (void)addNumberbox:(NSArray*)atomLine;
+- (void)addBang:(NSArray*)atomLine;
+- (void)addToggle:(NSArray*)atomLine;
 
 // add widgets from an array of atom lines
-- (void)buildGui:(NSArray*) atomLines;
+- (void)addWidgetsFromAtomLines:(NSArray*)lines;
+
+// add widgets from a pd patch
+- (void)addWidgetsFromPatch:(NSString*)patch;
 
 @end
 

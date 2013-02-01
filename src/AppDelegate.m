@@ -10,6 +10,7 @@
 
 #import "PdAudioController.h"
 #import "Log.h"
+#import "gui/WIdget.h"
 
 @interface AppDelegate () {}
 
@@ -20,6 +21,8 @@
 @end
 
 @implementation AppDelegate
+
+@synthesize playing;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -60,44 +63,41 @@
 #pragma mark Private
 
 - (void)setupPd {
-	// Configure a typical audio session with 2 output channels
+	
+	// configure a typical audio session with 2 output channels
 	self.audioController = [[PdAudioController alloc] init];
 	PdAudioStatus status = [self.audioController configurePlaybackWithSampleRate:44100
 																  numberChannels:2
 																	inputEnabled:NO
 																   mixingEnabled:YES];
-	if (status == PdAudioError) {
+	if(status == PdAudioError) {
 		DDLogError(@"Error: Could not configure PdAudioController");
-	} else if (status == PdAudioPropertyChanged) {
+	} else if(status == PdAudioPropertyChanged) {
 		DDLogWarn(@"Warning: Some of the audio parameters were not accceptable");
 	} else {
 		DDLogInfo(@"Audio Configuration successful");
 	}
-	
-	// log actually settings
 	[self.audioController print];
-
-	// set AppDelegate as PdRecieverDelegate to recieve messages from pd
-    [PdBase setDelegate:self];
-
-	// recieve all [send load-meter] messages from pd
-	[PdBase subscribe:@"toOF"];
-
-	// open one instance of the load-meter patch and forget about it
-	[PdBase openFile:@"test.pd" path:[[NSBundle mainBundle] bundlePath]];
 	
+	// set dispatcher delegate
+	self.dispatcher = [[PdDispatcher alloc] init];
+	[PdBase setDelegate:self.dispatcher];
+	[Widget setDispatcher:self.dispatcher];
+
 	// turn on dsp
-	//[PdBase computeAudio:true];
 	[self setPlaying:YES];
-	
+
+	// test patch
+	//[self.dispatcher addListener:self forSource:@"toOF"];
+	//[PdBase openFile:@"test.pd" path:[[NSBundle mainBundle] bundlePath]];
 	//[PdBase sendSymbol:@"test" toReceiver:@"fromOF"];
 }
 
-#pragma mark - PdRecieverDelegate
+#pragma mark PdListener
 
-- (void)receivePrint:(NSString *)message {
-	DDLogInfo(@"Pd Console: %@", message);
-}
+//- (void)receivePrint:(NSString *)message {
+//	DDLogInfo(@"Pd Console: %@", message);
+//}
 
 - (void)receiveBangFromSource:(NSString *)source {
 	DDLogInfo(@"Pd Bang from %@", source);
@@ -122,15 +122,15 @@
 #pragma mark - Accessors
 
 - (BOOL)isPlaying {
-    return playing_;
+    return playing;
 }
 
 - (void)setPlaying:(BOOL)newState {
-    if( newState == playing_ )
+    if(newState == playing) {
 		return;
-
-	playing_ = newState;
-	self.audioController.active = playing_;
+	}
+	playing = newState;
+	self.audioController.active = playing;
 }
 
 @end

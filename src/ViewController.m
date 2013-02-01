@@ -33,10 +33,10 @@
 	gui.bounds = self.view.bounds;
 	
 	// load gui
-	NSArray *atoms = [PdParser getAtomLines:[PdParser readPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]]];
+	//NSArray *atoms = [PdParser getAtomLines:[PdParser readPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]]];
 	//[PdParser printAtoms:atoms];
-	[gui buildGui:atoms];
-	
+	[gui addWidgetsFromPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]];
+	[PdBase openFile:@"gui.pd" path:[[NSBundle mainBundle] bundlePath]];
 	for(Widget *widget in gui.widgets) {
 		[self.view addSubview:widget];
 	}

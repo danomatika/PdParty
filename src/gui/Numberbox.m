@@ -12,84 +12,94 @@
 
 #import "Gui.h"
 
+@interface Numberbox () {}
+@property (nonatomic, assign) int touchPrevY;
+@end
+
 @implementation Numberbox
 
-@synthesize numWidth;
-
 + (id)numberboxFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
+
+	if(line.count < 11) { // sanity check
+		DDLogWarn(@"Cannot create Numberbox, atom line length < 11");
+		return nil;
+	}
 
 	int numWidth = [[line objectAtIndex:4] integerValue];
 
 	CGRect frame = CGRectMake(
 		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
 		round([[line objectAtIndex:3] floatValue] * gui.scaleY),
-		round(numWidth * 15 * gui.scaleX),
-		round(15 * gui.scaleX));
+		round(((numWidth-2) * gui.fontSize) + 2),
+		round(gui.fontSize + 4));
 
 	Numberbox *n = [[Numberbox alloc] initWithFrame:frame];
+
+	n.sendName = [Widget filterEmptyStringValues:[line objectAtIndex:10]];
+	n.receiveName = [Widget filterEmptyStringValues:[line objectAtIndex:9]];
+	if(![n hasValidSendName] && ![n hasValidReceiveName]) {
+		// drop something we can't interact with
+		DDLogVerbose(@"Dropping Numberbox, send/receive names are empty");
+		return nil;
+	}
 
 	n.minValue = [[line objectAtIndex:5] floatValue];
 	n.maxValue = [[line objectAtIndex:6] floatValue];
 	n.numWidth = numWidth;
-	n.sendName = [line objectAtIndex:10];
-	n.receiveName = [line objectAtIndex:9];
-	n.label.text = [line objectAtIndex:8];
-//	CGRect labelFrame = CGRectMake(
-//		round([[line objectAtIndex:12] floatValue] * scaleX),
-//		round([[line objectAtIndex:13] floatValue] * scaleY),
-//		n.label.frame.size.width,
-//		n.label.frame.size.height
-//	);
-//	n.label.frame = labelFrame;
-	[n addSubview:n.label];
+	n.value = 0;
 	
-//	// calc screen bounds for the numbers that can fit
-//	numWidth = ofToInt(atomLine[4]);
-//	string tmp;
-//	for(int i = 0; i < numWidth; ++i) {
-//		tmp += "#";
-//	}
-//	rect = parent.font.getStringBoundingBox(tmp, x, y);
-//	rect.x -= 3;
-//	rect.y += 3;
-//	rect.width += 3-parent.font.getSize();
-//	rect.height += 3;
-//
-//	// set the label pos from the LRUD setting
-//	label = atomLine[8];
-//	int pos = ofToInt(atomLine[7]);
-//	switch(pos) {
-//		default: // 0 LEFT
-//			labelPos.x = rect.x - parent.font.getSize()*(label.size()-1)-1;
-//			labelPos.y = y;
-//			break;
-//		case 1: // RIGHT
-//			labelPos.x = rect.x+rect.width+1;
-//			labelPos.y = y;
-//			break;
-//		case 2: // TOP
-//			labelPos.x = x-4;
-//			labelPos.y = rect.y-2-parent.font.getLineHeight()/2;
-//			break;
-//		case 3: // BOTTOM
-//			labelPos.x = x-4;
-//			labelPos.y = rect.y+rect.height+2+parent.font.getLineHeight()/2;
-//			break;
-//	}
-//
-//	setVal(0, 0);
+	n.numberLabel.font = [UIFont systemFontOfSize:gui.fontSize];
+	n.numberLabel.preferredMaxLayoutWidth = frame.size.width;
+	n.numberLabel.frame = CGRectMake(2, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
+	n.numberLabel.backgroundColor = [UIColor clearColor];
+	[n addSubview:n.numberLabel];
 	
-	//setupReceive();
-	//ofAddListener(ofEvents.mousePressed, this, &Toggle::mousePressed);
-	
+	n.label.text = [Widget filterEmptyStringValues:[line objectAtIndex:8]];
+	if(![n.label.text isEqualToString:@""]) {
+		
+		n.label.font = [UIFont systemFontOfSize:gui.fontSize];
+		[n.label sizeToFit];
+		
+		// set the label pos from the LRUD setting
+		int labelPosX, labelPosY;
+		switch([[line objectAtIndex:7] integerValue]) {
+			default: // 0 LEFT
+				labelPosX = -gui.fontSize*(n.label.text.length-2);
+				labelPosY = 0;
+				break;
+			case 1: // RIGHT
+				labelPosX = frame.size.width+1;
+				labelPosY = 0;
+				break;
+			case 2: // TOP
+				labelPosX = -1;
+				labelPosY = -gui.fontSize-4;
+				break;
+			case 3: // BOTTOM
+				labelPosX = -1;
+				labelPosY = frame.size.height;
+				break;
+		}
+		
+		n.label.frame = CGRectMake(labelPosX, labelPosY,
+			CGRectGetWidth(n.label.frame), CGRectGetHeight(n.label.frame));
+		[n addSubview:n.label];
+	}
 	return n;
 }
 
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
-    if (self) {
-        self.fillColor = WIDGET_FILL_COLOR;
-        self.frameColor = WIDGET_FRAME_COLOR;
+    if(self) {
+		
+		self.numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[self.numberLabel setTextAlignment:NSTextAlignmentLeft];
+		
+		self.numberLabelFormatter = [[NSNumberFormatter alloc] init];
+		[self.numberLabelFormatter setPaddingCharacter:@" "];
+		[self.numberLabelFormatter setPaddingPosition:NSNumberFormatterPadAfterSuffix];
+		
+		self.touchPrevY = 0;
     }
     return self;
 }
@@ -114,33 +124,76 @@
     CGContextStrokePath(context);
 }
 
-- (NSString*) getType {
+#pragma mark Overridden Getters & Setters
+
+- (void)setValue:(float)value {
+	self.numberLabel.text = [self.numberLabelFormatter stringFromNumber:[NSNumber numberWithFloat:value]];
+	[super setValue:value];
+}
+
+- (NSString*)type {
 	return @"Numberbox";
+}
+
+- (void)setNumWidth:(int)numWidth {
+	[self.numberLabelFormatter setFormatWidth:numWidth];
+	_numWidth = numWidth;
 }
 
 #pragma mark - Touches
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//	
-//    UITouch *touch = [touches anyObject];
-//    CGPoint pos = [touch locationInView:self];
-//	
-//    [self mapPointToValue:pos];
-//    [self setNeedsDisplay]; // TODO: the drawing commands in drawRect don't get erased by this command only
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+    UITouch *touch = [touches anyObject];
+    CGPoint pos = [touch locationInView:self];
+	self.touchPrevY = pos.y;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-//    UITouch *touch = [touches anyObject];
-//    CGPoint pos = [touch locationInView:self];
-//	if ([self pointIsWithinBounds:pos]) {
-//		[self mapPointToValue:pos];
-//	}
+    UITouch *touch = [touches anyObject];
+    CGPoint pos = [touch locationInView:self];
+	int diff = self.touchPrevY - pos.y;
+	if(diff != 0) {
+		self.value = self.value + diff;
+		[self sendFloat:self.value];
+	}
+	self.touchPrevY = pos.y;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	self.touchPrevY = 0;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	self.touchPrevY = 0;
+}
+
+#pragma mark PdListener
+
+- (void)receiveBangFromSource:(NSString *)source {
+	[self sendFloat:self.value];
+}
+
+- (void)receiveFloat:(float)received fromSource:(NSString *)source {
+	if(self.minValue != 0 || self.maxValue != 0) {
+		self.value = MIN(self.maxValue, MAX(received, self.minValue));
+	}
+	else {
+		self.value = received;
+	}
+	[self sendFloat:self.value];
+}
+
+- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
+	if(list.count > 0 && [Util isNumberIn:list at:0]) {
+		[self receiveFloat:[[list objectAtIndex:0] floatValue] fromSource:source];
+	}
+}
+
+- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
+	// set message sets value without sending
+	if([message isEqualToString:@"set"] && arguments.count > 0 && [Util isNumberIn:arguments at:0]) {
+		self.value = [[arguments objectAtIndex:0] floatValue];
+	}
 }
 
 @end

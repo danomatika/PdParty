@@ -14,7 +14,11 @@
 
 @interface Toggle : Widget
 
+@property (nonatomic, assign) float toggleValue; // remember non zero value when off
+
 + (id)toggleFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
+
+- (void)toggle;
 
 @end
 
