@@ -17,6 +17,11 @@
 #import "Toggle.h"
 #import "Numberbox.h"
 #import "Comment.h"
+#import "Canvas.h"
+
+@interface Gui () {}
++ (int)iemguiModuloColor:(int)col;
+@end
 
 @implementation Gui
 
@@ -71,6 +76,14 @@
 	}
 }
 
+- (void)addCanvas:(NSArray*)atomLine {
+	Canvas *c = [Canvas canvasFromAtomLine:atomLine withGui:self];
+	if(c) {
+		[self.widgets addObject:c];
+		DDLogVerbose(@"Gui: added %@", c.type);
+	}
+}
+
 - (void)addWidgetsFromAtomLines:(NSArray*)lines {
 	int level = 0;
 	
@@ -122,6 +135,9 @@
 						else if([objType isEqualToString:@"vsl"]) {
 							[self addSlider:line withOrientation:SliderOrientationVertical];
 						}
+						else if([objType isEqualToString:@"cnv"]) {
+							[self addCanvas:line];
+						}
 					}
 				}
 			}
@@ -157,6 +173,45 @@
 		return @"";
 	}
 	return atom;
+}
+
+// conversion statics from g_all_guis.h
+static int IEM_GUI_MAX_COLOR = 30;
+static int iemgui_color_hex[] = {
+	16579836, 10526880, 4210752, 16572640, 16572608,
+	16579784, 14220504, 14220540, 14476540, 16308476,
+	14737632, 8158332, 2105376, 16525352, 16559172,
+	15263784, 1370132, 2684148, 3952892, 16003312,
+	12369084, 6316128, 0, 9177096, 5779456,
+	7874580, 2641940, 17488, 5256, 5767248
+};
+
++ (UIColor*)colorFromIEMColor:(int)iemColor {
+	if(iemColor < 0) {
+		iemColor = -1 - iemColor;
+		return [UIColor colorWithRed:((iemColor & 0x3F000) >> 6)/255.0
+								   green:((iemColor & 0xFC0) >> 4)/255.0
+									blue:(iemColor & 0x3F << 2)/255.0
+								   alpha:1.0];
+	}
+	else {
+		iemColor = [self iemguiModuloColor:iemColor];
+		iemColor = iemgui_color_hex[iemColor] << 8 | 0xFF;
+		return [UIColor colorWithRed:((iemColor >> 16) & 0xFF)/255.0
+							   green:((iemColor >> 8 ) & 0xFF)/255.0
+								blue:((iemColor >> 0) & 0xFF)/255.0
+							   alpha:1.0];
+	}
+}
+
+#pragma mark Private
+
++ (int)iemguiModuloColor:(int)col {
+	while(col >= IEM_GUI_MAX_COLOR)
+		col -= IEM_GUI_MAX_COLOR;
+	while(col < 0)
+		col += IEM_GUI_MAX_COLOR;
+	return col;
 }
 
 @end

@@ -47,12 +47,15 @@
 - (void)addBang:(NSArray*)atomLine;
 - (void)addToggle:(NSArray*)atomLine;
 - (void)addSlider:(NSArray*)atomLine withOrientation:(SliderOrientation)orientation;
+- (void)addCanvas:(NSArray*)atomLine;
 
 // add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray*)lines;
 
 // add widgets from a pd patch
 - (void)addWidgetsFromPatch:(NSString*)patch;
+
+#pragma Utils
 
 // filter empty values and replace any ocurrances of $0 with the current patch id
 - (NSString*)formatAtomString:(NSString*)string;
@@ -63,6 +66,9 @@
 // convert atom string empty values to an empty string
 // nil, @"-", & @"empty" -> @""
 + (NSString *)filterEmptyStringValues:(NSString*)atom;
+
+// convert an IEM color to a UIColor
++ (UIColor*)colorFromIEMColor:(int)iemColor;
 
 @end
 

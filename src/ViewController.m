@@ -31,12 +31,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 	
-	gui.bounds = self.view.bounds;
-	
 	// load gui
+	gui.bounds = self.view.bounds;
 	gui.currentPatch = [PdFile openFileNamed:@"gui.pd" path:[[NSBundle mainBundle] bundlePath]];
 	[gui addWidgetsFromPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]];
-	NSLog(@"patch $0 is %d", gui.currentPatch.dollarZero);
 	for(Widget *widget in gui.widgets) {
 		[self.view addSubview:widget];
 	}
