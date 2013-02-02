@@ -17,6 +17,8 @@
 // make font a little bigger compared to in the pd gui
 #define GUI_FONT_SCALE 1.5
 
+@class PdFile;
+
 @interface Gui : NSObject
 
 // widget array
@@ -24,6 +26,9 @@
 
 // current view bounds
 @property (nonatomic, assign) CGRect bounds;
+
+// currently loaded patch
+@property (nonatomic, retain) PdFile *currentPatch;
 
 // pixel size of original pd patch
 @property (nonatomic, assign) int patchWidth;
@@ -48,6 +53,16 @@
 
 // add widgets from a pd patch
 - (void)addWidgetsFromPatch:(NSString*)patch;
+
+// filter empty values and replace any ocurrances of $0 with the current patch id
+- (NSString*)formatAtomString:(NSString*)string;
+
+// replace any occurrances of "//$0" or "$0" with the current patches' dollar zero id
+- (NSString*)replaceDollarZeroStringsIn:(NSString*)string;
+
+// convert atom string empty values to an empty string
+// nil, @"-", & @"empty" -> @""
++ (NSString *)filterEmptyStringValues:(NSString*)atom;
 
 @end
 

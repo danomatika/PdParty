@@ -43,15 +43,15 @@
 	s.log = [[line objectAtIndex:9] integerValue];
 	s.inits = [[line objectAtIndex:10] boolValue];
 	
-	s.sendName = [Widget filterEmptyStringValues:[line objectAtIndex:11]];
-	s.receiveName = [Widget filterEmptyStringValues:[line objectAtIndex:12]];
+	s.sendName = [gui formatAtomString:[line objectAtIndex:11]];
+	s.receiveName = [gui formatAtomString:[line objectAtIndex:12]];
 	if(![s hasValidSendName] && ![s hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Dropping Slider, send/receive names are empty");
 		return nil;
 	}
 	
-	s.label.text = [Widget filterEmptyStringValues:[line objectAtIndex:13]];
+	s.label.text = [gui formatAtomString:[line objectAtIndex:13]];
 	if(![s.label.text isEqualToString:@""]) {
 		s.label.font = [UIFont systemFontOfSize:gui.fontSize];
 		[s.label sizeToFit];

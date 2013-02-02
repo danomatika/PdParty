@@ -131,15 +131,6 @@ static PdDispatcher *dispatcher = nil;
 	dispatcher = d;
 }
 
-#pragma Static Utils
-
-+ (NSString *)filterEmptyStringValues:(NSString*)atom {
-	if(!atom || [atom isEqualToString:@"-"] || [atom isEqualToString:@"empty"]) {
-		return @"";
-	}
-	return atom;
-}
-
 #pragma mark PdListener
 
 - (void)receiveBangFromSource:(NSString *)source {

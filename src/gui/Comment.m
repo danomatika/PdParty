@@ -53,15 +53,6 @@
 	return c;
 }
 
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if (self) {
-        //self.fillColor = WIDGET_FILL_COLOR;
-        //self.frameColor = WIDGET_FRAME_COLOR;
-    }
-    return self;
-}
-
 #pragma mark Overridden Getters & Setters
 
 - (NSString*)type {
@@ -69,33 +60,3 @@
 }
 
 @end
-
-//
-//
-//#include "Gui.h"
-//
-//namespace gui {
-//
-//const string Comment::s_type = "Comment";
-//
-//Comment::Comment(Gui& parent, const AtomLine& atomLine) : Widget(parent) {
-//
-//	// create the comment string
-//	ostringstream text;
-//	for(int i = 4; i < atomLine.size(); ++i) {
-//		text << atomLine[i];
-//		if(i < atomLine.size() - 1) {
-//			text << " ";
-//		}
-//	}
-//
-//	label = text.str();
-//	labelPos.x = ofToFloat(atomLine[2]) / parent.patchWidth * parent.width;
-//	labelPos.y = ofToFloat(atomLine[3]) / parent.patchHeight * parent.height + parent.fontSize;
-//}
-//
-//void Comment::draw() {
-//	drawLabel();
-//}
-//
-//} // namespace

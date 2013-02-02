@@ -9,7 +9,9 @@
  *
  */
 #import "Gui.h"
+
 #import "PdParser.h"
+#import "PdFile.h"
 
 #import "Bang.h"
 #import "Toggle.h"
@@ -94,30 +96,32 @@
 			else if([lineType isEqualToString:@"restore"]) {
 				level -= 1;
 			}
+			// find different types of UI element in the top level patch
 			else if(level == 1) {
-			
-				NSString *objType = [line objectAtIndex:4];
-			
-				// built in pd things
-				if([lineType isEqualToString:@"text"]) {
-					[self addComment:line];
-				}
-				else if([lineType isEqualToString:@"floatatom"]) {
-					[self addNumberbox:line];
-				}
-				else if([lineType isEqualToString:@"obj"] && line.count >= 5) {
-					// pd objects
-					if([objType isEqualToString:@"bng"]) {
-						[self addBang:line];
+				if (line.count >= 2) {
+					NSString *objType = [line objectAtIndex:4];
+				
+					// built in pd things
+					if([lineType isEqualToString:@"text"]) {
+						[self addComment:line];
 					}
-					else if([objType isEqualToString:@"tgl"]) {
-						[self addToggle:line];
+					else if([lineType isEqualToString:@"floatatom"]) {
+						[self addNumberbox:line];
 					}
-					else if([objType isEqualToString:@"hsl"]) {
-						[self addSlider:line withOrientation:SliderOrientationHorizontal];
-					}
-					else if([objType isEqualToString:@"vsl"]) {
-						[self addSlider:line withOrientation:SliderOrientationVertical];
+					else if([lineType isEqualToString:@"obj"] && line.count >= 5) {
+						// pd objects
+						if([objType isEqualToString:@"bng"]) {
+							[self addBang:line];
+						}
+						else if([objType isEqualToString:@"tgl"]) {
+							[self addToggle:line];
+						}
+						else if([objType isEqualToString:@"hsl"]) {
+							[self addSlider:line withOrientation:SliderOrientationHorizontal];
+						}
+						else if([objType isEqualToString:@"vsl"]) {
+							[self addSlider:line withOrientation:SliderOrientationVertical];
+						}
 					}
 				}
 			}
@@ -127,6 +131,32 @@
 
 - (void)addWidgetsFromPatch:(NSString*)patch {
 	[self addWidgetsFromAtomLines:[PdParser getAtomLines:[PdParser readPatch:patch]]];
+}
+
+#pragma Utils
+
+- (NSString*)formatAtomString:(NSString*)string {
+	return [self replaceDollarZeroStringsIn:[Gui filterEmptyStringValues:string]];
+}
+
+- (NSString*)replaceDollarZeroStringsIn:(NSString*)string {
+	NSMutableString *newString = [NSMutableString stringWithString:string];
+	[newString replaceOccurrencesOfString:@"\\$0"
+							   withString:[NSString stringWithFormat:@"%d", self.currentPatch.dollarZero]
+								  options:NSCaseInsensitiveSearch
+									range:NSMakeRange(0, newString.length)];
+//	[newString replaceOccurrencesOfString:@"$0"
+//							   withString:[[NSNumber numberWithInt:self.currentPatch.dollarZero] stringValue]
+//								  options:NSCaseInsensitiveSearch
+//									range:NSMakeRange(0, newString.length)];
+	return newString;
+}
+
++ (NSString *)filterEmptyStringValues:(NSString*)atom {
+	if(!atom || [atom isEqualToString:@"-"] || [atom isEqualToString:@"empty"]) {
+		return @"";
+	}
+	return atom;
 }
 
 @end

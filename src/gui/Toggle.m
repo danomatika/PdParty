@@ -30,15 +30,15 @@
 	Toggle *t = [[Toggle alloc] initWithFrame:frame];
 
 	t.inits = [[line objectAtIndex:6] boolValue];
-	t.sendName = [Widget filterEmptyStringValues:[line objectAtIndex:7]];
-	t.receiveName = [Widget filterEmptyStringValues:[line objectAtIndex:8]];
+	t.sendName = [gui formatAtomString:[line objectAtIndex:7]];
+	t.receiveName = [gui formatAtomString:[line objectAtIndex:8]];
 	if(![t hasValidSendName] && ![t hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Dropping Toggle, send/receive names are empty");
 		return nil;
 	}
 	
-	t.label.text = [Widget filterEmptyStringValues:[line objectAtIndex:9]];
+	t.label.text = [gui formatAtomString:[line objectAtIndex:9]];
 	if(![t.label.text isEqualToString:@""]) {
 		t.label.font = [UIFont systemFontOfSize:gui.fontSize];
 		[t.label sizeToFit];

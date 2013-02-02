@@ -35,8 +35,8 @@
 
 	Numberbox *n = [[Numberbox alloc] initWithFrame:frame];
 
-	n.sendName = [Widget filterEmptyStringValues:[line objectAtIndex:10]];
-	n.receiveName = [Widget filterEmptyStringValues:[line objectAtIndex:9]];
+	n.sendName = [gui formatAtomString:[line objectAtIndex:10]];
+	n.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
 	if(![n hasValidSendName] && ![n hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Dropping Numberbox, send/receive names are empty");
@@ -53,7 +53,7 @@
 	n.numberLabel.frame = CGRectMake(2, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
 	[n addSubview:n.numberLabel];
 	
-	n.label.text = [Widget filterEmptyStringValues:[line objectAtIndex:8]];
+	n.label.text = [gui formatAtomString:[line objectAtIndex:8]];
 	if(![n.label.text isEqualToString:@""]) {
 		
 		n.label.font = [UIFont systemFontOfSize:gui.fontSize];

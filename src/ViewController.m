@@ -10,6 +10,7 @@
 
 #import "Gui.h"
 #import "PdParser.h"
+#import "PdFile.h"
 #import "Log.h"
 
 @interface ViewController ()
@@ -33,10 +34,9 @@
 	gui.bounds = self.view.bounds;
 	
 	// load gui
-	//NSArray *atoms = [PdParser getAtomLines:[PdParser readPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]]];
-	//[PdParser printAtoms:atoms];
+	gui.currentPatch = [PdFile openFileNamed:@"gui.pd" path:[[NSBundle mainBundle] bundlePath]];
 	[gui addWidgetsFromPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]];
-	[PdBase openFile:@"gui.pd" path:[[NSBundle mainBundle] bundlePath]];
+	NSLog(@"patch $0 is %d", gui.currentPatch.dollarZero);
 	for(Widget *widget in gui.widgets) {
 		[self.view addSubview:widget];
 	}

@@ -35,15 +35,15 @@
 
 	Bang *b = [[Bang alloc] initWithFrame:frame];
 
-	b.sendName = [Widget filterEmptyStringValues:[line objectAtIndex:9]];
-	b.receiveName = [Widget filterEmptyStringValues:[line objectAtIndex:10]];
+	b.sendName = [gui formatAtomString:[line objectAtIndex:9]];
+	b.receiveName = [gui formatAtomString:[line objectAtIndex:10]];
 	if(![b hasValidSendName] && ![b hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Dropping Bang, send/receive names are empty");
 		return nil;
 	}
 	
-	b.label.text = [Widget filterEmptyStringValues:[line objectAtIndex:11]];
+	b.label.text = [gui formatAtomString:[line objectAtIndex:11]];
 	if(![b.label.text isEqualToString:@""]) {
 		b.label.font = [UIFont systemFontOfSize:gui.fontSize];
 		[b.label sizeToFit];

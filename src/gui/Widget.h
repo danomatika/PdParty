@@ -38,10 +38,6 @@
 + (PdDispatcher*) dispatcher;
 + (void)setDispatcher:(PdDispatcher*)d;
 
-/// convert atom string empty values to an empty string
-/// nil, @"-", & @"empty" -> @""
-+ (NSString *)filterEmptyStringValues:(NSString*)atom;
-
 // set a selector and method to perform when the widget's value is changed
 - (void)addValueTarget:(id)target action:(SEL)action;
 

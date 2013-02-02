@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PdParser : NSObject {}
+@interface PdParser : NSObject
 	
 // print out a particular atom line with words separated by spaces
 + (void)printAtom:(NSArray *)line;

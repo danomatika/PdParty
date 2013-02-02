@@ -78,9 +78,9 @@
 																					options:NSRegularExpressionCaseInsensitive
 																					  error:NULL];
 		NSString *atom = [atomRegexp stringByReplacingMatchesInString:line
-																  options:NSMatchingWithTransparentBounds
-																	range:NSMakeRange(0, line.length)
-															 withTemplate:@" "];
+															  options:NSMatchingWithTransparentBounds
+																range:NSMakeRange(0, line.length)
+														 withTemplate:@" "];
 		[atomLines addObject:[atom componentsSeparatedByString:@" "]];
 	}
 	
