@@ -40,7 +40,7 @@
 		self.minValue = 0.0;
         self.maxValue = 1.0;
 		self.value = 0.0;
-		self.init = 0;
+		self.inits = NO;
 	
 		self.sendName = @"";
 		self.receiveName = @"";
@@ -90,7 +90,7 @@
 }
 
 - (void)sendInitValue {
-	if(self.init != 0) {
+	if(self.inits) {
 		[self sendFloat:self.value];
 	}
 }

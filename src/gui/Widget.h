@@ -24,7 +24,7 @@
 @property (nonatomic, assign) float minValue;
 @property (nonatomic, assign) float maxValue;
 @property (nonatomic, assign) float value;
-@property (nonatomic, assign) int init;
+@property (nonatomic, assign) BOOL inits; // sends value when initing?
 
 @property (nonatomic, retain) NSString *sendName;
 @property (nonatomic, retain) NSString *receiveName;

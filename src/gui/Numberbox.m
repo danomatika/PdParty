@@ -127,6 +127,9 @@
 #pragma mark Overridden Getters & Setters
 
 - (void)setValue:(float)value {
+	if(self.minValue != 0 || self.maxValue != 0) {
+		value = MIN(self.maxValue, MAX(value, self.minValue));
+	}
 	self.numberLabel.text = [self.numberLabelFormatter stringFromNumber:[NSNumber numberWithFloat:value]];
 	[super setValue:value];
 }
@@ -174,12 +177,13 @@
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	if(self.minValue != 0 || self.maxValue != 0) {
-		self.value = MIN(self.maxValue, MAX(received, self.minValue));
-	}
-	else {
-		self.value = received;
-	}
+//	if(self.minValue != 0 || self.maxValue != 0) {
+//		self.value = MIN(self.maxValue, MAX(received, self.minValue));
+//	}
+//	else {
+//		self.value = received;
+//	}
+	self.value = received;
 	[self sendFloat:self.value];
 }
 

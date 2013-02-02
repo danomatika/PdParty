@@ -29,7 +29,7 @@
 
 	Toggle *t = [[Toggle alloc] initWithFrame:frame];
 
-	t.init = [[line objectAtIndex:6] integerValue];
+	t.inits = [[line objectAtIndex:6] boolValue];
 	t.sendName = [Widget filterEmptyStringValues:[line objectAtIndex:7]];
 	t.receiveName = [Widget filterEmptyStringValues:[line objectAtIndex:8]];
 	if(![t hasValidSendName] && ![t hasValidReceiveName]) {
@@ -55,7 +55,7 @@
 	t.toggleValue = [[line objectAtIndex:18] floatValue];
 	t.value = [[line objectAtIndex:17] floatValue];
 	
-	//[t sendInitValue];
+	[t sendInitValue];
 	
 	return t;
 }

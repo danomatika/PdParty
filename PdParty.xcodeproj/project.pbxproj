@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		306DBE4D16BC1E47007CF226 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DBE4C16BC1E47007CF226 /* Util.m */; };
+		306DBE6B16BC6A86007CF226 /* Slider.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DBE6A16BC6A86007CF226 /* Slider.m */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
 		30A319F616B61FF700C7729B /* Toggle.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EE16B61FF700C7729B /* Toggle.m */; };
 		30A319F716B61FF700C7729B /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319F016B61FF700C7729B /* Widget.m */; };
@@ -147,6 +148,8 @@
 /* Begin PBXFileReference section */
 		306DBE4B16BB0E3F007CF226 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Util.h; path = src/Util.h; sourceTree = "<group>"; };
 		306DBE4C16BC1E47007CF226 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Util.m; path = src/Util.m; sourceTree = "<group>"; };
+		306DBE6916BC6A86007CF226 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
+		306DBE6A16BC6A86007CF226 /* Slider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slider.m; sourceTree = "<group>"; };
 		30A319EA16B61FF700C7729B /* Gui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gui.m; sourceTree = "<group>"; };
 		30A319EB16B61FF700C7729B /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		30A319EE16B61FF700C7729B /* Toggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toggle.m; sourceTree = "<group>"; };
@@ -347,6 +350,8 @@
 				30A31A0916B6E7B700C7729B /* Comment.m */,
 				30A31A0716B6DBFB00C7729B /* Numberbox.h */,
 				30A31A0616B6DBFB00C7729B /* Numberbox.m */,
+				306DBE6916BC6A86007CF226 /* Slider.h */,
+				306DBE6A16BC6A86007CF226 /* Slider.m */,
 				30A31A0416B6D49300C7729B /* Bang.h */,
 				30A31A0316B6D49300C7729B /* Bang.m */,
 				30A319EB16B61FF700C7729B /* Gui.h */,
@@ -860,6 +865,7 @@
 				30A31A0816B6DBFC00C7729B /* Numberbox.m in Sources */,
 				30A31A0B16B6E7B700C7729B /* Comment.m in Sources */,
 				306DBE4D16BC1E47007CF226 /* Util.m in Sources */,
+				306DBE6B16BC6A86007CF226 /* Slider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,8 @@
 #import "Log.h"
 #import "Util.h"
 
+#import "Slider.h"
+
 // make font a little bigger compared to in the pd gui
 #define GUI_FONT_SCALE 1.5
 
@@ -39,6 +41,7 @@
 - (void)addNumberbox:(NSArray*)atomLine;
 - (void)addBang:(NSArray*)atomLine;
 - (void)addToggle:(NSArray*)atomLine;
+- (void)addSlider:(NSArray*)atomLine withOrientation:(SliderOrientation)orientation;
 
 // add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray*)lines;

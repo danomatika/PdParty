@@ -33,7 +33,7 @@
 	Comment *c = [Comment commentFromAtomLine:atomLine withGui:self];
 	if(c) {
 		[self.widgets addObject:c];
-		DDLogVerbose(@"Gui: added Comment");
+		DDLogVerbose(@"Gui: added %@", c.type);
 	}
 }
 
@@ -41,7 +41,7 @@
 	Numberbox *n = [Numberbox numberboxFromAtomLine:atomLine withGui:self];
 	if(n) {
 		[self.widgets addObject:n];
-		DDLogVerbose(@"Gui: added Numberbox");
+		DDLogVerbose(@"Gui: added %@", n.type);
 	}
 }
 
@@ -49,7 +49,7 @@
 	Bang *b = [Bang bangFromAtomLine:atomLine withGui:self];
 	if(b) {
 		[self.widgets addObject:b];
-		DDLogVerbose(@"Gui: added Bang");
+		DDLogVerbose(@"Gui: added %@", b.type);
 	}
 }
 
@@ -57,7 +57,15 @@
 	Toggle *t = [Toggle toggleFromAtomLine:atomLine withGui:self];
 	if(t) {
 		[self.widgets addObject:t];
-		DDLogVerbose(@"Gui: added Toggle");
+		DDLogVerbose(@"Gui: added %@", t.type);
+	}
+}
+
+- (void)addSlider:(NSArray*)atomLine withOrientation:(SliderOrientation)orientation {
+	Slider *s = [Slider sliderFromAtomLine:atomLine withOrientation:orientation withGui:self];
+	if(s) {
+		[self.widgets addObject:s];
+		DDLogVerbose(@"Gui: added %@", s.type);
 	}
 }
 
@@ -99,10 +107,18 @@
 				}
 				else if([lineType isEqualToString:@"obj"] && line.count >= 5) {
 					// pd objects
-					if([objType isEqualToString:@"bng"])
+					if([objType isEqualToString:@"bng"]) {
 						[self addBang:line];
-					else if([objType isEqualToString:@"tgl"])
+					}
+					else if([objType isEqualToString:@"tgl"]) {
 						[self addToggle:line];
+					}
+					else if([objType isEqualToString:@"hsl"]) {
+						[self addSlider:line withOrientation:SliderOrientationHorizontal];
+					}
+					else if([objType isEqualToString:@"vsl"]) {
+						[self addSlider:line withOrientation:SliderOrientationVertical];
+					}
 				}
 			}
 		}
