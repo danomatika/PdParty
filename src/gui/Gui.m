@@ -187,21 +187,22 @@ static int iemgui_color_hex[] = {
 };
 
 + (UIColor*)colorFromIEMColor:(int)iemColor {
+	int r, g, b;
 	if(iemColor < 0) {
 		iemColor = -1 - iemColor;
-		return [UIColor colorWithRed:((iemColor & 0x3F000) >> 6)/255.0
-								   green:((iemColor & 0xFC0) >> 4)/255.0
-									blue:(iemColor & 0x3F << 2)/255.0
-								   alpha:1.0];
+		r = ((iemColor & 0x3F000) << 6) >> 16;
+		g = ((iemColor & 0xFC0) << 4) >> 8;
+		b = ((iemColor & 0x3F) << 2);
 	}
 	else {
 		iemColor = [self iemguiModuloColor:iemColor];
 		iemColor = iemgui_color_hex[iemColor] << 8 | 0xFF;
-		return [UIColor colorWithRed:((iemColor >> 16) & 0xFF)/255.0
-							   green:((iemColor >> 8 ) & 0xFF)/255.0
-								blue:((iemColor >> 0) & 0xFF)/255.0
-							   alpha:1.0];
+		r = ((iemColor >> 24) & 0xFF);
+		g = ((iemColor >> 16 ) & 0xFF);
+		b = ((iemColor >> 8) & 0xFF);
 	}
+	NSLog(@"color! 0x%X is %X %X %X", iemColor, r, g, b);
+	return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
 }
 
 #pragma mark Private
