@@ -38,7 +38,7 @@
 #import "PdBase.h"
 #include "z_libpd.h"
 #include "z_queued.h"
-#include "z_util.h"
+#include "z_print_util.h"
 
 static NSObject<PdReceiverDelegate> *delegate = nil;
 static NSObject<PdMidiReceiverDelegate> *midiDelegate = nil;
@@ -183,7 +183,7 @@ static void midiByteHook(int port, int byte) {
 
 @interface PdBase () {}
 
-// timer methods, same as recieveMessage & recieveMidi
+// timer methods, same as recieveMessage & receiveMidi
 + (void)receiveMessagesTimer:(NSTimer*)theTimer;
 + (void)receiveMidiTimer:(NSTimer*)theTimer;
 

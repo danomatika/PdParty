@@ -40,12 +40,9 @@
 		30ABE3A416B5D15400464926 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31416B5D15400464926 /* DDFileLogger.m */; };
 		30ABE3A516B5D15400464926 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31616B5D15400464926 /* DDLog.m */; };
 		30ABE3A616B5D15400464926 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31816B5D15400464926 /* DDTTYLogger.m */; };
-		30ABE3A716B5D15400464926 /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31B16B5D15400464926 /* ringbuffer.c */; };
 		30ABE3A816B5D15400464926 /* s_libpdmidi.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31D16B5D15400464926 /* s_libpdmidi.c */; };
 		30ABE3A916B5D15400464926 /* x_libpdreceive.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31E16B5D15400464926 /* x_libpdreceive.c */; };
 		30ABE3AA16B5D15400464926 /* z_libpd.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32016B5D15400464926 /* z_libpd.c */; };
-		30ABE3AB16B5D15400464926 /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32216B5D15400464926 /* z_queued.c */; };
-		30ABE3AC16B5D15400464926 /* z_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32416B5D15400464926 /* z_util.c */; };
 		30ABE3AE16B5D15400464926 /* AudioHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32916B5D15400464926 /* AudioHelpers.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE3B016B5D15400464926 /* PdAudioUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32D16B5D15400464926 /* PdAudioUnit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE3B216B5D15400464926 /* PdDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE33116B5D15400464926 /* PdDispatcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -145,6 +142,9 @@
 		30ABE41516B5D5DD00464926 /* PdAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32B16B5D15400464926 /* PdAudioController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41616B5D5DD00464926 /* PdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32F16B5D15400464926 /* PdBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
+		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
+		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
+		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -201,17 +201,11 @@
 		30ABE31616B5D15400464926 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
 		30ABE31716B5D15400464926 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
 		30ABE31816B5D15400464926 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
-		30ABE31B16B5D15400464926 /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
-		30ABE31C16B5D15400464926 /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30ABE31D16B5D15400464926 /* s_libpdmidi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s_libpdmidi.c; sourceTree = "<group>"; };
 		30ABE31E16B5D15400464926 /* x_libpdreceive.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = x_libpdreceive.c; sourceTree = "<group>"; };
 		30ABE31F16B5D15400464926 /* x_libpdreceive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x_libpdreceive.h; sourceTree = "<group>"; };
 		30ABE32016B5D15400464926 /* z_libpd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_libpd.c; sourceTree = "<group>"; };
 		30ABE32116B5D15400464926 /* z_libpd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = z_libpd.h; sourceTree = "<group>"; };
-		30ABE32216B5D15400464926 /* z_queued.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_queued.c; sourceTree = "<group>"; };
-		30ABE32316B5D15400464926 /* z_queued.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = z_queued.h; sourceTree = "<group>"; };
-		30ABE32416B5D15400464926 /* z_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_util.c; sourceTree = "<group>"; };
-		30ABE32516B5D15400464926 /* z_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = z_util.h; sourceTree = "<group>"; };
 		30ABE32816B5D15400464926 /* AudioHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioHelpers.h; sourceTree = "<group>"; };
 		30ABE32916B5D15400464926 /* AudioHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioHelpers.m; sourceTree = "<group>"; };
 		30ABE32A16B5D15400464926 /* PdAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdAudioController.h; sourceTree = "<group>"; };
@@ -329,6 +323,12 @@
 		30ABE40F16B5D54100464926 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30ABE41316B5D58600464926 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
+		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
+		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
+		30F7A18F16BFF66F00DE265F /* z_print_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = z_print_util.h; sourceTree = "<group>"; };
+		30F7A19016BFF66F00DE265F /* z_queued.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_queued.c; sourceTree = "<group>"; };
+		30F7A19116BFF66F00DE265F /* z_queued.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = z_queued.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -500,17 +500,12 @@
 		30ABE31A16B5D15400464926 /* libpd_wrapper */ = {
 			isa = PBXGroup;
 			children = (
-				30ABE31B16B5D15400464926 /* ringbuffer.c */,
-				30ABE31C16B5D15400464926 /* ringbuffer.h */,
+				30F7A18B16BFF66F00DE265F /* util */,
 				30ABE31D16B5D15400464926 /* s_libpdmidi.c */,
 				30ABE31E16B5D15400464926 /* x_libpdreceive.c */,
 				30ABE31F16B5D15400464926 /* x_libpdreceive.h */,
 				30ABE32016B5D15400464926 /* z_libpd.c */,
 				30ABE32116B5D15400464926 /* z_libpd.h */,
-				30ABE32216B5D15400464926 /* z_queued.c */,
-				30ABE32316B5D15400464926 /* z_queued.h */,
-				30ABE32416B5D15400464926 /* z_util.c */,
-				30ABE32516B5D15400464926 /* z_util.h */,
 			);
 			path = libpd_wrapper;
 			sourceTree = "<group>";
@@ -691,6 +686,19 @@
 			path = libs/pgmidi;
 			sourceTree = "<group>";
 		};
+		30F7A18B16BFF66F00DE265F /* util */ = {
+			isa = PBXGroup;
+			children = (
+				30F7A18C16BFF66F00DE265F /* ringbuffer.c */,
+				30F7A18D16BFF66F00DE265F /* ringbuffer.h */,
+				30F7A18E16BFF66F00DE265F /* z_print_util.c */,
+				30F7A18F16BFF66F00DE265F /* z_print_util.h */,
+				30F7A19016BFF66F00DE265F /* z_queued.c */,
+				30F7A19116BFF66F00DE265F /* z_queued.h */,
+			);
+			path = util;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -791,12 +799,9 @@
 				30ABE3A416B5D15400464926 /* DDFileLogger.m in Sources */,
 				30ABE3A516B5D15400464926 /* DDLog.m in Sources */,
 				30ABE3A616B5D15400464926 /* DDTTYLogger.m in Sources */,
-				30ABE3A716B5D15400464926 /* ringbuffer.c in Sources */,
 				30ABE3A816B5D15400464926 /* s_libpdmidi.c in Sources */,
 				30ABE3A916B5D15400464926 /* x_libpdreceive.c in Sources */,
 				30ABE3AA16B5D15400464926 /* z_libpd.c in Sources */,
-				30ABE3AB16B5D15400464926 /* z_queued.c in Sources */,
-				30ABE3AC16B5D15400464926 /* z_util.c in Sources */,
 				30ABE3AE16B5D15400464926 /* AudioHelpers.m in Sources */,
 				30ABE3B016B5D15400464926 /* PdAudioUnit.m in Sources */,
 				30ABE3B216B5D15400464926 /* PdDispatcher.m in Sources */,
@@ -884,6 +889,9 @@
 				306DBE4D16BC1E47007CF226 /* Util.m in Sources */,
 				306DBE6B16BC6A86007CF226 /* Slider.m in Sources */,
 				3088883916BCB73700781682 /* Canvas.m in Sources */,
+				30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */,
+				30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */,
+				30F7A19416BFF66F00DE265F /* z_queued.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
