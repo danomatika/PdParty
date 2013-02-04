@@ -38,9 +38,13 @@
 		return nil;
 	}
 	
+	t.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:14] integerValue]];
+	t.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
+	
 	t.label.text = [gui formatAtomString:[line objectAtIndex:9]];
 	if(![t.label.text isEqualToString:@""]) {
 		t.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+		t.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
 		[t.label sizeToFit];
 		CGRect labelFrame = CGRectMake(
 			round([[line objectAtIndex:10] floatValue] * gui.scaleX),
@@ -72,29 +76,26 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
     CGContextSetLineWidth(context, 1.0);
 	
-    CGRect frame = rect;
+	// background
+	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
+	CGContextFillRect(context, rect);
 	
 	// border
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0, 0);
-	CGContextAddLineToPoint(context, frame.size.width-1, 0);
-    CGContextAddLineToPoint(context, frame.size.width-1, frame.size.height-1);
-	CGContextAddLineToPoint(context, 0, frame.size.height-1);
-	CGContextAddLineToPoint(context, 0, 0);
-    CGContextStrokePath(context);
+	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
+	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));
 	
 	// toggle
+	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	if(self.value != 0) {
 		CGContextBeginPath(context);
 		CGContextMoveToPoint(context, 2, 2);
-		CGContextAddLineToPoint(context, frame.size.width-3, frame.size.height-3);
+		CGContextAddLineToPoint(context, rect.size.width-3, rect.size.height-3);
 		CGContextStrokePath(context);
 		CGContextBeginPath(context);
-		CGContextMoveToPoint(context, frame.size.width-3, 2);
-		CGContextAddLineToPoint(context, 2, frame.size.height-3);
+		CGContextMoveToPoint(context, rect.size.width-3, 2);
+		CGContextAddLineToPoint(context, 2, rect.size.height-3);
 		CGContextStrokePath(context);
 	}
 }

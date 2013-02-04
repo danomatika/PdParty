@@ -14,7 +14,7 @@
 
 @interface Bang : Widget
 
-@property (nonatomic, assign) int bangTimeMS;
+@property (assign) int bangTimeMS;
 
 + (id)bangFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
 

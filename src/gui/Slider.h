@@ -19,8 +19,8 @@ typedef enum {
 
 @interface Slider : Widget
 
-@property (nonatomic, assign) int log;
-@property (nonatomic, assign) SliderOrientation orientation;
+@property (assign) int log;
+@property (assign) SliderOrientation orientation;
 
 + (id)sliderFromAtomLine:(NSArray*)line withOrientation:(SliderOrientation)orientation withGui:(Gui*)gui;
 

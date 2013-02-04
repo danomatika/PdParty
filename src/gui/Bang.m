@@ -43,9 +43,13 @@
 		return nil;
 	}
 	
+	b.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
+	b.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
+	
 	b.label.text = [gui formatAtomString:[line objectAtIndex:11]];
 	if(![b.label.text isEqualToString:@""]) {
 		b.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+		b.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
 		[b.label sizeToFit];
 		CGRect labelFrame = CGRectMake(
 			round([[line objectAtIndex:12] floatValue] * gui.scaleX),
@@ -66,23 +70,20 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
 	CGContextSetLineWidth(context, 1.0);
 	
-    CGRect frame = rect;
+	// background
+	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
+	CGContextFillRect(context, rect);
 	
 	// border
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0, 0);
-	CGContextAddLineToPoint(context, frame.size.width-1, 0);
-    CGContextAddLineToPoint(context, frame.size.width-1, frame.size.height-1);
-	CGContextAddLineToPoint(context, 0, frame.size.height-1);
-	CGContextAddLineToPoint(context, 0, 0);
-    CGContextStrokePath(context);
+	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
+	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));
 
 	// bang
-	CGRect circleFrame = CGRectMake(1, 1, frame.size.width-3, frame.size.height-3);
+	CGRect circleFrame = CGRectMake(1, 1, rect.size.width-3, rect.size.height-3);
 	if(self.value != 0) {
+		CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
 		CGContextFillEllipseInRect(context, circleFrame);
 	}
 	CGContextStrokeEllipseInRect(context, circleFrame);

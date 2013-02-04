@@ -15,8 +15,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (nonatomic, retain) PdDispatcher *dispatcher;
+@property (strong) PdDispatcher *dispatcher;
 
-@property (nonatomic, getter=isPlaying) BOOL playing; // a globally accesible flag to start or stop audio
+@property (getter=isPlaying) BOOL playing; // a globally accesible flag to start or stop audio
 
 @end

@@ -12,6 +12,6 @@
 
 @interface ViewController : UIViewController
 
-@property (nonatomic, retain) Gui *gui;
+@property (strong) Gui *gui;
 
 @end

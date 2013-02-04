@@ -25,24 +25,24 @@
 @interface Gui : NSObject
 
 // widget array
-@property (nonatomic, retain) NSMutableArray *widgets;
+@property (strong) NSMutableArray *widgets;
 
 // current view bounds
-@property (nonatomic, assign) CGRect bounds;
+@property (assign) CGRect bounds;
 
 // currently loaded patch
-@property (nonatomic, retain) PdFile *currentPatch;
+@property (strong) PdFile *currentPatch;
 
 // pixel size of original pd patch
-@property (nonatomic, assign) int patchWidth;
-@property (nonatomic, assign) int patchHeight;
+@property (assign) int patchWidth;
+@property (assign) int patchHeight;
 
 // font size loaded from patch
-@property (nonatomic, assign) int fontSize;
+@property (assign) int fontSize;
 
 // scale amount between view bounds and original patch size
-@property (nonatomic, assign) float scaleX;
-@property (nonatomic, assign) float scaleY;
+@property (assign) float scaleX;
+@property (assign) float scaleY;
 
 // add a widget using a given atom line (array of NSStrings)
 - (void)addComment:(NSArray*)atomLine;

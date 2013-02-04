@@ -51,9 +51,13 @@
 		return nil;
 	}
 	
+	s.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+	s.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
+	
 	s.label.text = [gui formatAtomString:[line objectAtIndex:13]];
 	if(![s.label.text isEqualToString:@""]) {
 		s.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+		s.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
 		[s.label sizeToFit];
 		int nudgeX = 0, nudgeY = 0;
 		if(orientation == SliderOrientationHorizontal) {
@@ -97,26 +101,44 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
     CGContextSetLineWidth(context, 1.0);
 	
-    CGRect frame = rect;
+	// background
+	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
+	CGContextFillRect(context, rect);
+	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
 	
 	// border
+	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
 	CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect)-1, CGRectGetHeight(rect)-1));
 	
 	// slider pos
-	CGContextSetLineWidth(context, 4.0);
+	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
+	CGContextSetLineWidth(context, 4);
 	if(self.orientation == SliderOrientationHorizontal) {
-		float x = round(frame.origin.x + ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.width);
-		CGContextMoveToPoint(context, x, round(frame.origin.y));
-		CGContextAddLineToPoint(context, x, round(rect.origin.y+rect.size.height));
+		float x = round(rect.origin.x + ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.width);
+		// constrain pos at edges
+		if(x < 4) { // width of slider control + pixel padding
+			x = 4;
+		}
+		else if(x > rect.size.width - (4 + 1)) {
+			x = rect.size.width - 5;
+		}
+		CGContextMoveToPoint(context, x, round(rect.origin.y));
+		CGContextAddLineToPoint(context, x, round(rect.origin.y+rect.size.height-1));
 		CGContextStrokePath(context);
 	}
 	else {
 		float y = round(rect.origin.y+rect.size.height - ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.height);
+		// constrain pos at edges
+		if(y < 4) { // width of slider control + pixel padding
+			y = 4;
+		}
+		else if(y > rect.size.height - (4 + 1)) {
+			y = rect.size.height - 5;
+		}
 		CGContextMoveToPoint(context, round(rect.origin.x), y);
-		CGContextAddLineToPoint(context, round(rect.origin.x+rect.size.width), y);
+		CGContextAddLineToPoint(context, round(rect.origin.x+rect.size.width-1), y);
 		CGContextStrokePath(context);
 	}
 }

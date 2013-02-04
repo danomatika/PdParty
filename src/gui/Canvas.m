@@ -62,6 +62,7 @@
     self = [super initWithFrame:frame];
     if (self) {
 		self.labelFontSize = 14 * GUI_FONT_SCALE;
+		
     }
     return self;
 }

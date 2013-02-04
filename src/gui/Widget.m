@@ -24,8 +24,8 @@
     } while (0)
 
 @interface Widget () {}
-@property (nonatomic, assign) SEL valueAction;
-@property (nonatomic, assign) id valueTarget;
+@property (assign) SEL valueAction;
+@property (assign) id valueTarget;
 @end
 
 @implementation Widget
@@ -35,6 +35,7 @@
     if(self) {
 		self.fillColor = WIDGET_FILL_COLOR;
         self.frameColor = WIDGET_FRAME_COLOR;
+		self.controlColor = WIDGET_FRAME_COLOR;
 		self.backgroundColor = [UIColor clearColor];
 		
 		self.minValue = 0.0;

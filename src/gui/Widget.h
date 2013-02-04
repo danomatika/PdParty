@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "PdBase.h"
 
+// defaults
 #define WIDGET_FILL_COLOR [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]
 #define WIDGET_FRAME_COLOR [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]
 
@@ -18,21 +19,23 @@
 
 @interface Widget : UIView <PdListener>
 
-@property (nonatomic, retain) UIColor *fillColor;
-@property (nonatomic, retain) UIColor *frameColor;
+@property (strong) UIColor *fillColor;		// IEM gui background
+@property (strong) UIColor *frameColor;		// widget outline
+@property (strong) UIColor *controlColor;	// IEM gui foreground
+// IEM gui label color is at label.textColor
 
-@property (nonatomic, assign) float minValue;
-@property (nonatomic, assign) float maxValue;
-@property (nonatomic, assign) float value;
-@property (nonatomic, assign) BOOL inits; // sends value when initing?
+@property (assign) float minValue;
+@property (assign) float maxValue;
+@property (assign, nonatomic) float value;
+@property (assign) BOOL inits; // sends value when initing?
 
-@property (nonatomic, retain) NSString *sendName;
-@property (nonatomic, retain) NSString *receiveName;
+@property (strong) NSString *sendName;
+@property (strong, nonatomic) NSString *receiveName;
 
-@property (nonatomic, retain) UILabel *label;
+@property (strong, nonatomic) UILabel *label;
 
 // get the widget type as a string, overridden by other widgets
-@property (nonatomic, readonly) NSString *type;
+@property (readonly, nonatomic) NSString *type;
 
 // static receieve dispatcher
 + (PdDispatcher*) dispatcher;
