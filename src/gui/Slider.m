@@ -53,7 +53,7 @@
 	
 	s.label.text = [gui formatAtomString:[line objectAtIndex:13]];
 	if(![s.label.text isEqualToString:@""]) {
-		s.label.font = [UIFont systemFontOfSize:gui.fontSize];
+		s.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
 		[s.label sizeToFit];
 		int nudgeX = 0, nudgeY = 0;
 		if(orientation == SliderOrientationHorizontal) {

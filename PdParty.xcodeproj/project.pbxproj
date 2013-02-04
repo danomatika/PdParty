@@ -10,6 +10,7 @@
 		306DBE4D16BC1E47007CF226 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DBE4C16BC1E47007CF226 /* Util.m */; };
 		306DBE6B16BC6A86007CF226 /* Slider.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DBE6A16BC6A86007CF226 /* Slider.m */; };
 		3088883916BCB73700781682 /* Canvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 3088883816BCB73700781682 /* Canvas.m */; };
+		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
 		30A319F616B61FF700C7729B /* Toggle.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EE16B61FF700C7729B /* Toggle.m */; };
 		30A319F716B61FF700C7729B /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319F016B61FF700C7729B /* Widget.m */; };
@@ -153,6 +154,7 @@
 		306DBE6A16BC6A86007CF226 /* Slider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slider.m; sourceTree = "<group>"; };
 		3088883716BCB73700781682 /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
 		3088883816BCB73700781682 /* Canvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Canvas.m; sourceTree = "<group>"; };
+		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		30A319EA16B61FF700C7729B /* Gui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gui.m; sourceTree = "<group>"; };
 		30A319EB16B61FF700C7729B /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		30A319EE16B61FF700C7729B /* Toggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toggle.m; sourceTree = "<group>"; };
@@ -346,6 +348,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3088883C16BF062700781682 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3088883D16BF062700781682 /* DejaVuSansMono.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		30A319E516B61FF700C7729B /* gui */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +444,7 @@
 		30ABE2F216B5D11D00464926 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				3088883C16BF062700781682 /* fonts */,
 				30ABE2F316B5D11D00464926 /* Default-568h@2x.png */,
 				30ABE2F416B5D11D00464926 /* Default.png */,
 				30ABE2F516B5D11D00464926 /* Default@2x.png */,
@@ -757,6 +768,7 @@
 				30ABE3C416B5D15400464926 /* rev3~-help.pd in Resources */,
 				30ABE3C516B5D15400464926 /* rev3~.pd in Resources */,
 				30ABE3C616B5D15400464926 /* stdout-help.pd in Resources */,
+				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

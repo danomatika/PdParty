@@ -14,6 +14,8 @@
 
 @interface Canvas : Widget
 
+@property (nonatomic, assign) int labelFontSize;
+
 + (id)canvasFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
 
 @end

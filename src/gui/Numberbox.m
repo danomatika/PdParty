@@ -30,8 +30,8 @@
 	CGRect frame = CGRectMake(
 		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
 		round([[line objectAtIndex:3] floatValue] * gui.scaleY),
-		round(((numWidth-2) * gui.fontSize) + 2),
-		round(gui.fontSize + 4));
+		round(((numWidth-2) * gui.fontSize) + 3),
+		round(gui.fontSize + 8));
 
 	Numberbox *n = [[Numberbox alloc] initWithFrame:frame];
 
@@ -48,15 +48,15 @@
 	n.numWidth = numWidth;
 	n.value = 0;
 	
-	n.numberLabel.font = [UIFont systemFontOfSize:gui.fontSize];
+	n.numberLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
 	n.numberLabel.preferredMaxLayoutWidth = frame.size.width;
-	n.numberLabel.frame = CGRectMake(2, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
+	n.numberLabel.frame = CGRectMake(2, 1, CGRectGetWidth(frame), CGRectGetHeight(frame));
 	[n addSubview:n.numberLabel];
 	
 	n.label.text = [gui formatAtomString:[line objectAtIndex:8]];
 	if(![n.label.text isEqualToString:@""]) {
 		
-		n.label.font = [UIFont systemFontOfSize:gui.fontSize];
+		n.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
 		[n.label sizeToFit];
 		
 		// set the label pos from the LRUD setting
@@ -116,8 +116,8 @@
 	// border
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, 0, 0);
-	CGContextAddLineToPoint(context, frame.size.width-6, 0);
-    CGContextAddLineToPoint(context, frame.size.width-1, 6);
+	CGContextAddLineToPoint(context, frame.size.width-8, 0);
+    CGContextAddLineToPoint(context, frame.size.width-1, 8);
 	CGContextAddLineToPoint(context, frame.size.width-1, frame.size.height-1);
 	CGContextAddLineToPoint(context, 0, frame.size.height-1);
 	CGContextAddLineToPoint(context, 0, 0);
@@ -177,12 +177,6 @@
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-//	if(self.minValue != 0 || self.maxValue != 0) {
-//		self.value = MIN(self.maxValue, MAX(received, self.minValue));
-//	}
-//	else {
-//		self.value = received;
-//	}
 	self.value = received;
 	[self sendFloat:self.value];
 }
@@ -201,109 +195,3 @@
 }
 
 @end
-
-//#include "Gui.h"
-//
-//namespace gui {
-//
-//const string Numberbox::s_type = "Numberbox";
-//
-//Numberbox::Numberbox(Gui& parent, const AtomLine& atomLine) : Widget(parent) {
-//
-//	float x = round(ofToFloat(atomLine[2]) / parent.patchWidth * parent.width);
-//	float y = round(ofToFloat(atomLine[3]) / parent.patchHeight * parent.height);
-//	
-//	min = ofToFloat(atomLine[5]);
-//	max = ofToFloat(atomLine[6]);
-//	sendName = atomLine[10];
-//	receiveName = atomLine[9];
-//	
-//	// calc screen bounds for the numbers that can fit
-//	numWidth = ofToInt(atomLine[4]);
-//	string tmp;
-//	for(int i = 0; i < numWidth; ++i) {
-//		tmp += "#";
-//	}
-//	rect = parent.font.getStringBoundingBox(tmp, x, y);
-//	rect.x -= 3;
-//	rect.y += 3;
-//	rect.width += 3-parent.font.getSize();
-//	rect.height += 3;
-//
-//	// set the label pos from the LRUD setting
-//	label = atomLine[8];
-//	int pos = ofToInt(atomLine[7]);
-//	switch(pos) {
-//		default: // 0 LEFT
-//			labelPos.x = rect.x - parent.font.getSize()*(label.size()-1)-1;
-//			labelPos.y = y;
-//			break;
-//		case 1: // RIGHT
-//			labelPos.x = rect.x+rect.width+1;
-//			labelPos.y = y;
-//			break;
-//		case 2: // TOP
-//			labelPos.x = x-4;
-//			labelPos.y = rect.y-2-parent.font.getLineHeight()/2;
-//			break;
-//		case 3: // BOTTOM
-//			labelPos.x = x-4;
-//			labelPos.y = rect.y+rect.height+2+parent.font.getLineHeight()/2;
-//			break;
-//	}
-//	
-//	setVal(0, 0);
-//	
-//	setupReceive();
-//	//ofAddListener(ofEvents.mousePressed, this, &Numberbox::mousePressed);
-//
-//}
-//
-//void Numberbox::draw() {
-//
-//	// outline
-//	ofSetColor(0);
-//	ofLine(rect.x, rect.y, rect.x-5+rect.width, rect.y);
-//	ofLine(rect.x, rect.y+rect.height, rect.x+rect.width, rect.y+rect.height);
-//	ofLine(rect.x, rect.y, rect.x, rect.y+1+rect.height);
-//	ofLine(rect.x+rect.width, rect.y+5, rect.x+rect.width, rect.y+rect.height);
-//	ofLine(rect.x-5+rect.width, rect.y, rect.x+rect.width, rect.y+5);
-//
-//	parent.font.drawString(ofToString(val), rect.x+3, rect.y+2+parent.fontSize);
-//
-//	drawLabel();
-//}
-//
-//void Numberbox::drawLabel() {
-//	if(label != "" && label != "empty") {
-//		parent.font.drawString(label,
-//			labelPos.x, labelPos.y+(parent.fontSize/2));
-//	}
-//}
-//
-//void Numberbox::receiveFloat(const string& dest, float value) {
-//	if(min != 0 || max != 0)
-//		val = std::min(max, std::max(value, min));
-//	else
-//		val = value;
-//	sendFloat(val);
-//}
-//
-//void Numberbox::receiveList(const string& dest, const pd::List& list) {
-//	if(list.len() > 0 && list.isFloat(0))
-//		receiveFloat(receiveName, list.asFloat(0));
-//}
-//
-//void Numberbox::receiveMessage(const string& dest, const string& msg, const pd::List& list) {
-//	// set message sets value without sending
-//	if(msg == "set" && list.len() > 0 && list.isFloat(0)) {
-//		val = list.asFloat(0);
-//	}
-//}
-//
-//void Numberbox::mousePressed(ofMouseEventArgs &e) {
-////	if(e.button == OF_MOUSE_LEFT && rect.inside(e.x, e.y)) {
-////	}
-//}
-//
-//} // namespace

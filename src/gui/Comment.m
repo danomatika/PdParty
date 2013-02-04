@@ -33,7 +33,7 @@
 	// create label and size to fit based on pd gui's line wrap at 60 chars
 	UILabel *label = [[UILabel alloc] init];
 	label.text = text;
-	label.font = [UIFont systemFontOfSize:gui.fontSize];
+	label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
 	label.numberOfLines = 0; // allow line wrapping
 	label.preferredMaxLayoutWidth = gui.fontSize * 60; // pd gui wraps at 60 chars
 	[label sizeToFit];

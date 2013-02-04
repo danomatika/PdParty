@@ -59,7 +59,7 @@
 #X obj 137 454 print;
 #X obj 27 380 print tgl2;
 #X obj 23 340 r tgl2-out;
-#X obj 198 408 cnv 15 100 60 empty cnv1-in hello 20 12 0 14 10
+#X obj 199 408 cnv 15 100 60 empty cnv1-in hello 20 12 0 20 -260534
 -66577 0;
 #X connect 4 0 6 0;
 #X connect 5 0 10 0;

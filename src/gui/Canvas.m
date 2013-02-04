@@ -38,15 +38,16 @@
 	}
 	
 	c.backgroundColor = [Gui colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
-	NSLog(@"Color is %@", c.backgroundColor);
 	
 	c.label.text = [gui formatAtomString:[line objectAtIndex:10]];
+	c.labelFontSize = [[line objectAtIndex:14] floatValue] * GUI_FONT_SCALE;
 	if(![c.label.text isEqualToString:@""]) {
-		c.label.font = [UIFont systemFontOfSize:gui.fontSize];
+		c.label.font = [UIFont fontWithName:GUI_FONT_NAME size:c.labelFontSize];//[UIFont systemFontOfSize:c.labelFontSize];
+		c.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
 		[c.label sizeToFit];
 		CGRect labelFrame = CGRectMake(
 			round([[line objectAtIndex:11] floatValue] * gui.scaleX),
-			round(([[line objectAtIndex:12] floatValue] * gui.scaleY) - gui.fontSize),
+			round(([[line objectAtIndex:12] floatValue] * gui.scaleY) - c.labelFontSize),
 			c.label.frame.size.width,
 			c.label.frame.size.height
 		);
@@ -55,6 +56,14 @@
 	}
 	
 	return c;
+}
+
+- (id)initWithFrame:(CGRect)frame {    
+    self = [super initWithFrame:frame];
+    if (self) {
+		self.labelFontSize = 14 * GUI_FONT_SCALE;
+    }
+    return self;
 }
 
 #pragma mark Overridden Getters & Setters

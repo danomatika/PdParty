@@ -17,24 +17,3 @@
 + (id)commentFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
 
 @end
-
-//#include "Widget.h"
-//
-//namespace gui {
-//
-//class Comment : public Widget {
-//
-//	public:
-//
-//		Comment(Gui& parent, const AtomLine& atomLine);
-//
-//		void draw();
-//		
-//		inline string getType() {return s_type;}
-//		
-//	private:
-//		
-//		static const string s_type;
-//};
-//
-//} // namespace

@@ -177,7 +177,7 @@
 
 // conversion statics from g_all_guis.h
 static int IEM_GUI_MAX_COLOR = 30;
-static int iemgui_color_hex[] = {
+static int iemgui_color_hex[] = { // predefined colors
 	16579836, 10526880, 4210752, 16572640, 16572608,
 	16579784, 14220504, 14220540, 14476540, 16308476,
 	14737632, 8158332, 2105376, 16525352, 16559172,
@@ -190,9 +190,9 @@ static int iemgui_color_hex[] = {
 	int r, g, b;
 	if(iemColor < 0) {
 		iemColor = -1 - iemColor;
-		r = ((iemColor & 0x3F000) << 6) >> 16;
-		g = ((iemColor & 0xFC0) << 4) >> 8;
-		b = ((iemColor & 0x3F) << 2);
+		r = (iemColor & 0x3F000) >> 10;
+		g = (iemColor & 0xFC0) >> 4;
+		b = (iemColor & 0x3F) << 2;
 	}
 	else {
 		iemColor = [self iemguiModuloColor:iemColor];
@@ -201,7 +201,6 @@ static int iemgui_color_hex[] = {
 		g = ((iemColor >> 16 ) & 0xFF);
 		b = ((iemColor >> 8) & 0xFF);
 	}
-	NSLog(@"color! 0x%X is %X %X %X", iemColor, r, g, b);
 	return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
 }
 
@@ -216,111 +215,3 @@ static int iemgui_color_hex[] = {
 }
 
 @end
-
-//#include "Comment.h"
-//#include "Numberbox.h"
-//#include "Bang.h"
-//#include "Toggle.h"
-//
-//namespace gui {
-//
-////--------------------------------------------------------------
-//Gui::Gui(ofxPd& pd) : pd(pd) {
-//	width = 0;
-//	height = 0;
-//	patchWidth = 0;
-//	patchHeight = 0;
-//	
-//	fontSize = 10;
-//	fontFile = "";
-//}
-//
-//void Gui::setSize(int w, int h) {
-//	width = w;
-//	height = h;
-//}
-//
-//void Gui::addComment(const AtomLine& line) {
-//	Comment* c = new Comment(*this, line);
-//	widgets.push_back(c);
-//	cout << "Gui: added Comment \"" << c->label << "\"" << endl;
-//}
-//
-//void Gui::addNumberbox(const AtomLine& line) {
-//	Numberbox* nb = new Numberbox(*this, line);
-//	widgets.push_back(nb);
-//	cout << "Gui: added Numberbox \"" << nb->label << "\"" << endl;
-//}
-//
-//void Gui::addBang(const AtomLine& line) {
-//	Bang* b = new Bang(*this, line);
-//	widgets.push_back(b);
-//	cout << "Gui: added Bang \"" << b->label << "\"" << endl;
-//}
-//
-//void Gui::addToggle(const AtomLine& line) {
-//	Toggle* t = new Toggle(*this, line);
-//	widgets.push_back(t);
-//	cout << "Gui: added Toggle \"" << t->label << "\"" << endl;
-//}
-//
-//void Gui::buildGui(const vector<AtomLine>& atomLines) {
-//
-//	int level = 0;
-//	
-//	for(int i = 0; i < atomLines.size(); ++i) {
-//		
-//		const AtomLine& line = atomLines[i];
-//		
-//		if(line.size() >= 4) {
-//		
-//			// find canvas begin and end line
-//			if(line[1] == "canvas") {
-//				level++;
-//				if(level == 1) {
-//					patchWidth = ofToInt(line[4]);
-//					patchHeight = ofToInt(line[5]);
-//					fontSize = ofToInt(line[6]);
-//					font.loadFont(ofToDataPath(fontFile), fontSize);
-//				}
-//			}
-//			else if(line[1] == "restore") {
-//				level -= 1;
-//			}
-//			else if(level == 1) {
-//			
-//				// built in pd things
-//				if(line[1] == "text") {
-//					addComment(line);
-//				}
-//				else if(line[1] == "floatatom") {
-//					addNumberbox(line);
-//				}
-//				else if(line[1] == "obj" && line.size() >= 5) {
-//					// pd objects
-//					if(atomLines[i][4] == "bng")
-//						addBang(line);
-//					else if(atomLines[i][4] == "tgl")
-//						addToggle(line);
-//				}
-//			}
-//		}
-//	}
-//}
-//
-//void Gui::setFont(string file) {
-//	fontFile = file;
-//}
-//
-//void Gui::clear() {
-//	for(int i = 0; i < widgets.size(); ++i)
-//		delete widgets[i];
-//	widgets.clear();
-//}
-//
-//void Gui::draw() {
-//	for(int i = 0; i < widgets.size(); ++i)
-//		widgets[i]->draw();
-//}
-//		
-//} // namespace
