@@ -33,8 +33,8 @@
 	
 	// load gui
 	gui.bounds = self.view.bounds;
-	gui.currentPatch = [PdFile openFileNamed:@"gui.pd" path:[[NSBundle mainBundle] bundlePath]];
 	[gui addWidgetsFromPatch:[[NSBundle mainBundle] pathForResource:@"gui" ofType:@"pd"]];
+	gui.currentPatch = [PdFile openFileNamed:@"gui.pd" path:[[NSBundle mainBundle] bundlePath]];
 	for(Widget *widget in gui.widgets) {
 		[self.view addSubview:widget];
 	}
