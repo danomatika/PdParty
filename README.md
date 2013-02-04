@@ -5,6 +5,11 @@ Pure Data patches for iOS
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-13
 
+BSD Simplified License.
+
+For information on usage and redistribution, and for a DISCLAIMER OF ALL
+WARRANTIES, see the file, "LICENSE.txt," in this distribution.
+
 See https://github.com/danomatika/PdParty for documentation
 
 DESCRIPTION
@@ -23,11 +28,12 @@ No, this is not "Pd for the iPad". You can run patches but there is not built in
 
 NOTE: THIS IS CURRENTLY IN AN ALPHA STAGE AND LIKELY NOT TO WORK JUST YET ... STAY TUNED.
 
-Libraries used:
+This project uses:
 
 * [libpd](https://github.com/libpd/libpd): audio engine
 * [PGMidi](https://github.com/petegoodliffe/PGMidi): midi i/o
 * [Lumberjack](https://github.com/robbiehanson/CocoaLumberjack): logging
+* [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/index.php?title=Main_Page): font
 
 INSTALLATION & BUILDING
 -----------------------

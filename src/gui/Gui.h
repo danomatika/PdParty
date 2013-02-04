@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2011 Dan Wilcox <danomatika@gmail.com>
+ * Copyright (c) 2013 Dan Wilcox <danomatika@gmail.com>
  *
  * BSD Simplified License.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
  *
- * See https://github.com/danomatika/robotcowboy for documentation
+ * See https://github.com/danomatika/PdParty for documentation
  *
  */
 #import "Widget.h"
@@ -14,7 +14,8 @@
 
 #import "Slider.h"
 
-// default pd gui font
+// default pd gui font, loading custom fonts:
+// http://stackoverflow.com/questions/11047900/cant-load-custom-font-on-ios
 #define GUI_FONT_NAME @"DejaVu Sans Mono"
 
 // make font a little bigger compared to in the pd gui

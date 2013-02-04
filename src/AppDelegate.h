@@ -1,11 +1,13 @@
-//
-//  AppDelegate.h
-//  PdParty
-//
-//  Created by Dan Wilcox on 1/27/13.
-//  Copyright (c) 2013 danomatika. All rights reserved.
-//
-
+/*
+ * Copyright (c) 2013 Dan Wilcox <danomatika@gmail.com>
+ *
+ * BSD Simplified License.
+ * For information on usage and redistribution, and for a DISCLAIMER OF ALL
+ * WARRANTIES, see the file, "LICENSE.txt," in this distribution.
+ *
+ * See https://github.com/danomatika/PdParty for documentation
+ *
+ */
 #import <UIKit/UIKit.h>
 
 #import "PdBase.h"
