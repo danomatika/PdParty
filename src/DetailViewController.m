@@ -118,4 +118,9 @@
     self.masterPopoverController = nil;
 }
 
+// hide master view controller by default on all orientations
+- (BOOL)splitViewController:(UISplitViewController *)splitController shouldHideViewController:(UIViewController *)viewController inOrientation:(UIInterfaceOrientation)orientation {
+	return YES;
+}
+
 @end
