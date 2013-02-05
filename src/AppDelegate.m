@@ -33,6 +33,7 @@
 	    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
 	    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
 	    splitViewController.delegate = (id)navigationController.topViewController;
+		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
 	}
 	
 	// init logger
