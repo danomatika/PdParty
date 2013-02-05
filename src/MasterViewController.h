@@ -10,10 +10,10 @@
  */
 #import <UIKit/UIKit.h>
 
-@class Gui;
+@class DetailViewController;
 
-@interface ViewController : UIViewController
+@interface MasterViewController : UITableViewController
 
-@property (strong) Gui *gui;
+@property (strong, nonatomic) DetailViewController *detailViewController;
 
 @end

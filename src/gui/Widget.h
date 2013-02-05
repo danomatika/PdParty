@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "PdBase.h"
 
+@class Gui;
+
 // defaults
 #define WIDGET_FILL_COLOR [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]
 #define WIDGET_FRAME_COLOR [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]
@@ -18,6 +20,9 @@
 @class PdDispatcher;
 
 @interface Widget : UIView <PdListener>
+
+@property (assign) CGRect originalFrame; // original pd gui object pos & size
+@property (assign) CGPoint originalLabelPos; // origin pd label pos (rel to object pos)
 
 @property (strong) UIColor *fillColor;		// IEM gui background
 @property (strong) UIColor *frameColor;		// widget outline
@@ -36,6 +41,9 @@
 
 // get the widget type as a string, overridden by other widgets
 @property (readonly, nonatomic) NSString *type;
+
+// reshape based on gui bounds & scale changes
+- (void)reshapeForGui:(Gui *)gui;
 
 // static receieve dispatcher
 + (PdDispatcher*) dispatcher;

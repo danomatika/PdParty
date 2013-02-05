@@ -10,10 +10,12 @@
  */
 #import <UIKit/UIKit.h>
 
-#import "AppDelegate.h"
+@class Gui;
 
-int main(int argc, char *argv[]) {
-	@autoreleasepool {
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-	}
-}
+@interface DetailViewController : UIViewController <UISplitViewControllerDelegate>
+
+@property (strong) Gui *gui;
+
+@property (strong, nonatomic) id detailItem;
+
+@end

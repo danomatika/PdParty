@@ -27,13 +27,7 @@
 		return nil;
 	}
 
-	CGRect frame = CGRectMake(
-		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:3] floatValue] * gui.scaleY),
-		round([[line objectAtIndex:5] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:5] floatValue] * gui.scaleX));
-
-	Bang *b = [[Bang alloc] initWithFrame:frame];
+	Bang *b = [[Bang alloc] initWithFrame:CGRectZero];
 
 	b.sendName = [gui formatAtomString:[line objectAtIndex:9]];
 	b.receiveName = [gui formatAtomString:[line objectAtIndex:10]];
@@ -43,25 +37,20 @@
 		return nil;
 	}
 	
-	b.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
-	b.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
-	
-	b.label.text = [gui formatAtomString:[line objectAtIndex:11]];
-	if(![b.label.text isEqualToString:@""]) {
-		b.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
-		b.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
-		[b.label sizeToFit];
-		CGRect labelFrame = CGRectMake(
-			round([[line objectAtIndex:12] floatValue] * gui.scaleX),
-			round(([[line objectAtIndex:13] floatValue] * gui.scaleY) - gui.fontSize),
-			b.label.frame.size.width,
-			b.label.frame.size.height
-		);
-		b.label.frame = labelFrame;
-		[b addSubview:b.label];
-	}
+	b.originalFrame = CGRectMake(
+		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
 	
 	b.bangTimeMS = [[line objectAtIndex:6] integerValue];
+	
+	b.label.text = [gui formatAtomString:[line objectAtIndex:11]];
+	b.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
+	
+	b.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
+	b.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
+	b.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+	
+	[b reshapeForGui:gui];
 	
 	return b;
 }
@@ -87,6 +76,21 @@
 		CGContextFillEllipseInRect(context, circleFrame);
 	}
 	CGContextStrokeEllipseInRect(context, circleFrame);
+}
+
+- (void)reshapeForGui:(Gui *)gui {
+
+	// bounds
+	[super reshapeForGui:gui];
+
+	// label
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+	[self.label sizeToFit];
+	self.label.frame = CGRectMake(
+		round(self.originalLabelPos.x * gui.scaleX),
+		round((self.originalLabelPos.y * gui.scaleY) - gui.fontSize),
+		CGRectGetWidth(self.label.frame),
+		CGRectGetHeight(self.label.frame));
 }
 
 - (void)bang {

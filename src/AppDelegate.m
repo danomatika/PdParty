@@ -12,7 +12,7 @@
 
 #import "PdAudioController.h"
 #import "Log.h"
-#import "gui/WIdget.h"
+#import "gui/Widget.h"
 
 @interface AppDelegate () {}
 
@@ -28,6 +28,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+	
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+	    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+	    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+	    splitViewController.delegate = (id)navigationController.topViewController;
+	}
 	
 	// init logger
 	[DDLog addLogger:[DDTTYLogger sharedInstance]];
@@ -60,6 +66,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+	
+	//self.playing = NO;
 }
 
 #pragma mark Private
@@ -88,11 +96,6 @@
 
 	// turn on dsp
 	[self setPlaying:YES];
-
-	// test patch
-	//[self.dispatcher addListener:self forSource:@"toOF"];
-	//[PdBase openFile:@"test.pd" path:[[NSBundle mainBundle] bundlePath]];
-	//[PdBase sendSymbol:@"test" toReceiver:@"fromOF"];
 }
 
 #pragma mark PdListener
@@ -121,7 +124,7 @@
 	DDLogInfo(@"Pd Message to %@ from %@", message, source);
 }
 
-#pragma mark - Accessors
+#pragma mark Accessors
 
 - (BOOL)isPlaying {
     return playing;

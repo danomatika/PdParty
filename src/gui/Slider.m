@@ -29,19 +29,7 @@
 		return nil;
 	}
 
-	CGRect frame = CGRectMake(
-		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:3] floatValue] * gui.scaleY),
-		round([[line objectAtIndex:5] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:6] floatValue] * gui.scaleX));
-
-	Slider *s = [[Slider alloc] initWithFrame:frame];
-
-	s.orientation = orientation;
-	s.minValue = [[line objectAtIndex:7] floatValue];
-	s.maxValue = [[line objectAtIndex:8] floatValue];
-	s.log = [[line objectAtIndex:9] integerValue];
-	s.inits = [[line objectAtIndex:10] boolValue];
+	Slider *s = [[Slider alloc] initWithFrame:CGRectZero];
 	
 	s.sendName = [gui formatAtomString:[line objectAtIndex:11]];
 	s.receiveName = [gui formatAtomString:[line objectAtIndex:12]];
@@ -51,28 +39,24 @@
 		return nil;
 	}
 	
-	s.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
-	s.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
+	s.originalFrame = CGRectMake(
+		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+	
+	s.orientation = orientation;
+	s.minValue = [[line objectAtIndex:7] floatValue];
+	s.maxValue = [[line objectAtIndex:8] floatValue];
+	s.log = [[line objectAtIndex:9] integerValue];
+	s.inits = [[line objectAtIndex:10] boolValue];
 	
 	s.label.text = [gui formatAtomString:[line objectAtIndex:13]];
-	if(![s.label.text isEqualToString:@""]) {
-		s.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
-		s.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
-		[s.label sizeToFit];
-		int nudgeX = 0, nudgeY = 0;
-		if(orientation == SliderOrientationHorizontal) {
-			nudgeX = 4;
-			nudgeY = -2;
-		}
-		CGRect labelFrame = CGRectMake(
-			round([[line objectAtIndex:14] floatValue] * gui.scaleX) + nudgeX,
-			round(([[line objectAtIndex:15] floatValue] * gui.scaleY)) + nudgeY,
-			s.label.frame.size.width,
-			s.label.frame.size.height
-		);
-		s.label.frame = labelFrame;
-		[s addSubview:s.label];
-	}
+	s.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
+	
+	s.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+	s.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
+	s.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
+
+	[s reshapeForGui:gui];
 	
 	if(orientation == SliderOrientationHorizontal) {
 		s.value = ([[line objectAtIndex:21] floatValue] * 0.01 * (s.maxValue - s.minValue)) /
@@ -141,6 +125,26 @@
 		CGContextAddLineToPoint(context, round(rect.origin.x+rect.size.width-1), y);
 		CGContextStrokePath(context);
 	}
+}
+
+- (void)reshapeForGui:(Gui *)gui {
+	
+	// bounds
+	[super reshapeForGui:gui];
+	
+	// label
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+	[self.label sizeToFit];
+	int nudgeX = 0, nudgeY = 0;
+	if(self.orientation == SliderOrientationHorizontal) {
+		nudgeX = 4;
+		nudgeY = -2;
+	}
+	self.label.frame = CGRectMake(
+		round(self.originalLabelPos.x * gui.scaleX) + nudgeX,
+		round(self.originalLabelPos.y * gui.scaleY) + nudgeY,
+		CGRectGetWidth(self.label.frame),
+		CGRectGetHeight(self.label.frame));
 }
 
 #pragma mark Overridden Getters & Setters

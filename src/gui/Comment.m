@@ -21,6 +21,12 @@
 		return nil;
 	}
 
+	Comment *c = [[Comment alloc] initWithFrame:CGRectZero];
+
+	c.originalFrame = CGRectMake(
+		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+		0, 0); // size based on label size
+
 	// create the comment string
 	NSMutableString *text = [[NSMutableString alloc] init];
 	for(int i = 4; i < line.count; ++i) {
@@ -29,28 +35,27 @@
 			[text appendString:@" "];
 		}
 	}
-	
-	// create label and size to fit based on pd gui's line wrap at 60 chars
-	UILabel *label = [[UILabel alloc] init];
-	label.text = text;
-	label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
-	label.numberOfLines = 0; // allow line wrapping
-	label.preferredMaxLayoutWidth = gui.fontSize * 60; // pd gui wraps at 60 chars
-	[label sizeToFit];
-	
-	// create frame based on computed label size
-	CGRect frame = CGRectMake(
-		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:3] floatValue] * gui.scaleY),
-		CGRectGetWidth(label.frame),
-		CGRectGetHeight(label.frame));
-	
-	Comment *c = [[Comment alloc] initWithFrame:frame];
+	c.label.text = text;
 
-	c.label = label;
-	[c addSubview:c.label];
+	[c reshapeForGui:gui];
 	
 	return c;
+}
+
+- (void)reshapeForGui:(Gui *)gui {
+
+	// label
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+	self.label.numberOfLines = 0;
+	self.label.preferredMaxLayoutWidth = gui.fontSize * GUI_LINE_WRAP;
+	[self.label sizeToFit];
+
+	// bounds based on computed label size
+	self.frame = CGRectMake(
+		round(self.originalFrame.origin.x * gui.scaleX),
+		round(self.originalFrame.origin.y * gui.scaleY),
+		CGRectGetWidth(self.label.frame),
+		CGRectGetHeight(self.label.frame));
 }
 
 #pragma mark Overridden Getters & Setters

@@ -149,6 +149,20 @@
 	[self addWidgetsFromAtomLines:[PdParser getAtomLines:[PdParser readPatch:patch]]];
 }
 
+- (void)reshapeWidgets {
+	for(Widget *widget in self.widgets) {
+		[widget reshapeForGui:self];
+	}
+}
+
+#pragma mark Overridden Getters & Setters
+
+- (void)setBounds:(CGRect)bounds {
+	_bounds = bounds;
+	self.scaleX = CGRectGetWidth(self.bounds) / self.patchWidth;
+	self.scaleY = CGRectGetHeight(self.bounds) / self.patchHeight;
+}
+
 #pragma Utils
 
 - (NSString*)formatAtomString:(NSString*)string {

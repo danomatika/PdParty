@@ -10,7 +10,7 @@
  */
 #import "Widget.h"
 
-#import "Log.h"
+#import "Gui.h"
 #import "PdDispatcher.h"
 
 // suppress leak as we should be fine in ARC
@@ -33,6 +33,9 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(self) {
+		self.originalFrame = CGRectZero;
+		self.originalLabelPos = CGPointZero;
+	
 		self.fillColor = WIDGET_FILL_COLOR;
         self.frameColor = WIDGET_FRAME_COLOR;
 		self.controlColor = WIDGET_FRAME_COLOR;
@@ -50,6 +53,7 @@
 		self.label.backgroundColor = [UIColor clearColor];
 		self.label.textColor = WIDGET_FRAME_COLOR;
 		self.label.textAlignment = UITextAlignmentLeft;
+		[self addSubview:self.label];
 		
 		self.valueTarget = nil;
 		self.valueAction = nil;
@@ -61,6 +65,15 @@
 	if([self hasValidReceiveName]) {
 		[dispatcher removeListener:self forSource:self.receiveName];
 	}
+}
+
+// to be overridden by subclasses if needed
+- (void)reshapeForGui:(Gui *)gui {
+	self.frame = CGRectMake(
+		round(self.originalFrame.origin.x * gui.scaleX),
+		round(self.originalFrame.origin.y * gui.scaleY),
+		round(self.originalFrame.size.width * gui.scaleX),
+		round(self.originalFrame.size.height * gui.scaleX));
 }
 
 - (void)addValueTarget:(id)target action:(SEL)action {

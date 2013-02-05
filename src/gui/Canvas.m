@@ -21,13 +21,7 @@
 		return nil;
 	}
 
-	CGRect frame = CGRectMake(
-		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:3] floatValue] * gui.scaleY),
-		round([[line objectAtIndex:6] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:7] floatValue] * gui.scaleX));
-
-	Canvas *c = [[Canvas alloc] initWithFrame:frame];
+	Canvas *c = [[Canvas alloc] initWithFrame:CGRectZero];
 
 	//c.sendName = [gui formatAtomString:[line objectAtIndex:8]];
 	c.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
@@ -37,23 +31,18 @@
 		return nil;
 	}
 	
-	c.backgroundColor = [Gui colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
+	c.originalFrame = CGRectMake(
+		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+		[[line objectAtIndex:6] floatValue], [[line objectAtIndex:7] floatValue]);
 	
 	c.label.text = [gui formatAtomString:[line objectAtIndex:10]];
+	c.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
 	c.labelFontSize = [[line objectAtIndex:14] floatValue] * GUI_FONT_SCALE;
-	if(![c.label.text isEqualToString:@""]) {
-		c.label.font = [UIFont fontWithName:GUI_FONT_NAME size:c.labelFontSize];//[UIFont systemFontOfSize:c.labelFontSize];
-		c.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
-		[c.label sizeToFit];
-		CGRect labelFrame = CGRectMake(
-			round([[line objectAtIndex:11] floatValue] * gui.scaleX),
-			round(([[line objectAtIndex:12] floatValue] * gui.scaleY) - c.labelFontSize),
-			c.label.frame.size.width,
-			c.label.frame.size.height
-		);
-		c.label.frame = labelFrame;
-		[c addSubview:c.label];
-	}
+	
+	c.backgroundColor = [Gui colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
+	c.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
+	
+	[c reshapeForGui:gui];
 	
 	return c;
 }
@@ -62,9 +51,23 @@
     self = [super initWithFrame:frame];
     if (self) {
 		self.labelFontSize = 14 * GUI_FONT_SCALE;
-		
     }
     return self;
+}
+
+- (void)reshapeForGui:(Gui *)gui {
+
+	// bounds
+	[super reshapeForGui:gui];
+
+	// label
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:self.labelFontSize];
+	[self.label sizeToFit];
+	self.label.frame  = CGRectMake(
+		round(self.originalLabelPos.x * gui.scaleX),
+		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize-2)),
+		CGRectGetWidth(self.label.frame),
+		CGRectGetHeight(self.label.frame));
 }
 
 #pragma mark Overridden Getters & Setters

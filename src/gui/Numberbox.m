@@ -25,15 +25,7 @@
 		return nil;
 	}
 
-	int numWidth = [[line objectAtIndex:4] integerValue];
-
-	CGRect frame = CGRectMake(
-		round([[line objectAtIndex:2] floatValue] * gui.scaleX),
-		round([[line objectAtIndex:3] floatValue] * gui.scaleY),
-		round(((numWidth-2) * gui.fontSize) + 3),
-		round(gui.fontSize + 8));
-
-	Numberbox *n = [[Numberbox alloc] initWithFrame:frame];
+	Numberbox *n = [[Numberbox alloc] initWithFrame:CGRectZero];
 
 	n.sendName = [gui formatAtomString:[line objectAtIndex:10]];
 	n.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
@@ -42,48 +34,21 @@
 		DDLogVerbose(@"Dropping Numberbox, send/receive names are empty");
 		return nil;
 	}
+	
+	n.originalFrame = CGRectMake(
+		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+		0, 0); // size based on numwidth
 
 	n.minValue = [[line objectAtIndex:5] floatValue];
 	n.maxValue = [[line objectAtIndex:6] floatValue];
-	n.numWidth = numWidth;
-	n.value = 0;
+	n.numWidth = [[line objectAtIndex:4] integerValue];
+	n.value = 0; // set text in number label
 	
-	n.numberLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
-	n.numberLabel.preferredMaxLayoutWidth = frame.size.width;
-	n.numberLabel.frame = CGRectMake(2, 1, CGRectGetWidth(frame), CGRectGetHeight(frame));
-	[n addSubview:n.numberLabel];
-	
+	n.labelPos = [[line objectAtIndex:7] integerValue];
 	n.label.text = [gui formatAtomString:[line objectAtIndex:8]];
-	if(![n.label.text isEqualToString:@""]) {
-		
-		n.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
-		[n.label sizeToFit];
-		
-		// set the label pos from the LRUD setting
-		int labelPosX, labelPosY;
-		switch([[line objectAtIndex:7] integerValue]) {
-			default: // 0 LEFT
-				labelPosX = -gui.fontSize*(n.label.text.length-2);
-				labelPosY = 0;
-				break;
-			case 1: // RIGHT
-				labelPosX = frame.size.width+1;
-				labelPosY = 0;
-				break;
-			case 2: // TOP
-				labelPosX = -1;
-				labelPosY = -gui.fontSize-4;
-				break;
-			case 3: // BOTTOM
-				labelPosX = -1;
-				labelPosY = frame.size.height;
-				break;
-		}
-		
-		n.label.frame = CGRectMake(labelPosX, labelPosY,
-			CGRectGetWidth(n.label.frame), CGRectGetHeight(n.label.frame));
-		[n addSubview:n.label];
-	}
+
+	[n reshapeForGui:gui];
+
 	return n;
 }
 
@@ -94,6 +59,7 @@
 		self.numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		[self.numberLabel setTextAlignment:NSTextAlignmentLeft];
 		self.numberLabel.backgroundColor = [UIColor clearColor];
+		[self addSubview:self.numberLabel];
 		
 		self.numberLabelFormatter = [[NSNumberFormatter alloc] init];
 		[self.numberLabelFormatter setPaddingCharacter:@" "];
@@ -122,6 +88,49 @@
 	CGContextAddLineToPoint(context, 0, frame.size.height-1);
 	CGContextAddLineToPoint(context, 0, 0);
     CGContextStrokePath(context);
+}
+
+- (void)reshapeForGui:(Gui *)gui {
+	
+	// bounds
+	self.frame = CGRectMake(
+		round(self.originalFrame.origin.x * gui.scaleX),
+		round(self.originalFrame.origin.y * gui.scaleY),
+		round(((self.numWidth-2) * gui.fontSize) + 3),
+		round(gui.fontSize + 8));
+		
+	// number label
+	self.numberLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+	self.numberLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.frame);
+	self.numberLabel.frame = CGRectMake(2, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+
+	// label
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+	[self.label sizeToFit];
+		
+	// set the label pos from the LRUD setting
+	int labelPosX, labelPosY;
+	switch(self.labelPos) {
+		default: // 0 LEFT
+			labelPosX = -gui.fontSize*(self.label.text.length-2);
+			labelPosY = 0;
+			break;
+		case 1: // RIGHT
+			labelPosX = self.frame.size.width+1;
+			labelPosY = 0;
+			break;
+		case 2: // TOP
+			labelPosX = -1;
+			labelPosY = -gui.fontSize-4;
+			break;
+		case 3: // BOTTOM
+			labelPosX = -1;
+			labelPosY = self.frame.size.height;
+			break;
+	}
+	
+	self.label.frame = CGRectMake(labelPosX, labelPosY,
+		CGRectGetWidth(self.label.frame), CGRectGetHeight(self.label.frame));
 }
 
 #pragma mark Overridden Getters & Setters

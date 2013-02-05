@@ -21,6 +21,9 @@
 // make font a little bigger compared to in the pd gui
 #define GUI_FONT_SCALE 1.5
 
+// pd gui wraps lines at 60 chars
+#define GUI_LINE_WRAP 60
+
 @class PdFile;
 
 @interface Gui : NSObject
@@ -41,7 +44,7 @@
 // font size loaded from patch
 @property (assign) int fontSize;
 
-// scale amount between view bounds and original patch size
+// scale amount between view bounds and original patch size, calculated when bounds is set
 @property (assign) float scaleX;
 @property (assign) float scaleY;
 
@@ -58,6 +61,9 @@
 
 // add widgets from a pd patch
 - (void)addWidgetsFromPatch:(NSString*)patch;
+
+// reposition/resize widgets based on scale amounts & font size
+- (void)reshapeWidgets;
 
 #pragma Utils
 
