@@ -142,6 +142,7 @@
 		30ABE41516B5D5DD00464926 /* PdAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32B16B5D15400464926 /* PdAudioController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41616B5D5DD00464926 /* PdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32F16B5D15400464926 /* PdBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
+		30ACA10716D07A4100B50B73 /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ACA10616D07A4100B50B73 /* Midi.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -324,6 +325,8 @@
 		30ABE40F16B5D54100464926 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30ABE41316B5D58600464926 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		30ACA10516D07A4100B50B73 /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Midi.h; path = src/Midi.h; sourceTree = "<group>"; };
+		30ACA10616D07A4100B50B73 /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Midi.m; path = src/Midi.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -418,6 +421,8 @@
 		30ABE2D116B5CE2800464926 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				30ACA10516D07A4100B50B73 /* Midi.h */,
+				30ACA10616D07A4100B50B73 /* Midi.m */,
 				30A319E516B61FF700C7729B /* gui */,
 				30ABE2E116B5D0FB00464926 /* AppDelegate.h */,
 				30ABE2E216B5D0FB00464926 /* AppDelegate.m */,
@@ -898,6 +903,7 @@
 				30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */,
 				30F7A19416BFF66F00DE265F /* z_queued.c in Sources */,
 				30F7A19716C008A500DE265F /* MasterViewController.m in Sources */,
+				30ACA10716D07A4100B50B73 /* Midi.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

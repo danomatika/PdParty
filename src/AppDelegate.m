@@ -10,15 +10,18 @@
  */
 #import "AppDelegate.h"
 
-#import "PdAudioController.h"
 #import "Log.h"
+#import "PdAudioController.h"
+#import "Midi.h"
 #import "gui/Widget.h"
 
 @interface AppDelegate () {}
 
 @property (nonatomic, retain) PdAudioController *audioController;
+@property (nonatomic, retain) Midi *midi;
 
 - (void)setupPd;
+- (void)setupMidi;
 
 @end
 
@@ -43,6 +46,7 @@
 	DDLogInfo(@"loglevel: %d", ddLogLevel);
 	
 	[self setupPd];
+	[self setupMidi];
 	
     return YES;
 }
@@ -97,6 +101,11 @@
 
 	// turn on dsp
 	[self setPlaying:YES];
+}
+
+- (void)setupMidi {
+	self.midi = [Midi interface];
+	[self.midi enableNetwork:YES];
 }
 
 #pragma mark PdListener
