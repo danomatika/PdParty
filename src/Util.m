@@ -14,6 +14,10 @@
 
 #pragma mark Paths
 
++ (NSString*)bundlePath {
+	return [[NSBundle mainBundle] bundlePath];
+}
+
 + (NSString*)documentsPath {
 	NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	return [searchPaths objectAtIndex:0];

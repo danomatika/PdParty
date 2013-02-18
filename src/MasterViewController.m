@@ -21,7 +21,7 @@
 @implementation MasterViewController
 
 - (void)awakeFromNib {
-	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 	    self.clearsSelectionOnViewWillAppear = NO;
 	    self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
 	}
@@ -30,15 +30,49 @@
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view, typically from a nib.
+	[super viewDidLoad];
+	
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 		
 	self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 	
-	// search for files in the documents path
+	// error codes: https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Constants/Reference/reference.html
 	NSError *error;
-	NSArray *contents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:[Util documentsPath] error:&error];
+	NSArray *contents;
+	
+	// remove existing folder
+	NSString* testPatchesPath = [[Util documentsPath] stringByAppendingPathComponent:@"tests"];
+	if([[NSFileManager defaultManager] fileExistsAtPath:testPatchesPath]) {
+		if(![[NSFileManager defaultManager] removeItemAtPath:testPatchesPath error:&error]) {
+			DDLogError(@"Couldn't remove %@, error: %@", testPatchesPath, error.localizedDescription);
+		}
+	}
+	else {
+		if(![[NSFileManager defaultManager] createDirectoryAtPath:testPatchesPath withIntermediateDirectories:YES attributes:nil error:&error]) {
+			DDLogError(@"Couldn't create %@, error: %@", testPatchesPath, error.localizedDescription);
+		}
+	}
+	
+	// copy patches into Documents folder
+	NSString *patchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches"];
+	contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:patchesPath error:&error];
+	if(!contents) {
+		DDLogError(@"Couldn't load files in path %@, error: %@", patchesPath, error.localizedDescription);
+		return;
+	}
+	DDLogVerbose(@"Found %d paths in patches resource folder", contents.count);
+	
+	for(NSString *p in contents) {
+		NSString *filePath = [patchesPath stringByAppendingPathComponent:p];
+		DDLogVerbose(@"Copying %@", p);
+		if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:testPatchesPath error:&error]) {
+			DDLogError(@"Couldn't copy %@ to %@, error: %@", filePath, testPatchesPath, error.localizedDescription);
+		}
+	}
+	
+	// search for files in the documents path
+	contents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:[Util documentsPath] error:&error];
 	if(!contents) {
 		DDLogError(@"Couldn't load files in path %@, error: %@", [Util documentsPath], error.localizedDescription);
 		return;
@@ -46,7 +80,7 @@
 	DDLogVerbose(@"Found %d paths", contents.count);
 	
 	for(NSString *p in contents) {
-		DDLogVerbose(@"%@", p);
+		DDLogVerbose(@"	%@", p);
 		[self.objects addObject:p];
 		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_objects.count+1 inSection:0];
 		[self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -101,15 +135,13 @@
 
 /*
 // Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
 }
 */
 
 /*
 // Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }

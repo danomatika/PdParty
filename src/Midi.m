@@ -80,9 +80,10 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 + (id)interface {
 	IF_IOS_HAS_COREMIDI (
+		PGMidi *pgmidi = [[PGMidi alloc] init];
 		Midi *m = [[Midi alloc] init];
-		m.midi = [[PGMidi alloc] init];
-		m.midi.delegate = m;
+		pgmidi.delegate = m;
+		m.midi = pgmidi;
 		return m;
 	)
 	return nil;
@@ -91,11 +92,13 @@ uint64_t absoluteToNanos(uint64_t time) {
 - (id)init {
 	self = [super init];
 	if(self) {
+	
 		lastTime = 0;
 		bFirstPacket = true;
 		bContinueSysex = false;
 		messageIn = [[NSMutableData alloc] init];
 		messageOut = [[NSMutableData alloc] init];
+		
 		self.bIgnoreSense = YES;
 		self.bIgnoreSysex = NO;
 		self.bIgnoreTiming = YES;
@@ -104,7 +107,9 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)enableNetwork:(bool)enabled {
-	[self.midi enableNetwork:enabled];
+	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
+    session.enabled = enabled;
+    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
 	DDLogVerbose(@"Midi: networking session %@", enabled ? @"enabled" : @"disabled");
 }
 
@@ -116,7 +121,7 @@ uint64_t absoluteToNanos(uint64_t time) {
     for(PGMidiSource *source in self.midi.sources) {
 		source.delegate = nil;
 	}
-	
+
     _midi = newMidi;
 
     self.midi.delegate = self;
@@ -193,7 +198,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 					[messageIn appendBytes:&packet->data[i] length:1];
 				}
 			}
-			bContinueSysex = packet->data[nBytes-1] != 0xF7; // look for stop
+			bContinueSysex = packet->data[nBytes-1] != MIDI_SYSEX_END; // look for stop
 
 			if(!bContinueSysex) {
 				// send message if sysex message complete
@@ -210,17 +215,17 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 				// next byte in the packet should be a status byte
 				statusByte = packet->data[curByte];
-				if(!statusByte & 0x80)
+				if(!statusByte & MIDI_NOTE_ON)
 					break;
 
 				// determine number of bytes in midi message
-				if(statusByte < 0xC0)
+				if(statusByte < MIDI_CONTROL_CHANGE)
 					msgSize = 3;
-				else if(statusByte < 0xE0)
+				else if(statusByte < MIDI_PITCH_BEND)
 					msgSize = 2;
-				else if(statusByte < 0xF0)
+				else if(statusByte < MIDI_SYSEX)
 					msgSize = 3;
-				else if(statusByte == 0xF0) { // sysex message
+				else if(statusByte == MIDI_SYSEX) {
 
 					if(self.bIgnoreSysex) {
 						msgSize = 0;
@@ -229,9 +234,9 @@ uint64_t absoluteToNanos(uint64_t time) {
 					else {
 						msgSize = nBytes - curByte;
 					}
-					bContinueSysex = packet->data[nBytes-1] != 0xF7;
+					bContinueSysex = packet->data[nBytes-1] != MIDI_SYSEX_END;
 				}
-				else if(statusByte == 0xF1) { // time code message
+				else if(statusByte == MIDI_TIME_CODE) {
 
 					if(self.bIgnoreTiming) {
 						msgSize = 0;
@@ -241,16 +246,16 @@ uint64_t absoluteToNanos(uint64_t time) {
 						msgSize = 2;
 					}
 				}
-				else if(statusByte == 0xF2)
+				else if(statusByte == MIDI_SONG_POS_POINTER)
 					msgSize = 3;
-				else if(statusByte == 0xF3)
+				else if(statusByte == MIDI_SONG_SELECT)
 					msgSize = 2;
-				else if(statusByte == 0xF8 && self.bIgnoreTiming) { // timing tick message
+				else if(statusByte == MIDI_TIME_CLOCK && self.bIgnoreTiming) {
 					// ignoring ...
 					msgSize = 0;
 					curByte += 1;
 				}
-				else if(statusByte == 0xFE && self.bIgnoreSense) { // active sense message
+				else if(statusByte == MIDI_ACTIVE_SENSING && self.bIgnoreSense) { // active sense message
 					// ignoring ...
 					msgSize = 0;
 					curByte += 1;
@@ -373,10 +378,9 @@ uint64_t absoluteToNanos(uint64_t time) {
 		case MIDI_PROGRAM_CHANGE:
 			[PdBase sendProgramChange:channel value:bytes[1]];
 			break;
-		case MIDI_PITCH_BEND: {	
+		case MIDI_PITCH_BEND:
 			[PdBase sendPitchBend:channel value:((bytes[2] << 7) + bytes[1])];  // msb + lsb
 			break;
-		}
 		case MIDI_AFTERTOUCH:
 			[PdBase sendAftertouch:channel value:bytes[1]];
 			break;

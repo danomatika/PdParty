@@ -82,9 +82,7 @@
 			NSString *fileName = [fullPath lastPathComponent];
 			NSString *dirPath = [fullPath stringByDeletingLastPathComponent];
 			
-			NSLog(@"docs path %@", [Util documentsPath]);
-			NSLog(@"full path %@", fullPath);
-			NSLog(@"opening %@ %@", fileName, dirPath);
+			DDLogVerbose(@"Opening %@ %@", fileName, dirPath);
 			
 			// load gui
 			[self.gui addWidgetsFromPatch:fullPath];

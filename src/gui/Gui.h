@@ -32,7 +32,7 @@
 @property (strong) NSMutableArray *widgets;
 
 // current view bounds
-@property (assign) CGRect bounds;
+@property (nonatomic, assign) CGRect bounds;
 
 // currently loaded patch
 @property (strong) PdFile *currentPatch;
@@ -75,7 +75,7 @@
 
 // convert atom string empty values to an empty string
 // nil, @"-", & @"empty" -> @""
-+ (NSString *)filterEmptyStringValues:(NSString*)atom;
++ (NSString*)filterEmptyStringValues:(NSString*)atom;
 
 // convert an IEM color to a UIColor
 + (UIColor*)colorFromIEMColor:(int)iemColor;

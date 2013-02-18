@@ -31,9 +31,6 @@
 		30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F616B5D11D00464926 /* InfoPlist.strings */; };
 		30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */; };
 		30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2FA16B5D11D00464926 /* MainStoryboard_iPhone.storyboard */; };
-		30ABE30A16B5D11D00464926 /* gui.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2FE16B5D11D00464926 /* gui.pd */; };
-		30ABE30B16B5D11D00464926 /* test.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2FF16B5D11D00464926 /* test.pd */; };
-		30ABE30C16B5D11D00464926 /* test_abs.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE30016B5D11D00464926 /* test_abs.pd */; };
 		30ABE30D16B5D11D00464926 /* PdParty-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE30116B5D11D00464926 /* PdParty-Info.plist */; };
 		30ABE3A216B5D15400464926 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31016B5D15400464926 /* DDAbstractDatabaseLogger.m */; };
 		30ABE3A316B5D15400464926 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31216B5D15400464926 /* DDASLLogger.m */; };
@@ -48,24 +45,8 @@
 		30ABE3B216B5D15400464926 /* PdDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE33116B5D15400464926 /* PdDispatcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE3B316B5D15400464926 /* PdFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE33316B5D15400464926 /* PdFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE3B416B5D15400464926 /* PdMidiDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE33516B5D15400464926 /* PdMidiDispatcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		30ABE3B516B5D15400464926 /* choice-help.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE33916B5D15400464926 /* choice-help.pd */; };
 		30ABE3B616B5D15400464926 /* choice.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE33A16B5D15400464926 /* choice.c */; };
-		30ABE3B716B5D15400464926 /* complex-mod~-help.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE33B16B5D15400464926 /* complex-mod~-help.pd */; };
-		30ABE3B816B5D15400464926 /* complex-mod~.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE33C16B5D15400464926 /* complex-mod~.pd */; };
-		30ABE3B916B5D15400464926 /* hilbert~-help.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE33D16B5D15400464926 /* hilbert~-help.pd */; };
-		30ABE3BA16B5D15400464926 /* hilbert~.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE33E16B5D15400464926 /* hilbert~.pd */; };
-		30ABE3BB16B5D15400464926 /* pique-help.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34016B5D15400464926 /* pique-help.pd */; };
 		30ABE3BC16B5D15400464926 /* pique.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE34116B5D15400464926 /* pique.c */; };
-		30ABE3BD16B5D15400464926 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34216B5D15400464926 /* README.txt */; };
-		30ABE3BE16B5D15400464926 /* rev1-final.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34316B5D15400464926 /* rev1-final.pd */; };
-		30ABE3BF16B5D15400464926 /* rev1-stage.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34416B5D15400464926 /* rev1-stage.pd */; };
-		30ABE3C016B5D15400464926 /* rev1~-help.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34516B5D15400464926 /* rev1~-help.pd */; };
-		30ABE3C116B5D15400464926 /* rev1~.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34616B5D15400464926 /* rev1~.pd */; };
-		30ABE3C216B5D15400464926 /* rev2~-help.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34716B5D15400464926 /* rev2~-help.pd */; };
-		30ABE3C316B5D15400464926 /* rev2~.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34816B5D15400464926 /* rev2~.pd */; };
-		30ABE3C416B5D15400464926 /* rev3~-help.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34916B5D15400464926 /* rev3~-help.pd */; };
-		30ABE3C516B5D15400464926 /* rev3~.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34A16B5D15400464926 /* rev3~.pd */; };
-		30ABE3C616B5D15400464926 /* stdout-help.pd in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE34C16B5D15400464926 /* stdout-help.pd */; };
 		30ABE3C716B5D15400464926 /* stdout.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE34D16B5D15400464926 /* stdout.c */; };
 		30ABE3C816B5D15400464926 /* d_arithmetic.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE34F16B5D15400464926 /* d_arithmetic.c */; };
 		30ABE3C916B5D15400464926 /* d_array.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE35016B5D15400464926 /* d_array.c */; };
@@ -143,6 +124,7 @@
 		30ABE41616B5D5DD00464926 /* PdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32F16B5D15400464926 /* PdBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
 		30ACA10716D07A4100B50B73 /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ACA10616D07A4100B50B73 /* Midi.m */; };
+		30ACA10D16D1866000B50B73 /* patches in Resources */ = {isa = PBXBuildFile; fileRef = 30ACA10C16D1866000B50B73 /* patches */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -188,9 +170,6 @@
 		30ABE2F716B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		30ABE2F916B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		30ABE2FB16B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		30ABE2FE16B5D11D00464926 /* gui.pd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gui.pd; sourceTree = "<group>"; };
-		30ABE2FF16B5D11D00464926 /* test.pd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.pd; sourceTree = "<group>"; };
-		30ABE30016B5D11D00464926 /* test_abs.pd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_abs.pd; sourceTree = "<group>"; };
 		30ABE30116B5D11D00464926 /* PdParty-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PdParty-Info.plist"; sourceTree = "<group>"; };
 		30ABE30216B5D11D00464926 /* PdParty-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PdParty-Prefix.pch"; sourceTree = "<group>"; };
 		30ABE30F16B5D15400464926 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
@@ -327,6 +306,7 @@
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		30ACA10516D07A4100B50B73 /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Midi.h; path = src/Midi.h; sourceTree = "<group>"; };
 		30ACA10616D07A4100B50B73 /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Midi.m; path = src/Midi.m; sourceTree = "<group>"; };
+		30ACA10C16D1866000B50B73 /* patches */ = {isa = PBXFileReference; lastKnownFileType = folder; path = patches; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -421,8 +401,6 @@
 		30ABE2D116B5CE2800464926 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				30ACA10516D07A4100B50B73 /* Midi.h */,
-				30ACA10616D07A4100B50B73 /* Midi.m */,
 				30A319E516B61FF700C7729B /* gui */,
 				30ABE2E116B5D0FB00464926 /* AppDelegate.h */,
 				30ABE2E216B5D0FB00464926 /* AppDelegate.m */,
@@ -430,6 +408,8 @@
 				306DBE4C16BC1E47007CF226 /* Util.m */,
 				30ABE2E316B5D0FB00464926 /* Log.h */,
 				30ABE2E416B5D0FB00464926 /* Log.m */,
+				30ACA10516D07A4100B50B73 /* Midi.h */,
+				30ACA10616D07A4100B50B73 /* Midi.m */,
 				30ABE2E516B5D0FB00464926 /* main.m */,
 				30ABE2E816B5D0FB00464926 /* PdParser.h */,
 				30ABE2E916B5D0FB00464926 /* PdParser.m */,
@@ -454,6 +434,7 @@
 		30ABE2F216B5D11D00464926 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				30ACA10C16D1866000B50B73 /* patches */,
 				3088883C16BF062700781682 /* fonts */,
 				30ABE2F316B5D11D00464926 /* Default-568h@2x.png */,
 				30ABE2F416B5D11D00464926 /* Default.png */,
@@ -461,21 +442,10 @@
 				30ABE2F616B5D11D00464926 /* InfoPlist.strings */,
 				30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */,
 				30ABE2FA16B5D11D00464926 /* MainStoryboard_iPhone.storyboard */,
-				30ABE2FD16B5D11D00464926 /* patches */,
 				30ABE30116B5D11D00464926 /* PdParty-Info.plist */,
 				30ABE30216B5D11D00464926 /* PdParty-Prefix.pch */,
 			);
 			path = res;
-			sourceTree = "<group>";
-		};
-		30ABE2FD16B5D11D00464926 /* patches */ = {
-			isa = PBXGroup;
-			children = (
-				30ABE2FE16B5D11D00464926 /* gui.pd */,
-				30ABE2FF16B5D11D00464926 /* test.pd */,
-				30ABE30016B5D11D00464926 /* test_abs.pd */,
-			);
-			path = patches;
 			sourceTree = "<group>";
 		};
 		30ABE30E16B5D15400464926 /* Lumberjack */ = {
@@ -766,27 +736,9 @@
 				30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */,
 				30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */,
 				30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */,
-				30ABE30A16B5D11D00464926 /* gui.pd in Resources */,
-				30ABE30B16B5D11D00464926 /* test.pd in Resources */,
-				30ABE30C16B5D11D00464926 /* test_abs.pd in Resources */,
 				30ABE30D16B5D11D00464926 /* PdParty-Info.plist in Resources */,
-				30ABE3B516B5D15400464926 /* choice-help.pd in Resources */,
-				30ABE3B716B5D15400464926 /* complex-mod~-help.pd in Resources */,
-				30ABE3B816B5D15400464926 /* complex-mod~.pd in Resources */,
-				30ABE3B916B5D15400464926 /* hilbert~-help.pd in Resources */,
-				30ABE3BA16B5D15400464926 /* hilbert~.pd in Resources */,
-				30ABE3BB16B5D15400464926 /* pique-help.pd in Resources */,
-				30ABE3BD16B5D15400464926 /* README.txt in Resources */,
-				30ABE3BE16B5D15400464926 /* rev1-final.pd in Resources */,
-				30ABE3BF16B5D15400464926 /* rev1-stage.pd in Resources */,
-				30ABE3C016B5D15400464926 /* rev1~-help.pd in Resources */,
-				30ABE3C116B5D15400464926 /* rev1~.pd in Resources */,
-				30ABE3C216B5D15400464926 /* rev2~-help.pd in Resources */,
-				30ABE3C316B5D15400464926 /* rev2~.pd in Resources */,
-				30ABE3C416B5D15400464926 /* rev3~-help.pd in Resources */,
-				30ABE3C516B5D15400464926 /* rev3~.pd in Resources */,
-				30ABE3C616B5D15400464926 /* stdout-help.pd in Resources */,
 				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
+				30ACA10D16D1866000B50B73 /* patches in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

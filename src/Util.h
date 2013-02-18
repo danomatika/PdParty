@@ -14,16 +14,21 @@
 
 #pragma mark Paths
 
-// get the full URL to the Documents directory
+// full path to the app bundle directory
++ (NSString*)bundlePath;
+
+// full path to the Documents directory
 + (NSString*)documentsPath;
 
 #pragma mark Array Utils
 
+// check object type at array pos
 + (BOOL)isNumberIn:(NSArray*)array at:(int)index;
 + (BOOL)isStringIn:(NSArray*)array at:(int)index;
 
 #pragma mark CGRect
 
+// print the pos & size of a CGRect
 + (void)logRect:(CGRect)rect;
 
 @end
