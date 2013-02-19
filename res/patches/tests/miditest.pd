@@ -1,4 +1,4 @@
-#N canvas 300 99 881 521 10;
+#N canvas 396 99 881 521 10;
 #X text 11 281 midi out;
 #X obj 702 313 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -6,7 +6,7 @@
 #X msg 11 330 64 64;
 #X msg 64 330 72 100;
 #X obj 128 316 hsl 128 15 0 127 0 0 empty empty ctlout 2 8 0 10 -262144
--1 -1 5400 1;
+-1 -1 3200 1;
 #X obj 219 348 hsl 128 15 0 127 0 0 empty empty pgmout 2 8 0 10 -262144
 -1 -1 9200 1;
 #X floatatom 216 373 5 0 0 0 - - -;
@@ -156,29 +156,36 @@
 -1 -1;
 #X obj 111 175 bng 30 250 50 0 noteout-32 empty 32 37 7 0 10 -262144
 -1 -1;
-#N canvas 0 22 450 300 output 0;
+#N canvas 0 22 299 290 output 0;
 #X obj 119 87 r noteout-64;
 #X obj 43 37 r noteout-32;
 #X obj 162 135 r noteout-72;
 #X msg 56 107 64 64;
-#X msg 119 135 32 64;
+#X msg 116 129 32 64;
 #X msg 192 167 72 80;
 #X obj 81 215 makenote 64 500;
-#X obj 80 254 noteout 1;
+#X obj 81 247 noteout 1;
+#X obj 81 186 unpack f f;
 #X connect 0 0 3 0;
 #X connect 1 0 4 0;
 #X connect 2 0 5 0;
-#X connect 3 0 6 0;
-#X connect 4 0 6 0;
-#X connect 5 0 6 0;
+#X connect 3 0 8 0;
+#X connect 4 0 8 0;
+#X connect 5 0 8 0;
 #X connect 6 0 7 0;
 #X connect 6 1 7 1;
+#X connect 8 0 6 0;
+#X connect 8 1 6 1;
 #X restore 20 203 pd output;
 #X obj 145 405 ctlout;
 #X msg 125 370 \$1 7 1;
 #X msg 527 384 \$1 64 1;
 #X msg 140 458 \; #ctlin \$2 \$1 \$3;
 #X msg 495 467 \; #polytouchin \$2 \$1 1;
+#X obj 356 174 ctlin;
+#X floatatom 353 204 5 0 0 0 - - -;
+#X floatatom 390 205 5 0 0 0 - - -;
+#X floatatom 428 205 5 0 0 0 - - -;
 #X connect 1 0 12 0;
 #X connect 2 0 21 0;
 #X connect 2 1 21 1;
@@ -210,3 +217,6 @@
 #X connect 66 0 65 0;
 #X connect 67 0 69 0;
 #X connect 67 0 59 0;
+#X connect 70 0 71 0;
+#X connect 70 1 72 0;
+#X connect 70 2 73 0;

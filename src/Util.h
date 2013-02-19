@@ -32,6 +32,6 @@
 + (void)logRect:(CGRect)rect;
 
 // print NSData as raw hex bytes
-+ (void)logData:(NSData*)data;
++ (void)logData:(NSData*)data withHeader:(NSString*)header;
 
 @end

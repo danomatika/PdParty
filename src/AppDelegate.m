@@ -114,8 +114,7 @@
 #pragma mark PdMidiReceiverDelegate
 
 - (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
-	NSLog(@"received midi note on");
-	[self.midi sendNoteOn:pitch pitch:velocity velocity:channel];
+	[self.midi sendNoteOn:channel pitch:pitch velocity:velocity];
 }
 
 - (void)receiveControlChange:(int)value forController:(int)controller forChannel:(int)channel {

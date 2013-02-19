@@ -41,13 +41,13 @@
 	DDLogVerbose(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 }
 
-+ (void)logData:(NSData*)data {
++ (void)logData:(NSData*)data withHeader:(NSString*)header {
 	unsigned char *bytes = (unsigned char*)[data bytes];
 	NSMutableString *byteString = [[NSMutableString alloc] init];
 	for(int i = 0; i < data.length; ++i) {
-		[byteString appendFormat:@"%X ", bytes[i]];
+		[byteString appendFormat:@"%02X ", bytes[i]];
 	}
-	DDLogVerbose(@"[ %@]", byteString);
+	DDLogVerbose(@"%@[ %@]", header, byteString);
 }
 
 @end

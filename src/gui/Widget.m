@@ -103,6 +103,12 @@
 	}
 }
 
+- (void)sendBang {
+	if([self hasValidSendName]) {
+		[PdBase sendBangToReceiver:self.sendName];
+	}
+}
+
 - (void)sendInitValue {
 	if(self.inits) {
 		[self sendFloat:self.value];

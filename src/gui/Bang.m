@@ -116,28 +116,34 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	[self bang];
+	[self sendBang];
 }
 
 #pragma mark PdListener
 
 - (void)receiveBangFromSource:(NSString *)source {
 	[self bang];
+	[self sendBang];
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	[self bang];
+	[self sendBang];
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
 	[self bang];
+	[self sendBang];
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
 	[self bang];
+	[self sendBang];
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
 	[self bang];
+	[self sendBang];
 }
 
 #pragma Private

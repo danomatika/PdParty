@@ -57,8 +57,9 @@
 - (BOOL)hasValidReceiveName;
 
 // send to objects in pd
-- (void)send:(NSString*) message;
+- (void)send:(NSString*)message;
 - (void)sendFloat:(float) f;
+- (void)sendBang;
 
 // send an init val if init is set
 - (void)sendInitValue;
