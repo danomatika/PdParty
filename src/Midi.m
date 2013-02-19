@@ -14,6 +14,7 @@
 #import "PdBase.h"
 #include <mach/mach_time.h>
 #import "iOSVersionDetection.h"
+#import "Util.h"
 
 // MIDI status bytes
 enum MidiStatus {
@@ -110,7 +111,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
     session.enabled = enabled;
     session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
-	DDLogVerbose(@"Midi: networking session %@", enabled ? @"enabled" : @"disabled");
+	DDLogVerbose(@"Midi: networking session %@ %@", session.networkName, enabled ? @"enabled" : @"disabled");
 }
 
 #pragma mark Overridden getters / setters
@@ -202,7 +203,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 			if(!bContinueSysex) {
 				// send message if sysex message complete
-				if(messageIn.length == 0) {
+				if(messageIn.length > 0) {
 					[self handleMessage:messageIn withDelta:delta];
 				}
 				[messageIn setLength:0];
@@ -219,7 +220,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 					break;
 
 				// determine number of bytes in midi message
-				if(statusByte < MIDI_CONTROL_CHANGE)
+				if(statusByte < MIDI_PROGRAM_CHANGE)
 					msgSize = 3;
 				else if(statusByte < MIDI_PITCH_BEND)
 					msgSize = 2;
@@ -271,7 +272,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 					if(!bContinueSysex) {
 						// send message if sysex message complete
-						if(messageIn.length == 0) {
+						if(messageIn.length > 0) {
 							[self handleMessage:messageIn withDelta:delta];
 						}
 						[messageIn setLength:0];
@@ -364,38 +365,52 @@ uint64_t absoluteToNanos(uint64_t time) {
 		statusByte = bytes[0] & 0xFF;
 	} else {
 		statusByte = bytes[0] & 0xF0;
-		channel = (int) (bytes[0] & 0x0F)+1;
+		channel = (int) (bytes[0] & 0x0F);
 	}
-
+	
+	[Util logData:message];
+	
 	switch(statusByte) {
 		case MIDI_NOTE_ON :
 		case MIDI_NOTE_OFF:
 			[PdBase sendNoteOn:channel pitch:bytes[1] velocity:bytes[2]];
+			DDLogVerbose(@"Midi: Note %d %d %d", channel, bytes[1], bytes[2]);
 			break;
-		case MIDI_CONTROL_CHANGE:
+		case MIDI_CONTROL_CHANGE: {
+			int ctl = bytes[1], val = bytes[2];
 			[PdBase sendControlChange:channel controller:bytes[1] value:bytes[2]];
+			DDLogVerbose(@"Midi: Control %d %X %X", channel, ctl, val);
 			break;
+		}
 		case MIDI_PROGRAM_CHANGE:
 			[PdBase sendProgramChange:channel value:bytes[1]];
+			DDLogVerbose(@"Midi: Program %d %d", channel, bytes[1]);
 			break;
-		case MIDI_PITCH_BEND:
-			[PdBase sendPitchBend:channel value:((bytes[2] << 7) + bytes[1])];  // msb + lsb
+		case MIDI_PITCH_BEND: {
+			int value = (bytes[2] << 7) + bytes[1]; // msb + lsb
+			[PdBase sendPitchBend:channel value:value];
+			DDLogVerbose(@"Midi: PitchBend %d %d", channel, value);
 			break;
+		}
 		case MIDI_AFTERTOUCH:
 			[PdBase sendAftertouch:channel value:bytes[1]];
+			DDLogVerbose(@"Midi: Aftertouch %d %d", channel, bytes[1]);
 			break;
 		case MIDI_POLY_AFTERTOUCH:
 			[PdBase sendPolyAftertouch:channel pitch:bytes[1] value:bytes[2]];
+			DDLogVerbose(@"Midi: PolyAftertouch %d %d %d", channel, bytes[1], bytes[2]);
 			break;
 		case MIDI_SYSEX:
 			for(int i = 0; i < message.length; ++i) {
 				[PdBase sendSysex:channel byte:bytes[i]];
 			}
+			DDLogVerbose(@"Midi: %d Sysex bytes to %d", message.length, channel);
 			break;
 		default:
-			for(int i = 0; i < message.length; ++i) {
-				[PdBase sendMidiByte:channel byte:bytes[i]];
-			}
+//			for(int i = 0; i < message.length; ++i) {
+//				[PdBase sendMidiByte:channel byte:bytes[i]];
+//			}
+//			DDLogVerbose(@"Midi: %d Raw bytes to %d", message.length, channel);
 			break;
 	}
 }

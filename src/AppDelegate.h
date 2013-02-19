@@ -13,7 +13,7 @@
 #import "PdBase.h"
 #import "PdDispatcher.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, PdListener>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, PdMidiReceiverDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

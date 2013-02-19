@@ -10,6 +10,8 @@
  */
 #import "Util.h"
 
+#import "Log.h"
+
 @implementation Util
 
 #pragma mark Paths
@@ -36,7 +38,16 @@
 #pragma mark CGRect
 
 + (void)logRect:(CGRect)rect {
-	NSLog(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+	DDLogVerbose(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+}
+
++ (void)logData:(NSData*)data {
+	unsigned char *bytes = (unsigned char*)[data bytes];
+	NSMutableString *byteString = [[NSMutableString alloc] init];
+	for(int i = 0; i < data.length; ++i) {
+		[byteString appendFormat:@"%X ", bytes[i]];
+	}
+	DDLogVerbose(@"[ %@]", byteString);
 }
 
 @end

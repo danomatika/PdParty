@@ -26,9 +26,12 @@
 + (BOOL)isNumberIn:(NSArray*)array at:(int)index;
 + (BOOL)isStringIn:(NSArray*)array at:(int)index;
 
-#pragma mark CGRect
+#pragma mark Logging Shortcuts
 
 // print the pos & size of a CGRect
 + (void)logRect:(CGRect)rect;
+
+// print NSData as raw hex bytes
++ (void)logData:(NSData*)data;
 
 @end

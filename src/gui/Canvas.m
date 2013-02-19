@@ -25,11 +25,11 @@
 
 	//c.sendName = [gui formatAtomString:[line objectAtIndex:8]];
 	c.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
-	if(![c hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Dropping Canvas, receive name is empty");
-		return nil;
-	}
+//	if(![c hasValidReceiveName]) {
+//		// drop something we can't interact with
+//		DDLogVerbose(@"Dropping Canvas, receive name is empty");
+//		return nil;
+//	}
 	
 	c.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],

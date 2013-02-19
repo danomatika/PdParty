@@ -98,6 +98,9 @@
 	self.dispatcher = [[PdDispatcher alloc] init];
 	[PdBase setDelegate:self.dispatcher];
 	[Widget setDispatcher:self.dispatcher];
+	
+	// set midi receiver delegate
+	[PdBase setMidiDelegate:self];
 
 	// turn on dsp
 	[self setPlaying:YES];
@@ -108,31 +111,34 @@
 	[self.midi enableNetwork:YES];
 }
 
-#pragma mark PdListener
+#pragma mark PdMidiReceiverDelegate
 
-//- (void)receivePrint:(NSString *)message {
-//	DDLogInfo(@"Pd Console: %@", message);
-//}
-
-- (void)receiveBangFromSource:(NSString *)source {
-	DDLogInfo(@"Pd Bang from %@", source);
+- (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
+	NSLog(@"received midi note on");
+	[self.midi sendNoteOn:pitch pitch:velocity velocity:channel];
 }
 
-- (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	DDLogInfo(@"Pd Float from %@: %f", source, received);
+- (void)receiveControlChange:(int)value forController:(int)controller forChannel:(int)channel {
+	[self.midi sendControlChange:channel controller:controller value:value];
 }
 
-- (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	DDLogInfo(@"Pd Symbol from %@: %@", source, symbol);
+- (void)receiveProgramChange:(int)value forChannel:(int)channel {
+	[self.midi sendProgramChange:channel value:value];
 }
 
-- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	DDLogInfo(@"Pd List from %@", source);
+- (void)receivePitchBend:(int)value forChannel:(int)channel {
+	[self.midi sendPitchBend:channel value:value];
 }
 
-- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	DDLogInfo(@"Pd Message to %@ from %@", message, source);
+- (void)receiveAftertouch:(int)value forChannel:(int)channel {
+	[self.midi sendAftertouch:channel value:value];
 }
+
+- (void)receivePolyAftertouch:(int)value forPitch:(int)pitch forChannel:(int)channel {
+	[self.midi sendPolyAftertouch:channel pitch:pitch value:value];
+}
+
+- (void)receiveMidiByte:(int)byte forPort:(int)port {}
 
 #pragma mark Accessors
 

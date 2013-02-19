@@ -1,0 +1,212 @@
+#N canvas 300 99 881 521 10;
+#X text 11 281 midi out;
+#X obj 702 313 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 13 368 unpack f f;
+#X msg 11 330 64 64;
+#X msg 64 330 72 100;
+#X obj 128 316 hsl 128 15 0 127 0 0 empty empty ctlout 2 8 0 10 -262144
+-1 -1 5400 1;
+#X obj 219 348 hsl 128 15 0 127 0 0 empty empty pgmout 2 8 0 10 -262144
+-1 -1 9200 1;
+#X floatatom 216 373 5 0 0 0 - - -;
+#X floatatom 125 344 5 0 0 0 - - -;
+#X obj 316 447 bendout;
+#X obj 319 391 hsl 128 15 -8192 8192 0 0 empty empty bendout 2 8 0
+10 -262144 -1 -1 0 1;
+#X floatatom 316 416 5 0 0 0 - - -;
+#N canvas 551 149 369 179 sysexout 0;
+#X obj -23 11 inlet;
+#X obj -23 100 midiout 1;
+#X msg -23 71 240 \, 71 \, 0 \, 66 \, 72 \, 0 \, 0 \, 1 \, 75 \, 0
+\, 1 \, 0 \, 4 \, 0 \, 247;
+#X obj -23 42 t b;
+#X text 54 15 this dosen't work on Windows;
+#X connect 0 0 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X restore 702 340 pd sysexout;
+#X obj 421 295 hsl 128 15 0 127 0 0 empty empty touchout 2 8 0 10 -262144
+-1 -1 7700 1;
+#X floatatom 418 320 5 0 0 0 - - -;
+#X obj 418 346 touchout;
+#X obj 530 330 hsl 128 15 0 127 0 0 empty empty polytouchout 2 8 0
+10 -262144 -1 -1 8200 1;
+#X floatatom 527 358 5 0 0 0 - - -;
+#X text 332 374 bend -8192 - 8192 in pd;
+#X text 573 384 set value for pitch 64;
+#X text 192 292 set value for ctl 7 (vol);
+#X obj 13 396 makenote 64 1000;
+#N canvas 299 383 433 247 (subpatch) 0;
+#X obj 72 69 inlet;
+#X obj 103 134 delay 2000;
+#X obj 72 104 t b b;
+#X msg 103 160 0;
+#X msg 72 158 127;
+#X text 233 65 for checking delta times;
+#X obj 144 69 metro 4000;
+#X obj 144 38 inlet;
+#X obj 72 191 ctlout 10 1;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 2 0 4 0;
+#X connect 2 1 1 0;
+#X connect 3 0 8 0;
+#X connect 4 0 8 0;
+#X connect 6 0 2 0;
+#X connect 7 0 6 0;
+#X restore 702 432 pd 2 sec ctl;
+#X obj 702 409 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 771 411 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 13 305 bng 15 250 50 0 empty empty noteout_64 17 7 0 10 -262144
+-1 -1;
+#X obj 100 293 bng 15 250 50 0 empty empty noteout_72 17 7 0 10 -262144
+-1 -1;
+#X obj 22 10 cnv 15 100 120 empty empty notein 20 12 0 14 -261234 -66577
+0;
+#X floatatom 34 43 5 0 0 1 channel notein-chan -;
+#X floatatom 34 75 5 0 0 1 pitch notein-pitch -;
+#X floatatom 34 105 5 0 0 1 velocity notein-vel -;
+#N canvas 0 22 1115 144 input 0;
+#X obj 18 20 notein;
+#X obj 51 48 s notein-chan;
+#X obj 34 72 s notein-vel;
+#X obj 18 99 s notein-pitch;
+#X obj 164 21 ctlin;
+#X obj 191 48 s ctlin-chan;
+#X obj 177 73 s ctlin-ctl;
+#X obj 164 102 s ctlin-val;
+#X obj 299 23 pgmin;
+#X obj 299 99 s pgmin-pgm;
+#X obj 428 23 bendin;
+#X obj 326 48 s pgmin-chan;
+#X obj 461 49 s bendin-chan;
+#X obj 428 99 s bendin-val;
+#X obj 571 23 touchin;
+#X obj 724 22 polytouchin;
+#X obj 787 52 s polytouchin-chan;
+#X obj 724 99 s polytouchin-val;
+#X obj 928 24 sysexin;
+#X obj 967 51 s sysexin-port;
+#X obj 928 99 s sysexin-byte;
+#X obj 610 53 s touchin-chan;
+#X obj 571 98 s touchin-val;
+#X obj 1024 99 print sysex;
+#X obj 755 74 s polytouchin-pitch;
+#X connect 0 0 3 0;
+#X connect 0 1 2 0;
+#X connect 0 2 1 0;
+#X connect 4 0 7 0;
+#X connect 4 1 6 0;
+#X connect 4 2 5 0;
+#X connect 8 0 9 0;
+#X connect 8 1 11 0;
+#X connect 10 0 13 0;
+#X connect 10 1 12 0;
+#X connect 14 0 22 0;
+#X connect 14 1 21 0;
+#X connect 15 0 17 0;
+#X connect 15 1 24 0;
+#X connect 15 2 16 0;
+#X connect 18 0 20 0;
+#X connect 18 0 23 0;
+#X connect 18 1 19 0;
+#X restore 11 158 pd input;
+#X obj 145 11 cnv 15 100 120 empty empty ctlin 20 12 0 14 -233017 -66577
+0;
+#X floatatom 157 44 5 0 0 1 channel ctlin-chan -;
+#X floatatom 157 76 5 0 0 1 control ctlin-ctl -;
+#X floatatom 157 106 5 0 0 1 value ctlin-val -;
+#X obj 13 431 pack f f;
+#X msg 13 459 \; #notein \$1 \$2 1;
+#X obj 266 12 cnv 15 100 120 empty empty pgmin 20 12 0 14 -233017 -66577
+0;
+#X floatatom 278 45 5 0 0 1 channel pgmin-chan -;
+#X floatatom 278 77 5 0 0 1 program pgmin-pgm -;
+#X msg 216 398 \; #pgmin \$1 1;
+#X obj 385 12 cnv 15 100 120 empty empty bendin 20 12 0 14 -233017
+-66577 0;
+#X floatatom 397 45 5 0 0 1 channel bendin-chan -;
+#X floatatom 397 77 5 0 0 1 value bendin-val -;
+#X obj 629 12 cnv 15 100 120 empty empty polytouchin 6 12 0 14 -233017
+-66577 0;
+#X floatatom 641 45 5 0 0 1 channel polytouchin-chan -;
+#X floatatom 641 77 5 0 0 1 pitch polytouchin-pitch -;
+#X floatatom 641 107 5 0 0 1 value polytouchin-val -;
+#X obj 506 11 cnv 15 100 120 empty empty touchin 20 12 0 14 -233017
+-66577 0;
+#X floatatom 518 44 5 0 0 1 channel touchin-chan -;
+#X floatatom 518 76 5 0 0 1 value touchin-val -;
+#X obj 753 12 cnv 15 100 120 empty empty sysexin 20 12 0 14 -233017
+-66577 0;
+#X floatatom 765 45 5 0 0 1 port sysexin-port -;
+#X floatatom 765 77 5 0 0 1 value sysexin-byte -;
+#X obj 67 429 noteout 1;
+#X obj 223 427 pgmout 1;
+#X msg 384 447 \; #bendin \$1 1;
+#X msg 443 360 \; #touchin \$1 1;
+#X obj 527 441 polytouchout 1;
+#X obj 86 151 cnv 15 100 120 empty empty noteout 20 12 0 14 -261234
+-66577 0;
+#X obj 111 207 bng 30 250 50 0 noteout-64 empty 64 37 7 0 10 -262144
+-1 -1;
+#X obj 111 239 bng 30 250 50 0 noteout-72 empty 72 37 7 0 10 -262144
+-1 -1;
+#X obj 111 175 bng 30 250 50 0 noteout-32 empty 32 37 7 0 10 -262144
+-1 -1;
+#N canvas 0 22 450 300 output 0;
+#X obj 119 87 r noteout-64;
+#X obj 43 37 r noteout-32;
+#X obj 162 135 r noteout-72;
+#X msg 56 107 64 64;
+#X msg 119 135 32 64;
+#X msg 192 167 72 80;
+#X obj 81 215 makenote 64 500;
+#X obj 80 254 noteout 1;
+#X connect 0 0 3 0;
+#X connect 1 0 4 0;
+#X connect 2 0 5 0;
+#X connect 3 0 6 0;
+#X connect 4 0 6 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 6 1 7 1;
+#X restore 20 203 pd output;
+#X obj 145 405 ctlout;
+#X msg 125 370 \$1 7 1;
+#X msg 527 384 \$1 64 1;
+#X msg 140 458 \; #ctlin \$2 \$1 \$3;
+#X msg 495 467 \; #polytouchin \$2 \$1 1;
+#X connect 1 0 12 0;
+#X connect 2 0 21 0;
+#X connect 2 1 21 1;
+#X connect 3 0 2 0;
+#X connect 4 0 2 0;
+#X connect 5 0 8 0;
+#X connect 6 0 7 0;
+#X connect 7 0 41 0;
+#X connect 7 0 56 0;
+#X connect 8 0 66 0;
+#X connect 10 0 11 0;
+#X connect 11 0 9 0;
+#X connect 11 0 57 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X connect 14 0 58 0;
+#X connect 16 0 17 0;
+#X connect 17 0 67 0;
+#X connect 21 0 36 0;
+#X connect 21 0 55 0;
+#X connect 21 1 36 1;
+#X connect 21 1 55 1;
+#X connect 23 0 22 0;
+#X connect 24 0 22 1;
+#X connect 25 0 3 0;
+#X connect 26 0 4 0;
+#X connect 36 0 37 0;
+#X connect 66 0 68 0;
+#X connect 66 0 65 0;
+#X connect 67 0 69 0;
+#X connect 67 0 59 0;

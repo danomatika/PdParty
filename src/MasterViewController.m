@@ -48,11 +48,11 @@
 			DDLogError(@"Couldn't remove %@, error: %@", testPatchesPath, error.localizedDescription);
 		}
 	}
-	else {
-		if(![[NSFileManager defaultManager] createDirectoryAtPath:testPatchesPath withIntermediateDirectories:YES attributes:nil error:&error]) {
-			DDLogError(@"Couldn't create %@, error: %@", testPatchesPath, error.localizedDescription);
-		}
-	}
+//	else {
+//		if(![[NSFileManager defaultManager] createDirectoryAtPath:testPatchesPath withIntermediateDirectories:YES attributes:nil error:&error]) {
+//			DDLogError(@"Couldn't create %@, error: %@", testPatchesPath, error.localizedDescription);
+//		}
+//	}
 	
 	// copy patches into Documents folder
 	NSString *patchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches"];
