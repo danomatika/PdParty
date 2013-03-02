@@ -8,9 +8,9 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Lumberjack/DDLog.h"
-#import "Lumberjack/DDTTYLogger.h"
-#import "Lumberjack/DDFileLogger.h"
+#import "CocoaHTTPServer/Vendor/CocoaLumberjack/DDLog.h"
+#import "CocoaHTTPServer/Vendor/CocoaLumberjack/DDTTYLogger.h"
+#import "CocoaHTTPServer/Vendor/CocoaLumberjack/DDFileLogger.h"
 
 // global log level
 //
