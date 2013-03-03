@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 
 #import "Log.h"
+#import "Util.h"
 #import "PdAudioController.h"
 #import "Midi.h"
 #import "gui/Widget.h"
@@ -22,6 +23,10 @@
 
 - (void)setupPd;
 - (void)setupMidi;
+
+// recursively copy dirs and patches in the resource patches dir to the
+// Documents folder, removes/overwrites any currently existing dirs
+- (void)copyResourcePatchesToDocuments;
 
 @end
 
@@ -45,6 +50,10 @@
 	//ddLogLevel = [preferences logLevel];
 	DDLogInfo(@"loglevel: %d", ddLogLevel);
 	
+	// copy patches in the resource folder
+	[self copyResourcePatchesToDocuments];
+	
+	// setup engines
 	[self setupPd];
 	[self setupMidi];
 	
@@ -109,6 +118,39 @@
 - (void)setupMidi {
 	self.midi = [Midi interface];
 	[self.midi enableNetwork:YES];
+}
+
+- (void)copyResourcePatchesToDocuments {
+	
+	NSError *error;
+	
+	DDLogVerbose(@"Copying resource patches to Documents");
+	
+	// remove existing folders
+	NSString* testPatchesPath = [[Util documentsPath] stringByAppendingPathComponent:@"tests"];
+	if([[NSFileManager defaultManager] fileExistsAtPath:testPatchesPath]) {
+		if(![[NSFileManager defaultManager] removeItemAtPath:testPatchesPath error:&error]) {
+			DDLogError(@"Couldn't remove %@, error: %@", testPatchesPath, error.localizedDescription);
+		}
+	}
+	
+	// copy patches into Documents folder
+	NSString *resourcePatchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches"];
+	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:resourcePatchesPath error:&error];
+	if(!contents) {
+		DDLogError(@"Couldn't read files in path %@, error: %@", resourcePatchesPath, error.localizedDescription);
+		return;
+	}
+	
+	// recursively copy contents of resource folder to Documents
+	DDLogVerbose(@"Found %d paths in patches resource folder", contents.count);
+	for(NSString *p in contents) {
+		NSString *filePath = [resourcePatchesPath stringByAppendingPathComponent:p];
+		DDLogVerbose(@"	Copying %@", p);
+		if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:testPatchesPath error:&error]) {
+			DDLogError(@"Couldn't copy %@ to %@, error: %@", filePath, testPatchesPath, error.localizedDescription);
+		}
+	}
 }
 
 #pragma mark PdMidiReceiverDelegate

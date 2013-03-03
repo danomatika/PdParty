@@ -10,10 +10,13 @@
  */
 #import <UIKit/UIKit.h>
 
-@class DetailViewController;
+@class Gui;
 
-@interface MasterViewController : UITableViewController
+// DetailViewController for patches/scenes 
+@interface PatchViewController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong, nonatomic) DetailViewController *detailViewController;
+@property (strong) Gui *gui;
+
+@property (strong, nonatomic) id detailItem;
 
 @end

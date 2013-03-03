@@ -4,17 +4,17 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Detail View Controller-->
+        <!--Patch View Controller - Patch-->
         <scene sceneID="igB-uz-fRu">
             <objects>
-                <viewController id="uDw-cH-S0S" customClass="DetailViewController" sceneMemberID="viewController">
+                <viewController id="uDw-cH-S0S" customClass="PatchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2TM-1u-wSI">
                         <rect key="frame" x="0.0" y="64" width="703" height="704"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
-                    <navigationItem key="navigationItem" id="bJD-HZ-9qK"/>
+                    <navigationItem key="navigationItem" title="Patch" id="bJD-HZ-9qK"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MKx-Jj-aSp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -36,10 +36,10 @@
             </objects>
             <point key="canvasLocation" x="-163" y="125"/>
         </scene>
-        <!--Master View Controller - Root View Controller-->
+        <!--Browser View Controller - Patch Browser-->
         <scene sceneID="6ir-dd-5Jc">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="mmW-bC-nhe" customClass="MasterViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="BrowserViewController" clearsSelectionOnViewWillAppear="NO" id="mmW-bC-nhe" customClass="BrowserViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="EVw-xx-aqM">
                         <rect key="frame" x="0.0" y="64" width="320" height="704"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -68,7 +68,7 @@
                             <outlet property="delegate" destination="mmW-bC-nhe" id="oft-z3-oZW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="nVB-rk-HNA"/>
+                    <navigationItem key="navigationItem" title="Patch Browser" id="nVB-rk-HNA"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RYN-SE-WyY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -109,11 +109,11 @@
         </scene>
     </scenes>
     <classes>
-        <class className="DetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailViewController.h"/>
+        <class className="BrowserViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowserViewController.h"/>
         </class>
-        <class className="MasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MasterViewController.h"/>
+        <class className="PatchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PatchViewController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -8,19 +8,19 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "DetailViewController.h"
+#import "PatchViewController.h"
 
 #import "Gui.h"
 #import "PdParser.h"
 #import "PdFile.h"
 #import "Log.h"
 
-@interface DetailViewController ()
+@interface PatchViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (assign) BOOL haveReshaped;
 @end
 
-@implementation DetailViewController
+@implementation PatchViewController
 
 - (id)init {
 	self = [super init];
@@ -78,11 +78,12 @@
 		// open new patch
 		if(self.detailItem) {
 			
-			NSString *fullPath = [[Util documentsPath] stringByAppendingPathComponent:[self.detailItem description]];
+			NSString *fullPath = [self.detailItem description];
 			NSString *fileName = [fullPath lastPathComponent];
 			NSString *dirPath = [fullPath stringByDeletingLastPathComponent];
 			
 			DDLogVerbose(@"Opening %@ %@", fileName, dirPath);
+			self.navigationItem.title = [fileName stringByDeletingPathExtension]; // set view title
 			
 			// load gui
 			[self.gui addWidgetsFromPatch:fullPath];
@@ -104,8 +105,11 @@
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController {
 
-    barButtonItem.title = NSLocalizedString(@"Patches", @"Patches");
-    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+		barButtonItem.title = NSLocalizedString(@"Patches", @"Patches");
+	}
+    
+	[self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
     self.masterPopoverController = popoverController;
 }
 
