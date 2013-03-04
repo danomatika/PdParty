@@ -15,8 +15,9 @@
 // DetailViewController for patches/scenes 
 @interface PatchViewController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong) Gui *gui;
+@property (strong) Gui *gui; // pd gui widgets
 
-@property (strong, nonatomic) id detailItem;
+// full path to current patch, the gui is loaded when setting this
+@property (strong, nonatomic) NSString* currentPatch;
 
 @end

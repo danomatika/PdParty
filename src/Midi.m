@@ -111,7 +111,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
     session.enabled = enabled;
     session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
-	DDLogVerbose(@"Midi: networking session %@ %@", session.networkName, enabled ? @"enabled" : @"disabled");
+	DDLogVerbose(@"Midi: networking session \"%@\" %@", session.networkName, enabled ? @"enabled" : @"disabled");
 }
 
 #pragma mark Overridden getters / setters

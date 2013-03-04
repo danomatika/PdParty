@@ -53,12 +53,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark Managing the Detail Item
+#pragma mark Managing the Current Patch
 
-- (void)setDetailItem:(id)newDetailItem {
+- (void)setCurrentPatch:(NSString*)newPatch {
     
-	if(_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
+	if(_currentPatch != newPatch) {
+        _currentPatch = newPatch;
 		
 		// create gui here as iPhone dosen't load view until *after* this is called
 		if(!self.gui) {
@@ -76,17 +76,16 @@
 		}
 		
 		// open new patch
-		if(self.detailItem) {
+		if(self.currentPatch) {
 			
-			NSString *fullPath = [self.detailItem description];
-			NSString *fileName = [fullPath lastPathComponent];
-			NSString *dirPath = [fullPath stringByDeletingLastPathComponent];
+			NSString *fileName = [self.currentPatch lastPathComponent];
+			NSString *dirPath = [self.currentPatch stringByDeletingLastPathComponent];
 			
 			DDLogVerbose(@"Opening %@ %@", fileName, dirPath);
 			self.navigationItem.title = [fileName stringByDeletingPathExtension]; // set view title
 			
 			// load gui
-			[self.gui addWidgetsFromPatch:fullPath];
+			[self.gui addWidgetsFromPatch:self.currentPatch];
 			self.gui.currentPatch = [PdFile openFileNamed:fileName path:dirPath];
 			DDLogVerbose(@"Adding %d widgets", self.gui.widgets.count);
 			for(Widget *widget in self.gui.widgets) {
@@ -114,7 +113,6 @@
 }
 
 - (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     self.masterPopoverController = nil;

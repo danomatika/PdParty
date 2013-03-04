@@ -17,10 +17,14 @@
 
 @property (strong, nonatomic) PatchViewController *patchViewController;
 
-@property (strong) NSMutableArray *pathArray; // table view paths
-@property (strong) NSString *currentDir; // current directory path
+@property (strong, readonly) NSMutableArray *pathArray; // table view paths
+@property (strong, readonly) NSString *currentDir; // current directory path
+@property (assign, readonly) int currentDirLevel; // currently dir depth relative to Documents
 
 // change to and load a new current dir
 - (void)loadDirectory:(NSString *)dirPath;
+
+// unload the current directory, does not clear currentDir
+- (void)unloadDirectory;
 
 @end

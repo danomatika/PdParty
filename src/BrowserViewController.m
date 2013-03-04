@@ -14,8 +14,11 @@
 #import "Log.h"
 #import "Util.h"
 
-// has the first view been loaded?
-static BOOL firstViewLoaded = NO;
+@interface BrowserViewController ()
+@property (strong, readwrite) NSMutableArray *pathArray; // table view path
+@property (strong, readwrite) NSString *currentDir; // current directory path
+@property (assign, readwrite) int currentDirLevel;
+@end
 
 @implementation BrowserViewController
 
@@ -25,7 +28,7 @@ static BOOL firstViewLoaded = NO;
 	    self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
 	}
 	self.pathArray = [[NSMutableArray alloc] init];
-//	self.currentDir = [Util documentsPath];
+	self.currentDirLevel = 0;
     [super awakeFromNib];
 }
 
@@ -33,17 +36,31 @@ static BOOL firstViewLoaded = NO;
     // Do any additional setup after loading the view, typically from a nib.
 	[super viewDidLoad];
 	
-	// load the documents path
-	if(!firstViewLoaded) {
-		self.patchViewController = (PatchViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-		[self loadDirectory:[Util documentsPath]];
-		firstViewLoaded = YES;
+	// setup the root view
+	// if currentDir is nill, then this is the root layer since currentDir is set when pushing child layers onto the navController
+	if(!self.currentDir) {
+		self.patchViewController = (PatchViewController *)[[self.parentViewController.splitViewController.viewControllers lastObject] topViewController];
+		self.currentDir = [Util documentsPath];
 	}
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	// Notifies the view controller that its view is about to be added to a view hierarchy.
+	[super viewWillAppear:animated];
+	
+	[self loadDirectory:self.currentDir];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	// Notifies the view controller that its view was removed from a view hierarchy.
+	[super viewDidDisappear:animated];
+	
+	[self unloadDirectory];
+}
+
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+	[super didReceiveMemoryWarning];
 }
 
 #pragma mark File Browsing
@@ -55,19 +72,19 @@ static BOOL firstViewLoaded = NO;
 
 	NSError *error;
 
-	DDLogVerbose(@"Loading directory %@", dirPath);
+	DDLogVerbose(@"Browser: Loading directory %@", dirPath);
 
 	// search for files in the given path
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:&error];
 	if(!contents) {
-		DDLogError(@"Couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
+		DDLogError(@"Browser: Couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
 		return;
 	}
 	
 	// add contents to pathArray as absolute paths
-	DDLogVerbose(@"Found %d paths", contents.count);
+	DDLogVerbose(@"Browser: Found %d paths", contents.count);
 	for(NSString *p in contents) {
-		DDLogVerbose(@"	%@", p);
+		DDLogVerbose(@"Browser: 	%@", p);
 		[self.pathArray addObject:[dirPath stringByAppendingPathComponent:p]];
 	}
 	[self.tableView reloadData];
@@ -75,7 +92,12 @@ static BOOL firstViewLoaded = NO;
 	self.navigationItem.title = [dirPath lastPathComponent]; // set title of back button
 	self.currentDir = dirPath;
 	self.navigationController.title = [dirPath lastPathComponent]; // set title of current dir
-	DDLogVerbose(@"Current directory now %@", dirPath);
+	DDLogVerbose(@"Browser: Current directory now %@", dirPath);
+}
+
+- (void)unloadDirectory {
+	[self.pathArray removeAllObjects];
+	[self.tableView reloadData];
 }
 
 #pragma mark UITableViewController
@@ -93,7 +115,7 @@ static BOOL firstViewLoaded = NO;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     // Customize the appearance of table view cells.
 	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserCell" forIndexPath:indexPath];
 
 	NSString *path = self.pathArray[indexPath.row];
 	
@@ -154,21 +176,24 @@ static BOOL firstViewLoaded = NO;
 		if(isDir) {
 		
 			// create a new browser table view and push it on the stack 
-			UIStoryboard *sb;
+			UIStoryboard *board;
 			if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-				sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+				board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
 			}
 			else {
-				sb = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+				board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
 			}
-			BrowserViewController *browserLayer = [sb instantiateViewControllerWithIdentifier:@"BrowserViewController"];
+			BrowserViewController *browserLayer = [board instantiateViewControllerWithIdentifier:@"BrowserViewController"];
 			browserLayer.patchViewController = self.patchViewController;
-			[browserLayer loadDirectory:path];
+			browserLayer.currentDir = path;
+			browserLayer.currentDirLevel = self.currentDirLevel+1;
 			[self.navigationController pushViewController:browserLayer animated:YES];
 		}
 		else {
+		
+			// load the selected patch
 			if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-				self.patchViewController.detailItem = path;
+				self.patchViewController.currentPatch = path;
 			}
 			else {
 				[self performSegueWithIdentifier:@"runPatch" sender:self];
@@ -176,21 +201,18 @@ static BOOL firstViewLoaded = NO;
 		}
 	}
 	else {
-		DDLogError(@"Can't select row in table view, file dosen't exist: %@", path);
+		DDLogError(@"Browser: Can't select row in table view, file dosen't exist: %@", path);
 		[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	}
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-	
-//	if([[segue identifier] isEqualToString:@"runPatch"]) {
-//		[self loadDirectory:sender];
-//	}
-//	else
+
+	// load the selected patch
 	if([[segue identifier] isEqualToString:@"runPatch"]) {
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		NSString *path = self.pathArray[indexPath.row];
-		[[segue destinationViewController] setDetailItem:path];
+		[[segue destinationViewController] setCurrentPatch:path];
     }
 }
 
