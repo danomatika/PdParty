@@ -20,6 +20,17 @@
 // full path to the Documents directory
 + (NSString*)documentsPath;
 
+// returns YES if given path exists and is a directory
++ (BOOL)isDirectory:(NSString*)path;
+
+#pragma mark Device
+
+// are we running in the simulator?
++ (BOOL)isDeviceRunningInSimulator;
+
+// is this device an ipad?
++ (BOOL)isDeviceATablet;
+
 #pragma mark Array Utils
 
 // check object type at array pos

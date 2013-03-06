@@ -104,7 +104,7 @@
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController {
 
-	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+	if([Util isDeviceATablet]) {
 		barButtonItem.title = NSLocalizedString(@"Patches", @"Patches");
 	}
     

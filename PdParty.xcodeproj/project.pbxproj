@@ -161,6 +161,9 @@
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
 		30F7A19716C008A500DE265F /* BrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19616C008A500DE265F /* BrowserViewController.m */; };
+		30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA774E16E5636A000E8D2B /* StartViewController.m */; };
+		30FA775316E68936000E8D2B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA775216E68936000E8D2B /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FA775416E69660000E8D2B /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -405,6 +408,11 @@
 		30F7A19116BFF66F00DE265F /* z_queued.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = z_queued.h; sourceTree = "<group>"; };
 		30F7A19516C008A400DE265F /* BrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowserViewController.h; path = src/BrowserViewController.h; sourceTree = "<group>"; };
 		30F7A19616C008A500DE265F /* BrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowserViewController.m; path = src/BrowserViewController.m; sourceTree = "<group>"; };
+		30FA774D16E5636A000E8D2B /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartViewController.h; path = src/StartViewController.h; sourceTree = "<group>"; };
+		30FA774E16E5636A000E8D2B /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartViewController.m; path = src/StartViewController.m; sourceTree = "<group>"; };
+		30FA775116E68936000E8D2B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		30FA775216E68936000E8D2B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		30FA775416E69660000E8D2B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +420,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */,
 				3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */,
 				3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */,
 				3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */,
@@ -632,6 +641,7 @@
 		30ABE2A616B5A8E500464926 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30FA775416E69660000E8D2B /* SystemConfiguration.framework */,
 				3050823516E199AF00895CB2 /* MobileCoreServices.framework */,
 				3050823316E1999E00895CB2 /* libxml2.dylib */,
 				3050823116E1998F00895CB2 /* CFNetwork.framework */,
@@ -665,6 +675,8 @@
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
 				30ABE2EA16B5D0FB00464926 /* PatchViewController.h */,
 				30ABE2EB16B5D0FB00464926 /* PatchViewController.m */,
+				30FA774D16E5636A000E8D2B /* StartViewController.h */,
+				30FA774E16E5636A000E8D2B /* StartViewController.m */,
 				3050823716E19D8000895CB2 /* WebServer.h */,
 				3050823816E19D8000895CB2 /* WebServer.m */,
 			);
@@ -675,6 +687,7 @@
 			isa = PBXGroup;
 			children = (
 				305081C616E198C900895CB2 /* CocoaHTTPServer */,
+				30FA775016E68936000E8D2B /* net */,
 				30ABE31916B5D15400464926 /* pd */,
 				30ABE39816B5D15400464926 /* pgmidi */,
 			);
@@ -911,6 +924,16 @@
 			path = util;
 			sourceTree = "<group>";
 		};
+		30FA775016E68936000E8D2B /* net */ = {
+			isa = PBXGroup;
+			children = (
+				30FA775116E68936000E8D2B /* Reachability.h */,
+				30FA775216E68936000E8D2B /* Reachability.m */,
+			);
+			name = net;
+			path = libs/net;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1116,6 +1139,8 @@
 				3050822C16E198C900895CB2 /* ContextFilterLogFormatter.m in Sources */,
 				3050822D16E198C900895CB2 /* DispatchQueueLogFormatter.m in Sources */,
 				3050823916E19D8000895CB2 /* WebServer.m in Sources */,
+				30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */,
+				30FA775316E68936000E8D2B /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

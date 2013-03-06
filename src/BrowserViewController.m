@@ -23,7 +23,7 @@
 @implementation BrowserViewController
 
 - (void)awakeFromNib {
-	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+	if([Util isDeviceATablet]) {
 	    self.clearsSelectionOnViewWillAppear = NO;
 	    self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
 	}
@@ -85,7 +85,25 @@
 	DDLogVerbose(@"Browser: Found %d paths", contents.count);
 	for(NSString *p in contents) {
 		DDLogVerbose(@"Browser: 	%@", p);
-		[self.pathArray addObject:[dirPath stringByAppendingPathComponent:p]];
+		
+		// remove Finder DS_Store garbage (created over WebDAV)
+		if([p isEqualToString:@"._.DS_Store"] || [p isEqualToString:@".DS_Store"]) {
+			if(![[NSFileManager defaultManager] removeItemAtPath:[dirPath stringByAppendingPathComponent:p] error:&error]) {
+				DDLogError(@"Browser: Couldn't remove %@, error: %@", p, error.localizedDescription);
+			}
+			else {
+				DDLogVerbose(@"Browser: Removed %@", p);
+			}
+		}
+		else { // add paths
+			NSString *fullPath = [dirPath stringByAppendingPathComponent:p];
+			if([Util isDirectory:fullPath]) { // add directory
+				[self.pathArray addObject:fullPath];
+			}
+			else if([[p pathExtension] isEqualToString: @"pd"]) { // add patch
+				[self.pathArray addObject:fullPath];
+			}
+		}
 	}
 	[self.tableView reloadData];
 	
@@ -177,7 +195,7 @@
 		
 			// create a new browser table view and push it on the stack 
 			UIStoryboard *board;
-			if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+			if([Util isDeviceATablet]) {
 				board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
 			}
 			else {
@@ -192,7 +210,7 @@
 		else {
 		
 			// load the selected patch
-			if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+			if([Util isDeviceATablet]) {
 				self.patchViewController.currentPatch = path;
 			}
 			else {

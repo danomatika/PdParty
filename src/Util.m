@@ -25,6 +25,12 @@
 	return [searchPaths objectAtIndex:0];
 }
 
++ (BOOL)isDirectory:(NSString*)path {
+	BOOL isDir = NO;
+	[[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+	return isDir;
+}
+
 #pragma mark Array Utils
 
 + (BOOL)isNumberIn:(NSArray*)array at:(int)index {
@@ -33,6 +39,23 @@
 
 + (BOOL)isStringIn:(NSArray*)array at:(int)index {
 	return [[array objectAtIndex:index] isKindOfClass:[NSString class]];
+}
+
+#pragma mark Device
+
+// from http://stackoverflow.com/questions/458304/how-can-i-programmatically-determine-if-my-app-is-running-in-the-iphone-simulato
++ (BOOL)isDeviceRunningInSimulator; {
+	#if TARGET_IPHONE_SIMULATOR
+		return YES;
+	#elif TARGET_OS_IPHONE
+		return NO;
+	#else // unknown
+		return NO;
+	#endif
+}
+
++ (BOOL)isDeviceATablet; {
+	return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 }
 
 #pragma mark CGRect
@@ -51,5 +74,3 @@
 }
 
 @end
-
-
