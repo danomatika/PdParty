@@ -152,7 +152,7 @@
 	_numWidth = numWidth;
 }
 
-#pragma mark - Touches
+#pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
     UITouch *touch = [touches anyObject];

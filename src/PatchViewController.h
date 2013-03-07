@@ -10,10 +10,12 @@
  */
 #import <UIKit/UIKit.h>
 
+#import "KeyGrabber.h"
+
 @class Gui;
 
 // DetailViewController for patches/scenes 
-@interface PatchViewController : UIViewController <UISplitViewControllerDelegate>
+@interface PatchViewController : UIViewController <UISplitViewControllerDelegate, KeyGrabberDelegate>
 
 @property (strong) Gui *gui; // pd gui widgets
 

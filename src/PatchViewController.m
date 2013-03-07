@@ -10,10 +10,11 @@
  */
 #import "PatchViewController.h"
 
+#import "Log.h"
 #import "Gui.h"
 #import "PdParser.h"
 #import "PdFile.h"
-#import "Log.h"
+#import "KeyGrabber.h"
 
 @interface PatchViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -28,6 +29,15 @@
 		self.haveReshaped = NO;
 	}
 	return self;
+}
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	
+	KeyGrabberView *grabber = [[KeyGrabberView alloc] init];
+	grabber.active = YES;
+	grabber.delegate = self;
+	[self.view addSubview:grabber];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -98,6 +108,31 @@
     if(self.masterPopoverController != nil) {
         [self.masterPopoverController dismissPopoverAnimated:YES];
     }        
+}
+
+#pragma mark Touches
+
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+//    UITouch *touch = [touches anyObject];
+//    CGPoint pos = [touch locationInView:self];
+//	self.touchPrevY = pos.y;
+//}
+//
+//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+//    UITouch *touch = [touches anyObject];
+//    CGPoint pos = [touch locationInView:self];
+//}
+//
+//- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+//}
+//
+//- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+//}
+
+#pragma mark KeyGrabberDelegate
+
+- (void)keyPressed:(int)key {
+	[PdBase sendFloat:key toReceiver:@"#key"];
 }
 
 #pragma mark UISplitViewControllerDelegate

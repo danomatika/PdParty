@@ -22,6 +22,18 @@ Run your Pure Data patches on iOS with native GUIs emulated, inspired by Chris M
 	<small>(Image by PdDroidParty).</small>
 </p>
 
+### Pure Data Compatibility
+
+PdParty is built using libpd and can be compared to Pd-vanilla.
+
+#### [expr] & [expr~]
+
+Currently, [expr] and [expr~] are not included with PdParty since they are licensed under the GPL, which is incompatible for linked libraries with the Apple AppStore licensing. Sorry, complain to Apple.
+
+#### Key events
+
+[key] works with an external bluetooth or usb keyboard. [keyup] & [keyname] are not supported as there is currently no *official* way to intercept raw key events on iOS.
+
 ### DroidParty Compatibility
 
 PdParty will support DroidParty abstractions ([taplist], [menubang], etc). Custom fonts & SVG widgets/styling are planned, but not an immediate priority and will be saved for a later date. Standalone app support is not planned due to the nature of the iOS AppStore.
