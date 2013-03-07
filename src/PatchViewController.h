@@ -15,11 +15,14 @@
 @class Gui;
 
 // DetailViewController for patches/scenes 
-@interface PatchViewController : UIViewController <UISplitViewControllerDelegate, KeyGrabberDelegate>
+@interface PatchViewController : UIViewController <UISplitViewControllerDelegate, UIAccelerometerDelegate, KeyGrabberDelegate>
 
 @property (strong) Gui *gui; // pd gui widgets
 
 // full path to current patch, the gui is loaded when setting this
-@property (strong, nonatomic) NSString* currentPatch;
+@property (nonatomic, strong) NSString* currentPatch;
+
+// enabled receiving accel events
+@property (nonatomic, assign) BOOL enablAccelerometer;
 
 @end

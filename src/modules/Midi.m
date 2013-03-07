@@ -109,7 +109,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 	DDLogVerbose(@"Midi: networking session \"%@\" %@", session.networkName, enabled ? @"enabled" : @"disabled");
 }
 
-#pragma mark Overridden getters / setters
+#pragma mark Overridden Getters / Setters
 
 - (void)setMidi:(PGMidi *)newMidi {
 

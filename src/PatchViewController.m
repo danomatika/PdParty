@@ -16,11 +16,14 @@
 #import "PdParser.h"
 #import "PdFile.h"
 #import "KeyGrabber.h"
+#import "AppDelegate.h"
 
 @interface PatchViewController ()
 
-@property (strong, nonatomic) UIPopoverController *masterPopoverController;
+@property (nonatomic, strong) UIPopoverController *masterPopoverController;
 @property (nonatomic, strong) NSMutableDictionary *activeTouches; // for persistent ids
+@property (nonatomic, weak) CMMotionManager *motionManager; // for accel data
+
 @property (assign) BOOL hasReshaped; // has the gui been reshaped?
 
 @end
@@ -40,6 +43,11 @@
 	grabber.active = YES;
 	grabber.delegate = self;
 	[self.view addSubview:grabber];
+	
+	// set motionManager pointer for accel updates
+	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+	self.motionManager = app.motionManager;
+	self.enablAccelerometer = YES;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -112,6 +120,38 @@
     }        
 }
 
+#pragma mark Overridden Getters / Setters
+
+- (void)setEnablAccelerometer:(BOOL)enablAccelerometer {
+	if(self.enablAccelerometer == enablAccelerometer) {
+		return;
+	}
+	
+	_enablAccelerometer = enablAccelerometer;
+	if(enablAccelerometer) { // start
+		if([self.motionManager isAccelerometerAvailable]) {
+			NSTimeInterval updateInterval = 1.0/60.0; // 60Hz
+			[self.motionManager setAccelerometerUpdateInterval:updateInterval];
+			
+			// accel data callback block
+			[self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue]
+				withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
+//					DDLogVerbose(@"accel %f %f %f", accelerometerData.acceleration.x,
+//													accelerometerData.acceleration.y,
+//													accelerometerData.acceleration.z);
+					[PureData sendAccelWithX:accelerometerData.acceleration.x
+										   y:accelerometerData.acceleration.y
+										   z:accelerometerData.acceleration.z];
+				}];
+		}
+	}
+	else { // stop
+		if([self.motionManager isAccelerometerActive]) {
+          [self.motionManager stopAccelerometerUpdates];
+		}
+	}
+}
+
 #pragma mark Touches
 
 // persistent touch ids from ofxIPhone:
@@ -127,7 +167,7 @@
 							   forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-		DDLogVerbose(@"touch %d: down %d %d", touchId, (int) pos.x, (int) pos.y);
+		DDLogVerbose(@"touch %d: down %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
 	}
 }
@@ -137,7 +177,7 @@
 	for(UITouch *touch in touches) {
 		int touchId = [[self.activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
 		CGPoint pos = [touch locationInView:self.view];
-		DDLogVerbose(@"touch %d: moved %d %d", touchId, (int) pos.x, (int) pos.y);
+		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
 	}
 }
@@ -149,7 +189,7 @@
 		[self.activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-		DDLogVerbose(@"touch %d: up %d %d", touchId, (int) pos.x, (int) pos.y);
+		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
 	}
 }

@@ -115,7 +115,7 @@
 	}
 }
 
-#pragma mark Overridden Getters & Setters
+#pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
 	_value = f;

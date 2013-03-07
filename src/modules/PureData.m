@@ -64,6 +64,10 @@
 	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:id+1], [NSNumber numberWithInt:x], [NSNumber numberWithInt:y], nil] toReceiver:RJ_TOUCH_R];
 }
 
++ (void)sendAccelWithX:(float)x y:(float)y z:(float)z {
+	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:x], [NSNumber numberWithFloat:y], [NSNumber numberWithFloat:z], nil] toReceiver:RJ_ACCELERATE_R];
+}
+
 #pragma mark PdMidiReceiverDelegate
 
 - (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
@@ -92,7 +96,7 @@
 
 - (void)receiveMidiByte:(int)byte forPort:(int)port {}
 
-#pragma mark Overridden Getters/Setters
+#pragma mark Overridden Getters / Setters
 
 - (BOOL)isAudioEnabled {
 	return audioEnabled;

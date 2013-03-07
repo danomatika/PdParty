@@ -58,7 +58,7 @@
 		CGRectGetHeight(self.label.frame));
 }
 
-#pragma mark Overridden Getters & Setters
+#pragma mark Overridden Getters / Setters
 
 - (NSString*)type {
 	return @"Comment";

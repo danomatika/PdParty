@@ -147,7 +147,7 @@
 		CGRectGetHeight(self.label.frame));
 }
 
-#pragma mark Overridden Getters & Setters
+#pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
 	[super setValue:MIN(self.maxValue, MAX(self.minValue, f))];

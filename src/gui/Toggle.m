@@ -114,7 +114,7 @@
 	}
 }
 
-#pragma mark Overridden Getters & Setters
+#pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
 	if(f != 0) { // remember enabled value

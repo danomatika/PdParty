@@ -18,9 +18,6 @@
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) PureData *pureData;
-@property (nonatomic, strong) Midi *midi;
-
 // recursively copy dirs and patches in the resource patches dir to the
 // Documents folder, removes/overwrites any currently existing dirs
 - (void)copyResourcePatchesToDocuments;
@@ -56,6 +53,9 @@
 	self.pureData = [[PureData alloc] init];
 	self.pureData.midi = self.midi;
 	[Widget setDispatcher:self.pureData.dispatcher];
+	
+	// init motion manager
+	self.motionManager = [[CMMotionManager alloc] init];
 	
 	// turn on dsp
 	self.pureData.audioEnabled = YES;

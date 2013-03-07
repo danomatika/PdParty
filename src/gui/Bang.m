@@ -106,7 +106,7 @@
 	self.value = 1;
 }
 
-#pragma mark Overridden Getters & Setters
+#pragma mark Overridden Getters / Setters
 
 - (NSString*)type {
 	return @"Bang";
