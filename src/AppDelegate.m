@@ -12,17 +12,14 @@
 
 #import "Log.h"
 #import "Util.h"
-#import "PdAudioController.h"
+#import "PureData.h"
 #import "Midi.h"
 #import "gui/Widget.h"
 
-@interface AppDelegate () {}
+@interface AppDelegate ()
 
-@property (nonatomic, retain) PdAudioController *audioController;
-@property (nonatomic, retain) Midi *midi;
-
-- (void)setupPd;
-- (void)setupMidi;
+@property (nonatomic, strong) PureData *pureData;
+@property (nonatomic, strong) Midi *midi;
 
 // recursively copy dirs and patches in the resource patches dir to the
 // Documents folder, removes/overwrites any currently existing dirs
@@ -31,8 +28,6 @@
 @end
 
 @implementation AppDelegate
-
-@synthesize playing;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -53,9 +48,17 @@
 	// copy patches in the resource folder
 	[self copyResourcePatchesToDocuments];
 	
-	// setup engines
-	[self setupPd];
-	[self setupMidi];
+	// setup midi
+	self.midi = [[Midi alloc] init];
+	[self.midi enableNetwork:YES];
+	
+	// setup pd
+	self.pureData = [[PureData alloc] init];
+	self.pureData.midi = self.midi;
+	[Widget setDispatcher:self.pureData.dispatcher];
+	
+	// turn on dsp
+	self.pureData.audioEnabled = YES;
 	
     return YES;
 }
@@ -81,44 +84,10 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	
-	//self.playing = NO;
+	self.pureData.audioEnabled = NO;
 }
 
 #pragma mark Private
-
-- (void)setupPd {
-	
-	// configure a typical audio session with 2 output channels
-	self.audioController = [[PdAudioController alloc] init];
-	PdAudioStatus status = [self.audioController configurePlaybackWithSampleRate:44100
-																  numberChannels:2
-																	inputEnabled:NO
-																   mixingEnabled:YES];
-	if(status == PdAudioError) {
-		DDLogError(@"Error: Could not configure PdAudioController");
-	} else if(status == PdAudioPropertyChanged) {
-		DDLogWarn(@"Warning: Some of the audio parameters were not accceptable");
-	} else {
-		DDLogInfo(@"Audio Configuration successful");
-	}
-	[self.audioController print];
-	
-	// set dispatcher delegate
-	self.dispatcher = [[PdDispatcher alloc] init];
-	[PdBase setDelegate:self.dispatcher];
-	[Widget setDispatcher:self.dispatcher];
-	
-	// set midi receiver delegate
-	[PdBase setMidiDelegate:self];
-
-	// turn on dsp
-	[self setPlaying:YES];
-}
-
-- (void)setupMidi {
-	self.midi = [Midi interface];
-	[self.midi enableNetwork:YES];
-}
 
 - (void)copyResourcePatchesToDocuments {
 	
@@ -151,48 +120,6 @@
 			DDLogError(@"Couldn't copy %@ to %@, error: %@", filePath, testPatchesPath, error.localizedDescription);
 		}
 	}
-}
-
-#pragma mark PdMidiReceiverDelegate
-
-- (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
-	[self.midi sendNoteOn:channel pitch:pitch velocity:velocity];
-}
-
-- (void)receiveControlChange:(int)value forController:(int)controller forChannel:(int)channel {
-	[self.midi sendControlChange:channel controller:controller value:value];
-}
-
-- (void)receiveProgramChange:(int)value forChannel:(int)channel {
-	[self.midi sendProgramChange:channel value:value];
-}
-
-- (void)receivePitchBend:(int)value forChannel:(int)channel {
-	[self.midi sendPitchBend:channel value:value];
-}
-
-- (void)receiveAftertouch:(int)value forChannel:(int)channel {
-	[self.midi sendAftertouch:channel value:value];
-}
-
-- (void)receivePolyAftertouch:(int)value forPitch:(int)pitch forChannel:(int)channel {
-	[self.midi sendPolyAftertouch:channel pitch:pitch value:value];
-}
-
-- (void)receiveMidiByte:(int)byte forPort:(int)port {}
-
-#pragma mark Accessors
-
-- (BOOL)isPlaying {
-    return playing;
-}
-
-- (void)setPlaying:(BOOL)newState {
-    if(newState == playing) {
-		return;
-	}
-	playing = newState;
-	self.audioController.active = playing;
 }
 
 @end

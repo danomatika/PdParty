@@ -7,7 +7,20 @@
  *
  * See https://github.com/danomatika/PdParty for documentation
  *
- * References: http://www.srm.com/qtma/davidsmidispec.html
- *
  */
+#import <Foundation/Foundation.h>
 
+#import "PdBase.h"
+#import "PdDispatcher.h"
+
+@class Midi;
+
+@interface PureData : NSObject <PdMidiReceiverDelegate>
+
+@property (nonatomic, strong) PdDispatcher *dispatcher; // message dispatcher
+@property (nonatomic, weak) Midi *midi; // pointer to midi instance
+
+// enabled / disable PD audio
+@property (getter=isAudioEnabled) BOOL audioEnabled;
+
+@end

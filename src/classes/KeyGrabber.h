@@ -7,8 +7,6 @@
  *
  * See https://github.com/danomatika/PdParty for documentation
  *
- * References: http://www.srm.com/qtma/davidsmidispec.html
- *
  */
 #import <UIKit/UIKit.h>
 

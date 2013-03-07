@@ -79,32 +79,27 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 @implementation Midi
 
-+ (id)interface {
+- (id)init {
 	IF_IOS_HAS_COREMIDI (
-		PGMidi *pgmidi = [[PGMidi alloc] init];
-		Midi *m = [[Midi alloc] init];
-		pgmidi.delegate = m;
-		m.midi = pgmidi;
-		return m;
+		self = [super init];
+		if(self) {
+			PGMidi *pgmidi = [[PGMidi alloc] init];
+			pgmidi.delegate = self;
+			self.midi = pgmidi;
+			
+			lastTime = 0;
+			bFirstPacket = true;
+			bContinueSysex = false;
+			messageIn = [[NSMutableData alloc] init];
+			messageOut = [[NSMutableData alloc] init];
+			
+			self.bIgnoreSense = YES;
+			self.bIgnoreSysex = NO;
+			self.bIgnoreTiming = YES;
+		}
+		return self;
 	)
 	return nil;
-}
-
-- (id)init {
-	self = [super init];
-	if(self) {
-	
-		lastTime = 0;
-		bFirstPacket = true;
-		bContinueSysex = false;
-		messageIn = [[NSMutableData alloc] init];
-		messageOut = [[NSMutableData alloc] init];
-		
-		self.bIgnoreSense = YES;
-		self.bIgnoreSysex = NO;
-		self.bIgnoreTiming = YES;
-	}
-	return self;
 }
 
 - (void)enableNetwork:(bool)enabled {

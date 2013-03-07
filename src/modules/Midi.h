@@ -14,9 +14,6 @@
 
 @interface Midi : NSObject <PGMidiDelegate, PGMidiSourceDelegate>
 
-// create a new interface, sets up PGMidi, etc
-+ (id)interface;
-
 // enable Core Midi networking session
 - (void)enableNetwork:(bool)enabled;
 
