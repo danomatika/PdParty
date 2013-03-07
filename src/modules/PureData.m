@@ -64,8 +64,12 @@
 	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:id+1], [NSNumber numberWithInt:x], [NSNumber numberWithInt:y], nil] toReceiver:RJ_TOUCH_R];
 }
 
-+ (void)sendAccelWithX:(float)x y:(float)y z:(float)z {
++ (void)sendAccel:(float)x y:(float)y z:(float)z {
 	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:x], [NSNumber numberWithFloat:y], [NSNumber numberWithFloat:z], nil] toReceiver:RJ_ACCELERATE_R];
+}
+
++ (void)sendRotate:(float)degrees newOrientation:(NSString*)orientation {
+	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:degrees], orientation, nil] toReceiver:PARTY_ROTATE_R];
 }
 
 #pragma mark PdMidiReceiverDelegate

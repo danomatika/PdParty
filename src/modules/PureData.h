@@ -27,6 +27,15 @@
 #define RJ_TOUCH_DOWN	@"down"
 #define RJ_TOUCH_XY		@"xy"
 
+// PdPaty event receivers
+#define PARTY_ROTATE_R	@"#rotate"
+
+// rotate event orientations
+#define PARTY_ORIENT_PORTRAIT				@"portrait"
+#define PARTY_ORIENT_PORTRAIT_UPSIDEDOWN	@"upsidedown"
+#define PARTY_ORIENT_LANDSCAPE_LEFT			@"landleft"
+#define PARTY_ORIENT_LANDSCAPE_RIGHT		@"landright"
+
 @class Midi;
 
 @interface PureData : NSObject <PdMidiReceiverDelegate>
@@ -46,6 +55,9 @@
 + (void)sendTouch:(NSString *)eventType forId:(int)id atX:(int)x andY:(int)y;
 
 // rj accel event
-+ (void)sendAccelWithX:(float)x y:(float)y z:(float)z;
++ (void)sendAccel:(float)x y:(float)y z:(float)z;
+
+// pdparty rotate event
++ (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;
 
 @end

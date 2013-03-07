@@ -1,4 +1,4 @@
-#N canvas 523 105 401 536 10;
+#N canvas 691 86 401 536 10;
 #X obj 19 77 bng 60 250 50 0 empty q q 28 26 0 10 -262144 -1 -1;
 #X obj 79 77 bng 60 250 50 0 empty w w 28 26 0 10 -262144 -1 -1;
 #X obj 139 77 bng 60 250 50 0 empty e e 28 26 0 10 -262144 -1 -1;
@@ -89,3 +89,17 @@
 #X restore 113 11 pd key;
 #X text 29 279 up;
 #X text 28 234 xy;
+#X obj 22 364 cnv 15 160 120 empty empty rotate 20 12 0 14 -233017
+-66577 0;
+#X floatatom 29 407 5 0 0 1 degrees rotate_degrees -;
+#X symbolatom 30 441 12 0 0 1 orientation rotate_orientation -;
+#N canvas 690 211 229 156 rotate 0;
+#X obj 25 19 r #rotate;
+#X obj 25 51 unpack f s;
+#X obj 82 83 s rotate_orientation;
+#X obj 25 117 s rotate_degrees;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 1 1 2 0;
+#X restore 23 494 pd rotate;
+#X text 108 39 <-- try a bluetooth or usb keyboard;

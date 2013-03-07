@@ -18,6 +18,8 @@
 #import "KeyGrabber.h"
 #import "AppDelegate.h"
 
+#define ACCEL_UPDATE_HZ	60.0
+
 @interface PatchViewController ()
 
 @property (nonatomic, strong) UIPopoverController *masterPopoverController;
@@ -47,7 +49,7 @@
 	// set motionManager pointer for accel updates
 	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 	self.motionManager = app.motionManager;
-	self.enablAccelerometer = YES;
+	self.enableAccelerometer = YES;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -66,6 +68,31 @@
 	else {
 		self.hasReshaped = YES;
 	}
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	
+	int rotate = [PatchViewController orientationInDegrees:fromInterfaceOrientation] -
+			     [PatchViewController orientationInDegrees:self.interfaceOrientation];
+	
+	NSString *orient;
+	switch(self.interfaceOrientation) {
+		case UIInterfaceOrientationPortrait:
+			orient = PARTY_ORIENT_PORTRAIT;
+			break;
+		case UIInterfaceOrientationPortraitUpsideDown:
+			orient = PARTY_ORIENT_PORTRAIT_UPSIDEDOWN;
+			break;
+		case UIInterfaceOrientationLandscapeLeft:
+			orient = PARTY_ORIENT_LANDSCAPE_LEFT;
+			break;
+		case UIInterfaceOrientationLandscapeRight:
+			orient = PARTY_ORIENT_LANDSCAPE_RIGHT;
+			break;
+	}
+
+//	DDLogVerbose(@"rotate: %d %@", rotate, orient);
+	[PureData sendRotate:rotate newOrientation:orient];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,17 +147,33 @@
     }        
 }
 
+#pragma mark Util
+
++ (int)orientationInDegrees:(UIInterfaceOrientation)orientation {
+	switch(orientation) {
+		case UIInterfaceOrientationPortrait:
+			return 0;
+		case UIInterfaceOrientationPortraitUpsideDown:
+			return 180;
+		case UIInterfaceOrientationLandscapeLeft:
+			return 90;
+		case UIInterfaceOrientationLandscapeRight:
+			return -90;
+	}
+}
+
 #pragma mark Overridden Getters / Setters
 
-- (void)setEnablAccelerometer:(BOOL)enablAccelerometer {
-	if(self.enablAccelerometer == enablAccelerometer) {
+- (void)setEnableAccelerometer:(BOOL)enableAccelerometer {
+	if(self.enableAccelerometer == enableAccelerometer) {
 		return;
 	}
+	_enableAccelerometer = enableAccelerometer;
 	
-	_enablAccelerometer = enablAccelerometer;
-	if(enablAccelerometer) { // start
+	// start
+	if(enableAccelerometer) {
 		if([self.motionManager isAccelerometerAvailable]) {
-			NSTimeInterval updateInterval = 1.0/60.0; // 60Hz
+			NSTimeInterval updateInterval = 1.0/ACCEL_UPDATE_HZ;
 			[self.motionManager setAccelerometerUpdateInterval:updateInterval];
 			
 			// accel data callback block
@@ -139,9 +182,9 @@
 //					DDLogVerbose(@"accel %f %f %f", accelerometerData.acceleration.x,
 //													accelerometerData.acceleration.y,
 //													accelerometerData.acceleration.z);
-					[PureData sendAccelWithX:accelerometerData.acceleration.x
-										   y:accelerometerData.acceleration.y
-										   z:accelerometerData.acceleration.z];
+					[PureData sendAccel:accelerometerData.acceleration.x
+									  y:accelerometerData.acceleration.y
+									  z:accelerometerData.acceleration.z];
 				}];
 		}
 	}
@@ -167,7 +210,7 @@
 							   forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-		DDLogVerbose(@"touch %d: down %d %d", touchId+1, (int) pos.x, (int) pos.y);
+//		DDLogVerbose(@"touch %d: down %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
 	}
 }
@@ -177,7 +220,7 @@
 	for(UITouch *touch in touches) {
 		int touchId = [[self.activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
 		CGPoint pos = [touch locationInView:self.view];
-		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
+//		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
 	}
 }
@@ -189,7 +232,7 @@
 		[self.activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
+//		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
 	}
 }

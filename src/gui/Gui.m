@@ -138,6 +138,11 @@
 						else if([objType isEqualToString:@"cnv"]) {
 							[self addCanvas:line];
 						}
+						
+						// print warnings on objects that aren't completely compatible
+						else if([objType isEqualToString:@"keyup"] || [objType isEqualToString:@"keyname"]) {
+							DDLogWarn(@"[keyup] & [keyname] can create, but won't return any events");
+						}
 					}
 				}
 			}

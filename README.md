@@ -65,6 +65,23 @@ Open the Xcode project and Build/Run.
 
 You can upgrade to newer versions of the libraries used by the project by running the update scripts in the `scripts` dir which clone the library and copy it's source files into `libs`.
 
+Usage
+-----
+
+### Events
+
+PdParty returns the following events:
+
+* **[#touch] _eventType_ _id_ _x_ _y_**: multitouch touch event
+  * _eventType_: symbol "down", "xy" (move), or "up"
+  * _id_: persistent touch id
+  * _x_: x position
+  * _y_: y position
+* **[#accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs 
+* **[#rotate] _degrees_ _orientation_**: device screen rotation
+  * _degrees_: rotation amount in degrees: 90, -90, 180, etc
+  * _orientation_: symbol "portrait", "upsidedown", "landleft", or "landright"
+
 DEVELOPING
 ----------
 

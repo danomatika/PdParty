@@ -23,6 +23,9 @@
 @property (nonatomic, strong) NSString* currentPatch;
 
 // enabled receiving accel events
-@property (nonatomic, assign) BOOL enablAccelerometer;
+@property (nonatomic, assign) BOOL enableAccelerometer;
+
+// convert an orientation into degrees
++ (int)orientationInDegrees:(UIInterfaceOrientation)orientation;
 
 @end
