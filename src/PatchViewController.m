@@ -12,23 +12,25 @@
 
 #import "Log.h"
 #import "Gui.h"
+#import "PureData.h"
 #import "PdParser.h"
 #import "PdFile.h"
 #import "KeyGrabber.h"
 
 @interface PatchViewController ()
+
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
-@property (assign) BOOL haveReshaped;
+@property (nonatomic, strong) NSMutableDictionary *activeTouches; // for persistent ids
+@property (assign) BOOL hasReshaped; // has the gui been reshaped?
+
 @end
 
 @implementation PatchViewController
 
-- (id)init {
-	self = [super init];
-    if(self) {
-		self.haveReshaped = NO;
-	}
-	return self;
+- (void)awakeFromNib {
+	self.activeTouches = [[NSMutableDictionary alloc] init];
+	self.hasReshaped = NO;
+	[super awakeFromNib];
 }
 
 - (void)viewDidLoad {
@@ -46,15 +48,15 @@
 	
 	// do animations if gui has already been setup once
 	// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
-	if(self.haveReshaped) {
+	if(self.hasReshaped) {
 		[UIView beginAnimations:nil context:nil];
 	}
 	[self.gui reshapeWidgets];
-	if(self.haveReshaped) {
+	if(self.hasReshaped) {
 		[UIView commitAnimations];
 	}
 	else {
-		self.haveReshaped = YES;
+		self.hasReshaped = YES;
 	}
 }
 
@@ -101,7 +103,7 @@
 			for(Widget *widget in self.gui.widgets) {
 				[self.view addSubview:widget];
 			}
-			self.haveReshaped = NO;
+			self.hasReshaped = NO;
 		}
     }
 
@@ -112,27 +114,54 @@
 
 #pragma mark Touches
 
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
-//    UITouch *touch = [touches anyObject];
-//    CGPoint pos = [touch locationInView:self];
-//	self.touchPrevY = pos.y;
-//}
-//
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-//    UITouch *touch = [touches anyObject];
-//    CGPoint pos = [touch locationInView:self];
-//}
-//
-//- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-//}
-//
-//- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-//}
+// persistent touch ids from ofxIPhone:
+// https://github.com/openframeworks/openFrameworks/blob/master/addons/ofxiPhone/src/core/ofxiOSEAGLView.mm
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+	
+	for(UITouch *touch in touches) {
+		int touchId = 0;
+		while([[self.activeTouches allValues] containsObject:[NSNumber numberWithInt:touchId]]){
+			touchId++;
+		}
+		[self.activeTouches setObject:[NSNumber numberWithInt:touchId]
+							   forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
+		
+		CGPoint pos = [touch locationInView:self.view];
+		DDLogVerbose(@"touch %d: down %d %d", touchId, (int) pos.x, (int) pos.y);
+		[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
+	}
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	for(UITouch *touch in touches) {
+		int touchId = [[self.activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
+		CGPoint pos = [touch locationInView:self.view];
+		DDLogVerbose(@"touch %d: moved %d %d", touchId, (int) pos.x, (int) pos.y);
+		[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
+	}
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
+	for(UITouch *touch in touches) {
+		int touchId = [[self.activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
+		[self.activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
+		
+		CGPoint pos = [touch locationInView:self.view];
+		DDLogVerbose(@"touch %d: up %d %d", touchId, (int) pos.x, (int) pos.y);
+		[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
+	}
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	[self touchesEnded:touches withEvent:event];
+}
 
 #pragma mark KeyGrabberDelegate
 
 - (void)keyPressed:(int)key {
-	[PdBase sendFloat:key toReceiver:@"#key"];
+	[PureData sendKey:key];
 }
 
 #pragma mark UISplitViewControllerDelegate

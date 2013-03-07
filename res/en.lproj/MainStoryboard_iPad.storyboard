@@ -8,7 +8,7 @@
         <scene sceneID="igB-uz-fRu">
             <objects>
                 <viewController id="uDw-cH-S0S" customClass="PatchViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="2TM-1u-wSI">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="2TM-1u-wSI">
                         <rect key="frame" x="0.0" y="64" width="703" height="704"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -243,27 +243,6 @@
             <point key="canvasLocation" x="-1467" y="-368"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="BrowserViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowserViewController.h"/>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PatchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PatchViewController.h"/>
-        </class>
-        <class className="StartViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="enableWebServer:"/>
-                <relationship kind="action" name="setWebServerPort:"/>
-                <relationship kind="outlet" name="serverEnabledSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="serverPortLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="serverPortTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

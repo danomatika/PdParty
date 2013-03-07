@@ -54,6 +54,16 @@
 	return self;
 }
 
+#pragma mark Send Events
+
++ (void)sendKey:(int)key {
+	[PdBase sendFloat:key toReceiver:PD_KEY_R];
+}
+
++ (void)sendTouch:(NSString *)eventType forId:(int)id atX:(int)x andY:(int)y {
+	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:id+1], [NSNumber numberWithInt:x], [NSNumber numberWithInt:y], nil] toReceiver:RJ_TOUCH_R];
+}
+
 #pragma mark PdMidiReceiverDelegate
 
 - (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
@@ -91,6 +101,12 @@
 - (void)setAudioEnabled:(BOOL)enabled {
     if(self.audioEnabled == enabled) {
 		return;
+	}
+	if(enabled) {
+		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] toReceiver:RJ_TRANSPORT_R];
+	}
+	else {
+		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:0]] toReceiver:RJ_TRANSPORT_R];
 	}
 	audioEnabled = enabled;
 	self.audioController.active = self.audioEnabled;

@@ -209,7 +209,7 @@
         <scene sceneID="g3o-N5-q1v">
             <objects>
                 <viewController storyboardIdentifier="" title="Detail" id="0Ko-AI-7bJ" customClass="PatchViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="BPP-uk-huC">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="BPP-uk-huC">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
