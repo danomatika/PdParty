@@ -43,8 +43,6 @@
 		3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823116E1998F00895CB2 /* CFNetwork.framework */; };
 		3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823316E1999E00895CB2 /* libxml2.dylib */; };
 		3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823516E199AF00895CB2 /* MobileCoreServices.framework */; };
-		3050823916E19D8000895CB2 /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050823816E19D8000895CB2 /* WebServer.m */; };
-		306DBE4D16BC1E47007CF226 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DBE4C16BC1E47007CF226 /* Util.m */; };
 		306DBE6B16BC6A86007CF226 /* Slider.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DBE6A16BC6A86007CF226 /* Slider.m */; };
 		3088883916BCB73700781682 /* Canvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 3088883816BCB73700781682 /* Canvas.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
@@ -60,7 +58,6 @@
 		30ABE2EC16B5D0FB00464926 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE2E216B5D0FB00464926 /* AppDelegate.m */; };
 		30ABE2ED16B5D0FB00464926 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE2E416B5D0FB00464926 /* Log.m */; };
 		30ABE2EE16B5D0FB00464926 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE2E516B5D0FB00464926 /* main.m */; };
-		30ABE2F016B5D0FB00464926 /* PdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE2E916B5D0FB00464926 /* PdParser.m */; };
 		30ABE2F116B5D0FB00464926 /* PatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE2EB16B5D0FB00464926 /* PatchViewController.m */; };
 		30ABE30316B5D11D00464926 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F316B5D11D00464926 /* Default-568h@2x.png */; };
 		30ABE30416B5D11D00464926 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F416B5D11D00464926 /* Default.png */; };
@@ -155,9 +152,13 @@
 		30ABE41516B5D5DD00464926 /* PdAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32B16B5D15400464926 /* PdAudioController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41616B5D5DD00464926 /* PdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32F16B5D15400464926 /* PdBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
-		30ACA10716D07A4100B50B73 /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ACA10616D07A4100B50B73 /* Midi.m */; };
 		30ACA10D16D1866000B50B73 /* patches in Resources */ = {isa = PBXBuildFile; fileRef = 30ACA10C16D1866000B50B73 /* patches */; };
-		30C9BF5016E7DE7400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF4F16E7DE7400E5AA5B /* KeyGrabber.m */; };
+		30C9BF5616E8455B00E5AA5B /* PdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5516E8455A00E5AA5B /* PdParser.m */; };
+		30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5916E8456B00E5AA5B /* Midi.m */; };
+		30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5B16E8456B00E5AA5B /* PureData.m */; };
+		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
+		30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6316E8457400E5AA5B /* KeyGrabber.m */; };
+		30C9BF6716E8460700E5AA5B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6616E8460700E5AA5B /* Util.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -234,10 +235,6 @@
 		3050823116E1998F00895CB2 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3050823316E1999E00895CB2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3050823516E199AF00895CB2 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		3050823716E19D8000895CB2 /* WebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebServer.h; path = src/WebServer.h; sourceTree = "<group>"; };
-		3050823816E19D8000895CB2 /* WebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebServer.m; path = src/WebServer.m; sourceTree = "<group>"; };
-		306DBE4B16BB0E3F007CF226 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Util.h; path = src/Util.h; sourceTree = "<group>"; };
-		306DBE4C16BC1E47007CF226 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Util.m; path = src/Util.m; sourceTree = "<group>"; };
 		306DBE6916BC6A86007CF226 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
 		306DBE6A16BC6A86007CF226 /* Slider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slider.m; sourceTree = "<group>"; };
 		3088883716BCB73700781682 /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
@@ -264,8 +261,6 @@
 		30ABE2E316B5D0FB00464926 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = src/Log.h; sourceTree = "<group>"; };
 		30ABE2E416B5D0FB00464926 /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = src/Log.m; sourceTree = "<group>"; };
 		30ABE2E516B5D0FB00464926 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = src/main.m; sourceTree = "<group>"; };
-		30ABE2E816B5D0FB00464926 /* PdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PdParser.h; path = src/PdParser.h; sourceTree = "<group>"; };
-		30ABE2E916B5D0FB00464926 /* PdParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PdParser.m; path = src/PdParser.m; sourceTree = "<group>"; };
 		30ABE2EA16B5D0FB00464926 /* PatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatchViewController.h; path = src/PatchViewController.h; sourceTree = "<group>"; };
 		30ABE2EB16B5D0FB00464926 /* PatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PatchViewController.m; path = src/PatchViewController.m; sourceTree = "<group>"; };
 		30ABE2F316B5D11D00464926 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -398,11 +393,19 @@
 		30ABE40F16B5D54100464926 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30ABE41316B5D58600464926 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		30ACA10516D07A4100B50B73 /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Midi.h; path = src/Midi.h; sourceTree = "<group>"; };
-		30ACA10616D07A4100B50B73 /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Midi.m; path = src/Midi.m; sourceTree = "<group>"; };
 		30ACA10C16D1866000B50B73 /* patches */ = {isa = PBXFileReference; lastKnownFileType = folder; path = patches; sourceTree = "<group>"; };
-		30C9BF4E16E7DE7400E5AA5B /* KeyGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyGrabber.h; path = src/KeyGrabber.h; sourceTree = "<group>"; };
-		30C9BF4F16E7DE7400E5AA5B /* KeyGrabber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyGrabber.m; path = src/KeyGrabber.m; sourceTree = "<group>"; };
+		30C9BF5416E8455A00E5AA5B /* PdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdParser.h; sourceTree = "<group>"; };
+		30C9BF5516E8455A00E5AA5B /* PdParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdParser.m; sourceTree = "<group>"; };
+		30C9BF5816E8456B00E5AA5B /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midi.h; sourceTree = "<group>"; };
+		30C9BF5916E8456B00E5AA5B /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Midi.m; sourceTree = "<group>"; };
+		30C9BF5A16E8456B00E5AA5B /* PureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureData.h; sourceTree = "<group>"; };
+		30C9BF5B16E8456B00E5AA5B /* PureData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PureData.m; sourceTree = "<group>"; };
+		30C9BF5C16E8456B00E5AA5B /* WebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServer.h; sourceTree = "<group>"; };
+		30C9BF5D16E8456B00E5AA5B /* WebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServer.m; sourceTree = "<group>"; };
+		30C9BF6216E8457400E5AA5B /* KeyGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyGrabber.h; sourceTree = "<group>"; };
+		30C9BF6316E8457400E5AA5B /* KeyGrabber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyGrabber.m; sourceTree = "<group>"; };
+		30C9BF6516E8460700E5AA5B /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		30C9BF6616E8460700E5AA5B /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -605,6 +608,8 @@
 				30A31A0916B6E7B700C7729B /* Comment.m */,
 				30A31A0716B6DBFB00C7729B /* Numberbox.h */,
 				30A31A0616B6DBFB00C7729B /* Numberbox.m */,
+				30C9BF5416E8455A00E5AA5B /* PdParser.h */,
+				30C9BF5516E8455A00E5AA5B /* PdParser.m */,
 				306DBE6916BC6A86007CF226 /* Slider.h */,
 				306DBE6A16BC6A86007CF226 /* Slider.m */,
 				3088883716BCB73700781682 /* Canvas.h */,
@@ -662,28 +667,20 @@
 		30ABE2D116B5CE2800464926 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				30C9BF6116E8457400E5AA5B /* classes */,
 				30A319E516B61FF700C7729B /* gui */,
+				30C9BF5716E8456B00E5AA5B /* modules */,
 				30ABE2E116B5D0FB00464926 /* AppDelegate.h */,
 				30ABE2E216B5D0FB00464926 /* AppDelegate.m */,
-				30C9BF4E16E7DE7400E5AA5B /* KeyGrabber.h */,
-				30C9BF4F16E7DE7400E5AA5B /* KeyGrabber.m */,
-				306DBE4B16BB0E3F007CF226 /* Util.h */,
-				306DBE4C16BC1E47007CF226 /* Util.m */,
 				30ABE2E316B5D0FB00464926 /* Log.h */,
 				30ABE2E416B5D0FB00464926 /* Log.m */,
-				30ACA10516D07A4100B50B73 /* Midi.h */,
-				30ACA10616D07A4100B50B73 /* Midi.m */,
 				30ABE2E516B5D0FB00464926 /* main.m */,
-				30ABE2E816B5D0FB00464926 /* PdParser.h */,
-				30ABE2E916B5D0FB00464926 /* PdParser.m */,
 				30F7A19516C008A400DE265F /* BrowserViewController.h */,
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
 				30ABE2EA16B5D0FB00464926 /* PatchViewController.h */,
 				30ABE2EB16B5D0FB00464926 /* PatchViewController.m */,
 				30FA774D16E5636A000E8D2B /* StartViewController.h */,
 				30FA774E16E5636A000E8D2B /* StartViewController.m */,
-				3050823716E19D8000895CB2 /* WebServer.h */,
-				3050823816E19D8000895CB2 /* WebServer.m */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -916,6 +913,32 @@
 			path = libs/pgmidi;
 			sourceTree = "<group>";
 		};
+		30C9BF5716E8456B00E5AA5B /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				30C9BF5816E8456B00E5AA5B /* Midi.h */,
+				30C9BF5916E8456B00E5AA5B /* Midi.m */,
+				30C9BF5A16E8456B00E5AA5B /* PureData.h */,
+				30C9BF5B16E8456B00E5AA5B /* PureData.m */,
+				30C9BF5C16E8456B00E5AA5B /* WebServer.h */,
+				30C9BF5D16E8456B00E5AA5B /* WebServer.m */,
+			);
+			name = modules;
+			path = src/modules;
+			sourceTree = "<group>";
+		};
+		30C9BF6116E8457400E5AA5B /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				30C9BF6216E8457400E5AA5B /* KeyGrabber.h */,
+				30C9BF6316E8457400E5AA5B /* KeyGrabber.m */,
+				30C9BF6516E8460700E5AA5B /* Util.h */,
+				30C9BF6616E8460700E5AA5B /* Util.m */,
+			);
+			name = classes;
+			path = src/classes;
+			sourceTree = "<group>";
+		};
 		30F7A18B16BFF66F00DE265F /* util */ = {
 			isa = PBXGroup;
 			children = (
@@ -1018,7 +1041,6 @@
 				30ABE2EC16B5D0FB00464926 /* AppDelegate.m in Sources */,
 				30ABE2ED16B5D0FB00464926 /* Log.m in Sources */,
 				30ABE2EE16B5D0FB00464926 /* main.m in Sources */,
-				30ABE2F016B5D0FB00464926 /* PdParser.m in Sources */,
 				30ABE2F116B5D0FB00464926 /* PatchViewController.m in Sources */,
 				30ABE3A816B5D15400464926 /* s_libpdmidi.c in Sources */,
 				30ABE3A916B5D15400464926 /* x_libpdreceive.c in Sources */,
@@ -1107,14 +1129,12 @@
 				30A31A0516B6D49300C7729B /* Bang.m in Sources */,
 				30A31A0816B6DBFC00C7729B /* Numberbox.m in Sources */,
 				30A31A0B16B6E7B700C7729B /* Comment.m in Sources */,
-				306DBE4D16BC1E47007CF226 /* Util.m in Sources */,
 				306DBE6B16BC6A86007CF226 /* Slider.m in Sources */,
 				3088883916BCB73700781682 /* Canvas.m in Sources */,
 				30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */,
 				30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */,
 				30F7A19416BFF66F00DE265F /* z_queued.c in Sources */,
 				30F7A19716C008A500DE265F /* BrowserViewController.m in Sources */,
-				30ACA10716D07A4100B50B73 /* Midi.m in Sources */,
 				3050820F16E198C900895CB2 /* DDData.m in Sources */,
 				3050821016E198C900895CB2 /* DDNumber.m in Sources */,
 				3050821116E198C900895CB2 /* DDRange.m in Sources */,
@@ -1143,10 +1163,14 @@
 				3050822B16E198C900895CB2 /* DDTTYLogger.m in Sources */,
 				3050822C16E198C900895CB2 /* ContextFilterLogFormatter.m in Sources */,
 				3050822D16E198C900895CB2 /* DispatchQueueLogFormatter.m in Sources */,
-				3050823916E19D8000895CB2 /* WebServer.m in Sources */,
 				30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */,
 				30FA775316E68936000E8D2B /* Reachability.m in Sources */,
-				30C9BF5016E7DE7400E5AA5B /* KeyGrabber.m in Sources */,
+				30C9BF5616E8455B00E5AA5B /* PdParser.m in Sources */,
+				30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */,
+				30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */,
+				30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */,
+				30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */,
+				30C9BF6716E8460700E5AA5B /* Util.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
