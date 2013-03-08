@@ -154,23 +154,23 @@ static PdDispatcher *dispatcher = nil;
 #pragma mark PdListener
 
 - (void)receiveBangFromSource:(NSString *)source {
-	DDLogWarn(@"%@ dropped bang", self.type);
+	DDLogWarn(@"Widget: %@ dropped bang", self.type);
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	DDLogWarn(@"%@ dropped float", self.type);
+	DDLogWarn(@"Widget: %@ dropped float", self.type);
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	DDLogWarn(@"%@ dropped symbol", self.type);
+	DDLogWarn(@"Widget: %@ dropped symbol", self.type);
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	DDLogWarn(@"%@ dropped list", self.type);
+	DDLogWarn(@"Widget: %@ dropped list", self.type);
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	DDLogWarn(@"%@ dropped message", self.type);
+	DDLogWarn(@"Widget: %@ dropped message", self.type);
 }
 
 @end

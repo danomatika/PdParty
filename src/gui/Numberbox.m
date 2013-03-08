@@ -21,7 +21,7 @@
 + (id)numberboxFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
 
 	if(line.count < 11) { // sanity check
-		DDLogWarn(@"Cannot create Numberbox, atom line length < 11");
+		DDLogWarn(@"Numberbox: Cannot create, atom line length < 11");
 		return nil;
 	}
 
@@ -31,7 +31,7 @@
 	n.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
 	if(![n hasValidSendName] && ![n hasValidReceiveName]) {
 		// drop something we can't interact with
-		DDLogVerbose(@"Dropping Numberbox, send/receive names are empty");
+		DDLogVerbose(@"Numberbox: Dropping, send/receive names are empty");
 		return nil;
 	}
 	

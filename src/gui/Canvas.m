@@ -17,7 +17,7 @@
 + (id)canvasFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
 
 	if(line.count < 18) { // sanity check
-		DDLogWarn(@"Cannot create Canvas, atom line length < 18");
+		DDLogWarn(@"Canvas: Cannot create, atom line length < 18");
 		return nil;
 	}
 
@@ -27,7 +27,7 @@
 	c.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
 //	if(![c hasValidReceiveName]) {
 //		// drop something we can't interact with
-//		DDLogVerbose(@"Dropping Canvas, receive name is empty");
+//		DDLogVerbose(@"Canvas: Dropping, receive name is empty");
 //		return nil;
 //	}
 	
