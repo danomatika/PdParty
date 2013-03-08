@@ -1,0 +1,28 @@
+#N canvas 571 227 509 306 10;
+#X obj 283 206 osc~ 440;
+#X obj 283 247 *~;
+#X obj 283 268 dac~;
+#X obj 298 227 r volume;
+#X obj 381 205 loadbang;
+#X msg 381 226 \; pd dsp 1;
+#X obj 62 17 bng 32 250 50 0 sendtest receivetest hello! 38 16 0 10
+-262144 -1 -1;
+#X obj 260 61 f;
+#X obj 290 61 + 1;
+#X obj 260 20 loadbang;
+#X msg 260 82 bang;
+#X obj 260 103 s receivetest;
+#X msg 201 16 bang;
+#X obj 260 40 metro 500;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 0 2 1;
+#X connect 3 0 1 1;
+#X connect 4 0 5 0;
+#X connect 7 0 8 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 1;
+#X connect 9 0 13 0;
+#X connect 10 0 11 0;
+#X connect 12 0 13 0;
+#X connect 13 0 7 0;

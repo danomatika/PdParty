@@ -1,0 +1,19 @@
+#N canvas 300 251 509 306 10;
+#X obj 442 15 loadbang;
+#X msg 442 36 \; pd dsp 1;
+#X obj 112 9 tgl 32 0 send-change receive empty 17 7 0 10 -262144 -1
+-1 0 1;
+#X obj 297 20 loadbang;
+#X obj 297 41 metro 250;
+#X obj 324 84 s receive;
+#X obj 157 9 tgl 32 0 empty receive-set empty 17 7 0 10 -262144 -1
+-1 1 1;
+#X obj 297 62 t b b;
+#X obj 297 107 random 2;
+#X msg 297 128 \; receive-set set \$1;
+#X connect 0 0 1 0;
+#X connect 3 0 4 0;
+#X connect 4 0 7 0;
+#X connect 7 0 8 0;
+#X connect 7 1 5 0;
+#X connect 8 0 9 0;

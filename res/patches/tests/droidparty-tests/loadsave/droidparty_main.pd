@@ -1,0 +1,29 @@
+#N canvas 729 40 480 266 10;
+#X obj 341 79 loadsave store;
+#X obj 21 17 bng 32 250 50 0 doload empty load 0 -5 0 10 -262144 -1
+-1;
+#X obj 71 17 bng 32 250 50 0 dosave empty save 0 -5 0 10 -262144 -1
+-1;
+#X obj 182 58 r doload;
+#X obj 25 57 r dosave;
+#X obj 162 17 hsl 256 32 0 127 0 0 myval myval_r empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 148 221 textfile;
+#X obj 11 124 r myval;
+#X obj 148 240 s myval_r;
+#X msg 182 79 \; store load savedir sav;
+#X msg 25 79 \; store save savedir sav;
+#X obj 148 153 r store-load;
+#X msg 11 145 clear \, add \$1;
+#X obj 331 157 r store-save;
+#X msg 331 177 write \$1;
+#X msg 148 176 read \$1 \, rewind \, bang;
+#X connect 3 0 9 0;
+#X connect 4 0 10 0;
+#X connect 6 0 8 0;
+#X connect 7 0 12 0;
+#X connect 11 0 15 0;
+#X connect 12 0 6 0;
+#X connect 13 0 14 0;
+#X connect 14 0 6 0;
+#X connect 15 0 6 0;

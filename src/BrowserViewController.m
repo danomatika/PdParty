@@ -18,6 +18,16 @@
 @property (strong, readwrite) NSMutableArray *pathArray; // table view path
 @property (strong, readwrite) NSString *currentDir; // current directory path
 @property (assign, readwrite) int currentDirLevel;
+
+// run the given patch in the PatchViewController
+- (void)runPatch:(NSString *)fullpath;
+
+// returns true if a given path is a dir with a droidparty_main.pd within
+- (BOOL)isDroidPartyDir:(NSString *)fullpath;
+
+// returns true if the given path is a dir with a _main.pd within
+- (BOOL)isRjDjDir:(NSString *)fullpath;
+
 @end
 
 @implementation BrowserViewController
@@ -193,29 +203,30 @@
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
 		if(isDir) {
 		
-			// create a new browser table view and push it on the stack 
-			UIStoryboard *board;
-			if([Util isDeviceATablet]) {
-				board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+			if([self isDroidPartyDir:path]) {
+				[self runPatch:[path stringByAppendingPathComponent:@"droidparty_main.pd"]];
 			}
-			else {
-				board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+			else if([self isRjDjDir:path]) {
+				[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"]];
 			}
-			BrowserViewController *browserLayer = [board instantiateViewControllerWithIdentifier:@"BrowserViewController"];
-			browserLayer.patchViewController = self.patchViewController;
-			browserLayer.currentDir = path;
-			browserLayer.currentDirLevel = self.currentDirLevel+1;
-			[self.navigationController pushViewController:browserLayer animated:YES];
+			else { // regular dir
+				// create a new browser table view and push it on the stack
+				UIStoryboard *board;
+				if([Util isDeviceATablet]) {
+					board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+				}
+				else {
+					board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+				}
+				BrowserViewController *browserLayer = [board instantiateViewControllerWithIdentifier:@"BrowserViewController"];
+				browserLayer.patchViewController = self.patchViewController;
+				browserLayer.currentDir = path;
+				browserLayer.currentDirLevel = self.currentDirLevel+1;
+				[self.navigationController pushViewController:browserLayer animated:YES];
+			}
 		}
 		else {
-		
-			// load the selected patch
-			if([Util isDeviceATablet]) {
-				self.patchViewController.currentPatch = path;
-			}
-			else {
-				[self performSegueWithIdentifier:@"runPatch" sender:self];
-			}
+			[self runPatch:path];
 		}
 	}
 	else {
@@ -232,6 +243,26 @@
 		NSString *path = self.pathArray[indexPath.row];
 		[[segue destinationViewController] setCurrentPatch:path];
     }
+}
+
+#pragma mark Private / Util
+
+- (void)runPatch:(NSString *)fullpath {
+	if([Util isDeviceATablet]) {
+		self.patchViewController.currentPatch = fullpath;
+	}
+	else {
+		[self performSegueWithIdentifier:@"runPatch" sender:self];
+	}
+}
+
+- (BOOL)isDroidPartyDir:(NSString *)fullpath {
+	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"droidparty_main.pd"]];
+}
+
+- (BOOL)isRjDjDir:(NSString *)fullpath {
+	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]];
+
 }
 
 @end

@@ -1,0 +1,14 @@
+#N canvas 137 104 480 266 10;
+#X obj 360 151 osc~ 440;
+#X obj 360 192 *~;
+#X obj 360 213 dac~;
+#X obj 25 12 hsl 256 32 0 1 0 0 volume empty test_label -2 -8 0 10
+-262144 -1 -1 0 1;
+#X obj 375 172 r volume;
+#X obj 363 6 loadbang;
+#X msg 363 27 \; pd dsp 1;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 0 2 1;
+#X connect 4 0 1 1;
+#X connect 5 0 6 0;

@@ -1,0 +1,23 @@
+#N canvas 739 629 509 306 10;
+#X obj 25 205 cnv 15 100 60 empty empty empty 20 12 0 14 -99865 -66577
+0;
+#X obj 379 132 loadbang;
+#X obj 379 153 metro 100;
+#X obj 379 174 f;
+#X obj 406 174 + 1;
+#X obj 379 195 mod 16;
+#X obj 379 216 * 30;
+#X obj 132 40 cnv 15 30 30 empty shifter empty 20 12 0 14 -258113 -66577
+0;
+#X msg 318 128 bang;
+#X msg 379 257 \; shifter pos \$1 40;
+#X obj 379 237 + 12;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 1;
+#X connect 5 0 6 0;
+#X connect 6 0 10 0;
+#X connect 8 0 2 0;
+#X connect 10 0 9 0;

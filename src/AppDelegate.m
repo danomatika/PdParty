@@ -103,7 +103,7 @@
 		}
 	}
 	
-	// copy patches into Documents folder
+	// recursively copy contents of patches resource folder to Documents
 	NSString *resourcePatchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches"];
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:resourcePatchesPath error:&error];
 	if(!contents) {
@@ -111,7 +111,6 @@
 		return;
 	}
 	
-	// recursively copy contents of resource folder to Documents
 	DDLogVerbose(@"Found %d paths in patches resource folder", contents.count);
 	for(NSString *p in contents) {
 		NSString *filePath = [resourcePatchesPath stringByAppendingPathComponent:p];

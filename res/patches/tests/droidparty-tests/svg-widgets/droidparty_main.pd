@@ -1,0 +1,57 @@
+#N struct 1004template-marker float a float b;
+#N canvas 800 43 480 320 10;
+#X obj 14 28 tgl 32 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 58 28 tgl 32 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 102 28 tgl 32 0 sendtest empty empty 17 7 0 10 -262144 -1 -1
+0 1;
+#X obj 145 28 tgl 32 0 empty empty labeltest 0 -5 0 10 -262144 -1 -1
+0 1;
+#X obj 189 28 tgl 32 0 send_test_1 empty empty 17 7 0 10 -262144 -1
+-1 0 1;
+#X obj 232 28 tgl 32 0 sendtest2 empty labeltest2 0 -5 0 10 -262144
+-1 -1 0 1;
+#X obj 278 28 tgl 32 0 send_test_2 empty empty 0 -5 0 10 -262144 -1
+-1 0 1;
+#X obj 324 28 tgl 32 0 send_test_2 empty label_test_2 0 -5 0 10 -262144
+-1 -1 0 1;
+#X obj 14 87 wordbutton 128 32 hello;
+#X obj 14 130 touch 128 128 touchs;
+#X obj 265 176 hsl 128 32 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 159 89 vsl 32 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 262 87 numberbox 64 32 numr nums 0 10 0;
+#N canvas 0 0 450 300 canvas-move 0;
+#X obj 38 16 loadbang;
+#X obj 38 47 metro 200;
+#X obj 38 68 f;
+#X obj 66 69 + 1;
+#X obj 38 110 * 34;
+#X obj 38 131 + 168;
+#X msg 104 16 bang;
+#X msg 226 43 \; hello pos 168 226 \;;
+#X obj 38 89 mod 8;
+#X msg 38 152 \; hello pos \$1 260 \;;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 0 8 0;
+#X connect 3 0 2 1;
+#X connect 4 0 5 0;
+#X connect 5 0 9 0;
+#X connect 6 0 1 0;
+#X connect 8 0 4 0;
+#X restore 11 295 pd canvas-move;
+#X obj 406 260 cnv 16 32 16 empty hello empty 20 12 0 14 -258113 -66577
+0;
+#X obj 262 129 taplist 64 32 notein noteout C C# D D# E F F# G G# A
+A# B;
+#X obj 341 129 numberbox 64 32 xr xs 0 10 0;
+#X obj 405 129 taplist 64 32 yr ys A B C;
+#X obj 341 87 wordbutton 128 32 boom;
+#X obj 209 89 vsl 32 128 0 127 0 0 test empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 265 216 hsl 128 32 0 127 0 0 test empty empty -2 -8 0 10 -262144
+-1 -1 0 1;

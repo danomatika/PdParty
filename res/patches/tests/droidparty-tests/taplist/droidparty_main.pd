@@ -1,0 +1,18 @@
+#N canvas 174 163 480 266 10;
+#X obj 106 105 r receive;
+#X obj 13 104 r receive/idx;
+#X obj 13 143 print;
+#X obj 380 93 loadbang;
+#X obj 380 155 random 4;
+#X obj 380 176 s send;
+#X obj 380 134 metro 3000;
+#X obj 380 114 delay 3000;
+#X text 110 20 <- automatically changes every 3 seconds;
+#X floatatom 13 66 5 0 0 0 - receive/idx -;
+#X obj 13 10 taplist 96 32 send receive hello goat egg wubble;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 3 0 7 0;
+#X connect 4 0 5 0;
+#X connect 6 0 4 0;
+#X connect 7 0 6 0;
