@@ -160,6 +160,7 @@
 		30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6316E8457400E5AA5B /* KeyGrabber.m */; };
 		30C9BF6716E8460700E5AA5B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6616E8460700E5AA5B /* Util.m */; };
 		30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E89D0516E8758A005B40C4 /* CoreMotion.framework */; };
+		30E89D0C16EA446C005B40C4 /* Symbolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D0B16EA446C005B40C4 /* Symbolbox.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -408,6 +409,8 @@
 		30C9BF6516E8460700E5AA5B /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		30C9BF6616E8460700E5AA5B /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		30E89D0516E8758A005B40C4 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		30E89D0A16EA446C005B40C4 /* Symbolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbolbox.h; sourceTree = "<group>"; };
+		30E89D0B16EA446C005B40C4 /* Symbolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbolbox.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -615,6 +618,8 @@
 				30C9BF5516E8455A00E5AA5B /* PdParser.m */,
 				306DBE6916BC6A86007CF226 /* Slider.h */,
 				306DBE6A16BC6A86007CF226 /* Slider.m */,
+				30E89D0A16EA446C005B40C4 /* Symbolbox.h */,
+				30E89D0B16EA446C005B40C4 /* Symbolbox.m */,
 				3088883716BCB73700781682 /* Canvas.h */,
 				3088883816BCB73700781682 /* Canvas.m */,
 				30A31A0416B6D49300C7729B /* Bang.h */,
@@ -1175,6 +1180,7 @@
 				30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */,
 				30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */,
 				30C9BF6716E8460700E5AA5B /* Util.m in Sources */,
+				30E89D0C16EA446C005B40C4 /* Symbolbox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

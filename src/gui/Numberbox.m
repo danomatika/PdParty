@@ -212,6 +212,10 @@
 	if([message isEqualToString:@"set"] && arguments.count > 0 && [Util isNumberIn:arguments at:0]) {
 		self.value = [[arguments objectAtIndex:0] floatValue];
 	}
+	else {
+		[self receiveList:arguments fromSource:source];
+	}
+
 }
 
 @end

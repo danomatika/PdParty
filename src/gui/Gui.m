@@ -18,6 +18,7 @@
 #import "Numberbox.h"
 #import "Comment.h"
 #import "Canvas.h"
+#import "Symbolbox.h"
 
 @interface Gui () {}
 + (int)iemguiModuloColor:(int)col;
@@ -49,6 +50,14 @@
 	if(n) {
 		[self.widgets addObject:n];
 		DDLogVerbose(@"Gui: added %@", n.type);
+	}
+}
+
+- (void)addSymbolbox:(NSArray*)atomLine {
+	Symbolbox *s = [Symbolbox symbolboxFromAtomLine:atomLine withGui:self];
+	if(s) {
+		[self.widgets addObject:s];
+		DDLogVerbose(@"Gui: added %@", s.type);
 	}
 }
 
@@ -112,7 +121,6 @@
 			// find different types of UI element in the top level patch
 			else if(level == 1) {
 				if (line.count >= 2) {
-					NSString *objType = [line objectAtIndex:4];
 				
 					// built in pd things
 					if([lineType isEqualToString:@"text"]) {
@@ -121,7 +129,12 @@
 					else if([lineType isEqualToString:@"floatatom"]) {
 						[self addNumberbox:line];
 					}
+					else if([lineType isEqualToString:@"symbolatom"]) {
+						[self addSymbolbox:line];
+					}
 					else if([lineType isEqualToString:@"obj"] && line.count >= 5) {
+						NSString *objType = [line objectAtIndex:4];
+						
 						// pd objects
 						if([objType isEqualToString:@"bng"]) {
 							[self addBang:line];
