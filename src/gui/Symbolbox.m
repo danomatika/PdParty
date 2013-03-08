@@ -140,17 +140,17 @@
 #pragma mark PdListener
 
 - (void)receiveBangFromSource:(NSString *)source {
-	[self send:self.symbolLabel.text];
+	[self send:self.symbol];
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.symbol = @"float";
-	[self send:self.symbolLabel.text];
+	[self send:self.symbol];
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
 	self.symbol = symbol;
-	[self send:self.symbolLabel.text];
+	[self send:self.symbol];
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
@@ -159,20 +159,36 @@
 			[self receiveFloat:[[list objectAtIndex:0] floatValue] fromSource:source];
 		}
 		else if([Util isStringIn:list at:0]) {
-			[self receiveSymbol:[list objectAtIndex:0] fromSource:source];
+			if(list.count > 1 && [[list objectAtIndex:0] isEqualToString:@"set"]) {
+				if([Util isNumberIn:list at:1]) {
+					self.symbol = @"float";
+				}
+				else if([Util isStringIn:list at:1]) {
+					self.symbol = [list objectAtIndex:1];
+				}
+			}
+			else if([[list objectAtIndex:0] isEqualToString:@"bang"]) {
+				[self receiveBangFromSource:source];
+			}
+			else {
+				[self receiveSymbol:[list objectAtIndex:0] fromSource:source];
+			}
 		}
 	}
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
 	// set message sets value without sending
-	if([message isEqualToString:@"set"] && arguments.count > 0) {
+	if(arguments.count > 0 && [message isEqualToString:@"set"]) {
 		if([Util isNumberIn:arguments at:0]) {
 			self.symbol = @"float";
 		}
 		else if([Util isStringIn:arguments at:0]) {
 			self.symbol = [arguments objectAtIndex:0];
 		}
+	}
+	else if([message isEqualToString:@"bang"]) {
+		[self receiveBangFromSource:source];
 	}
 	else {
 		[self receiveList:arguments fromSource:source];

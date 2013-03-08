@@ -198,14 +198,36 @@
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	if(list.count > 0 && [Util isNumberIn:list at:0]) {
-		[self receiveFloat:[[list objectAtIndex:0] floatValue] fromSource:source];
+	if(list.count > 0) {
+		if([Util isNumberIn:list at:0]) {
+			[self receiveFloat:[[list objectAtIndex:0] floatValue] fromSource:source];
+		}
+		else if([Util isStringIn:list at:0]) {
+			if(list.count > 1 && [[list objectAtIndex:0] isEqualToString:@"set"]) {
+				if([Util isNumberIn:list at:1]) {
+					self.value = [[list objectAtIndex:1] floatValue];
+				}
+			}
+			else if([[list objectAtIndex:0] isEqualToString:@"bang"]) {
+				[self receiveBangFromSource:source];
+			}
+			else {
+				[self receiveSymbol:[list objectAtIndex:0] fromSource:source];
+			}
+		}
 	}
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	if(arguments.count > 0 && [Util isNumberIn:arguments at:0]) {
-		[self receiveFloat:[[arguments objectAtIndex:0] floatValue] fromSource:source];
+	// set message sets value without sending
+	if([message isEqualToString:@"set"] && arguments.count > 0 && [Util isNumberIn:arguments at:0]) {
+		self.value = [[arguments objectAtIndex:0] floatValue];
+	}
+	else if([message isEqualToString:@"bang"]) {
+		[self receiveBangFromSource:source];
+	}
+	else {
+		[self receiveList:arguments fromSource:source];
 	}
 }
 
