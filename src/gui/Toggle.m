@@ -123,7 +123,7 @@
 	[super setValue:f];
 }
 
-- (NSString*)type {
+- (NSString *)type {
 	return @"Toggle";
 }
 

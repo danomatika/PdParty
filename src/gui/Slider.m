@@ -12,7 +12,7 @@
 
 #import "Gui.h"
 
-@interface Slider () {}
+@interface Slider ()
 
 // get scaled value based on width or height & max/min
 - (float)horizontalValue:(float)x;
@@ -22,7 +22,7 @@
 
 @implementation Slider
 
-+ (id)sliderFromAtomLine:(NSArray*)line withOrientation:(SliderOrientation)orientation withGui:(Gui*)gui {
++ (id)sliderFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui {
 
 	if(line.count < 23) { // sanity check
 		DDLogWarn(@"Slider: Cannot create, atom line length < 23");
@@ -58,7 +58,7 @@
 
 	[s reshapeForGui:gui];
 	
-	if(orientation == SliderOrientationHorizontal) {
+	if(orientation == WidgetOrientationHorizontal) {
 		s.value = ([[line objectAtIndex:21] floatValue] * 0.01 * (s.maxValue - s.minValue)) /
 			[[line objectAtIndex:5] floatValue];
 	}
@@ -76,7 +76,7 @@
     self = [super initWithFrame:frame];
     if (self) {
 		self.log = 0;
-		self.orientation = SliderOrientationHorizontal;
+		self.orientation = WidgetOrientationHorizontal;
     }
     return self;
 }
@@ -99,7 +99,7 @@
 	// slider pos
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	CGContextSetLineWidth(context, 4);
-	if(self.orientation == SliderOrientationHorizontal) {
+	if(self.orientation == WidgetOrientationHorizontal) {
 		float x = round(rect.origin.x + ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.width);
 		// constrain pos at edges
 		if(x < 4) { // width of slider control + pixel padding
@@ -112,7 +112,7 @@
 		CGContextAddLineToPoint(context, x, round(rect.origin.y+rect.size.height-1));
 		CGContextStrokePath(context);
 	}
-	else {
+	else { // vertical
 		float y = round(rect.origin.y+rect.size.height - ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.height);
 		// constrain pos at edges
 		if(y < 4) { // width of slider control + pixel padding
@@ -136,7 +136,7 @@
 	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
 	[self.label sizeToFit];
 	int nudgeX = 0, nudgeY = 0;
-	if(self.orientation == SliderOrientationHorizontal) {
+	if(self.orientation == WidgetOrientationHorizontal) {
 		nudgeX = 4;
 		nudgeY = -2;
 	}
@@ -153,8 +153,8 @@
 	[super setValue:MIN(self.maxValue, MAX(self.minValue, f))];
 }
 
-- (NSString*)type {
-	if(self.orientation == SliderOrientationHorizontal) {
+- (NSString *)type {
+	if(self.orientation == WidgetOrientationHorizontal) {
 		return @"HSlider";
 	}
 	return @"VSlider";
@@ -165,7 +165,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
     UITouch *touch = [touches anyObject];
     CGPoint pos = [touch locationInView:self];
-	if(self.orientation == SliderOrientationHorizontal) {
+	if(self.orientation == WidgetOrientationHorizontal) {
 		self.value = [self horizontalValue:pos.x];
 	}
 	else {
@@ -177,7 +177,7 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint pos = [touch locationInView:self];
-	if(self.orientation == SliderOrientationHorizontal) {
+	if(self.orientation == WidgetOrientationHorizontal) {
 		self.value = [self horizontalValue:pos.x];
 	}
 	else {

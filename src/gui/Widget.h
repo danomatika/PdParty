@@ -17,6 +17,12 @@
 #define WIDGET_FILL_COLOR [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]
 #define WIDGET_FRAME_COLOR [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]
 
+// for widgets supporting orientation
+typedef enum {
+	WidgetOrientationHorizontal,
+	WidgetOrientationVertical
+} WidgetOrientation;
+
 @class PdDispatcher;
 
 @interface Widget : UIView <PdListener>
@@ -46,7 +52,7 @@
 - (void)reshapeForGui:(Gui *)gui;
 
 // static receieve dispatcher
-+ (PdDispatcher*) dispatcher;
++ (PdDispatcher *) dispatcher;
 + (void)setDispatcher:(PdDispatcher*)d;
 
 // set a selector and method to perform when the widget's value is changed
@@ -57,7 +63,7 @@
 - (BOOL)hasValidReceiveName;
 
 // send to objects in pd
-- (void)send:(NSString*)message;
+- (void)send:(NSString *)message;
 - (void)sendFloat:(float) f;
 - (void)sendBang;
 

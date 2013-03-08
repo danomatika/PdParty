@@ -20,6 +20,6 @@
 @property (strong) UILabel *numberLabel; // shows the value
 @property (strong) NSNumberFormatter *numberLabelFormatter; // formats the value
 
-+ (id)numberboxFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
++ (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

@@ -12,10 +12,11 @@
 
 #import "WebServer.h"
 
-@interface StartViewController ()
+@interface StartViewController () {
+	NSTimer *serverInfoTimer;
+}
 
-@property (strong) NSTimer *serverInfoTimer;
-
+// timer function to update the server footer info
 - (void)updateServerInfo:(NSTimer*)theTimer;
 
 @end
@@ -81,8 +82,8 @@
 		self.serverPortTextField.enabled = NO;
 		
 		// launch timer to make sure server has enough time to setup before getting the host info for the footer text
-		self.serverInfoTimer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateServerInfo:) userInfo:nil repeats:NO];
-		[[NSRunLoop mainRunLoop] addTimer:self.serverInfoTimer forMode:NSDefaultRunLoopMode];
+		serverInfoTimer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateServerInfo:) userInfo:nil repeats:NO];
+		[[NSRunLoop mainRunLoop] addTimer:serverInfoTimer forMode:NSDefaultRunLoopMode];
 	}
 	else {
 		[self.server stop];

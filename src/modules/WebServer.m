@@ -23,8 +23,9 @@
 #import "Log.h"
 #import "Util.h"
 
-@interface WebServer ()
-@property (strong) HTTPServer *server;
+@interface WebServer () {
+	HTTPServer *server;
+}
 @end
 
 @implementation WebServer
@@ -32,27 +33,27 @@
 - (id)init {
 	self = [super init];
     if(self) {
-		self.server = [[HTTPServer alloc] init];
-		[self.server setPort:8080]; // default
+		server = [[HTTPServer alloc] init];
+		[server setPort:8080]; // default
     }
     return self;
 }
 
-- (BOOL)start:(NSString*)webFolder {
+- (BOOL)start:(NSString *)webFolder {
 
 	// create DAV server
-	[self.server setConnectionClass:[DAVConnection class]];
+	[server setConnectionClass:[DAVConnection class]];
 	
 	// enable Bonjour
-	[self.server setType:@"_http._tcp."];
+	[server setType:@"_http._tcp."];
 
 	// set document root
-	[self.server setDocumentRoot:[webFolder stringByExpandingTildeInPath]];
+	[server setDocumentRoot:[webFolder stringByExpandingTildeInPath]];
 	DDLogVerbose(@"HTTPServer: set root to %@", webFolder);
 
 	// start DAV server
 	NSError* error = nil;
-	if(![self.server start:&error]) {
+	if(![server start:&error]) {
 		DDLogError(@"HTTPServer: error starting: %@", error.localizedDescription);
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Woops"
 															message:[NSString stringWithFormat:@"Coudln't start server: %@", error.localizedDescription]
@@ -70,8 +71,8 @@
 }
 
 - (void)stop {
-	if(self.server.isRunning) {
-		[self.server stop];
+	if(server.isRunning) {
+		[server stop];
 		DDLogVerbose(@"HTTPServer: stopped");
 	}
 }
@@ -80,29 +81,29 @@
 
 - (void)setPort:(int)port {
 	DDLogVerbose(@"HTTPServer: port set to %d", port);
-	[self.server setPort:port];
+	[server setPort:port];
 }
 
 - (int)port {
-	if([self.server isRunning]) {
-		return [self.server listeningPort];
+	if([server isRunning]) {
+		return [server listeningPort];
 	}
 	else {
-		return [self.server port];
+		return [server port];
 	}
 }
 
 - (NSString*)hostName {
-	if([self.server isRunning]) {
-		return [self.server publishedName];
+	if([server isRunning]) {
+		return [server publishedName];
 	}
 	else {
-		return [self.server name];
+		return [server name];
 	}
 }
 
 - (BOOL)isRunning {
-	return [self.server isRunning];
+	return [server isRunning];
 }
 
 // from http://stackoverflow.com/questions/7975727/how-to-check-if-wifi-option-enabled-or-not

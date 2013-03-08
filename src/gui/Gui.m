@@ -37,7 +37,7 @@
     return self;
 }
 
-- (void)addComment:(NSArray*)atomLine {
+- (void)addComment:(NSArray *)atomLine {
 	Comment *c = [Comment commentFromAtomLine:atomLine withGui:self];
 	if(c) {
 		[self.widgets addObject:c];
@@ -45,7 +45,7 @@
 	}
 }
 
-- (void)addNumberbox:(NSArray*)atomLine {
+- (void)addNumberbox:(NSArray *)atomLine {
 	Numberbox *n = [Numberbox numberboxFromAtomLine:atomLine withGui:self];
 	if(n) {
 		[self.widgets addObject:n];
@@ -53,7 +53,7 @@
 	}
 }
 
-- (void)addSymbolbox:(NSArray*)atomLine {
+- (void)addSymbolbox:(NSArray *)atomLine {
 	Symbolbox *s = [Symbolbox symbolboxFromAtomLine:atomLine withGui:self];
 	if(s) {
 		[self.widgets addObject:s];
@@ -61,7 +61,7 @@
 	}
 }
 
-- (void)addBang:(NSArray*)atomLine {
+- (void)addBang:(NSArray *)atomLine {
 	Bang *b = [Bang bangFromAtomLine:atomLine withGui:self];
 	if(b) {
 		[self.widgets addObject:b];
@@ -69,7 +69,7 @@
 	}
 }
 
-- (void)addToggle:(NSArray*)atomLine {
+- (void)addToggle:(NSArray *)atomLine {
 	Toggle *t = [Toggle toggleFromAtomLine:atomLine withGui:self];
 	if(t) {
 		[self.widgets addObject:t];
@@ -77,7 +77,7 @@
 	}
 }
 
-- (void)addSlider:(NSArray*)atomLine withOrientation:(SliderOrientation)orientation {
+- (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation {
 	Slider *s = [Slider sliderFromAtomLine:atomLine withOrientation:orientation withGui:self];
 	if(s) {
 		[self.widgets addObject:s];
@@ -85,7 +85,7 @@
 	}
 }
 
-- (void)addCanvas:(NSArray*)atomLine {
+- (void)addCanvas:(NSArray *)atomLine {
 	Canvas *c = [Canvas canvasFromAtomLine:atomLine withGui:self];
 	if(c) {
 		[self.widgets addObject:c];
@@ -93,7 +93,7 @@
 	}
 }
 
-- (void)addWidgetsFromAtomLines:(NSArray*)lines {
+- (void)addWidgetsFromAtomLines:(NSArray *)lines {
 	int level = 0;
 	
 	for(NSArray *line in lines) {
@@ -143,10 +143,10 @@
 							[self addToggle:line];
 						}
 						else if([objType isEqualToString:@"hsl"]) {
-							[self addSlider:line withOrientation:SliderOrientationHorizontal];
+							[self addSlider:line withOrientation:WidgetOrientationHorizontal];
 						}
 						else if([objType isEqualToString:@"vsl"]) {
-							[self addSlider:line withOrientation:SliderOrientationVertical];
+							[self addSlider:line withOrientation:WidgetOrientationVertical];
 						}
 						else if([objType isEqualToString:@"cnv"]) {
 							[self addCanvas:line];
@@ -163,7 +163,7 @@
 	}
 }
 
-- (void)addWidgetsFromPatch:(NSString*)patch {
+- (void)addWidgetsFromPatch:(NSString *)patch {
 	[self addWidgetsFromAtomLines:[PdParser getAtomLines:[PdParser readPatch:patch]]];
 }
 
@@ -183,11 +183,11 @@
 
 #pragma Utils
 
-- (NSString*)formatAtomString:(NSString*)string {
+- (NSString *)formatAtomString:(NSString *)string {
 	return [self replaceDollarZeroStringsIn:[Gui filterEmptyStringValues:string]];
 }
 
-- (NSString*)replaceDollarZeroStringsIn:(NSString*)string {
+- (NSString *)replaceDollarZeroStringsIn:(NSString *)string {
 	NSMutableString *newString = [NSMutableString stringWithString:string];
 	[newString replaceOccurrencesOfString:@"\\$0"
 							   withString:[NSString stringWithFormat:@"%d", self.currentPatch.dollarZero]
@@ -200,7 +200,7 @@
 	return newString;
 }
 
-+ (NSString *)filterEmptyStringValues:(NSString*)atom {
++ (NSString *)filterEmptyStringValues:(NSString *)atom {
 	if(!atom || [atom isEqualToString:@"-"] || [atom isEqualToString:@"empty"]) {
 		return @"";
 	}
@@ -218,7 +218,7 @@ static int iemgui_color_hex[] = { // predefined colors
 	7874580, 2641940, 17488, 5256, 5767248
 };
 
-+ (UIColor*)colorFromIEMColor:(int)iemColor {
++ (UIColor *)colorFromIEMColor:(int)iemColor {
 	int r, g, b;
 	if(iemColor < 0) {
 		iemColor = -1 - iemColor;

@@ -18,10 +18,10 @@
 - (void)enableNetwork:(bool)enabled;
 
 // source / destination hot plugging
-- (void)midi:(PGMidi*)midi sourceAdded:(PGMidiSource *)source;
-- (void)midi:(PGMidi*)midi sourceRemoved:(PGMidiSource *)source;
-- (void)midi:(PGMidi*)midi destinationAdded:(PGMidiDestination *)destination;
-- (void)midi:(PGMidi*)midi destinationRemoved:(PGMidiDestination *)destination;
+- (void)midi:(PGMidi *)midi sourceAdded:(PGMidiSource *)source;
+- (void)midi:(PGMidi *)midi sourceRemoved:(PGMidiSource *)source;
+- (void)midi:(PGMidi *)midi destinationAdded:(PGMidiDestination *)destination;
+- (void)midi:(PGMidi *)midi destinationRemoved:(PGMidiDestination *)destination;
 
 // midi input message ignores
 @property bool bIgnoreSysex;

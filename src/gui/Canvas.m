@@ -14,7 +14,7 @@
 
 @implementation Canvas
 
-+ (id)canvasFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
++ (id)canvasFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 18) { // sanity check
 		DDLogWarn(@"Canvas: Cannot create, atom line length < 18");
@@ -72,7 +72,7 @@
 
 #pragma mark Overridden Getters / Setters
 
-- (NSString*)type {
+- (NSString *)type {
 	return @"Canvas";
 }
 

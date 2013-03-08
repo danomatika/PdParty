@@ -15,12 +15,12 @@
 @interface Bang () {
 	NSTimer *flashTimer;
 }
-- (void)stopFlash:(NSTimer*)timer;
+- (void)stopFlash:(NSTimer *)timer;
 @end
 
 @implementation Bang
 
-+ (id)bangFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
++ (id)bangFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 18) { // sanity check
 		DDLogWarn(@"Bang: Cannot create, atom line length < 18");
@@ -148,7 +148,7 @@
 
 #pragma Private
 
-- (void)stopFlash:(NSTimer*)timer {
+- (void)stopFlash:(NSTimer *)timer {
   self.value = 0;
 }
 

@@ -20,21 +20,21 @@
 
 #define ACCEL_UPDATE_HZ	60.0
 
-@interface PatchViewController ()
+@interface PatchViewController () {
 
+	NSMutableDictionary *activeTouches; // for persistent ids
+	CMMotionManager *motionManager; // for accel data
+
+	BOOL hasReshaped; // has the gui been reshaped?
+}
 @property (nonatomic, strong) UIPopoverController *masterPopoverController;
-@property (nonatomic, strong) NSMutableDictionary *activeTouches; // for persistent ids
-@property (nonatomic, weak) CMMotionManager *motionManager; // for accel data
-
-@property (assign) BOOL hasReshaped; // has the gui been reshaped?
-
 @end
 
 @implementation PatchViewController
 
 - (void)awakeFromNib {
-	self.activeTouches = [[NSMutableDictionary alloc] init];
-	self.hasReshaped = NO;
+	activeTouches = [[NSMutableDictionary alloc] init];
+	hasReshaped = NO;
 	[super awakeFromNib];
 }
 
@@ -48,7 +48,7 @@
 	
 	// set motionManager pointer for accel updates
 	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-	self.motionManager = app.motionManager;
+	motionManager = app.motionManager;
 	self.enableAccelerometer = YES;
 }
 
@@ -58,15 +58,15 @@
 	
 	// do animations if gui has already been setup once
 	// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
-	if(self.hasReshaped) {
+	if(hasReshaped) {
 		[UIView beginAnimations:nil context:nil];
 	}
 	[self.gui reshapeWidgets];
-	if(self.hasReshaped) {
+	if(hasReshaped) {
 		[UIView commitAnimations];
 	}
 	else {
-		self.hasReshaped = YES;
+		hasReshaped = YES;
 	}
 }
 
@@ -138,7 +138,7 @@
 			for(Widget *widget in self.gui.widgets) {
 				[self.view addSubview:widget];
 			}
-			self.hasReshaped = NO;
+			hasReshaped = NO;
 		}
     }
 
@@ -172,12 +172,12 @@
 	
 	// start
 	if(enableAccelerometer) {
-		if([self.motionManager isAccelerometerAvailable]) {
+		if([motionManager isAccelerometerAvailable]) {
 			NSTimeInterval updateInterval = 1.0/ACCEL_UPDATE_HZ;
-			[self.motionManager setAccelerometerUpdateInterval:updateInterval];
+			[motionManager setAccelerometerUpdateInterval:updateInterval];
 			
 			// accel data callback block
-			[self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue]
+			[motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue]
 				withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
 //					DDLogVerbose(@"accel %f %f %f", accelerometerData.acceleration.x,
 //													accelerometerData.acceleration.y,
@@ -189,8 +189,8 @@
 		}
 	}
 	else { // stop
-		if([self.motionManager isAccelerometerActive]) {
-          [self.motionManager stopAccelerometerUpdates];
+		if([motionManager isAccelerometerActive]) {
+          [motionManager stopAccelerometerUpdates];
 		}
 	}
 }
@@ -203,10 +203,10 @@
 	
 	for(UITouch *touch in touches) {
 		int touchId = 0;
-		while([[self.activeTouches allValues] containsObject:[NSNumber numberWithInt:touchId]]){
+		while([[activeTouches allValues] containsObject:[NSNumber numberWithInt:touchId]]){
 			touchId++;
 		}
-		[self.activeTouches setObject:[NSNumber numberWithInt:touchId]
+		[activeTouches setObject:[NSNumber numberWithInt:touchId]
 							   forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
@@ -218,7 +218,7 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	
 	for(UITouch *touch in touches) {
-		int touchId = [[self.activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
+		int touchId = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
 		CGPoint pos = [touch locationInView:self.view];
 //		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
@@ -228,8 +228,8 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 
 	for(UITouch *touch in touches) {
-		int touchId = [[self.activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
-		[self.activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
+		int touchId = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
+		[activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
 //		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);

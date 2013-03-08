@@ -14,6 +14,6 @@
 
 @interface Comment : Widget
 
-+ (id)commentFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
++ (id)commentFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

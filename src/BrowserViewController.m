@@ -15,6 +15,7 @@
 #import "Util.h"
 
 @interface BrowserViewController ()
+
 @property (strong, readwrite) NSMutableArray *pathArray; // table view path
 @property (strong, readwrite) NSString *currentDir; // current directory path
 @property (assign, readwrite) int currentDirLevel;

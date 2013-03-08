@@ -14,7 +14,7 @@
 
 @implementation Symbolbox
 
-+ (id)symbolboxFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
++ (id)symbolboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 11) { // sanity check
 		DDLogWarn(@"Symbolbox: Cannot create, atom line length < 11");
@@ -129,11 +129,11 @@
 	[self setNeedsDisplay];
 }
 
-- (NSString*)symbol {
+- (NSString *)symbol {
 	return self.symbolLabel.text;
 }
 
-- (NSString*)type {
+- (NSString *)type {
 	return @"Symbolbox";
 }
 

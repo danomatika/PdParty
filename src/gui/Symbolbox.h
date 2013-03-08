@@ -20,6 +20,6 @@
 
 @property (strong) UILabel *symbolLabel; // shows the symbol
 
-+ (id)symbolboxFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
++ (id)symbolboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

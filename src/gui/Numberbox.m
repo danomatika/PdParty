@@ -12,13 +12,14 @@
 
 #import "Gui.h"
 
-@interface Numberbox () {}
-@property (nonatomic, assign) int touchPrevY;
+@interface Numberbox () {
+	int touchPrevY;
+}
 @end
 
 @implementation Numberbox
 
-+ (id)numberboxFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
++ (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 11) { // sanity check
 		DDLogWarn(@"Numberbox: Cannot create, atom line length < 11");
@@ -67,7 +68,7 @@
 		self.numberLabelFormatter.paddingCharacter = @" ";
 		self.numberLabelFormatter.paddingPosition = NSNumberFormatterPadAfterSuffix;
 		
-		self.touchPrevY = 0;
+		touchPrevY = 0;
     }
     return self;
 }
@@ -154,7 +155,7 @@
 	[super setValue:value];
 }
 
-- (NSString*)type {
+- (NSString *)type {
 	return @"Numberbox";
 }
 
@@ -168,26 +169,26 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
     UITouch *touch = [touches anyObject];
     CGPoint pos = [touch locationInView:self];
-	self.touchPrevY = pos.y;
+	touchPrevY = pos.y;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint pos = [touch locationInView:self];
-	int diff = self.touchPrevY - pos.y;
+	int diff = touchPrevY - pos.y;
 	if(diff != 0) {
 		self.value = self.value + diff;
 		[self sendFloat:self.value];
 	}
-	self.touchPrevY = pos.y;
+	touchPrevY = pos.y;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	self.touchPrevY = 0;
+	touchPrevY = 0;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	self.touchPrevY = 0;
+	touchPrevY = 0;
 }
 
 #pragma mark PdListener

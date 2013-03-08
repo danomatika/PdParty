@@ -12,16 +12,11 @@
 
 @class Gui;
 
-typedef enum {
-	SliderOrientationHorizontal,
-	SliderOrientationVertical
-} SliderOrientation;
-
 @interface Slider : Widget
 
 @property (assign) int log;
-@property (assign) SliderOrientation orientation;
+@property (assign) WidgetOrientation orientation;
 
-+ (id)sliderFromAtomLine:(NSArray*)line withOrientation:(SliderOrientation)orientation withGui:(Gui*)gui;
++ (id)sliderFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui;
 
 @end

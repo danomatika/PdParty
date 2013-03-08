@@ -14,8 +14,9 @@
 #import "Midi.h"
 #import "PdAudioController.h"
 
-@interface PureData ()
-@property (nonatomic, retain) PdAudioController *audioController;
+@interface PureData () {
+	PdAudioController *audioController;
+}
 @end
 
 @implementation PureData
@@ -26,8 +27,8 @@
 	self = [super init];
 	if(self) {
 		// configure a typical audio session with 2 output channels
-		self.audioController = [[PdAudioController alloc] init];
-		PdAudioStatus status = [self.audioController configurePlaybackWithSampleRate:44100
+		audioController = [[PdAudioController alloc] init];
+		PdAudioStatus status = [audioController configurePlaybackWithSampleRate:44100
 																	  numberChannels:2
 																		inputEnabled:NO
 																	   mixingEnabled:YES];
@@ -41,7 +42,7 @@
 			DDLogInfo(@"Audio Configuration successful");
 		}
 		if(ddLogLevel >= LOG_LEVEL_VERBOSE) {
-			[self.audioController print];
+			[audioController print];
 		}
 		
 		// set dispatcher delegate
@@ -117,7 +118,7 @@
 		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:0]] toReceiver:RJ_TRANSPORT_R];
 	}
 	audioEnabled = enabled;
-	self.audioController.active = self.audioEnabled;
+	audioController.active = self.audioEnabled;
 }
 
 @end

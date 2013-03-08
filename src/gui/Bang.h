@@ -16,6 +16,6 @@
 
 @property (assign) int bangTimeMS;
 
-+ (id)bangFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
++ (id)bangFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

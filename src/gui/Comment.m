@@ -14,7 +14,7 @@
 
 @implementation Comment
 
-+ (id)commentFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
++ (id)commentFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 4) { // sanity check
 		DDLogWarn(@"Comment: Cannot create, atom line length < 4");
@@ -60,7 +60,7 @@
 
 #pragma mark Overridden Getters / Setters
 
-- (NSString*)type {
+- (NSString *)type {
 	return @"Comment";
 }
 

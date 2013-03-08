@@ -49,12 +49,12 @@
 @property (assign) float scaleY;
 
 // add a widget using a given atom line (array of NSStrings)
-- (void)addComment:(NSArray*)atomLine;
-- (void)addNumberbox:(NSArray*)atomLine;
-- (void)addBang:(NSArray*)atomLine;
-- (void)addToggle:(NSArray*)atomLine;
-- (void)addSlider:(NSArray*)atomLine withOrientation:(SliderOrientation)orientation;
-- (void)addCanvas:(NSArray*)atomLine;
+- (void)addComment:(NSArray *)atomLine;
+- (void)addNumberbox:(NSArray *)atomLine;
+- (void)addBang:(NSArray *)atomLine;
+- (void)addToggle:(NSArray *)atomLine;
+- (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
+- (void)addCanvas:(NSArray *)atomLine;
 
 // add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray*)lines;
@@ -68,16 +68,16 @@
 #pragma Utils
 
 // filter empty values and replace any ocurrances of $0 with the current patch id
-- (NSString*)formatAtomString:(NSString*)string;
+- (NSString *)formatAtomString:(NSString *)string;
 
 // replace any occurrances of "//$0" or "$0" with the current patches' dollar zero id
-- (NSString*)replaceDollarZeroStringsIn:(NSString*)string;
+- (NSString *)replaceDollarZeroStringsIn:(NSString *)string;
 
 // convert atom string empty values to an empty string
 // nil, @"-", & @"empty" -> @""
-+ (NSString*)filterEmptyStringValues:(NSString*)atom;
++ (NSString *)filterEmptyStringValues:(NSString *)atom;
 
 // convert an IEM color to a UIColor
-+ (UIColor*)colorFromIEMColor:(int)iemColor;
++ (UIColor *)colorFromIEMColor:(int)iemColor;
 
 @end

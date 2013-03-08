@@ -16,6 +16,6 @@
 
 @property (assign) int labelFontSize;
 
-+ (id)canvasFromAtomLine:(NSArray*)line withGui:(Gui*)gui;
++ (id)canvasFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

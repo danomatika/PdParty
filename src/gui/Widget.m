@@ -91,7 +91,7 @@
 
 #pragma mark Sending
 
-- (void)send:(NSString*)message {
+- (void)send:(NSString *)message {
 	if([self hasValidSendName]) {
 		[PdBase sendSymbol:message toReceiver:self.sendName];
 	}
@@ -135,7 +135,7 @@
 	}
 }
 
-- (NSString*)type {
+- (NSString *)type {
 	return @"Widget";
 }
 
@@ -143,7 +143,7 @@
 
 static PdDispatcher *dispatcher = nil;
 
-+ (PdDispatcher*)dispatcher {
++ (PdDispatcher *)dispatcher {
   return dispatcher;
 }
 

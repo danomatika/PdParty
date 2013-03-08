@@ -128,20 +128,20 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 #pragma mark PGMidiDelegate
 
-- (void)midi:(PGMidi*)midi sourceAdded:(PGMidiSource *)source {
+- (void)midi:(PGMidi *)midi sourceAdded:(PGMidiSource *)source {
 	source.delegate = self;
 	DDLogVerbose(@"Midi: source added: %@", source.name);
 }
 
-- (void)midi:(PGMidi*)midi sourceRemoved:(PGMidiSource *)source {
+- (void)midi:(PGMidi *)midi sourceRemoved:(PGMidiSource *)source {
 	DDLogVerbose(@"Midi: source removed: %@", source.name);
 }
 
-- (void)midi:(PGMidi*)midi destinationAdded:(PGMidiDestination *)destination {
+- (void)midi:(PGMidi *)midi destinationAdded:(PGMidiDestination *)destination {
 	DDLogVerbose(@"Midi: destination added: %@", destination.name);
 }
 
-- (void)midi:(PGMidi*)midi destinationRemoved:(PGMidiDestination *)destination {
+- (void)midi:(PGMidi *)midi destinationRemoved:(PGMidiDestination *)destination {
 	DDLogVerbose(@"Midi: destination removed: %@", destination.name);
 }
 
