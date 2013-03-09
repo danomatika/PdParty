@@ -1,0 +1,36 @@
+#N canvas 527 241 153 213 10;
+#X obj 10 20 hsl 128 15 0 127 0 0 hsl1-out hsl1-in hsl1 -2 -8 0 10
+-228856 -4034 -4160 0 1;
+#X obj 58 63 vsl 15 128 0 127 0 0 vsl1-out vsl1-in vsl1 0 -9 0 10 -86853
+-4032 -159808 6096 1;
+#N canvas 745 235 174 331 guts 0;
+#X msg 57 256 bang;
+#X obj 42 295 s vsl1-in;
+#X obj 42 232 line;
+#X obj 42 168 sel 0 1;
+#X msg 42 198 127 500;
+#X msg 101 199 0 500;
+#X obj 99 16 r hsl1-out;
+#X obj 99 41 / 127;
+#X obj 42 118 metro 1000;
+#X obj 42 143 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 42 83 loadbang;
+#X msg 42 59 bang;
+#X obj 99 92 + 50;
+#X obj 99 67 * 1950;
+#X connect 0 0 1 0;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 3 1 5 0;
+#X connect 4 0 2 0;
+#X connect 5 0 2 0;
+#X connect 6 0 7 0;
+#X connect 7 0 13 0;
+#X connect 8 0 9 0;
+#X connect 9 0 3 0;
+#X connect 10 0 8 0;
+#X connect 11 0 10 0;
+#X connect 12 0 8 1;
+#X connect 13 0 12 0;
+#X restore 88 59 pd guts;

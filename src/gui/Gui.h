@@ -54,6 +54,7 @@
 - (void)addBang:(NSArray *)atomLine;
 - (void)addToggle:(NSArray *)atomLine;
 - (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
+- (void)addRadio:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
 - (void)addCanvas:(NSArray *)atomLine;
 
 // add widgets from an array of atom lines

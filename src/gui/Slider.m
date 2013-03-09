@@ -74,7 +74,7 @@
 
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
-    if (self) {
+    if(self) {
 		self.log = 0;
 		self.orientation = WidgetOrientationHorizontal;
     }

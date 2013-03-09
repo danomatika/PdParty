@@ -19,6 +19,7 @@
 #import "Comment.h"
 #import "Canvas.h"
 #import "Symbolbox.h"
+#import "Radio.h"
 
 @interface Gui () {}
 + (int)iemguiModuloColor:(int)col;
@@ -85,6 +86,14 @@
 	}
 }
 
+- (void)addRadio:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation {
+	Radio *r = [Radio radioFromAtomLine:atomLine withOrientation:orientation withGui:self];
+	if(r) {
+		[self.widgets addObject:r];
+		DDLogVerbose(@"Gui: added %@", r.type);
+	}
+}
+
 - (void)addCanvas:(NSArray *)atomLine {
 	Canvas *c = [Canvas canvasFromAtomLine:atomLine withGui:self];
 	if(c) {
@@ -148,6 +157,12 @@
 						else if([objType isEqualToString:@"vsl"]) {
 							[self addSlider:line withOrientation:WidgetOrientationVertical];
 						}
+						else if([objType isEqualToString:@"hradio"]) {
+							[self addRadio:line withOrientation:WidgetOrientationHorizontal];
+						}
+						else if([objType isEqualToString:@"vradio"]) {
+							[self addRadio:line withOrientation:WidgetOrientationVertical];
+						}
 						else if([objType isEqualToString:@"cnv"]) {
 							[self addCanvas:line];
 						}
@@ -170,6 +185,7 @@
 - (void)reshapeWidgets {
 	for(Widget *widget in self.widgets) {
 		[widget reshapeForGui:self];
+		[widget setNeedsDisplay]; // redraw to avoid antialiasing on rotate
 	}
 }
 

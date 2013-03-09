@@ -1,0 +1,39 @@
+#N canvas 641 32 269 324 10;
+#X obj 28 62 hradio 15 1 0 8 hradio1-out hradio1-in hradio1 0 -8 0
+10 -262144 -1 -1 0;
+#X obj 188 18 vradio 15 1 0 8 vradio1-out vradio1-in vradio1 0 -8 0
+10 -262144 -1 -1 0;
+#X floatatom 30 92 5 0 0 0 - hradio1-out -;
+#X floatatom 216 62 5 0 0 0 - vradio1-out -;
+#X obj 70 93 bng 15 250 50 0 hradio1-set1 empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 94 93 bng 15 250 50 0 hradio1-set2 empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 217 89 bng 15 250 50 0 vradio1-set1 empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 241 89 bng 15 250 50 0 vradio1-set2 empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 33 217 hradio 15 1 0 8 hradio2-out empty hradio2 0 -8 0 10 -191407
+-258113 -159808 0;
+#X obj 189 178 vradio 15 1 0 8 vradio1-out empty vradio2 0 -8 0 10
+-13381 -260097 -99865 0;
+#N canvas 791 164 309 211 guts 0;
+#X obj 23 31 r hradio1-set1;
+#X obj 48 97 r hradio1-set2;
+#X msg 48 124 4;
+#X obj 24 160 s hradio1-in;
+#X msg 23 61 set 2;
+#X msg 194 124 4;
+#X obj 169 31 r vradio1-set1;
+#X obj 194 97 r vradio1-set2;
+#X obj 170 160 s vradio1-in;
+#X msg 169 61 set 2;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 4 0 3 0;
+#X connect 5 0 8 0;
+#X connect 6 0 9 0;
+#X connect 7 0 5 0;
+#X connect 9 0 8 0;
+#X restore 27 10 pd guts;
