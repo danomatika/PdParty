@@ -34,11 +34,9 @@
 	r.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 		0, 0); // size based on numCells
-		
-	//[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
-	
+			
 	r.orientation = orientation;
-	//r.width = [[line objectAtIndex:5] integerValue];
+	r.width = [[line objectAtIndex:5] integerValue];
 	r.value = [[line objectAtIndex:6] integerValue];
 	r.inits = [[line objectAtIndex:7] boolValue];
 	r.numCells = [[line objectAtIndex:8] integerValue];
@@ -52,16 +50,7 @@
 
 	[r reshapeForGui:gui];
 	
-//	if(orientation == WidgetOrientationHorizontal) {
-//		r.value = ([[line objectAtIndex:21] floatValue] * 0.01 * (r.maxValue - r.minValue)) /
-//			[[line objectAtIndex:5] floatValue];
-//	}
-//	else {
-//		r.value = ([[line objectAtIndex:21] floatValue] * 0.01 * (r.maxValue - r.minValue)) /
-//			([[line objectAtIndex:6] floatValue] - 1 + r.minValue);
-//	}
-	
-//	[r sendInitValue];
+	[r sendInitValue];
 	
 	return r;
 }
@@ -76,52 +65,6 @@
     }
     return self;
 }
-
-//- (void)drawRect:(CGRect)rect {
-//
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-//    CGContextSetLineWidth(context, 1.0);
-//
-//	// background
-//	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
-//	CGContextFillRect(context, rect);
-//	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
-//
-//	// border
-//	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
-//	CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect)-1, CGRectGetHeight(rect)-1));
-//
-//	// slider pos
-//	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
-//	CGContextSetLineWidth(context, 4);
-//	if(self.orientation == WidgetOrientationHorizontal) {
-//		float x = round(rect.origin.x + ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.width);
-//		// constrain pos at edges
-//		if(x < 4) { // width of slider control + pixel padding
-//			x = 4;
-//		}
-//		else if(x > rect.size.width - (4 + 1)) {
-//			x = rect.size.width - 5;
-//		}
-//		CGContextMoveToPoint(context, x, round(rect.origin.y));
-//		CGContextAddLineToPoint(context, x, round(rect.origin.y+rect.size.height-1));
-//		CGContextStrokePath(context);
-//	}
-//	else { // vertical
-//		float y = round(rect.origin.y+rect.size.height - ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.height);
-//		// constrain pos at edges
-//		if(y < 4) { // width of slider control + pixel padding
-//			y = 4;
-//		}
-//		else if(y > rect.size.height - (4 + 1)) {
-//			y = rect.size.height - 5;
-//		}
-//		CGContextMoveToPoint(context, round(rect.origin.x), y);
-//		CGContextAddLineToPoint(context, round(rect.origin.x+rect.size.width-1), y);
-//		CGContextStrokePath(context);
-//	}
-//}
 
 - (void)reshapeForGui:(Gui *)gui {
 	
