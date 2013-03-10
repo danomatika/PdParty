@@ -133,16 +133,10 @@
 	[super reshapeForGui:gui];
 	
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize*gui.scaleX];
 	[self.label sizeToFit];
-	int nudgeX = 0, nudgeY = 0;
-	if(self.orientation == WidgetOrientationHorizontal) {
-		nudgeX = 4;
-		nudgeY = -2;
-	}
 	self.label.frame = CGRectMake(
-		round(self.originalLabelPos.x * gui.scaleX) + nudgeX,
-		round(self.originalLabelPos.y * gui.scaleY) + nudgeY,
+		0, -CGRectGetHeight(self.label.frame),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }

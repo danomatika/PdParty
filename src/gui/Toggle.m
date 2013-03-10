@@ -96,11 +96,11 @@
 	[super reshapeForGui:gui];
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
 		round(self.originalLabelPos.x * gui.scaleX),
-		round((self.originalLabelPos.y * gui.scaleY) - gui.fontSize),
+		round((self.originalLabelPos.y * gui.scaleY) - gui.labelFontSize),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }

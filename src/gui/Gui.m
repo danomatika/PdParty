@@ -21,8 +21,19 @@
 #import "Symbolbox.h"
 #import "Radio.h"
 
-@interface Gui () {}
+@interface Gui ()
+
+@property (assign, readwrite) int patchWidth;
+@property (assign, readwrite) int patchHeight;
+
+@property (assign, readwrite) int fontSize;
+@property (assign, readwrite) int labelFontSize;
+
+@property (assign, readwrite) float scaleX;
+@property (assign, readwrite) float scaleY;
+
 + (int)iemguiModuloColor:(int)col;
+
 @end
 
 @implementation Gui
@@ -31,7 +42,7 @@
 	self = [super init];
     if(self) {
 		self.widgets = [[NSMutableArray alloc] init];
-		self.fontSize = 10 * GUI_FONT_SCALE;
+		self.fontSize = 10;
 		self.scaleX = 1.0;
 		self.scaleY = 1.0;
     }
@@ -117,7 +128,7 @@
 				if(level == 1) {
 					self.patchWidth = [[line objectAtIndex:4] integerValue];
 					self.patchHeight = [[line objectAtIndex:5] integerValue];
-					self.fontSize = round([[line objectAtIndex:6] integerValue] * GUI_FONT_SCALE);
+					self.fontSize = round([[line objectAtIndex:6] integerValue]);
 					
 					// set pd gui to ios gui scale amount based on relative sizes
 					self.scaleX = CGRectGetWidth(self.bounds) / self.patchWidth;
@@ -195,6 +206,11 @@
 	_bounds = bounds;
 	self.scaleX = CGRectGetWidth(self.bounds) / self.patchWidth;
 	self.scaleY = CGRectGetHeight(self.bounds) / self.patchHeight;
+}
+
+- (void)setFontSize:(int)fontSize {
+	_fontSize = fontSize;
+	_labelFontSize = fontSize * GUI_LABEL_FONT_SCALE;
 }
 
 #pragma Utils

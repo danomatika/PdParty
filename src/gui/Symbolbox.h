@@ -8,17 +8,13 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Widget.h"
+#import "AtomWidget.h"
 
 @class Gui;
 
-@interface Symbolbox : Widget
+@interface Symbolbox : AtomWidget
 
-@property (strong)	NSString *symbol; // symbol text
-@property (nonatomic, assign) int symWidth;
-@property (assign) int labelPos; // LRUD positioning
-
-@property (strong) UILabel *symbolLabel; // shows the symbol
+@property (strong)	NSString *symbol; // symbol text access
 
 + (id)symbolboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 

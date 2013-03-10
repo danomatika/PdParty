@@ -37,7 +37,7 @@
 	
 	c.label.text = [gui formatAtomString:[line objectAtIndex:10]];
 	c.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
-	c.labelFontSize = [[line objectAtIndex:14] floatValue] * GUI_FONT_SCALE;
+	c.labelFontSize = [[line objectAtIndex:14] floatValue] * GUI_LABEL_FONT_SCALE;
 	
 	c.backgroundColor = [Gui colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
 	c.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
@@ -50,7 +50,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if (self) {
-		self.labelFontSize = 14 * GUI_FONT_SCALE;
+		self.labelFontSize = 14 * GUI_LABEL_FONT_SCALE;
     }
     return self;
 }

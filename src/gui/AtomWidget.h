@@ -8,14 +8,16 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "AtomWidget.h"
+#import "Widget.h"
 
 @class Gui;
 
-@interface Numberbox : AtomWidget
+// a pd atom gui baseclass
+@interface AtomWidget : Widget
 
-@property (strong) NSNumberFormatter *valueLabelFormatter; // formats the value
+@property (assign) int labelPos; // LRUD positioning
 
-+ (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
+@property (assign, nonatomic) int valueWidth; // number of value chars to show
+@property (strong) UILabel *valueLabel; // shows the value
 
 @end

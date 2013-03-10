@@ -40,7 +40,7 @@
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 		0, 0); // size based on numwidth
 
-	n.numWidth = [[line objectAtIndex:4] integerValue];
+	n.valueWidth = [[line objectAtIndex:4] integerValue];
 	n.minValue = [[line objectAtIndex:5] floatValue];
 	n.maxValue = [[line objectAtIndex:6] floatValue];
 	n.value = 0; // set text in number label
@@ -57,83 +57,15 @@
     self = [super initWithFrame:frame];
     if(self) {
 		
-		self.numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[self.numberLabel setTextAlignment:NSTextAlignmentLeft];
-		self.numberLabel.backgroundColor = [UIColor clearColor];
-		[self addSubview:self.numberLabel];
-		
-		self.numberLabelFormatter = [[NSNumberFormatter alloc] init];
-		//self.numberLabelFormatter.numberStyle = NSNumberFormatterScientificStyle;
-		self.numberLabelFormatter.maximumSignificantDigits = 6;
-		self.numberLabelFormatter.paddingCharacter = @" ";
-		self.numberLabelFormatter.paddingPosition = NSNumberFormatterPadAfterSuffix;
+		self.valueLabelFormatter = [[NSNumberFormatter alloc] init];
+		//self.valueLabelFormatter.numberStyle = NSNumberFormatterScientificStyle;
+		self.valueLabelFormatter.maximumSignificantDigits = 6;
+		self.valueLabelFormatter.paddingCharacter = @" ";
+		self.valueLabelFormatter.paddingPosition = NSNumberFormatterPadAfterSuffix;
 		
 		touchPrevY = 0;
     }
     return self;
-}
-
-- (void)drawRect:(CGRect)rect {
-
-    CGContextRef context = UIGraphicsGetCurrentContext();
-	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
-	CGContextSetLineWidth(context, 1.0);
-	
-    CGRect frame = rect;
-	
-	// border
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0, 0);
-	CGContextAddLineToPoint(context, frame.size.width-8, 0);
-    CGContextAddLineToPoint(context, frame.size.width-1, 8);
-	CGContextAddLineToPoint(context, frame.size.width-1, frame.size.height-1);
-	CGContextAddLineToPoint(context, 0, frame.size.height-1);
-	CGContextAddLineToPoint(context, 0, 0);
-    CGContextStrokePath(context);
-}
-
-- (void)reshapeForGui:(Gui *)gui {
-	
-	// bounds
-	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		round(((self.numWidth-2) * gui.fontSize) + 3),
-		round(gui.fontSize + 8));
-		
-	// number label
-	self.numberLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
-	self.numberLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.frame);
-	self.numberLabel.frame = CGRectMake(2, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
-
-	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize];
-	[self.label sizeToFit];
-		
-	// set the label pos from the LRUD setting
-	int labelPosX, labelPosY;
-	switch(self.labelPos) {
-		default: // 0 LEFT
-			labelPosX = -gui.fontSize*(self.label.text.length-2);
-			labelPosY = 0;
-			break;
-		case 1: // RIGHT
-			labelPosX = self.frame.size.width+1;
-			labelPosY = 0;
-			break;
-		case 2: // TOP
-			labelPosX = -1;
-			labelPosY = -gui.fontSize-4;
-			break;
-		case 3: // BOTTOM
-			labelPosX = -1;
-			labelPosY = self.frame.size.height;
-			break;
-	}
-	
-	self.label.frame = CGRectMake(labelPosX, labelPosY,
-		CGRectGetWidth(self.label.frame), CGRectGetHeight(self.label.frame));
 }
 
 #pragma mark Overridden Getters / Setters
@@ -146,12 +78,12 @@
 	// set sig fig formatting to make sure 0 values are returned as "0" instead of "0.0"
 	// http://stackoverflow.com/questions/13897372/nsnumberformatter-with-significant-digits-formats-0-0-incorrectly/15281611
 	if(value == 0.0) {
-		self.numberLabelFormatter.usesSignificantDigits = NO;
+		self.valueLabelFormatter.usesSignificantDigits = NO;
 	}
 	else {
-		self.numberLabelFormatter.usesSignificantDigits = YES;
+		self.valueLabelFormatter.usesSignificantDigits = YES;
 	}
-	self.numberLabel.text = [self.numberLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
+	self.valueLabel.text = [self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
 	[super setValue:value];
 }
 
@@ -159,9 +91,9 @@
 	return @"Numberbox";
 }
 
-- (void)setNumWidth:(int)numWidth {
-	[self.numberLabelFormatter setFormatWidth:numWidth];
-	_numWidth = numWidth;
+- (void)setValueWidth:(int)valueWidth {
+	[self.valueLabelFormatter setFormatWidth:valueWidth];
+	[super setValueWidth:valueWidth];
 }
 
 #pragma mark Touches
