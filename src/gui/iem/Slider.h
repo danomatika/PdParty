@@ -8,11 +8,11 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Widget.h"
+#import "IEMWidget.h"
 
 @class Gui;
 
-@interface Slider : Widget
+@interface Slider : IEMWidget
 
 @property (assign) int log;
 @property (assign) WidgetOrientation orientation;

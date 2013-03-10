@@ -8,11 +8,11 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Widget.h"
+#import "IEMWidget.h"
 
 @class Gui;
 
-@interface Bang : Widget
+@interface Bang : IEMWidget
 
 @property (assign) int bangTimeMS;
 

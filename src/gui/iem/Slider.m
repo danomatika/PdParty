@@ -127,19 +127,19 @@
 	}
 }
 
-- (void)reshapeForGui:(Gui *)gui {
-	
-	// bounds
-	[super reshapeForGui:gui];
-	
-	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize*gui.scaleX];
-	[self.label sizeToFit];
-	self.label.frame = CGRectMake(
-		0, -CGRectGetHeight(self.label.frame),
-		CGRectGetWidth(self.label.frame),
-		CGRectGetHeight(self.label.frame));
-}
+//- (void)reshapeForGui:(Gui *)gui {
+//	
+//	// bounds
+//	[super reshapeForGui:gui];
+//	
+//	// label
+//	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize*gui.scaleX];
+//	[self.label sizeToFit];
+//	self.label.frame = CGRectMake(
+//		0, -CGRectGetHeight(self.label.frame),
+//		CGRectGetWidth(self.label.frame),
+//		CGRectGetHeight(self.label.frame));
+//}
 
 #pragma mark Overridden Getters / Setters
 

@@ -8,14 +8,13 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "IEMWidget.h"
+#import "Widget.h"
 
 @class Gui;
 
-@interface Canvas : IEMWidget
+@interface IEMWidget : Widget
 
-@property (assign) int labelFontSize;
-
-+ (id)canvasFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
+// reshape label based on gui bounds & scale changes
+- (void)reshapeLabelForGui:(Gui *)gui;
 
 @end

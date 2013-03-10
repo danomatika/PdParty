@@ -8,11 +8,11 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Widget.h"
+#import "IEMWidget.h"
 
 @class Gui;
 
-@interface Radio : Widget
+@interface Radio : IEMWidget
 
 @property (nonatomic, assign) int width; // pixel width of one side of a cell
 @property (nonatomic, assign) int numCells; // number of cells

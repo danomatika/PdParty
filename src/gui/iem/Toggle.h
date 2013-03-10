@@ -8,11 +8,11 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Widget.h"
+#import "IEMWidget.h"
 
 @class Gui;
 
-@interface Toggle : Widget
+@interface Toggle : IEMWidget
 
 @property (assign) float toggleValue; // remember non zero value when off
 

@@ -124,17 +124,18 @@
 	}
 	
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
-	[self.label sizeToFit];
-	int nudgeX = 0, nudgeY = 0;
-	if(self.orientation == WidgetOrientationHorizontal) {
-		nudgeY = -2;
-	}
-	self.label.frame = CGRectMake(
-		round(self.originalLabelPos.x * gui.scaleX) + nudgeX,
-		round(self.originalLabelPos.y * gui.scaleY) + nudgeY,
-		CGRectGetWidth(self.label.frame),
-		CGRectGetHeight(self.label.frame));
+	[self reshapeLabelForGui:gui];
+//	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
+//	[self.label sizeToFit];
+//	int nudgeX = 0, nudgeY = 0;
+//	if(self.orientation == WidgetOrientationHorizontal) {
+//		nudgeY = -2;
+//	}
+//	self.label.frame = CGRectMake(
+//		round(self.originalLabelPos.x * gui.scaleX) + nudgeX,
+//		round(self.originalLabelPos.y * gui.scaleY) + nudgeY,
+//		CGRectGetWidth(self.label.frame),
+//		CGRectGetHeight(self.label.frame));
 }
 
 #pragma mark Overridden Getters / Setters

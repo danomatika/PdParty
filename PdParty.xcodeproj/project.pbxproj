@@ -163,6 +163,7 @@
 		30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3216EC46CF005B40C4 /* Comment.m */; };
 		30E89D4016EC46CF005B40C4 /* Numberbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3416EC46CF005B40C4 /* Numberbox.m */; };
 		30E89D4116EC46CF005B40C4 /* Symbolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3616EC46CF005B40C4 /* Symbolbox.m */; };
+		30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4316EC4748005B40C4 /* IEMWidget.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -417,6 +418,8 @@
 		30E89D3416EC46CF005B40C4 /* Numberbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Numberbox.m; sourceTree = "<group>"; };
 		30E89D3516EC46CF005B40C4 /* Symbolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbolbox.h; sourceTree = "<group>"; };
 		30E89D3616EC46CF005B40C4 /* Symbolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbolbox.m; sourceTree = "<group>"; };
+		30E89D4216EC4748005B40C4 /* IEMWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEMWidget.h; sourceTree = "<group>"; };
+		30E89D4316EC4748005B40C4 /* IEMWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IEMWidget.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -949,6 +952,8 @@
 				30E89D2116EC46CE005B40C4 /* Bang.m */,
 				30E89D2216EC46CE005B40C4 /* Canvas.h */,
 				30E89D2316EC46CE005B40C4 /* Canvas.m */,
+				30E89D4216EC4748005B40C4 /* IEMWidget.h */,
+				30E89D4316EC4748005B40C4 /* IEMWidget.m */,
 				30E89D2816EC46CE005B40C4 /* Radio.h */,
 				30E89D2916EC46CE005B40C4 /* Radio.m */,
 				30E89D2A16EC46CE005B40C4 /* Slider.h */,
@@ -1209,6 +1214,7 @@
 				30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */,
 				30E89D4016EC46CF005B40C4 /* Numberbox.m in Sources */,
 				30E89D4116EC46CF005B40C4 /* Symbolbox.m in Sources */,
+				30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
