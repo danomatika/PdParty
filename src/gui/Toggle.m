@@ -134,7 +134,7 @@
 	[self sendFloat:self.value];
 }
 
-#pragma mark PdListener
+#pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {
 	[self toggle];
@@ -146,42 +146,8 @@
 	[self sendFloat:self.value];
 }
 
-- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	
-	if(list.count == 0) {
-		return;
-	}
-	
-	// pass float through, setting the value
-	if([Util isNumberIn:list at:0]) {
-		[self receiveFloat:[[list objectAtIndex:0] floatValue] fromSource:source];
-	}
-	else if([Util isStringIn:list at:0]) {
-		// if we receive a set message
-		if([[list objectAtIndex:0] isEqualToString:@"set"]) {
-			// set value but don't pass through
-			if(list.count > 1 && [Util isNumberIn:list at:1]) {
-				self.value = [[list objectAtIndex:1] floatValue];
-			}
-		}
-		else if([[list objectAtIndex:0] isEqualToString:@"bang"]) {
-			// got a bang
-			[self receiveBangFromSource:source];
-		}
-	}
-}
-
-- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	// set message sets value without sending
-	if([message isEqualToString:@"set"] && arguments.count > 0 && [Util isNumberIn:arguments at:0]) {
-		self.value = [[arguments objectAtIndex:0] floatValue];
-	}
-	else if([message isEqualToString:@"bang"]) {
-		[self receiveBangFromSource:source];
-	}
-	else {
-		[self receiveList:arguments fromSource:source];
-	}
+- (void)receiveSetFloat:(float)received {
+	self.value = received;
 }
 
 @end

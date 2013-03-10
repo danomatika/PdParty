@@ -13,21 +13,6 @@
 #import "Gui.h"
 #import "PdDispatcher.h"
 
-// suppress leak as we should be fine in ARC
-// from http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
-#define SuppressPerformSelectorLeakWarning(Stuff) \
-    do { \
-        _Pragma("clang diagnostic push") \
-        _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
-        Stuff; \
-        _Pragma("clang diagnostic pop") \
-    } while (0)
-
-@interface Widget () {}
-@property (assign) SEL valueAction;
-@property (assign) id valueTarget;
-@end
-
 @implementation Widget
 
 - (id)initWithFrame:(CGRect)frame {
@@ -54,9 +39,6 @@
 		self.label.textColor = WIDGET_FRAME_COLOR;
 		self.label.textAlignment = UITextAlignmentLeft;
 		[self addSubview:self.label];
-		
-		self.valueTarget = nil;
-		self.valueAction = nil;
 	}
     return self;
 }
@@ -67,7 +49,7 @@
 	}
 }
 
-// to be overridden by subclasses if needed
+// override for custom redraw
 - (void)reshapeForGui:(Gui *)gui {
 	self.frame = CGRectMake(
 		round(self.originalFrame.origin.x * gui.scaleX),
@@ -76,10 +58,76 @@
 		round(self.originalFrame.size.height * gui.scaleX));
 }
 
-- (void)addValueTarget:(id)target action:(SEL)action {
-	self.valueTarget = target;
-	self.valueAction = action;
+#pragma mark WidgetListener
+
+- (void)receiveBangFromSource:(NSString *)source {
+	DDLogWarn(@"Widget: %@ dropped bang", self.type);
 }
+
+- (void)receiveFloat:(float)received fromSource:(NSString *)source {
+	DDLogWarn(@"Widget: %@ dropped float", self.type);
+}
+
+- (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
+	DDLogWarn(@"Widget: %@ dropped symbol", self.type);
+}
+
+- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
+	if(list.count > 0) {
+	
+		// pass float through, setting the value
+		if([Util isNumberIn:list at:0]) {
+			[self receiveFloat:[[list objectAtIndex:0] floatValue] fromSource:source];
+		}
+		else if([Util isStringIn:list at:0]) {
+		
+			// if we receive a set message
+			if([[list objectAtIndex:0] isEqualToString:@"set"]) {
+				// set value but don't pass through
+				if(list.count > 1) {
+					if([Util isNumberIn:list at:1]) {
+						[self receiveSetFloat:[[list objectAtIndex:1] floatValue]];
+					}
+					else if([Util isStringIn:list at:1]) {
+						[self receiveSetSymbol:[list objectAtIndex:1]];
+					}
+				}
+			}
+			else if([[list objectAtIndex:0] isEqualToString:@"bang"]) { // got a bang!
+				[self receiveBangFromSource:source];
+			}
+		}
+	}
+}
+
+- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
+	
+	// set message sets value without sending
+	if([message isEqualToString:@"set"] && arguments.count > 1) {
+		if([Util isNumberIn:arguments at:0]) {
+			[self receiveSetFloat:[[arguments objectAtIndex:0] floatValue]];
+		}
+		else if([Util isStringIn:arguments at:1]) {
+			[self receiveSetSymbol:[arguments objectAtIndex:1]];
+		}
+	}
+	else if([message isEqualToString:@"bang"]) { // got a bang!
+		[self receiveBangFromSource:source];
+	}
+	else { // everything else
+		[self receiveList:arguments fromSource:source];
+	}
+}
+
+- (void)receiveSetFloat:(float)received {
+	DDLogWarn(@"Widget: %@ dropped set float", self.type);
+}
+
+- (void)receiveSetSymbol:(NSString *)symbol {
+	DDLogWarn(@"Widget: %@ dropped set symbol", self.type);
+}
+
+#pragma mark Sending
 
 - (BOOL)hasValidSendName {
 	return (self.sendName && ![self.sendName isEqualToString:@""]);
@@ -88,8 +136,6 @@
 - (BOOL)hasValidReceiveName {
 	return (self.receiveName && ![self.receiveName isEqualToString:@""]);
 }
-
-#pragma mark Sending
 
 - (void)send:(NSString *)message {
 	if([self hasValidSendName]) {
@@ -119,11 +165,6 @@
 
 - (void)setValue:(float)f {
 	_value = f;
-    if(self.valueTarget) {
-        SuppressPerformSelectorLeakWarning(
-			[self.valueTarget performSelector:self.valueAction withObject:self]
-		);
-    }
     [self setNeedsDisplay];
 }
 
@@ -149,28 +190,6 @@ static PdDispatcher *dispatcher = nil;
 
 + (void)setDispatcher:(PdDispatcher*)d {
 	dispatcher = d;
-}
-
-#pragma mark PdListener
-
-- (void)receiveBangFromSource:(NSString *)source {
-	DDLogWarn(@"Widget: %@ dropped bang", self.type);
-}
-
-- (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	DDLogWarn(@"Widget: %@ dropped float", self.type);
-}
-
-- (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	DDLogWarn(@"Widget: %@ dropped symbol", self.type);
-}
-
-- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	DDLogWarn(@"Widget: %@ dropped list", self.type);
-}
-
-- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	DDLogWarn(@"Widget: %@ dropped message", self.type);
 }
 
 @end

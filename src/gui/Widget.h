@@ -23,9 +23,20 @@ typedef enum {
 	WidgetOrientationVertical
 } WidgetOrientation;
 
+// extended PdListener
+@protocol WidgetListener <PdListener>
+// implement PdListener methods for recieving bang, float, & symbol
+// which are called when lists and messages are receieved
+@optional
+// receive a [; receiveName set something< message
+- (void)receiveSetFloat:(float)received;
+- (void)receiveSetSymbol:(NSString *)symbol;
+@end
+
 @class PdDispatcher;
 
-@interface Widget : UIView <PdListener>
+// a widget baseclass
+@interface Widget : UIView <WidgetListener>
 
 @property (assign) CGRect originalFrame; // original pd gui object pos & size
 @property (assign) CGPoint originalLabelPos; // origin pd label pos (rel to object pos)
@@ -51,12 +62,7 @@ typedef enum {
 // reshape based on gui bounds & scale changes
 - (void)reshapeForGui:(Gui *)gui;
 
-// static receieve dispatcher
-+ (PdDispatcher *) dispatcher;
-+ (void)setDispatcher:(PdDispatcher*)d;
-
-// set a selector and method to perform when the widget's value is changed
-- (void)addValueTarget:(id)target action:(SEL)action;
+#pragma mark Sending
 
 // returns true if the widget has a non empty send or recieve name
 - (BOOL)hasValidSendName;
@@ -69,5 +75,11 @@ typedef enum {
 
 // send an init val if init is set
 - (void)sendInitValue;
+
+#pragma mark Static Dispatcher
+
+// static receieve dispatcher
++ (PdDispatcher *) dispatcher;
++ (void)setDispatcher:(PdDispatcher*)d;
 
 @end

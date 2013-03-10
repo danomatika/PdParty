@@ -119,7 +119,7 @@
 	[self sendBang];
 }
 
-#pragma mark PdListener
+#pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {
 	[self bang];

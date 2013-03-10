@@ -153,7 +153,6 @@
 		30ABE41616B5D5DD00464926 /* PdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32F16B5D15400464926 /* PdBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
 		30ACA10D16D1866000B50B73 /* patches in Resources */ = {isa = PBXBuildFile; fileRef = 30ACA10C16D1866000B50B73 /* patches */; };
-		30C9BF5616E8455B00E5AA5B /* PdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5516E8455A00E5AA5B /* PdParser.m */; };
 		30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5916E8456B00E5AA5B /* Midi.m */; };
 		30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5B16E8456B00E5AA5B /* PureData.m */; };
 		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
@@ -163,6 +162,7 @@
 		30E89D0C16EA446C005B40C4 /* Symbolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D0B16EA446C005B40C4 /* Symbolbox.m */; };
 		30E89D1216EA9205005B40C4 /* Radio.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D1116EA9204005B40C4 /* Radio.m */; };
 		30E89D1A16EBF38D005B40C4 /* AtomWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D1716EBF38D005B40C4 /* AtomWidget.m */; };
+		30E89D1E16EC4535005B40C4 /* PdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D1D16EC4535005B40C4 /* PdParser.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -398,8 +398,6 @@
 		30ABE41316B5D58600464926 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		30ACA10C16D1866000B50B73 /* patches */ = {isa = PBXFileReference; lastKnownFileType = folder; path = patches; sourceTree = "<group>"; };
-		30C9BF5416E8455A00E5AA5B /* PdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdParser.h; sourceTree = "<group>"; };
-		30C9BF5516E8455A00E5AA5B /* PdParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdParser.m; sourceTree = "<group>"; };
 		30C9BF5816E8456B00E5AA5B /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midi.h; sourceTree = "<group>"; };
 		30C9BF5916E8456B00E5AA5B /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Midi.m; sourceTree = "<group>"; };
 		30C9BF5A16E8456B00E5AA5B /* PureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureData.h; sourceTree = "<group>"; };
@@ -417,6 +415,8 @@
 		30E89D1116EA9204005B40C4 /* Radio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Radio.m; sourceTree = "<group>"; };
 		30E89D1616EBF38D005B40C4 /* AtomWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtomWidget.h; sourceTree = "<group>"; };
 		30E89D1716EBF38D005B40C4 /* AtomWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtomWidget.m; sourceTree = "<group>"; };
+		30E89D1C16EC4535005B40C4 /* PdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdParser.h; sourceTree = "<group>"; };
+		30E89D1D16EC4535005B40C4 /* PdParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdParser.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -622,8 +622,6 @@
 				30A31A0916B6E7B700C7729B /* Comment.m */,
 				30A31A0716B6DBFB00C7729B /* Numberbox.h */,
 				30A31A0616B6DBFB00C7729B /* Numberbox.m */,
-				30C9BF5416E8455A00E5AA5B /* PdParser.h */,
-				30C9BF5516E8455A00E5AA5B /* PdParser.m */,
 				30E89D1016EA9203005B40C4 /* Radio.h */,
 				30E89D1116EA9204005B40C4 /* Radio.m */,
 				306DBE6916BC6A86007CF226 /* Slider.h */,
@@ -951,6 +949,8 @@
 			children = (
 				30C9BF6216E8457400E5AA5B /* KeyGrabber.h */,
 				30C9BF6316E8457400E5AA5B /* KeyGrabber.m */,
+				30E89D1C16EC4535005B40C4 /* PdParser.h */,
+				30E89D1D16EC4535005B40C4 /* PdParser.m */,
 				30C9BF6516E8460700E5AA5B /* Util.h */,
 				30C9BF6616E8460700E5AA5B /* Util.m */,
 			);
@@ -1184,7 +1184,6 @@
 				3050822D16E198C900895CB2 /* DispatchQueueLogFormatter.m in Sources */,
 				30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */,
 				30FA775316E68936000E8D2B /* Reachability.m in Sources */,
-				30C9BF5616E8455B00E5AA5B /* PdParser.m in Sources */,
 				30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */,
 				30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */,
 				30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */,
@@ -1193,6 +1192,7 @@
 				30E89D0C16EA446C005B40C4 /* Symbolbox.m in Sources */,
 				30E89D1216EA9205005B40C4 /* Radio.m in Sources */,
 				30E89D1A16EBF38D005B40C4 /* AtomWidget.m in Sources */,
+				30E89D1E16EC4535005B40C4 /* PdParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
