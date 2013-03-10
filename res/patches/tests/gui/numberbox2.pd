@@ -1,13 +1,30 @@
-#N canvas 292 73 188 223 10;
-#X obj 31 96 nbx 5 14 -1e+37 1e+37 0 0 empty nbx2-in nbx2 0 -8 0 14
--261234 -258113 -83269 12313 256;
-#X msg 93 68 12345;
-#X obj 31 44 nbx 5 14 -1e+37 1e+37 0 0 empty nbx1-in nbx1 0 -8 0 10
--262144 -1 -1 12345 256;
-#X msg 72 14 12345;
-#X obj 34 140 print;
-#X msg 136 102 ka;
-#X connect 0 0 4 0;
-#X connect 1 0 0 0;
-#X connect 3 0 2 0;
-#X connect 5 0 0 0;
+#N canvas 615 223 188 223 10;
+#X obj 59 105 nbx 5 14 -1e+37 1e+37 0 0 nbx2-out nbx2-in nbx2 0 -8
+0 14 -261234 -258113 -83269 12330 256;
+#X obj 60 61 nbx 5 14 -1e+37 1e+37 0 0 empty nbx1-in nbx1 0 -8 0 10
+-262144 -1 -1 12423 256;
+#X obj 59 168 print;
+#N canvas 720 382 328 214 guts 0;
+#X obj 179 36 loadbang;
+#X obj 180 120 r nbox1-out;
+#X obj 180 151 print nbox1;
+#X obj 73 60 sel 0;
+#X msg 73 85 4;
+#X obj 73 36 r changenum;
+#X obj 73 116 s nbox1-in;
+#X msg 21 87 10000;
+#X msg 105 86 50000;
+#X msg 179 64 \; nbox1-in set 4 \; nbox2-in 12345;
+#X connect 0 0 9 0;
+#X connect 1 0 2 0;
+#X connect 3 0 4 0;
+#X connect 3 1 8 0;
+#X connect 4 0 6 0;
+#X connect 5 0 3 0;
+#X connect 7 0 6 0;
+#X connect 8 0 6 0;
+#X restore 122 12 pd guts;
+#X obj 11 12 tgl 15 0 changenum empty change_nbox1 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 59 141 r nbx2-out;
+#X connect 5 0 2 0;

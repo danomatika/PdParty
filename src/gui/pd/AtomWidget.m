@@ -35,18 +35,26 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
 	CGContextSetLineWidth(context, 1.0);
+
+	// bounds as path
+	CGMutablePathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, NULL, 0, 0);
+	CGPathAddLineToPoint(path, NULL, rect.size.width-cornerSize, 0);
+    CGPathAddLineToPoint(path, NULL, rect.size.width-1, cornerSize);
+	CGPathAddLineToPoint(path, NULL, rect.size.width-1, rect.size.height-1);
+	CGPathAddLineToPoint(path, NULL, 0, rect.size.height-1);
+	CGPathAddLineToPoint(path, NULL, 0, 0);
+	
+	// background
+	CGContextSetFillColorWithColor(context, self.backgroundColor.CGColor);
+	CGContextAddPath(context, path);
+	CGContextFillPath(context);
 	
 	// border
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0, 0);
-	CGContextAddLineToPoint(context, rect.size.width-cornerSize, 0);
-    CGContextAddLineToPoint(context, rect.size.width-1, cornerSize);
-	CGContextAddLineToPoint(context, rect.size.width-1, rect.size.height-1);
-	CGContextAddLineToPoint(context, 0, rect.size.height-1);
-	CGContextAddLineToPoint(context, 0, 0);
-    CGContextStrokePath(context);
+	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
+	CGContextAddPath(context, path);
+	CGContextStrokePath(context);
 }
 
 - (void)reshapeForGui:(Gui *)gui {

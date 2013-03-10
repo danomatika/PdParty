@@ -97,18 +97,32 @@
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	CGContextSetLineWidth(context, 1.0);
 	
-	// background & border
-	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
-	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0, 0);
-	CGContextAddLineToPoint(context, rect.size.width-cornerSize, 0);
-    CGContextAddLineToPoint(context, rect.size.width-1, cornerSize);
-	CGContextAddLineToPoint(context, rect.size.width-1, rect.size.height-1);
-	CGContextAddLineToPoint(context, 0, rect.size.height-1);
-	CGContextAddLineToPoint(context, 0, 0);
-    CGContextStrokePath(context);
+	// bounds as path
+	CGMutablePathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, NULL, 0, 0);
+	CGPathAddLineToPoint(path, NULL, rect.size.width-cornerSize, 0);
+    CGPathAddLineToPoint(path, NULL, rect.size.width-1, cornerSize);
+	CGPathAddLineToPoint(path, NULL, rect.size.width-1, rect.size.height-1);
+	CGPathAddLineToPoint(path, NULL, 0, rect.size.height-1);
+	CGPathAddLineToPoint(path, NULL, 0, 0);
+	
+	// background
+	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
+	CGContextAddPath(context, path);
 	CGContextFillPath(context);
+	
+	// border
+	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
+	CGContextAddPath(context, path);
+	CGContextStrokePath(context);
+	
+	// triangle
+	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
+	CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 1, 1);
+	CGContextAddLineToPoint(context, rect.size.height/2, rect.size.height/2);
+	CGContextAddLineToPoint(context, 1, rect.size.height-1);
+	CGContextStrokePath(context);
 }
 
 - (void)reshapeForGui:(Gui *)gui {
@@ -123,14 +137,16 @@
 		// make sure width matches valueWidth
 		valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
 	}
-	valueLabelFrame.origin = CGPointMake(round(gui.scaleX), round(gui.scaleX));
+	valueLabelFrame.origin = CGPointMake(round(gui.scaleX + (valueLabelFrame.size.height * 0.5)), round(2.0 * gui.scaleX));
 	self.valueLabel.frame = valueLabelFrame;
 	
 	// bounds from value label size
 	self.frame = CGRectMake(
 		round(self.originalFrame.origin.x * gui.scaleX),
 		round(self.originalFrame.origin.y * gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) + (2 * gui.scaleX)),
+		round(CGRectGetWidth(self.valueLabel.frame) +
+			 (CGRectGetHeight(self.valueLabel.frame) * 0.5) +
+			 (charSize.width * 3) + (2 * gui.scaleX)), // space out right edge
 		round(CGRectGetHeight(self.valueLabel.frame) + (2 * gui.scaleX)));
 	cornerSize = CGRectGetHeight(self.valueLabel.frame) * 0.40;
 
