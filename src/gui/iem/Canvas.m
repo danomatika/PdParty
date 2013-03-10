@@ -23,8 +23,8 @@
 
 	Canvas *c = [[Canvas alloc] initWithFrame:CGRectZero];
 
-	//c.sendName = [gui formatAtomString:[line objectAtIndex:8]];
-	c.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
+	//c.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+	c.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
 //	if(![c hasValidReceiveName]) {
 //		// drop something we can't interact with
 //		DDLogVerbose(@"Canvas: Dropping, receive name is empty");
@@ -35,9 +35,9 @@
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 		[[line objectAtIndex:6] floatValue], [[line objectAtIndex:7] floatValue]);
 	
-	c.label.text = [gui formatAtomString:[line objectAtIndex:10]];
+	c.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	c.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
-	c.labelFontSize = [[line objectAtIndex:14] floatValue] * GUI_LABEL_FONT_SCALE;
+	c.labelFontSize = [[line objectAtIndex:14] floatValue];
 	
 	c.backgroundColor = [Gui colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
 	c.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
@@ -50,7 +50,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if (self) {
-		self.labelFontSize = 14 * GUI_LABEL_FONT_SCALE;
+		self.labelFontSize = 14;
     }
     return self;
 }
@@ -61,11 +61,11 @@
 	[super reshapeForGui:gui];
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:self.labelFontSize];
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:self.labelFontSize * gui.scaleX];
 	[self.label sizeToFit];
 	self.label.frame  = CGRectMake(
 		round(self.originalLabelPos.x * gui.scaleX),
-		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize-2)),
+		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize * gui.scaleX * 0.75)),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }

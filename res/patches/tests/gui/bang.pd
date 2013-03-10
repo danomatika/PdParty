@@ -1,4 +1,4 @@
-#N canvas 547 88 183 188 10;
+#N canvas 130 87 183 188 10;
 #X obj 31 19 bng 15 500 50 0 bng1-out bng1-in bng1 17 7 0 10 -16662
 -258113 -260097;
 #X obj 31 66 bng 15 250 50 0 bng2-out bng2-in bng2 17 7 0 10 -262144
@@ -10,7 +10,7 @@
 #X obj 170 24 loadbang;
 #X obj 170 159 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 170 76 tgl 15 1 metro empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 170 76 tgl 15 1 metro empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X msg 170 49 1;
 #X obj 170 105 r metro;

@@ -28,8 +28,8 @@
 
 	Numberbox *n = [[Numberbox alloc] initWithFrame:CGRectZero];
 
-	n.sendName = [gui formatAtomString:[line objectAtIndex:10]];
-	n.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
+	n.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
+	n.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
 	if(![n hasValidSendName] && ![n hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Numberbox: Dropping, send/receive names are empty");
@@ -46,7 +46,7 @@
 	n.value = 0; // set text in number label
 		
 	n.labelPos = [[line objectAtIndex:7] integerValue];
-	n.label.text = [gui formatAtomString:[line objectAtIndex:8]];
+	n.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 
 	[n reshapeForGui:gui];
 
@@ -77,7 +77,7 @@
 	
 	// set sig fig formatting to make sure 0 values are returned as "0" instead of "0.0"
 	// http://stackoverflow.com/questions/13897372/nsnumberformatter-with-significant-digits-formats-0-0-incorrectly/15281611
-	if(value == 0.0) {
+	if((fabs(value) < 1e-6)) {
 		self.valueLabelFormatter.usesSignificantDigits = NO;
 	}
 	else {

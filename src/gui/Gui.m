@@ -210,19 +210,15 @@
 
 - (void)setFontSize:(int)fontSize {
 	_fontSize = fontSize;
-	_labelFontSize = fontSize * GUI_LABEL_FONT_SCALE;
 }
 
 #pragma Utils
 
-- (NSString *)formatAtomString:(NSString *)string {
-	return [self replaceDollarZeroStringsIn:[Gui filterEmptyStringValues:string]];
-}
-
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string {
+	if(!string) {return string;}
 	NSMutableString *newString = [NSMutableString stringWithString:string];
 	[newString replaceOccurrencesOfString:@"\\$0"
-							   withString:[NSString stringWithFormat:@"%d", self.currentPatch.dollarZero]
+							   withString:[[NSNumber numberWithInt:self.currentPatch.dollarZero] stringValue]
 								  options:NSCaseInsensitiveSearch
 									range:NSMakeRange(0, newString.length)];
 //	[newString replaceOccurrencesOfString:@"$0"

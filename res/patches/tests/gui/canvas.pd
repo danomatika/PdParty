@@ -1,3 +1,3 @@
-#N canvas 544 160 450 300 10;
+#N canvas 544 160 222 292 10;
 #X obj 52 36 cnv 15 100 60 empty cnv1-in hello 20 12 0 20 -260534 -66577
 0;

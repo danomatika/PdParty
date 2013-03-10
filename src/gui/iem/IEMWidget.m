@@ -27,7 +27,8 @@
 	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
-		0, -CGRectGetHeight(self.label.frame),
+		round(self.originalLabelPos.x * gui.scaleX),
+		round((self.originalLabelPos.y * gui.scaleY) - (gui.fontSize * gui.scaleX * 0.75)),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }

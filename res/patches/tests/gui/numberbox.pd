@@ -3,9 +3,9 @@
 #X floatatom 106 85 5 0 0 1 nbox4 nbox4-in nbox4-out;
 #X floatatom 73 116 5 0 0 3 nbox3 nbox3-in -;
 #X floatatom 57 52 10 0 0 2 nbox1 nbox1-in nbox1-out;
-#X obj 13 8 tgl 15 0 changenum empty change_nbox1 17 7 0 10 -262144
+#X obj 13 8 tgl 15 0 changenum empty change_nbox1 17 0 0 10 -262144
 -1 -1 0 1;
-#N canvas 720 382 328 214 guts 1;
+#N canvas 720 382 328 214 guts 0;
 #X obj 179 36 loadbang;
 #X obj 180 120 r nbox1-out;
 #X obj 180 151 print nbox1;

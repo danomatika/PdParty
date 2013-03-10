@@ -12,16 +12,22 @@
 
 #import "Gui.h"
 
+@interface AtomWidget () {
+	int cornerSize; // bent corner pixel size
+}
+@end
+
 @implementation AtomWidget
 
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
 		self.valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[self.valueLabel setTextAlignment:NSTextAlignmentLeft];
+		self.valueLabel.textAlignment = NSTextAlignmentLeft;
+		self.valueLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 		self.valueLabel.backgroundColor = [UIColor clearColor];
 		[self addSubview:self.valueLabel];
-    }
+	}
     return self;
 }
 
@@ -32,55 +38,62 @@
     CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
 	CGContextSetLineWidth(context, 1.0);
 	
-    CGRect frame = rect;
-	
 	// border
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, 0, 0);
-	CGContextAddLineToPoint(context, frame.size.width-8, 0);
-    CGContextAddLineToPoint(context, frame.size.width-1, 8);
-	CGContextAddLineToPoint(context, frame.size.width-1, frame.size.height-1);
-	CGContextAddLineToPoint(context, 0, frame.size.height-1);
+	CGContextAddLineToPoint(context, rect.size.width-cornerSize, 0);
+    CGContextAddLineToPoint(context, rect.size.width-1, cornerSize);
+	CGContextAddLineToPoint(context, rect.size.width-1, rect.size.height-1);
+	CGContextAddLineToPoint(context, 0, rect.size.height-1);
 	CGContextAddLineToPoint(context, 0, 0);
     CGContextStrokePath(context);
 }
 
 - (void)reshapeForGui:(Gui *)gui {
 	
-	// bounds
+	// value label
+	self.valueLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
+	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
+	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
+	[self.valueLabel sizeToFit];
+	CGRect valueLabelFrame = self.valueLabel.frame;
+	if(valueLabelFrame.size.width < self.valueLabel.preferredMaxLayoutWidth) {
+		// make sure width matches valueWidth
+		valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
+	}
+	valueLabelFrame.origin = CGPointMake(round(gui.scaleX), round(gui.scaleX));
+	self.valueLabel.frame = valueLabelFrame;
+	
+	// bounds from value label size
 	self.frame = CGRectMake(
 		round(self.originalFrame.origin.x * gui.scaleX),
 		round(self.originalFrame.origin.y * gui.scaleY),
-		round(((self.valueWidth) * (gui.fontSize))),
-		round((gui.labelFontSize + 8)));
-		
-	// value label
-	self.valueLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
-	self.valueLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.frame);
-	self.valueLabel.frame = CGRectMake(1, 1, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+		round(CGRectGetWidth(self.valueLabel.frame) + (2 * gui.scaleX)),
+		round(CGRectGetHeight(self.valueLabel.frame) + (2 * gui.scaleX)));
+	cornerSize = CGRectGetHeight(self.valueLabel.frame) * 0.40;
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
 	[self.label sizeToFit];
 		
 	// set the label pos from the LRUD setting
 	int labelPosX, labelPosY;
 	switch(self.labelPos) {
 		default: // 0 LEFT
-			labelPosX = -self.label.frame.size.width - 2;
-			labelPosY = 2;
+			labelPosX = -self.label.frame.size.width - (2 * gui.scaleX);
+			labelPosY = 2 * gui.scaleX;
 			break;
 		case 1: // RIGHT
-			labelPosX = self.frame.size.width + 2;
-			labelPosY = 2;
+			labelPosX = self.frame.size.width + (2 * gui.scaleX);
+			labelPosY = 2 * gui.scaleX;
 			break;
 		case 2: // TOP
 			labelPosX = 0;
-			labelPosY = -self.label.frame.size.height - 2;
+			labelPosY = -self.label.frame.size.height - (2 * gui.scaleX);
 			break;
 		case 3: // BOTTOM
 			labelPosX = 0;
-			labelPosY = self.frame.size.height + 2;
+			labelPosY = self.frame.size.height + (2 * gui.scaleX);
 			break;
 	}
 	

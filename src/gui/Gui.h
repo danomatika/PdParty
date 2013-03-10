@@ -42,8 +42,8 @@
 @property (assign, readonly) int patchHeight;
 
 // font size loaded from patch
-@property (assign, readonly) int fontSize;
-@property (assign, readonly) int labelFontSize; // scaled up for labels etc
+@property (nonatomic, assign, readonly) int fontSize;
+//@property (assign, readonly) int labelFontSize; // scaled up for labels etc
 
 // scale amount between view bounds and original patch size, calculated when bounds is set
 @property (assign, readonly) float scaleX;
@@ -68,9 +68,6 @@
 - (void)reshapeWidgets;
 
 #pragma Utils
-
-// filter empty values and replace any ocurrances of $0 with the current patch id
-- (NSString *)formatAtomString:(NSString *)string;
 
 // replace any occurrances of "//$0" or "$0" with the current patches' dollar zero id
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string;

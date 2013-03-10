@@ -45,7 +45,7 @@
 - (void)reshapeForGui:(Gui *)gui {
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * GUI_LABEL_FONT_SCALE];
 	self.label.numberOfLines = 0;
 	self.label.preferredMaxLayoutWidth = gui.fontSize * GUI_LINE_WRAP;
 	[self.label sizeToFit];

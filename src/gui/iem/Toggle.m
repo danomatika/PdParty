@@ -23,8 +23,8 @@
 
 	Toggle *t = [[Toggle alloc] initWithFrame:CGRectZero];
 
-	t.sendName = [gui formatAtomString:[line objectAtIndex:7]];
-	t.receiveName = [gui formatAtomString:[line objectAtIndex:8]];
+	t.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+	t.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	if(![t hasValidSendName] && ![t hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Toggle: Dropping, send/receive names are empty");
@@ -37,7 +37,7 @@
 	
 	t.inits = [[line objectAtIndex:6] boolValue];
 	
-	t.label.text = [gui formatAtomString:[line objectAtIndex:9]];	
+	t.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:9]];	
 	t.originalLabelPos = CGPointMake([[line objectAtIndex:10] floatValue], [[line objectAtIndex:11] floatValue]);
 	
 	t.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:14] integerValue]];
@@ -89,21 +89,6 @@
 		CGContextStrokePath(context);
 	}
 }
-
-//- (void)reshapeForGui:(Gui *)gui {
-//
-//	// bounds
-//	[super reshapeForGui:gui];
-//
-//	// label
-//	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
-//	[self.label sizeToFit];
-//	self.label.frame = CGRectMake(
-//		round(self.originalLabelPos.x * gui.scaleX),
-//		round((self.originalLabelPos.y * gui.scaleY) - gui.labelFontSize),
-//		CGRectGetWidth(self.label.frame),
-//		CGRectGetHeight(self.label.frame));
-//}
 
 - (void)toggle {
 	if(self.value == 0) {

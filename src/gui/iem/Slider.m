@@ -31,8 +31,8 @@
 
 	Slider *s = [[Slider alloc] initWithFrame:CGRectZero];
 	
-	s.sendName = [gui formatAtomString:[line objectAtIndex:11]];
-	s.receiveName = [gui formatAtomString:[line objectAtIndex:12]];
+	s.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
+	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
 	if(![s hasValidSendName] && ![s hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Slider: Dropping, send/receive names are empty");
@@ -49,7 +49,7 @@
 	s.log = [[line objectAtIndex:9] integerValue];
 	s.inits = [[line objectAtIndex:10] boolValue];
 	
-	s.label.text = [gui formatAtomString:[line objectAtIndex:13]];
+	s.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
 	s.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
 	
 	s.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
@@ -126,20 +126,6 @@
 		CGContextStrokePath(context);
 	}
 }
-
-//- (void)reshapeForGui:(Gui *)gui {
-//	
-//	// bounds
-//	[super reshapeForGui:gui];
-//	
-//	// label
-//	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize*gui.scaleX];
-//	[self.label sizeToFit];
-//	self.label.frame = CGRectMake(
-//		0, -CGRectGetHeight(self.label.frame),
-//		CGRectGetWidth(self.label.frame),
-//		CGRectGetHeight(self.label.frame));
-//}
 
 #pragma mark Overridden Getters / Setters
 

@@ -29,8 +29,8 @@
 
 	Bang *b = [[Bang alloc] initWithFrame:CGRectZero];
 
-	b.sendName = [gui formatAtomString:[line objectAtIndex:9]];
-	b.receiveName = [gui formatAtomString:[line objectAtIndex:10]];
+	b.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
+	b.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	if(![b hasValidSendName] && ![b hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Bang: Dropping, send/receive names are empty");
@@ -43,8 +43,8 @@
 	
 	b.bangTimeMS = [[line objectAtIndex:6] integerValue];
 	
-	b.label.text = [gui formatAtomString:[line objectAtIndex:11]];
-	b.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
+	b.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
+	b.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
 	
 	b.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
 	b.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
@@ -77,21 +77,6 @@
 	}
 	CGContextStrokeEllipseInRect(context, circleFrame);
 }
-
-//- (void)reshapeForGui:(Gui *)gui {
-//
-//	// bounds
-//	[super reshapeForGui:gui];
-//
-//	// label
-//	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
-//	[self.label sizeToFit];
-//	self.label.frame = CGRectMake(
-//		round(self.originalLabelPos.x * gui.scaleX),
-//		round((self.originalLabelPos.y * gui.scaleY) - gui.labelFontSize),
-//		CGRectGetWidth(self.label.frame),
-//		CGRectGetHeight(self.label.frame));
-//}
 
 - (void)bang {
 	if(flashTimer) {

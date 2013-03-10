@@ -49,6 +49,12 @@
 	}
 }
 
+- (void)replaceDollarZerosForGui:(Gui *)gui {
+	self.sendName = [gui replaceDollarZeroStringsIn:self.sendName];
+	self.receiveName = [gui replaceDollarZeroStringsIn:self.receiveName];
+	self.label.text = [gui replaceDollarZeroStringsIn:self.label.text];
+}
+
 // override for custom redraw
 - (void)reshapeForGui:(Gui *)gui {
 	self.frame = CGRectMake(
@@ -169,7 +175,7 @@
 }
 
 - (void)setReceiveName:(NSString *)name {
-	if(![name isEqualToString:@""]) {
+	if(name && ![name isEqualToString:@""]) {
 		[dispatcher removeListener:self forSource:self.receiveName]; // remove old name
 		_receiveName = name;
 		[dispatcher addListener:self forSource:self.receiveName]; // add new one		

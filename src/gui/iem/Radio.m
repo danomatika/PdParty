@@ -23,8 +23,8 @@
 
 	Radio *r = [[Radio alloc] initWithFrame:CGRectZero];
 
-	r.sendName = [gui formatAtomString:[line objectAtIndex:9]];
-	r.receiveName = [gui formatAtomString:[line objectAtIndex:10]];
+	r.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
+	r.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	if(![r hasValidSendName] && ![r hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Radio: Dropping, send/receive names are empty");
@@ -41,7 +41,7 @@
 	r.inits = [[line objectAtIndex:7] boolValue];
 	r.numCells = [[line objectAtIndex:8] integerValue];
 	
-	r.label.text = [gui formatAtomString:[line objectAtIndex:11]];
+	r.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
 	r.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
 	
 	r.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
@@ -125,17 +125,6 @@
 	
 	// label
 	[self reshapeLabelForGui:gui];
-//	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.labelFontSize];
-//	[self.label sizeToFit];
-//	int nudgeX = 0, nudgeY = 0;
-//	if(self.orientation == WidgetOrientationHorizontal) {
-//		nudgeY = -2;
-//	}
-//	self.label.frame = CGRectMake(
-//		round(self.originalLabelPos.x * gui.scaleX) + nudgeX,
-//		round(self.originalLabelPos.y * gui.scaleY) + nudgeY,
-//		CGRectGetWidth(self.label.frame),
-//		CGRectGetHeight(self.label.frame));
 }
 
 #pragma mark Overridden Getters / Setters

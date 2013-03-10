@@ -23,8 +23,8 @@
 
 	Symbolbox *s = [[Symbolbox alloc] initWithFrame:CGRectZero];
 
-	s.sendName = [gui formatAtomString:[line objectAtIndex:10]];
-	s.receiveName = [gui formatAtomString:[line objectAtIndex:9]];
+	s.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
+	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
 	if(![s hasValidSendName] && ![s hasValidReceiveName]) {
 		// drop something we can't interact with
 		DDLogVerbose(@"Symbolbox: Dropping, send/receive names are empty");
@@ -33,15 +33,15 @@
 	
 	s.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		0, 0); // size based on numwidth
+		0, 0); // size based on valuewidth
 
-	s.valueWidth = [[line objectAtIndex:4] integerValue] - 1;
+	s.valueWidth = [[line objectAtIndex:4] integerValue];
 	s.minValue = [[line objectAtIndex:5] floatValue];
 	s.maxValue = [[line objectAtIndex:6] floatValue];
 	s.symbol = @"symbol";
 		
 	s.labelPos = [[line objectAtIndex:7] integerValue];
-	s.label.text = [gui formatAtomString:[line objectAtIndex:8]];
+	s.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 
 	[s reshapeForGui:gui];
 

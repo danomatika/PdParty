@@ -59,6 +59,10 @@ typedef enum {
 // get the widget type as a string, overridden by other widgets
 @property (readonly, nonatomic) NSString *type;
 
+// replace $0 in atom strings (send, receive, label)
+// call this *after* the patch has been loaded or $0 = 0
+- (void)replaceDollarZerosForGui:(Gui *)gui;
+
 // reshape based on gui bounds & scale changes
 - (void)reshapeForGui:(Gui *)gui;
 

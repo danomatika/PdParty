@@ -136,6 +136,7 @@
 			self.gui.currentPatch = [PdFile openFileNamed:fileName path:dirPath];
 			DDLogVerbose(@"Adding %d widgets", self.gui.widgets.count);
 			for(Widget *widget in self.gui.widgets) {
+				[widget replaceDollarZerosForGui:self.gui];
 				[self.view addSubview:widget];
 			}
 			hasReshaped = NO;
