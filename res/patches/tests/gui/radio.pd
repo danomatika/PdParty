@@ -13,7 +13,7 @@
 -1 -1;
 #X obj 241 89 bng 15 250 50 0 vradio1-set2 empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 33 217 hradio 15 1 0 8 hradio2-out empty hradio2 0 -8 0 10 -191407
+#X obj 33 217 hradio 15 1 0 8 hradio2-out empty hradio2 0 -8 0 14 -191407
 -258113 -159808 0;
 #X obj 189 178 vradio 15 1 0 8 vradio1-out empty vradio2 0 -8 0 10
 -13381 -260097 -99865 0;

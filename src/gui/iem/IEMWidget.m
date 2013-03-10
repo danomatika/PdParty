@@ -14,6 +14,14 @@
 
 @implementation IEMWidget
 
+- (id)initWithFrame:(CGRect)frame {    
+    self = [super initWithFrame:frame];
+    if(self) {
+		self.labelFontSize = 10;
+    }
+    return self;
+}
+
 - (void)reshapeForGui:(Gui *)gui {
 
 	// bounds
@@ -24,11 +32,11 @@
 }
 
 - (void)reshapeLabelForGui:(Gui *)gui {
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:self.labelFontSize * gui.scaleX];
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
 		round(self.originalLabelPos.x * gui.scaleX),
-		round((self.originalLabelPos.y * gui.scaleY) - (gui.fontSize * gui.scaleX * 0.75)),
+		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize * gui.scaleX * 0.75)),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }
@@ -38,8 +46,5 @@
 - (NSString*)type {
 	return @"IEMWidget";
 }
-
-#pragma mark WidgetListener
-
 
 @end

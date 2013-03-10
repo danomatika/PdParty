@@ -1,7 +1,7 @@
 #N canvas 130 87 183 188 10;
 #X obj 31 19 bng 15 500 50 0 bng1-out bng1-in bng1 17 7 0 10 -16662
 -258113 -260097;
-#X obj 31 66 bng 15 250 50 0 bng2-out bng2-in bng2 17 7 0 10 -262144
+#X obj 32 66 bng 15 250 50 0 bng2-out bng2-in bng2 17 7 0 14 -262144
 -1 -1;
 #N canvas 805 189 327 334 guts 0;
 #X obj 46 114 r bng1-out;

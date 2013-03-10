@@ -39,6 +39,7 @@
 	
 	t.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:9]];	
 	t.originalLabelPos = CGPointMake([[line objectAtIndex:10] floatValue], [[line objectAtIndex:11] floatValue]);
+	t.labelFontSize = [[line objectAtIndex:13] floatValue];
 	
 	t.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:14] integerValue]];
 	t.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
@@ -56,7 +57,7 @@
 
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
-    if (self) {
+    if(self) {
 		self.toggleValue = 1;
     }
     return self;

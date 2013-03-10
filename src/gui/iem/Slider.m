@@ -51,6 +51,7 @@
 	
 	s.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
 	s.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
+	s.labelFontSize = [[line objectAtIndex:17] floatValue];
 	
 	s.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
 	s.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
