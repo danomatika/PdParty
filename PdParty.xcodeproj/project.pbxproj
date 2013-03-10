@@ -43,15 +43,9 @@
 		3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823116E1998F00895CB2 /* CFNetwork.framework */; };
 		3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823316E1999E00895CB2 /* libxml2.dylib */; };
 		3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823516E199AF00895CB2 /* MobileCoreServices.framework */; };
-		306DBE6B16BC6A86007CF226 /* Slider.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DBE6A16BC6A86007CF226 /* Slider.m */; };
-		3088883916BCB73700781682 /* Canvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 3088883816BCB73700781682 /* Canvas.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
-		30A319F616B61FF700C7729B /* Toggle.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EE16B61FF700C7729B /* Toggle.m */; };
 		30A319F716B61FF700C7729B /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319F016B61FF700C7729B /* Widget.m */; };
-		30A31A0516B6D49300C7729B /* Bang.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A31A0316B6D49300C7729B /* Bang.m */; };
-		30A31A0816B6DBFC00C7729B /* Numberbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A31A0616B6DBFB00C7729B /* Numberbox.m */; };
-		30A31A0B16B6E7B700C7729B /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A31A0916B6E7B700C7729B /* Comment.m */; };
 		30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A716B5A8E500464926 /* UIKit.framework */; };
 		30ABE2AA16B5A8E500464926 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A916B5A8E500464926 /* Foundation.framework */; };
 		30ABE2AC16B5A8E500464926 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2AB16B5A8E500464926 /* CoreGraphics.framework */; };
@@ -159,10 +153,16 @@
 		30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6316E8457400E5AA5B /* KeyGrabber.m */; };
 		30C9BF6716E8460700E5AA5B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6616E8460700E5AA5B /* Util.m */; };
 		30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E89D0516E8758A005B40C4 /* CoreMotion.framework */; };
-		30E89D0C16EA446C005B40C4 /* Symbolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D0B16EA446C005B40C4 /* Symbolbox.m */; };
-		30E89D1216EA9205005B40C4 /* Radio.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D1116EA9204005B40C4 /* Radio.m */; };
-		30E89D1A16EBF38D005B40C4 /* AtomWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D1716EBF38D005B40C4 /* AtomWidget.m */; };
 		30E89D1E16EC4535005B40C4 /* PdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D1D16EC4535005B40C4 /* PdParser.m */; };
+		30E89D3716EC46CF005B40C4 /* Bang.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D2116EC46CE005B40C4 /* Bang.m */; };
+		30E89D3816EC46CF005B40C4 /* Canvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D2316EC46CE005B40C4 /* Canvas.m */; };
+		30E89D3B16EC46CF005B40C4 /* Radio.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D2916EC46CE005B40C4 /* Radio.m */; };
+		30E89D3C16EC46CF005B40C4 /* Slider.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D2B16EC46CE005B40C4 /* Slider.m */; };
+		30E89D3D16EC46CF005B40C4 /* Toggle.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D2D16EC46CE005B40C4 /* Toggle.m */; };
+		30E89D3E16EC46CF005B40C4 /* AtomWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3016EC46CF005B40C4 /* AtomWidget.m */; };
+		30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3216EC46CF005B40C4 /* Comment.m */; };
+		30E89D4016EC46CF005B40C4 /* Numberbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3416EC46CF005B40C4 /* Numberbox.m */; };
+		30E89D4116EC46CF005B40C4 /* Symbolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3616EC46CF005B40C4 /* Symbolbox.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -239,23 +239,11 @@
 		3050823116E1998F00895CB2 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3050823316E1999E00895CB2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3050823516E199AF00895CB2 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		306DBE6916BC6A86007CF226 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
-		306DBE6A16BC6A86007CF226 /* Slider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slider.m; sourceTree = "<group>"; };
-		3088883716BCB73700781682 /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
-		3088883816BCB73700781682 /* Canvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Canvas.m; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		30A319EA16B61FF700C7729B /* Gui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gui.m; sourceTree = "<group>"; };
 		30A319EB16B61FF700C7729B /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
-		30A319EE16B61FF700C7729B /* Toggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toggle.m; sourceTree = "<group>"; };
-		30A319EF16B61FF700C7729B /* Toggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toggle.h; sourceTree = "<group>"; };
 		30A319F016B61FF700C7729B /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
 		30A319F116B61FF700C7729B /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
-		30A31A0316B6D49300C7729B /* Bang.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bang.m; sourceTree = "<group>"; };
-		30A31A0416B6D49300C7729B /* Bang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bang.h; sourceTree = "<group>"; };
-		30A31A0616B6DBFB00C7729B /* Numberbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Numberbox.m; sourceTree = "<group>"; };
-		30A31A0716B6DBFB00C7729B /* Numberbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox.h; sourceTree = "<group>"; };
-		30A31A0916B6E7B700C7729B /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		30A31A0A16B6E7B700C7729B /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		30ABE2A316B5A8E500464926 /* PdParty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PdParty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30ABE2A716B5A8E500464926 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		30ABE2A916B5A8E500464926 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -409,14 +397,26 @@
 		30C9BF6516E8460700E5AA5B /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		30C9BF6616E8460700E5AA5B /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		30E89D0516E8758A005B40C4 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		30E89D0A16EA446C005B40C4 /* Symbolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbolbox.h; sourceTree = "<group>"; };
-		30E89D0B16EA446C005B40C4 /* Symbolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbolbox.m; sourceTree = "<group>"; };
-		30E89D1016EA9203005B40C4 /* Radio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Radio.h; sourceTree = "<group>"; };
-		30E89D1116EA9204005B40C4 /* Radio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Radio.m; sourceTree = "<group>"; };
-		30E89D1616EBF38D005B40C4 /* AtomWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtomWidget.h; sourceTree = "<group>"; };
-		30E89D1716EBF38D005B40C4 /* AtomWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtomWidget.m; sourceTree = "<group>"; };
 		30E89D1C16EC4535005B40C4 /* PdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdParser.h; sourceTree = "<group>"; };
 		30E89D1D16EC4535005B40C4 /* PdParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdParser.m; sourceTree = "<group>"; };
+		30E89D2016EC46CE005B40C4 /* Bang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bang.h; sourceTree = "<group>"; };
+		30E89D2116EC46CE005B40C4 /* Bang.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bang.m; sourceTree = "<group>"; };
+		30E89D2216EC46CE005B40C4 /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
+		30E89D2316EC46CE005B40C4 /* Canvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Canvas.m; sourceTree = "<group>"; };
+		30E89D2816EC46CE005B40C4 /* Radio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Radio.h; sourceTree = "<group>"; };
+		30E89D2916EC46CE005B40C4 /* Radio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Radio.m; sourceTree = "<group>"; };
+		30E89D2A16EC46CE005B40C4 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
+		30E89D2B16EC46CE005B40C4 /* Slider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slider.m; sourceTree = "<group>"; };
+		30E89D2C16EC46CE005B40C4 /* Toggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toggle.h; sourceTree = "<group>"; };
+		30E89D2D16EC46CE005B40C4 /* Toggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toggle.m; sourceTree = "<group>"; };
+		30E89D2F16EC46CF005B40C4 /* AtomWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtomWidget.h; sourceTree = "<group>"; };
+		30E89D3016EC46CF005B40C4 /* AtomWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtomWidget.m; sourceTree = "<group>"; };
+		30E89D3116EC46CF005B40C4 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		30E89D3216EC46CF005B40C4 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		30E89D3316EC46CF005B40C4 /* Numberbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox.h; sourceTree = "<group>"; };
+		30E89D3416EC46CF005B40C4 /* Numberbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Numberbox.m; sourceTree = "<group>"; };
+		30E89D3516EC46CF005B40C4 /* Symbolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbolbox.h; sourceTree = "<group>"; };
+		30E89D3616EC46CF005B40C4 /* Symbolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbolbox.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -616,26 +616,10 @@
 		30A319E516B61FF700C7729B /* gui */ = {
 			isa = PBXGroup;
 			children = (
-				30E89D1616EBF38D005B40C4 /* AtomWidget.h */,
-				30E89D1716EBF38D005B40C4 /* AtomWidget.m */,
-				30A31A0A16B6E7B700C7729B /* Comment.h */,
-				30A31A0916B6E7B700C7729B /* Comment.m */,
-				30A31A0716B6DBFB00C7729B /* Numberbox.h */,
-				30A31A0616B6DBFB00C7729B /* Numberbox.m */,
-				30E89D1016EA9203005B40C4 /* Radio.h */,
-				30E89D1116EA9204005B40C4 /* Radio.m */,
-				306DBE6916BC6A86007CF226 /* Slider.h */,
-				306DBE6A16BC6A86007CF226 /* Slider.m */,
-				30E89D0A16EA446C005B40C4 /* Symbolbox.h */,
-				30E89D0B16EA446C005B40C4 /* Symbolbox.m */,
-				3088883716BCB73700781682 /* Canvas.h */,
-				3088883816BCB73700781682 /* Canvas.m */,
-				30A31A0416B6D49300C7729B /* Bang.h */,
-				30A31A0316B6D49300C7729B /* Bang.m */,
 				30A319EB16B61FF700C7729B /* Gui.h */,
 				30A319EA16B61FF700C7729B /* Gui.m */,
-				30A319EF16B61FF700C7729B /* Toggle.h */,
-				30A319EE16B61FF700C7729B /* Toggle.m */,
+				30E89D1F16EC46CE005B40C4 /* iem */,
+				30E89D2E16EC46CE005B40C4 /* pd */,
 				30A319F116B61FF700C7729B /* Widget.h */,
 				30A319F016B61FF700C7729B /* Widget.m */,
 			);
@@ -958,6 +942,38 @@
 			path = src/classes;
 			sourceTree = "<group>";
 		};
+		30E89D1F16EC46CE005B40C4 /* iem */ = {
+			isa = PBXGroup;
+			children = (
+				30E89D2016EC46CE005B40C4 /* Bang.h */,
+				30E89D2116EC46CE005B40C4 /* Bang.m */,
+				30E89D2216EC46CE005B40C4 /* Canvas.h */,
+				30E89D2316EC46CE005B40C4 /* Canvas.m */,
+				30E89D2816EC46CE005B40C4 /* Radio.h */,
+				30E89D2916EC46CE005B40C4 /* Radio.m */,
+				30E89D2A16EC46CE005B40C4 /* Slider.h */,
+				30E89D2B16EC46CE005B40C4 /* Slider.m */,
+				30E89D2C16EC46CE005B40C4 /* Toggle.h */,
+				30E89D2D16EC46CE005B40C4 /* Toggle.m */,
+			);
+			path = iem;
+			sourceTree = "<group>";
+		};
+		30E89D2E16EC46CE005B40C4 /* pd */ = {
+			isa = PBXGroup;
+			children = (
+				30E89D2F16EC46CF005B40C4 /* AtomWidget.h */,
+				30E89D3016EC46CF005B40C4 /* AtomWidget.m */,
+				30E89D3116EC46CF005B40C4 /* Comment.h */,
+				30E89D3216EC46CF005B40C4 /* Comment.m */,
+				30E89D3316EC46CF005B40C4 /* Numberbox.h */,
+				30E89D3416EC46CF005B40C4 /* Numberbox.m */,
+				30E89D3516EC46CF005B40C4 /* Symbolbox.h */,
+				30E89D3616EC46CF005B40C4 /* Symbolbox.m */,
+			);
+			path = pd;
+			sourceTree = "<group>";
+		};
 		30F7A18B16BFF66F00DE265F /* util */ = {
 			isa = PBXGroup;
 			children = (
@@ -1143,13 +1159,7 @@
 				30ABE40C16B5D15400464926 /* PGMidiAllSources.mm in Sources */,
 				30ABE40D16B5D15400464926 /* PGMidiFind.mm in Sources */,
 				30A319F416B61FF700C7729B /* Gui.m in Sources */,
-				30A319F616B61FF700C7729B /* Toggle.m in Sources */,
 				30A319F716B61FF700C7729B /* Widget.m in Sources */,
-				30A31A0516B6D49300C7729B /* Bang.m in Sources */,
-				30A31A0816B6DBFC00C7729B /* Numberbox.m in Sources */,
-				30A31A0B16B6E7B700C7729B /* Comment.m in Sources */,
-				306DBE6B16BC6A86007CF226 /* Slider.m in Sources */,
-				3088883916BCB73700781682 /* Canvas.m in Sources */,
 				30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */,
 				30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */,
 				30F7A19416BFF66F00DE265F /* z_queued.c in Sources */,
@@ -1189,10 +1199,16 @@
 				30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */,
 				30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */,
 				30C9BF6716E8460700E5AA5B /* Util.m in Sources */,
-				30E89D0C16EA446C005B40C4 /* Symbolbox.m in Sources */,
-				30E89D1216EA9205005B40C4 /* Radio.m in Sources */,
-				30E89D1A16EBF38D005B40C4 /* AtomWidget.m in Sources */,
 				30E89D1E16EC4535005B40C4 /* PdParser.m in Sources */,
+				30E89D3716EC46CF005B40C4 /* Bang.m in Sources */,
+				30E89D3816EC46CF005B40C4 /* Canvas.m in Sources */,
+				30E89D3B16EC46CF005B40C4 /* Radio.m in Sources */,
+				30E89D3C16EC46CF005B40C4 /* Slider.m in Sources */,
+				30E89D3D16EC46CF005B40C4 /* Toggle.m in Sources */,
+				30E89D3E16EC46CF005B40C4 /* AtomWidget.m in Sources */,
+				30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */,
+				30E89D4016EC46CF005B40C4 /* Numberbox.m in Sources */,
+				30E89D4116EC46CF005B40C4 /* Symbolbox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
