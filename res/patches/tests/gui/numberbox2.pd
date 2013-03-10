@@ -1,0 +1,13 @@
+#N canvas 292 73 188 223 10;
+#X obj 31 96 nbx 5 14 -1e+37 1e+37 0 0 empty nbx2-in nbx2 0 -8 0 14
+-261234 -258113 -83269 12313 256;
+#X msg 93 68 12345;
+#X obj 31 44 nbx 5 14 -1e+37 1e+37 0 0 empty nbx1-in nbx1 0 -8 0 10
+-262144 -1 -1 12345 256;
+#X msg 72 14 12345;
+#X obj 34 140 print;
+#X msg 136 102 ka;
+#X connect 0 0 4 0;
+#X connect 1 0 0 0;
+#X connect 3 0 2 0;
+#X connect 5 0 0 0;

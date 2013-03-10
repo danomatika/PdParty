@@ -33,7 +33,7 @@
 	
 	s.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		0, 0); // size based on valuewidth
+		0, 0); // size based on valueWidth
 
 	s.valueWidth = [[line objectAtIndex:4] integerValue];
 	s.minValue = [[line objectAtIndex:5] floatValue];

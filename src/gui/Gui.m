@@ -20,6 +20,7 @@
 #import "Canvas.h"
 #import "Symbolbox.h"
 #import "Radio.h"
+#import "Numberbox2.h"
 
 @interface Gui ()
 
@@ -113,6 +114,14 @@
 	}
 }
 
+- (void)addNumberbox2:(NSArray *)atomLine {
+	Numberbox2 *n = [Numberbox2 numberbox2FromAtomLine:atomLine withGui:self];
+	if(n) {
+		[self.widgets addObject:n];
+		DDLogVerbose(@"Gui: added %@", n.type);
+	}
+}
+
 - (void)addWidgetsFromAtomLines:(NSArray *)lines {
 	int level = 0;
 	
@@ -176,6 +185,9 @@
 						}
 						else if([objType isEqualToString:@"cnv"]) {
 							[self addCanvas:line];
+						}
+						else if([objType isEqualToString:@"nbx"]) {
+							[self addNumberbox2:line];
 						}
 						
 						// print warnings on objects that aren't completely compatible

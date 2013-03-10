@@ -16,29 +16,19 @@
 
 #pragma mark Paths
 
-+ (NSString*)bundlePath {
++ (NSString *)bundlePath {
 	return [[NSBundle mainBundle] bundlePath];
 }
 
-+ (NSString*)documentsPath {
++ (NSString *)documentsPath {
 	NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	return [searchPaths objectAtIndex:0];
 }
 
-+ (BOOL)isDirectory:(NSString*)path {
++ (BOOL)isDirectory:(NSString *)path {
 	BOOL isDir = NO;
 	[[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
 	return isDir;
-}
-
-#pragma mark Array Utils
-
-+ (BOOL)isNumberIn:(NSArray*)array at:(int)index {
-	return [[array objectAtIndex:index] isKindOfClass:[NSNumber class]];
-}
-
-+ (BOOL)isStringIn:(NSArray*)array at:(int)index {
-	return [[array objectAtIndex:index] isKindOfClass:[NSString class]];
 }
 
 #pragma mark Device
@@ -58,19 +48,36 @@
 	return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 }
 
+#pragma mark Array
+
++ (BOOL)isNumberIn:(NSArray *)array at:(int)index {
+	return [[array objectAtIndex:index] isKindOfClass:[NSNumber class]];
+}
+
++ (BOOL)isStringIn:(NSArray* )array at:(int)index {
+	return [[array objectAtIndex:index] isKindOfClass:[NSString class]];
+}
+
 #pragma mark CGRect
 
 + (void)logRect:(CGRect)rect {
 	DDLogVerbose(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 }
 
-+ (void)logData:(NSData*)data withHeader:(NSString*)header {
++ (void)logData:(NSData *)data withHeader:(NSString *)header {
 	unsigned char *bytes = (unsigned char*)[data bytes];
 	NSMutableString *byteString = [[NSMutableString alloc] init];
 	for(int i = 0; i < data.length; ++i) {
 		[byteString appendFormat:@"%02X ", bytes[i]];
 	}
 	DDLogVerbose(@"%@[ %@]", header, byteString);
+}
+
++ (void)logColor:(UIColor *)color {
+	CGFloat r, g, b, a;
+	if([color getRed:&r green:&g blue:&b alpha:&a]) {
+		DDLogVerbose(@"%f %f %f %f", r, g, b, a);
+	}
 }
 
 @end

@@ -38,7 +38,7 @@
 	
 	n.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		0, 0); // size based on numwidth
+		0, 0); // size based on valueWidth
 
 	n.valueWidth = [[line objectAtIndex:4] integerValue];
 	n.minValue = [[line objectAtIndex:5] floatValue];
@@ -77,7 +77,7 @@
 	
 	// set sig fig formatting to make sure 0 values are returned as "0" instead of "0.0"
 	// http://stackoverflow.com/questions/13897372/nsnumberformatter-with-significant-digits-formats-0-0-incorrectly/15281611
-	if((fabs(value) < 1e-6)) {
+	if(fabs(value) < 1e-6) {
 		self.valueLabelFormatter.usesSignificantDigits = NO;
 	}
 	else {
@@ -143,7 +143,8 @@
 	self.value = received;
 }
 
-// nbx swallows set symbols
-- (void)receiveSetSymbol:(NSString *)symbol {}
+- (void)receiveSetSymbol:(NSString *)symbol {
+	// swallows set symbols
+}
 
 @end

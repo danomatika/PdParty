@@ -15,13 +15,13 @@
 #pragma mark Paths
 
 // full path to the app bundle directory
-+ (NSString*)bundlePath;
++ (NSString *)bundlePath;
 
 // full path to the Documents directory
-+ (NSString*)documentsPath;
++ (NSString *)documentsPath;
 
 // returns YES if given path exists and is a directory
-+ (BOOL)isDirectory:(NSString*)path;
++ (BOOL)isDirectory:(NSString *)path;
 
 #pragma mark Device
 
@@ -31,11 +31,11 @@
 // is this device an ipad?
 + (BOOL)isDeviceATablet;
 
-#pragma mark Array Utils
+#pragma mark Array
 
 // check object type at array pos
-+ (BOOL)isNumberIn:(NSArray*)array at:(int)index;
-+ (BOOL)isStringIn:(NSArray*)array at:(int)index;
++ (BOOL)isNumberIn:(NSArray *)array at:(int)index;
++ (BOOL)isStringIn:(NSArray *)array at:(int)index;
 
 #pragma mark Logging Shortcuts
 
@@ -43,6 +43,9 @@
 + (void)logRect:(CGRect)rect;
 
 // print NSData as raw hex bytes
-+ (void)logData:(NSData*)data withHeader:(NSString*)header;
++ (void)logData:(NSData *)data withHeader:(NSString *)header;
+
+// print a UIColor as RGBA components
++ (void)logColor:(UIColor *)color;
 
 @end
