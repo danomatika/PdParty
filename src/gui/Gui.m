@@ -217,8 +217,6 @@
 	_bounds = bounds;
 	self.scaleX = CGRectGetWidth(bounds) / self.patchWidth;
 	self.scaleY = CGRectGetHeight(bounds) / self.patchHeight;
-	NSLog(@"set bounds");
-	[Util logRect:bounds];
 }
 
 #pragma Utils
