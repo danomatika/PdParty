@@ -63,8 +63,6 @@
 		labelFrame.size.width = self.label.preferredMaxLayoutWidth;
 		labelFrame.size.height = self.label.font.lineHeight * ((self.label.text.length / GUI_LINE_WRAP) + 1);
 		self.label.frame = labelFrame;
-	[Util logRect:self.label.frame];
-	NSLog(@"charWidth: %f", charSize.width);
 	}
 
 	// bounds based on computed label size
