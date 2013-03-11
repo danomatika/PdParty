@@ -110,6 +110,7 @@
 		// create gui here as iPhone dosen't load view until *after* this is called
 		if(!self.gui) {
 			self.gui = [[Gui alloc] init];
+			self.gui.bounds = self.view.bounds;
 		}
 		
 		// close open patch

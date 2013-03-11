@@ -42,13 +42,30 @@
 	return c;
 }
 
+- (id)initWithFrame:(CGRect)frame {    
+    self = [super initWithFrame:frame];
+    if(self) {
+		self.label.numberOfLines = 0;
+		self.label.lineBreakMode = NSLineBreakByWordWrapping;
+	}
+    return self;
+}
+
 - (void)reshapeForGui:(Gui *)gui {
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * GUI_LABEL_FONT_SCALE];
-	self.label.numberOfLines = 0;
-	self.label.preferredMaxLayoutWidth = gui.fontSize * GUI_LINE_WRAP;
+	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
+	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monspaced font
+	self.label.preferredMaxLayoutWidth = charSize.width * (GUI_LINE_WRAP - 1);
 	[self.label sizeToFit];
+	if(self.label.text.length > GUI_LINE_WRAP) { // force line wrapping based on size
+		CGRect labelFrame = self.label.frame;
+		labelFrame.size.width = self.label.preferredMaxLayoutWidth;
+		labelFrame.size.height = self.label.font.lineHeight * ((self.label.text.length / GUI_LINE_WRAP) + 1);
+		self.label.frame = labelFrame;
+	[Util logRect:self.label.frame];
+	NSLog(@"charWidth: %f", charSize.width);
+	}
 
 	// bounds based on computed label size
 	self.frame = CGRectMake(

@@ -37,7 +37,7 @@
 		self.label = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.label.backgroundColor = [UIColor clearColor];
 		self.label.textColor = WIDGET_FRAME_COLOR;
-		self.label.textAlignment = UITextAlignmentLeft;
+		self.label.textAlignment = NSTextAlignmentLeft;
 		[self addSubview:self.label];
 	}
     return self;

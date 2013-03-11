@@ -28,7 +28,6 @@
 @property (assign, readwrite) int patchHeight;
 
 @property (assign, readwrite) int fontSize;
-@property (assign, readwrite) int labelFontSize;
 
 @property (assign, readwrite) float scaleX;
 @property (assign, readwrite) float scaleY;
@@ -137,7 +136,7 @@
 				if(level == 1) {
 					self.patchWidth = [[line objectAtIndex:4] integerValue];
 					self.patchHeight = [[line objectAtIndex:5] integerValue];
-					self.fontSize = round([[line objectAtIndex:6] integerValue]);
+					self.fontSize = [[line objectAtIndex:6] integerValue];
 					
 					// set pd gui to ios gui scale amount based on relative sizes
 					self.scaleX = CGRectGetWidth(self.bounds) / self.patchWidth;
@@ -216,12 +215,10 @@
 
 - (void)setBounds:(CGRect)bounds {
 	_bounds = bounds;
-	self.scaleX = CGRectGetWidth(self.bounds) / self.patchWidth;
-	self.scaleY = CGRectGetHeight(self.bounds) / self.patchHeight;
-}
-
-- (void)setFontSize:(int)fontSize {
-	_fontSize = fontSize;
+	self.scaleX = CGRectGetWidth(bounds) / self.patchWidth;
+	self.scaleY = CGRectGetHeight(bounds) / self.patchHeight;
+	NSLog(@"set bounds");
+	[Util logRect:bounds];
 }
 
 #pragma Utils

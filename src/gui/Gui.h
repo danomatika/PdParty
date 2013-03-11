@@ -18,9 +18,6 @@
 // http://stackoverflow.com/questions/11047900/cant-load-custom-font-on-ios
 #define GUI_FONT_NAME @"DejaVu Sans Mono"
 
-// make the label font a little bigger compared to in the pd gui
-#define GUI_LABEL_FONT_SCALE 1.5
-
 // pd gui wraps lines at 60 chars
 #define GUI_LINE_WRAP 60
 
@@ -43,7 +40,6 @@
 
 // font size loaded from patch
 @property (nonatomic, assign, readonly) int fontSize;
-//@property (assign, readonly) int labelFontSize; // scaled up for labels etc
 
 // scale amount between view bounds and original patch size, calculated when bounds is set
 @property (assign, readonly) float scaleX;
