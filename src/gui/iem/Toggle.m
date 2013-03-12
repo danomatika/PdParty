@@ -41,9 +41,9 @@
 	t.originalLabelPos = CGPointMake([[line objectAtIndex:10] floatValue], [[line objectAtIndex:11] floatValue]);
 	t.labelFontSize = [[line objectAtIndex:13] floatValue];
 	
-	t.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:14] integerValue]];
-	t.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
-	t.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
+	t.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:14] integerValue]];
+	t.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
+	t.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
 	
 	t.toggleValue = [[line objectAtIndex:18] floatValue];
 	t.value = [[line objectAtIndex:17] floatValue];

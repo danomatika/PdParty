@@ -21,6 +21,7 @@
 #import "Symbolbox.h"
 #import "Radio.h"
 #import "Numberbox2.h"
+#import "VUMeter.h"
 
 @interface Gui ()
 
@@ -31,8 +32,6 @@
 
 @property (assign, readwrite) float scaleX;
 @property (assign, readwrite) float scaleY;
-
-+ (int)iemguiModuloColor:(int)col;
 
 @end
 
@@ -121,6 +120,14 @@
 	}
 }
 
+- (void)addVUMeter:(NSArray *)atomLine {
+	VUMeter *v = [VUMeter vumeterFromAtomLine:atomLine withGui:self];
+	if(v) {
+		[self.widgets addObject:v];
+		DDLogVerbose(@"Gui: added %@", v.type);
+	}
+}
+
 - (void)addWidgetsFromAtomLines:(NSArray *)lines {
 	int level = 0;
 	
@@ -188,6 +195,9 @@
 						else if([objType isEqualToString:@"nbx"]) {
 							[self addNumberbox2:line];
 						}
+						else if([objType isEqualToString:@"vu"]) {
+							[self addVUMeter:line];
+						}
 						
 						// print warnings on objects that aren't completely compatible
 						else if([objType isEqualToString:@"keyup"] || [objType isEqualToString:@"keyname"]) {
@@ -240,45 +250,6 @@
 		return @"";
 	}
 	return atom;
-}
-
-// conversion statics from g_all_guis.h
-static int IEM_GUI_MAX_COLOR = 30;
-static int iemgui_color_hex[] = { // predefined colors
-	16579836, 10526880, 4210752, 16572640, 16572608,
-	16579784, 14220504, 14220540, 14476540, 16308476,
-	14737632, 8158332, 2105376, 16525352, 16559172,
-	15263784, 1370132, 2684148, 3952892, 16003312,
-	12369084, 6316128, 0, 9177096, 5779456,
-	7874580, 2641940, 17488, 5256, 5767248
-};
-
-+ (UIColor *)colorFromIEMColor:(int)iemColor {
-	int r, g, b;
-	if(iemColor < 0) {
-		iemColor = -1 - iemColor;
-		r = (iemColor & 0x3F000) >> 10;
-		g = (iemColor & 0xFC0) >> 4;
-		b = (iemColor & 0x3F) << 2;
-	}
-	else {
-		iemColor = [self iemguiModuloColor:iemColor];
-		iemColor = iemgui_color_hex[iemColor] << 8 | 0xFF;
-		r = ((iemColor >> 24) & 0xFF);
-		g = ((iemColor >> 16 ) & 0xFF);
-		b = ((iemColor >> 8) & 0xFF);
-	}
-	return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
-}
-
-#pragma mark Private
-
-+ (int)iemguiModuloColor:(int)col {
-	while(col >= IEM_GUI_MAX_COLOR)
-		col -= IEM_GUI_MAX_COLOR;
-	while(col < 0)
-		col += IEM_GUI_MAX_COLOR;
-	return col;
 }
 
 @end

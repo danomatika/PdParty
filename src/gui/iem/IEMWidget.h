@@ -19,4 +19,9 @@
 // reshape label based on gui bounds & scale changes
 - (void)reshapeLabelForGui:(Gui *)gui;
 
+#pragma mark Util
+
+// convert an IEM color to a UIColor
++ (UIColor *)colorFromIEMColor:(int)iemColor;
+
 @end

@@ -54,9 +54,9 @@
 	n.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
 	n.labelFontSize = [[line objectAtIndex:17] floatValue];
 	
-	n.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
-	n.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
-	n.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
+	n.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+	n.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
+	n.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
 	
 	n.value = [[line objectAtIndex:21] floatValue];
 	n.logHeight = [[line objectAtIndex:22] floatValue];

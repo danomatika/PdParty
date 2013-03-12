@@ -12,6 +12,13 @@
 
 #import "Gui.h"
 
+// helper class
+@interface RadioCell : UIView
+@property (nonatomic, weak) Radio* parent;
+@property (nonatomic, assign) int whichCell; // cell id
+@property (nonatomic, assign, getter=isSelected) BOOL selected;
+@end
+
 @implementation Radio
 
 + (id)radioFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui {
@@ -45,9 +52,9 @@
 	r.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
 	r.labelFontSize = [[line objectAtIndex:15] floatValue];
 	
-	r.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
-	r.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
-	r.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+	r.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
+	r.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
+	r.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
 
 	[r reshapeForGui:gui];
 	

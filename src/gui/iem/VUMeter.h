@@ -12,12 +12,12 @@
 
 @class Gui;
 
-@interface Radio : IEMWidget
+@interface VUMeter : IEMWidget
 
-@property (nonatomic, assign) int width; // pixel width of one side of a cell
-@property (nonatomic, assign) int numCells;
-@property (assign) WidgetOrientation orientation;
+// value is rms in dB
+@property (nonatomic, assign) float peakValue; // in dB
+@property (nonatomic, assign) BOOL showScale; // show the vu scale?
 
-+ (id)radioFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui;
++ (id)vumeterFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

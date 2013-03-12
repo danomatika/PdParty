@@ -34,6 +34,10 @@ Currently, [expr] and [expr~] are not included with PdParty since they are licen
 
 [key] works with an external bluetooth or usb keyboard. [keyup] & [keyname] are not supported as there is currently no *official* way to intercept raw key events on iOS.
 
+#### VU Meter
+
+[vu] gui objects do *not* have a sending name in PdParty, so make sure you're patch doesn't rely on passing values through any meters.
+
 ### DroidParty Compatibility
 
 PdParty will support DroidParty abstractions ([taplist], [menubang], etc). Custom fonts & SVG widgets/styling are planned, but not an immediate priority and will be saved for a later date. Standalone app support is not planned due to the nature of the iOS AppStore.

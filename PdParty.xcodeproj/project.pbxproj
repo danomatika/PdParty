@@ -27,10 +27,7 @@
 		3050822016E198C900895CB2 /* DAVResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081F216E198C900895CB2 /* DAVResponse.m */; };
 		3050822116E198C900895CB2 /* DELETEResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081F416E198C900895CB2 /* DELETEResponse.m */; };
 		3050822216E198C900895CB2 /* PUTResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081F616E198C900895CB2 /* PUTResponse.m */; };
-		3050822316E198C900895CB2 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 305081F716E198C900895CB2 /* LICENSE.txt */; };
-		3050822416E198C900895CB2 /* About.txt in Resources */ = {isa = PBXBuildFile; fileRef = 305081FA16E198C900895CB2 /* About.txt */; };
 		3050822516E198C900895CB2 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081FC16E198C900895CB2 /* GCDAsyncSocket.m */; };
-		3050822616E198C900895CB2 /* About.txt in Resources */ = {isa = PBXBuildFile; fileRef = 305081FE16E198C900895CB2 /* About.txt */; };
 		3050822716E198C900895CB2 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820016E198C900895CB2 /* DDAbstractDatabaseLogger.m */; };
 		3050822816E198C900895CB2 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820216E198C900895CB2 /* DDASLLogger.m */; };
 		3050822916E198C900895CB2 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820416E198C900895CB2 /* DDFileLogger.m */; };
@@ -38,7 +35,6 @@
 		3050822B16E198C900895CB2 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820816E198C900895CB2 /* DDTTYLogger.m */; };
 		3050822C16E198C900895CB2 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820B16E198C900895CB2 /* ContextFilterLogFormatter.m */; };
 		3050822D16E198C900895CB2 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820D16E198C900895CB2 /* DispatchQueueLogFormatter.m */; };
-		3050822E16E198C900895CB2 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3050820E16E198C900895CB2 /* README.txt */; };
 		3050823016E1998800895CB2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050822F16E1998800895CB2 /* Security.framework */; };
 		3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823116E1998F00895CB2 /* CFNetwork.framework */; };
 		3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823316E1999E00895CB2 /* libxml2.dylib */; };
@@ -59,7 +55,6 @@
 		30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F616B5D11D00464926 /* InfoPlist.strings */; };
 		30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */; };
 		30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2FA16B5D11D00464926 /* MainStoryboard_iPhone.storyboard */; };
-		30ABE30D16B5D11D00464926 /* PdParty-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE30116B5D11D00464926 /* PdParty-Info.plist */; };
 		30ABE3A816B5D15400464926 /* s_libpdmidi.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31D16B5D15400464926 /* s_libpdmidi.c */; };
 		30ABE3A916B5D15400464926 /* x_libpdreceive.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE31E16B5D15400464926 /* x_libpdreceive.c */; };
 		30ABE3AA16B5D15400464926 /* z_libpd.c in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32016B5D15400464926 /* z_libpd.c */; };
@@ -165,6 +160,7 @@
 		30E89D4116EC46CF005B40C4 /* Symbolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3616EC46CF005B40C4 /* Symbolbox.m */; };
 		30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4316EC4748005B40C4 /* IEMWidget.m */; };
 		30E89D4716ECEDF2005B40C4 /* Numberbox2.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4616ECEDF0005B40C4 /* Numberbox2.m */; };
+		30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4916EDB459005B40C4 /* VUMeter.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -423,6 +419,8 @@
 		30E89D4316EC4748005B40C4 /* IEMWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IEMWidget.m; sourceTree = "<group>"; };
 		30E89D4516ECEDEF005B40C4 /* Numberbox2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox2.h; sourceTree = "<group>"; };
 		30E89D4616ECEDF0005B40C4 /* Numberbox2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Numberbox2.m; sourceTree = "<group>"; };
+		30E89D4816EDB457005B40C4 /* VUMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUMeter.h; sourceTree = "<group>"; };
+		30E89D4916EDB459005B40C4 /* VUMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUMeter.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -959,6 +957,8 @@
 				30E89D4316EC4748005B40C4 /* IEMWidget.m */,
 				30E89D4516ECEDEF005B40C4 /* Numberbox2.h */,
 				30E89D4616ECEDF0005B40C4 /* Numberbox2.m */,
+				30E89D4816EDB457005B40C4 /* VUMeter.h */,
+				30E89D4916EDB459005B40C4 /* VUMeter.m */,
 				30E89D2816EC46CE005B40C4 /* Radio.h */,
 				30E89D2916EC46CE005B40C4 /* Radio.m */,
 				30E89D2A16EC46CE005B40C4 /* Slider.h */,
@@ -1064,13 +1064,8 @@
 				30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */,
 				30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */,
 				30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */,
-				30ABE30D16B5D11D00464926 /* PdParty-Info.plist in Resources */,
 				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
 				30ACA10D16D1866000B50B73 /* patches in Resources */,
-				3050822316E198C900895CB2 /* LICENSE.txt in Resources */,
-				3050822416E198C900895CB2 /* About.txt in Resources */,
-				3050822616E198C900895CB2 /* About.txt in Resources */,
-				3050822E16E198C900895CB2 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1221,6 +1216,7 @@
 				30E89D4116EC46CF005B40C4 /* Symbolbox.m in Sources */,
 				30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */,
 				30E89D4716ECEDF2005B40C4 /* Numberbox2.m in Sources */,
+				30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1274,6 +1270,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1302,6 +1299,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREFIX_HEADER = "PdParty-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

@@ -11,6 +11,8 @@
 #import "IEMWidget.h"
 
 #import "Gui.h"
+#include "z_libpd.h"
+#include "g_all_guis.h" // iem gui
 
 @implementation IEMWidget
 
@@ -45,6 +47,26 @@
 
 - (NSString*)type {
 	return @"IEMWidget";
+}
+
+#pragma mark Util
+
++ (UIColor *)colorFromIEMColor:(int)iemColor {
+	int r, g, b;
+	if(iemColor < 0) {
+		iemColor = -1 - iemColor;
+		r = (iemColor & 0x3F000) >> 10;
+		g = (iemColor & 0xFC0) >> 4;
+		b = (iemColor & 0x3F) << 2;
+	}
+	else {
+		iemColor = iemgui_modulo_color(iemColor);
+		iemColor = iemgui_color_hex[iemColor] << 8 | 0xFF;
+		r = ((iemColor >> 24) & 0xFF);
+		g = ((iemColor >> 16 ) & 0xFF);
+		b = ((iemColor >> 8) & 0xFF);
+	}
+	return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
 }
 
 @end

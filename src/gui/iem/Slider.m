@@ -53,9 +53,9 @@
 	s.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
 	s.labelFontSize = [[line objectAtIndex:17] floatValue];
 	
-	s.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
-	s.controlColor = [Gui colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
-	s.label.textColor = [Gui colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
+	s.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+	s.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
+	s.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
 
 	[s reshapeForGui:gui];
 	
@@ -100,6 +100,7 @@
 	// slider pos
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	CGContextSetLineWidth(context, 4);
+	CGContextSetShouldAntialias(context, NO); // no fuzzy straight lines
 	if(self.orientation == WidgetOrientationHorizontal) {
 		float x = round(rect.origin.x + ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.width);
 		// constrain pos at edges

@@ -46,14 +46,19 @@
 @property (assign, readonly) float scaleY;
 
 // add a widget using a given atom line (array of NSStrings)
+
+// pd
 - (void)addComment:(NSArray *)atomLine;
 - (void)addNumberbox:(NSArray *)atomLine;
+
+// iem
 - (void)addBang:(NSArray *)atomLine;
 - (void)addToggle:(NSArray *)atomLine;
 - (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
 - (void)addRadio:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
 - (void)addCanvas:(NSArray *)atomLine;
 - (void)addNumberbox2:(NSArray *)atomLine;
+- (void)addVUMeter:(NSArray *)atomLine;
 
 // add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray*)lines;
@@ -72,8 +77,5 @@
 // convert atom string empty values to an empty string
 // nil, @"-", & @"empty" -> @""
 + (NSString *)filterEmptyStringValues:(NSString *)atom;
-
-// convert an IEM color to a UIColor
-+ (UIColor *)colorFromIEMColor:(int)iemColor;
 
 @end

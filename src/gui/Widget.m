@@ -67,15 +67,15 @@
 #pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {
-	DDLogWarn(@"Widget: %@ dropped bang", self.type);
+	DDLogWarn(@"%@: dropped bang", self.type);
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	DDLogWarn(@"Widget: %@ dropped float", self.type);
+	DDLogWarn(@"%@: dropped float", self.type);
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	DDLogWarn(@"Widget: %@ dropped symbol", self.type);
+	DDLogWarn(@"%@: dropped symbol", self.type);
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
@@ -126,11 +126,11 @@
 }
 
 - (void)receiveSetFloat:(float)received {
-	DDLogWarn(@"Widget: %@ dropped set float", self.type);
+	DDLogWarn(@"%@: dropped set float", self.type);
 }
 
 - (void)receiveSetSymbol:(NSString *)symbol {
-	DDLogWarn(@"Widget: %@ dropped set symbol", self.type);
+	DDLogWarn(@"%@: dropped set symbol", self.type);
 }
 
 #pragma mark Sending
