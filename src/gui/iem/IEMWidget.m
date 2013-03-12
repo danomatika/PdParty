@@ -38,7 +38,7 @@
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
 		round(self.originalLabelPos.x * gui.scaleX),
-		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize * gui.scaleX * 0.75)),
+		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize * 0.5 * gui.scaleX)),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }

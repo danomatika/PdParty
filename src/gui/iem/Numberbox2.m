@@ -74,7 +74,8 @@
 		self.logHeight = 256;
 		
 		self.valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[self.valueLabel setTextAlignment:NSTextAlignmentLeft];
+		self.valueLabel.textAlignment = NSTextAlignmentLeft;
+		self.valueLabel.lineBreakMode = NSLineBreakByClipping;
 		self.valueLabel.backgroundColor = [UIColor clearColor];
 		[self addSubview:self.valueLabel];
 		

@@ -16,19 +16,30 @@
 
 #define VU_PAD_W	2
 #define VU_PAD_H	4
-#define VU_MAX_SCALE_CHAT_WIDTH	4
+#define VU_MAX_SCALE_CHAR_WIDTH	4
 
-// helper class
+#pragma mark MeterView
+
+// helper class, useful for future possible hit tests ...
 @interface MeterView : UIView
+
 @property (nonatomic, weak) VUMeter* parent;
-@property (nonatomic, assign) int rmsBar; // max rms led bar index
-@property (nonatomic, assign) int peakBar; // peak led bar index
-@property (nonatomic, assign) CGSize ledBarSize;
+@property (nonatomic, assign) int rmsBar;		// max rms led bar index
+@property (nonatomic, assign) int peakBar;		// peak led bar index
+@property (nonatomic, assign) CGSize barSize;	// led bar size
+
+- (void)reshapeForGui:(Gui *)gui;
+
 @end
 
+#pragma mark VUMeter
+
 @interface VUMeter ()
+
 @property (assign) BOOL isDefaultFillColor;
 @property (weak) MeterView *meterView;
+@property (assign) float scaleX; // current gui.scaleX
+
 @end
 
 @implementation VUMeter
@@ -54,19 +65,12 @@
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 		[[line objectAtIndex:5] floatValue],
 		floor([[line objectAtIndex:6] floatValue] / IEM_VU_STEPS) * IEM_VU_STEPS);
-	[Util logRect:v.originalFrame];
 	
 	v.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	v.originalLabelPos = CGPointMake([[line objectAtIndex:9] floatValue], [[line objectAtIndex:10] floatValue]);
 	v.labelFontSize = [[line objectAtIndex:12] floatValue];
-	
-	if([[line objectAtIndex:13] integerValue] == -66577) { // check for default color value
-		v.fillColor = [UIColor colorWithWhite:0.22 alpha:1.0];
-		v.isDefaultFillColor = YES;
-	}
-	else {
-		v.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:13] integerValue]];
-	}
+
+	v.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:13] integerValue]];
 	v.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:14] integerValue]];
 
 	v.showScale = [[line objectAtIndex:15] boolValue];
@@ -81,6 +85,7 @@
     if(self) {
 	
 		self.showScale = YES;
+		self.scaleX = 1.0;
 		self.isDefaultFillColor = NO;
 		
 		MeterView *m = [[MeterView alloc] initWithFrame:CGRectZero];
@@ -93,14 +98,10 @@
 
 - (void)reshapeForGui:(Gui *)gui {
 	
+	self.scaleX = gui.scaleX;
+	
 	// meter
-	CGRect meterFrame = CGRectMake(0, 0,
-		self.originalFrame.size.width + VU_PAD_W + 1,
-		self.originalFrame.size.height + VU_PAD_H + 1);
-	if(self.showScale) {
-		meterFrame.origin.y = round(self.label.font.lineHeight/2); // offset for scale text
-	}
-	self.meterView.frame = meterFrame;
+	[self.meterView reshapeForGui:gui];
 	
 	// bounds from meter size + optional scale width
 	CGRect bounds = CGRectMake(
@@ -109,28 +110,20 @@
 		CGRectGetWidth(self.meterView.frame),
 		CGRectGetHeight(self.meterView.frame));
 	if(self.showScale) {
-		CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monspaced font
-		bounds.size.width += charSize.width * VU_MAX_SCALE_CHAT_WIDTH;
-		bounds.size.height += self.label.font.lineHeight;
+		CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospaced font
+		bounds.size.width += (charSize.width * VU_MAX_SCALE_CHAR_WIDTH) + 1;
+		bounds.size.height += self.labelFontSize;
+		bounds.origin.y -= self.labelFontSize/2;
 	}
 	self.frame = bounds;
 	
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:self.labelFontSize];
-	[self.label sizeToFit];
-	CGRect labelFrame = CGRectMake(
-		round(self.originalLabelPos.x * gui.scaleX),
-		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize* 0.75)),
-		CGRectGetWidth(self.label.frame),
-		CGRectGetHeight(self.label.frame));
+	[self reshapeLabelForGui:gui];
 	if(self.showScale) { // shift label down slightly since meter is shifted down
-		labelFrame.origin.y += meterFrame.origin.y;
+		CGRect labelFrame = self.label.frame;
+		labelFrame.origin.y += self.meterView.frame.origin.y;
+		self.label.frame = labelFrame;
 	}
-	self.label.frame = labelFrame;
-	
-//	// led bar
-//	int w2=self.originalFrame.size.width/2;
-//	ledBarSize = CGSizeMake(self.originalFrame.size.width-w2-1, (self.frame.size.height / IEM_VU_STEPS) - 1);// * gui.scaleX);
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -138,40 +131,25 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	
-	int w4=self.originalFrame.size.width/4, w2=self.originalFrame.size.width/2;
-	
 	// vu scale text
 	if(self.showScale) {
-		CGPoint pos = CGPointMake(w4 + VU_PAD_W, 0);
-		int k1=self.meterView.ledBarSize.height+1, k2=IEM_VU_STEPS+1, k3=k1/2;
-		int k4=-k3;
-		for(int i = 0; i < IEM_VU_STEPS+2; ++i) {
-			pos.y = k4 + k1*(k2-i+1) + 1;
-			NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
+		CGPoint pos = CGPointMake(round(CGRectGetWidth(self.meterView.frame) + 1), 0);
+		int k1 = self.meterView.barSize.height+1, k2 = IEM_VU_STEPS+1, k3 = k1/2;
+		int k4 = -k3;
+		for(int i = 0; i <= IEM_VU_STEPS+1; ++i) {
+			pos.y = round((k4 + k1*(k2-i)) - (VU_PAD_H/2));
+			NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i+1]];
 			if(vuString.length > 0) {
+				CGPoint stringPos = CGPointMake(pos.x,//(2*self.scaleX)),
+				round(pos.y * self.scaleX));
 				CGContextSetFillColorWithColor(context, self.label.textColor.CGColor);
-				[vuString drawAtPoint:CGPointMake(self.originalFrame.size.width + VU_PAD_W + 2, pos.y) withFont:self.label.font];
+				[vuString drawAtPoint:stringPos withFont:self.label.font];
 			}
 		}
 	}
 }
 
 #pragma mark Overridden Getters / Setters
-
-//- (void)setValue:(float)f {
-//	[super setValue:MIN(self.maxValue, MAX(self.minValue, f))];
-//}
-
-//- (void)setFillColor:(UIColor *)fillColor {
-//	//	if([[line objectAtIndex:12] integerValue] == -66577) { // check for default color value
-////		v.fillColor = [UIColor colorWithWhite:0.25 alpha:1.0];
-////		v.isDefaultFillColor = YES;
-////	}
-////	else {
-//		v.fillColor = [Gui colorFromIEMColor:[[line objectAtIndex:12] integerValue]];
-////	}
-//	_fillColor = fillColor;
-//}
 
 - (void)setValue:(float)f {
     int i;
@@ -209,6 +187,19 @@
 	// rms & peak values come in pairs so only redisplay once when setting rms
 }
 
+- (void)setFillColor:(UIColor *)fillColor {
+	CGFloat r, g, b, a;
+	[fillColor getRed:&r green:&g blue:&b alpha:&a];
+	if(r == 0.250980  && g == 0.250980 && b == 0.250980 && a == 1.0) { // check for default color value
+		[super setFillColor:[UIColor colorWithWhite:0.25 alpha:1.0]];
+		self.isDefaultFillColor = YES;
+	}
+	else {
+		[super setFillColor:fillColor];
+		self.isDefaultFillColor = NO;
+	}
+}
+
 - (NSString *)type {
 	return @"VUMeter";
 }
@@ -237,16 +228,33 @@
 
 @end
 
-#pragma mark Meter
+#pragma mark MeterView
 
 @implementation MeterView
 
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
-		self.ledBarSize = CGSizeMake(IEM_VU_DEFAULTSIZE * 2, IEM_VU_DEFAULTSIZE);
+		self.barSize = CGSizeMake(IEM_VU_DEFAULTSIZE * 2, IEM_VU_DEFAULTSIZE);
 	}
     return self;
+}
+
+- (void)reshapeForGui:(Gui *)gui {
+
+	// bounds
+	CGRect bounds = CGRectMake(0, 0,
+		round((CGRectGetWidth(self.parent.originalFrame) + VU_PAD_W + 1) * gui.scaleX),
+		round((CGRectGetHeight(self.parent.originalFrame) + VU_PAD_H + 1) * gui.scaleX));
+	if(self.parent.showScale) {
+		bounds.origin.y = round(self.parent.labelFontSize/2); // offset for scale text
+	}
+	self.frame = bounds;
+
+	// led bar
+	self.barSize = CGSizeMake(
+		round(((CGRectGetWidth(self.parent.originalFrame)/2) - 1)),
+		round(((CGRectGetHeight(self.parent.originalFrame) / IEM_VU_STEPS) - 1)));
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -264,22 +272,22 @@
 	CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect)-1, CGRectGetHeight(rect)-1));
 	
 	// led bars
-	int w2=self.parent.originalFrame.size.width/2;
-	self.ledBarSize = CGSizeMake(self.parent.originalFrame.size.width-w2-1, (self.frame.size.height / IEM_VU_STEPS) - 1);// * gui.scaleX);
-	int w4=self.parent.originalFrame.size.width/4;
-	
-	CGPoint pos = CGPointMake(w4 + VU_PAD_W, 0);
-	int k1=self.ledBarSize.height+1, k2=IEM_VU_STEPS+1, k3=k1/2;
-    int k4=-k3;
+	CGPoint pos = CGPointMake(round(rect.size.width/4) - 1, 0);
+	int k1 = self.barSize.height+1, k2 = IEM_VU_STEPS+1, k3 = k1/2;
+    int k4 = -k3;
 	for(int i = 1; i <= IEM_VU_STEPS; ++i) {
 		if(i == self.peakBar || i <= self.rmsBar) {
-			pos.y = k4 + k1*(k2-i) + 1;
+			pos.y = k4 + k1*(k2-i) - 1;
 			CGRect bar;
 			if(i == self.peakBar) {
-				bar = CGRectMake(1, pos.y, rect.size.width - VU_PAD_W - 1, self.ledBarSize.height-1);
+				bar = CGRectMake(1, round(pos.y * self.parent.scaleX),
+					round(CGRectGetWidth(rect)-3),
+					round((self.barSize.height+1) * self.parent.scaleX));
 			}
 			else {
-				bar = CGRectMake(pos.x, pos.y, self.ledBarSize.width, self.ledBarSize.height-1);
+				bar = CGRectMake(pos.x, round(pos.y * self.parent.scaleX),
+					round(CGRectGetWidth(rect)/2 + 1),
+					round((self.barSize.height+1) * self.parent.scaleX));
 			}
 			UIColor *barColor = [IEMWidget colorFromIEMColor:iemgui_vu_col[i]];
 			CGContextSetFillColorWithColor(context, barColor.CGColor);

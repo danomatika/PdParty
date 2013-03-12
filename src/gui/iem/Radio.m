@@ -14,9 +14,11 @@
 
 // helper class
 @interface RadioCell : UIView
+
 @property (nonatomic, weak) Radio* parent;
 @property (nonatomic, assign) int whichCell; // cell id
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
+
 @end
 
 @implementation Radio
