@@ -80,8 +80,9 @@
 		[self addSubview:self.valueLabel];
 		
 		self.valueLabelFormatter = [[NSNumberFormatter alloc] init];
-		//self.valueLabelFormatter.numberStyle = NSNumberFormatterScientificStyle;
 		self.valueLabelFormatter.maximumSignificantDigits = 6;
+		self.valueLabelFormatter.nilSymbol = @"0";
+		self.valueLabelFormatter.exponentSymbol = @"e";
 		self.valueLabelFormatter.paddingCharacter = @" ";
 		self.valueLabelFormatter.paddingPosition = NSNumberFormatterPadAfterSuffix;
 		
@@ -170,8 +171,16 @@
 	else {
 		self.valueLabelFormatter.usesSignificantDigits = YES;
 	}
+	
+	// use scientific style if number dosen't fit
+	self.valueLabelFormatter.numberStyle = NSNumberFormatterNoStyle;
+	if([[self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]] length] > self.valueWidth) {
+		self.valueLabelFormatter.numberStyle = NSNumberFormatterScientificStyle;
+	}
 	self.valueLabel.text = [self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
-	if(isControlColorBlack) { // set red interaction color?
+	
+	// set red interaction color?
+	if(isControlColorBlack) {
 		if(touchPrevY > 0) { // assume first interaction is not at 0 (where fat fingers can't go)
 			self.valueLabel.textColor = [UIColor redColor];
 			isValueLabelRed = YES;
@@ -184,7 +193,6 @@
 }
 
 - (void)setValueWidth:(int)valueWidth {
-	[self.valueLabelFormatter setFormatWidth:valueWidth];
 	_valueWidth = valueWidth;
 }
 

@@ -58,9 +58,10 @@
     if(self) {
 		
 		self.valueLabelFormatter = [[NSNumberFormatter alloc] init];
-		//self.valueLabelFormatter.numberStyle = NSNumberFormatterScientificStyle;
 		self.valueLabelFormatter.maximumSignificantDigits = 6;
-		self.valueLabelFormatter.paddingCharacter = @" ";
+		self.valueLabelFormatter.nilSymbol = @"0";
+		self.valueLabelFormatter.exponentSymbol = @"e";
+		self.valueLabelFormatter.paddingCharacter = @"";
 		self.valueLabelFormatter.paddingPosition = NSNumberFormatterPadAfterSuffix;
 		
 		touchPrevY = 0;
@@ -83,17 +84,21 @@
 	else {
 		self.valueLabelFormatter.usesSignificantDigits = YES;
 	}
-	self.valueLabel.text = [self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
+	
+	// use scientific style if number dosen't fit
+	self.valueLabelFormatter.numberStyle = NSNumberFormatterNoStyle;
+	NSString *valueString = [self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
+	if(valueString.length > self.valueWidth) {
+		self.valueLabelFormatter.numberStyle = NSNumberFormatterScientificStyle;
+		valueString = [self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
+	}
+	self.valueLabel.text = valueString;
+
 	[super setValue:value];
 }
 
 - (NSString *)type {
 	return @"Numberbox";
-}
-
-- (void)setValueWidth:(int)valueWidth {
-	[self.valueLabelFormatter setFormatWidth:valueWidth];
-	[super setValueWidth:valueWidth];
 }
 
 #pragma mark Touches

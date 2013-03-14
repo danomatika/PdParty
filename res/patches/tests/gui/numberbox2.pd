@@ -1,8 +1,8 @@
-#N canvas 615 223 188 223 10;
+#N canvas 549 181 188 223 10;
 #X obj 59 105 nbx 5 14 -1e+37 1e+37 0 0 nbox2-out nbox2-in nbox2 0
--8 0 14 -261234 -258113 -83269 0 256;
+-8 0 14 -261234 -258113 -83269 12345 256;
 #X obj 60 61 nbx 5 14 -1e+37 1e+37 0 0 empty nbox1-in nbox1 0 -8 0
-10 -262144 -1 -1 5e+08 256;
+10 -262144 -1 -1 5e+09 256;
 #X obj 59 168 print;
 #N canvas 720 382 328 214 guts 0;
 #X obj 179 36 loadbang;
@@ -14,7 +14,7 @@
 #X msg 21 87 10000;
 #X msg 179 64 \; nbox1-in set 4 \; nbox2-in 12345;
 #X obj 73 116 s nbox1-in;
-#X msg 105 86 5e+08;
+#X msg 104 86 5e+09;
 #X connect 0 0 7 0;
 #X connect 1 0 2 0;
 #X connect 3 0 4 0;
