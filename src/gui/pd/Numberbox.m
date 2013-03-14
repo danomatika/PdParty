@@ -53,48 +53,19 @@
 	return n;
 }
 
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
-		
-		self.valueLabelFormatter = [[NSNumberFormatter alloc] init];
-		self.valueLabelFormatter.maximumSignificantDigits = 6;
-		self.valueLabelFormatter.nilSymbol = @"0";
-		self.valueLabelFormatter.exponentSymbol = @"e";
-		self.valueLabelFormatter.paddingCharacter = @"";
-		self.valueLabelFormatter.paddingPosition = NSNumberFormatterPadAfterSuffix;
-		
-		touchPrevY = 0;
-    }
-    return self;
-}
-
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)value {
 	if(self.minValue != 0 || self.maxValue != 0) {
 		value = MIN(self.maxValue, MAX(value, self.minValue));
 	}
-	
-	// set sig fig formatting to make sure 0 values are returned as "0" instead of "0.0"
-	// http://stackoverflow.com/questions/13897372/nsnumberformatter-with-significant-digits-formats-0-0-incorrectly/15281611
-	if(fabs(value) < 1e-6) {
-		self.valueLabelFormatter.usesSignificantDigits = NO;
-	}
-	else {
-		self.valueLabelFormatter.usesSignificantDigits = YES;
-	}
-	
-	// use scientific style if number dosen't fit
-	self.valueLabelFormatter.numberStyle = NSNumberFormatterNoStyle;
-	NSString *valueString = [self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
-	if(valueString.length > self.valueWidth) {
-		self.valueLabelFormatter.numberStyle = NSNumberFormatterScientificStyle;
-		valueString = [self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
-	}
-	self.valueLabel.text = valueString;
-
+	self.valueLabel.text = [Widget stringFromFloat:value withWidth:self.valueWidth];
 	[super setValue:value];
+}
+
+- (void)setValueWidth:(int)valueWidth {
+	[super setValueWidth:valueWidth];
+	self.valueLabel.text = [Widget stringFromFloat:self.value withWidth:self.valueWidth];
 }
 
 - (NSString *)type {

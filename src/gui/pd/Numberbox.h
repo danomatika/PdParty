@@ -14,8 +14,6 @@
 
 @interface Numberbox : AtomWidget
 
-@property (strong) NSNumberFormatter *valueLabelFormatter; // formats the value
-
 + (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

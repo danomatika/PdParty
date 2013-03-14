@@ -19,7 +19,6 @@
 
 @property (assign, nonatomic) int valueWidth; // number of value chars to show
 @property (strong) UILabel *valueLabel; // shows the value
-@property (strong) NSNumberFormatter *valueLabelFormatter; // formats the value
 
 + (id)numberbox2FromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 

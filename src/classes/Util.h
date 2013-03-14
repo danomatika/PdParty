@@ -49,3 +49,11 @@
 + (void)logColor:(UIColor *)color;
 
 @end
+
+#pragma mark String
+
+@interface NSMutableString (CharSetString)
+
+- (void)setCharacter:(unichar)c atIndex:(unsigned)i;
+
+@end

@@ -86,4 +86,9 @@ typedef enum {
 + (PdDispatcher *) dispatcher;
 + (void)setDispatcher:(PdDispatcher*)d;
 
+#pragma mark Number Formatting
+
+// convert a float to a string of the given max length
++ (NSString *)stringFromFloat:(double)f withWidth:(int)width;
+
 @end

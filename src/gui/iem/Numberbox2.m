@@ -79,13 +79,6 @@
 		self.valueLabel.backgroundColor = [UIColor clearColor];
 		[self addSubview:self.valueLabel];
 		
-		self.valueLabelFormatter = [[NSNumberFormatter alloc] init];
-		self.valueLabelFormatter.maximumSignificantDigits = 6;
-		self.valueLabelFormatter.nilSymbol = @"0";
-		self.valueLabelFormatter.exponentSymbol = @"e";
-		self.valueLabelFormatter.paddingCharacter = @" ";
-		self.valueLabelFormatter.paddingPosition = NSNumberFormatterPadAfterSuffix;
-		
 		touchPrevY = 0;
 		isControlColorBlack = NO;
 		isValueLabelRed = NO;
@@ -139,7 +132,7 @@
 		// make sure width matches valueWidth
 		valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
 	}
-	valueLabelFrame.origin = CGPointMake(round(gui.scaleX + (valueLabelFrame.size.height * 0.5)), round(2.0 * gui.scaleX));
+	valueLabelFrame.origin = CGPointMake(round(gui.scaleX + (valueLabelFrame.size.height * 0.5)), round(gui.scaleX));
 	self.valueLabel.frame = valueLabelFrame;
 	
 	// bounds from value label size
@@ -149,7 +142,7 @@
 		round(CGRectGetWidth(self.valueLabel.frame) +
 			 (CGRectGetHeight(self.valueLabel.frame) * 0.5) +
 			 (charSize.width * 3) + (2 * gui.scaleX)), // space out right edge
-		round(CGRectGetHeight(self.valueLabel.frame) + (2 * gui.scaleX)));
+		round(CGRectGetHeight(self.valueLabel.frame)));
 	cornerSize = CGRectGetHeight(self.valueLabel.frame) * 0.40;
 
 	// label
@@ -162,22 +155,7 @@
 	if(self.minValue != 0 || self.maxValue != 0) {
 		value = MIN(self.maxValue, MAX(value, self.minValue));
 	}
-	
-	// set sig fig formatting to make sure 0 values are returned as "0" instead of "0.0"
-	// http://stackoverflow.com/questions/13897372/nsnumberformatter-with-significant-digits-formats-0-0-incorrectly/15281611
-	if(fabs(value) < 1e-6) {
-		self.valueLabelFormatter.usesSignificantDigits = NO;
-	}
-	else {
-		self.valueLabelFormatter.usesSignificantDigits = YES;
-	}
-	
-	// use scientific style if number dosen't fit
-	self.valueLabelFormatter.numberStyle = NSNumberFormatterNoStyle;
-	if([[self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]] length] > self.valueWidth) {
-		self.valueLabelFormatter.numberStyle = NSNumberFormatterScientificStyle;
-	}
-	self.valueLabel.text = [self.valueLabelFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
+	self.valueLabel.text = [Widget stringFromFloat:value withWidth:self.valueWidth];
 	
 	// set red interaction color?
 	if(isControlColorBlack) {
@@ -194,6 +172,7 @@
 
 - (void)setValueWidth:(int)valueWidth {
 	_valueWidth = valueWidth;
+	self.valueLabel.text = [Widget stringFromFloat:self.value withWidth:self.valueWidth];
 }
 
 - (void)setControlColor:(UIColor *)controlColor {

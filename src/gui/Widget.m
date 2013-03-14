@@ -198,4 +198,57 @@ static PdDispatcher *dispatcher = nil;
 	dispatcher = d;
 }
 
+#pragma mark Number Formatting
+
+// adapted from void my_numbox_ftoa(t_my_numbox *x) in g_numbox.c
++ (NSString *)stringFromFloat:(double)f withWidth:(int)width {
+
+    BOOL is_exp = NO;
+	int i, idecimal;
+    NSMutableString *string = [NSMutableString stringWithFormat:@"%g", f];
+	
+	// if it is in exponential mode
+    if(string.length >= 5) {
+        i = string.length - 4;
+        if(([string characterAtIndex:i] == 'e') || ([string characterAtIndex:i] == 'E'))
+            is_exp = YES;
+    }
+	
+	// if to reduce
+    if(string.length > width) {
+        if(is_exp) {
+            if(width <= 5) {
+				[string setString:(f < 0.0 ? @"-" : @"+")];
+            }
+            i = width - 4;
+            for(idecimal=0; idecimal < i; idecimal++) {
+                if([string characterAtIndex:idecimal] == '.') {
+                    break;
+				}
+			}
+            if(idecimal > (width - 4)){
+                [string setString:(f < 0.0 ? @"-" : @"+")];
+            }
+            else {
+                int new_exp_index = width-4, old_exp_index = string.length-4;
+
+                for(i = 0; i < 4; i++, new_exp_index++, old_exp_index++) {
+					[string setCharacter:[string characterAtIndex:old_exp_index] atIndex:new_exp_index];
+				}
+            }
+        }
+        else {
+            for(idecimal = 0; idecimal < string.length; idecimal++) {
+                if([string characterAtIndex:idecimal] == '.') {
+                    break;
+				}
+			}
+            if(idecimal > width) {
+				[string setString:(f < 0.0 ? @"-" : @"+")];
+            }
+        }
+    }
+	return string;
+}
+
 @end

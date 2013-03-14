@@ -81,3 +81,13 @@
 }
 
 @end
+
+#pragma mark MutableString
+
+@implementation NSMutableString (StringUtils)
+
+- (void)setCharacter:(unichar)c atIndex:(unsigned)i {
+	NSLog(@"setting %c at %d in \"%@\"", c, i, self);
+	[self replaceCharactersInRange:NSMakeRange(i, 1) withString:[NSString stringWithCharacters:&c length:1]];
+}
+@end
