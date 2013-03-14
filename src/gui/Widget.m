@@ -82,19 +82,19 @@
 	if(list.count > 0) {
 	
 		// pass float through, setting the value
-		if([Util isNumberIn:list at:0]) {
+		if([list isNumberAt:0]) {
 			[self receiveFloat:[[list objectAtIndex:0] floatValue] fromSource:source];
 		}
-		else if([Util isStringIn:list at:0]) {
+		else if([list isStringAt:0]) {
 		
 			// if we receive a set message
 			if([[list objectAtIndex:0] isEqualToString:@"set"]) {
 				// set value but don't pass through
 				if(list.count > 1) {
-					if([Util isNumberIn:list at:1]) {
+					if([list isNumberAt:1]) {
 						[self receiveSetFloat:[[list objectAtIndex:1] floatValue]];
 					}
-					else if([Util isStringIn:list at:1]) {
+					else if([list isStringAt:1]) {
 						[self receiveSetSymbol:[list objectAtIndex:1]];
 					}
 				}
@@ -110,10 +110,10 @@
 	
 	// set message sets value without sending
 	if([message isEqualToString:@"set"] && arguments.count > 1) {
-		if([Util isNumberIn:arguments at:0]) {
+		if([arguments isNumberAt:0]) {
 			[self receiveSetFloat:[[arguments objectAtIndex:0] floatValue]];
 		}
-		else if([Util isStringIn:arguments at:1]) {
+		else if([arguments isStringAt:1]) {
 			[self receiveSetSymbol:[arguments objectAtIndex:1]];
 		}
 	}

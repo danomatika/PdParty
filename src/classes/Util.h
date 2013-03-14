@@ -31,12 +31,6 @@
 // is this device an ipad?
 + (BOOL)isDeviceATablet;
 
-#pragma mark Array
-
-// check object type at array pos
-+ (BOOL)isNumberIn:(NSArray *)array at:(int)index;
-+ (BOOL)isStringIn:(NSArray *)array at:(int)index;
-
 #pragma mark Logging Shortcuts
 
 // print the pos & size of a CGRect
@@ -47,6 +41,16 @@
 
 // print a UIColor as RGBA components
 + (void)logColor:(UIColor *)color;
+
+@end
+
+#pragma mark Array
+
+@interface NSArray (EasyTypeCheckArray)
+
+// check object type at array pos
+- (BOOL)isNumberAt:(int)index;
+- (BOOL)isStringAt:(int)index;
 
 @end
 

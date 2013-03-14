@@ -216,7 +216,7 @@
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
 	if(list.count > 1) {
-		if([Util isNumberIn:list at:0] && [Util isNumberIn:list at:1]) {
+		if([list isNumberAt:0] && [list isNumberAt:1]) {
 			self.peakValue = [[list objectAtIndex:1] floatValue];
 			self.value = [[list objectAtIndex:0] floatValue];
 		}

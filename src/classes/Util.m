@@ -48,16 +48,6 @@
 	return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 }
 
-#pragma mark Array
-
-+ (BOOL)isNumberIn:(NSArray *)array at:(int)index {
-	return [[array objectAtIndex:index] isKindOfClass:[NSNumber class]];
-}
-
-+ (BOOL)isStringIn:(NSArray* )array at:(int)index {
-	return [[array objectAtIndex:index] isKindOfClass:[NSString class]];
-}
-
 #pragma mark CGRect
 
 + (void)logRect:(CGRect)rect {
@@ -82,6 +72,20 @@
 
 @end
 
+#pragma mark Array
+
+@implementation NSArray (EasyTypeCheckArray)
+
+- (BOOL)isNumberAt:(int)index {
+	return [[self objectAtIndex:index] isKindOfClass:[NSNumber class]];
+}
+
+- (BOOL)isStringAt:(int)index {
+	return [[self objectAtIndex:index] isKindOfClass:[NSString class]];
+}
+
+@end
+
 #pragma mark MutableString
 
 @implementation NSMutableString (StringUtils)
@@ -90,4 +94,5 @@
 	NSLog(@"setting %c at %d in \"%@\"", c, i, self);
 	[self replaceCharactersInRange:NSMakeRange(i, 1) withString:[NSString stringWithCharacters:&c length:1]];
 }
+
 @end
