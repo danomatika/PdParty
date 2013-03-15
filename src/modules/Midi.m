@@ -103,13 +103,21 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)enableNetwork:(bool)enabled {
-	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
-    session.enabled = enabled;
-    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
-	DDLogVerbose(@"Midi: networking session \"%@\" %@", session.networkName, enabled ? @"enabled" : @"disabled");
+	
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (void)setNetworkEnabled:(BOOL)networkEnabled {
+	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
+    session.enabled = networkEnabled;
+    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
+	DDLogVerbose(@"Midi: networking session \"%@\" %@", session.networkName, networkEnabled ? @"enabled" : @"disabled");
+}
+
+- (BOOL)isNetworkEnabled {
+	return [[MIDINetworkSession defaultSession] isEnabled];
+}
 
 - (void)setMidi:(PGMidi *)newMidi {
 

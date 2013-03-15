@@ -15,7 +15,7 @@ See https://github.com/danomatika/PdParty for documentation
 DESCRIPTION
 -----------
 
-Run your Pure Data patches on iOS with native GUIs emulated, inspired by Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/PdDroidParty/) and the (now defunt) original RjDj app.
+Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS with native GUIs emulated, inspired by Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/PdDroidParty/) and the (now defunct) original RjDj app.
 
 <p align="center">
 	<img src="http://droidparty.net/PdDroidParty.png"/><br/>
@@ -58,8 +58,9 @@ This project uses:
 
 * [libpd](https://github.com/libpd/libpd): audio engine
 * [PGMidi](https://github.com/petegoodliffe/PGMidi): midi i/o
-* [Lumberjack](https://github.com/robbiehanson/CocoaLumberjack): logging
+* [CocoaOSC](https://github.com/danieldickison/CocoaOSC): Open Sound Control i/o
 * [CocoaHTTPServer](https://github.com/robbiehanson/CocoaHTTPServer): WebDAV server
+* [Lumberjack](https://github.com/robbiehanson/CocoaLumberjack): logging
 * [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/index.php?title=Main_Page): font
 
 INSTALLATION & BUILDING

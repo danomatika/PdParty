@@ -17,6 +17,7 @@
 #import "PdFile.h"
 #import "KeyGrabber.h"
 #import "AppDelegate.h"
+#import "Osc.h"
 
 #define ACCEL_UPDATE_HZ	60.0
 
@@ -24,6 +25,7 @@
 
 	NSMutableDictionary *activeTouches; // for persistent ids
 	CMMotionManager *motionManager; // for accel data
+	Osc *osc; // to send osc
 
 	BOOL hasReshaped; // has the gui been reshaped?
 }
@@ -50,6 +52,9 @@
 	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 	motionManager = app.motionManager;
 	self.enableAccelerometer = YES;
+	
+	// set osc
+	osc = app.osc;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -93,6 +98,7 @@
 
 //	DDLogVerbose(@"rotate: %d %@", rotate, orient);
 	[PureData sendRotate:rotate newOrientation:orient];
+	[osc sendRotate:rotate newOrientation:orient];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -187,6 +193,9 @@
 					[PureData sendAccel:accelerometerData.acceleration.x
 									  y:accelerometerData.acceleration.y
 									  z:accelerometerData.acceleration.z];
+					[osc sendAccel:accelerometerData.acceleration.x
+									  y:accelerometerData.acceleration.y
+									  z:accelerometerData.acceleration.z];
 				}];
 		}
 	}
@@ -214,6 +223,7 @@
 		CGPoint pos = [touch locationInView:self.view];
 //		DDLogVerbose(@"touch %d: down %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
+		[osc sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
 	}
 }
 
@@ -224,6 +234,7 @@
 		CGPoint pos = [touch locationInView:self.view];
 //		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
+		[osc sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
 	}
 }
 
@@ -236,6 +247,7 @@
 		CGPoint pos = [touch locationInView:self.view];
 //		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
+		[osc sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
 	}
 }
 

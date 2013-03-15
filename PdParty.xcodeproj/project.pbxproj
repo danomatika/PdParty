@@ -27,7 +27,6 @@
 		3050822016E198C900895CB2 /* DAVResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081F216E198C900895CB2 /* DAVResponse.m */; };
 		3050822116E198C900895CB2 /* DELETEResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081F416E198C900895CB2 /* DELETEResponse.m */; };
 		3050822216E198C900895CB2 /* PUTResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081F616E198C900895CB2 /* PUTResponse.m */; };
-		3050822516E198C900895CB2 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081FC16E198C900895CB2 /* GCDAsyncSocket.m */; };
 		3050822716E198C900895CB2 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820016E198C900895CB2 /* DDAbstractDatabaseLogger.m */; };
 		3050822816E198C900895CB2 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820216E198C900895CB2 /* DDASLLogger.m */; };
 		3050822916E198C900895CB2 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3050820416E198C900895CB2 /* DDFileLogger.m */; };
@@ -142,6 +141,17 @@
 		30ABE41616B5D5DD00464926 /* PdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32F16B5D15400464926 /* PdBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
 		30ACA10D16D1866000B50B73 /* patches in Resources */ = {isa = PBXBuildFile; fileRef = 30ACA10C16D1866000B50B73 /* patches */; };
+		30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB316F1ADFB00988EB9 /* Osc.m */; };
+		30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		30C77BC216F1BEAC00988EB9 /* OSCDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBD16F1BEAC00988EB9 /* OSCDispatcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		30C77BC316F1BEAC00988EB9 /* OSCPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBF16F1BEAC00988EB9 /* OSCPacket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		30C77BE216F1C50000988EB9 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BD816F1C50000988EB9 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C77BE316F1C67500988EB9 /* libicucore.dylib */; };
+		30C77BEF16F1C84E00988EB9 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */; };
+		30C77BF016F1C84E00988EB9 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */; };
+		30C77BF116F1C84E00988EB9 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BEC16F1C84E00988EB9 /* AsyncSocket.m */; };
+		30C77BF216F1C84E00988EB9 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BEE16F1C84E00988EB9 /* AsyncUdpSocket.m */; };
 		30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5916E8456B00E5AA5B /* Midi.m */; };
 		30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5B16E8456B00E5AA5B /* PureData.m */; };
 		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
@@ -214,9 +224,6 @@
 		305081F516E198C900895CB2 /* PUTResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PUTResponse.h; sourceTree = "<group>"; };
 		305081F616E198C900895CB2 /* PUTResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PUTResponse.m; sourceTree = "<group>"; };
 		305081F716E198C900895CB2 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		305081FA16E198C900895CB2 /* About.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = About.txt; sourceTree = "<group>"; };
-		305081FB16E198C900895CB2 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
-		305081FC16E198C900895CB2 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		305081FE16E198C900895CB2 /* About.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = About.txt; sourceTree = "<group>"; };
 		305081FF16E198C900895CB2 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
 		3050820016E198C900895CB2 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
@@ -384,6 +391,29 @@
 		30ABE41316B5D58600464926 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		30ACA10C16D1866000B50B73 /* patches */ = {isa = PBXFileReference; lastKnownFileType = folder; path = patches; sourceTree = "<group>"; };
+		30C77BB216F1ADFB00988EB9 /* Osc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Osc.h; sourceTree = "<group>"; };
+		30C77BB316F1ADFB00988EB9 /* Osc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Osc.m; sourceTree = "<group>"; };
+		30C77BB616F1BEAC00988EB9 /* CocoaOSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaOSC.h; sourceTree = "<group>"; };
+		30C77BB716F1BEAC00988EB9 /* NS+OSCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NS+OSCAdditions.h"; sourceTree = "<group>"; };
+		30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NS+OSCAdditions.m"; sourceTree = "<group>"; };
+		30C77BB916F1BEAC00988EB9 /* OSCConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCConnection.h; sourceTree = "<group>"; };
+		30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCConnection.m; sourceTree = "<group>"; };
+		30C77BBB16F1BEAC00988EB9 /* OSCConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCConnectionDelegate.h; sourceTree = "<group>"; };
+		30C77BBC16F1BEAC00988EB9 /* OSCDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCDispatcher.h; sourceTree = "<group>"; };
+		30C77BBD16F1BEAC00988EB9 /* OSCDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCDispatcher.m; sourceTree = "<group>"; };
+		30C77BBE16F1BEAC00988EB9 /* OSCPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCPacket.h; sourceTree = "<group>"; };
+		30C77BBF16F1BEAC00988EB9 /* OSCPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCPacket.m; sourceTree = "<group>"; };
+		30C77BD616F1C50000988EB9 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		30C77BD816F1C50000988EB9 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		30C77BE316F1C67500988EB9 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		30C77BE616F1C84E00988EB9 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		30C77BE816F1C84E00988EB9 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		30C77BEB16F1C84E00988EB9 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
+		30C77BEC16F1C84E00988EB9 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
+		30C77BED16F1C84E00988EB9 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
+		30C77BEE16F1C84E00988EB9 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		30C9BF5816E8456B00E5AA5B /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midi.h; sourceTree = "<group>"; };
 		30C9BF5916E8456B00E5AA5B /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Midi.m; sourceTree = "<group>"; };
 		30C9BF5A16E8456B00E5AA5B /* PureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureData.h; sourceTree = "<group>"; };
@@ -441,6 +471,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */,
 				30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */,
 				30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */,
 				3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */,
@@ -562,20 +593,9 @@
 		305081F816E198C900895CB2 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				305081F916E198C900895CB2 /* CocoaAsyncSocket */,
 				305081FD16E198C900895CB2 /* CocoaLumberjack */,
 			);
 			path = Vendor;
-			sourceTree = "<group>";
-		};
-		305081F916E198C900895CB2 /* CocoaAsyncSocket */ = {
-			isa = PBXGroup;
-			children = (
-				305081FA16E198C900895CB2 /* About.txt */,
-				305081FB16E198C900895CB2 /* GCDAsyncSocket.h */,
-				305081FC16E198C900895CB2 /* GCDAsyncSocket.m */,
-			);
-			path = CocoaAsyncSocket;
 			sourceTree = "<group>";
 		};
 		305081FD16E198C900895CB2 /* CocoaLumberjack */ = {
@@ -653,6 +673,7 @@
 		30ABE2A616B5A8E500464926 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30C77BE316F1C67500988EB9 /* libicucore.dylib */,
 				30E89D0516E8758A005B40C4 /* CoreMotion.framework */,
 				30FA775416E69660000E8D2B /* SystemConfiguration.framework */,
 				3050823516E199AF00895CB2 /* MobileCoreServices.framework */,
@@ -693,7 +714,9 @@
 		30ABE2D316B5CE3100464926 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				30C77BC416F1C4CF00988EB9 /* CocoaAsyncSocket */,
 				305081C616E198C900895CB2 /* CocoaHTTPServer */,
+				30C77BB516F1BEAB00988EB9 /* CocoaOSC */,
 				30FA775016E68936000E8D2B /* net */,
 				30ABE31916B5D15400464926 /* pd */,
 				30ABE39816B5D15400464926 /* pgmidi */,
@@ -918,11 +941,73 @@
 			path = libs/pgmidi;
 			sourceTree = "<group>";
 		};
+		30C77BB516F1BEAB00988EB9 /* CocoaOSC */ = {
+			isa = PBXGroup;
+			children = (
+				30C77BB616F1BEAC00988EB9 /* CocoaOSC.h */,
+				30C77BB716F1BEAC00988EB9 /* NS+OSCAdditions.h */,
+				30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */,
+				30C77BB916F1BEAC00988EB9 /* OSCConnection.h */,
+				30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */,
+				30C77BBB16F1BEAC00988EB9 /* OSCConnectionDelegate.h */,
+				30C77BBC16F1BEAC00988EB9 /* OSCDispatcher.h */,
+				30C77BBD16F1BEAC00988EB9 /* OSCDispatcher.m */,
+				30C77BBE16F1BEAC00988EB9 /* OSCPacket.h */,
+				30C77BBF16F1BEAC00988EB9 /* OSCPacket.m */,
+				30C77BCB16F1C50000988EB9 /* RegexKitLite */,
+			);
+			name = CocoaOSC;
+			path = libs/CocoaOSC;
+			sourceTree = "<group>";
+		};
+		30C77BC416F1C4CF00988EB9 /* CocoaAsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				30C77BE516F1C84E00988EB9 /* GCD */,
+				30C77BEA16F1C84E00988EB9 /* RunLoop */,
+			);
+			name = CocoaAsyncSocket;
+			path = libs/CocoaAsyncSocket;
+			sourceTree = "<group>";
+		};
+		30C77BCB16F1C50000988EB9 /* RegexKitLite */ = {
+			isa = PBXGroup;
+			children = (
+				30C77BD616F1C50000988EB9 /* RegexKitLite.h */,
+				30C77BD816F1C50000988EB9 /* RegexKitLite.m */,
+			);
+			path = RegexKitLite;
+			sourceTree = "<group>";
+		};
+		30C77BE516F1C84E00988EB9 /* GCD */ = {
+			isa = PBXGroup;
+			children = (
+				30C77BE616F1C84E00988EB9 /* GCDAsyncSocket.h */,
+				30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */,
+				30C77BE816F1C84E00988EB9 /* GCDAsyncUdpSocket.h */,
+				30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */,
+			);
+			path = GCD;
+			sourceTree = "<group>";
+		};
+		30C77BEA16F1C84E00988EB9 /* RunLoop */ = {
+			isa = PBXGroup;
+			children = (
+				30C77BEB16F1C84E00988EB9 /* AsyncSocket.h */,
+				30C77BEC16F1C84E00988EB9 /* AsyncSocket.m */,
+				30C77BED16F1C84E00988EB9 /* AsyncUdpSocket.h */,
+				30C77BEE16F1C84E00988EB9 /* AsyncUdpSocket.m */,
+			);
+			path = RunLoop;
+			sourceTree = "<group>";
+		};
 		30C9BF5716E8456B00E5AA5B /* modules */ = {
 			isa = PBXGroup;
 			children = (
 				30C9BF5816E8456B00E5AA5B /* Midi.h */,
 				30C9BF5916E8456B00E5AA5B /* Midi.m */,
+				30C77BB216F1ADFB00988EB9 /* Osc.h */,
+				30C77BB316F1ADFB00988EB9 /* Osc.m */,
 				30C9BF5A16E8456B00E5AA5B /* PureData.h */,
 				30C9BF5B16E8456B00E5AA5B /* PureData.m */,
 				30C9BF5C16E8456B00E5AA5B /* WebServer.h */,
@@ -1189,7 +1274,6 @@
 				3050822016E198C900895CB2 /* DAVResponse.m in Sources */,
 				3050822116E198C900895CB2 /* DELETEResponse.m in Sources */,
 				3050822216E198C900895CB2 /* PUTResponse.m in Sources */,
-				3050822516E198C900895CB2 /* GCDAsyncSocket.m in Sources */,
 				3050822716E198C900895CB2 /* DDAbstractDatabaseLogger.m in Sources */,
 				3050822816E198C900895CB2 /* DDASLLogger.m in Sources */,
 				3050822916E198C900895CB2 /* DDFileLogger.m in Sources */,
@@ -1217,6 +1301,16 @@
 				30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */,
 				30E89D4716ECEDF2005B40C4 /* Numberbox2.m in Sources */,
 				30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */,
+				30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */,
+				30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */,
+				30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */,
+				30C77BC216F1BEAC00988EB9 /* OSCDispatcher.m in Sources */,
+				30C77BC316F1BEAC00988EB9 /* OSCPacket.m in Sources */,
+				30C77BE216F1C50000988EB9 /* RegexKitLite.m in Sources */,
+				30C77BEF16F1C84E00988EB9 /* GCDAsyncSocket.m in Sources */,
+				30C77BF016F1C84E00988EB9 /* GCDAsyncUdpSocket.m in Sources */,
+				30C77BF116F1C84E00988EB9 /* AsyncSocket.m in Sources */,
+				30C77BF216F1C84E00988EB9 /* AsyncUdpSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1329,6 +1423,7 @@
 					"-DUSEAPI_DUMMY",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1347,6 +1442,7 @@
 					"-DUSEAPI_DUMMY",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

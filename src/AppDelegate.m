@@ -14,7 +14,8 @@
 #import "Util.h"
 #import "PureData.h"
 #import "Midi.h"
-#import "gui/Widget.h"
+#import "Osc.h"
+#import "Widget.h"
 
 @interface AppDelegate ()
 
@@ -47,12 +48,16 @@
 	
 	// setup midi
 	self.midi = [[Midi alloc] init];
-	[self.midi enableNetwork:YES];
+	self.midi.networkEnabled = YES;
 	
 	// setup pd
 	self.pureData = [[PureData alloc] init];
 	self.pureData.midi = self.midi;
 	[Widget setDispatcher:self.pureData.dispatcher];
+	
+	// setup osc
+	self.osc = [[Osc alloc] init];
+	self.osc.listening = YES;
 	
 	// init motion manager
 	self.motionManager = [[CMMotionManager alloc] init];
@@ -85,6 +90,8 @@
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	
 	self.pureData.audioEnabled = NO;
+	self.osc.listening = NO;
+	self.midi.networkEnabled = NO;
 }
 
 #pragma mark Private

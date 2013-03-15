@@ -13,7 +13,10 @@ git clone git://github.com/robbiehanson/CocoaHTTPServer.git
 # make folder
 mkdir -p $DEST
 
-# copy rj sources
+# don't need a second copy of CocoaAsyncSocket
+rm -rf CocoaHTTPServer/Vendor/CocoaAsyncSocket
+
+# copy sources
 cp -Rv CocoaHTTPServer/Core $DEST
 cp -Rv CocoaHTTPServer/Extensions $DEST
 cp -Rv CocoaHTTPServer/Vendor $DEST

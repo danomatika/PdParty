@@ -8,8 +8,6 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import <Foundation/Foundation.h>
-
 #import "PdBase.h"
 #import "PdDispatcher.h"
 

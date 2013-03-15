@@ -13,6 +13,7 @@
 
 @class PureData;
 @class Midi;
+@class Osc;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -21,6 +22,7 @@
 // global access
 @property (nonatomic, strong) PureData *pureData;
 @property (nonatomic, strong) Midi *midi;
+@property (nonatomic, strong) Osc *osc;
 
 @property (nonatomic, strong) CMMotionManager *motionManager; // for accel data
 
