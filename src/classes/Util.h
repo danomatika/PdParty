@@ -12,17 +12,6 @@
 
 @interface Util : NSObject
 
-#pragma mark Paths
-
-// full path to the app bundle directory
-+ (NSString *)bundlePath;
-
-// full path to the Documents directory
-+ (NSString *)documentsPath;
-
-// returns YES if given path exists and is a directory
-+ (BOOL)isDirectory:(NSString *)path;
-
 #pragma mark Device
 
 // are we running in the simulator?
@@ -30,6 +19,13 @@
 
 // is this device an ipad?
 + (BOOL)isDeviceATablet;
+
+#pragma mark App
+
+// application pixel dimensions
++ (CGFloat) appWidth;
++ (CGFloat) appHeight;
++ (CGSize) appSize;
 
 #pragma mark Logging Shortcuts
 
@@ -41,6 +37,17 @@
 
 // print a UIColor as RGBA components
 + (void)logColor:(UIColor *)color;
+
+#pragma mark Paths
+
+// full path to the app bundle directory
++ (NSString *)bundlePath;
+
+// full path to the Documents directory
++ (NSString *)documentsPath;
+
+// returns YES if given path exists and is a directory
++ (BOOL)isDirectory:(NSString *)path;
 
 @end
 

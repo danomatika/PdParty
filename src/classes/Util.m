@@ -14,22 +14,6 @@
 
 @implementation Util
 
-#pragma mark Paths
-
-+ (NSString *)bundlePath {
-	return [[NSBundle mainBundle] bundlePath];
-}
-
-+ (NSString *)documentsPath {
-	NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	return [searchPaths objectAtIndex:0];
-}
-
-+ (BOOL)isDirectory:(NSString *)path {
-	BOOL isDir = NO;
-	[[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
-	return isDir;
-}
 
 #pragma mark Device
 
@@ -48,7 +32,23 @@
 	return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 }
 
-#pragma mark CGRect
+#pragma mark App
+
++ (CGFloat) appWidth {
+    return [UIScreen mainScreen].applicationFrame.size.width;
+}
+
++ (CGFloat) appHeight {
+    return [UIScreen mainScreen].applicationFrame.size.height;
+}
+
++ (CGSize) appSize {
+    return CGSizeMake(
+		[UIScreen mainScreen].applicationFrame.size.width,
+		[UIScreen mainScreen].applicationFrame.size.height);
+}
+
+#pragma mark Logging Shortcuts
 
 + (void)logRect:(CGRect)rect {
 	DDLogVerbose(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
@@ -68,6 +68,23 @@
 	if([color getRed:&r green:&g blue:&b alpha:&a]) {
 		DDLogVerbose(@"%f %f %f %f", r, g, b, a);
 	}
+}
+
+#pragma mark Paths
+
++ (NSString *)bundlePath {
+	return [[NSBundle mainBundle] bundlePath];
+}
+
++ (NSString *)documentsPath {
+	NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	return [searchPaths objectAtIndex:0];
+}
+
++ (BOOL)isDirectory:(NSString *)path {
+	BOOL isDir = NO;
+	[[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+	return isDir;
 }
 
 @end

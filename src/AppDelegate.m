@@ -41,7 +41,9 @@
 	[DDLog addLogger:[DDTTYLogger sharedInstance]];
 	[DDLog addLogger:[[DDFileLogger alloc] init]];
 	//ddLogLevel = [preferences logLevel];
-	DDLogInfo(@"loglevel: %d", ddLogLevel);
+	DDLogInfo(@"Log level: %d", ddLogLevel);
+	
+	DDLogInfo(@"App resolution: %d %d", (int)[Util appWidth], (int)[Util appHeight]);
 	
 	// copy patches in the resource folder
 	[self copyResourcePatchesToDocuments];
