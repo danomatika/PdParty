@@ -11,6 +11,7 @@
 #import "StartViewController.h"
 
 #import "WebServer.h"
+#import "AppDelegate.h"
 
 @interface StartViewController () {
 	NSTimer *serverInfoTimer;
@@ -29,24 +30,39 @@
 	if(!self.server) {
 		self.server = [[WebServer alloc] init];
 	}
-	self.serverEnabledSwitch.on = [self.server isRunning];
+	self.serverEnabledSwitch.on = self.server.isRunning;
 	
 	self.serverPortLabel.enabled = YES;
 	self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
 	self.serverPortTextField.enabled = YES;
+
+//	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+//	if(app.osc.isListening) {
+//		self.oscLabel.text = [NSString stringWithFormat:@"OSC: %@", app.osc.sendHost];
+//	}
+//	else {
+//		self.oscLabel.text = @"OSC: Disabled";
+//	}
+	NSLog(@"viewDidLoad");
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	
+	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+	if(app.osc.isListening) {
+		self.oscLabel.text = [NSString stringWithFormat:@"OSC: %@", app.osc.sendHost];
+	}
+	else {
+		self.oscLabel.text = @"OSC: Disabled";
+	}
+	NSLog(@"viewWillAppear");
+	
+	[super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-// from http://stackoverflow.com/questions/2828826/iphone-keyboard-done-button-and-resignfirstresponder?rq=1
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if(textField == self.serverPortTextField) {
-        [textField resignFirstResponder]; // hide keyboard
-	}
-    return NO;
 }
 
 - (void)viewDidUnload {
@@ -58,8 +74,7 @@
 #pragma mark Settings
 
 - (IBAction)enableWebServer:(id)sender {
-	UISwitch *runSwitch = sender;
-	if(runSwitch.isOn) {
+	if(self.serverEnabledSwitch.isOn) {
 	
 		// check if wifi is on/reachable
 		if(![WebServer isLocalWifiReachable]) {
@@ -69,7 +84,7 @@
 													  cancelButtonTitle:@"Ok"
 													  otherButtonTitles:nil];
 			[alertView show];
-			runSwitch.on = NO; // reset switch
+			self.serverEnabledSwitch.on = NO; // reset switch
 			return;
 		}
 	
@@ -94,25 +109,12 @@
 }
 
 - (IBAction)setWebServerPort:(id)sender {
-
-	// check given value
-	// from http://stackoverflow.com/questions/6957203/ios-check-a-textfield-text
-	int newPort = -1;
-	if([[NSScanner scannerWithString:self.serverPortTextField.text] scanInt:&newPort]) {
-		if(newPort > 1024 || newPort == 0) { // ports 1024 and lower are reserved for the OS
-			self.server.port = newPort;
-			return;
-		}
+	int port = [WebServer checkPortValueFromTextField:self.serverPortTextField];
+	if(port < 0) { // set current port on bad value
+		self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
+		return;
 	}
-	
-	// bad value
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Port Number"
-														message:@"Port number should be an integer greater than 1024 or 0 to choose a random port."
-													   delegate:self
-											  cancelButtonTitle:@"Ok"
-											  otherButtonTitles:nil];
-	[alertView show];
-	self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
+	self.server.port = port;
 }
 
 - (void)updateServerInfo:(NSTimer*)theTimer {
@@ -123,15 +125,15 @@
 #pragma mark UITableViewController
 
 // http://stackoverflow.com/questions/1547497/change-uitableview-section-header-footer-while-running-the-app?rq=1
--(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
 	switch(section) {
-		case 1:
+		case 2:
 			if(self.server.isRunning) {
 				return [NSString stringWithFormat:@"Connect to http://%@.local:%d\n  or http://%@:%d",
 					self.server.hostName, self.server.port, [WebServer wifiInterfaceAddress], self.server.port];
 			}
 			else {
-				return @"Enable the server to manage patches over WebDAV";
+				return @"Manage patches over WebDAV";
 			}
 			break;
 		default:

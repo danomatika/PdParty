@@ -12,12 +12,10 @@
 
 #import "Log.h"
 #import "Gui.h"
-#import "PureData.h"
 #import "PdParser.h"
 #import "PdFile.h"
 #import "KeyGrabber.h"
 #import "AppDelegate.h"
-#import "Osc.h"
 
 #define ACCEL_UPDATE_HZ	60.0
 
@@ -99,7 +97,9 @@
 
 //	DDLogVerbose(@"rotate: %d %@", rotate, orient);
 	[PureData sendRotate:rotate newOrientation:orient];
-	[osc sendRotate:rotate newOrientation:orient];
+	if(osc.isListening) {
+		[osc sendRotate:rotate newOrientation:orient];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -197,9 +197,11 @@
 					[PureData sendAccel:accelerometerData.acceleration.x
 									  y:accelerometerData.acceleration.y
 									  z:accelerometerData.acceleration.z];
-					[osc sendAccel:accelerometerData.acceleration.x
-									  y:accelerometerData.acceleration.y
-									  z:accelerometerData.acceleration.z];
+					if(osc.isListening) {
+						[osc sendAccel:accelerometerData.acceleration.x
+										  y:accelerometerData.acceleration.y
+										  z:accelerometerData.acceleration.z];
+					}
 				}];
 		}
 	}
@@ -234,9 +236,11 @@
 			pos.y = (int)(pos.y * 320);
 		}
 		
-		DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
+//		DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
 		[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
-		[osc sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
+		if(osc.isListening) {
+			[osc sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
+		}
 	}
 }
 
@@ -257,7 +261,9 @@
 		
 //		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
-		[osc sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
+		if(osc.isListening) {
+			[osc sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
+		}
 	}
 }
 
@@ -279,7 +285,9 @@
 		
 //		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
-		[osc sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
+		if(osc.isListening) {
+			[osc sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
+		}
 	}
 }
 

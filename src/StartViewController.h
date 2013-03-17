@@ -15,11 +15,17 @@
 // start page view
 @interface StartViewController : UITableViewController
 
-@property (strong, nonatomic) WebServer *server;
+#pragma mark Connections
 
-@property (weak, nonatomic) IBOutlet UISwitch *serverEnabledSwitch;
-@property (weak, nonatomic) IBOutlet UILabel *serverPortLabel;
-@property (weak, nonatomic) IBOutlet UITextField *serverPortTextField;
+@property (nonatomic, weak) IBOutlet UILabel *oscLabel;
+
+#pragma mark WebServer
+
+@property (nonatomic, strong) WebServer *server;
+
+@property (nonatomic, weak) IBOutlet UISwitch *serverEnabledSwitch;
+@property (nonatomic, weak) IBOutlet UILabel *serverPortLabel;
+@property (nonatomic, weak) IBOutlet UITextField *serverPortTextField;
 
 - (IBAction)enableWebServer:(id)sender;
 

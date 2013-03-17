@@ -31,4 +31,7 @@
 // get the ip address of the wifi interface
 + (NSString *)wifiInterfaceAddress;
 
+// returns port if texField value is valid, returns -1 & presents UIAlert if not
++ (int)checkPortValueFromTextField:(UITextField *)textField;
+
 @end

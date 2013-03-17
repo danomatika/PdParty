@@ -20,6 +20,8 @@
 
 @implementation Osc
 
+@synthesize listening;
+
 - (id)init {
 	self = [super init];
 	if(self) {
@@ -30,12 +32,14 @@
 		self.sendHost = @"127.0.0.1";
 		self.sendPort = 8080;
 		self.listenPort = 8088;
+		listening = NO;
 		
 		// do a bind at the beginning so sending works
 		NSError *error;
 		if(![connection bindToAddress:nil port:self.listenPort error:&error]) {
 			DDLogError(@"OSC: Could not bind UDP connection: %@", error);
 		}
+		[connection disconnect];
 	}
 	return self;
 }
@@ -89,7 +93,7 @@
 
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address =OSC_ACCEL_ADDR;
+    message.address = OSC_ACCEL_ADDR;
 	[message addFloat:x];
 	[message addFloat:y];
 	[message addFloat:z];
@@ -106,28 +110,27 @@
 
 #pragma mark Overridden Getters / Setters
 
-- (void)setListening:(BOOL)listening {
-	if(listening == connection.isConnected) {
+- (void)setListening:(BOOL)enable {
+	if(enable == listening) {
 		return;
 	}
 	
-	if(listening) {
+	if(enable) {
 		NSError *error;
 		if(![connection bindToAddress:nil port:self.listenPort error:&error]) {
 			DDLogError(@"OSC: Could not bind UDP connection: %@", error);
+			listening = NO;
 			return;
 		}
 		DDLogVerbose(@"OSC: started listening on port %d", connection.localPort);
 		[connection receivePacket];
+		listening = YES;
 	}
 	else {
-		[connection disconnect];
 		DDLogVerbose(@"OSC: stopped listening on port %d", connection.localPort);
+		[connection disconnect];
+		listening = NO;
 	}
-}
-
-- (BOOL)isListening {
-	return connection.isConnected;
 }
 
 @end

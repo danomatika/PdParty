@@ -12,9 +12,6 @@
 
 #import "Log.h"
 #import "Util.h"
-#import "PureData.h"
-#import "Midi.h"
-#import "Osc.h"
 #import "Widget.h"
 
 @interface AppDelegate ()
@@ -63,7 +60,6 @@
 	
 	// setup osc
 	self.osc = [[Osc alloc] init];
-	self.osc.listening = YES;
 	
 	// init motion manager
 	self.motionManager = [[CMMotionManager alloc] init];
@@ -113,6 +109,12 @@
 	if([[NSFileManager defaultManager] fileExistsAtPath:testPatchesPath]) {
 		if(![[NSFileManager defaultManager] removeItemAtPath:testPatchesPath error:&error]) {
 			DDLogError(@"Couldn't remove %@, error: %@", testPatchesPath, error.localizedDescription);
+		}
+	}
+	NSString* libPatchesPath = [[Util documentsPath] stringByAppendingPathComponent:@"lib"];
+	if([[NSFileManager defaultManager] fileExistsAtPath:libPatchesPath]) {
+		if(![[NSFileManager defaultManager] removeItemAtPath:libPatchesPath error:&error]) {
+			DDLogError(@"Couldn't remove %@, error: %@", libPatchesPath, error.localizedDescription);
 		}
 	}
 	

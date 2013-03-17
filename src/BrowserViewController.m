@@ -13,7 +13,6 @@
 #import "PatchViewController.h"
 #import "Log.h"
 #import "Util.h"
-#import "PureData.h"
 #import "AppDelegate.h"
 
 @interface BrowserViewController () {

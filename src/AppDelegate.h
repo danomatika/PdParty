@@ -11,9 +11,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreMotion/CoreMotion.h>
 
-@class PureData;
-@class Midi;
-@class Osc;
+#import "PureData.h"
+#import "Midi.h"
+#import "Osc.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

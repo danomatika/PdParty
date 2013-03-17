@@ -147,4 +147,24 @@
 	return address;
 }
 
++ (int)checkPortValueFromTextField:(UITextField *)textField {
+	// check given value
+	// from http://stackoverflow.com/questions/6957203/ios-check-a-textfield-text
+	int newPort = -1;
+	if([[NSScanner scannerWithString:textField.text] scanInt:&newPort]) {
+		if(newPort > 1024 || newPort == 0) { // ports 1024 and lower are reserved for the OS
+			return newPort;
+		}
+	}
+	
+	// bad value
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Port Number"
+														message:@"Port number should be an integer greater than 1024 or 0 to choose a random port."
+													   delegate:self
+											  cancelButtonTitle:@"Ok"
+											  otherButtonTitles:nil];
+	[alertView show];
+	return NO;
+}
+
 @end

@@ -17,7 +17,7 @@
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
-@property (nonatomic, getter=isListening) BOOL listening;
+@property (nonatomic, assign, getter=isListening) BOOL listening;
 @property (nonatomic, strong) NSString *sendHost; // do not set when listening
 @property (nonatomic) int sendPort; // do not set when listening
 @property (nonatomic) int listenPort;
