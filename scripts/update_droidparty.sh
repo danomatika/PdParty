@@ -14,7 +14,7 @@ git clone git://github.com/chr15m/PdDroidParty.git
 mkdir -p $destDir
 
 # copy patches
-cp -Rv PdDroidParty/droidparty-tests $destDir/tests
+cp -Rv PdDroidParty/droidparty-tests/* $destDir/tests/droidparty
 #cp -Rv PdDroidParty/droidparty-demos $destDir
 
 # cleanup

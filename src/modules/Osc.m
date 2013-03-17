@@ -77,7 +77,7 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
-- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(int)x andY:(int)y {
+- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_TOUCH_ADDR;
 	[message addString:eventType];

@@ -28,19 +28,7 @@
 	if(self) {
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
-		PdAudioStatus status = [audioController configurePlaybackWithSampleRate:44100
-																	  numberChannels:2
-																		inputEnabled:NO
-																	   mixingEnabled:YES];
-		if(status == PdAudioError) {
-			DDLogError(@"Error: Could not configure PdAudioController");
-		}
-		else if(status == PdAudioPropertyChanged) {
-			DDLogWarn(@"Warning: Some of the audio parameters were not accceptable");
-		}
-		else {
-			DDLogInfo(@"Audio Configuration successful");
-		}
+		self.sampleRate = PARTY_SAMPLERATE;
 		if(ddLogLevel >= LOG_LEVEL_VERBOSE) {
 			[audioController print];
 		}
@@ -61,8 +49,8 @@
 	[PdBase sendFloat:key toReceiver:PD_KEY_R];
 }
 
-+ (void)sendTouch:(NSString *)eventType forId:(int)id atX:(int)x andY:(int)y {
-	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:id+1], [NSNumber numberWithInt:x], [NSNumber numberWithInt:y], nil] toReceiver:RJ_TOUCH_R];
++ (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
+	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:id+1], [NSNumber numberWithFloat:x], [NSNumber numberWithFloat:y], nil] toReceiver:RJ_TOUCH_R];
 }
 
 + (void)sendAccel:(float)x y:(float)y z:(float)z {
@@ -102,6 +90,30 @@
 - (void)receiveMidiByte:(int)byte forPort:(int)port {}
 
 #pragma mark Overridden Getters / Setters
+
+- (int)sampleRate {
+	return audioController.sampleRate;
+}
+
+- (void)setSampleRate:(int)sampleRate {
+	if(audioController.sampleRate == sampleRate)	return;
+
+	audioController.active = NO;
+	PdAudioStatus status = [audioController configurePlaybackWithSampleRate:sampleRate
+															 numberChannels:2
+															   inputEnabled:YES
+															  mixingEnabled:YES];
+	if(status == PdAudioError) {
+		DDLogError(@"PureData: Error: Could not configure PdAudioController");
+	}
+	else if(status == PdAudioPropertyChanged) {
+		DDLogWarn(@"PureData: Warning: Some of the audio parameters were not accceptable");
+	}
+	else {
+		DDLogInfo(@"PureData: sampleRate now %d", audioController.sampleRate);
+	}
+	audioController.active = YES;
+}
 
 - (BOOL)isAudioEnabled {
 	return audioEnabled;

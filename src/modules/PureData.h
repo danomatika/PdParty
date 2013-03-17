@@ -34,6 +34,10 @@
 #define PARTY_ORIENT_LANDSCAPE_LEFT			@"landleft"
 #define PARTY_ORIENT_LANDSCAPE_RIGHT		@"landright"
 
+// sample rates
+#define PARTY_SAMPLERATE	44100
+#define RJ_SAMPLERATE		22050
+
 @class Midi;
 
 @interface PureData : NSObject <PdMidiReceiverDelegate>
@@ -44,13 +48,17 @@
 // enabled / disable PD audio
 @property (getter=isAudioEnabled) BOOL audioEnabled;
 
+// setting the sample rate re-configures the audio, 44100 by default
+// new sample rate ignored if it is equal to the current samplerate
+@property (nonatomic, assign) int sampleRate;
+
 #pragma mark Send Events
 
 // pd key event
 + (void)sendKey:(int)key;
 
 // rj touch event
-+ (void)sendTouch:(NSString *)eventType forId:(int)id atX:(int)x andY:(int)y;
++ (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
 
 // rj accel event
 + (void)sendAccel:(float)x y:(float)y z:(float)z;

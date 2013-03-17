@@ -13,21 +13,32 @@
 #import "PatchViewController.h"
 #import "Log.h"
 #import "Util.h"
+#import "PureData.h"
+#import "AppDelegate.h"
 
-@interface BrowserViewController ()
+@interface BrowserViewController () {
+	PureData *pureData;
+}
 
 @property (strong, readwrite) NSMutableArray *pathArray; // table view path
 @property (strong, readwrite) NSString *currentDir; // current directory path
 @property (assign, readwrite) int currentDirLevel;
 
 // run the given patch in the PatchViewController
-- (void)runPatch:(NSString *)fullpath;
+- (void)runPatch:(NSString *)fullpath withSceneType:(SceneType)sceneType;
 
-// returns true if a given path is a dir with a droidparty_main.pd within
-- (BOOL)isDroidPartyDir:(NSString *)fullpath;
+// called when a patch is selected, return NO if the path was not handled
+- (BOOL)didSelectDirectory:(NSString *)path; // assumes full path
+- (BOOL)didSelectFile:(NSString *)path; // assumes full path
 
-// returns true if the given path is a dir with a _main.pd within
-- (BOOL)isRjDjDir:(NSString *)fullpath;
+// returns true if a given path is a DroidParty scene dir
+- (BOOL)isDroidPartyDirectory:(NSString *)fullpath;
+
+// returns true if the given path is an RjDj scene dir
+- (BOOL)isRjDjDirectory:(NSString *)fullpath;
+
+// returns true if the given path is a PdParty scene dir
+- (BOOL)isPdPartyDirectory:(NSString *)fullpath;
 
 @end
 
@@ -53,6 +64,10 @@
 		self.patchViewController = (PatchViewController *)[[self.parentViewController.splitViewController.viewControllers lastObject] topViewController];
 		self.currentDir = [Util documentsPath];
 	}
+	
+	// set PureData pointer
+	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+	pureData = app.pureData;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -203,14 +218,7 @@
 	BOOL isDir;
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
 		if(isDir) {
-		
-			if([self isDroidPartyDir:path]) {
-				[self runPatch:[path stringByAppendingPathComponent:@"droidparty_main.pd"]];
-			}
-			else if([self isRjDjDir:path]) {
-				[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"]];
-			}
-			else { // regular dir
+			if(![self didSelectDirectory:path]) {
 				// create a new browser table view and push it on the stack
 				UIStoryboard *board;
 				if([Util isDeviceATablet]) {
@@ -227,7 +235,7 @@
 			}
 		}
 		else {
-			[self runPatch:path];
+			[self didSelectFile:path];
 		}
 	}
 	else {
@@ -242,28 +250,62 @@
 	if([[segue identifier] isEqualToString:@"runPatch"]) {
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		NSString *path = self.pathArray[indexPath.row];
-		[[segue destinationViewController] setCurrentPatch:path];
+		[[segue destinationViewController] setPatch:path];
     }
 }
 
 #pragma mark Private / Util
 
-- (void)runPatch:(NSString *)fullpath {
+- (void)runPatch:(NSString *)fullpath withSceneType:(SceneType)sceneType {
+	self.patchViewController.sceneType = sceneType;
 	if([Util isDeviceATablet]) {
-		self.patchViewController.currentPatch = fullpath;
+		self.patchViewController.patch = fullpath;
 	}
 	else {
 		[self performSegueWithIdentifier:@"runPatch" sender:self];
 	}
 }
 
-- (BOOL)isDroidPartyDir:(NSString *)fullpath {
+- (BOOL)didSelectDirectory:(NSString *)path {
+	if([self isDroidPartyDirectory:path]) {
+		pureData.sampleRate = PARTY_SAMPLERATE;
+		[self runPatch:[path stringByAppendingPathComponent:@"droidparty_main.pd"] withSceneType:SceneTypeDroid];
+	}
+	else if([self isRjDjDirectory:path]) {
+		pureData.sampleRate = RJ_SAMPLERATE;
+		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypeRj];
+	}
+	else if([self isPdPartyDirectory:path]) {
+		pureData.sampleRate = RJ_SAMPLERATE;
+		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypePatch];
+	}
+	else { // regular dir
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL)didSelectFile:(NSString *)path {
+	// regular patch
+	pureData.sampleRate = PARTY_SAMPLERATE;
+	[self runPatch:path withSceneType:SceneTypePatch];
+	return YES;
+}
+
+- (BOOL)isDroidPartyDirectory:(NSString *)fullpath {
 	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"droidparty_main.pd"]];
 }
 
-- (BOOL)isRjDjDir:(NSString *)fullpath {
-	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]];
+- (BOOL)isRjDjDirectory:(NSString *)fullpath {
+	if([[fullpath pathExtension] isEqualToString:@"rj"] &&
+		[[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]]) {
+		return YES;
+	}
+	return NO;
+}
 
+- (BOOL)isPdPartyDirectory:(NSString *)fullpath {
+	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]];
 }
 
 @end

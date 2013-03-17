@@ -31,7 +31,7 @@
 - (void)sendList:(NSArray *)list;
 
 // rj touch event
-- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(int)x andY:(int)y;
+- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
 
 // rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;

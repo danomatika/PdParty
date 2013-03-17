@@ -12,6 +12,15 @@
 
 #import "KeyGrabber.h"
 
+// what kind of scene are we running?
+typedef enum {
+	SceneTypeEmpty,	// nothing loaded
+	SceneTypePatch, // basic pd patch
+	SceneTypeRj,	// RjDj scene (folder with .rj ext & _main.pd)
+	SceneTypeDroid,	// DroidParty scene (folder with droidparty_main.pd)
+	SceneTypeParty	// PdParty scene (folder with _main.pd)
+} SceneType;
+
 @class Gui;
 
 // DetailViewController for patches/scenes 
@@ -20,10 +29,12 @@
 @property (strong) Gui *gui; // pd gui widgets
 
 // full path to current patch, the gui is loaded when setting this
-@property (nonatomic, strong) NSString* currentPatch;
+@property (nonatomic, strong) NSString* patch;
 
-// enabled receiving accel events
-@property (nonatomic, assign) BOOL enableAccelerometer;
+// current patch scene type, set to SceneTypeEmpty if patch is set to nil or did not load correctly
+@property (nonatomic, assign) SceneType sceneType;
+
+@property (nonatomic, assign) BOOL enableAccelerometer; // enable receiving accel events
 
 // convert an orientation into degrees
 + (int)orientationInDegrees:(UIInterfaceOrientation)orientation;

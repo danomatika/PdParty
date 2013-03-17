@@ -25,14 +25,10 @@
 
 @interface Gui : NSObject
 
-// widget array
-@property (strong) NSMutableArray *widgets;
+@property (strong) NSMutableArray *widgets;		// widget array
+@property (nonatomic, assign) CGRect bounds;	// current view bounds
 
-// current view bounds
-@property (nonatomic, assign) CGRect bounds;
-
-// currently loaded patch
-@property (strong) PdFile *currentPatch;
+@property (strong) PdFile *patch; // currently loaded patch
 
 // pixel size of original pd patch
 @property (assign, readonly) int patchWidth;

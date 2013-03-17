@@ -35,6 +35,7 @@
 @implementation PatchViewController
 
 - (void)awakeFromNib {
+	self.sceneType = SceneTypeEmpty;
 	activeTouches = [[NSMutableDictionary alloc] init];
 	hasReshaped = NO;
 	[super awakeFromNib];
@@ -106,12 +107,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark Managing the Current Patch
+#pragma mark Overridden Getters / Setters
 
-- (void)setCurrentPatch:(NSString*)newPatch {
+- (void)setPatch:(NSString*)newPatch {
     
-	if(_currentPatch != newPatch) {
-        _currentPatch = newPatch;
+	if(_patch != newPatch) {
+        _patch = newPatch;
 		
 		// create gui here as iPhone dosen't load view until *after* this is called
 		if(!self.gui) {
@@ -120,33 +121,36 @@
 		}
 		
 		// close open patch
-		if(self.gui.currentPatch) {
-			[self.gui.currentPatch closeFile];
+		if(self.gui.patch) {
+			[self.gui.patch closeFile];
 			for(Widget *widget in self.gui.widgets) {
 				[widget removeFromSuperview];
 			}
 			[self.gui.widgets removeAllObjects];
-			self.gui.currentPatch = nil;
+			self.gui.patch = nil;
 		}
 		
 		// open new patch
-		if(self.currentPatch) {
+		if(self.patch) {
 			
-			NSString *fileName = [self.currentPatch lastPathComponent];
-			NSString *dirPath = [self.currentPatch stringByDeletingLastPathComponent];
+			NSString *fileName = [self.patch lastPathComponent];
+			NSString *dirPath = [self.patch stringByDeletingLastPathComponent];
 			
 			DDLogVerbose(@"Opening %@ %@", fileName, dirPath);
 			self.navigationItem.title = [fileName stringByDeletingPathExtension]; // set view title
 			
 			// load gui
-			[self.gui addWidgetsFromPatch:self.currentPatch];
-			self.gui.currentPatch = [PdFile openFileNamed:fileName path:dirPath];
+			[self.gui addWidgetsFromPatch:self.patch];
+			self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
 			DDLogVerbose(@"Adding %d widgets", self.gui.widgets.count);
 			for(Widget *widget in self.gui.widgets) {
 				[widget replaceDollarZerosForGui:self.gui];
 				[self.view addSubview:widget];
 			}
 			hasReshaped = NO;
+		}
+		else {
+			self.sceneType = SceneTypeEmpty;
 		}
     }
 
@@ -218,10 +222,19 @@
 			touchId++;
 		}
 		[activeTouches setObject:[NSNumber numberWithInt:touchId]
-							   forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
+						  forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-//		DDLogVerbose(@"touch %d: down %d %d", touchId+1, (int) pos.x, (int) pos.y);
+		pos.x = pos.x/CGRectGetWidth(self.view.frame);
+		pos.y = pos.y/CGRectGetHeight(self.view.frame);
+			
+		// normalize
+		if(self.sceneType == SceneTypeRj) {
+			pos.x = (int)(pos.x * 320);
+			pos.y = (int)(pos.y * 320);
+		}
+		
+		DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
 		[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
 		[osc sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
 	}
@@ -231,7 +244,17 @@
 	
 	for(UITouch *touch in touches) {
 		int touchId = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
+		
 		CGPoint pos = [touch locationInView:self.view];
+		pos.x = pos.x/CGRectGetWidth(self.view.frame);
+		pos.y = pos.y/CGRectGetHeight(self.view.frame);
+			
+		// normalize
+		if(self.sceneType == SceneTypeRj) {
+			pos.x = (int)(pos.x * 320);
+			pos.y = (int)(pos.y * 320);
+		}
+		
 //		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
 		[osc sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
@@ -245,6 +268,15 @@
 		[activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
+		pos.x = pos.x/CGRectGetWidth(self.view.frame);
+		pos.y = pos.y/CGRectGetHeight(self.view.frame);
+		
+		// normalize
+		if(self.sceneType == SceneTypeRj) {
+			pos.x = (int)(pos.x * 320);
+			pos.y = (int)(pos.y * 320);
+		}
+		
 //		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
 		[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
 		[osc sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
