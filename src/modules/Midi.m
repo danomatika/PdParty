@@ -109,35 +109,35 @@ uint64_t absoluteToNanos(uint64_t time) {
 #pragma mark Overridden Getters / Setters
 
 - (void)setNetworkEnabled:(BOOL)networkEnabled {
+	self.midi.networkEnabled = networkEnabled;
 	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
-    session.enabled = networkEnabled;
-    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
 	DDLogVerbose(@"Midi: networking session \"%@\" %@", session.networkName, networkEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isNetworkEnabled {
-	return [[MIDINetworkSession defaultSession] isEnabled];
+	return
+	[[MIDINetworkSession defaultSession] isEnabled];
 }
 
 - (void)setMidi:(PGMidi *)newMidi {
 
     self.midi.delegate = nil;
     for(PGMidiSource *source in self.midi.sources) {
-		source.delegate = nil;
+		[source removeDelegate:nil];
 	}
 
     _midi = newMidi;
 
     self.midi.delegate = self;
     for(PGMidiSource *source in self.midi.sources) {
-		source.delegate = self;
+		[source addDelegate:self];
 	}
 }
 
 #pragma mark PGMidiDelegate
 
 - (void)midi:(PGMidi *)midi sourceAdded:(PGMidiSource *)source {
-	source.delegate = self;
+	[source addDelegate:self];
 	DDLogVerbose(@"Midi: source added: %@", source.name);
 }
 

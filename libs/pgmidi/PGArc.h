@@ -23,36 +23,32 @@
 #endif
 
 //==============================================================================
-#if PGMIDI_ARC
+// arc_cast
 
 #ifdef __cplusplus
 
-template <typename OBJC_TYPE, typename SOURCE_TYPE>
-inline
-OBJC_TYPE *arc_cast(SOURCE_TYPE *source)
-{
-    return (__bridge OBJC_TYPE*)source;
-}
+    #if PGMIDI_ARC
 
-#endif
+        template <typename OBJC_TYPE, typename SOURCE_TYPE>
+        inline
+        OBJC_TYPE *arc_cast(SOURCE_TYPE *source)
+        {
+            return (__bridge OBJC_TYPE*)source;
+        }
 
-#define PGMIDI_DELEGATE_PROPERTY strong
+        #define PG_RELEASE(a) a = nil;
 
+    #else
 
-//==============================================================================
-#else
+        template <typename OBJC_TYPE, typename SOURCE_TYPE>
+        inline
+        OBJC_TYPE *arc_cast(SOURCE_TYPE *source)
+        {
+            return (OBJC_TYPE*)source;
+        }
 
-#ifdef __cplusplus
+        #define PG_RELEASE(a) [a release]; a = nil;
 
-template <typename OBJC_TYPE, typename SOURCE_TYPE>
-inline
-OBJC_TYPE *arc_cast(SOURCE_TYPE *source)
-{
-    return (OBJC_TYPE*)source;
-}
-
-#endif
-
-#define PGMIDI_DELEGATE_PROPERTY assign
+    #endif
 
 #endif
