@@ -102,10 +102,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 	return nil;
 }
 
-- (void)enableNetwork:(bool)enabled {
-	
-}
-
 #pragma mark Overridden Getters / Setters
 
 - (void)setNetworkEnabled:(BOOL)networkEnabled {
@@ -115,8 +111,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (BOOL)isNetworkEnabled {
-	return
-	[[MIDINetworkSession defaultSession] isEnabled];
+	return self.midi.networkEnabled;
 }
 
 - (void)setMidi:(PGMidi *)newMidi {
