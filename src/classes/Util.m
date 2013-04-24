@@ -105,7 +105,7 @@
 
 #pragma mark MutableString
 
-@implementation NSMutableString (StringUtils)
+@implementation NSMutableString (CharSetString)
 
 - (void)setCharacter:(unichar)c atIndex:(unsigned)i {
 	NSLog(@"setting %c at %d in \"%@\"", c, i, self);
