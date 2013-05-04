@@ -13,6 +13,7 @@
 #import "Log.h"
 #import "Midi.h"
 #import "PdAudioController.h"
+#import "Externals.h"
 
 @interface PureData () {
 	PdAudioController *audioController;
@@ -26,6 +27,10 @@
 - (id)init {
 	self = [super init];
 	if(self) {
+		
+		// setup externals
+		[Externals setup];
+
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
 		self.sampleRate = PARTY_SAMPLERATE;

@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3024563217357F540016583B /* Externals.m in Sources */ = {isa = PBXBuildFile; fileRef = 3024563117357F540016583B /* Externals.m */; };
+		30245649173582340016583B /* midifile.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245634173582340016583B /* midifile.c */; };
+		3024564A173582340016583B /* httpreceive.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245636173582340016583B /* httpreceive.c */; };
+		3024564B173582340016583B /* httpreq.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245637173582340016583B /* httpreq.c */; };
+		3024564C173582340016583B /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30245638173582340016583B /* LICENSE.txt */; };
+		3024564D173582340016583B /* tcpclient.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245639173582340016583B /* tcpclient.c */; };
+		3024564E173582340016583B /* tcpreceive.c in Sources */ = {isa = PBXBuildFile; fileRef = 3024563A173582340016583B /* tcpreceive.c */; };
+		3024564F173582340016583B /* tcpsend.c in Sources */ = {isa = PBXBuildFile; fileRef = 3024563B173582340016583B /* tcpsend.c */; };
+		30245650173582340016583B /* tcpserver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3024563C173582340016583B /* tcpserver.c */; };
+		30245651173582340016583B /* udpreceive.c in Sources */ = {isa = PBXBuildFile; fileRef = 3024563D173582340016583B /* udpreceive.c */; };
+		30245652173582340016583B /* udpreceive~.c in Sources */ = {isa = PBXBuildFile; fileRef = 3024563E173582340016583B /* udpreceive~.c */; };
+		30245653173582340016583B /* udpsend.c in Sources */ = {isa = PBXBuildFile; fileRef = 3024563F173582340016583B /* udpsend.c */; };
+		30245654173582340016583B /* udpsend~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245640173582340016583B /* udpsend~.c */; };
+		30245655173582340016583B /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30245643173582340016583B /* LICENSE.txt */; };
+		30245656173582340016583B /* packOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245645173582340016583B /* packOSC.c */; };
+		30245657173582340016583B /* pipelist.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245646173582340016583B /* pipelist.c */; };
+		30245658173582340016583B /* routeOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245647173582340016583B /* routeOSC.c */; };
+		30245659173582340016583B /* unpackOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245648173582340016583B /* unpackOSC.c */; };
 		3050820F16E198C900895CB2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CA16E198C900895CB2 /* DDData.m */; };
 		3050821016E198C900895CB2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CC16E198C900895CB2 /* DDNumber.m */; };
 		3050821116E198C900895CB2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CE16E198C900895CB2 /* DDRange.m */; };
@@ -182,6 +200,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3024563017357ECC0016583B /* Externals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
+		3024563117357F540016583B /* Externals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Externals.m; sourceTree = "<group>"; };
+		30245634173582340016583B /* midifile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = midifile.c; sourceTree = "<group>"; };
+		30245636173582340016583B /* httpreceive.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = httpreceive.c; sourceTree = "<group>"; };
+		30245637173582340016583B /* httpreq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = httpreq.c; sourceTree = "<group>"; };
+		30245638173582340016583B /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		30245639173582340016583B /* tcpclient.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tcpclient.c; sourceTree = "<group>"; };
+		3024563A173582340016583B /* tcpreceive.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tcpreceive.c; sourceTree = "<group>"; };
+		3024563B173582340016583B /* tcpsend.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tcpsend.c; sourceTree = "<group>"; };
+		3024563C173582340016583B /* tcpserver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tcpserver.c; sourceTree = "<group>"; };
+		3024563D173582340016583B /* udpreceive.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = udpreceive.c; sourceTree = "<group>"; };
+		3024563E173582340016583B /* udpreceive~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "udpreceive~.c"; sourceTree = "<group>"; };
+		3024563F173582340016583B /* udpsend.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = udpsend.c; sourceTree = "<group>"; };
+		30245640173582340016583B /* udpsend~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "udpsend~.c"; sourceTree = "<group>"; };
+		30245641173582340016583B /* udpsend~.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "udpsend~.h"; sourceTree = "<group>"; };
+		30245643173582340016583B /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		30245644173582340016583B /* packingOSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packingOSC.h; sourceTree = "<group>"; };
+		30245645173582340016583B /* packOSC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = packOSC.c; sourceTree = "<group>"; };
+		30245646173582340016583B /* pipelist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pipelist.c; sourceTree = "<group>"; };
+		30245647173582340016583B /* routeOSC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = routeOSC.c; sourceTree = "<group>"; };
+		30245648173582340016583B /* unpackOSC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unpackOSC.c; sourceTree = "<group>"; };
 		305081C916E198C900895CB2 /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
 		305081CA16E198C900895CB2 /* DDData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDData.m; sourceTree = "<group>"; };
 		305081CB16E198C900895CB2 /* DDNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNumber.h; sourceTree = "<group>"; };
@@ -493,6 +532,66 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3024560C17357A760016583B /* externals */ = {
+			isa = PBXGroup;
+			children = (
+				3024563017357ECC0016583B /* Externals.h */,
+				3024563117357F540016583B /* Externals.m */,
+				3024560D17357A760016583B /* mrpeach */,
+			);
+			path = externals;
+			sourceTree = "<group>";
+		};
+		3024560D17357A760016583B /* mrpeach */ = {
+			isa = PBXGroup;
+			children = (
+				30245633173582340016583B /* midifile */,
+				30245635173582340016583B /* net */,
+				30245642173582340016583B /* osc */,
+			);
+			path = mrpeach;
+			sourceTree = "<group>";
+		};
+		30245633173582340016583B /* midifile */ = {
+			isa = PBXGroup;
+			children = (
+				30245634173582340016583B /* midifile.c */,
+			);
+			path = midifile;
+			sourceTree = "<group>";
+		};
+		30245635173582340016583B /* net */ = {
+			isa = PBXGroup;
+			children = (
+				30245636173582340016583B /* httpreceive.c */,
+				30245637173582340016583B /* httpreq.c */,
+				30245638173582340016583B /* LICENSE.txt */,
+				30245639173582340016583B /* tcpclient.c */,
+				3024563A173582340016583B /* tcpreceive.c */,
+				3024563B173582340016583B /* tcpsend.c */,
+				3024563C173582340016583B /* tcpserver.c */,
+				3024563D173582340016583B /* udpreceive.c */,
+				3024563E173582340016583B /* udpreceive~.c */,
+				3024563F173582340016583B /* udpsend.c */,
+				30245640173582340016583B /* udpsend~.c */,
+				30245641173582340016583B /* udpsend~.h */,
+			);
+			path = net;
+			sourceTree = "<group>";
+		};
+		30245642173582340016583B /* osc */ = {
+			isa = PBXGroup;
+			children = (
+				30245643173582340016583B /* LICENSE.txt */,
+				30245644173582340016583B /* packingOSC.h */,
+				30245645173582340016583B /* packOSC.c */,
+				30245646173582340016583B /* pipelist.c */,
+				30245647173582340016583B /* routeOSC.c */,
+				30245648173582340016583B /* unpackOSC.c */,
+			);
+			path = osc;
+			sourceTree = "<group>";
+		};
 		305081C616E198C900895CB2 /* CocoaHTTPServer */ = {
 			isa = PBXGroup;
 			children = (
@@ -749,6 +848,7 @@
 		30ABE31916B5D15400464926 /* pd */ = {
 			isa = PBXGroup;
 			children = (
+				3024560C17357A760016583B /* externals */,
 				30ABE31A16B5D15400464926 /* libpd_wrapper */,
 				30ABE32716B5D15400464926 /* objc */,
 				30ABE33616B5D15400464926 /* pure-data */,
@@ -1156,6 +1256,8 @@
 				30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */,
 				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
 				30ACA10D16D1866000B50B73 /* patches in Resources */,
+				3024564C173582340016583B /* LICENSE.txt in Resources */,
+				30245655173582340016583B /* LICENSE.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1317,6 +1419,22 @@
 				30C77BF116F1C84E00988EB9 /* AsyncSocket.m in Sources */,
 				30C77BF216F1C84E00988EB9 /* AsyncUdpSocket.m in Sources */,
 				30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */,
+				3024563217357F540016583B /* Externals.m in Sources */,
+				30245649173582340016583B /* midifile.c in Sources */,
+				3024564A173582340016583B /* httpreceive.c in Sources */,
+				3024564B173582340016583B /* httpreq.c in Sources */,
+				3024564D173582340016583B /* tcpclient.c in Sources */,
+				3024564E173582340016583B /* tcpreceive.c in Sources */,
+				3024564F173582340016583B /* tcpsend.c in Sources */,
+				30245650173582340016583B /* tcpserver.c in Sources */,
+				30245651173582340016583B /* udpreceive.c in Sources */,
+				30245652173582340016583B /* udpreceive~.c in Sources */,
+				30245653173582340016583B /* udpsend.c in Sources */,
+				30245654173582340016583B /* udpsend~.c in Sources */,
+				30245656173582340016583B /* packOSC.c in Sources */,
+				30245657173582340016583B /* pipelist.c in Sources */,
+				30245658173582340016583B /* routeOSC.c in Sources */,
+				30245659173582340016583B /* unpackOSC.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1365,10 +1483,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "PdParty-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1421,12 +1536,14 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "res/PdParty-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
 				OTHER_CFLAGS = (
 					"-DPD",
 					"-DHAVE_UNISTD_H",
 					"-DUSEAPI_DUMMY",
+					"-DDEBUG_PDPARTY",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";

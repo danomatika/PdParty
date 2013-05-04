@@ -8,10 +8,9 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Log.h"
+@interface Externals : NSObject
 
-#if DEBUG_PDPARTY
-	int ddLogLevel = LOG_LEVEL_VERBOSE;
-#else
-	int ddLogLevel = LOG_LEVEL_INFO;
-#endif
+// setup externals, adds them to the PD instance & should only be called once
++ (void)setup;
+
+@end
