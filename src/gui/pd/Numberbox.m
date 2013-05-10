@@ -14,6 +14,7 @@
 
 @interface Numberbox () {
 	int touchPrevY;
+	bool isOneFinger;
 }
 @end
 
@@ -53,6 +54,16 @@
 	return n;
 }
 
+- (id)initWithFrame:(CGRect)frame {    
+    self = [super initWithFrame:frame];
+    if(self) {
+		self.multipleTouchEnabled = YES;
+		touchPrevY = 0;
+		isOneFinger = YES;
+    }
+    return self;
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)value {
@@ -76,16 +87,28 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
     UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	CGPoint pos = [touch locationInView:self];
 	touchPrevY = pos.y;
+	if(touches.count > 1) {
+		isOneFinger = NO;
+	}
+	else {
+		isOneFinger = YES;
+	}
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	UITouch *touch = [touches anyObject];
+	CGPoint pos = [touch locationInView:self];
 	int diff = touchPrevY - pos.y;
 	if(diff != 0) {
-		self.value = self.value + diff;
+		if(isOneFinger) {
+			self.value = self.value + diff;
+		}
+		else {
+			// mult & divide by ints to avoid float rounding errors ...
+			self.value = ((self.value*100) + (double) ((diff * 10) / 1000.f)*100)/100;
+		}
 		[self sendFloat:self.value];
 	}
 	touchPrevY = pos.y;
@@ -93,10 +116,12 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	touchPrevY = 0;
+	isOneFinger = YES;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
 	touchPrevY = 0;
+	isOneFinger = YES;
 }
 
 #pragma mark WidgetListener

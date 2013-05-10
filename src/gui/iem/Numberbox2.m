@@ -15,6 +15,7 @@
 @interface Numberbox2 () {
 	int cornerSize; // bent corner pixel size
 	int touchPrevY;
+	bool isOneFinger;
 	BOOL isControlColorBlack;
 	BOOL isValueLabelRed;
 }
@@ -69,6 +70,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
+		self.multipleTouchEnabled = YES;
 		
 		self.log = 0;
 		self.logHeight = 256;
@@ -80,6 +82,7 @@
 		[self addSubview:self.valueLabel];
 		
 		touchPrevY = 0;
+		isOneFinger = YES;
 		isControlColorBlack = NO;
 		isValueLabelRed = NO;
     }
@@ -197,6 +200,12 @@
     UITouch *touch = [touches anyObject];
     CGPoint pos = [touch locationInView:self];
 	touchPrevY = pos.y;
+	if(touches.count > 1) {
+		isOneFinger = NO;
+	}
+	else {
+		isOneFinger = YES;
+	}
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -204,7 +213,13 @@
     CGPoint pos = [touch locationInView:self];
 	int diff = touchPrevY - pos.y;
 	if(diff != 0) {
-		self.value = self.value + diff;
+		if(isOneFinger) {
+			self.value = self.value + diff;
+		}
+		else {
+			// mult & divide by ints to avoid float rounding errors ...
+			self.value = ((self.value*100) + (double) ((diff * 10) / 1000.f)*100)/100;
+		}
 		[self sendFloat:self.value];
 	}
 	touchPrevY = pos.y;
@@ -212,10 +227,12 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	touchPrevY = 0;
+	isOneFinger = YES;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
 	touchPrevY = 0;
+	isOneFinger = YES;
 }
 
 // reset red label color if any *other* UIView was hit
