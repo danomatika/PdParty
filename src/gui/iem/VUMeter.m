@@ -23,10 +23,10 @@
 // helper class, useful for future possible hit tests ...
 @interface MeterView : UIView
 
-@property (nonatomic, weak) VUMeter* parent;
-@property (nonatomic, assign) int rmsBar;		// max rms led bar index
-@property (nonatomic, assign) int peakBar;		// peak led bar index
-@property (nonatomic, assign) CGSize barSize;	// led bar size
+@property (weak, nonatomic) VUMeter* parent;
+@property (assign, nonatomic) int rmsBar;		// max rms led bar index
+@property (assign, nonatomic) int peakBar;		// peak led bar index
+@property (assign, nonatomic) CGSize barSize;	// led bar size
 
 - (void)reshapeForGui:(Gui *)gui;
 

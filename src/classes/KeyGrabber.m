@@ -11,7 +11,7 @@
 #import "KeyGrabber.h"
 
 @interface KeyGrabberView ()
-@property (nonatomic, strong) UIView *inputView;
+@property (strong, nonatomic) UIView *inputView;
 @end
 
 @implementation KeyGrabberView

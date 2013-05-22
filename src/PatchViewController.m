@@ -24,6 +24,8 @@
 	NSMutableDictionary *activeTouches; // for persistent ids
 	CMMotionManager *motionManager; // for accel data
 	Osc *osc; // to send osc
+	
+	UIImageView *background; // for Rj scenes
 
 	BOOL hasReshaped; // has the gui been reshaped?
 }
@@ -42,6 +44,10 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
+	// hide rj controls by default
+	self.rjControlsView.hidden = YES;
+	
+	// start keygrabber
 	KeyGrabberView *grabber = [[KeyGrabberView alloc] init];
 	grabber.active = YES;
 	grabber.delegate = self;
@@ -52,25 +58,30 @@
 	motionManager = app.motionManager;
 	self.enableAccelerometer = YES;
 	
-	// set osc
+	// set osc pointer
 	osc = app.osc;
+	
+	
+	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
 }
 
 - (void)viewDidLayoutSubviews {
 	
 	self.gui.bounds = self.view.bounds;
 	
-	// do animations if gui has already been setup once
-	// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
-	if(hasReshaped) {
-		[UIView beginAnimations:nil context:nil];
-	}
-	[self.gui reshapeWidgets];
-	if(hasReshaped) {
-		[UIView commitAnimations];
-	}
-	else {
-		hasReshaped = YES;
+	if(self.sceneType != SceneTypeRj) {
+		// do animations if gui has already been setup once
+		// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
+		if(hasReshaped) {
+			[UIView beginAnimations:nil context:nil];
+		}
+		[self.gui reshapeWidgets];
+		if(hasReshaped) {
+			[UIView commitAnimations];
+		}
+		else {
+			hasReshaped = YES;
+		}
 	}
 }
 
@@ -107,6 +118,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+// lock to portrait for RjDj scenes, allow rotaiton for all others
+- (NSUInteger)supportedInterfaceOrientations {
+	if(self.sceneType == SceneTypeRj) {
+		return UIInterfaceOrientationMaskPortrait;
+	}
+	return UIInterfaceOrientationMaskAll;
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setPatch:(NSString*)newPatch {
@@ -128,6 +147,10 @@
 			}
 			[self.gui.widgets removeAllObjects];
 			self.gui.patch = nil;
+			
+			if(self.sceneType == SceneTypeRj && background) {
+				background = nil;
+			}
 		}
 		
 		// open new patch
@@ -136,18 +159,66 @@
 			NSString *fileName = [self.patch lastPathComponent];
 			NSString *dirPath = [self.patch stringByDeletingLastPathComponent];
 			
-			DDLogVerbose(@"Opening %@ %@", fileName, dirPath);
-			self.navigationItem.title = [fileName stringByDeletingPathExtension]; // set view title
-			
-			// load gui
-			[self.gui addWidgetsFromPatch:self.patch];
-			self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
-			DDLogVerbose(@"Adding %d widgets", self.gui.widgets.count);
-			for(Widget *widget in self.gui.widgets) {
-				[widget replaceDollarZerosForGui:self.gui];
-				[self.view addSubview:widget];
+			if(![[NSFileManager defaultManager] fileExistsAtPath:newPatch]) {
+				DDLogError(@"PatchViewController: patch does not exist: %@", newPatch);
+				self.sceneType = SceneTypeEmpty;
+				return;
 			}
-			hasReshaped = NO;
+			
+			DDLogVerbose(@"Opening %@ %@", fileName, dirPath);
+			if(self.sceneType == SceneTypeRj) { // set view title based on scene/patch name
+				self.navigationItem.title = [[dirPath lastPathComponent] stringByDeletingPathExtension];
+			}
+			else {
+				self.navigationItem.title = [fileName stringByDeletingPathExtension];
+			}
+			
+			DDLogVerbose(@"SceneType: %@", [PatchViewController sceneTypeAsString:self.sceneType]);
+			
+			// load gui for non rj scenes
+			if(self.sceneType != SceneTypeRj) {
+				[self.gui addWidgetsFromPatch:self.patch];
+				self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
+				DDLogVerbose(@"Adding %d widgets", self.gui.widgets.count);
+				for(Widget *widget in self.gui.widgets) {
+					[widget replaceDollarZerosForGui:self.gui];
+					[self.view addSubview:widget];
+				}
+				hasReshaped = NO;
+				self.rjControlsView.hidden = YES;
+			}
+			else { // set background and enable controls for rj scenes
+				self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
+			
+				CGSize backgroundSize, controlsSize;
+				backgroundSize.width = CGRectGetWidth(self.view.frame);
+				backgroundSize.height = CGRectGetWidth(self.view.frame);
+				
+				// set background
+				NSString *backgroundPath = [dirPath stringByAppendingPathComponent:@"image.jpg"];
+				if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
+					background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
+					if(!background.image) {
+						DDLogError(@"PatchViewController: couldn't load background image");
+					}
+					//[background sizeToFit];
+					background.frame = CGRectMake(0, 0, backgroundSize.width, backgroundSize.height);
+					//background.image = [UIImage imageNamed:backgroundPath];
+					DDLogVerbose(@"opened background image: %@", backgroundPath);
+					[self.view addSubview:background];
+					[Util logRect:background.frame];
+				}
+				else {
+					DDLogWarn(@"PatchViewController: no background image");
+				}
+				
+				controlsSize.width = backgroundSize.width;
+				controlsSize.height = 127;//CGRectGetHeight(self.view.bounds) - backgroundSize.height;
+				self.rjControlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
+				self.rjControlsView.hidden = NO;
+				
+				[Util logRect:self.rjControlsView.frame];
+			}
 		}
 		else {
 			self.sceneType = SceneTypeEmpty;
@@ -171,6 +242,21 @@
 			return 90;
 		case UIInterfaceOrientationLandscapeRight:
 			return -90;
+	}
+}
+
++ (NSString*)sceneTypeAsString:(SceneType)type {
+	switch(type) {
+		case SceneTypeDroid:
+			return @"DroidParty";
+		case SceneTypeRj:
+			return @"RjDj";
+		case SceneTypeParty:
+			return @"PdParty";
+		case SceneTypePatch:
+			return @"Patch";
+		default: // Empty
+			return @"Empty";
 	}
 }
 
@@ -209,6 +295,22 @@
 		if([motionManager isAccelerometerActive]) {
           [motionManager stopAccelerometerUpdates];
 		}
+	}
+}
+
+#pragma mark RJ Controls
+
+- (IBAction)rjControlChanged:(id)sender {
+	if(sender == self.rjPauseButton) {
+		self.rjPauseButton.selected = !self.rjPauseButton.selected;
+		DDLogInfo(@"RJ Pause button pressed: %d", self.rjPauseButton.isSelected);
+	}
+	else if(sender == self.rjRecordButton) {
+		self.rjRecordButton.selected = !self.rjRecordButton.selected;
+		DDLogInfo(@"RJ Record button pressed: %d", self.rjRecordButton.isSelected);
+	}
+	else if(sender == self.rjInputLevelSlider) {
+		DDLogInfo(@"RJ Input level slider changed: %f", self.rjInputLevelSlider.value);
 	}
 }
 

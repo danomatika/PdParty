@@ -14,11 +14,11 @@
 
 @interface Numberbox2 : IEMWidget
 
-@property (assign) int log;
-@property (assign) float logHeight;
+@property (assign, nonatomic) int log;
+@property (assign, nonatomic) float logHeight;
 
 @property (assign, nonatomic) int valueWidth; // number of value chars to show
-@property (strong) UILabel *valueLabel; // shows the value
+@property (strong, nonatomic) UILabel *valueLabel; // shows the value
 
 + (id)numberbox2FromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 

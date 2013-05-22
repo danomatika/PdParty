@@ -15,11 +15,11 @@
 // start page view
 @interface OscViewController : UITableViewController
 
-@property (nonatomic, weak) IBOutlet UISwitch *connectionEnabledSwitch;
-@property (nonatomic, weak) IBOutlet UITextField *hostTextField;
-@property (nonatomic, weak) IBOutlet UITextField *outgoingPortTextField;
-@property (nonatomic, weak) IBOutlet UITextField *incomingPortTextField;
-@property (nonatomic, weak) IBOutlet UILabel *localHostLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *connectionEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UITextField *hostTextField;
+@property (weak, nonatomic) IBOutlet UITextField *outgoingPortTextField;
+@property (weak, nonatomic) IBOutlet UITextField *incomingPortTextField;
+@property (weak, nonatomic) IBOutlet UILabel *localHostLabel;
 
 - (IBAction)enableOscConnection:(id)sender;
 - (IBAction)setHost:(id)sender;

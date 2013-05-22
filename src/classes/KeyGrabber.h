@@ -32,12 +32,12 @@
 @interface KeyGrabberView : UIView<UIKeyInput>
 
 // enable key grabbing?
-@property (nonatomic, assign) BOOL active;
+@property (assign, nonatomic) BOOL active;
 
 // set the delegate to receive events
-@property (nonatomic, assign) id<KeyGrabberDelegate> delegate;
+@property (assign, nonatomic) id<KeyGrabberDelegate> delegate;
 
 // or read the latest event value here
-@property (nonatomic, assign) int key;
+@property (assign, nonatomic) int key;
 
 @end

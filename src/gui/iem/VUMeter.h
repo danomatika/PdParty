@@ -15,8 +15,8 @@
 @interface VUMeter : IEMWidget
 
 // value is rms in dB
-@property (nonatomic, assign) float peakValue; // in dB
-@property (nonatomic, assign) BOOL showScale; // show the vu scale?
+@property (assign, nonatomic) float peakValue; // in dB
+@property (assign, nonatomic) BOOL showScale; // show the vu scale?
 
 + (id)vumeterFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 

@@ -14,9 +14,9 @@
 
 @interface Radio : IEMWidget
 
-@property (nonatomic, assign) int width; // pixel width of one side of a cell
-@property (nonatomic, assign) int numCells;
-@property (assign) WidgetOrientation orientation;
+@property (assign, nonatomic) int width; // pixel width of one side of a cell
+@property (assign, nonatomic) int numCells;
+@property (assign, nonatomic) WidgetOrientation orientation;
 
 + (id)radioFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui;
 

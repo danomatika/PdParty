@@ -17,6 +17,11 @@
 
 @interface BrowserViewController () {
 	PureData *pureData;
+	
+	// temp variables requied for segues on iPhone since PatchViewController
+	// may nt exist yet when opening first scene
+	NSString *selectedPatch; // maybe subpatch in the case of RJ Scenes, etc
+	SceneType selectedSceneType;
 }
 
 @property (strong, readwrite) NSMutableArray *pathArray; // table view path
@@ -143,6 +148,11 @@
 	[self.tableView reloadData];
 }
 
+// lock orientation
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
+
 #pragma mark UITableViewController
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -248,17 +258,21 @@
 	// load the selected patch
 	if([[segue identifier] isEqualToString:@"runPatch"]) {
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		NSString *path = self.pathArray[indexPath.row];
-		[[segue destinationViewController] setPatch:path];
+//		NSString *path = self.pathArray[indexPath.row];
+//		[[segue destinationViewController] setPatch:path];
+		[[segue destinationViewController] setSceneType:selectedSceneType];
+		[[segue destinationViewController] setPatch:selectedPatch];
     }
 }
 
 #pragma mark Private / Util
 
 - (void)runPatch:(NSString *)fullpath withSceneType:(SceneType)sceneType {
-	self.patchViewController.sceneType = sceneType;
+	selectedPatch = fullpath;
+	selectedSceneType = sceneType;
 	if([Util isDeviceATablet]) {
-		self.patchViewController.patch = fullpath;
+	self.patchViewController.sceneType = sceneType;
+		self.patchViewController.patch = selectedPatch;
 	}
 	else {
 		[self performSegueWithIdentifier:@"runPatch" sender:self];
@@ -275,7 +289,7 @@
 		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypeRj];
 	}
 	else if([self isPdPartyDirectory:path]) {
-		pureData.sampleRate = RJ_SAMPLERATE;
+		pureData.sampleRate = PARTY_SAMPLERATE;
 		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypePatch];
 	}
 	else { // regular dir

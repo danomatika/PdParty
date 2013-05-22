@@ -15,9 +15,9 @@
 // webdav server
 @interface WebServer : NSObject 
 
-@property (assign) int port; // change only takes effect on server restart
-@property (readonly, weak) NSString *hostName; // Bonjour hostname
-@property (readonly, getter=isRunning) BOOL running;
+@property (assign, nonatomic) int port; // change only takes effect on server restart
+@property ( weak, readonly, nonatomic) NSString *hostName; // Bonjour hostname
+@property (assign,readonly, getter=isRunning, nonatomic) BOOL running;
 
 // start the server with the given folder as the server root
 // returns YES on success

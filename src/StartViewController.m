@@ -71,6 +71,11 @@
 	[super viewDidUnload];
 }
 
+// lock orientation
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
+
 #pragma mark Settings
 
 - (IBAction)enableWebServer:(id)sender {

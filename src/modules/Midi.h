@@ -15,7 +15,7 @@
 @interface Midi : NSObject <PGMidiDelegate, PGMidiSourceDelegate>
 
 // enable Core Midi networking session
-@property (nonatomic, assign, getter=isNetworkEnabled) BOOL networkEnabled;
+@property (assign, getter=isNetworkEnabled, nonatomic) BOOL networkEnabled;
 
 // source / destination hot plugging
 - (void)midi:(PGMidi *)midi sourceAdded:(PGMidiSource *)source;

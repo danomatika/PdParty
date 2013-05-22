@@ -17,15 +17,15 @@
 
 #pragma mark Connections
 
-@property (nonatomic, weak) IBOutlet UILabel *oscLabel;
+@property (weak, nonatomic) IBOutlet UILabel *oscLabel;
 
 #pragma mark WebServer
 
-@property (nonatomic, strong) WebServer *server;
+@property (strong, nonatomic) WebServer *server;
 
-@property (nonatomic, weak) IBOutlet UISwitch *serverEnabledSwitch;
-@property (nonatomic, weak) IBOutlet UILabel *serverPortLabel;
-@property (nonatomic, weak) IBOutlet UITextField *serverPortTextField;
+@property (weak, nonatomic) IBOutlet UISwitch *serverEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *serverPortLabel;
+@property (weak, nonatomic) IBOutlet UITextField *serverPortTextField;
 
 - (IBAction)enableWebServer:(id)sender;
 

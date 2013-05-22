@@ -29,14 +29,28 @@ typedef enum {
 @property (strong) Gui *gui; // pd gui widgets
 
 // full path to current patch, the gui is loaded when setting this
-@property (nonatomic, strong) NSString* patch;
+@property (strong, nonatomic) NSString* patch;
 
 // current patch scene type, set to SceneTypeEmpty if patch is set to nil or did not load correctly
-@property (nonatomic, assign) SceneType sceneType;
+@property (assign, nonatomic) SceneType sceneType;
 
-@property (nonatomic, assign) BOOL enableAccelerometer; // enable receiving accel events
+@property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
+
+#pragma mark RJ Controls
+
+@property (weak, nonatomic) IBOutlet UIView *rjControlsView;
+@property (weak, nonatomic) IBOutlet UIButton *rjPauseButton;
+@property (weak, nonatomic) IBOutlet UIButton *rjRecordButton;
+@property (weak, nonatomic) IBOutlet UISlider *rjInputLevelSlider;
+
+- (IBAction)rjControlChanged:(id)sender;
+
+#pragma Util
 
 // convert an orientation into degrees
 + (int)orientationInDegrees:(UIInterfaceOrientation)orientation;
+
+// convert scene type to a string
++ (NSString*)sceneTypeAsString:(SceneType)type;
 
 @end

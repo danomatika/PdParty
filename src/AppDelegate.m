@@ -14,6 +14,8 @@
 #import "Util.h"
 #import "Widget.h"
 
+#import "PatchViewController.h"
+
 @interface AppDelegate ()
 
 // recursively copy dirs and patches in the resource patches dir to the
@@ -158,6 +160,25 @@
 			[PdBase addToSearchPath:path];
 		}
 	}
+}
+
+@end
+
+// category to force all UINavigationControllers to do rotations
+// based on the top view controller
+// http://stackoverflow.com/questions/12520030/how-to-force-a-uiviewcontroller-to-portait-orientation-in-ios-6/12522119#12522119
+@implementation UINavigationController (Rotation_IOS6)
+
+- (BOOL)shouldAutorotate {
+    return [[self.viewControllers lastObject] shouldAutorotate];
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return [[self.viewControllers lastObject] supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return [[self.viewControllers lastObject] preferredInterfaceOrientationForPresentation];
 }
 
 @end

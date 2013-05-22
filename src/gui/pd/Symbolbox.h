@@ -14,7 +14,7 @@
 
 @interface Symbolbox : AtomWidget
 
-@property (strong)	NSString *symbol; // symbol text access
+@property (strong, nonatomic)	NSString *symbol; // symbol text access
 
 + (id)symbolboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 

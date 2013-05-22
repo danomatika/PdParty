@@ -14,8 +14,8 @@
 
 @interface Slider : IEMWidget
 
-@property (assign) int log;
-@property (assign) WidgetOrientation orientation;
+@property (assign, nonatomic) int log;
+@property (assign, nonatomic) WidgetOrientation orientation;
 
 + (id)sliderFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui;
 

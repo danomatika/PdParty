@@ -15,15 +15,17 @@
 #import "Midi.h"
 #import "Osc.h"
 
+@class PatchViewController;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
 // global access
-@property (nonatomic, strong) PureData *pureData;
-@property (nonatomic, strong) Midi *midi;
-@property (nonatomic, strong) Osc *osc;
+@property (strong, nonatomic) PureData *pureData;
+@property (strong, nonatomic) Midi *midi;
+@property (strong, nonatomic) Osc *osc;
 
-@property (nonatomic, strong) CMMotionManager *motionManager; // for accel data
+@property (strong, nonatomic) CMMotionManager *motionManager; // for accel data
 
 @end

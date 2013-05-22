@@ -38,18 +38,18 @@ typedef enum {
 // a widget baseclass
 @interface Widget : UIView <WidgetListener>
 
-@property (assign) CGRect originalFrame; // original pd gui object pos & size
-@property (assign) CGPoint originalLabelPos; // origin pd label pos (rel to object pos)
+@property (assign, nonatomic) CGRect originalFrame; // original pd gui object pos & size
+@property (assign, nonatomic) CGPoint originalLabelPos; // origin pd label pos (rel to object pos)
 
-@property (strong) UIColor *fillColor;		// IEM gui background
-@property (strong) UIColor *frameColor;		// widget outline
-@property (strong) UIColor *controlColor;	// IEM gui foreground
+@property (strong, nonatomic) UIColor *fillColor;		// IEM gui background
+@property (strong, nonatomic) UIColor *frameColor;		// widget outline
+@property (strong, nonatomic) UIColor *controlColor;	// IEM gui foreground
 // IEM gui label color is at label.textColor
 
-@property (assign) float minValue;
-@property (assign) float maxValue;
+@property (assign, nonatomic) float minValue;
+@property (assign, nonatomic) float maxValue;
 @property (assign, nonatomic) float value;
-@property (assign) BOOL inits; // sends value when initing?
+@property (assign, nonatomic) BOOL inits; // sends value when initing?
 
 @property (strong) NSString *sendName;
 @property (strong, nonatomic) NSString *receiveName;
