@@ -73,6 +73,7 @@
 
 // lock orientation
 - (NSUInteger)supportedInterfaceOrientations {
+	NSLog(@"StartView support orientations?");
 	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 

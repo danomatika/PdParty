@@ -11,10 +11,69 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="2TM-1u-wSI">
                         <rect key="frame" x="0.0" y="64" width="703" height="704"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="FWZ-tL-ukk">
+                                <subviews>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="7cS-fu-P5O">
+                                        <connections>
+                                            <action selector="rjControlChanged:" destination="uDw-cH-S0S" eventType="valueChanged" id="RK4-wc-4xh"/>
+                                        </connections>
+                                    </slider>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kOa-at-ygA">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Pause">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="rjControlChanged:" destination="uDw-cH-S0S" eventType="touchUpInside" id="l4k-Lp-nh2"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDf-Vl-YTl">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Record">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="rjControlChanged:" destination="uDw-cH-S0S" eventType="touchUpInside" id="kcu-9R-Oje"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="kOa-at-ygA" firstAttribute="leading" secondItem="7cS-fu-P5O" secondAttribute="leading" type="default" id="7As-5D-FLO"/>
+                                    <constraint firstItem="aDf-Vl-YTl" firstAttribute="trailing" secondItem="7cS-fu-P5O" secondAttribute="trailing" type="default" id="FbD-A0-wHe"/>
+                                    <constraint firstAttribute="trailing" secondItem="aDf-Vl-YTl" secondAttribute="trailing" constant="101" id="cJb-b9-umr"/>
+                                    <constraint firstItem="kOa-at-ygA" firstAttribute="baseline" secondItem="aDf-Vl-YTl" secondAttribute="baseline" type="default" id="dwY-AX-EV7"/>
+                                    <constraint firstItem="7cS-fu-P5O" firstAttribute="centerX" secondItem="FWZ-tL-ukk" secondAttribute="centerX" type="default" id="idk-u3-510"/>
+                                    <constraint firstItem="7cS-fu-P5O" firstAttribute="top" secondItem="kOa-at-ygA" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="kNP-ek-2tV"/>
+                                    <constraint firstAttribute="bottom" secondItem="7cS-fu-P5O" secondAttribute="bottom" constant="33" id="tyV-PX-LGY"/>
+                                    <constraint firstItem="kOa-at-ygA" firstAttribute="top" secondItem="FWZ-tL-ukk" secondAttribute="top" constant="46" id="yDI-oq-ZBs"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="FWZ-tL-ukk" secondAttribute="trailing" constant="-2" id="Boj-0v-gXY"/>
+                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="leading" secondItem="2TM-1u-wSI" secondAttribute="leading" type="default" id="NBJ-Ag-7Qg"/>
+                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="bottom" secondItem="2TM-1u-wSI" secondAttribute="bottom" type="default" id="w5q-xN-8GP"/>
+                        </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" title="Patch" id="bJD-HZ-9qK"/>
+                    <connections>
+                        <outlet property="rjControlsView" destination="FWZ-tL-ukk" id="Pms-8p-t5T"/>
+                        <outlet property="rjInputLevelSlider" destination="7cS-fu-P5O" id="ed5-Kv-xdv"/>
+                        <outlet property="rjPauseButton" destination="kOa-at-ygA" id="1P3-39-uNg"/>
+                        <outlet property="rjRecordButton" destination="aDf-Vl-YTl" id="cBu-cU-G5b"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MKx-Jj-aSp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -24,7 +83,8 @@
         <scene sceneID="pJC-wp-2K3">
             <objects>
                 <navigationController definesPresentationContext="YES" id="Hlx-c8-C0t" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QDn-50-9dJ">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="QDn-50-9dJ">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -283,8 +343,8 @@
         <scene sceneID="c8E-f3-AjP">
             <objects>
                 <navigationController id="u5H-rS-Obs" sceneMemberID="viewController">
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="1DZ-yS-1oN">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
+                    <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" barStyle="blackOpaque" id="1DZ-yS-1oN">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -454,6 +514,49 @@
             <point key="canvasLocation" x="-1467" y="-368"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="BrowserViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowserViewController.h"/>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="OscViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OscViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableOscConnection:"/>
+                <relationship kind="action" name="setHost:"/>
+                <relationship kind="action" name="setIncomingPort:"/>
+                <relationship kind="action" name="setOutgoingPort:"/>
+                <relationship kind="outlet" name="connectionEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="hostTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="incomingPortTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="localHostLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="outgoingPortTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="PatchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PatchViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="rjControlChanged:"/>
+                <relationship kind="outlet" name="rjControlsView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="rjInputLevelSlider" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="rjPauseButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="rjRecordButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="StartViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableWebServer:"/>
+                <relationship kind="action" name="setWebServerPort:"/>
+                <relationship kind="outlet" name="oscLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="serverEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="serverPortLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="serverPortTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

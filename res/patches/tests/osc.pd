@@ -1,4 +1,4 @@
-#N canvas 261 292 441 356 10;
+#N canvas 242 299 441 356 10;
 #X declare -lib mrpeach;
 #X obj 18 19 import mrpeach;
 #X obj 221 210 udpsend;
@@ -6,10 +6,8 @@
 #X obj 221 134 packOSC;
 #X obj 19 88 unpackOSC;
 #X obj 50 169 print;
-#X msg 272 158 connect 127.0.0.1 8088;
-#X obj 19 62 udpreceive 8080;
 #X obj 50 141 spigot;
-#X obj 83 117 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 83 117 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 19 196 routeOSC /pd;
 #X obj 19 222 routeOSC /event;
@@ -22,20 +20,22 @@
 #X obj 221 55 spigot;
 #X obj 254 30 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
+#X obj 19 62 udpreceive 8080;
+#X msg 272 158 connect 127.0.0.1 8088;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
+#X connect 4 0 6 0;
 #X connect 4 0 8 0;
-#X connect 4 0 10 0;
-#X connect 6 0 1 0;
-#X connect 7 0 4 0;
-#X connect 8 0 5 0;
-#X connect 9 0 8 1;
+#X connect 6 0 5 0;
+#X connect 7 0 6 1;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
 #X connect 10 0 11 0;
-#X connect 11 0 12 0;
-#X connect 12 0 13 0;
-#X connect 12 1 14 0;
-#X connect 12 2 15 0;
-#X connect 16 0 3 0;
-#X connect 17 0 18 0;
-#X connect 18 0 16 0;
-#X connect 19 0 18 1;
+#X connect 10 1 12 0;
+#X connect 10 2 13 0;
+#X connect 14 0 3 0;
+#X connect 15 0 16 0;
+#X connect 16 0 14 0;
+#X connect 17 0 16 1;
+#X connect 18 0 4 0;
+#X connect 19 0 1 0;

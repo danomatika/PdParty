@@ -29,7 +29,12 @@
 
 	BOOL hasReshaped; // has the gui been reshaped?
 }
+
 @property (nonatomic, strong) UIPopoverController *masterPopoverController;
+
+// reshape the background and view controls of an rj scene
+- (void)reshapeRjScene;
+
 @end
 
 @implementation PatchViewController
@@ -61,27 +66,25 @@
 	// set osc pointer
 	osc = app.osc;
 	
-	
-	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
+	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
 }
 
 - (void)viewDidLayoutSubviews {
 	
 	self.gui.bounds = self.view.bounds;
-	
-	if(self.sceneType != SceneTypeRj) {
-		// do animations if gui has already been setup once
-		// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
-		if(hasReshaped) {
-			[UIView beginAnimations:nil context:nil];
-		}
-		[self.gui reshapeWidgets];
-		if(hasReshaped) {
-			[UIView commitAnimations];
-		}
-		else {
-			hasReshaped = YES;
-		}
+		
+	// do animations if gui has already been setup once
+	// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
+	if(hasReshaped) {
+		[UIView beginAnimations:nil context:nil];
+	}
+	[self.gui reshapeWidgets];
+	[self reshapeRjScene];
+	if(hasReshaped) {
+		[UIView commitAnimations];
+	}
+	else {
+		hasReshaped = YES;
 	}
 }
 
@@ -118,9 +121,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-// lock to portrait for RjDj scenes, allow rotaiton for all others
+// lock to portrait for RjDj scenes, allow rotation for all others
 - (NSUInteger)supportedInterfaceOrientations {
-	if(self.sceneType == SceneTypeRj) {
+	if(![Util isDeviceATablet] && self.sceneType == SceneTypeRj) {
 		return UIInterfaceOrientationMaskPortrait;
 	}
 	return UIInterfaceOrientationMaskAll;
@@ -177,6 +180,11 @@
 			
 			// load gui for non rj scenes
 			if(self.sceneType != SceneTypeRj) {
+			
+				// set patch view background color
+				self.view.backgroundColor = [UIColor whiteColor];
+			
+				// load widgets from gui
 				[self.gui addWidgetsFromPatch:self.patch];
 				self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
 				DDLogVerbose(@"Adding %d widgets", self.gui.widgets.count);
@@ -185,14 +193,19 @@
 					[self.view addSubview:widget];
 				}
 				hasReshaped = NO;
+				
+				// hide rj controls & delete rj background
 				self.rjControlsView.hidden = YES;
+				if(background) {
+					[background removeFromSuperview];
+					background = nil;
+				}
 			}
 			else { // set background and enable controls for rj scenes
 				self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
 			
-				CGSize backgroundSize, controlsSize;
-				backgroundSize.width = CGRectGetWidth(self.view.frame);
-				backgroundSize.height = CGRectGetWidth(self.view.frame);
+				// set patch view background color
+				self.view.backgroundColor = [UIColor blackColor];
 				
 				// set background
 				NSString *backgroundPath = [dirPath stringByAppendingPathComponent:@"image.jpg"];
@@ -201,23 +214,16 @@
 					if(!background.image) {
 						DDLogError(@"PatchViewController: couldn't load background image");
 					}
-					//[background sizeToFit];
-					background.frame = CGRectMake(0, 0, backgroundSize.width, backgroundSize.height);
-					//background.image = [UIImage imageNamed:backgroundPath];
-					DDLogVerbose(@"opened background image: %@", backgroundPath);
 					[self.view addSubview:background];
-					[Util logRect:background.frame];
 				}
 				else {
 					DDLogWarn(@"PatchViewController: no background image");
 				}
 				
-				controlsSize.width = backgroundSize.width;
-				controlsSize.height = 127;//CGRectGetHeight(self.view.bounds) - backgroundSize.height;
-				self.rjControlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
+				[self.view bringSubviewToFront:self.rjControlsView];
 				self.rjControlsView.hidden = NO;
 				
-				[Util logRect:self.rjControlsView.frame];
+				[self reshapeRjScene];
 			}
 		}
 		else {
@@ -424,6 +430,40 @@
 // hide master view controller by default on all orientations
 - (BOOL)splitViewController:(UISplitViewController *)splitController shouldHideViewController:(UIViewController *)viewController inOrientation:(UIInterfaceOrientation)orientation {
 	return YES;
+}
+
+#pragma Private
+
+- (void)reshapeRjScene {
+	if(!self.sceneType == SceneTypeRj) {
+		return;
+	}
+	
+	CGSize viewSize, backgroundSize, controlsSize;
+	CGFloat xPos = 0;
+	
+	// rj backgrounds are always square
+	viewSize = self.view.frame.size;
+	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+	if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+		backgroundSize.width = viewSize.width;
+		backgroundSize.height = backgroundSize.width;
+	}
+	else {
+		backgroundSize.width = viewSize.height * 0.8;
+		backgroundSize.height = backgroundSize.width;
+		xPos = (viewSize.width - backgroundSize.width)/2;
+	}
+	
+	// set background
+	if(background) {
+		background.frame = CGRectMake(xPos, 0, backgroundSize.width, backgroundSize.height);
+	}
+	
+	// set controls
+	controlsSize.width = backgroundSize.width;
+	controlsSize.height = CGRectGetHeight(self.view.bounds) - backgroundSize.height;
+	self.rjControlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
 }
 
 @end

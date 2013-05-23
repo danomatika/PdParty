@@ -164,10 +164,31 @@
 
 @end
 
+#pragma mark UINavigationController Rotation
+
 // category to force all UINavigationControllers to do rotations
 // based on the top view controller
 // http://stackoverflow.com/questions/12520030/how-to-force-a-uiviewcontroller-to-portait-orientation-in-ios-6/12522119#12522119
 @implementation UINavigationController (Rotation_IOS6)
+
+- (BOOL)shouldAutorotate {
+    return [[self.viewControllers lastObject] shouldAutorotate];
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return [[self.viewControllers lastObject] supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return [[self.viewControllers lastObject] preferredInterfaceOrientationForPresentation];
+}
+
+@end
+
+#pragma mark UISplitViewController Rotation
+
+// needed for rotation on iPad since SplitViewController is root controller
+@implementation UISplitViewController (Rotation_IOS6)
 
 - (BOOL)shouldAutorotate {
     return [[self.viewControllers lastObject] shouldAutorotate];
