@@ -56,6 +56,11 @@
 		3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823116E1998F00895CB2 /* CFNetwork.framework */; };
 		3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823316E1999E00895CB2 /* libxml2.dylib */; };
 		3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823516E199AF00895CB2 /* MobileCoreServices.framework */; };
+		3062046A174FB0AF00DEC1C2 /* rj_accum.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620465174FB0AF00DEC1C2 /* rj_accum.c */; };
+		3062046B174FB0AF00DEC1C2 /* rj_barkflux_accum~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620466174FB0AF00DEC1C2 /* rj_barkflux_accum~.c */; };
+		3062046C174FB0AF00DEC1C2 /* rj_centroid~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620467174FB0AF00DEC1C2 /* rj_centroid~.c */; };
+		3062046D174FB0AF00DEC1C2 /* rj_senergy~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620468174FB0AF00DEC1C2 /* rj_senergy~.c */; };
+		3062046E174FB0AF00DEC1C2 /* rj_zcr~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620469174FB0AF00DEC1C2 /* rj_zcr~.c */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
@@ -284,6 +289,11 @@
 		3050823116E1998F00895CB2 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3050823316E1999E00895CB2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3050823516E199AF00895CB2 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		30620465174FB0AF00DEC1C2 /* rj_accum.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rj_accum.c; sourceTree = "<group>"; };
+		30620466174FB0AF00DEC1C2 /* rj_barkflux_accum~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rj_barkflux_accum~.c"; sourceTree = "<group>"; };
+		30620467174FB0AF00DEC1C2 /* rj_centroid~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rj_centroid~.c"; sourceTree = "<group>"; };
+		30620468174FB0AF00DEC1C2 /* rj_senergy~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rj_senergy~.c"; sourceTree = "<group>"; };
+		30620469174FB0AF00DEC1C2 /* rj_zcr~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rj_zcr~.c"; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		30960AFA16F5952300FAF2E7 /* OscViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscViewController.h; path = src/OscViewController.h; sourceTree = "<group>"; };
 		30960AFB16F5952400FAF2E7 /* OscViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OscViewController.m; path = src/OscViewController.m; sourceTree = "<group>"; };
@@ -537,6 +547,7 @@
 			children = (
 				3024563017357ECC0016583B /* Externals.h */,
 				3024563117357F540016583B /* Externals.m */,
+				30620464174FB0AF00DEC1C2 /* rj */,
 				3024560D17357A760016583B /* mrpeach */,
 			);
 			path = externals;
@@ -729,6 +740,18 @@
 				3050820E16E198C900895CB2 /* README.txt */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		30620464174FB0AF00DEC1C2 /* rj */ = {
+			isa = PBXGroup;
+			children = (
+				30620465174FB0AF00DEC1C2 /* rj_accum.c */,
+				30620466174FB0AF00DEC1C2 /* rj_barkflux_accum~.c */,
+				30620467174FB0AF00DEC1C2 /* rj_centroid~.c */,
+				30620468174FB0AF00DEC1C2 /* rj_senergy~.c */,
+				30620469174FB0AF00DEC1C2 /* rj_zcr~.c */,
+			);
+			path = rj;
 			sourceTree = "<group>";
 		};
 		3088883C16BF062700781682 /* fonts */ = {
@@ -1435,6 +1458,11 @@
 				30245657173582340016583B /* pipelist.c in Sources */,
 				30245658173582340016583B /* routeOSC.c in Sources */,
 				30245659173582340016583B /* unpackOSC.c in Sources */,
+				3062046A174FB0AF00DEC1C2 /* rj_accum.c in Sources */,
+				3062046B174FB0AF00DEC1C2 /* rj_barkflux_accum~.c in Sources */,
+				3062046C174FB0AF00DEC1C2 /* rj_centroid~.c in Sources */,
+				3062046D174FB0AF00DEC1C2 /* rj_senergy~.c in Sources */,
+				3062046E174FB0AF00DEC1C2 /* rj_zcr~.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

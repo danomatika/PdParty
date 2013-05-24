@@ -35,6 +35,9 @@
 // reshape the background and view controls of an rj scene
 - (void)reshapeRjScene;
 
+// add subfolders in libs folder in resource patches dir to search path
+- (void)addPatchLibSearchPaths;
+
 @end
 
 @implementation PatchViewController
@@ -152,12 +155,16 @@
 			self.gui.patch = nil;
 			
 			if(self.sceneType == SceneTypeRj && background) {
+				[background removeFromSuperview];
 				background = nil;
 			}
+			[PdBase clearSearchPath];
 		}
 		
 		// open new patch
 		if(self.patch) {
+		
+			[self addPatchLibSearchPaths];
 			
 			NSString *fileName = [self.patch lastPathComponent];
 			NSString *dirPath = [self.patch stringByDeletingLastPathComponent];
@@ -178,6 +185,9 @@
 			
 			DDLogVerbose(@"SceneType: %@", [PatchViewController sceneTypeAsString:self.sceneType]);
 			
+			[PdBase addToSearchPath:dirPath];
+			[PdBase addToSearchPath:[[Util documentsPath] stringByAppendingPathComponent:@"lib/rj"]];
+			
 			// load gui for non rj scenes
 			if(self.sceneType != SceneTypeRj) {
 			
@@ -196,10 +206,10 @@
 				
 				// hide rj controls & delete rj background
 				self.rjControlsView.hidden = YES;
-				if(background) {
-					[background removeFromSuperview];
-					background = nil;
-				}
+//				if(background) {
+//					[background removeFromSuperview];
+//					background = nil;
+//				}
 			}
 			else { // set background and enable controls for rj scenes
 				self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
@@ -224,6 +234,13 @@
 				self.rjControlsView.hidden = NO;
 				
 				[self reshapeRjScene];
+				
+				// turn up volume
+				NSArray *msg = [NSArray arrayWithObject:[NSNumber numberWithFloat:1.0]];
+				[PdBase sendMessage:@"set" withArguments:msg toReceiver:@"#volume"];
+				
+				// turn on transport
+				[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] toReceiver:RJ_TRANSPORT_R];	
 			}
 		}
 		else {
@@ -328,20 +345,27 @@
 	
 	for(UITouch *touch in touches) {
 		int touchId = 0;
-		while([[activeTouches allValues] containsObject:[NSNumber numberWithInt:touchId]]){
+		while([[activeTouches allValues] containsObject:[NSNumber numberWithInt:touchId]]) {
 			touchId++;
 		}
 		[activeTouches setObject:[NSNumber numberWithInt:touchId]
 						  forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-		pos.x = pos.x/CGRectGetWidth(self.view.frame);
-		pos.y = pos.y/CGRectGetHeight(self.view.frame);
-			
-		// normalize
+
+		// rj scenes require 320x320
 		if(self.sceneType == SceneTypeRj) {
-			pos.x = (int)(pos.x * 320);
-			pos.y = (int)(pos.y * 320);
+			pos = [touch locationInView:background];
+			if(![background pointInside:pos withEvent:nil]) {
+				return;
+			}
+			pos.x = (int) (pos.x/CGRectGetWidth(background.frame) * 320);
+			pos.y = (int) (pos.y/CGRectGetHeight(background.frame) * 320);
+		}
+		// normalize to whole view for everything else
+		else {
+			pos.x = pos.x/CGRectGetWidth(self.view.frame);
+			pos.y = pos.y/CGRectGetHeight(self.view.frame);
 		}
 		
 //		DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
@@ -358,13 +382,20 @@
 		int touchId = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
 		
 		CGPoint pos = [touch locationInView:self.view];
-		pos.x = pos.x/CGRectGetWidth(self.view.frame);
-		pos.y = pos.y/CGRectGetHeight(self.view.frame);
-			
-		// normalize
+
+		// rj scenes require 320x320
 		if(self.sceneType == SceneTypeRj) {
-			pos.x = (int)(pos.x * 320);
-			pos.y = (int)(pos.y * 320);
+			pos = [touch locationInView:background];
+			if(![background pointInside:pos withEvent:nil]) {
+				return;
+			}
+			pos.x = (int) (pos.x/CGRectGetWidth(background.frame) * 320);
+			pos.y = (int) (pos.y/CGRectGetHeight(background.frame) * 320);
+		}
+		// normalize to whole view for everything else
+		else {
+			pos.x = pos.x/CGRectGetWidth(self.view.frame);
+			pos.y = pos.y/CGRectGetHeight(self.view.frame);
 		}
 		
 //		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
@@ -382,13 +413,20 @@
 		[activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-		pos.x = pos.x/CGRectGetWidth(self.view.frame);
-		pos.y = pos.y/CGRectGetHeight(self.view.frame);
-		
-		// normalize
+
+		// rj scenes require 320x320
 		if(self.sceneType == SceneTypeRj) {
-			pos.x = (int)(pos.x * 320);
-			pos.y = (int)(pos.y * 320);
+			pos = [touch locationInView:background];
+			if(![background pointInside:pos withEvent:nil]) {
+				return;
+			}
+			pos.x = (int) (pos.x/CGRectGetWidth(background.frame) * 320);
+			pos.y = (int) (pos.y/CGRectGetHeight(background.frame) * 320);
+		}
+		// normalize to whole view for everything else
+		else {
+			pos.x = pos.x/CGRectGetWidth(self.view.frame);
+			pos.y = pos.y/CGRectGetHeight(self.view.frame);
 		}
 		
 //		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
@@ -432,7 +470,7 @@
 	return YES;
 }
 
-#pragma Private
+#pragma mark Private
 
 - (void)reshapeRjScene {
 	if(!self.sceneType == SceneTypeRj) {
@@ -466,4 +504,62 @@
 	self.rjControlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
 }
 
+- (void)addPatchLibSearchPaths {
+	
+	NSError *error;
+	
+	DDLogVerbose(@"Adding library patches to search path");
+	
+	NSString * libPatchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib"];
+	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:libPatchesPath error:&error];
+	if(!contents) {
+		DDLogError(@"Couldn't read files in path %@, error: %@", libPatchesPath, error.localizedDescription);
+		return;
+	}
+	
+	DDLogVerbose(@"Found %d paths in resources patches lib folder", contents.count);
+	for(NSString *p in contents) {
+		NSString *path = [libPatchesPath stringByAppendingPathComponent:p];
+		if([Util isDirectory:path]) {
+			DDLogVerbose(@"	Added %@ to search path", p);
+			[PdBase addToSearchPath:path];
+		}
+	}
+}
+
 @end
+
+#pragma mark BrackgroundImage
+
+//@interface BackgroundImage : UIImageView
+//@end
+//
+//@implementation BackgroundImage
+//
+//#pragma mark Touches
+//
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+//    UITouch *touch = [touches anyObject];
+//    CGPoint pos = [touch locationInView:self];
+//	if(self.orientation == WidgetOrientationHorizontal) {
+//		self.value = [self horizontalValue:pos.x];
+//	}
+//	else {
+//		self.value = [self verticalValue:pos.y];
+//	}
+//	[self sendFloat:self.value];
+//}
+//
+//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+//    UITouch *touch = [touches anyObject];
+//    CGPoint pos = [touch locationInView:self];
+//	if(self.orientation == WidgetOrientationHorizontal) {
+//		self.value = [self horizontalValue:pos.x];
+//	}
+//	else {
+//		self.value = [self verticalValue:pos.y];
+//	}
+//	[self sendFloat:self.value];
+//}
+//
+//@end

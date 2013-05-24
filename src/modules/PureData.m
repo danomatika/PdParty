@@ -27,9 +27,6 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		
-		// setup externals
-		[Externals setup];
 
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
@@ -44,6 +41,9 @@
 		
 		// set midi receiver delegate
 		[PdBase setMidiDelegate:self];
+		
+		// setup externals
+		[Externals setup];
 	}
 	return self;
 }

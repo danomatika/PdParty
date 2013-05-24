@@ -35,6 +35,11 @@ cp -Rv libpd/objc $destDir
 cp -Rv libpd/pure-data $destDir
 cp -Rv libpd/libpd_wrapper $destDir
 
+# copy extra patches to patches dir
+mkdir -p ../res/patches/lib/pd
+rm libpd/pure-data/extra/*-help.pd # don't need help files
+cp -v libpd/pure-data/extra/*.pd ../res/patches/lib/pd
+
 # cleanup
 rm -rf libpd
 

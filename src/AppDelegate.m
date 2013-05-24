@@ -22,8 +22,8 @@
 // Documents folder, removes/overwrites any currently existing dirs
 - (void)copyResourcePatchesToDocuments;
 
-// add subfolders in libs folder in resource patches dir to search path
-- (void)addPatchLibSearchPaths;
+//// add subfolders in libs folder in resource patches dir to search path
+//- (void)addPatchLibSearchPaths;
 
 @end
 
@@ -58,7 +58,7 @@
 	self.pureData = [[PureData alloc] init];
 	self.pureData.midi = self.midi;
 	[Widget setDispatcher:self.pureData.dispatcher];
-	[self addPatchLibSearchPaths];
+//	[self addPatchLibSearchPaths];
 	
 	// setup osc
 	self.osc = [[Osc alloc] init];
@@ -139,28 +139,28 @@
 	}
 }
 
-- (void)addPatchLibSearchPaths {
-	
-	NSError *error;
-	
-	DDLogVerbose(@"Adding library patches to search path");
-	
-	NSString * libPatchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib"];
-	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:libPatchesPath error:&error];
-	if(!contents) {
-		DDLogError(@"Couldn't read files in path %@, error: %@", libPatchesPath, error.localizedDescription);
-		return;
-	}
-	
-	DDLogVerbose(@"Found %d paths in resources patches lib folder", contents.count);
-	for(NSString *p in contents) {
-		NSString *path = [libPatchesPath stringByAppendingPathComponent:p];
-		if([Util isDirectory:path]) {
-			DDLogVerbose(@"	Added %@ to search path", p);
-			[PdBase addToSearchPath:path];
-		}
-	}
-}
+//- (void)addPatchLibSearchPaths {
+//	
+//	NSError *error;
+//	
+//	DDLogVerbose(@"Adding library patches to search path");
+//	
+//	NSString * libPatchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib"];
+//	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:libPatchesPath error:&error];
+//	if(!contents) {
+//		DDLogError(@"Couldn't read files in path %@, error: %@", libPatchesPath, error.localizedDescription);
+//		return;
+//	}
+//	
+//	DDLogVerbose(@"Found %d paths in resources patches lib folder", contents.count);
+//	for(NSString *p in contents) {
+//		NSString *path = [libPatchesPath stringByAppendingPathComponent:p];
+//		if([Util isDirectory:path]) {
+//			DDLogVerbose(@"	Added %@ to search path", p);
+//			[PdBase addToSearchPath:path];
+//		}
+//	}
+//}
 
 @end
 

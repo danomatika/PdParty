@@ -50,7 +50,7 @@
 
 // setting the sample rate re-configures the audio, 44100 by default
 // new sample rate ignored if it is equal to the current samplerate
-@property (nonatomic, assign) int sampleRate;
+@property (nonatomic) int sampleRate;
 
 #pragma mark Send Events
 
