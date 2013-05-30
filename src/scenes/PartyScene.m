@@ -19,6 +19,10 @@
 	return s;
 }
 
+- (BOOL)open:(NSString *)path {
+	return [super open:[path stringByAppendingPathComponent:@"_main.pd"]];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (SceneType)type {

@@ -13,6 +13,8 @@
 // an RjDj scene (folder with .rj ext & _main.pd)
 @interface RjScene : PatchScene
 
+// path is to scene folder
+
 @property (weak, nonatomic) UIView *controlsView; // rj controls
 
 + (id)sceneWithParent:(UIView*)parent andControls:(UIView*)controls;

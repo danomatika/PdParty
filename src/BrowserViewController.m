@@ -13,11 +13,8 @@
 #import "PatchViewController.h"
 #import "Log.h"
 #import "Util.h"
-//#import "AppDelegate.h"
 
 @interface BrowserViewController () {
-	//PureData *pureData;
-	
 	// temp variables required for segues on iPhone since PatchViewController
 	// may not exist yet when opening first scene
 	NSString *selectedPatch; // maybe subpatch in the case of Rj Scenes, etc
@@ -28,8 +25,8 @@
 @property (strong, readwrite) NSString *currentDir; // current directory path
 @property (assign, readwrite) int currentDirLevel;
 
-// run the given patch in the PatchViewController
-- (void)runPatch:(NSString *)fullpath withSceneType:(SceneType)sceneType;
+// run the given scene in the PatchViewController
+- (void)runScene:(NSString *)fullpath withSceneType:(SceneType)sceneType;
 
 // called when a patch is selected, return NO if the path was not handled
 - (BOOL)didSelectDirectory:(NSString *)path; // assumes full path
@@ -243,7 +240,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
 	// load the selected patch
-	if([[segue identifier] isEqualToString:@"runPatch"]) {
+	if([[segue identifier] isEqualToString:@"runScene"]) {
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
     }
@@ -251,26 +248,26 @@
 
 #pragma mark Private / Util
 
-- (void)runPatch:(NSString *)fullpath withSceneType:(SceneType)sceneType {
+- (void)runScene:(NSString *)fullpath withSceneType:(SceneType)sceneType {
 	selectedPatch = fullpath;
 	selectedSceneType = sceneType;
 	if([Util isDeviceATablet]) {
 		[self.patchViewController openScene:selectedPatch withType:selectedSceneType];
 	}
 	else {
-		[self performSegueWithIdentifier:@"runPatch" sender:self];
+		[self performSegueWithIdentifier:@"runScene" sender:self];
 	}
 }
 
 - (BOOL)didSelectDirectory:(NSString *)path {
 	if([DroidScene isDroidPartyDirectory:path]) {
-		[self runPatch:[path stringByAppendingPathComponent:@"droidparty_main.pd"] withSceneType:SceneTypeDroid];
+		[self runScene:path withSceneType:SceneTypeDroid];
 	}
 	else if([RjScene isRjDjDirectory:path]) {
-		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypeRj];
+		[self runScene:path withSceneType:SceneTypeRj];
 	}
 	else if([PartyScene isPdPartyDirectory:path]) {
-		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypeParty];
+		[self runScene:path withSceneType:SceneTypeParty];
 	}
 	else { // regular dir
 		return NO;
@@ -280,7 +277,7 @@
 
 - (BOOL)didSelectFile:(NSString *)path {
 	// regular patch
-	[self runPatch:path withSceneType:SceneTypePatch];
+	[self runScene:path withSceneType:SceneTypePatch];
 	return YES;
 }
 

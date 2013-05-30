@@ -201,7 +201,7 @@
                     <navigationItem key="navigationItem" title="Patch Browser" id="Px2-gF-P9w"/>
                     <connections>
                         <outlet property="view" destination="sxi-69-72q" id="zao-c7-0H8"/>
-                        <segue destination="0Ko-AI-7bJ" kind="push" identifier="runPatch" id="P0H-U2-49S"/>
+                        <segue destination="0Ko-AI-7bJ" kind="push" identifier="runScene" id="P0H-U2-49S"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jsA-7v-JvB" sceneMemberID="firstResponder"/>

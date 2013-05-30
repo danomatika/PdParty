@@ -13,6 +13,8 @@
 // PdParty scene (folder with _main.pd)
 @interface PartyScene : PatchScene
 
+// path is to scene folder
+
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui;;
 
 // returns true if the given path is a PdParty scene dir

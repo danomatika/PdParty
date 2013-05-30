@@ -13,6 +13,8 @@
 // DroidParty scene (folder with droidparty_main.pd)
 @interface DroidScene : PatchScene
 
+// path is to scene folder
+
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui;;
 
 // returns true if a given path is a DroidParty scene dir

@@ -36,13 +36,13 @@
 	
 	[PdBase addToSearchPath:[[Util documentsPath] stringByAppendingPathComponent:@"lib/rj"]];
 	
-	if([super open:path]) {
+	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {
 			
 		// set patch view background color
 		self.parentView.backgroundColor = [UIColor blackColor];
 		
 		// set background
-		NSString *backgroundPath = [self.patch.pathName stringByAppendingPathComponent:@"image.jpg"];
+		NSString *backgroundPath = [path stringByAppendingPathComponent:@"image.jpg"];
 		if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
 			background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
 			if(!background.image) {

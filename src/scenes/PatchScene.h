@@ -13,6 +13,7 @@
 // basic pd patch
 @interface PatchScene : Scene
 
+// path is to patch file,
 // requires all event types
 
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui;

@@ -19,6 +19,10 @@
 	return s;
 }
 
+- (BOOL)open:(NSString *)path {
+	return [super open:[path stringByAppendingPathComponent:@"droidparty_main.pd"]];
+}
+
 - (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos {
 	return NO;
 }
