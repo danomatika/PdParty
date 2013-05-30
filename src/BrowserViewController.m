@@ -258,10 +258,6 @@
 	// load the selected patch
 	if([[segue identifier] isEqualToString:@"runPatch"]) {
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//		NSString *path = self.pathArray[indexPath.row];
-//		[[segue destinationViewController] setPatch:path];
-		//[[segue destinationViewController] setSceneType:selectedSceneType];
-		//[[segue destinationViewController] setPatch:selectedPatch];
 		[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
     }
 }
@@ -272,8 +268,6 @@
 	selectedPatch = fullpath;
 	selectedSceneType = sceneType;
 	if([Util isDeviceATablet]) {
-		//self.patchViewController.sceneType = sceneType;
-		//self.patchViewController.patch = selectedPatch;
 		[self.patchViewController openScene:selectedPatch withType:selectedSceneType];
 	}
 	else {
@@ -292,7 +286,7 @@
 	}
 	else if([self isPdPartyDirectory:path]) {
 		pureData.sampleRate = PARTY_SAMPLERATE;
-		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypePatch];
+		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypeParty];
 	}
 	else { // regular dir
 		return NO;

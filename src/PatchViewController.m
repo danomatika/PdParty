@@ -146,15 +146,18 @@
 	
 	// open new scene
 	switch(type) {
-	
 		case SceneTypePatch:
 			self.scene = [PatchScene sceneWithParent:self.view andGui:self.gui];
 			break;
-			
 		case SceneTypeRj:
 			self.scene = [RjScene sceneWithParent:self.view andControls:self.rjControlsView];
 			break;
-			
+		case SceneTypeDroid:
+			self.scene = [DroidScene sceneWithParent:self.view andGui:self.gui];
+			break;
+		case SceneTypeParty:
+			self.scene = [PartyScene sceneWithParent:self.view andGui:self.gui];
+			break;
 		default: // SceneTypeEmpty
 			self.scene = [[Scene alloc] init];
 			break;

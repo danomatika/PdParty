@@ -10,7 +10,7 @@
  */
 #import "Scene.h"
 
-// a basic scene which manages a Pd patch
+// basic pd patch
 @interface PatchScene : Scene
 
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui;

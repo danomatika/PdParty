@@ -8,9 +8,14 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#pragma once
-
 #import "PatchScene.h"
-#import "RjScene.h"
-#import "DroidScene.h"
-#import "PartyScene.h"
+
+// DroidParty scene (folder with droidparty_main.pd)
+@interface DroidScene : PatchScene
+
++ (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui;;
+
+// returns true if a given path is a DroidParty scene dir
++ (BOOL)isDroidPartyDirectory:(NSString *)fullpath;
+
+@end

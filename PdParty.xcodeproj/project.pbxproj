@@ -26,6 +26,8 @@
 		30245658173582340016583B /* routeOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245647173582340016583B /* routeOSC.c */; };
 		30245659173582340016583B /* unpackOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245648173582340016583B /* unpackOSC.c */; };
 		303BD3001756A119000FBEB5 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD2FF1756A119000FBEB5 /* Scene.m */; };
+		303BD30417570070000FBEB5 /* DroidScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD30317570070000FBEB5 /* DroidScene.m */; };
+		303BD307175702AF000FBEB5 /* PartyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD306175702AF000FBEB5 /* PartyScene.m */; };
 		3050820F16E198C900895CB2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CA16E198C900895CB2 /* DDData.m */; };
 		3050821016E198C900895CB2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CC16E198C900895CB2 /* DDNumber.m */; };
 		3050821116E198C900895CB2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CE16E198C900895CB2 /* DDRange.m */; };
@@ -232,6 +234,10 @@
 		303BD2FE17569FE2000FBEB5 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		303BD2FF1756A119000FBEB5 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
 		303BD3011756A6E2000FBEB5 /* Scenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scenes.h; sourceTree = "<group>"; };
+		303BD30217570070000FBEB5 /* DroidScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DroidScene.h; sourceTree = "<group>"; };
+		303BD30317570070000FBEB5 /* DroidScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DroidScene.m; sourceTree = "<group>"; };
+		303BD305175702AF000FBEB5 /* PartyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartyScene.h; sourceTree = "<group>"; };
+		303BD306175702AF000FBEB5 /* PartyScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartyScene.m; sourceTree = "<group>"; };
 		305081C916E198C900895CB2 /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
 		305081CA16E198C900895CB2 /* DDData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDData.m; sourceTree = "<group>"; };
 		305081CB16E198C900895CB2 /* DDNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNumber.h; sourceTree = "<group>"; };
@@ -767,6 +773,10 @@
 		306204701753C90400DEC1C2 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				303BD30217570070000FBEB5 /* DroidScene.h */,
+				303BD30317570070000FBEB5 /* DroidScene.m */,
+				303BD305175702AF000FBEB5 /* PartyScene.h */,
+				303BD306175702AF000FBEB5 /* PartyScene.m */,
 				303BD3011756A6E2000FBEB5 /* Scenes.h */,
 				303BD2FE17569FE2000FBEB5 /* Scene.h */,
 				303BD2FF1756A119000FBEB5 /* Scene.m */,
@@ -1492,6 +1502,8 @@
 				306204741753C90400DEC1C2 /* RjScene.m in Sources */,
 				306204781753E3D200DEC1C2 /* PatchScene.m in Sources */,
 				303BD3001756A119000FBEB5 /* Scene.m in Sources */,
+				303BD30417570070000FBEB5 /* DroidScene.m in Sources */,
+				303BD307175702AF000FBEB5 /* PartyScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

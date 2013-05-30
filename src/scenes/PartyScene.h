@@ -8,9 +8,14 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#pragma once
-
 #import "PatchScene.h"
-#import "RjScene.h"
-#import "DroidScene.h"
-#import "PartyScene.h"
+
+// PdParty scene (folder with _main.pd)
+@interface PartyScene : PatchScene
+
++ (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui;;
+
+// returns true if the given path is a PdParty scene dir
+- (BOOL)isPdPartyDirectory:(NSString *)fullpath;
+
+@end
