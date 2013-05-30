@@ -8,14 +8,7 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#include "PatchScene.h"
-
-#import "PdBase.h"
-#import "PdFile.h"
-#import "Gui.h"
-
-#import "Log.h"
-#import "Util.h"
+#include "Scene.h"
 
 @implementation Scene
 
@@ -63,6 +56,26 @@
 
 - (NSString *)typeString {
 	return @"EmptyScene";
+}
+
+- (int)sampleRate {
+	return PARTY_SAMPLERATE;
+}
+
+- (BOOL)requiresTouch {
+	return NO;
+}
+
+- (BOOL)requiresAccel {
+	return NO;
+}
+
+- (BOOL)requiresRotation {
+	return NO;
+}
+
+- (BOOL)requiresKeys {
+	return NO;
 }
 
 #pragma mark Util

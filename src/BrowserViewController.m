@@ -13,14 +13,14 @@
 #import "PatchViewController.h"
 #import "Log.h"
 #import "Util.h"
-#import "AppDelegate.h"
+//#import "AppDelegate.h"
 
 @interface BrowserViewController () {
-	PureData *pureData;
+	//PureData *pureData;
 	
-	// temp variables requied for segues on iPhone since PatchViewController
-	// may nt exist yet when opening first scene
-	NSString *selectedPatch; // maybe subpatch in the case of RJ Scenes, etc
+	// temp variables required for segues on iPhone since PatchViewController
+	// may not exist yet when opening first scene
+	NSString *selectedPatch; // maybe subpatch in the case of Rj Scenes, etc
 	SceneType selectedSceneType;
 }
 
@@ -34,15 +34,6 @@
 // called when a patch is selected, return NO if the path was not handled
 - (BOOL)didSelectDirectory:(NSString *)path; // assumes full path
 - (BOOL)didSelectFile:(NSString *)path; // assumes full path
-
-// returns true if a given path is a DroidParty scene dir
-- (BOOL)isDroidPartyDirectory:(NSString *)fullpath;
-
-// returns true if the given path is an RjDj scene dir
-- (BOOL)isRjDjDirectory:(NSString *)fullpath;
-
-// returns true if the given path is a PdParty scene dir
-- (BOOL)isPdPartyDirectory:(NSString *)fullpath;
 
 @end
 
@@ -68,10 +59,6 @@
 		self.patchViewController = (PatchViewController *)[[self.parentViewController.splitViewController.viewControllers lastObject] topViewController];
 		self.currentDir = [Util documentsPath];
 	}
-	
-	// set PureData pointer
-	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-	pureData = app.pureData;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -276,16 +263,13 @@
 }
 
 - (BOOL)didSelectDirectory:(NSString *)path {
-	if([self isDroidPartyDirectory:path]) {
-		pureData.sampleRate = PARTY_SAMPLERATE;
+	if([DroidScene isDroidPartyDirectory:path]) {
 		[self runPatch:[path stringByAppendingPathComponent:@"droidparty_main.pd"] withSceneType:SceneTypeDroid];
 	}
-	else if([self isRjDjDirectory:path]) {
-		pureData.sampleRate = RJ_SAMPLERATE;
+	else if([RjScene isRjDjDirectory:path]) {
 		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypeRj];
 	}
-	else if([self isPdPartyDirectory:path]) {
-		pureData.sampleRate = PARTY_SAMPLERATE;
+	else if([PartyScene isPdPartyDirectory:path]) {
 		[self runPatch:[path stringByAppendingPathComponent:@"_main.pd"] withSceneType:SceneTypeParty];
 	}
 	else { // regular dir
@@ -296,25 +280,8 @@
 
 - (BOOL)didSelectFile:(NSString *)path {
 	// regular patch
-	pureData.sampleRate = PARTY_SAMPLERATE;
 	[self runPatch:path withSceneType:SceneTypePatch];
 	return YES;
-}
-
-- (BOOL)isDroidPartyDirectory:(NSString *)fullpath {
-	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"droidparty_main.pd"]];
-}
-
-- (BOOL)isRjDjDirectory:(NSString *)fullpath {
-	if([[fullpath pathExtension] isEqualToString:@"rj"] &&
-		[[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]]) {
-		return YES;
-	}
-	return NO;
-}
-
-- (BOOL)isPdPartyDirectory:(NSString *)fullpath {
-	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]];
 }
 
 @end

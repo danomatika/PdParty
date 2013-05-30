@@ -10,13 +10,6 @@
  */
 #include "PatchScene.h"
 
-#import "PdBase.h"
-#import "PdFile.h"
-#import "Gui.h"
-
-#import "Log.h"
-#import "Util.h"
-
 @implementation PatchScene
 
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui {
@@ -98,6 +91,22 @@
 
 - (NSString *)typeString {
 	return @"PatchScene";
+}
+
+- (BOOL)requiresTouch {
+	return YES;
+}
+
+- (BOOL)requiresAccel {
+	return YES;
+}
+
+- (BOOL)requiresRotation {
+	return YES;
+}
+
+- (BOOL)requiresKeys {
+	return YES;
 }
 
 @end

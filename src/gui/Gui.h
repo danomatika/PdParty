@@ -9,10 +9,10 @@
  *
  */
 #import "Widget.h"
+#import "Slider.h"
+
 #import "Log.h"
 #import "Util.h"
-
-#import "Slider.h"
 
 // default pd gui font, loading custom fonts:
 // http://stackoverflow.com/questions/11047900/cant-load-custom-font-on-ios

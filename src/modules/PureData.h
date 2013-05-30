@@ -9,6 +9,7 @@
  *
  */
 #import "PdBase.h"
+#import "PdFile.h"
 #import "PdDispatcher.h"
 
 // PD event receivers

@@ -51,7 +51,7 @@
 
 @end
 
-#pragma mark Array
+#pragma mark Array Category
 
 @interface NSArray (EasyTypeCheckArray)
 
@@ -61,7 +61,7 @@
 
 @end
 
-#pragma mark String
+#pragma mark String Category
 
 @interface NSMutableString (CharSetString)
 

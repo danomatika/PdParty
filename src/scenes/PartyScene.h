@@ -16,6 +16,6 @@
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui;;
 
 // returns true if the given path is a PdParty scene dir
-- (BOOL)isPdPartyDirectory:(NSString *)fullpath;
++ (BOOL)isPdPartyDirectory:(NSString *)fullpath;
 
 @end

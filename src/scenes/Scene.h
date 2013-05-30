@@ -10,8 +10,11 @@
  */
 #import <UIKit/UIKit.h>
 
-@class PdFile;
-@class Gui;
+#import "PureData.h"
+#import "Gui.h"
+
+#import "Log.h"
+#import "Util.h"
 
 // what kind of scene are we running?
 typedef enum {
@@ -34,13 +37,20 @@ typedef enum {
 @property (weak, nonatomic) UIView *parentView; // parent UIView
 @property (weak, nonatomic) Gui *gui;			// PD gui (optional, leave nil if not used)
 
+// scene type settings
+@property (readonly, nonatomic) int sampleRate; // desired scene sample rate (default PARTY_SAMPLERATE)
+//@property (readonly, nonatomic) BOOL requiresTouch; // does the scene require touch events? (default NO)
+@property (readonly, nonatomic) BOOL requiresAccel; // does the scene require accel events? (default NO)
+@property (readonly, nonatomic) BOOL requiresRotation; // does the scene require rotation events? (default NO)
+@property (readonly, nonatomic) BOOL requiresKeys; // does the scene require key events? (default NO)
+
 - (BOOL)open:(NSString*)path; // expects full path
 - (void)close;
 
 - (void)reshape;
 
 // attempts to scale a touch within the parent view,
-// returns NO if touch not within current scene
+// returns NO if touch not within current scene or scene doesn't require touch events
 - (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos;
 
 #pragma mark Util

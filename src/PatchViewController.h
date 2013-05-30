@@ -10,7 +10,7 @@
  */
 #import <UIKit/UIKit.h>
 
-#import "Scenes.h"
+#import "AllScenes.h"
 #import "KeyGrabber.h"
 
 @class Gui;
@@ -20,10 +20,12 @@
 	<UISplitViewControllerDelegate, UIAccelerometerDelegate, KeyGrabberDelegate>
 
 @property (strong) Gui *gui; // pd gui widgets
-
 @property (strong, nonatomic) Scene* scene; // current scene
 
+// touch events handled automatically
 @property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
+@property (assign, nonatomic) BOOL enableRotation;		// enable rotation events?
+@property (assign, nonatomic) BOOL enableKeyGrabber;	// enable keyboard event grabbing?
 
 // close the current scene and open a new one, requires full path to current patch
 - (void)openScene:(NSString*)path withType:(SceneType)type;

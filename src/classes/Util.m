@@ -14,7 +14,6 @@
 
 @implementation Util
 
-
 #pragma mark Device
 
 // from http://stackoverflow.com/questions/458304/how-can-i-programmatically-determine-if-my-app-is-running-in-the-iphone-simulato
@@ -89,7 +88,7 @@
 
 @end
 
-#pragma mark Array
+#pragma mark Array Category
 
 @implementation NSArray (EasyTypeCheckArray)
 
@@ -103,7 +102,7 @@
 
 @end
 
-#pragma mark MutableString
+#pragma mark MutableString Category
 
 @implementation NSMutableString (CharSetString)
 

@@ -10,12 +10,6 @@
  */
 #import "RjScene.h"
 
-#import "PureData.h"
-#import "PdFile.h"
-
-#import "Log.h"
-#import "Util.h"
-
 @interface RjScene () {
 	UIImageView *background;
 }
@@ -80,6 +74,7 @@
 		[background removeFromSuperview];
 		background = nil;
 	}
+	self.controlsView.hidden = YES;
 	[super close];
 }
 
@@ -130,6 +125,18 @@
 
 - (NSString *)typeString {
 	return @"RjScene";
+}
+
+- (int)sampleRate {
+	return RJ_SAMPLERATE;
+}
+
+- (BOOL)requiresRotation {
+	return NO;
+}
+
+- (BOOL)requiresKeys {
+	return NO;
 }
 
 #pragma mark Util

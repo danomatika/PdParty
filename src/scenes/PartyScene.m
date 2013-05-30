@@ -10,8 +10,6 @@
  */
 #import "PartyScene.h"
 
-#import "Gui.h"
-
 @implementation PartyScene
 
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui {

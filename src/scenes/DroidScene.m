@@ -10,13 +10,6 @@
  */
 #import "DroidScene.h"
 
-#import "PureData.h"
-#import "Gui.h"
-#import "PdFile.h"
-
-#import "Log.h"
-#import "Util.h"
-
 @implementation DroidScene
 
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui {
@@ -38,6 +31,22 @@
 
 - (NSString *)typeString {
 	return @"DroidScene";
+}
+
+- (BOOL)requiresTouch {
+	return NO;
+}
+
+- (BOOL)requiresAccel {
+	return NO;
+}
+
+- (BOOL)requiresRotation {
+	return NO;
+}
+
+- (BOOL)requiresKeys {
+	return NO;
 }
 
 #pragma mark Util

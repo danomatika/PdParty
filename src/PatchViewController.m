@@ -13,8 +13,6 @@
 #import "Log.h"
 #import "Gui.h"
 #import "PdParser.h"
-//#import "PdFile.h"
-#import "KeyGrabber.h"
 #import "AppDelegate.h"
 
 #define ACCEL_UPDATE_HZ	60.0
@@ -22,21 +20,17 @@
 @interface PatchViewController () {
 
 	NSMutableDictionary *activeTouches; // for persistent ids
-	CMMotionManager *motionManager; // for accel data
-	Osc *osc; // to send osc
 	
-	UIImageView *background; // for Rj scenes
+	CMMotionManager *motionManager; // for accel data
+	KeyGrabberView *grabber; // for keyboard events
+	
+	Osc *osc; // to send osc
+	PureData *pureData; // to set samplerate
 
 	BOOL hasReshaped; // has the gui been reshaped?
 }
 
 @property (nonatomic, strong) UIPopoverController *masterPopoverController;
-
-// reshape the background and view controls of an rj scene
-- (void)reshapeRjScene;
-
-// add subfolders in libs folder in resource patches dir to search path
-- (void)addPatchLibSearchPaths;
 
 @end
 
@@ -55,18 +49,17 @@
 	self.rjControlsView.hidden = YES;
 	
 	// start keygrabber
-	KeyGrabberView *grabber = [[KeyGrabberView alloc] init];
-	grabber.active = YES;
+	grabber = [[KeyGrabberView alloc] init];
 	grabber.delegate = self;
 	[self.view addSubview:grabber];
 	
 	// set motionManager pointer for accel updates
 	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 	motionManager = app.motionManager;
-	self.enableAccelerometer = YES;
 	
-	// set osc pointer
+	// set osc and pure data pointer
 	osc = app.osc;
+	pureData = app.pureData;
 	
 	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
 }
@@ -111,7 +104,9 @@
 	}
 
 //	DDLogVerbose(@"rotate: %d %@", rotate, orient);
-	[PureData sendRotate:rotate newOrientation:orient];
+	if(self.enableRotation) {
+		[PureData sendRotate:rotate newOrientation:orient];
+	}
 	if(osc.isListening) {
 		[osc sendRotate:rotate newOrientation:orient];
 	}
@@ -162,8 +157,13 @@
 			self.scene = [[Scene alloc] init];
 			break;
 	}
+	pureData.sampleRate = self.scene.sampleRate;
+	self.enableAccelerometer = self.scene.requiresAccel;
+	self.enableRotation = self.scene.requiresRotation;
+	self.enableKeyGrabber = self.scene.requiresKeys;
 	[self.scene open:path];
 	
+	// hide iPad browser popover on selection 
 	if(self.masterPopoverController != nil) {
         [self.masterPopoverController dismissPopoverAnimated:YES];
     } 
@@ -214,12 +214,34 @@
 					}
 				}];
 		}
+		DDLogVerbose(@"PatchViewController: enabled accel");
 	}
 	else { // stop
 		if([motionManager isAccelerometerActive]) {
           [motionManager stopAccelerometerUpdates];
 		}
+		DDLogVerbose(@"PatchViewController: disabled accel");
 	}
+}
+
+- (void)setEnableRotation:(BOOL)enableRotation {
+	if(self.enableRotation == enableRotation) {
+		return;
+	}
+	_enableRotation = enableRotation;
+	DDLogVerbose(@"PatchViewController: %@ rotation", enableRotation ? @"enabled" : @"disabled");
+}
+
+- (void)setEnableKeyGrabber:(BOOL)enableKeyGrabber {
+	if(grabber.active == enableKeyGrabber) {
+		return;
+	}
+	grabber.active = enableKeyGrabber;
+	DDLogVerbose(@"PatchViewController: %@ key grabber", enableKeyGrabber ? @"enabled" : @"disabled");
+}
+
+- (BOOL)enableKeyGrabber {
+	return grabber.active;
 }
 
 #pragma mark RJ Controls
@@ -254,7 +276,7 @@
 		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.scene scaleTouch:touch forPos:&pos]) {
-	//		DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
+//			DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
 			[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
 			if(osc.isListening) {
 				[osc sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
@@ -264,14 +286,13 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	
+
 	for(UITouch *touch in touches) {
 		int touchId = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
 		
 		CGPoint pos = [touch locationInView:self.view];
-
 		if([self.scene scaleTouch:touch forPos:&pos]) {
-	//		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
+//			DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
 			[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
 			if(osc.isListening) {
 				[osc sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
@@ -287,9 +308,8 @@
 		[activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-		
 		if([self.scene scaleTouch:touch forPos:&pos]) {
-	//		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
+//			DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
 			[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
 			if(osc.isListening) {
 				[osc sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
