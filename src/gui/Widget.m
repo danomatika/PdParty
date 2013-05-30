@@ -11,6 +11,7 @@
 #import "Widget.h"
 
 #import "Gui.h"
+#import "PdFile.h"
 #import "PdDispatcher.h"
 
 @implementation Widget
@@ -49,10 +50,10 @@
 	}
 }
 
-- (void)replaceDollarZerosForGui:(Gui *)gui {
-	self.sendName = [gui replaceDollarZeroStringsIn:self.sendName];
-	self.receiveName = [gui replaceDollarZeroStringsIn:self.receiveName];
-	self.label.text = [gui replaceDollarZeroStringsIn:self.label.text];
+- (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile*)patch {
+	self.sendName = [gui replaceDollarZeroStringsIn:self.sendName fromPatch:patch];
+	self.receiveName = [gui replaceDollarZeroStringsIn:self.receiveName fromPatch:patch];
+	self.label.text = [gui replaceDollarZeroStringsIn:self.label.text fromPatch:patch];
 }
 
 // override for custom redraw

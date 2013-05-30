@@ -10,31 +10,23 @@
  */
 #import <UIKit/UIKit.h>
 
+#import "Scenes.h"
 #import "KeyGrabber.h"
-
-// what kind of scene are we running?
-typedef enum {
-	SceneTypeEmpty,	// nothing loaded
-	SceneTypePatch, // basic pd patch
-	SceneTypeRj,	// RjDj scene (folder with .rj ext & _main.pd)
-	SceneTypeDroid,	// DroidParty scene (folder with droidparty_main.pd)
-	SceneTypeParty	// PdParty scene (folder with _main.pd)
-} SceneType;
 
 @class Gui;
 
 // DetailViewController for patches/scenes 
-@interface PatchViewController : UIViewController <UISplitViewControllerDelegate, UIAccelerometerDelegate, KeyGrabberDelegate>
+@interface PatchViewController : UIViewController
+	<UISplitViewControllerDelegate, UIAccelerometerDelegate, KeyGrabberDelegate>
 
 @property (strong) Gui *gui; // pd gui widgets
 
-// full path to current patch, the gui is loaded when setting this
-@property (strong, nonatomic) NSString* patch;
-
-// current patch scene type, set to SceneTypeEmpty if patch is set to nil or did not load correctly
-@property (assign, nonatomic) SceneType sceneType;
+@property (strong, nonatomic) Scene* scene; // current scene
 
 @property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
+
+// close the current scene and open a new one, requires full path to current patch
+- (void)openScene:(NSString*)path withType:(SceneType)type;
 
 #pragma mark RJ Controls
 
@@ -49,8 +41,5 @@ typedef enum {
 
 // convert an orientation into degrees
 + (int)orientationInDegrees:(UIInterfaceOrientation)orientation;
-
-// convert scene type to a string
-+ (NSString*)sceneTypeAsString:(SceneType)type;
 
 @end

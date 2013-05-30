@@ -25,10 +25,8 @@
 
 @interface Gui : NSObject
 
-@property (strong, nonatomic) NSMutableArray *widgets;		// widget array
-@property (assign, nonatomic) CGRect bounds;	// current view bounds
-
-@property (strong, nonatomic) PdFile *patch; // currently loaded patch
+@property (strong, nonatomic) NSMutableArray *widgets;	// widget array
+@property (assign, nonatomic) CGRect bounds; // current view bounds
 
 // pixel size of original pd patch
 @property (assign, readonly, nonatomic) int patchWidth;
@@ -67,8 +65,8 @@
 
 #pragma Utils
 
-// replace any occurrances of "//$0" or "$0" with the current patches' dollar zero id
-- (NSString *)replaceDollarZeroStringsIn:(NSString *)string;
+// replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id
+- (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile*)patch;
 
 // convert atom string empty values to an empty string
 // nil, @"-", & @"empty" -> @""

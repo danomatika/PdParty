@@ -25,6 +25,7 @@
 		30245657173582340016583B /* pipelist.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245646173582340016583B /* pipelist.c */; };
 		30245658173582340016583B /* routeOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245647173582340016583B /* routeOSC.c */; };
 		30245659173582340016583B /* unpackOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245648173582340016583B /* unpackOSC.c */; };
+		303BD3001756A119000FBEB5 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD2FF1756A119000FBEB5 /* Scene.m */; };
 		3050820F16E198C900895CB2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CA16E198C900895CB2 /* DDData.m */; };
 		3050821016E198C900895CB2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CC16E198C900895CB2 /* DDNumber.m */; };
 		3050821116E198C900895CB2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CE16E198C900895CB2 /* DDRange.m */; };
@@ -61,6 +62,8 @@
 		3062046C174FB0AF00DEC1C2 /* rj_centroid~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620467174FB0AF00DEC1C2 /* rj_centroid~.c */; };
 		3062046D174FB0AF00DEC1C2 /* rj_senergy~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620468174FB0AF00DEC1C2 /* rj_senergy~.c */; };
 		3062046E174FB0AF00DEC1C2 /* rj_zcr~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620469174FB0AF00DEC1C2 /* rj_zcr~.c */; };
+		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
+		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
@@ -226,6 +229,9 @@
 		30245646173582340016583B /* pipelist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pipelist.c; sourceTree = "<group>"; };
 		30245647173582340016583B /* routeOSC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = routeOSC.c; sourceTree = "<group>"; };
 		30245648173582340016583B /* unpackOSC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unpackOSC.c; sourceTree = "<group>"; };
+		303BD2FE17569FE2000FBEB5 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		303BD2FF1756A119000FBEB5 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
+		303BD3011756A6E2000FBEB5 /* Scenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scenes.h; sourceTree = "<group>"; };
 		305081C916E198C900895CB2 /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
 		305081CA16E198C900895CB2 /* DDData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDData.m; sourceTree = "<group>"; };
 		305081CB16E198C900895CB2 /* DDNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNumber.h; sourceTree = "<group>"; };
@@ -294,6 +300,10 @@
 		30620467174FB0AF00DEC1C2 /* rj_centroid~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rj_centroid~.c"; sourceTree = "<group>"; };
 		30620468174FB0AF00DEC1C2 /* rj_senergy~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rj_senergy~.c"; sourceTree = "<group>"; };
 		30620469174FB0AF00DEC1C2 /* rj_zcr~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rj_zcr~.c"; sourceTree = "<group>"; };
+		306204711753C90400DEC1C2 /* RjScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RjScene.h; sourceTree = "<group>"; };
+		306204721753C90400DEC1C2 /* RjScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjScene.m; sourceTree = "<group>"; };
+		306204731753C90400DEC1C2 /* PatchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchScene.h; sourceTree = "<group>"; };
+		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		30960AFA16F5952300FAF2E7 /* OscViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscViewController.h; path = src/OscViewController.h; sourceTree = "<group>"; };
 		30960AFB16F5952400FAF2E7 /* OscViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OscViewController.m; path = src/OscViewController.m; sourceTree = "<group>"; };
@@ -754,6 +764,21 @@
 			path = rj;
 			sourceTree = "<group>";
 		};
+		306204701753C90400DEC1C2 /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				303BD3011756A6E2000FBEB5 /* Scenes.h */,
+				303BD2FE17569FE2000FBEB5 /* Scene.h */,
+				303BD2FF1756A119000FBEB5 /* Scene.m */,
+				306204711753C90400DEC1C2 /* RjScene.h */,
+				306204721753C90400DEC1C2 /* RjScene.m */,
+				306204731753C90400DEC1C2 /* PatchScene.h */,
+				306204771753E3D200DEC1C2 /* PatchScene.m */,
+			);
+			name = scenes;
+			path = src/scenes;
+			sourceTree = "<group>";
+		};
 		3088883C16BF062700781682 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -820,6 +845,7 @@
 			children = (
 				30C9BF6116E8457400E5AA5B /* classes */,
 				30A319E516B61FF700C7729B /* gui */,
+				306204701753C90400DEC1C2 /* scenes */,
 				30C9BF5716E8456B00E5AA5B /* modules */,
 				30ABE2E116B5D0FB00464926 /* AppDelegate.h */,
 				30ABE2E216B5D0FB00464926 /* AppDelegate.m */,
@@ -1463,6 +1489,9 @@
 				3062046C174FB0AF00DEC1C2 /* rj_centroid~.c in Sources */,
 				3062046D174FB0AF00DEC1C2 /* rj_senergy~.c in Sources */,
 				3062046E174FB0AF00DEC1C2 /* rj_zcr~.c in Sources */,
+				306204741753C90400DEC1C2 /* RjScene.m in Sources */,
+				306204781753E3D200DEC1C2 /* PatchScene.m in Sources */,
+				303BD3001756A119000FBEB5 /* Scene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

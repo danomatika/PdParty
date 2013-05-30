@@ -231,15 +231,15 @@
 
 #pragma Utils
 
-- (NSString *)replaceDollarZeroStringsIn:(NSString *)string {
-	if(!string) {return string;}
+- (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile*)patch {
+	if(!string || !patch) {return string;}
 	NSMutableString *newString = [NSMutableString stringWithString:string];
 	[newString replaceOccurrencesOfString:@"\\$0"
-							   withString:[[NSNumber numberWithInt:self.patch.dollarZero] stringValue]
+							   withString:[[NSNumber numberWithInt:patch.dollarZero] stringValue]
 								  options:NSCaseInsensitiveSearch
 									range:NSMakeRange(0, newString.length)];
 //	[newString replaceOccurrencesOfString:@"$0"
-//							   withString:[[NSNumber numberWithInt:self.currentPatch.dollarZero] stringValue]
+//							   withString:[[NSNumber numberWithInt:patch.dollarZero] stringValue]
 //								  options:NSCaseInsensitiveSearch
 //									range:NSMakeRange(0, newString.length)];
 	return newString;

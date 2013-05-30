@@ -260,8 +260,9 @@
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 //		NSString *path = self.pathArray[indexPath.row];
 //		[[segue destinationViewController] setPatch:path];
-		[[segue destinationViewController] setSceneType:selectedSceneType];
-		[[segue destinationViewController] setPatch:selectedPatch];
+		//[[segue destinationViewController] setSceneType:selectedSceneType];
+		//[[segue destinationViewController] setPatch:selectedPatch];
+		[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
     }
 }
 
@@ -271,8 +272,9 @@
 	selectedPatch = fullpath;
 	selectedSceneType = sceneType;
 	if([Util isDeviceATablet]) {
-	self.patchViewController.sceneType = sceneType;
-		self.patchViewController.patch = selectedPatch;
+		//self.patchViewController.sceneType = sceneType;
+		//self.patchViewController.patch = selectedPatch;
+		[self.patchViewController openScene:selectedPatch withType:selectedSceneType];
 	}
 	else {
 		[self performSegueWithIdentifier:@"runPatch" sender:self];

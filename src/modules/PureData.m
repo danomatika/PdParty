@@ -66,6 +66,20 @@
 	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:degrees], orientation, nil] toReceiver:PARTY_ROTATE_R];
 }
 
++ (void)sendPlay:(BOOL)playing {
+	if(playing) {
+		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] toReceiver:RJ_TRANSPORT_R];
+	}
+	else {
+		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:0]] toReceiver:RJ_TRANSPORT_R];
+	}
+}
+
+// rj style input/output voluem controls
++ (void)sendVolume:(float)vol {
+	[PdBase sendMessage:@"set" withArguments:[NSArray arrayWithObject:[NSNumber numberWithFloat:vol]] toReceiver:RJ_VOLUME_R];
+}
+
 #pragma mark PdMidiReceiverDelegate
 
 - (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
@@ -128,12 +142,7 @@
     if(self.audioEnabled == enabled) {
 		return;
 	}
-	if(enabled) {
-		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] toReceiver:RJ_TRANSPORT_R];
-	}
-	else {
-		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:0]] toReceiver:RJ_TRANSPORT_R];
-	}
+	[PureData sendPlay:enabled];
 	audioEnabled = enabled;
 	audioController.active = self.audioEnabled;
 }

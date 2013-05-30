@@ -17,7 +17,8 @@
 // RjDj event receivers
 #define RJ_TRANSPORT_R	@"#transport"
 #define RJ_ACCELERATE_R	@"#accelerate"
-#define RJ_MICVOLUME_R	@"#micvolume"
+#define RJ_VOLUME_R		@"#volume"
+//#define RJ_MICVOLUME_R	@"#micvolume"
 #define RJ_TOUCH_R		@"#touch"
 
 // touch event types
@@ -65,5 +66,11 @@
 
 // pdparty rotate event
 + (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;
+
+// rj style transport control
++ (void)sendPlay:(BOOL)playing;
+
+// rj style input/output volume controls
++ (void)sendVolume:(float)vol;
 
 @end

@@ -13,7 +13,7 @@
 #import "Log.h"
 #import "Gui.h"
 #import "PdParser.h"
-#import "PdFile.h"
+//#import "PdFile.h"
 #import "KeyGrabber.h"
 #import "AppDelegate.h"
 
@@ -43,7 +43,6 @@
 @implementation PatchViewController
 
 - (void)awakeFromNib {
-	self.sceneType = SceneTypeEmpty;
 	activeTouches = [[NSMutableDictionary alloc] init];
 	hasReshaped = NO;
 	[super awakeFromNib];
@@ -81,8 +80,7 @@
 	if(hasReshaped) {
 		[UIView beginAnimations:nil context:nil];
 	}
-	[self.gui reshapeWidgets];
-	[self reshapeRjScene];
+	[self.scene reshape];
 	if(hasReshaped) {
 		[UIView commitAnimations];
 	}
@@ -126,131 +124,46 @@
 
 // lock to portrait for RjDj scenes, allow rotation for all others
 - (NSUInteger)supportedInterfaceOrientations {
-	if(![Util isDeviceATablet] && self.sceneType == SceneTypeRj) {
+	if(![Util isDeviceATablet] && self.scene.type == SceneTypeRj) {
 		return UIInterfaceOrientationMaskPortrait;
 	}
 	return UIInterfaceOrientationMaskAll;
 }
 
-#pragma mark Overridden Getters / Setters
+- (void)openScene:(NSString*)path withType:(SceneType)type {
 
-- (void)setPatch:(NSString*)newPatch {
-    
-	if(_patch != newPatch) {
-        _patch = newPatch;
-		
-		// create gui here as iPhone dosen't load view until *after* this is called
-		if(!self.gui) {
-			self.gui = [[Gui alloc] init];
-			self.gui.bounds = self.view.bounds;
-		}
-		
-		// close open patch
-		if(self.gui.patch) {
-			[self.gui.patch closeFile];
-			for(Widget *widget in self.gui.widgets) {
-				[widget removeFromSuperview];
-			}
-			[self.gui.widgets removeAllObjects];
-			self.gui.patch = nil;
+	// create gui here as iPhone dosen't load view until *after* this is called
+	if(!self.gui) {
+		self.gui = [[Gui alloc] init];
+		self.gui.bounds = self.view.bounds;
+	}
+	
+	// close open scene
+	if(self.scene) {
+		[self.scene close];
+		self.scene = nil;
+	}
+	
+	// open new scene
+	switch(type) {
+	
+		case SceneTypePatch:
+			self.scene = [PatchScene sceneWithParent:self.view andGui:self.gui];
+			break;
 			
-			if(self.sceneType == SceneTypeRj && background) {
-				[background removeFromSuperview];
-				background = nil;
-			}
-			[PdBase clearSearchPath];
-		}
-		
-		// open new patch
-		if(self.patch) {
-		
-			[self addPatchLibSearchPaths];
+		case SceneTypeRj:
+			self.scene = [RjScene sceneWithParent:self.view andControls:self.rjControlsView];
+			break;
 			
-			NSString *fileName = [self.patch lastPathComponent];
-			NSString *dirPath = [self.patch stringByDeletingLastPathComponent];
-			
-			if(![[NSFileManager defaultManager] fileExistsAtPath:newPatch]) {
-				DDLogError(@"PatchViewController: patch does not exist: %@", newPatch);
-				self.sceneType = SceneTypeEmpty;
-				return;
-			}
-			
-			DDLogVerbose(@"Opening %@ %@", fileName, dirPath);
-			if(self.sceneType == SceneTypeRj) { // set view title based on scene/patch name
-				self.navigationItem.title = [[dirPath lastPathComponent] stringByDeletingPathExtension];
-			}
-			else {
-				self.navigationItem.title = [fileName stringByDeletingPathExtension];
-			}
-			
-			DDLogVerbose(@"SceneType: %@", [PatchViewController sceneTypeAsString:self.sceneType]);
-			
-			[PdBase addToSearchPath:dirPath];
-			[PdBase addToSearchPath:[[Util documentsPath] stringByAppendingPathComponent:@"lib/rj"]];
-			
-			// load gui for non rj scenes
-			if(self.sceneType != SceneTypeRj) {
-			
-				// set patch view background color
-				self.view.backgroundColor = [UIColor whiteColor];
-			
-				// load widgets from gui
-				[self.gui addWidgetsFromPatch:self.patch];
-				self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
-				DDLogVerbose(@"Adding %d widgets", self.gui.widgets.count);
-				for(Widget *widget in self.gui.widgets) {
-					[widget replaceDollarZerosForGui:self.gui];
-					[self.view addSubview:widget];
-				}
-				hasReshaped = NO;
-				
-				// hide rj controls & delete rj background
-				self.rjControlsView.hidden = YES;
-//				if(background) {
-//					[background removeFromSuperview];
-//					background = nil;
-//				}
-			}
-			else { // set background and enable controls for rj scenes
-				self.gui.patch = [PdFile openFileNamed:fileName path:dirPath];
-			
-				// set patch view background color
-				self.view.backgroundColor = [UIColor blackColor];
-				
-				// set background
-				NSString *backgroundPath = [dirPath stringByAppendingPathComponent:@"image.jpg"];
-				if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
-					background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
-					if(!background.image) {
-						DDLogError(@"PatchViewController: couldn't load background image");
-					}
-					[self.view addSubview:background];
-				}
-				else {
-					DDLogWarn(@"PatchViewController: no background image");
-				}
-				
-				[self.view bringSubviewToFront:self.rjControlsView];
-				self.rjControlsView.hidden = NO;
-				
-				[self reshapeRjScene];
-				
-				// turn up volume
-				NSArray *msg = [NSArray arrayWithObject:[NSNumber numberWithFloat:1.0]];
-				[PdBase sendMessage:@"set" withArguments:msg toReceiver:@"#volume"];
-				
-				// turn on transport
-				[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] toReceiver:RJ_TRANSPORT_R];	
-			}
-		}
-		else {
-			self.sceneType = SceneTypeEmpty;
-		}
-    }
-
-    if(self.masterPopoverController != nil) {
+		default: // SceneTypeEmpty
+			self.scene = [[Scene alloc] init];
+			break;
+	}
+	[self.scene open:path];
+	
+	if(self.masterPopoverController != nil) {
         [self.masterPopoverController dismissPopoverAnimated:YES];
-    }        
+    } 
 }
 
 #pragma mark Util
@@ -265,21 +178,6 @@
 			return 90;
 		case UIInterfaceOrientationLandscapeRight:
 			return -90;
-	}
-}
-
-+ (NSString*)sceneTypeAsString:(SceneType)type {
-	switch(type) {
-		case SceneTypeDroid:
-			return @"DroidParty";
-		case SceneTypeRj:
-			return @"RjDj";
-		case SceneTypeParty:
-			return @"PdParty";
-		case SceneTypePatch:
-			return @"Patch";
-		default: // Empty
-			return @"Empty";
 	}
 }
 
@@ -352,26 +250,12 @@
 						  forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-
-		// rj scenes require 320x320
-		if(self.sceneType == SceneTypeRj) {
-			pos = [touch locationInView:background];
-			if(![background pointInside:pos withEvent:nil]) {
-				return;
+		if([self.scene scaleTouch:touch forPos:&pos]) {
+	//		DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
+			[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
+			if(osc.isListening) {
+				[osc sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
 			}
-			pos.x = (int) (pos.x/CGRectGetWidth(background.frame) * 320);
-			pos.y = (int) (pos.y/CGRectGetHeight(background.frame) * 320);
-		}
-		// normalize to whole view for everything else
-		else {
-			pos.x = pos.x/CGRectGetWidth(self.view.frame);
-			pos.y = pos.y/CGRectGetHeight(self.view.frame);
-		}
-		
-//		DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
-		[PureData sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
-		if(osc.isListening) {
-			[osc sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
 		}
 	}
 }
@@ -383,25 +267,12 @@
 		
 		CGPoint pos = [touch locationInView:self.view];
 
-		// rj scenes require 320x320
-		if(self.sceneType == SceneTypeRj) {
-			pos = [touch locationInView:background];
-			if(![background pointInside:pos withEvent:nil]) {
-				return;
+		if([self.scene scaleTouch:touch forPos:&pos]) {
+	//		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
+			[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
+			if(osc.isListening) {
+				[osc sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
 			}
-			pos.x = (int) (pos.x/CGRectGetWidth(background.frame) * 320);
-			pos.y = (int) (pos.y/CGRectGetHeight(background.frame) * 320);
-		}
-		// normalize to whole view for everything else
-		else {
-			pos.x = pos.x/CGRectGetWidth(self.view.frame);
-			pos.y = pos.y/CGRectGetHeight(self.view.frame);
-		}
-		
-//		DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
-		[PureData sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
-		if(osc.isListening) {
-			[osc sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
 		}
 	}
 }
@@ -413,26 +284,13 @@
 		[activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
-
-		// rj scenes require 320x320
-		if(self.sceneType == SceneTypeRj) {
-			pos = [touch locationInView:background];
-			if(![background pointInside:pos withEvent:nil]) {
-				return;
-			}
-			pos.x = (int) (pos.x/CGRectGetWidth(background.frame) * 320);
-			pos.y = (int) (pos.y/CGRectGetHeight(background.frame) * 320);
-		}
-		// normalize to whole view for everything else
-		else {
-			pos.x = pos.x/CGRectGetWidth(self.view.frame);
-			pos.y = pos.y/CGRectGetHeight(self.view.frame);
-		}
 		
-//		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
-		[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
-		if(osc.isListening) {
-			[osc sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
+		if([self.scene scaleTouch:touch forPos:&pos]) {
+	//		DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
+			[PureData sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
+			if(osc.isListening) {
+				[osc sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
+			}
 		}
 	}
 }
@@ -470,96 +328,4 @@
 	return YES;
 }
 
-#pragma mark Private
-
-- (void)reshapeRjScene {
-	if(!self.sceneType == SceneTypeRj) {
-		return;
-	}
-	
-	CGSize viewSize, backgroundSize, controlsSize;
-	CGFloat xPos = 0;
-	
-	// rj backgrounds are always square
-	viewSize = self.view.frame.size;
-	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-	if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-		backgroundSize.width = viewSize.width;
-		backgroundSize.height = backgroundSize.width;
-	}
-	else {
-		backgroundSize.width = viewSize.height * 0.8;
-		backgroundSize.height = backgroundSize.width;
-		xPos = (viewSize.width - backgroundSize.width)/2;
-	}
-	
-	// set background
-	if(background) {
-		background.frame = CGRectMake(xPos, 0, backgroundSize.width, backgroundSize.height);
-	}
-	
-	// set controls
-	controlsSize.width = backgroundSize.width;
-	controlsSize.height = CGRectGetHeight(self.view.bounds) - backgroundSize.height;
-	self.rjControlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
-}
-
-- (void)addPatchLibSearchPaths {
-	
-	NSError *error;
-	
-	DDLogVerbose(@"Adding library patches to search path");
-	
-	NSString * libPatchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib"];
-	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:libPatchesPath error:&error];
-	if(!contents) {
-		DDLogError(@"Couldn't read files in path %@, error: %@", libPatchesPath, error.localizedDescription);
-		return;
-	}
-	
-	DDLogVerbose(@"Found %d paths in resources patches lib folder", contents.count);
-	for(NSString *p in contents) {
-		NSString *path = [libPatchesPath stringByAppendingPathComponent:p];
-		if([Util isDirectory:path]) {
-			DDLogVerbose(@"	Added %@ to search path", p);
-			[PdBase addToSearchPath:path];
-		}
-	}
-}
-
 @end
-
-#pragma mark BrackgroundImage
-
-//@interface BackgroundImage : UIImageView
-//@end
-//
-//@implementation BackgroundImage
-//
-//#pragma mark Touches
-//
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
-//    UITouch *touch = [touches anyObject];
-//    CGPoint pos = [touch locationInView:self];
-//	if(self.orientation == WidgetOrientationHorizontal) {
-//		self.value = [self horizontalValue:pos.x];
-//	}
-//	else {
-//		self.value = [self verticalValue:pos.y];
-//	}
-//	[self sendFloat:self.value];
-//}
-//
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-//    UITouch *touch = [touches anyObject];
-//    CGPoint pos = [touch locationInView:self];
-//	if(self.orientation == WidgetOrientationHorizontal) {
-//		self.value = [self horizontalValue:pos.x];
-//	}
-//	else {
-//		self.value = [self verticalValue:pos.y];
-//	}
-//	[self sendFloat:self.value];
-//}
-//
-//@end
