@@ -53,6 +53,14 @@
 	DDLogVerbose(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 }
 
++ (void)logArray:(NSArray *)array {
+	NSMutableString *arrayString = [[NSMutableString alloc] init];
+	for(NSObject *object in array) {
+		[arrayString appendFormat:@"%@ ", object.description];
+	}
+	DDLogVerbose(@"[ %@]", arrayString);
+}
+
 + (void)logData:(NSData *)data withHeader:(NSString *)header {
 	unsigned char *bytes = (unsigned char*)[data bytes];
 	NSMutableString *byteString = [[NSMutableString alloc] init];

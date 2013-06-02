@@ -32,6 +32,9 @@
 // print the pos & size of a CGRect
 + (void)logRect:(CGRect)rect;
 
+// print an NSArray, uses object description strings
++ (void)logArray:(NSArray *)array;
+
 // print NSData as raw hex bytes
 + (void)logData:(NSData *)data withHeader:(NSString *)header;
 

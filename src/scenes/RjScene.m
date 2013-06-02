@@ -10,9 +10,13 @@
  */
 #import "RjScene.h"
 
+#import "RjImage.h"
+#import "RjText.h"
+
 @interface RjScene () {
-	UIImageView *background;
+	NSMutableDictionary *widgets;
 }
+@property (assign, readwrite, nonatomic) float scale;
 @end
 
 @implementation RjScene
@@ -27,12 +31,16 @@
 - (id)init {
 	self = [super init];
     if(self) {
-		self.controlsView = nil;
+		self.scale = 1.0f;
+		widgets = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (BOOL)open:(NSString*)path {
+	
+	[self.dispatcher addListener:self forSource:@"rj_image"];
+	[self.dispatcher addListener:self forSource:@"rj_text"];
 	
 	[PdBase addToSearchPath:[[Util documentsPath] stringByAppendingPathComponent:@"lib/rj"]];
 	
@@ -44,16 +52,17 @@
 		// set background
 		NSString *backgroundPath = [path stringByAppendingPathComponent:@"image.jpg"];
 		if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
-			background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
-			if(!background.image) {
+			self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
+			if(!self.background.image) {
 				DDLogError(@"RjScene: couldn't load background image");
 			}
-			[self.parentView addSubview:background];
+			[self.parentView addSubview:self.background];
 		}
 		else {
 			DDLogWarn(@"RjScene: no background image");
 		}
 		
+		// bring out the rjdj controls
 		[self.parentView bringSubviewToFront:self.controlsView];
 		self.controlsView.hidden = NO;
 		
@@ -70,10 +79,15 @@
 }
 
 - (void)close {
-	if(background) {
-		[background removeFromSuperview];
-		background = nil;
+	
+	[self.dispatcher removeListener:self forSource:@"rj_image"];
+	[self.dispatcher removeListener:self forSource:@"rj_text"];
+	
+	if(self.background) {
+		[self.background removeFromSuperview];
+		self.background = nil;
 	}
+	
 	self.controlsView.hidden = YES;
 	[super close];
 }
@@ -96,8 +110,15 @@
 	}
 	
 	// set background
-	if(background) {
-		background.frame = CGRectMake(xPos, 0, backgroundSize.width, backgroundSize.height);
+	if(self.background) {
+		self.background.frame = CGRectMake(xPos, 0, backgroundSize.width, backgroundSize.height);
+		self.scale = backgroundSize.width / self.background.image.size.width;
+	}
+	
+	// scale rj object positions and sizes
+	NSArray *array = [widgets allValues];
+	for(RjWidget *widget in array) {
+		[widget reshape];
 	}
 	
 	// set controls
@@ -107,17 +128,21 @@
 }
 
 - (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos {
-	CGPoint p = [touch locationInView:background];
-	if(![background pointInside:p withEvent:nil]) {
+	CGPoint p = [touch locationInView:self.background];
+	if(![self.background pointInside:p withEvent:nil]) {
 		return NO;
 	}
 	// rj scenes require 320x320 coord system
-	pos->x = (int) (pos->x/CGRectGetWidth(background.frame) * 320);
-	pos->y = (int) (pos->y/CGRectGetHeight(background.frame) * 320);
+	pos->x = (int) (pos->x/CGRectGetWidth(self.background.frame) * 320);
+	pos->y = (int) (pos->y/CGRectGetHeight(self.background.frame) * 320);
 	return YES;
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (NSString *)name {
+	return [[self.patch.pathName lastPathComponent] stringByDeletingPathExtension];
+}
 
 - (SceneType)type {
 	return SceneTypeRj;
@@ -147,6 +172,80 @@
 		return YES;
 	}
 	return NO;
+}
+
+#pragma mark WidgetListener
+
+// mostly borrowed from the pd-for-android ScenePlayer
+- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
+	
+	[Util logArray:list];
+	
+	if(list.count < 2 || ![list isStringAt:0] || ![list isStringAt:1]) return;
+	
+	NSString *key = [list objectAtIndex:0];
+	NSString *cmd = [list objectAtIndex:1];
+	
+	RjWidget *widget = [widgets valueForKey:key];
+	if(widget) {
+		if([cmd isEqualToString:@"visible"]) {
+			if(list.count < 3 || ![list isNumberAt:2]) return;
+			widget.hidden = ![[list objectAtIndex:2] floatValue] > 0.5f;
+		}
+		else if([cmd isEqualToString:@"move"]) {
+			if(list.count < 4 || ![list isNumberAt:2] || ![list isNumberAt:3]) return;
+			widget.position = CGPointMake([[list objectAtIndex:2] floatValue],
+										  [[list objectAtIndex:3] floatValue]);
+		}
+		else {
+			if([widget isKindOfClass:[RjImage class]]) {
+				if(list.count < 3 || ![list isNumberAt:2]) return;
+				RjImage *image = (RjImage*) widget;
+				float val = [[list objectAtIndex:2] floatValue];
+				if([cmd isEqualToString:@"ref"]) {
+					image.centered = val > 0.5f;
+				}
+				else if([cmd isEqualToString:@"scale"]) {
+					if(list.count < 4 || ![list isNumberAt:3]) return;
+					[image setScaleX:val andY:[[list objectAtIndex:3] floatValue]];
+				}
+				else if([cmd isEqualToString:@"rotate"]) {
+					image.angle = val;
+				}
+				else if([cmd isEqualToString:@"alpha"]) {
+					image.alpha = val;
+				}
+			}
+			else if([widget isKindOfClass:[RjText class]]) {
+				RjText *text = (RjText*) widget;
+				if([cmd isEqualToString:@"text"]) {
+					if(list.count < 3 || ![list isStringAt:2]) return;
+					text.text = [list objectAtIndex:2];
+				}
+				else if([cmd isEqualToString:@"size"]) {
+					if(list.count < 3 || ![list isNumberAt:2]) return;
+					text.size = [[list objectAtIndex:2] floatValue];
+				}
+			}
+		}
+	}
+	else {
+		if(list.count < 3 || ![list isStringAt:2]) return;
+		NSString *arg = [list objectAtIndex:2];
+		if([cmd isEqualToString:@"load"]) {
+			widget = [RjImage imageWithFile:[self.patch.pathName stringByAppendingPathComponent:arg] andParent:self];
+			if(!widget) return;
+			DDLogVerbose(@"RjScene: loading RjImage %@", arg);
+		}
+		else if([cmd isEqualToString:@"text"]) {
+				DDLogVerbose(@"RjScene: dropped rj_text");
+		}
+		else return;
+		[self.background addSubview:widget];
+		[self.background bringSubviewToFront:widget];
+		[widgets setValue:widget forKey:key];
+		DDLogVerbose(@"RjScene: added %@ with key: %@", widget.typeString, key);
+	}
 }
 
 @end

@@ -12,6 +12,16 @@
 
 // explicit declarations
 
+// pd
+void bonk_tilde_setup();
+void choice_setup();
+void fiddle_tilde_setup();
+void loop_tilde_setup();
+void lrshift_tilde_setup();
+void pique_setup();
+void sigmund_tilde_setup();
+void stdout_setup();
+
 // mrpeach
 void httpreceive_setup();
 void httpreq_setup();
@@ -39,6 +49,16 @@ void rj_zcr_tilde_setup();
 @implementation Externals
 
 + (void)setup {
+
+	// pd
+	bonk_tilde_setup();
+	choice_setup();
+	fiddle_tilde_setup();
+	loop_tilde_setup();
+	lrshift_tilde_setup();
+	pique_setup();
+	sigmund_tilde_setup();
+	stdout_setup();
 
 	// mrpeach
 	//httpreceive_setup();

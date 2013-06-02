@@ -18,14 +18,14 @@
 	return s;
 }
 
-- (id)init {
-	self = [super init];
-    if(self) {
-		self.parentView = nil;
-		self.gui = nil;
-    }
-    return self;
-}
+//- (id)init {
+//	self = [super init];
+//    if(self) {
+//		self.parentView = nil;
+//		self.gui = nil;
+//    }
+//    return self;
+//}
 
 - (void)dealloc {
 	[self close];
@@ -49,6 +49,10 @@
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (NSString *)name {
+	return @"EmptyScene";
+}
 
 - (SceneType)type {
 	return SceneTypeEmpty;
@@ -97,7 +101,7 @@
 	for(NSString *p in contents) {
 		NSString *path = [libPatchesPath stringByAppendingPathComponent:p];
 		if([Util isDirectory:path]) {
-			DDLogVerbose(@"%@:	added %@ to search path", self.typeString, p);
+			DDLogVerbose(@"%@: \tadded %@ to search path", self.typeString, p);
 			[PdBase addToSearchPath:path];
 		}
 	}

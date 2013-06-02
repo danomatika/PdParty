@@ -32,6 +32,7 @@ typedef enum {
 @property (readonly, nonatomic) NSString *typeString;
 
 @property (strong, nonatomic) PdFile *patch;
+@property (readonly, nonatomic) NSString *name; // scene name
 
 // set these before calling the open method
 @property (weak, nonatomic) UIView *parentView; // parent UIView

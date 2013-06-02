@@ -24,8 +24,6 @@
 	NSString *fileName = [path lastPathComponent];
 	NSString *dirPath = [path stringByDeletingLastPathComponent];
 	
-	DDLogVerbose(@"%@: opening %@ %@", self.typeString, fileName, dirPath);
-	
 	[PdBase addToSearchPath:dirPath];
 	[self addPatchLibSearchPaths];
 	
@@ -36,6 +34,8 @@
 		self.parentView.backgroundColor = [UIColor whiteColor];
 		[self.gui addWidgetsFromPatch:path];
 	}
+	
+	DDLogVerbose(@"%@: opening %@ %@", self.typeString, fileName, dirPath);
 	
 	// load patch
 	self.patch = [PdFile openFileNamed:fileName path:dirPath];
@@ -84,6 +84,10 @@
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (NSString *)name {
+	return [self.patch.baseName stringByDeletingPathExtension];
+}
 
 - (SceneType)type {
 	return SceneTypePatch;

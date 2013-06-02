@@ -144,9 +144,12 @@
 		case SceneTypePatch:
 			self.scene = [PatchScene sceneWithParent:self.view andGui:self.gui];
 			break;
-		case SceneTypeRj:
-			self.scene = [RjScene sceneWithParent:self.view andControls:self.rjControlsView];
+		case SceneTypeRj: {
+			RjScene *rj = [RjScene sceneWithParent:self.view andControls:self.rjControlsView];
+			rj.dispatcher = pureData.dispatcher;
+			self.scene = rj;
 			break;
+		}
 		case SceneTypeDroid:
 			self.scene = [DroidScene sceneWithParent:self.view andGui:self.gui];
 			break;
@@ -162,6 +165,9 @@
 	self.enableRotation = self.scene.requiresRotation;
 	self.enableKeyGrabber = self.scene.requiresKeys;
 	[self.scene open:path];
+	
+	// set nav controller title
+	self.navigationItem.title = self.scene.name;
 	
 	// hide iPad browser popover on selection 
 	if(self.masterPopoverController != nil) {

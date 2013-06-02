@@ -1,0 +1,34 @@
+#N canvas 291 24 315 442 10;
+#X floatatom 45 16 5 0 0 0 number number-in number-out;
+#X symbolatom 45 46 10 0 0 0 symbol symbol-out -;
+#X text 42 84 comment;
+#X obj 190 16 bng 15 250 50 0 bang-in empty bang 17 7 0 10 -262144
+-1 -1;
+#X obj 190 46 tgl 15 0 empty toggle-in toggle 17 7 0 10 -262144 -1
+-1 0 1;
+#X obj 190 88 nbx 5 14 -1e+37 1e+37 0 0 number2-out number2-in number2
+0 -8 0 10 -262144 -1 -1 0 256;
+#X obj 24 125 vsl 15 128 0 127 0 0 vslider-out vslider-in vslider 0
+-9 0 10 -262144 -1 -1 0 1;
+#X obj 30 349 hsl 128 15 0 127 0 0 hslider-out hslider-in hslider -2
+-8 0 10 -262144 -1 -1 0 1;
+#X obj 98 127 vradio 15 1 0 8 vradio-out vradio-in vradio 0 -8 0 10
+-262144 -1 -1 0;
+#X obj 115 399 hradio 15 1 0 8 hradio-out hradio-in hradio 0 -8 0 10
+-262144 -1 -1 0;
+#X obj 190 126 vu 15 120 vu-in vu -1 -8 0 10 -66577 -1 1 0;
+#X obj 150 277 cnv 15 100 60 empty empty canvas 20 12 0 14 -233017
+-66577 0;
+#N canvas 786 272 341 123 guts 0;
+#X obj 36 21 r hslider-out;
+#X obj 36 65 s number-in;
+#X msg 264 56 12 0;
+#X obj 264 85 s vu-in;
+#X obj 264 22 loadbang;
+#X obj 142 21 r vslider-out;
+#X obj 142 66 s number2-in;
+#X connect 0 0 1 0;
+#X connect 2 0 3 0;
+#X connect 4 0 2 0;
+#X connect 5 0 6 0;
+#X restore 4 281 pd guts;

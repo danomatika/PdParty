@@ -11,11 +11,17 @@
 #import "PatchScene.h"
 
 // an RjDj scene (folder with .rj ext & _main.pd)
-@interface RjScene : PatchScene
+@interface RjScene : PatchScene <PdListener>
 
 // path is to scene folder
 
+@property (weak, nonatomic) PdDispatcher *dispatcher;
 @property (weak, nonatomic) UIView *controlsView; // rj controls
+
+@property (strong, nonatomic) UIImageView *background;
+
+// scale amount between background bounds and background pixel size
+@property (assign, readonly, nonatomic) float scale;
 
 + (id)sceneWithParent:(UIView*)parent andControls:(UIView*)controls;
 

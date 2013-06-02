@@ -25,6 +25,10 @@
 
 #pragma mark Overridden Getters / Setters
 
+- (NSString *)name {
+	return [self.patch.pathName lastPathComponent];
+}
+
 - (SceneType)type {
 	return SceneTypeParty;
 }

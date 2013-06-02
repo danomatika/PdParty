@@ -29,7 +29,7 @@ typedef enum {
 // implement PdListener methods for recieving bang, float, & symbol
 // which are called when lists and messages are receieved
 @optional
-// receive a [; receiveName set something< message
+// receive a [; receiveName set something < message
 - (void)receiveSetFloat:(float)received;
 - (void)receiveSetSymbol:(NSString *)symbol;
 @end
