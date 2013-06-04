@@ -16,7 +16,7 @@
 	self = [super initWithFrame:frame];
     if(self) {
 		self.autoresizesSubviews = NO;
-		self.hidden = YES;	// hidden by default?
+		self.hidden = NO;
 		_centered = YES;	// draw from center by default
     }
     return self;

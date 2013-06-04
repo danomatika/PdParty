@@ -16,7 +16,12 @@
 @interface RjScene () {
 	NSMutableDictionary *widgets;
 }
+
 @property (assign, readwrite, nonatomic) float scale;
+
+// find and remove abstractions which might mask rj-related internal patches
++ (void)removeRjAbstractionDuplicates:(NSString *)directory ;
+
 @end
 
 @implementation RjScene
@@ -43,6 +48,8 @@
 	[self.dispatcher addListener:self forSource:@"rj_text"];
 	
 	[PdBase addToSearchPath:[[Util documentsPath] stringByAppendingPathComponent:@"lib/rj"]];
+	
+	[RjScene removeRjAbstractionDuplicates:path];
 	
 	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {
 			
@@ -179,7 +186,7 @@
 // mostly borrowed from the pd-for-android ScenePlayer
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
 	
-	[Util logArray:list];
+//	[Util logArray:list];
 	
 	if(list.count < 2 || ![list isStringAt:0] || ![list isStringAt:1]) return;
 	
@@ -247,6 +254,34 @@
 		[self.background bringSubviewToFront:widget];
 		[widgets setValue:widget forKey:key];
 		DDLogVerbose(@"RjScene: added %@ with key: %@", widget.typeString, key);
+	}
+}
+
+#pragma mark Private
+
+// weird little hack to avoid having our rj_image.pd and such masked by files in the scene
+// form pd-for-android ScenePlayer
++ (void)removeRjAbstractionDuplicates:(NSString *)directory {
+
+	// recursively copy contents of patches resource folder to Documents
+	NSArray *contents = [[NSFileManager defaultManager] subpathsAtPath:directory];
+	if(!contents) {
+		return;
+	}
+	
+	// loop through returned paths and remove any matching patches
+	NSError *error;
+	for(NSString *path in contents) {
+		NSString *file = [path lastPathComponent];
+		if([file isEqualToString:@"rj_image.pd"] || [file isEqualToString:@"rj_text.pd"] ||
+		   [file isEqualToString:@"soundinput.pd"] || [file isEqualToString:@"soundoutput.pd"]) {
+			if(![[NSFileManager defaultManager] removeItemAtPath:[directory stringByAppendingPathComponent:path] error:&error]) {
+				DDLogError(@"RJScene: couldn't remove %@, error: %@", path, error.localizedDescription);
+			}
+			else {
+				DDLogVerbose(@"RJScene: removed %@", file);
+			}
+		}
 	}
 }
 
