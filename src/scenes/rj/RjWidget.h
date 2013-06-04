@@ -20,8 +20,9 @@
 
 @property (assign, nonatomic) CGRect originalFrame; // in 320x320 coord system
 @property (assign, nonatomic) CGPoint position; // in Rj background image coord system
+@property (assign, nonatomic) BOOL centered;	// is position the center?
 
-// reposition/resize widgets based on background scale amounts & font size
+// reposition/resize widgets based on background scale amounts, etc
 - (void)reshape;
 
 @end

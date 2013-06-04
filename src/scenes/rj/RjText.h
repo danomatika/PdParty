@@ -14,10 +14,10 @@
 @interface RjText : RjWidget
 
 @property (assign, nonatomic) NSString *text;
-@property (assign, nonatomic) float size;
+@property (assign, nonatomic) float fontSize;
 
 @property (strong, nonatomic) UILabel *label;
 
-+ (id)imageWithText:(NSString *)text andParent:(RjScene *)parent;
++ (id)textWithText:(NSString *)text andParent:(RjScene *)parent;
 
 @end

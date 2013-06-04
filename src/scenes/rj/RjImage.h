@@ -15,7 +15,6 @@
 
 @property (strong, nonatomic) UIImageView *image;
 
-@property (assign, nonatomic) BOOL centered;
 @property (assign, nonatomic) float scaleX;
 @property (assign, nonatomic) float scaleY;
 @property (assign, nonatomic) float angle;

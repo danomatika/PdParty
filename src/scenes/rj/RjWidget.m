@@ -15,7 +15,9 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
     if(self) {
-		self.hidden = YES; // hidden by default?
+		self.autoresizesSubviews = NO;
+		self.hidden = YES;	// hidden by default?
+		_centered = YES;	// draw from center by default
     }
     return self;
 }
@@ -25,11 +27,7 @@
 }
 
 - (void)reshape {
-//	self.frame = CGRectMake(
-//		round(self.originalFrame.origin.x * self.parentScene.scale),
-//		round(self.originalFrame.origin.y * self.parentScene.scale),
-//		round(self.originalFrame.size.width * self.parentScene.scale),
-//		round(self.originalFrame.size.height * self.parentScene.scale));
+	// implement in subclasses
 }
 
 #pragma mark Overridden Getters / Setters
@@ -38,15 +36,17 @@
 	self.originalFrame = CGRectMake(p.x, p.y,
 							CGRectGetWidth(self.originalFrame),
 							CGRectGetHeight(self.originalFrame));
-//	self.frame = CGRectMake(p.x * self.parentScene.scale,
-//							p.y * self.parentScene.scale,
-//							CGRectGetWidth(self.frame),
-//							CGRectGetHeight(self.frame));
 	[self reshape];
 }
 
 - (CGPoint)position {
 	return self.originalFrame.origin;
+}
+
+- (void)setCentered:(BOOL)centered {
+	if(_centered == centered) return;
+	_centered = centered;
+	[self reshape];
 }
 
 @end

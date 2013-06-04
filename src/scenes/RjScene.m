@@ -224,7 +224,7 @@
 				}
 				else if([cmd isEqualToString:@"size"]) {
 					if(list.count < 3 || ![list isNumberAt:2]) return;
-					text.size = [[list objectAtIndex:2] floatValue];
+					text.fontSize = [[list objectAtIndex:2] floatValue];
 				}
 			}
 		}
@@ -238,7 +238,9 @@
 			DDLogVerbose(@"RjScene: loading RjImage %@", arg);
 		}
 		else if([cmd isEqualToString:@"text"]) {
-				DDLogVerbose(@"RjScene: dropped rj_text");
+			widget = [RjText textWithText:arg andParent:self];
+			if(!widget) return;
+			DDLogVerbose(@"RjScene: loading RjText %@", arg);
 		}
 		else return;
 		[self.background addSubview:widget];
