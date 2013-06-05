@@ -273,6 +273,7 @@
 
 - (IBAction)rjControlChanged:(id)sender {
 	if(sender == self.rjPauseButton) {
+//		DDLogInfo(@"RJ Pause button pressed: %d", self.rjPauseButton.isSelected);
 		self.rjPauseButton.selected = !self.rjPauseButton.selected;
 		pureData.audioEnabled = !self.rjPauseButton.selected;
 		if(self.rjPauseButton.selected) {
@@ -281,15 +282,39 @@
 		else {
 			[self.rjPauseButton setTitle:@"Pause" forState:UIControlStateNormal];
 		}
-//		DDLogInfo(@"RJ Pause button pressed: %d", self.rjPauseButton.isSelected);
 	}
 	else if(sender == self.rjRecordButton) {
-		self.rjRecordButton.selected = !self.rjRecordButton.selected;
 		DDLogInfo(@"RJ Record button pressed: %d", self.rjRecordButton.isSelected);
+		self.rjRecordButton.selected = !self.rjRecordButton.selected;
+		if(self.rjRecordButton.selected) {
+			
+			NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:@"recordings"];
+			if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
+				DDLogVerbose(@"Recordings dir not found, creating %@", recordDir);
+				NSError *error;
+				if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:NO attributes:nil error:&error]) {
+					DDLogError(@"Couldn't create %@, error: %@", recordDir, error.localizedDescription);
+					return;
+				}
+			}
+			
+			NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+			[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
+			NSString *date = [formatter stringFromDate:[NSDate date]];
+//			NSString *file = [NSDateFormatter localizedStringFromDate:[NSDate date]
+//															dateStyle:NSDateFormatterBehaviorDefault
+//															timeStyle:NSDateFormatterBehaviorDefault];
+			[pureData startRecordingTo:[recordDir stringByAppendingPathComponent:[self.scene.name stringByAppendingFormat:@"_%@.wav", date]]];
+			[self.rjRecordButton setTitle:@"Stop" forState:UIControlStateNormal];
+		}
+		else {
+			[pureData stopRecording];
+			[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
+		}
 	}
 	else if(sender == self.rjInputLevelSlider) {
-		pureData.micVolume = self.rjInputLevelSlider.value;
 //		DDLogInfo(@"RJ Input level slider changed: %f", self.rjInputLevelSlider.value);
+		pureData.micVolume = self.rjInputLevelSlider.value;
 	}
 }
 
@@ -301,6 +326,14 @@
 	}
 	else {
 		[self.rjPauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+	}
+	
+	self.rjRecordButton.selected = pureData.isRecording;
+	if(self.rjRecordButton.selected) {
+		[self.rjRecordButton setTitle:@"Stop" forState:UIControlStateNormal];
+	}
+	else {
+		[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
 	}
 	
 	self.rjInputLevelSlider.value = pureData.micVolume;

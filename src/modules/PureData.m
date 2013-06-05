@@ -14,10 +14,12 @@
 #import "Midi.h"
 #import "PdAudioController.h"
 #import "Externals.h"
+#import "Util.h"
 
 @interface PureData () {
 	PdAudioController *audioController;
 }
+@property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
 @end
 
 @implementation PureData
@@ -31,6 +33,7 @@
 		_micVolume = 1.0;
 		_volume = 1.0;
 		_playing = YES;
+		_recording = NO;
 
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
@@ -48,6 +51,12 @@
 		
 		// setup externals
 		[Externals setup];
+		
+		// open "eternal patches" that always run in the background
+		NSString * rjLibDir = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"];
+		[PdBase openFile:@"recorder.pd" path:rjLibDir];
+		[PdBase openFile:@"playback.pd" path:rjLibDir];
+		
 	}
 	return self;
 }
@@ -58,6 +67,21 @@
 	[PureData sendTransportPlay:_playing];
 	[PureData sendMicVolume:_micVolume];
 	[PureData sendVolume:_volume];
+}
+
+- (void)startRecordingTo:(NSString *)path {
+	if(self.isRecording) return;
+	[PdBase sendMessage:@"scene" withArguments:[NSArray arrayWithObject:path] toReceiver:RJ_TRANSPORT_R];
+	[PdBase sendMessage:@"record" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:YES]] toReceiver:RJ_TRANSPORT_R];
+	self.recording = YES;
+	DDLogVerbose(@"PureData: started recording to %@", path);
+}
+
+- (void)stopRecording {
+	if(!self.isRecording) return;
+	[PdBase sendMessage:@"record" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:NO]] toReceiver:RJ_TRANSPORT_R];
+	self.recording = NO;
+	DDLogVerbose(@"PureData: stopped recording");
 }
 
 #pragma mark Send Events
@@ -81,12 +105,7 @@
 #pragma mark Send Values
 
 + (void)sendTransportPlay:(BOOL)play {
-	if(play) {
-		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] toReceiver:RJ_TRANSPORT_R];
-	}
-	else {
-		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:0]] toReceiver:RJ_TRANSPORT_R];
-	}
+	[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:play]] toReceiver:RJ_TRANSPORT_R];
 }
 
 + (void)sendMicVolume:(float)micVolume {
@@ -146,7 +165,7 @@
 		DDLogWarn(@"PureData: Warning: Some of the audio parameters were not accceptable");
 	}
 	else {
-		DDLogInfo(@"PureData: sampleRate now %d", audioController.sampleRate);
+		DDLogVerbose(@"PureData: sampleRate now %d", audioController.sampleRate);
 	}
 	audioController.active = YES;
 }

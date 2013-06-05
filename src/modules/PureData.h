@@ -56,16 +56,21 @@
 
 #pragma mark Current Play Values
 
+// only has effect when [soundoutput] is used
+@property (assign, getter=isPlaying, nonatomic) BOOL playing;
+@property (assign, readonly, getter=isRecording, nonatomic) BOOL recording;
+
 // input/output volume, 0-1
 // only has effect when [soundinput]/[soundoutput] are used
 @property (assign, nonatomic) float micVolume;
 @property (assign, nonatomic) float volume;
 
-// only has effect when [soundoutput] is used
-@property (assign, getter=isPlaying, nonatomic) BOOL playing;
-
 // send the current volume & playing values
 - (void)sendCurrentPlayValues;
+
+// start/stop recording, depends on [soundoutput]
+- (void)startRecordingTo:(NSString *)path;
+- (void)stopRecording;
 
 #pragma mark Send Events
 
