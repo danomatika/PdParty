@@ -75,10 +75,6 @@
 		
 		[self reshape];
 		
-		// turn up volume & turn on transport
-		[PureData sendVolume:1.0];
-		[PureData sendPlay:YES];
-		
 		return YES;
 	}
 	

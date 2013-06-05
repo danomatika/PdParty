@@ -24,8 +24,9 @@
 	NSString *fileName = [path lastPathComponent];
 	NSString *dirPath = [path stringByDeletingLastPathComponent];
 	
+	[self addSearchPathsIn:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib"]];
+	[self addSearchPathsIn:[[Util documentsPath] stringByAppendingPathComponent:@"lib"]];
 	[PdBase addToSearchPath:dirPath];
-	[self addPatchLibSearchPaths];
 	
 	// add widgets before loading patch so dollar args can be replaced later
 	if(self.gui) {

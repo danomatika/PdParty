@@ -56,7 +56,7 @@ typedef enum {
 
 #pragma mark Util
 
-// add subfolders in libs folder in resource patches dir to search path
-- (void)addPatchLibSearchPaths;
+// add subfolders in a given directory to the PD search path
+- (void)addSearchPathsIn:(NSString *)directory;
 
 @end

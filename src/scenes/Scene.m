@@ -18,15 +18,6 @@
 	return s;
 }
 
-//- (id)init {
-//	self = [super init];
-//    if(self) {
-//		self.parentView = nil;
-//		self.gui = nil;
-//    }
-//    return self;
-//}
-
 - (void)dealloc {
 	[self close];
 }
@@ -84,22 +75,20 @@
 
 #pragma mark Util
 
-- (void)addPatchLibSearchPaths {
+- (void)addSearchPathsIn:(NSString *)directory {
+	
+	DDLogVerbose(@"%@: adding search paths in %@", self.typeString, directory);
 	
 	NSError *error;
-	
-	DDLogVerbose(@"%@: adding library patches to search path", self.typeString);
-	
-	NSString * libPatchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib"];
-	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:libPatchesPath error:&error];
+	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:&error];
 	if(!contents) {
-		DDLogError(@"%@: couldn't read files in path %@, error: %@", self.typeString, libPatchesPath, error.localizedDescription);
+		DDLogError(@"%@: couldn't read contents of path %@, error: %@", self.typeString, directory, error.localizedDescription);
 		return;
 	}
 	
-	DDLogVerbose(@"%@: found %d paths in resources patches lib folder", self.typeString, contents.count);
+	DDLogVerbose(@"%@: found %d paths", self.typeString, contents.count);
 	for(NSString *p in contents) {
-		NSString *path = [libPatchesPath stringByAppendingPathComponent:p];
+		NSString *path = [directory stringByAppendingPathComponent:p];
 		if([Util isDirectory:path]) {
 			DDLogVerbose(@"%@: \tadded %@ to search path", self.typeString, p);
 			[PdBase addToSearchPath:path];

@@ -19,7 +19,7 @@
 #define RJ_TRANSPORT_R	@"#transport"
 #define RJ_ACCELERATE_R	@"#accelerate"
 #define RJ_VOLUME_R		@"#volume"
-//#define RJ_MICVOLUME_R	@"#micvolume"
+#define RJ_MICVOLUME_R	@"#micvolume"
 #define RJ_TOUCH_R		@"#touch"
 
 // touch event types
@@ -47,12 +47,25 @@
 @property (strong, nonatomic) PdDispatcher *dispatcher; // message dispatcher
 @property (weak, nonatomic) Midi *midi; // pointer to midi instance
 
-// enabled / disable PD audio
+// enabled / disable PD audio processing
 @property (getter=isAudioEnabled) BOOL audioEnabled;
 
 // setting the sample rate re-configures the audio, 44100 by default
 // new sample rate ignored if it is equal to the current samplerate
 @property (nonatomic) int sampleRate;
+
+#pragma mark Current Play Values
+
+// input/output volume, 0-1
+// only has effect when [soundinput]/[soundoutput] are used
+@property (assign, nonatomic) float micVolume;
+@property (assign, nonatomic) float volume;
+
+// only has effect when [soundoutput] is used
+@property (assign, getter=isPlaying, nonatomic) BOOL playing;
+
+// send the current volume & playing values
+- (void)sendCurrentPlayValues;
 
 #pragma mark Send Events
 
@@ -68,10 +81,11 @@
 // pdparty rotate event
 + (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;
 
-// rj style transport control
-+ (void)sendPlay:(BOOL)playing;
+#pragma mark Send Values
 
-// rj style input/output volume controls
-+ (void)sendVolume:(float)vol;
++ (void)sendTransportPlay:(BOOL)play;
+
++ (void)sendMicVolume:(float)micVolume;
++ (void)sendVolume:(float)volume;
 
 @end

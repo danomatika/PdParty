@@ -28,6 +28,10 @@
 	self = [super init];
 	if(self) {
 
+		_micVolume = 1.0;
+		_volume = 1.0;
+		_playing = YES;
+
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
 		self.sampleRate = PARTY_SAMPLERATE;
@@ -48,6 +52,14 @@
 	return self;
 }
 
+#pragma mark Current Play Values
+
+- (void)sendCurrentPlayValues {
+	[PureData sendTransportPlay:_playing];
+	[PureData sendMicVolume:_micVolume];
+	[PureData sendVolume:_volume];
+}
+
 #pragma mark Send Events
 
 + (void)sendKey:(int)key {
@@ -66,8 +78,10 @@
 	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:degrees], orientation, nil] toReceiver:PARTY_ROTATE_R];
 }
 
-+ (void)sendPlay:(BOOL)playing {
-	if(playing) {
+#pragma mark Send Values
+
++ (void)sendTransportPlay:(BOOL)play {
+	if(play) {
 		[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] toReceiver:RJ_TRANSPORT_R];
 	}
 	else {
@@ -75,9 +89,12 @@
 	}
 }
 
-// rj style input/output voluem controls
-+ (void)sendVolume:(float)vol {
-	[PdBase sendMessage:@"set" withArguments:[NSArray arrayWithObject:[NSNumber numberWithFloat:vol]] toReceiver:RJ_VOLUME_R];
++ (void)sendMicVolume:(float)micVolume {
+	[PdBase sendFloat:micVolume toReceiver:RJ_MICVOLUME_R];
+}
+
++ (void)sendVolume:(float)volume {
+	[PdBase sendMessage:@"set" withArguments:[NSArray arrayWithObject:[NSNumber numberWithFloat:volume]] toReceiver:RJ_VOLUME_R];
 }
 
 #pragma mark PdMidiReceiverDelegate
@@ -115,7 +132,7 @@
 }
 
 - (void)setSampleRate:(int)sampleRate {
-	if(audioController.sampleRate == sampleRate)	return;
+	if(audioController.sampleRate == sampleRate) return;
 
 	audioController.active = NO;
 	PdAudioStatus status = [audioController configurePlaybackWithSampleRate:sampleRate
@@ -135,16 +152,28 @@
 }
 
 - (BOOL)isAudioEnabled {
-	return audioEnabled;
+	return audioController.active;
 }
 
 - (void)setAudioEnabled:(BOOL)enabled {
-    if(self.audioEnabled == enabled) {
-		return;
-	}
-	[PureData sendPlay:enabled];
-	audioEnabled = enabled;
-	audioController.active = self.audioEnabled;
+    if(audioController.active == enabled) return;
+	audioController.active = enabled;
+}
+
+- (void)setPlaying:(BOOL)playing {
+	if(_playing == playing) return;
+	_playing = playing;
+	[PureData sendTransportPlay:_playing];
+}
+
+- (void)setVolume:(float)volume {
+	_volume = MIN(MAX(volume, 0.0), 1.0); // clamp to 0-1
+	[PureData sendVolume:_volume];
+}
+
+- (void)setMicVolume:(float)micVolume {
+	_micVolume = MIN(MAX(micVolume, 0.0), 1.0); // clamp to 0-1
+	[PureData sendMicVolume:_micVolume];
 }
 
 @end

@@ -45,9 +45,6 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	// hide rj controls by default
-	self.rjControlsView.hidden = YES;
-	
 	// start keygrabber
 	grabber = [[KeyGrabberView alloc] init];
 	grabber.delegate = self;
@@ -60,6 +57,12 @@
 	// set osc and pure data pointer
 	osc = app.osc;
 	pureData = app.pureData;
+	
+	// hide rj controls by default
+	self.rjControlsView.hidden = YES;
+	
+	// playing by default
+	//self.rjPauseButton.selected = NO;
 	
 	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
 }
@@ -163,11 +166,17 @@
 			self.scene = [[Scene alloc] init];
 			break;
 	}
+	pureData.audioEnabled = YES;
 	pureData.sampleRate = self.scene.sampleRate;
 	self.enableAccelerometer = self.scene.requiresAccel;
 	self.enableRotation = self.scene.requiresRotation;
 	self.enableKeyGrabber = self.scene.requiresKeys;
+	pureData.playing = YES;
 	[self.scene open:path];
+	
+	// turn up volume & turn on transport, update gui
+	[pureData sendCurrentPlayValues];
+	[self updateRjControls];
 	
 	// set nav controller title
 	self.navigationItem.title = self.scene.name;
@@ -265,15 +274,36 @@
 - (IBAction)rjControlChanged:(id)sender {
 	if(sender == self.rjPauseButton) {
 		self.rjPauseButton.selected = !self.rjPauseButton.selected;
-		DDLogInfo(@"RJ Pause button pressed: %d", self.rjPauseButton.isSelected);
+		pureData.audioEnabled = !self.rjPauseButton.selected;
+		if(self.rjPauseButton.selected) {
+			[self.rjPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+		}
+		else {
+			[self.rjPauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+		}
+//		DDLogInfo(@"RJ Pause button pressed: %d", self.rjPauseButton.isSelected);
 	}
 	else if(sender == self.rjRecordButton) {
 		self.rjRecordButton.selected = !self.rjRecordButton.selected;
 		DDLogInfo(@"RJ Record button pressed: %d", self.rjRecordButton.isSelected);
 	}
 	else if(sender == self.rjInputLevelSlider) {
-		DDLogInfo(@"RJ Input level slider changed: %f", self.rjInputLevelSlider.value);
+		pureData.micVolume = self.rjInputLevelSlider.value;
+//		DDLogInfo(@"RJ Input level slider changed: %f", self.rjInputLevelSlider.value);
 	}
+}
+
+- (void)updateRjControls {
+	
+	self.rjPauseButton.selected = !pureData.audioEnabled;
+	if(self.rjPauseButton.selected) {
+		[self.rjPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+	}
+	else {
+		[self.rjPauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+	}
+	
+	self.rjInputLevelSlider.value = pureData.micVolume;
 }
 
 #pragma mark Touches
