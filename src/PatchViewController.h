@@ -30,6 +30,9 @@
 // close the current scene and open a new one, requires full path to current patch
 - (void)openScene:(NSString*)path withType:(SceneType)type;
 
+// close the current scene
+- (void)closeScene;
+
 #pragma mark RJ Controls
 
 @property (weak, nonatomic) IBOutlet UIView *rjControlsView;

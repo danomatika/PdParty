@@ -43,7 +43,6 @@
 //	else {
 //		self.oscLabel.text = @"OSC: Disabled";
 //	}
-	NSLog(@"viewDidLoad");
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -55,7 +54,6 @@
 	else {
 		self.oscLabel.text = @"OSC: Disabled";
 	}
-	NSLog(@"viewWillAppear");
 	
 	[super viewWillAppear:animated];
 }

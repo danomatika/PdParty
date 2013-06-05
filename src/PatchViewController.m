@@ -82,6 +82,12 @@
 	}
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	// close scene if the current actiuve view is changing
+	[self closeScene];
+    [super viewWillDisappear:animated];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	
 	int rotate = [PatchViewController orientationInDegrees:fromInterfaceOrientation] -
@@ -134,10 +140,7 @@
 	}
 	
 	// close open scene
-	if(self.scene) {
-		[self.scene close];
-		self.scene = nil;
-	}
+	[self closeScene];
 	
 	// open new scene
 	switch(type) {
@@ -173,6 +176,13 @@
 	if(self.masterPopoverController != nil) {
         [self.masterPopoverController dismissPopoverAnimated:YES];
     } 
+}
+
+- (void)closeScene {
+	if(self.scene) {
+		[self.scene close];
+		self.scene = nil;
+	}
 }
 
 #pragma mark Util
