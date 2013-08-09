@@ -74,9 +74,6 @@
 
 #pragma mark Send Events
 
-// pd key event
-+ (void)sendKey:(int)key;
-
 // rj touch event
 + (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
 
@@ -85,6 +82,9 @@
 
 // pdparty rotate event
 + (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;
+
+// pd key event
++ (void)sendKey:(int)key;
 
 #pragma mark Send Values
 

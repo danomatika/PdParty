@@ -10,6 +10,11 @@
  */
 #include "PatchScene.h"
 
+@interface PatchScene () {
+	UIView *_parentView;
+}
+@end
+
 @implementation PatchScene
 
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui {
@@ -96,6 +101,18 @@
 
 - (NSString *)typeString {
 	return @"PatchScene";
+}
+
+- (void)setParentView:(UIView *)parentView {
+	if(_parentView != parentView) {
+		_parentView = parentView;
+		// add widgets to new parent view
+		if(self.gui && _parentView) {
+			for(Widget *widget in self.gui.widgets) {
+				[self.parentView addSubview:widget];
+			}
+		}
+	}
 }
 
 - (BOOL)requiresTouch {

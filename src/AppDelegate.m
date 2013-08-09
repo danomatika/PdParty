@@ -14,7 +14,7 @@
 #import "Util.h"
 #import "Widget.h"
 
-#import "PatchViewController.h"
+//#import "PatchViewController.h"
 
 @interface AppDelegate ()
 
@@ -29,6 +29,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 	
+	// setup split view on iPad
 	if([Util isDeviceATablet]) {
 	    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
 	    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
@@ -59,11 +60,16 @@
 	// setup osc
 	self.osc = [[Osc alloc] init];
 	
-	// init motion manager
-	self.motionManager = [[CMMotionManager alloc] init];
+	// setup the scene manager
+	self.sceneManager = [[SceneManager alloc] init];
+	self.sceneManager.pureData = self.pureData;
+	self.sceneManager.osc = self.osc;
+	
+//	// init motion manager
+//	self.motionManager = [[CMMotionManager alloc] init];
 	
 	// turn on dsp
-	self.pureData.audioEnabled = YES;
+	//self.pureData.audioEnabled = YES;
 	
     return YES;
 }

@@ -14,6 +14,7 @@
 #import "RjText.h"
 
 @interface RjScene () {
+	UIView *_parentView;
 	NSMutableDictionary *widgets;
 }
 
@@ -155,6 +156,16 @@
 	return @"RjScene";
 }
 
+- (void)setParentView:(UIView *)parentView {
+	if(_parentView != parentView) {
+		_parentView = parentView;
+		if(_parentView) {
+			// add background & widgets to new parent view
+			[self.parentView addSubview:self.background];
+		}
+	}
+}
+
 - (int)sampleRate {
 	return RJ_SAMPLERATE;
 }
@@ -255,8 +266,8 @@
 
 #pragma mark Private
 
-// weird little hack to avoid having our rj_image.pd and such masked by files in the scene
-// form pd-for-android ScenePlayer
+// weird little hack to avoid having our rj_image.pd and such masked by files in the scene,
+// from pd-for-android ScenePlayer
 + (void)removeRjAbstractionDuplicates:(NSString *)directory {
 
 	// recursively copy contents of patches resource folder to Documents

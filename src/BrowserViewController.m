@@ -10,6 +10,7 @@
  */
 #import "BrowserViewController.h"
 
+#import "AppDelegate.h"
 #import "PatchViewController.h"
 #import "Log.h"
 #import "Util.h"
@@ -51,9 +52,17 @@
 	[super viewDidLoad];
 	
 	// setup the root view
-	// if currentDir is nill, then this is the root layer since currentDir is set when pushing child layers onto the navController
+	// if currentDir is nil, then this is the root layer since currentDir is set when pushing child layers onto the navController
 	if(!self.currentDir) {
-		self.patchViewController = (PatchViewController *)[[self.parentViewController.splitViewController.viewControllers lastObject] topViewController];
+		if([Util isDeviceATablet]) { // patch view is top on iPad
+			self.patchViewController = (PatchViewController *)[[self.parentViewController.splitViewController.viewControllers lastObject] topViewController];
+		}
+//		else {
+//			UIStoryboard *board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+//			self.patchViewController = [board instantiateViewControllerWithIdentifier:@"PatchViewController"];
+//			AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+//			[app.window.rootViewController.view addSubView:self.patchViewController.view];
+//		}
 		self.currentDir = [Util documentsPath];
 	}
 }
@@ -242,7 +251,19 @@
 	// load the selected patch
 	if([[segue identifier] isEqualToString:@"runScene"]) {
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
+		if(!self.patchViewController) {
+			[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
+			self.patchViewController = (PatchViewController*)[segue destinationViewController];
+		}
+		else {
+			[self.patchViewController openScene:selectedPatch withType:selectedSceneType];
+		}
+		//[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
+//		if(!self.patchViewController) {
+//			// set pointer here for iPhone
+//			self.patchViewController = (PatchViewController*)[segue destinationViewController];
+//			NSLog(@"set pointer");
+//		}
     }
 }
 

@@ -180,6 +180,7 @@
 		30ABE41616B5D5DD00464926 /* PdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32F16B5D15400464926 /* PdBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
 		30ACA10D16D1866000B50B73 /* patches in Resources */ = {isa = PBXBuildFile; fileRef = 30ACA10C16D1866000B50B73 /* patches */; };
+		30B4520C176290300040FFBC /* SceneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B4520B176290300040FFBC /* SceneManager.m */; };
 		30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB316F1ADFB00988EB9 /* Osc.m */; };
 		30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -466,6 +467,8 @@
 		30ABE41316B5D58600464926 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		30ACA10C16D1866000B50B73 /* patches */ = {isa = PBXFileReference; lastKnownFileType = folder; path = patches; sourceTree = "<group>"; };
+		30B4520A176290300040FFBC /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
+		30B4520B176290300040FFBC /* SceneManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneManager.m; sourceTree = "<group>"; };
 		30C77BB216F1ADFB00988EB9 /* Osc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Osc.h; sourceTree = "<group>"; };
 		30C77BB316F1ADFB00988EB9 /* Osc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Osc.m; sourceTree = "<group>"; };
 		30C77BB616F1BEAC00988EB9 /* CocoaOSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaOSC.h; sourceTree = "<group>"; };
@@ -1226,6 +1229,8 @@
 				30C77BB316F1ADFB00988EB9 /* Osc.m */,
 				30C9BF5A16E8456B00E5AA5B /* PureData.h */,
 				30C9BF5B16E8456B00E5AA5B /* PureData.m */,
+				30B4520A176290300040FFBC /* SceneManager.h */,
+				30B4520B176290300040FFBC /* SceneManager.m */,
 				30C9BF5C16E8456B00E5AA5B /* WebServer.h */,
 				30C9BF5D16E8456B00E5AA5B /* WebServer.m */,
 			);
@@ -1566,6 +1571,7 @@
 				303BD3481759C6D5000FBEB5 /* pique.c in Sources */,
 				303BD34A1759C6D5000FBEB5 /* sigmund~.c in Sources */,
 				303BD34C1759C6D5000FBEB5 /* stdout.c in Sources */,
+				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1665,6 +1671,9 @@
 		30ABE2CB16B5A8E500464926 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "res/PdParty-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -1685,6 +1694,9 @@
 		30ABE2CC16B5A8E500464926 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "res/PdParty-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = NO;

@@ -108,6 +108,13 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendKey:(int)key {
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_KEY_ADDR;
+	[message addFloat:key];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setListening:(BOOL)enable {

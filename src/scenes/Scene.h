@@ -48,6 +48,7 @@ typedef enum {
 - (BOOL)open:(NSString*)path; // expects full path
 - (void)close;
 
+// reshape to fit current parent view size
 - (void)reshape;
 
 // attempts to scale a touch within the parent view,

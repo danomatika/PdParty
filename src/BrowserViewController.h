@@ -20,7 +20,8 @@
 // main MasterViewController for browsing the Documents dir
 @interface BrowserViewController : UITableViewController
 
-@property (weak, nonatomic) PatchViewController *patchViewController;
+// strong to make sure to retain the view on iPhone
+@property (strong, nonatomic) PatchViewController *patchViewController;
 
 @property (strong, readonly) NSMutableArray *pathArray; // table view paths
 @property (strong, readonly) NSString *currentDir; // current directory path

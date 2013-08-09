@@ -22,7 +22,7 @@
 
 #pragma mark App
 
-// application pixel dimensions
+// application pixel dimensions, does not include status bar
 + (CGFloat) appWidth;
 + (CGFloat) appHeight;
 + (CGSize) appSize;

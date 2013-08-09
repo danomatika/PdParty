@@ -8,7 +8,7 @@ destDir=../libs/pd
 cd $WD
 
 # get latest source
-git clone git://github.com/libpd/libpd.git
+git clone git://github.com/libpd/libpd.git -b ios-deprecation-updates
 
 # remove uneeded makefiles
 find libpd -name "GNUmakefile.am" -delete

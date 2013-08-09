@@ -56,7 +56,6 @@
 		NSString * rjLibDir = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"];
 		[PdBase openFile:@"recorder.pd" path:rjLibDir];
 		[PdBase openFile:@"playback.pd" path:rjLibDir];
-		
 	}
 	return self;
 }
@@ -86,10 +85,6 @@
 
 #pragma mark Send Events
 
-+ (void)sendKey:(int)key {
-	[PdBase sendFloat:key toReceiver:PD_KEY_R];
-}
-
 + (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
 	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:id+1], [NSNumber numberWithFloat:x], [NSNumber numberWithFloat:y], nil] toReceiver:RJ_TOUCH_R];
 }
@@ -100,6 +95,10 @@
 
 + (void)sendRotate:(float)degrees newOrientation:(NSString*)orientation {
 	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:degrees], orientation, nil] toReceiver:PARTY_ROTATE_R];
+}
+
++ (void)sendKey:(int)key {
+	[PdBase sendFloat:key toReceiver:PD_KEY_R];
 }
 
 #pragma mark Send Values

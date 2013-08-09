@@ -13,6 +13,7 @@
 #define OSC_TOUCH_ADDR	@"/pd/event/touch"
 #define OSC_ACCEL_ADDR	@"/pd/event/accelerate"
 #define OSC_ROTATE_ADDR	@"/pd/event/rotate"
+#define OSC_KEY_ADDR	@"/pd/event/key"
 #define OSC_OSC_ADDR	@"/pd/event/osc"
 
 @interface Osc : NSObject <OSCConnectionDelegate>
@@ -38,5 +39,8 @@
 
 // pdparty rotate event
 - (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;
+
+// pd key event
+- (void)sendKey:(int)key;
 
 @end

@@ -9,11 +9,11 @@
  *
  */
 #import <UIKit/UIKit.h>
-#import <CoreMotion/CoreMotion.h>
 
 #import "PureData.h"
 #import "Midi.h"
 #import "Osc.h"
+#import "SceneManager.h"
 
 @class PatchViewController;
 
@@ -26,6 +26,8 @@
 @property (strong, nonatomic) Midi *midi;
 @property (strong, nonatomic) Osc *osc;
 
-@property (strong, nonatomic) CMMotionManager *motionManager; // for accel data
+@property (strong, nonatomic) SceneManager *sceneManager;
+
+//@property (strong, nonatomic) CMMotionManager *motionManager; // for accel data
 
 @end
