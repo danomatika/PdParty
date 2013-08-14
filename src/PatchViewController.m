@@ -38,6 +38,7 @@
 @implementation PatchViewController
 
 - (void)awakeFromNib {
+NSLog(@"awakeFromNib");
 	activeTouches = [[NSMutableDictionary alloc] init];
 	//hasReshaped = NO;
 	
@@ -69,23 +70,34 @@ NSLog(@"viewDidLoad");
 //	if(!self.sceneManager) {
 //		self.sceneManager = app.sceneManager;
 //	}
+
+	// set the scenemanager here since iPhone dosen't load view until *after* this is called
+	if(!self.sceneManager) {
+		AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+		self.sceneManager = app.sceneManager;
+	}
+
 	// hide rj controls by default
 	self.rjControlsView.hidden = YES;
 	
 	// update scene manager pointers for new patch controller view (if new)
 	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	//[self.sceneManager reshapeWithFrame:self.view.bounds];
 	
 	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
 }
 
 - (void)dealloc {
+	NSLog(@"dealloc");
 	// clear pointers when the view is popped
 	[self.sceneManager updateParent:nil andControls:nil];
 }
 
 - (void)viewDidLayoutSubviews {
-	
-	[self.sceneManager reshapeWithFrame:self.view.bounds];
+	NSLog(@"didLayoutSubViews");
+	// update scene manager pointers for new patch controller view (if new)
+	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	//[self.sceneManager reshapeWithFrame:self.view.bounds];
 	
 //	self.gui.bounds = self.view.bounds;
 //		
@@ -104,9 +116,18 @@ NSLog(@"viewDidLoad");
 }
 
 //- (void)viewWillDisappear:(BOOL)animated {
+//	NSLog(@"viewWillDisappear");
 //	// close scene if the current active view is changing
 //	//[self closeScene];
 //    [super viewWillDisappear:animated];
+//}
+
+//- (void)viewDidDisappear:(BOOL)animated {
+//	NSLog(@"viewDidDisappear");
+//	if(![Util isDeviceATablet]) {
+//		[self.sceneManager updateParent:nil andControls:nil];
+//	}
+//	[super viewDidDisappear:animated];
 //}
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
@@ -163,6 +184,7 @@ NSLog(@"viewDidLoad");
 	}
 	
 NSLog(@"open scene");
+[Util logRect:self.view.frame];
 	if([self.sceneManager openScene:path withType:type forParent:self.view andControls:self.rjControlsView]) {
 
 //	// create gui here as iPhone dosen't load view until *after* this is called
@@ -205,12 +227,12 @@ NSLog(@"open scene");
 
 	// update scene manager pointers for new patch controller view (if new)
 	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	//[self.sceneManager reshapeWithFrame:self.view.bounds];
 
 //	// turn up volume & turn on transport, update gui
 //	[pureData sendCurrentPlayValues];
 	[self updateRjControls];
 	
-
 	//self.enableAccelerometer = self.sceneManager.scene.requiresAccel;
 	//self.enableRotation = self.sceneManager.scene.requiresRotation;
 	//self.enableKeyGrabber = self.sceneManager.scene.requiresKeys;

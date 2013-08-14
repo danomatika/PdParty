@@ -10,11 +10,6 @@
  */
 #include "PatchScene.h"
 
-@interface PatchScene () {
-	UIView *_parentView;
-}
-@end
-
 @implementation PatchScene
 
 + (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui {
@@ -36,8 +31,8 @@
 	// add widgets before loading patch so dollar args can be replaced later
 	if(self.gui) {
 	
-		// set patch view background color
-		self.parentView.backgroundColor = [UIColor whiteColor];
+//		// set patch view background color
+//		self.parentView.backgroundColor = [UIColor whiteColor];
 		[self.gui addWidgetsFromPatch:path];
 	}
 	
@@ -79,6 +74,10 @@
 }
 
 - (void)reshape {
+	
+	// set patch view background color
+	self.parentView.backgroundColor = [UIColor whiteColor];
+	
 	[self.gui reshapeWidgets];
 }
 
@@ -104,10 +103,10 @@
 }
 
 - (void)setParentView:(UIView *)parentView {
-	if(_parentView != parentView) {
-		_parentView = parentView;
+	if(self.parentView != parentView) {
+		[super setParentView:parentView];
 		// add widgets to new parent view
-		if(self.gui && _parentView) {
+		if(self.gui && self.parentView) {
 			for(Widget *widget in self.gui.widgets) {
 				[self.parentView addSubview:widget];
 			}

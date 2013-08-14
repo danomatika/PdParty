@@ -146,12 +146,15 @@
 }
 
 - (void)updateParent:(UIView *)parent andControls:(UIView *)controls {
+	NSLog(@"SceneManager: updating Parent %@ for scene %@", parent, self.scene);
 	if(!self.scene) return;
 	self.scene.parentView = parent;
 	if(self.scene.type == SceneTypeRj) {
 		((RjScene*) self.scene).controlsView = controls;
 	}
-	//[self reshapeWithFrame:self.scene.parent.frame];
+	if(parent) {
+		[self reshapeWithFrame:parent.frame];
+	}
 }
 
 #pragma mark Send Events

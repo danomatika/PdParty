@@ -14,7 +14,6 @@
 #import "RjText.h"
 
 @interface RjScene () {
-	UIView *_parentView;
 	NSMutableDictionary *widgets;
 }
 
@@ -53,11 +52,8 @@
 	[RjScene removeRjAbstractionDuplicates:path];
 	
 	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {
-			
-		// set patch view background color
-		self.parentView.backgroundColor = [UIColor blackColor];
 		
-		// set background
+		// load background
 		NSString *backgroundPath = [path stringByAppendingPathComponent:@"image.jpg"];
 		if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
 			self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
@@ -70,9 +66,9 @@
 			DDLogWarn(@"RjScene: no background image");
 		}
 		
-		// bring out the rjdj controls
-		[self.parentView bringSubviewToFront:self.controlsView];
-		self.controlsView.hidden = NO;
+//		// bring out the rjdj controls
+//		[self.parentView bringSubviewToFront:self.controlsView];
+//		self.controlsView.hidden = NO;
 		
 		[self reshape];
 		
@@ -99,6 +95,12 @@
 - (void)reshape {
 	CGSize viewSize, backgroundSize, controlsSize;
 	CGFloat xPos = 0;
+	
+	// set patch view background color
+	self.parentView.backgroundColor = [UIColor blackColor];
+	
+	NSLog(@"RjScene reshape, parentView: %@", self.parentView);
+	[Util logRect:self.parentView.frame];
 	
 	// rj backgrounds are always square
 	viewSize = self.parentView.frame.size;
@@ -129,6 +131,10 @@
 	controlsSize.width = backgroundSize.width;
 	controlsSize.height = viewSize.height - backgroundSize.height;
 	self.controlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
+	
+	// bring out the rjdj controls
+	[self.parentView bringSubviewToFront:self.controlsView];
+	self.controlsView.hidden = NO;
 }
 
 - (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos {
@@ -157,14 +163,21 @@
 }
 
 - (void)setParentView:(UIView *)parentView {
-	if(_parentView != parentView) {
-		_parentView = parentView;
-		if(_parentView) {
-			// add background & widgets to new parent view
+	if(self.parentView != parentView) {
+		[super setParentView:parentView];
+		// add background & rj widgets to new parent view
+		if(self.parentView && self.background) {
 			[self.parentView addSubview:self.background];
 		}
 	}
+	else {
+		NSLog(@"RjScene: parentView is the same");
+	}
 }
+
+//- (void)setControlsView:(UIView *)controlsView {
+//
+//}
 
 - (int)sampleRate {
 	return RJ_SAMPLERATE;
