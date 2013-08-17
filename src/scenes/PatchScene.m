@@ -114,10 +114,6 @@
 	}
 }
 
-- (BOOL)requiresTouch {
-	return YES;
-}
-
 - (BOOL)requiresAccel {
 	return YES;
 }

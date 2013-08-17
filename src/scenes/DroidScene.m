@@ -41,10 +41,6 @@
 	return @"DroidScene";
 }
 
-- (BOOL)requiresTouch {
-	return NO;
-}
-
 - (BOOL)requiresAccel {
 	return NO;
 }

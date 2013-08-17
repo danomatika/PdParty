@@ -23,10 +23,7 @@
 @property (weak, nonatomic) PureData *pureData;
 @property (weak, nonatomic) Osc *osc;
 
-// touch events handled automatically
 @property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
-//@property (assign, nonatomic) BOOL enableRotation;		// enable rotation events?
-//@property (assign, nonatomic) BOOL enableKeyGrabber;	// enable keyboard event grabbing?
 
 // close the current scene and open a new one, requires full path to current patch
 - (BOOL)openScene:(NSString*)path withType:(SceneType)type forParent:(UIView *)parent andControls:(UIView *)controls;
@@ -40,21 +37,10 @@
 // update view pointers in case the patch view controller has changed  
 - (void)updateParent:(UIView *)parent andControls:(UIView *)controls;
 
-#pragma mark Controls
-//
-//@property (assign, getter=isPlaying, nonatomic) BOOL playing;
-//
-//@property (assign, readonly, getter=isRecording, nonatomic) BOOL recording;
-//- (BOOL)startRecording;
-//- (void)stopRecording;
-
 #pragma mark Send Events
 
 // rj touch event
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
-
-// rj accel event
-//- (void)sendAccel:(float)x y:(float)y z:(float)z;
 
 // pdparty rotate event
 - (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;

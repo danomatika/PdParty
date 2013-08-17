@@ -17,7 +17,6 @@
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
-//#import <CoreFoundation/CoreFoundation.h>
 #import "Reachability.h"
 
 #import "Log.h"

@@ -10,11 +10,8 @@
  */
 #import <UIKit/UIKit.h>
 
-//#import "AllScenes.h"
 #import "SceneManager.h"
 #import "KeyGrabber.h"
-
-//@class Gui;
 
 //@interface RjControls : NSObject
 //@property (weak, nonatomic) IBOutlet UIView *rjControlsView;
@@ -24,20 +21,9 @@
 //@end
 
 // DetailViewController for patches/scenes 
-@interface PatchViewController : UIViewController
-	<UISplitViewControllerDelegate, //UIAccelerometerDelegate,
-	 KeyGrabberDelegate>
+@interface PatchViewController : UIViewController <UISplitViewControllerDelegate, KeyGrabberDelegate>
 
 @property (weak, nonatomic) SceneManager *sceneManager;
-
-//@property (strong) Gui *gui; // pd gui widgets
-//@property (strong, nonatomic) Scene* scene; // current scene
-//@property (assign, readonly, nonatomic) NSString* currentPath; // the current given path
-
-// touch events handled automatically
-//@property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
-//@property (assign, nonatomic) BOOL enableRotation;		// enable rotation events?
-//@property (assign, nonatomic) BOOL enableKeyGrabber;	// enable keyboard event grabbing?
 
 // close the current scene and open a new one, requires full path to current patch
 - (void)openScene:(NSString*)path withType:(SceneType)type;

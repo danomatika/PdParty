@@ -13,18 +13,12 @@
 #import <CoreMotion/CoreMotion.h>
 #import "Log.h"
 #import "Gui.h"
-//#import "PdParser.h"
 #import "AppDelegate.h"
 
 #define ACCEL_UPDATE_HZ	60.0
 
 @interface SceneManager () {
-	
 	CMMotionManager *motionManager; // for accel data
-	
-	//Osc *osc; // to send osc
-	//PureData *pureData; // to set samplerate
-
 	BOOL hasReshaped; // has the gui been reshaped?
 }
 @property (strong, readwrite, nonatomic) NSString* currentPath;
@@ -60,12 +54,6 @@
 		return NO;
 	}
 	
-	// create gui here as iPhone dosen't load view until *after* this is called
-//	if(!self.gui) {
-//		self.gui = [[Gui alloc] init];
-//		self.gui.bounds = self.view.bounds;
-//	}
-	
 	// close open scene
 	[self closeScene];
 	
@@ -92,23 +80,12 @@
 	}
 	self.pureData.audioEnabled = YES;
 	self.pureData.sampleRate = self.scene.sampleRate;
-	//self.enableAccelerometer = self.scene.requiresAccel;
-	//self.enableRotation = self.scene.requiresRotation;
-	//self.enableKeyGrabber = self.scene.requiresKeys;
+	self.enableAccelerometer = self.scene.requiresAccel;
 	self.pureData.playing = YES;
 	[self.scene open:path];
 	
 	// turn up volume & turn on transport, update gui
 	[self.pureData sendCurrentPlayValues];
-//	[self updateRjControls];
-//	
-//	// set nav controller title
-//	self.navigationItem.title = self.scene.name;
-//	
-//	// hide iPad browser popover on selection 
-//	if(self.masterPopoverController != nil) {
-//        [self.masterPopoverController dismissPopoverAnimated:YES];
-//    }
 	
 	// store current location
 	self.currentPath = path;
@@ -120,10 +97,10 @@
 	if(self.scene) {
 		if(self.pureData.isRecording) {
 			[self.pureData stopRecording];
-//			[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
 		}
 		[self.scene close];
 		self.scene = nil;
+		self.enableAccelerometer = NO;
 	}
 }
 
@@ -146,7 +123,6 @@
 }
 
 - (void)updateParent:(UIView *)parent andControls:(UIView *)controls {
-	NSLog(@"SceneManager: updating Parent %@ for scene %@", parent, self.scene);
 	if(!self.scene) return;
 	self.scene.parentView = parent;
 	if(self.scene.type == SceneTypeRj) {
@@ -224,32 +200,5 @@
 		DDLogVerbose(@"SceneManager: disabled accel");
 	}
 }
-
-#pragma mark Controls
-
-//- (void)setPlaying:(BOOL)playing {
-//	self.pureData.audioEnabled = playing;
-//}
-//
-//- (BOOL)isPlaying {
-//	return self.pureData.audioEnabled;
-//}
-//
-//- (BOOL)startRecording {
-//	NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:@"recordings"];
-//	if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
-//		DDLogVerbose(@"Recordings dir not found, creating %@", recordDir);
-//		NSError *error;
-//		if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:NO attributes:nil error:&error]) {
-//			DDLogError(@"Couldn't create %@, error: %@", recordDir, error.localizedDescription);
-//			return;
-//		}
-//	}
-//	
-//	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//	[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
-//	NSString *date = [formatter stringFromDate:[NSDate date]];
-//	[pureData startRecordingTo:[recordDir stringByAppendingPathComponent:[self.scene.name stringByAppendingFormat:@"_%@.wav", date]]];
-//}
 
 @end

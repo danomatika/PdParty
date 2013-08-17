@@ -65,12 +65,6 @@
 	self.sceneManager.pureData = self.pureData;
 	self.sceneManager.osc = self.osc;
 	
-//	// init motion manager
-//	self.motionManager = [[CMMotionManager alloc] init];
-	
-	// turn on dsp
-	//self.pureData.audioEnabled = YES;
-	
     return YES;
 }
 							

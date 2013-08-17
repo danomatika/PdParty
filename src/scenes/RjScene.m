@@ -99,9 +99,6 @@
 	// set patch view background color
 	self.parentView.backgroundColor = [UIColor blackColor];
 	
-	NSLog(@"RjScene reshape, parentView: %@", self.parentView);
-	[Util logRect:self.parentView.frame];
-	
 	// rj backgrounds are always square
 	viewSize = self.parentView.frame.size;
 	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -170,14 +167,7 @@
 			[self.parentView addSubview:self.background];
 		}
 	}
-	else {
-		NSLog(@"RjScene: parentView is the same");
-	}
 }
-
-//- (void)setControlsView:(UIView *)controlsView {
-//
-//}
 
 - (int)sampleRate {
 	return RJ_SAMPLERATE;

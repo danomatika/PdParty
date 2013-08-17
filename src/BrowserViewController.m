@@ -52,17 +52,10 @@
 	[super viewDidLoad];
 	
 	// setup the root view
-	// if currentDir is nil, then this is the root layer since currentDir is set when pushing child layers onto the navController
 	if(!self.currentDir) {
 		if([Util isDeviceATablet]) { // patch view is top on iPad
 			self.patchViewController = (PatchViewController *)[[self.parentViewController.splitViewController.viewControllers lastObject] topViewController];
 		}
-//		else {
-//			UIStoryboard *board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
-//			self.patchViewController = [board instantiateViewControllerWithIdentifier:@"PatchViewController"];
-//			AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-//			[app.window.rootViewController.view addSubView:self.patchViewController.view];
-//		}
 		self.currentDir = [Util documentsPath];
 	}
 }
@@ -125,6 +118,9 @@
 			}
 			else if([[p pathExtension] isEqualToString: @"pd"]) { // add patch
 				[self.pathArray addObject:fullPath];
+			}
+			else {
+				DDLogVerbose(@"Browser: Dropped path: %@", p);
 			}
 		}
 	}
@@ -253,17 +249,13 @@
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		if(!self.patchViewController) {
 			[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
+			
+			// set view controller here since iPhone doesn't create it until the segue
 			self.patchViewController = (PatchViewController*)[segue destinationViewController];
 		}
 		else {
 			[self.patchViewController openScene:selectedPatch withType:selectedSceneType];
 		}
-		//[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
-//		if(!self.patchViewController) {
-//			// set pointer here for iPhone
-//			self.patchViewController = (PatchViewController*)[segue destinationViewController];
-//			NSLog(@"set pointer");
-//		}
     }
 }
 

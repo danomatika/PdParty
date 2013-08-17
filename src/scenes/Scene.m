@@ -57,10 +57,6 @@
 	return PARTY_SAMPLERATE;
 }
 
-- (BOOL)requiresTouch {
-	return NO;
-}
-
 - (BOOL)requiresAccel {
 	return NO;
 }
