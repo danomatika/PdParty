@@ -27,6 +27,11 @@
 + (CGFloat) appHeight;
 + (CGSize) appSize;
 
+#pragma mark Conversion
+
+// convert an orientation into degrees, relative to portrait
++ (int)orientationInDegrees:(UIInterfaceOrientation)orientation;
+
 #pragma mark Logging Shortcuts
 
 // print the pos & size of a CGRect

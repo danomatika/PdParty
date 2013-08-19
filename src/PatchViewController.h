@@ -45,9 +45,4 @@
 // update the rj controls based on the current PureData settings
 - (void)updateRjControls;
 
-#pragma Util
-
-// convert an orientation into degrees
-+ (int)orientationInDegrees:(UIInterfaceOrientation)orientation;
-
 @end

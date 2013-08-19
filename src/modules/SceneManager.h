@@ -37,6 +37,9 @@
 // update view pointers in case the patch view controller has changed  
 - (void)updateParent:(UIView *)parent andControls:(UIView *)controls;
 
+// set a new orientation, sends rotation event
+- (void)rotated:(UIInterfaceOrientation)fromOrientation to:(UIInterfaceOrientation)toOrientation;
+
 #pragma mark Send Events
 
 // rj touch event

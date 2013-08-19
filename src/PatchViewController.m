@@ -11,7 +11,6 @@
 #import "PatchViewController.h"
 
 #import "Log.h"
-//#import "PdParser.h"
 #import "AppDelegate.h"
 
 @interface PatchViewController () {
@@ -65,28 +64,7 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	
-	int rotate = [PatchViewController orientationInDegrees:fromInterfaceOrientation] -
-			     [PatchViewController orientationInDegrees:self.interfaceOrientation];
-	
-	NSString *orient;
-	switch(self.interfaceOrientation) {
-		case UIInterfaceOrientationPortrait:
-			orient = PARTY_ORIENT_PORTRAIT;
-			break;
-		case UIInterfaceOrientationPortraitUpsideDown:
-			orient = PARTY_ORIENT_PORTRAIT_UPSIDEDOWN;
-			break;
-		case UIInterfaceOrientationLandscapeLeft:
-			orient = PARTY_ORIENT_LANDSCAPE_LEFT;
-			break;
-		case UIInterfaceOrientationLandscapeRight:
-			orient = PARTY_ORIENT_LANDSCAPE_RIGHT;
-			break;
-	}
-
-	//DDLogVerbose(@"rotate: %d %@", rotate, orient);
-	[self.sceneManager sendRotate:rotate newOrientation:orient];
+	[self.sceneManager rotated:fromInterfaceOrientation to:self.interfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -135,21 +113,6 @@
 - (void)closeScene {
 	[self.sceneManager closeScene];
 	[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
-}
-
-#pragma mark Util
-
-+ (int)orientationInDegrees:(UIInterfaceOrientation)orientation {
-	switch(orientation) {
-		case UIInterfaceOrientationPortrait:
-			return 0;
-		case UIInterfaceOrientationPortraitUpsideDown:
-			return 180;
-		case UIInterfaceOrientationLandscapeLeft:
-			return 90;
-		case UIInterfaceOrientationLandscapeRight:
-			return -90;
-	}
 }
 
 #pragma mark RJ Controls

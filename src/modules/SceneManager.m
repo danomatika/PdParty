@@ -19,6 +19,7 @@
 
 @interface SceneManager () {
 	CMMotionManager *motionManager; // for accel data
+	UIInterfaceOrientation currentOrientation; // accel orientation based on this
 	BOOL hasReshaped; // has the gui been reshaped?
 }
 @property (strong, readwrite, nonatomic) NSString* currentPath;
@@ -35,6 +36,14 @@
 		
 		// init motion manager
 		motionManager = [[CMMotionManager alloc] init];
+		
+		// current UI orientation for accel
+		if([Util isDeviceATablet]) { // iPad can started rotated
+			currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+		}
+		else { // do not start rotated on iPhone
+			currentOrientation = UIInterfaceOrientationPortrait;
+		}
 		
 		// set osc and pure data pointer
 		AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
@@ -133,6 +142,31 @@
 	}
 }
 
+- (void)rotated:(UIInterfaceOrientation)fromOrientation to:(UIInterfaceOrientation)toOrientation {
+	
+	int rotate = [Util orientationInDegrees:fromOrientation] - [Util orientationInDegrees:toOrientation];
+	
+	NSString *orient;
+	switch(toOrientation) {
+		case UIInterfaceOrientationPortrait:
+			orient = PARTY_ORIENT_PORTRAIT;
+			break;
+		case UIInterfaceOrientationPortraitUpsideDown:
+			orient = PARTY_ORIENT_PORTRAIT_UPSIDEDOWN;
+			break;
+		case UIInterfaceOrientationLandscapeLeft:
+			orient = PARTY_ORIENT_LANDSCAPE_LEFT;
+			break;
+		case UIInterfaceOrientationLandscapeRight:
+			orient = PARTY_ORIENT_LANDSCAPE_RIGHT;
+			break;
+	}
+
+	//DDLogVerbose(@"rotate: %d %@", rotate, orient);
+	[self sendRotate:rotate newOrientation:orient];
+	currentOrientation = toOrientation;
+}
+
 #pragma mark Send Events
 
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
@@ -181,23 +215,61 @@
 //					DDLogVerbose(@"accel %f %f %f", accelerometerData.acceleration.x,
 //													accelerometerData.acceleration.y,
 //													accelerometerData.acceleration.z);
-					[PureData sendAccel:accelerometerData.acceleration.x
-									  y:accelerometerData.acceleration.y
-									  z:accelerometerData.acceleration.z];
-					if(self.osc.isListening) {
-						[self.osc sendAccel:accelerometerData.acceleration.x
-										  y:accelerometerData.acceleration.y
-										  z:accelerometerData.acceleration.z];
+					// orient accel data to current orientation
+					switch(currentOrientation) {
+						case UIInterfaceOrientationPortrait:
+							[PureData sendAccel:accelerometerData.acceleration.x
+											  y:accelerometerData.acceleration.y
+											  z:accelerometerData.acceleration.z];
+							if(self.osc.isListening) {
+								[self.osc sendAccel:accelerometerData.acceleration.x
+												  y:accelerometerData.acceleration.y
+												  z:accelerometerData.acceleration.z];
+							}
+							break;
+						case UIInterfaceOrientationLandscapeRight:
+							[PureData sendAccel:-accelerometerData.acceleration.y
+											  y:accelerometerData.acceleration.x
+											  z:accelerometerData.acceleration.z];
+							if(self.osc.isListening) {
+								[self.osc sendAccel:-accelerometerData.acceleration.y
+												  y:accelerometerData.acceleration.x
+												  z:accelerometerData.acceleration.z];
+							}
+							break;
+						case UIInterfaceOrientationPortraitUpsideDown:
+							[PureData sendAccel:-accelerometerData.acceleration.x
+											  y:-accelerometerData.acceleration.y
+											  z:accelerometerData.acceleration.z];
+							if(self.osc.isListening) {
+								[self.osc sendAccel:-accelerometerData.acceleration.x
+												  y:-accelerometerData.acceleration.y
+												  z:accelerometerData.acceleration.z];
+							}
+							break;
+						case UIInterfaceOrientationLandscapeLeft:
+							[PureData sendAccel:accelerometerData.acceleration.y
+											  y:-accelerometerData.acceleration.x
+											  z:accelerometerData.acceleration.z];
+							if(self.osc.isListening) {
+								[self.osc sendAccel:accelerometerData.acceleration.y
+												  y:-accelerometerData.acceleration.x
+												  z:accelerometerData.acceleration.z];
+							}
+							break;
 					}
 				}];
+			DDLogVerbose(@"SceneManager: enabled accel");
 		}
-		DDLogVerbose(@"SceneManager: enabled accel");
+		else {
+			DDLogWarn(@"SceneManager: couldn't enable accel, accel not available on this device");
+		}
 	}
 	else { // stop
 		if([motionManager isAccelerometerActive]) {
-          [motionManager stopAccelerometerUpdates];
+			[motionManager stopAccelerometerUpdates];
+			DDLogVerbose(@"SceneManager: disabled accel");
 		}
-		DDLogVerbose(@"SceneManager: disabled accel");
 	}
 }
 
