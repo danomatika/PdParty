@@ -30,9 +30,6 @@
 	
 	// add widgets before loading patch so dollar args can be replaced later
 	if(self.gui) {
-	
-//		// set patch view background color
-//		self.parentView.backgroundColor = [UIColor whiteColor];
 		[self.gui addWidgetsFromPatch:path];
 	}
 	
@@ -74,10 +71,6 @@
 }
 
 - (void)reshape {
-	
-	// set patch view background color
-	self.parentView.backgroundColor = [UIColor whiteColor];
-	
 	[self.gui reshapeWidgets];
 }
 
@@ -105,10 +98,15 @@
 - (void)setParentView:(UIView *)parentView {
 	if(self.parentView != parentView) {
 		[super setParentView:parentView];
-		// add widgets to new parent view
-		if(self.gui && self.parentView) {
-			for(Widget *widget in self.gui.widgets) {
-				[self.parentView addSubview:widget];
+		if(self.parentView) {
+			// set patch view background color
+			self.parentView.backgroundColor = [UIColor whiteColor];
+			
+			// add widgets to new parent view
+			if(self.gui) {
+				for(Widget *widget in self.gui.widgets) {
+					[self.parentView addSubview:widget];
+				}
 			}
 		}
 	}

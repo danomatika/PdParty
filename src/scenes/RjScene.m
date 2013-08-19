@@ -20,7 +20,7 @@
 @property (assign, readwrite, nonatomic) float scale;
 
 // find and remove abstractions which might mask rj-related internal patches
-+ (void)removeRjAbstractionDuplicates:(NSString *)directory ;
++ (void)removeRjAbstractionDuplicates:(NSString *)directory;
 
 @end
 
@@ -66,12 +66,7 @@
 			DDLogWarn(@"RjScene: no background image");
 		}
 		
-//		// bring out the rjdj controls
-//		[self.parentView bringSubviewToFront:self.controlsView];
-//		self.controlsView.hidden = NO;
-		
 		[self reshape];
-		
 		return YES;
 	}
 	
@@ -88,16 +83,16 @@
 		self.background = nil;
 	}
 	
-	self.controlsView.hidden = YES;
+	if(self.controlsView) {
+		self.controlsView.hidden = YES;
+	}
+	
 	[super close];
 }
 
 - (void)reshape {
 	CGSize viewSize, backgroundSize, controlsSize;
 	CGFloat xPos = 0;
-	
-	// set patch view background color
-	self.parentView.backgroundColor = [UIColor blackColor];
 	
 	// rj backgrounds are always square
 	viewSize = self.parentView.frame.size;
@@ -128,10 +123,6 @@
 	controlsSize.width = backgroundSize.width;
 	controlsSize.height = viewSize.height - backgroundSize.height;
 	self.controlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
-	
-	// bring out the rjdj controls
-	[self.parentView bringSubviewToFront:self.controlsView];
-	self.controlsView.hidden = NO;
 }
 
 - (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos {
@@ -162,10 +153,25 @@
 - (void)setParentView:(UIView *)parentView {
 	if(self.parentView != parentView) {
 		[super setParentView:parentView];
-		// add background & rj widgets to new parent view
-		if(self.parentView && self.background) {
-			[self.parentView addSubview:self.background];
+		if(self.parentView) {
+			// set patch view background color
+			self.parentView.backgroundColor = [UIColor blackColor];
+			
+			// add background & rj widgets to new parent view
+			if(self.background) {
+				[self.parentView addSubview:self.background];
+			}
 		}
+	}
+}
+
+- (void)setControlsView:(UIView *)controlsView {
+	if(_controlsView != controlsView) {
+		_controlsView = controlsView;
+		
+		// bring out the rjdj controls
+		[self.parentView bringSubviewToFront:self.controlsView];
+		self.controlsView.hidden = NO;
 	}
 }
 
@@ -195,9 +201,6 @@
 
 // mostly borrowed from the pd-for-android ScenePlayer
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	
-//	[Util logArray:list];
-	
 	if(list.count < 2 || ![list isStringAt:0] || ![list isStringAt:1]) return;
 	
 	NSString *key = [list objectAtIndex:0];
