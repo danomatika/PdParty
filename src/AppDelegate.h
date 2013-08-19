@@ -25,9 +25,14 @@
 @property (strong, nonatomic) PureData *pureData;
 @property (strong, nonatomic) Midi *midi;
 @property (strong, nonatomic) Osc *osc;
-
 @property (strong, nonatomic) SceneManager *sceneManager;
 
-//@property (strong, nonatomic) CMMotionManager *motionManager; // for accel data
+#pragma mark Util
+
+// recursively copy dirs and patches in the resource patches dir to the
+// Documents folder, removes/overwrites any currently existing dirs
+- (void)copyLibFolder;
+- (void)copySamplesFolder;
+- (void)copyTestsFolder;
 
 @end

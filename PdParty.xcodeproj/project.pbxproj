@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		300507B217C29CE700D1563C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300507B117C29CE600D1563C /* SettingsViewController.m */; };
 		3024563217357F540016583B /* Externals.m in Sources */ = {isa = PBXBuildFile; fileRef = 3024563117357F540016583B /* Externals.m */; };
 		30245649173582340016583B /* midifile.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245634173582340016583B /* midifile.c */; };
 		3024564A173582340016583B /* httpreceive.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245636173582340016583B /* httpreceive.c */; };
@@ -221,6 +222,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		300507B017C29CE600D1563C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = src/SettingsViewController.h; sourceTree = "<group>"; };
+		300507B117C29CE600D1563C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = src/SettingsViewController.m; sourceTree = "<group>"; };
 		3024563017357ECC0016583B /* Externals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
 		3024563117357F540016583B /* Externals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Externals.m; sourceTree = "<group>"; };
 		30245634173582340016583B /* midifile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = midifile.c; sourceTree = "<group>"; };
@@ -958,6 +961,8 @@
 				30960AFB16F5952400FAF2E7 /* OscViewController.m */,
 				30ABE2EA16B5D0FB00464926 /* PatchViewController.h */,
 				30ABE2EB16B5D0FB00464926 /* PatchViewController.m */,
+				300507B017C29CE600D1563C /* SettingsViewController.h */,
+				300507B117C29CE600D1563C /* SettingsViewController.m */,
 				30FA774D16E5636A000E8D2B /* StartViewController.h */,
 				30FA774E16E5636A000E8D2B /* StartViewController.m */,
 			);
@@ -1572,6 +1577,7 @@
 				303BD34A1759C6D5000FBEB5 /* sigmund~.c in Sources */,
 				303BD34C1759C6D5000FBEB5 /* stdout.c in Sources */,
 				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
+				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

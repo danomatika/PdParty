@@ -18,9 +18,9 @@
 
 @interface AppDelegate ()
 
-// recursively copy dirs and patches in the resource patches dir to the
+// recursively copy a given folder in the resource patches dir to the
 // Documents folder, removes/overwrites any currently existing dirs
-- (void)copyResourcePatchesToDocuments;
+- (void)copyResourcePatchFolderToDocuments:(NSString*)folderPath;
 
 @end
 
@@ -46,7 +46,7 @@
 	DDLogInfo(@"App resolution: %d %d", (int)[Util appWidth], (int)[Util appHeight]);
 	
 	// copy patches in the resource folder
-	[self copyResourcePatchesToDocuments];
+	//[self copyResourcePatchesToDocuments];
 	
 	// setup midi
 	self.midi = [[Midi alloc] init];
@@ -94,44 +94,40 @@
 	self.midi.networkEnabled = NO;
 }
 
+#pragma mark Util
+
+- (void)copyLibFolder {
+	[self copyResourcePatchFolderToDocuments:@"lib"];
+}
+
+- (void)copySamplesFolder {
+	[self copyResourcePatchFolderToDocuments:@"samples"];
+}
+
+- (void)copyTestsFolder {
+	[self copyResourcePatchFolderToDocuments:@"tests"];
+}
+
 #pragma mark Private
 
-- (void)copyResourcePatchesToDocuments {
+- (void)copyResourcePatchFolderToDocuments:(NSString*)folderPath {
 	
 	NSError *error;
 	
-	DDLogVerbose(@"Copying resource patches to Documents");
+	DDLogVerbose(@"AppDelegate: copying %@ to Documents", folderPath);
 	
-	// remove existing folders
-	NSString* testPatchesPath = [[Util documentsPath] stringByAppendingPathComponent:@"tests"];
-	if([[NSFileManager defaultManager] fileExistsAtPath:testPatchesPath]) {
-		if(![[NSFileManager defaultManager] removeItemAtPath:testPatchesPath error:&error]) {
-			DDLogError(@"Couldn't remove %@, error: %@", testPatchesPath, error.localizedDescription);
-		}
-	}
-	NSString* libPatchesPath = [[Util documentsPath] stringByAppendingPathComponent:@"lib"];
-	if([[NSFileManager defaultManager] fileExistsAtPath:libPatchesPath]) {
-		if(![[NSFileManager defaultManager] removeItemAtPath:libPatchesPath error:&error]) {
-			DDLogError(@"Couldn't remove %@, error: %@", libPatchesPath, error.localizedDescription);
+	// remove existing folder
+	NSString* destPath = [[Util documentsPath] stringByAppendingPathComponent:folderPath];
+	if([[NSFileManager defaultManager] fileExistsAtPath:destPath]) {
+		if(![[NSFileManager defaultManager] removeItemAtPath:destPath error:&error]) {
+			DDLogError(@"AppDelegate: couldn't remove %@, error: %@", destPath, error.localizedDescription);
 		}
 	}
 	
-	// recursively copy contents of patches resource folder to Documents
-	NSString *resourcePatchesPath = [[Util bundlePath] stringByAppendingPathComponent:@"patches"];
-	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:resourcePatchesPath error:&error];
-	if(!contents) {
-		DDLogError(@"Couldn't read files in path %@, error: %@", resourcePatchesPath, error.localizedDescription);
-		return;
-	}
-	
-	DDLogVerbose(@"Found %d paths in patches resource folder", contents.count);
-	for(NSString *p in contents) {
-		NSString *filePath = [resourcePatchesPath stringByAppendingPathComponent:p];
-		NSString *destPath = [[Util documentsPath] stringByAppendingPathComponent:p];
-		DDLogVerbose(@"	Copying %@", p);
-		if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destPath error:&error]) {
-			DDLogError(@"Couldn't copy %@ to %@, error: %@", filePath, destPath, error.localizedDescription);
-		}
+	// copy
+	NSString* srcPath = [[[Util bundlePath] stringByAppendingPathComponent:@"patches"] stringByAppendingPathComponent:folderPath];
+	if(![[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:destPath error:&error]) {
+		DDLogError(@"AppDelegate: couldn't copy %@ to %@, error: %@", srcPath, destPath, error.localizedDescription);
 	}
 }
 

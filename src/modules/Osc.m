@@ -40,6 +40,10 @@
 			DDLogError(@"OSC: Could not bind UDP connection: %@", error);
 		}
 		[connection disconnect];
+		
+		self.touchSendingEnabled = NO;
+		self.accelSendingEnabled = NO;
+		self.rotationSendingEnabled = NO;
 	}
 	return self;
 }
@@ -82,6 +86,7 @@
 }
 
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
+	if(!self.touchSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_TOUCH_ADDR;
 	[message addString:eventType];
@@ -92,6 +97,7 @@
 }
 
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
+	if(!self.accelSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_ACCEL_ADDR;
 	[message addFloat:x];
@@ -101,6 +107,7 @@
 }
 
 - (void)sendRotate:(float)degrees newOrientation:(NSString*)orientation {
+	if(!self.rotationSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_ROTATE_ADDR;
 	[message addFloat:degrees];
@@ -109,6 +116,7 @@
 }
 
 - (void)sendKey:(int)key {
+	if(!self.keySendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_KEY_ADDR;
 	[message addFloat:key];

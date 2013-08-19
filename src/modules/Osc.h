@@ -23,6 +23,12 @@
 @property (nonatomic) int sendPort; // do not set when listening
 @property (nonatomic) int listenPort;
 
+// should the following events be sent automatically? (default: NO)
+@property (assign, nonatomic) BOOL touchSendingEnabled;
+@property (assign, nonatomic) BOOL accelSendingEnabled;
+@property (assign, nonatomic) BOOL rotationSendingEnabled;
+@property (assign, nonatomic) BOOL keySendingEnabled;
+
 #pragma mark Send Events
 
 // send to pdParty osc reciever
