@@ -12,6 +12,7 @@
 
 #import "Log.h"
 #import "Midi.h"
+#import "Osc.h"
 #import "PdAudioController.h"
 #import "Externals.h"
 #import "Util.h"
@@ -49,10 +50,13 @@
 		// set midi receiver delegate
 		[PdBase setMidiDelegate:self];
 		
+		// add this class as a receiver
+		[self.dispatcher addListener:self forSource:PD_OSC_S];
+		
 		// setup externals
 		[Externals setup];
 		
-		// open "eternal patches" that always run in the background
+		// open "external patches" that always run in the background
 		NSString * rjLibDir = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"];
 		[PdBase openFile:@"recorder.pd" path:rjLibDir];
 		[PdBase openFile:@"playback.pd" path:rjLibDir];
@@ -101,6 +105,10 @@
 	[PdBase sendFloat:key toReceiver:PD_KEY_R];
 }
 
++ (void)sendOscMessage:(NSString *)address withArguments:(NSArray *)arguments {
+	[PdBase sendMessage:address withArguments:arguments toReceiver:PD_OSC_R];
+}
+
 #pragma mark Send Values
 
 + (void)sendTransportPlay:(BOOL)play {
@@ -113,6 +121,29 @@
 
 + (void)sendVolume:(float)volume {
 	[PdBase sendMessage:@"set" withArguments:[NSArray arrayWithObject:[NSNumber numberWithFloat:volume]] toReceiver:RJ_VOLUME_R];
+}
+
+#pragma mark PdReceiverDelegate
+
+- (void)receiveBangFromSource:(NSString *)source {
+	DDLogWarn(@"PureData: dropped bang");
+}
+
+- (void)receiveFloat:(float)received fromSource:(NSString *)source {
+	DDLogWarn(@"PureData: dropped float: %f", received);
+}
+
+- (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
+	DDLogWarn(@"PureData: dropped symbol: %@", symbol);
+}
+
+- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
+	DDLogWarn(@"PureData: dropped list: %@", [list description]);
+}
+
+- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
+	// message should be the osc address
+	[self.osc sendMessage:message withArguments:arguments];
 }
 
 #pragma mark PdMidiReceiverDelegate

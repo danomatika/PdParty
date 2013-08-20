@@ -10,11 +10,10 @@
  */
 #import "CocoaOSC.h"
 
-#define OSC_TOUCH_ADDR	@"/pd/event/touch"
-#define OSC_ACCEL_ADDR	@"/pd/event/accelerate"
-#define OSC_ROTATE_ADDR	@"/pd/event/rotate"
-#define OSC_KEY_ADDR	@"/pd/event/key"
-#define OSC_OSC_ADDR	@"/pd/event/osc"
+#define OSC_TOUCH_ADDR	@"/pd/touch"
+#define OSC_ACCEL_ADDR	@"/pd/accelerate"
+#define OSC_ROTATE_ADDR	@"/pd/rotate"
+#define OSC_KEY_ADDR	@"/pd/key"
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
@@ -32,10 +31,7 @@
 #pragma mark Send Events
 
 // send to pdParty osc reciever
-- (void)sendBang;
-- (void)sendFloat:(float)f;
-- (void)sendSymbol:(NSString *)symbol;
-- (void)sendList:(NSArray *)list;
+- (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments;
 
 // rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;

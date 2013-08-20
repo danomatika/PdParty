@@ -1,0 +1,51 @@
+#N canvas 540 410 673 275 10;
+#X declare -lib mrpeach;
+#X obj 170 15 import mrpeach;
+#X obj 295 208 udpsend;
+#X msg 346 177 disconnect;
+#X obj 295 132 packOSC;
+#X obj 13 41 unpackOSC;
+#X obj 58 94 print;
+#X obj 58 66 spigot;
+#X obj 91 42 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+;
+#X obj 13 245 s #touch;
+#X obj 72 244 s #accelerate;
+#X obj 131 219 s #rotate;
+#X obj 295 27 key;
+#X obj 295 53 spigot;
+#X obj 328 28 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 346 156 connect 127.0.0.1 8088;
+#X obj 13 187 routeOSC /touch /accelerate /rotate /key;
+#X obj 205 219 s #key;
+#X msg 416 101 /slider \$1;
+#X obj 416 73 r \$0-vsl-out;
+#X obj 528 82 vsl 15 128 0 127 0 0 \$0-vsl-out \$0-vsl-in sends_to_PdParty
+0 -9 0 10 -262144 -1 -1 800 1;
+#X obj 13 125 routeOSC /pd /bang;
+#X obj 65 156 s \$0-bang-in;
+#X obj 528 37 bng 15 250 50 0 \$0-bang-out \$0-bang-in recvs_from_PdParty
+17 7 0 10 -262144 -1 -1;
+#X obj 13 15 udpreceive 8888;
+#X msg 295 101 /pd/key \$1;
+#X connect 2 0 1 0;
+#X connect 3 0 1 0;
+#X connect 4 0 6 0;
+#X connect 4 0 20 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 1;
+#X connect 11 0 12 0;
+#X connect 12 0 24 0;
+#X connect 13 0 12 1;
+#X connect 14 0 1 0;
+#X connect 15 0 8 0;
+#X connect 15 1 9 0;
+#X connect 15 2 10 0;
+#X connect 15 3 16 0;
+#X connect 17 0 3 0;
+#X connect 18 0 17 0;
+#X connect 20 0 15 0;
+#X connect 20 1 21 0;
+#X connect 23 0 4 0;
+#X connect 24 0 3 0;

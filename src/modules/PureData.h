@@ -14,6 +14,8 @@
 
 // PD event receivers
 #define PD_KEY_R		@"#key"
+#define PD_OSC_R		@"#osc-in"
+#define PD_OSC_S		@"#osc-out"
 
 // RjDj event receivers
 #define RJ_TRANSPORT_R	@"#transport"
@@ -41,11 +43,13 @@
 #define RJ_SAMPLERATE		22050
 
 @class Midi;
+@class Osc;
 
-@interface PureData : NSObject <PdMidiReceiverDelegate>
+@interface PureData : NSObject <PdReceiverDelegate, PdMidiReceiverDelegate>
 
 @property (strong, nonatomic) PdDispatcher *dispatcher; // message dispatcher
 @property (weak, nonatomic) Midi *midi; // pointer to midi instance
+@property (weak, nonatomic) Osc *osc; // pointer to osc instance
 
 // enabled / disable PD audio processing
 @property (getter=isAudioEnabled) BOOL audioEnabled;
@@ -85,6 +89,9 @@
 
 // pd key event
 + (void)sendKey:(int)key;
+
+// osc message
++ (void)sendOscMessage:(NSString *)address withArguments:(NSArray *)arguments;
 
 #pragma mark Send Values
 

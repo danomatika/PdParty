@@ -54,42 +54,22 @@
 #pragma OSCConnectionDelegate
 
 - (void)oscConnection:(OSCConnection *)connection didReceivePacket:(OSCPacket *)packet {
-	 NSLog(@"OSC message to port %@: %@", packet.address, [packet.arguments description]);
+	#ifdef DEBUG
+		DDLogVerbose(@"OSC message to %@: %@", packet.address, [packet.arguments description]);
+	#endif
+	[PureData sendOscMessage:packet.address withArguments:packet.arguments];
 }
 
 #pragma mark Send Events
 
-- (void)sendBang {
+- (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments {
 	if(!self.listening) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_OSC_ADDR;
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
-}
-
-- (void)sendFloat:(float)f {
-	if(!self.listening) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_OSC_ADDR;
-	[message addFloat:f];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
-}
-
-- (void)sendSymbol:(NSString *)symbol {
-	if(!self.listening) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_OSC_ADDR;
-	[message addString:symbol];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
-}
-
-- (void)sendList:(NSArray *)list {
-	if(!self.listening) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_OSC_ADDR;
-	for(NSObject *object in list) {
-		[message addArgument:object];
+	OSCMutableMessage *m = [[OSCMutableMessage alloc] init];
+    m.address = address;
+	for(NSObject *object in arguments) {
+		[m addArgument:object];
 	}
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	[connection sendPacket:m toHost:self.sendHost port:self.sendPort];
 }
 
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
