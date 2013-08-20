@@ -88,27 +88,27 @@
 
 	NSError *error;
 
-	DDLogVerbose(@"Browser: Loading directory %@", dirPath);
+	DDLogVerbose(@"Browser: loading directory %@", dirPath);
 
 	// search for files in the given path
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:&error];
 	if(!contents) {
-		DDLogError(@"Browser: Couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
+		DDLogError(@"Browser: couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
 		return;
 	}
 	
 	// add contents to pathArray as absolute paths
-	DDLogVerbose(@"Browser: Found %d paths", contents.count);
+	DDLogVerbose(@"Browser: found %d paths", contents.count);
 	for(NSString *p in contents) {
 		DDLogVerbose(@"Browser: 	%@", p);
 		
 		// remove Finder DS_Store garbage (created over WebDAV)
 		if([p isEqualToString:@"._.DS_Store"] || [p isEqualToString:@".DS_Store"]) {
 			if(![[NSFileManager defaultManager] removeItemAtPath:[dirPath stringByAppendingPathComponent:p] error:&error]) {
-				DDLogError(@"Browser: Couldn't remove %@, error: %@", p, error.localizedDescription);
+				DDLogError(@"Browser: couldn't remove %@, error: %@", p, error.localizedDescription);
 			}
 			else {
-				DDLogVerbose(@"Browser: Removed %@", p);
+				DDLogVerbose(@"Browser: removed %@", p);
 			}
 		}
 		else { // add paths
@@ -120,7 +120,7 @@
 				[self.pathArray addObject:fullPath];
 			}
 			else {
-				DDLogVerbose(@"Browser: Dropped path: %@", p);
+				DDLogVerbose(@"Browser: dropped path: %@", p);
 			}
 		}
 	}
@@ -129,7 +129,7 @@
 	self.navigationItem.title = [dirPath lastPathComponent]; // set title of back button
 	self.currentDir = dirPath;
 	self.navigationController.title = [dirPath lastPathComponent]; // set title of current dir
-	DDLogVerbose(@"Browser: Current directory now %@", dirPath);
+	DDLogVerbose(@"Browser: current directory now %@", dirPath);
 }
 
 - (void)unloadDirectory {
@@ -187,10 +187,28 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.pathArray removeObjectAtIndex:indexPath.row];
+	if(editingStyle == UITableViewCellEditingStyleDelete) {
+    
+		// remove file/folder
+		NSError *error;
+		NSString *path = self.pathArray[indexPath.row];
+		if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+			if(![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) {
+				DDLogError(@"Browser: couldn't remove %@, error: %@", path, error.localizedDescription);
+			}
+			else {
+				DDLogVerbose(@"Browser: removed %@", path);
+			}
+		}
+		else {
+			DDLogWarn(@"Browser: couldn't remove %@, path not found", path);
+		}
+			
+		// remove from view
+		[self.pathArray removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if(editingStyle == UITableViewCellEditingStyleInsert) {
+    }
+	else if(editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
@@ -237,7 +255,7 @@
 		}
 	}
 	else {
-		DDLogError(@"Browser: Can't select row in table view, file dosen't exist: %@", path);
+		DDLogError(@"Browser: can't select row in table view, file dosen't exist: %@", path);
 		[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	}
 }
