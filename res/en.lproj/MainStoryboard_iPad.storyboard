@@ -132,9 +132,9 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RYN-SE-WyY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1127" y="-784"/>
+            <point key="canvasLocation" x="1756" y="-784"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="7nZ-uC-YOS">
             <objects>
                 <tableViewController id="iuf-Pb-1Gb" customClass="SettingsViewController" sceneMemberID="viewController">
@@ -146,7 +146,7 @@
                         <sections>
                             <tableViewSection headerTitle="OSC" footerTitle="Event types to stream over OSC" id="Xpp-qv-9v9">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="LUs-Ls-Wct">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="LUs-Ls-Wct">
                                         <rect key="frame" x="0.0" y="34" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -173,7 +173,7 @@
                                             <constraint firstItem="E96-vD-z9r" firstAttribute="centerY" secondItem="LUs-Ls-Wct" secondAttribute="centerY" type="default" id="rxj-5h-89I"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="NiL-vc-9Yg">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="NiL-vc-9Yg">
                                         <rect key="frame" x="0.0" y="79" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -203,7 +203,7 @@
                                             <constraint firstItem="PBD-zl-ywg" firstAttribute="leading" secondItem="NiL-vc-9Yg" secondAttribute="leading" constant="30" id="sZd-j8-jlS"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="jbD-wX-d3d">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="jbD-wX-d3d">
                                         <rect key="frame" x="0.0" y="123" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -233,7 +233,7 @@
                                             <constraint firstAttribute="trailing" secondItem="kzY-c5-6Fj" secondAttribute="trailing" constant="30" id="o1Z-Iq-ZjG"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6uJ-Jc-Dgz">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6uJ-Jc-Dgz">
                                         <rect key="frame" x="0.0" y="167" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -267,7 +267,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Copy Default Folders" footerTitle="Copy default libs &amp; scenes to the Documents folder. Overwrites contents of existing folders with the same name." id="818-aL-zA6">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ffr-5T-j2H">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ffr-5T-j2H">
                                         <rect key="frame" x="0.0" y="287" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -312,7 +312,7 @@
                                             <constraint firstItem="Fe4-TW-KH6" firstAttribute="centerY" secondItem="W8f-oQ-otM" secondAttribute="centerY" type="default" id="lAx-gl-3T1"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="USP-AB-x2j">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="USP-AB-x2j">
                                         <rect key="frame" x="0.0" y="332" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -357,7 +357,7 @@
                                             <constraint firstItem="Zht-pz-Adk" firstAttribute="baseline" secondItem="QeK-Qm-BfY" secondAttribute="baseline" type="default" id="vJo-Vo-Bro"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sUB-I6-wXx">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sUB-I6-wXx">
                                         <rect key="frame" x="0.0" y="376" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -410,7 +410,7 @@
                             <outlet property="delegate" destination="iuf-Pb-1Gb" id="KpM-0j-PDm"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="s9N-SM-6Gp"/>
+                    <navigationItem key="navigationItem" title="Settings" id="s9N-SM-6Gp"/>
                     <connections>
                         <outlet property="libFolderButton" destination="Fe4-TW-KH6" id="wRF-go-rRB"/>
                         <outlet property="libFolderSpinner" destination="W8f-oQ-otM" id="SFJ-jr-Tvb"/>
@@ -426,7 +426,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IDs-HJ-iHP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="744" y="-1662"/>
+            <point key="canvasLocation" x="1756" y="125"/>
         </scene>
         <!--Osc View Controller - OSC-->
         <scene sceneID="QBU-sM-pGJ">
@@ -634,7 +634,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tyJ-DG-q2G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1127" y="-1662"/>
+            <point key="canvasLocation" x="1756" y="-1718"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="c8E-f3-AjP">
@@ -651,7 +651,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cIs-gL-X3D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-163" y="-784"/>
+            <point key="canvasLocation" x="28" y="-784"/>
         </scene>
         <!--Start View Controller - PdParty-->
         <scene sceneID="YZA-XL-VdH">
@@ -819,7 +819,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kdZ-gW-mYH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="312" y="-784"/>
+            <point key="canvasLocation" x="935" y="-784"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="lq4-Bu-PWU">

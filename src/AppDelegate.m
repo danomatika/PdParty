@@ -62,13 +62,14 @@
 	self.midi = [[Midi alloc] init];
 	self.midi.networkEnabled = YES;
 	
+	// setup osc
+	self.osc = [[Osc alloc] init];
+	
 	// setup pd
 	self.pureData = [[PureData alloc] init];
 	self.pureData.midi = self.midi;
+	self.pureData.osc = self.osc;
 	[Widget setDispatcher:self.pureData.dispatcher];
-	
-	// setup osc
-	self.osc = [[Osc alloc] init];
 	
 	// setup the scene manager
 	self.sceneManager = [[SceneManager alloc] init];

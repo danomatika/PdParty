@@ -238,10 +238,10 @@
             </objects>
             <point key="canvasLocation" x="877" y="-531"/>
         </scene>
-        <!--Patch View Controller - Detail-->
+        <!--Patch View Controller - Patch-->
         <scene sceneID="g3o-N5-q1v">
             <objects>
-                <viewController storyboardIdentifier="PatchViewController" title="Detail" id="0Ko-AI-7bJ" customClass="PatchViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PatchViewController" title="Patch" id="0Ko-AI-7bJ" customClass="PatchViewController" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="BPP-uk-huC">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -525,7 +525,7 @@
             </objects>
             <point key="canvasLocation" x="877" y="-1118"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="5s0-yn-suh">
             <objects>
                 <tableViewController id="RNJ-xj-nga" customClass="SettingsViewController" sceneMemberID="viewController">
@@ -536,7 +536,7 @@
                         <sections>
                             <tableViewSection headerTitle="OSC" id="ujb-rp-8BA">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Sc3-6C-N6n">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Sc3-6C-N6n">
                                         <rect key="frame" x="0.0" y="46" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -563,7 +563,7 @@
                                             <constraint firstItem="mYj-kk-wpf" firstAttribute="centerY" secondItem="Uao-aI-Ool" secondAttribute="centerY" type="default" id="lfv-Vs-YyQ"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="D83-7D-Zbq">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="D83-7D-Zbq">
                                         <rect key="frame" x="0.0" y="91" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -593,7 +593,7 @@
                                             <constraint firstItem="pIg-fg-VRw" firstAttribute="centerY" secondItem="oAe-K6-Whl" secondAttribute="centerY" type="default" id="kPS-8I-HoO"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgg-Sz-pyP">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgg-Sz-pyP">
                                         <rect key="frame" x="0.0" y="135" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -623,7 +623,7 @@
                                             <constraint firstItem="bSG-gb-6az" firstAttribute="top" secondItem="Fgg-Sz-pyP" secondAttribute="top" constant="8" id="iyY-du-np9"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="qco-kd-c0D">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="qco-kd-c0D">
                                         <rect key="frame" x="0.0" y="179" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -657,7 +657,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Copy Default Folders" footerTitle="Copy default libs &amp; scenes to the Documents folder. Overwrites contents of existing folders with the same name." id="K55-PK-ECj">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="etW-dl-FRQ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="etW-dl-FRQ">
                                         <rect key="frame" x="0.0" y="270" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -702,7 +702,7 @@
                                             <constraint firstItem="3HH-yB-4y0" firstAttribute="centerY" secondItem="etW-dl-FRQ" secondAttribute="centerY" type="default" id="wjR-Cf-8gD"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3Qu-S9-cIv">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3Qu-S9-cIv">
                                         <rect key="frame" x="0.0" y="315" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -747,7 +747,7 @@
                                             <constraint firstItem="JVL-M0-meg" firstAttribute="centerY" secondItem="3Qu-S9-cIv" secondAttribute="centerY" type="default" id="u9F-UU-SO3"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="s0g-Eq-PZI">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="s0g-Eq-PZI">
                                         <rect key="frame" x="0.0" y="359" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -800,7 +800,7 @@
                             <outlet property="delegate" destination="RNJ-xj-nga" id="jaU-Fn-8q1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="rQW-Uu-yxs"/>
+                    <navigationItem key="navigationItem" title="Settings" id="rQW-Uu-yxs"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="libFolderButton" destination="ynH-bs-kU9" id="kpd-yZ-8gp"/>
