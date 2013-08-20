@@ -81,10 +81,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="WebDAV Server" footerTitle="Server" id="BBz-wM-ub4">
+                            <tableViewSection footerTitle="Server" id="BBz-wM-ub4">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="X5G-mS-kgr">
-                                        <rect key="frame" x="0.0" y="230" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="204" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -95,10 +95,7 @@
                                                         <action selector="enableWebServer:" destination="pUw-O6-M9I" eventType="valueChanged" id="p0R-kc-agR"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enabled" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xjL-eV-alg">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="6Wt-Ww-Tmc"/>
-                                                    </constraints>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="WebDAV Server" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xjL-eV-alg">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -114,13 +111,13 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="uA7-Ws-CTd">
-                                        <rect key="frame" x="0.0" y="275" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="249" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="8080" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nQV-fF-bTc">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="8080" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nQV-fF-bTc">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="97" id="9Vk-Mf-GkZ"/>
                                                         <constraint firstAttribute="height" constant="30" id="JBO-Il-gsN"/>
@@ -151,7 +148,7 @@
                             <tableViewSection id="XTx-qM-fHl">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Rol-aw-DgA">
-                                        <rect key="frame" x="0.0" y="371" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="345" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="280" height="43"/>
@@ -187,6 +184,9 @@
                     <navigationItem key="navigationItem" title="PdParty" id="Dsg-eJ-zZu"/>
                     <connections>
                         <outlet property="oscLabel" destination="2B0-l7-Bmj" id="see-74-ZgK"/>
+                        <outlet property="serverEnabledSwitch" destination="c1k-CI-s3O" id="oJy-m3-fd0"/>
+                        <outlet property="serverPortLabel" destination="6jJ-Sa-KC9" id="91A-PV-6jO"/>
+                        <outlet property="serverPortTextField" destination="nQV-fF-bTc" id="7Cl-ja-Nzs"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wTw-12-DbF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -817,9 +817,69 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gVA-Xq-Ofo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="877" y="82"/>
+            <point key="canvasLocation" x="877" y="64"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="BrowserViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowserViewController.h"/>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="OscViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OscViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableOscConnection:"/>
+                <relationship kind="action" name="setHost:"/>
+                <relationship kind="action" name="setIncomingPort:"/>
+                <relationship kind="action" name="setOutgoingPort:"/>
+                <relationship kind="outlet" name="connectionEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="hostTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="incomingPortTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="localHostLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="outgoingPortTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="PatchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PatchViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="rjControlChanged:"/>
+                <relationship kind="outlet" name="rjControlsView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="rjInputLevelSlider" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="rjPauseButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="rjRecordButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="SettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="copyDefaultFolder:"/>
+                <relationship kind="action" name="oscEventTypeChanged:"/>
+                <relationship kind="outlet" name="libFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="libFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="oscAccelEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscKeyEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscRotationEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscTouchEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="samplesFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="samplesFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="testsFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="testsFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+        <class className="StartViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableWebServer:"/>
+                <relationship kind="action" name="setWebServerPort:"/>
+                <relationship kind="outlet" name="oscLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="serverEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="serverPortLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="serverPortTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

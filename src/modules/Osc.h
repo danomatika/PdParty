@@ -24,8 +24,8 @@
 @property (nonatomic) int listenPort;
 
 // should the following events be sent automatically? (default: NO)
-@property (assign, nonatomic) BOOL touchSendingEnabled;
 @property (assign, nonatomic) BOOL accelSendingEnabled;
+@property (assign, nonatomic) BOOL touchSendingEnabled;
 @property (assign, nonatomic) BOOL rotationSendingEnabled;
 @property (assign, nonatomic) BOOL keySendingEnabled;
 
@@ -37,11 +37,11 @@
 - (void)sendSymbol:(NSString *)symbol;
 - (void)sendList:(NSArray *)list;
 
-// rj touch event
-- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
-
 // rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;
+
+// rj touch event
+- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
 
 // pdparty rotate event
 - (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;

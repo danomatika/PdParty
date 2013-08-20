@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logLevel</key>
+	<integer>15</integer>
+	<key>firstRun</key>
+	<true/>
+	<key>accelSendingEnabled</key>
+	<false/>
+	<key>touchSendingEnabled</key>
+	<false/>
+	<key>rotationSendingEnabled</key>
+	<false/>
+	<key>keySendingEnabled</key>
+	<false/>
+	<key>oscSendHost</key>
+	<string>127.0.0.1</string>
+	<key>oscSendPort</key>
+	<integer>8888</integer>
+	<key>oscListenPort</key>
+	<integer>8088</integer>
+	<key>oscServerEnabled</key>
+	<false/>
+	<key>webServerPort</key>
+	<integer>8080</integer>
+	<key>micVolume</key>
+	<real>1</real>
+</dict>
+</plist>

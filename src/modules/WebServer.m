@@ -33,7 +33,7 @@
 	self = [super init];
     if(self) {
 		server = [[HTTPServer alloc] init];
-		[server setPort:8080]; // default
+		[server setPort:[[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"]];
     }
     return self;
 }
@@ -48,14 +48,14 @@
 
 	// set document root
 	[server setDocumentRoot:[webFolder stringByExpandingTildeInPath]];
-	DDLogVerbose(@"HTTPServer: set root to %@", webFolder);
+	DDLogVerbose(@"WebServer: set root to %@", webFolder);
 
 	// start DAV server
 	NSError* error = nil;
 	if(![server start:&error]) {
-		DDLogError(@"HTTPServer: error starting: %@", error.localizedDescription);
+		DDLogError(@"WebServer: error starting: %@", error.localizedDescription);
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Woops"
-															message:[NSString stringWithFormat:@"Coudln't start server: %@", error.localizedDescription]
+															message:[NSString stringWithFormat:@"Couldn't start server: %@", error.localizedDescription]
 														   delegate:self
 												  cancelButtonTitle:@"Ok"
 												  otherButtonTitles:nil];
@@ -72,15 +72,16 @@
 - (void)stop {
 	if(server.isRunning) {
 		[server stop];
-		DDLogVerbose(@"HTTPServer: stopped");
+		DDLogVerbose(@"WebServer: stopped");
 	}
 }
 
 #pragma mark Setter/Getter Overrides
 
 - (void)setPort:(int)port {
-	DDLogVerbose(@"HTTPServer: port set to %d", port);
+	DDLogVerbose(@"WebServer: port set to %d", port);
 	[server setPort:port];
+	[[NSUserDefaults standardUserDefaults] setInteger:port forKey:@"webServerPort"];
 }
 
 - (int)port {
@@ -140,7 +141,6 @@
 			temp_addr = temp_addr->ifa_next;
 		}
 	}
-	
 	freeifaddrs(interfaces);
 
 	return address;
@@ -163,7 +163,7 @@
 											  cancelButtonTitle:@"Ok"
 											  otherButtonTitles:nil];
 	[alertView show];
-	return NO;
+	return -1;
 }
 
 @end

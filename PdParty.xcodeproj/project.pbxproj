@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		300507B217C29CE700D1563C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300507B117C29CE600D1563C /* SettingsViewController.m */; };
+		300507B417C2C11700D1563C /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 300507B317C2C11700D1563C /* Defaults.plist */; };
 		3024563217357F540016583B /* Externals.m in Sources */ = {isa = PBXBuildFile; fileRef = 3024563117357F540016583B /* Externals.m */; };
 		30245649173582340016583B /* midifile.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245634173582340016583B /* midifile.c */; };
 		3024564A173582340016583B /* httpreceive.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245636173582340016583B /* httpreceive.c */; };
@@ -224,6 +225,7 @@
 /* Begin PBXFileReference section */
 		300507B017C29CE600D1563C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = src/SettingsViewController.h; sourceTree = "<group>"; };
 		300507B117C29CE600D1563C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = src/SettingsViewController.m; sourceTree = "<group>"; };
+		300507B317C2C11700D1563C /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
 		3024563017357ECC0016583B /* Externals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
 		3024563117357F540016583B /* Externals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Externals.m; sourceTree = "<group>"; };
 		30245634173582340016583B /* midifile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = midifile.c; sourceTree = "<group>"; };
@@ -985,6 +987,7 @@
 		30ABE2F216B5D11D00464926 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				300507B317C2C11700D1563C /* Defaults.plist */,
 				30ACA10C16D1866000B50B73 /* patches */,
 				3088883C16BF062700781682 /* fonts */,
 				30ABE2F316B5D11D00464926 /* Default-568h@2x.png */,
@@ -1381,6 +1384,7 @@
 				30245655173582340016583B /* LICENSE.txt in Resources */,
 				303BD3381759C6D5000FBEB5 /* templates.txt in Resources */,
 				303BD33F1759C6D5000FBEB5 /* test-loop~.pd in Resources */,
+				300507B417C2C11700D1563C /* Defaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

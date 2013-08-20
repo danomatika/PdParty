@@ -132,7 +132,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RYN-SE-WyY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1127" y="-792"/>
+            <point key="canvasLocation" x="1127" y="-784"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="7nZ-uC-YOS">
@@ -493,6 +493,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
                                                     <connections>
+                                                        <action selector="setHost:" destination="kJR-NI-xSJ" eventType="editingDidEnd" id="2Fe-Mj-GYw"/>
                                                         <action selector="setHost:" destination="kJR-NI-xSJ" eventType="editingDidEndOnExit" id="wWP-8Y-mxg"/>
                                                     </connections>
                                                 </textField>
@@ -529,6 +530,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
                                                     <connections>
+                                                        <action selector="setOutgoingPort:" destination="kJR-NI-xSJ" eventType="editingDidEnd" id="1Sd-kc-g8z"/>
                                                         <action selector="setOutgoingPort:" destination="kJR-NI-xSJ" eventType="editingDidEndOnExit" id="7TA-Js-xzj"/>
                                                     </connections>
                                                 </textField>
@@ -565,6 +567,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
                                                     <connections>
+                                                        <action selector="setIncomingPort:" destination="kJR-NI-xSJ" eventType="editingDidEnd" id="NYx-4z-Ydo"/>
                                                         <action selector="setIncomingPort:" destination="kJR-NI-xSJ" eventType="editingDidEndOnExit" id="dIW-Nr-yV0"/>
                                                     </connections>
                                                 </textField>
@@ -706,19 +709,16 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="WebDAV Server" footerTitle="Server" id="KpH-3l-znH">
+                            <tableViewSection footerTitle="Server" id="KpH-3l-znH">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Rtg-6O-mcC">
-                                        <rect key="frame" x="0.0" y="214" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="190" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enabled" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ka-Nx-VOo">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="70" id="xR7-tH-brh"/>
-                                                    </constraints>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="WebDAV Server" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ka-Nx-VOo">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -739,7 +739,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="SYt-or-Mjb">
-                                        <rect key="frame" x="0.0" y="259" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="235" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -750,7 +750,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="8080" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bSe-oR-7tc">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="8080" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bSe-oR-7tc">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="97" id="012-Of-M6d"/>
                                                         <constraint firstAttribute="height" constant="30" id="aBb-5e-ppz"/>
@@ -776,7 +776,7 @@
                             <tableViewSection id="qpP-9s-Jzu">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fhb-Ey-G6z">
-                                        <rect key="frame" x="0.0" y="355" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="331" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="280" height="43"/>

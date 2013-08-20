@@ -30,7 +30,7 @@
 	self = [super init];
 	if(self) {
 
-		_micVolume = 1.0;
+		_micVolume = [[NSUserDefaults standardUserDefaults] floatForKey:@"micVolume"];
 		_volume = 1.0;
 		_playing = YES;
 		_recording = NO;
@@ -192,6 +192,7 @@
 - (void)setMicVolume:(float)micVolume {
 	_micVolume = MIN(MAX(micVolume, 0.0), 1.0); // clamp to 0-1
 	[PureData sendMicVolume:_micVolume];
+	[[NSUserDefaults standardUserDefaults] setFloat:_micVolume forKey:@"micVolume"];
 }
 
 @end

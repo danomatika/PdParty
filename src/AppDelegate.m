@@ -37,16 +37,26 @@
 		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
 	}
 	
+	// load defaults
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:
+		[[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"]]];
+	
 	// init logger
 	[DDLog addLogger:[DDTTYLogger sharedInstance]];
 	[DDLog addLogger:[[DDFileLogger alloc] init]];
-	//ddLogLevel = [preferences logLevel];
+	ddLogLevel = [defaults integerForKey:@"logLevel"];
 	DDLogInfo(@"Log level: %d", ddLogLevel);
 	
 	DDLogInfo(@"App resolution: %d %d", (int)[Util appWidth], (int)[Util appHeight]);
 	
-	// copy patches in the resource folder
-	//[self copyResourcePatchesToDocuments];
+	// copy patches in the resource folder on first run only
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"firstRun"]) {
+		[self copyLibFolder];
+		[self copySamplesFolder];
+		[self copyTestsFolder];
+		[defaults setBool:NO forKey:@"firstRun"];
+	}
 	
 	// setup midi
 	self.midi = [[Midi alloc] init];

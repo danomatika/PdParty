@@ -20,8 +20,6 @@
 
 @implementation Osc
 
-@synthesize listening;
-
 - (id)init {
 	self = [super init];
 	if(self) {
@@ -29,21 +27,26 @@
 		connection.delegate = self;
 		connection.continuouslyReceivePackets = YES;
 		
-		self.sendHost = @"127.0.0.1";
-		self.sendPort = 8080;
-		self.listenPort = 8088;
-		listening = NO;
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		
+		self.sendHost = [defaults objectForKey:@"oscSendHost"];
+		self.sendPort = [defaults integerForKey:@"oscSendPort"];
+		self.listenPort = [defaults integerForKey:@"oscListenPort"];
 		
 		// do a bind at the beginning so sending works
 		NSError *error;
 		if(![connection bindToAddress:nil port:self.listenPort error:&error]) {
-			DDLogError(@"OSC: Could not bind UDP connection: %@", error);
+			DDLogError(@"OSC: could not bind UDP connection: %@", error);
 		}
 		[connection disconnect];
 		
-		self.touchSendingEnabled = NO;
-		self.accelSendingEnabled = NO;
-		self.rotationSendingEnabled = NO;
+		self.accelSendingEnabled = [defaults boolForKey:@"accelSendingEnabled"];
+		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
+		self.rotationSendingEnabled = [defaults boolForKey:@"rotationSendingEnabled"];
+		self.keySendingEnabled = [defaults boolForKey:@"keySendingEnabled"];
+		
+		// should start listening if saved
+		self.listening = [defaults boolForKey:@"oscServerEnabled"];
 	}
 	return self;
 }
@@ -57,12 +60,14 @@
 #pragma mark Send Events
 
 - (void)sendBang {
+	if(!self.listening) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_OSC_ADDR;
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
 - (void)sendFloat:(float)f {
+	if(!self.listening) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_OSC_ADDR;
 	[message addFloat:f];
@@ -70,6 +75,7 @@
 }
 
 - (void)sendSymbol:(NSString *)symbol {
+	if(!self.listening) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_OSC_ADDR;
 	[message addString:symbol];
@@ -77,6 +83,7 @@
 }
 
 - (void)sendList:(NSArray *)list {
+	if(!self.listening) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_OSC_ADDR;
 	for(NSObject *object in list) {
@@ -85,8 +92,18 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendAccel:(float)x y:(float)y z:(float)z {
+	if(!self.listening || !self.accelSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_ACCEL_ADDR;
+	[message addFloat:x];
+	[message addFloat:y];
+	[message addFloat:z];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
-	if(!self.touchSendingEnabled) return;
+	if(!self.listening || !self.touchSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_TOUCH_ADDR;
 	[message addString:eventType];
@@ -96,18 +113,8 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
-- (void)sendAccel:(float)x y:(float)y z:(float)z {
-	if(!self.accelSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_ACCEL_ADDR;
-	[message addFloat:x];
-	[message addFloat:y];
-	[message addFloat:z];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
-}
-
 - (void)sendRotate:(float)degrees newOrientation:(NSString*)orientation {
-	if(!self.rotationSendingEnabled) return;
+	if(!self.listening || !self.rotationSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_ROTATE_ADDR;
 	[message addFloat:degrees];
@@ -116,7 +123,7 @@
 }
 
 - (void)sendKey:(int)key {
-	if(!self.keySendingEnabled) return;
+	if(!self.listening || !self.keySendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_KEY_ADDR;
 	[message addFloat:key];
@@ -125,27 +132,60 @@
 
 #pragma mark Overridden Getters / Setters
 
-- (void)setListening:(BOOL)enable {
-	if(enable == listening) {
-		return;
-	}
-	
-	if(enable) {
+- (void)setSendHost:(NSString *)sendHost {
+	_sendHost = sendHost;
+	[[NSUserDefaults standardUserDefaults] setObject:sendHost forKey:@"oscSendHost"];
+}
+
+- (void)setSendPort:(int)sendPort {
+	_sendPort = sendPort;
+	[[NSUserDefaults standardUserDefaults] setInteger:sendPort forKey:@"oscSendPort"];
+}
+
+- (void)setListenPort:(int)listenPort {
+	_listenPort = listenPort;
+	[[NSUserDefaults standardUserDefaults] setInteger:listenPort forKey:@"oscListenPort"];
+}
+
+- (void)setListening:(BOOL)listening {
+	if(_listening == listening) return;
+	if(listening) {
 		NSError *error;
 		if(![connection bindToAddress:nil port:self.listenPort error:&error]) {
-			DDLogError(@"OSC: Could not bind UDP connection: %@", error);
-			listening = NO;
+			DDLogError(@"OSC: could not bind UDP connection: %@", error);
+			_listening = NO;
 			return;
 		}
 		DDLogVerbose(@"OSC: started listening on port %d", connection.localPort);
 		[connection receivePacket];
-		listening = YES;
+		_listening = YES;
 	}
 	else {
 		DDLogVerbose(@"OSC: stopped listening on port %d", connection.localPort);
 		[connection disconnect];
-		listening = NO;
+		_listening = NO;
 	}
+	[[NSUserDefaults standardUserDefaults] setBool:_listening forKey:@"oscServerEnabled"];
+}
+
+- (void)setAccelSendingEnabled:(BOOL)accelSendingEnabled {
+	_accelSendingEnabled = accelSendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:accelSendingEnabled forKey:@"accelSendingEnabled"];
+}
+
+- (void)setTouchSendingEnabled:(BOOL)touchSendingEnabled {
+	_touchSendingEnabled = touchSendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:touchSendingEnabled forKey:@"touchSendingEnabled"];
+}
+
+- (void)setRotationSendingEnabled:(BOOL)rotationSendingEnabled {
+	_rotationSendingEnabled = rotationSendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:rotationSendingEnabled forKey:@"rotationSendingEnabled"];
+}
+
+- (void)setKeySendingEnabled:(BOOL)keySendingEnabled {
+	_keySendingEnabled = keySendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:keySendingEnabled forKey:@"keySendingEnabled"];
 }
 
 @end

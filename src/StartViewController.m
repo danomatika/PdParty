@@ -35,14 +35,6 @@
 	self.serverPortLabel.enabled = YES;
 	self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
 	self.serverPortTextField.enabled = YES;
-
-//	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-//	if(app.osc.isListening) {
-//		self.oscLabel.text = [NSString stringWithFormat:@"OSC: %@", app.osc.sendHost];
-//	}
-//	else {
-//		self.oscLabel.text = @"OSC: Disabled";
-//	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
