@@ -62,7 +62,7 @@ typedef enum {
 
 // replace $0 in atom strings (send, receive, label)
 // call this *after* the patch has been loaded or $0 = 0
-- (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile*)patch;
+- (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile *)patch;
 
 // reshape based on gui bounds & scale changes
 - (void)reshapeForGui:(Gui *)gui;
@@ -85,7 +85,7 @@ typedef enum {
 
 // static receieve dispatcher
 + (PdDispatcher *) dispatcher;
-+ (void)setDispatcher:(PdDispatcher*)d;
++ (void)setDispatcher:(PdDispatcher *)d;
 
 #pragma mark Number Formatting
 

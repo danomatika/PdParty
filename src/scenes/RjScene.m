@@ -26,7 +26,7 @@
 
 @implementation RjScene
 
-+ (id)sceneWithParent:(UIView*)parent andControls:(UIView*)controls {
++ (id)sceneWithParent:(UIView *)parent andControls:(UIView *)controls {
 	RjScene *s = [[RjScene alloc] init];
 	s.parentView = parent;
 	s.controlsView = controls;
@@ -42,7 +42,7 @@
     return self;
 }
 
-- (BOOL)open:(NSString*)path {
+- (BOOL)open:(NSString *)path {
 	
 	[self.dispatcher addListener:self forSource:@"rj_image"];
 	[self.dispatcher addListener:self forSource:@"rj_text"];
@@ -123,7 +123,7 @@
 	self.controlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
 }
 
-- (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos {
+- (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
 	CGPoint p = [touch locationInView:self.background];
 	if(![self.background pointInside:p withEvent:nil]) {
 		return NO;
@@ -218,7 +218,7 @@
 		else {
 			if([widget isKindOfClass:[RjImage class]]) {
 				if(list.count < 3 || ![list isNumberAt:2]) return;
-				RjImage *image = (RjImage*) widget;
+				RjImage *image = (RjImage *) widget;
 				float val = [[list objectAtIndex:2] floatValue];
 				if([cmd isEqualToString:@"ref"]) {
 					image.centered = val > 0.5f;
@@ -235,7 +235,7 @@
 				}
 			}
 			else if([widget isKindOfClass:[RjText class]]) {
-				RjText *text = (RjText*) widget;
+				RjText *text = (RjText *) widget;
 				if([cmd isEqualToString:@"text"]) {
 					if(list.count < 3 || ![list isStringAt:2]) return;
 					text.text = [list objectAtIndex:2];

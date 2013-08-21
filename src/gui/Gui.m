@@ -231,7 +231,7 @@
 
 #pragma Utils
 
-- (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile*)patch {
+- (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch {
 	if(!string || !patch) {return string;}
 	NSMutableString *newString = [NSMutableString stringWithString:string];
 	[newString replaceOccurrencesOfString:@"\\$0"

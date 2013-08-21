@@ -23,7 +23,7 @@
 // scale amount between background bounds and background pixel size
 @property (assign, readonly, nonatomic) float scale;
 
-+ (id)sceneWithParent:(UIView*)parent andControls:(UIView*)controls;
++ (id)sceneWithParent:(UIView *)parent andControls:(UIView *)controls;
 
 // returns true if the given path is an RjDj scene dir
 + (BOOL)isRjDjDirectory:(NSString *)fullpath;

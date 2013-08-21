@@ -14,7 +14,7 @@
 
 @implementation Toggle
 
-+ (id)toggleFromAtomLine:(NSArray*)line withGui:(Gui*)gui {
++ (id)toggleFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 18) { // sanity check
 		DDLogWarn(@"Toggle: Cannot create, atom line length < 18");

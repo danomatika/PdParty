@@ -46,7 +46,7 @@ typedef enum {
 @property (readonly, nonatomic) BOOL requiresRotation; // does the scene require rotation events? (default NO)
 @property (readonly, nonatomic) BOOL requiresKeys; // does the scene require key events? (default NO)
 
-- (BOOL)open:(NSString*)path; // expects full path
+- (BOOL)open:(NSString *)path; // expects full path
 - (void)close;
 
 // reshape to fit current parent view size
@@ -54,7 +54,7 @@ typedef enum {
 
 // attempts to scale a touch within the parent view,
 // returns NO if touch not within current scene or scene doesn't require touch events
-- (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos;
+- (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos;
 
 #pragma mark Util
 

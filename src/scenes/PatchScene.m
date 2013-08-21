@@ -12,14 +12,14 @@
 
 @implementation PatchScene
 
-+ (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui {
++ (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui {
 	PatchScene *s = [[PatchScene alloc] init];
 	s.parentView = parent;
 	s.gui = gui;
 	return s;
 }
 
-- (BOOL)open:(NSString*)path {
+- (BOOL)open:(NSString *)path {
 
 	NSString *fileName = [path lastPathComponent];
 	NSString *dirPath = [path stringByDeletingLastPathComponent];
@@ -75,7 +75,7 @@
 }
 
 // normalize to whole view
-- (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos {
+- (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
 	pos->x = pos->x/CGRectGetWidth(self.parentView.frame);
 	pos->y = pos->y/CGRectGetHeight(self.parentView.frame);
 	return YES;

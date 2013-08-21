@@ -26,7 +26,7 @@
 @property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
 
 // close the current scene and open a new one, requires full path to current patch
-- (BOOL)openScene:(NSString*)path withType:(SceneType)type forParent:(UIView *)parent andControls:(UIView *)controls;
+- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent andControls:(UIView *)controls;
 
 // close the current scene
 - (void)closeScene;

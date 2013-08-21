@@ -46,7 +46,7 @@
 		}
 		
 		// set osc and pure data pointer
-		AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 		self.osc = app.osc;
 		self.pureData = app.pureData;
 		

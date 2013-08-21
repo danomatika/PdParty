@@ -430,7 +430,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 	#endif
 
     Byte packetBuffer[message.length+100];
-    MIDIPacketList *packetList = (MIDIPacketList*)packetBuffer;
+    MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
     MIDIPacket *packet = MIDIPacketListInit(packetList);
 	
     packet = MIDIPacketListAdd(packetList, sizeof(packetBuffer), packet, 0, message.length, message.bytes);
@@ -447,7 +447,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 	#endif
 
 	Byte packetBuffer[message.length];
-    MIDIPacketList *packetList = (MIDIPacketList*)packetBuffer;
+    MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
     MIDIPacket *packet = MIDIPacketListInit(packetList);
 
     packet = MIDIPacketListAdd(packetList, sizeof(packetBuffer), packet, 0, message.length, message.bytes);

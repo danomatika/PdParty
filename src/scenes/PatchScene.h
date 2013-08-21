@@ -15,6 +15,6 @@
 
 // path is to patch file, requires all event types
 
-+ (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui;
++ (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
 @end

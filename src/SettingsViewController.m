@@ -22,7 +22,7 @@
 
 - (void)viewDidLoad {
 	
-	app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+	app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	self.oscAccelEnabledSwitch.on = app.osc.accelSendingEnabled;
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;

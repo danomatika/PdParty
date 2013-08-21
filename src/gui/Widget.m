@@ -50,7 +50,7 @@
 	}
 }
 
-- (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile*)patch {
+- (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile *)patch {
 	self.sendName = [gui replaceDollarZeroStringsIn:self.sendName fromPatch:patch];
 	self.receiveName = [gui replaceDollarZeroStringsIn:self.receiveName fromPatch:patch];
 	self.label.text = [gui replaceDollarZeroStringsIn:self.label.text fromPatch:patch];
@@ -195,7 +195,7 @@ static PdDispatcher *dispatcher = nil;
   return dispatcher;
 }
 
-+ (void)setDispatcher:(PdDispatcher*)d {
++ (void)setDispatcher:(PdDispatcher *)d {
 	dispatcher = d;
 }
 

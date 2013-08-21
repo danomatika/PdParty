@@ -20,7 +20,7 @@
 @property (weak, nonatomic) SceneManager *sceneManager;
 
 // close the current scene and open a new one, requires full path to current patch
-- (void)openScene:(NSString*)path withType:(SceneType)type;
+- (void)openScene:(NSString *)path withType:(SceneType)type;
 
 // close the current scene
 - (void)closeScene;

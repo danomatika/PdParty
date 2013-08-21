@@ -94,7 +94,7 @@
 	[self reshape];
 }
 
-- (NSString*)typeString {
+- (NSString *)typeString {
 	return @"RjImage";
 }
 

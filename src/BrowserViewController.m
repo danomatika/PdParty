@@ -273,7 +273,7 @@
 			[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
 			
 			// set view controller here since iPhone doesn't create it until the segue
-			self.patchViewController = (PatchViewController*)[segue destinationViewController];
+			self.patchViewController = (PatchViewController *)[segue destinationViewController];
 		}
 		else {
 			[self.patchViewController openScene:selectedPatch withType:selectedSceneType];

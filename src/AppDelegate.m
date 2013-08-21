@@ -20,7 +20,7 @@
 
 // recursively copy a given folder in the resource patches dir to the
 // Documents folder, removes/overwrites any currently existing dirs
-- (void)copyResourcePatchFolderToDocuments:(NSString*)folderPath;
+- (void)copyResourcePatchFolderToDocuments:(NSString *)folderPath;
 
 @end
 
@@ -121,7 +121,7 @@
 
 #pragma mark Private
 
-- (void)copyResourcePatchFolderToDocuments:(NSString*)folderPath {
+- (void)copyResourcePatchFolderToDocuments:(NSString *)folderPath {
 	
 	NSError *error;
 	

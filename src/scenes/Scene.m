@@ -12,7 +12,7 @@
 
 @implementation Scene
 
-+ (id)sceneWithParent:(UIView*)parent {
++ (id)sceneWithParent:(UIView *)parent {
 	Scene *s = [[Scene alloc] init];
 	s.parentView = parent;
 	return s;
@@ -22,7 +22,7 @@
 	[self close];
 }
 
-- (BOOL)open:(NSString*)path {
+- (BOOL)open:(NSString *)path {
 	return YES;
 }
 
@@ -35,7 +35,7 @@
 }
 
 // normalize to whole view
-- (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos {
+- (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
 	return NO;
 }
 

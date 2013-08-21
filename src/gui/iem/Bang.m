@@ -94,7 +94,7 @@
 
 #pragma mark Overridden Getters / Setters
 
-- (NSString*)type {
+- (NSString *)type {
 	return @"Bang";
 }
 

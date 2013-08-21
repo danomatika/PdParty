@@ -40,7 +40,7 @@
 
 	// set the scenemanager here since iPhone dosen't load view until *after* this is called
 	if(!self.sceneManager) {
-		AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 		self.sceneManager = app.sceneManager;
 		self.sceneManager.pureData.delegate = self;
 	}
@@ -88,11 +88,11 @@
 	return UIInterfaceOrientationMaskAll;
 }
 
-- (void)openScene:(NSString*)path withType:(SceneType)type {
+- (void)openScene:(NSString *)path withType:(SceneType)type {
 
 	// set the scenemanager here since iPhone dosen't load view until *after* this is called
 	if(!self.sceneManager) {
-		AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 		self.sceneManager = app.sceneManager;
 	}
 	

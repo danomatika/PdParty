@@ -12,7 +12,7 @@
 
 @implementation PartyScene
 
-+ (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui {
++ (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui {
 	PartyScene *s = [[PartyScene alloc] init];
 	s.parentView = parent;
 	s.gui = gui;

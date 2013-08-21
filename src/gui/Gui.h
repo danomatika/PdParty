@@ -55,10 +55,10 @@
 - (void)addVUMeter:(NSArray *)atomLine;
 
 // add widgets from an array of atom lines
-- (void)addWidgetsFromAtomLines:(NSArray*)lines;
+- (void)addWidgetsFromAtomLines:(NSArray *)lines;
 
 // add widgets from a pd patch
-- (void)addWidgetsFromPatch:(NSString*)patch;
+- (void)addWidgetsFromPatch:(NSString *)patch;
 
 // reposition/resize widgets based on scale amounts & font size
 - (void)reshapeWidgets;
@@ -66,7 +66,7 @@
 #pragma Utils
 
 // replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id
-- (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile*)patch;
+- (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch;
 
 // convert atom string empty values to an empty string
 // nil, @"-", & @"empty" -> @""

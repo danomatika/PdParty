@@ -12,7 +12,7 @@
 
 @implementation DroidScene
 
-+ (id)sceneWithParent:(UIView*)parent andGui:(Gui*)gui {
++ (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui {
 	DroidScene *s = [[DroidScene alloc] init];
 	s.parentView = parent;
 	s.gui = gui;
@@ -23,7 +23,7 @@
 	return [super open:[path stringByAppendingPathComponent:@"droidparty_main.pd"]];
 }
 
-- (BOOL)scaleTouch:(UITouch*)touch forPos:(CGPoint*)pos {
+- (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
 	return NO;
 }
 

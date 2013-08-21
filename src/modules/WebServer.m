@@ -93,7 +93,7 @@
 	}
 }
 
-- (NSString*)hostName {
+- (NSString *)hostName {
 	if([server isRunning]) {
 		return [server publishedName];
 	}

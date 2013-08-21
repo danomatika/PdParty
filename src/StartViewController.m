@@ -18,7 +18,7 @@
 }
 
 // timer function to update the server footer info
-- (void)updateServerInfo:(NSTimer*)theTimer;
+- (void)updateServerInfo:(NSTimer *)theTimer;
 
 @end
 
@@ -39,7 +39,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	
-	AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	if(app.osc.isListening) {
 		self.oscLabel.text = [NSString stringWithFormat:@"OSC: %@", app.osc.sendHost];
 	}
@@ -112,7 +112,7 @@
 	self.server.port = port;
 }
 
-- (void)updateServerInfo:(NSTimer*)theTimer {
+- (void)updateServerInfo:(NSTimer *)theTimer {
 	// reloading the table view loads the footer text
 	[self.tableView reloadData];
 }
