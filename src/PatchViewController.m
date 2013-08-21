@@ -62,7 +62,9 @@
 
 - (void)viewDidLayoutSubviews {
 	// update scene manager pointers for new patch controller view (if new)
-	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	if([Util isDeviceATablet]) {
+		[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	}
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
@@ -91,11 +93,6 @@
 	}
 	
 	if([self.sceneManager openScene:path withType:type forParent:self.view andControls:self.rjControlsView]) {
-
-		// update scene manager pointers for new patch controller view (if new)
-		if([Util isDeviceATablet]) {
-			[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
-		}
 		
 		// turn up volume & turn on transport, update gui
 		[self updateRjControls];
@@ -116,7 +113,6 @@
 
 - (void)closeScene {
 	[self.sceneManager closeScene];
-//	[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
 	[self.rjRecordButton setTitle:@"Record"];
 }
 
