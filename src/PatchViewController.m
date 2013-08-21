@@ -48,7 +48,9 @@
 	self.rjControlsView.hidden = YES;
 	
 	// update scene manager pointers for new patch controller view (if new)
-	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	if(![Util isDeviceATablet]) {
+		[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	}
 	
 	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
 }
@@ -91,8 +93,10 @@
 	if([self.sceneManager openScene:path withType:type forParent:self.view andControls:self.rjControlsView]) {
 
 		// update scene manager pointers for new patch controller view (if new)
-		[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
-
+		if([Util isDeviceATablet]) {
+			[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+		}
+		
 		// turn up volume & turn on transport, update gui
 		[self updateRjControls];
 		
@@ -112,7 +116,8 @@
 
 - (void)closeScene {
 	[self.sceneManager closeScene];
-	[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
+//	[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
+	[self.rjRecordButton setTitle:@"Record"];
 }
 
 #pragma mark RJ Controls
@@ -120,19 +125,17 @@
 - (IBAction)rjControlChanged:(id)sender {
 	if(sender == self.rjPauseButton) {
 		//DDLogInfo(@"RJ Pause button pressed: %d", self.rjPauseButton.isSelected);
-		self.rjPauseButton.selected = !self.rjPauseButton.selected;
-		self.sceneManager.pureData.audioEnabled = !self.rjPauseButton.selected;
-		if(self.rjPauseButton.selected) {
-			[self.rjPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+		self.sceneManager.pureData.audioEnabled = !self.sceneManager.pureData.audioEnabled;
+		if(self.sceneManager.pureData.audioEnabled) {
+			[self.rjPauseButton setTitle:@"Pause"];
 		}
 		else {
-			[self.rjPauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+			[self.rjPauseButton setTitle:@"Play"];
 		}
 	}
 	else if(sender == self.rjRecordButton) {
 		//DDLogInfo(@"RJ Record button pressed: %d", self.rjRecordButton.isSelected);
-		self.rjRecordButton.selected = !self.rjRecordButton.selected;
-		if(self.rjRecordButton.selected) {
+		if(!self.sceneManager.pureData.isRecording) {
 			
 			NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:@"recordings"];
 			if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
@@ -148,11 +151,11 @@
 			[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
 			NSString *date = [formatter stringFromDate:[NSDate date]];
 			[self.sceneManager.pureData startRecordingTo:[recordDir stringByAppendingPathComponent:[self.sceneManager.scene.name stringByAppendingFormat:@"_%@.wav", date]]];
-			[self.rjRecordButton setTitle:@"Stop" forState:UIControlStateNormal];
+			[self.rjRecordButton setTitle:@"Stop"];
 		}
 		else {
 			[self.sceneManager.pureData stopRecording];
-			[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
+			[self.rjRecordButton setTitle:@"Record"];
 		}
 	}
 	else if(sender == self.rjInputLevelSlider) {
@@ -163,20 +166,18 @@
 
 - (void)updateRjControls {
 	
-	self.rjPauseButton.selected = !self.sceneManager.pureData.audioEnabled;
-	if(self.rjPauseButton.selected) {
-		[self.rjPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+	if(self.sceneManager.pureData.audioEnabled) {
+		[self.rjPauseButton setTitle:@"Pause"];
 	}
 	else {
-		[self.rjPauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+		[self.rjPauseButton setTitle:@"Play"];
 	}
 	
-	self.rjRecordButton.selected = self.sceneManager.pureData.isRecording;
-	if(self.rjRecordButton.selected) {
-		[self.rjRecordButton setTitle:@"Stop" forState:UIControlStateNormal];
+	if(self.sceneManager.pureData.isRecording) {
+		[self.rjRecordButton setTitle:@"Stop"];
 	}
 	else {
-		[self.rjRecordButton setTitle:@"Record" forState:UIControlStateNormal];
+		[self.rjRecordButton setTitle:@"Record"];
 	}
 	
 	self.rjInputLevelSlider.value = self.sceneManager.pureData.micVolume;

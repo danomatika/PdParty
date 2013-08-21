@@ -135,7 +135,7 @@
 	if(!self.scene) return;
 	self.scene.parentView = parent;
 	if(self.scene.type == SceneTypeRj) {
-		((RjScene*) self.scene).controlsView = controls;
+		((RjScene *)self.scene).controlsView = controls;
 	}
 	if(parent) {
 		[self reshapeWithFrame:parent.frame];

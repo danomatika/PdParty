@@ -12,67 +12,59 @@
                         <rect key="frame" x="0.0" y="64" width="703" height="704"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="FWZ-tL-ukk">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FWZ-tL-ukk">
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="7cS-fu-P5O">
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="kxc-eJ-Jsq">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="88" type="user" id="5hU-sn-wEM"/>
+                                        </constraints>
+                                        <items>
+                                            <barButtonItem width="84" style="plain" systemItem="fixedSpace" id="Hao-lm-ktS"/>
+                                            <barButtonItem title="Pause" style="plain" id="7bX-GZ-o5F">
+                                                <connections>
+                                                    <action selector="rjControlChanged:" destination="uDw-cH-S0S" id="wHe-F9-jM5"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="M6k-BQ-K66"/>
+                                            <barButtonItem title="Record" style="plain" id="vJa-Hz-hX5">
+                                                <connections>
+                                                    <action selector="rjControlChanged:" destination="uDw-cH-S0S" id="t4F-Bh-Wpe"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem width="84" style="plain" systemItem="fixedSpace" id="r7x-G1-9kD"/>
+                                        </items>
+                                    </toolbar>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="4Kb-C3-4Lc">
                                         <connections>
-                                            <action selector="rjControlChanged:" destination="uDw-cH-S0S" eventType="valueChanged" id="RK4-wc-4xh"/>
+                                            <action selector="rjControlChanged:" destination="uDw-cH-S0S" eventType="valueChanged" id="yLQ-XL-Xqv"/>
                                         </connections>
                                     </slider>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kOa-at-ygA">
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Pause">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="rjControlChanged:" destination="uDw-cH-S0S" eventType="touchUpInside" id="l4k-Lp-nh2"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDf-Vl-YTl">
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Record">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="rjControlChanged:" destination="uDw-cH-S0S" eventType="touchUpInside" id="kcu-9R-Oje"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="kOa-at-ygA" firstAttribute="leading" secondItem="7cS-fu-P5O" secondAttribute="leading" type="default" id="7As-5D-FLO"/>
-                                    <constraint firstItem="aDf-Vl-YTl" firstAttribute="trailing" secondItem="7cS-fu-P5O" secondAttribute="trailing" type="default" id="FbD-A0-wHe"/>
-                                    <constraint firstAttribute="trailing" secondItem="aDf-Vl-YTl" secondAttribute="trailing" constant="101" id="cJb-b9-umr"/>
-                                    <constraint firstItem="kOa-at-ygA" firstAttribute="baseline" secondItem="aDf-Vl-YTl" secondAttribute="baseline" type="default" id="dwY-AX-EV7"/>
-                                    <constraint firstItem="7cS-fu-P5O" firstAttribute="centerX" secondItem="FWZ-tL-ukk" secondAttribute="centerX" type="default" id="idk-u3-510"/>
-                                    <constraint firstItem="7cS-fu-P5O" firstAttribute="top" secondItem="kOa-at-ygA" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="kNP-ek-2tV"/>
-                                    <constraint firstAttribute="bottom" secondItem="7cS-fu-P5O" secondAttribute="bottom" constant="33" id="tyV-PX-LGY"/>
-                                    <constraint firstItem="kOa-at-ygA" firstAttribute="top" secondItem="FWZ-tL-ukk" secondAttribute="top" constant="46" id="yDI-oq-ZBs"/>
+                                    <constraint firstItem="kxc-eJ-Jsq" firstAttribute="trailing" secondItem="FWZ-tL-ukk" secondAttribute="trailing" type="default" id="4dt-jJ-cya"/>
+                                    <constraint firstItem="kxc-eJ-Jsq" firstAttribute="leading" secondItem="FWZ-tL-ukk" secondAttribute="leading" type="default" id="72W-3a-qLF"/>
+                                    <constraint firstItem="kxc-eJ-Jsq" firstAttribute="top" secondItem="FWZ-tL-ukk" secondAttribute="top" type="default" id="7fT-XG-6q0"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Kb-C3-4Lc" secondAttribute="trailing" constant="84" type="user" id="VIm-sz-fJ5"/>
+                                    <constraint firstItem="4Kb-C3-4Lc" firstAttribute="top" secondItem="kxc-eJ-Jsq" secondAttribute="bottom" constant="20" type="user" id="kVV-75-z8A"/>
+                                    <constraint firstItem="4Kb-C3-4Lc" firstAttribute="leading" secondItem="FWZ-tL-ukk" secondAttribute="leading" constant="84" type="user" id="pq2-3b-Cxb"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="FWZ-tL-ukk" secondAttribute="trailing" constant="-2" id="Boj-0v-gXY"/>
-                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="leading" secondItem="2TM-1u-wSI" secondAttribute="leading" type="default" id="NBJ-Ag-7Qg"/>
-                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="bottom" secondItem="2TM-1u-wSI" secondAttribute="bottom" type="default" id="w5q-xN-8GP"/>
+                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="top" secondItem="2TM-1u-wSI" secondAttribute="top" constant="512" type="user" id="5aH-Qs-P9p"/>
+                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="trailing" secondItem="2TM-1u-wSI" secondAttribute="trailing" type="default" id="HZR-rg-6V0"/>
+                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="bottom" secondItem="2TM-1u-wSI" secondAttribute="bottom" type="user" id="SOs-ld-VPq"/>
+                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="leading" secondItem="2TM-1u-wSI" secondAttribute="leading" constant="-2" id="Y6v-Tn-VrZ"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" title="Patch" id="bJD-HZ-9qK"/>
                     <connections>
-                        <outlet property="rjControlsView" destination="FWZ-tL-ukk" id="Pms-8p-t5T"/>
-                        <outlet property="rjInputLevelSlider" destination="7cS-fu-P5O" id="ed5-Kv-xdv"/>
-                        <outlet property="rjPauseButton" destination="kOa-at-ygA" id="1P3-39-uNg"/>
-                        <outlet property="rjRecordButton" destination="aDf-Vl-YTl" id="cBu-cU-G5b"/>
+                        <outlet property="rjControlsView" destination="FWZ-tL-ukk" id="8o8-Rg-GcQ"/>
+                        <outlet property="rjPauseButton" destination="7bX-GZ-o5F" id="9Uh-Hp-L8a"/>
+                        <outlet property="rjRecordButton" destination="vJa-Hz-hX5" id="Rl4-8B-3mk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MKx-Jj-aSp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -907,8 +899,8 @@
                 <relationship kind="action" name="rjControlChanged:"/>
                 <relationship kind="outlet" name="rjControlsView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="rjInputLevelSlider" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="rjPauseButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="rjRecordButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="rjPauseButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="rjRecordButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="SettingsViewController" superclassName="UITableViewController">

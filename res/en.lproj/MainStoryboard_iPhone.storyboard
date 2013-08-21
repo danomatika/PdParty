@@ -249,54 +249,36 @@
                             <view contentMode="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="pXG-8H-Bls">
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZER-u6-E5w">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="234" id="DEb-oS-Xtp"/>
-                                        </constraints>
                                         <connections>
                                             <action selector="rjControlChanged:" destination="0Ko-AI-7bJ" eventType="valueChanged" id="gIN-RH-J3F"/>
                                         </connections>
                                     </slider>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOp-Jw-3D1">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="73" id="yLH-z2-dtR"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Pause">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="rjControlChanged:" destination="0Ko-AI-7bJ" eventType="touchUpInside" id="4zX-Xd-Uhs"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mxh-Ns-dnK">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="73" id="KTz-Rl-wW6"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Record">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="rjControlChanged:" destination="0Ko-AI-7bJ" eventType="touchUpInside" id="4MT-qy-oVu"/>
-                                        </connections>
-                                    </button>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="gvi-Uc-RJZ">
+                                        <items>
+                                            <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="fTG-ZR-xK0"/>
+                                            <barButtonItem title="Play" style="plain" id="5Hq-kg-54J">
+                                                <connections>
+                                                    <action selector="rjControlChanged:" destination="0Ko-AI-7bJ" id="8wn-Gy-9op"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="I6n-nA-AGs"/>
+                                            <barButtonItem title="Record" style="plain" id="y27-rq-orl">
+                                                <connections>
+                                                    <action selector="rjControlChanged:" destination="0Ko-AI-7bJ" id="NAc-g8-oaE"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Dru-P0-NYs"/>
+                                        </items>
+                                    </toolbar>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="cOp-Jw-3D1" firstAttribute="leading" secondItem="ZER-u6-E5w" secondAttribute="leading" type="default" id="4s0-LW-pIU"/>
-                                    <constraint firstItem="mxh-Ns-dnK" firstAttribute="trailing" secondItem="ZER-u6-E5w" secondAttribute="trailing" type="default" id="H6m-5Y-Vnj"/>
-                                    <constraint firstItem="ZER-u6-E5w" firstAttribute="top" secondItem="cOp-Jw-3D1" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="QZT-pj-L88"/>
-                                    <constraint firstItem="cOp-Jw-3D1" firstAttribute="baseline" secondItem="mxh-Ns-dnK" secondAttribute="baseline" type="default" id="rep-wo-Qva"/>
-                                    <constraint firstItem="ZER-u6-E5w" firstAttribute="centerX" secondItem="pXG-8H-Bls" secondAttribute="centerX" type="default" id="u1k-LB-4TP"/>
-                                    <constraint firstItem="cOp-Jw-3D1" firstAttribute="top" secondItem="pXG-8H-Bls" secondAttribute="top" constant="17" id="uqH-Cs-33m"/>
+                                    <constraint firstItem="gvi-Uc-RJZ" firstAttribute="leading" secondItem="pXG-8H-Bls" secondAttribute="leading" type="default" id="2sI-Ox-n2b"/>
+                                    <constraint firstItem="ZER-u6-E5w" firstAttribute="leading" secondItem="pXG-8H-Bls" secondAttribute="leading" constant="40" type="user" id="9hO-NH-mF4"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZER-u6-E5w" secondAttribute="bottom" constant="20" symbolic="YES" type="user" id="Vzh-KM-m8B"/>
+                                    <constraint firstItem="gvi-Uc-RJZ" firstAttribute="top" secondItem="pXG-8H-Bls" secondAttribute="top" type="default" id="abr-Up-pak"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZER-u6-E5w" secondAttribute="trailing" constant="40" type="user" id="bBi-t6-49R"/>
+                                    <constraint firstItem="gvi-Uc-RJZ" firstAttribute="trailing" secondItem="pXG-8H-Bls" secondAttribute="trailing" type="default" id="cs6-qe-27p"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -312,8 +294,8 @@
                     <connections>
                         <outlet property="rjControlsView" destination="pXG-8H-Bls" id="99P-f2-BVs"/>
                         <outlet property="rjInputLevelSlider" destination="ZER-u6-E5w" id="6fw-O1-G01"/>
-                        <outlet property="rjPauseButton" destination="cOp-Jw-3D1" id="kP0-Ix-gZE"/>
-                        <outlet property="rjRecordButton" destination="mxh-Ns-dnK" id="G93-mf-mpf"/>
+                        <outlet property="rjPauseButton" destination="5Hq-kg-54J" id="2r1-l1-xjY"/>
+                        <outlet property="rjRecordButton" destination="y27-rq-orl" id="3og-tt-AXo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nac-nB-azG" sceneMemberID="firstResponder"/>
@@ -847,8 +829,8 @@
                 <relationship kind="action" name="rjControlChanged:"/>
                 <relationship kind="outlet" name="rjControlsView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="rjInputLevelSlider" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="rjPauseButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="rjRecordButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="rjPauseButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="rjRecordButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="SettingsViewController" superclassName="UITableViewController">

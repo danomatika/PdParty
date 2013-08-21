@@ -13,13 +13,6 @@
 #import "SceneManager.h"
 #import "KeyGrabber.h"
 
-//@interface RjControls : NSObject
-//@property (weak, nonatomic) IBOutlet UIView *rjControlsView;
-//@property (weak, nonatomic) IBOutlet UIButton *rjPauseButton;
-//@property (weak, nonatomic) IBOutlet UIButton *rjRecordButton;
-//@property (weak, nonatomic) IBOutlet UISlider *rjInputLevelSlider;
-//@end
-
 // DetailViewController for patches/scenes 
 @interface PatchViewController : UIViewController <UISplitViewControllerDelegate, KeyGrabberDelegate>
 
@@ -33,11 +26,9 @@
 
 #pragma mark RJ Controls
 
-//@property (strong, nonatomic) RjControls *rjControls;
-
 @property (weak, nonatomic) IBOutlet UIView *rjControlsView;
-@property (weak, nonatomic) IBOutlet UIButton *rjPauseButton;
-@property (weak, nonatomic) IBOutlet UIButton *rjRecordButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *rjPauseButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *rjRecordButton;
 @property (weak, nonatomic) IBOutlet UISlider *rjInputLevelSlider;
 
 - (IBAction)rjControlChanged:(id)sender;
