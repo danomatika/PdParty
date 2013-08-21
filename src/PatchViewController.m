@@ -48,11 +48,13 @@
 	// hide rj controls by default
 	self.rjControlsView.hidden = YES;
 	
-	// update scene manager pointers for new patch controller view (if new)
+	// update scene manager for new patch controller view (if new), etc
+	// since view may not be inited when opening scene
 	if(![Util isDeviceATablet]) {
 		[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
 		self.sceneManager.pureData.delegate = self;
 		[self updateRjControls];
+		self.navigationItem.title = self.sceneManager.scene.name;
 	}
 	
 	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];

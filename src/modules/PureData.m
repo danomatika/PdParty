@@ -223,6 +223,11 @@
 
 - (void)setSampleRate:(int)sampleRate {
 	if(audioController.sampleRate == sampleRate) return;
+	
+	if(sampleRate <= 0) {
+		DDLogWarn(@"PureData: Warning: ignoring obviously bad sampleRate: %d", sampleRate);
+		return;
+	}
 
 	audioController.active = NO;
 	PdAudioStatus status = [audioController configurePlaybackWithSampleRate:sampleRate
@@ -230,10 +235,10 @@
 															   inputEnabled:YES
 															  mixingEnabled:YES];
 	if(status == PdAudioError) {
-		DDLogError(@"PureData: Error: Could not configure PdAudioController");
+		DDLogError(@"PureData: Error: could not configure PdAudioController");
 	}
 	else if(status == PdAudioPropertyChanged) {
-		DDLogWarn(@"PureData: Warning: Some of the audio parameters were not accceptable");
+		DDLogWarn(@"PureData: Warning: some of the audio parameters were not accceptable");
 	}
 	else {
 		DDLogVerbose(@"PureData: sampleRate now %d", audioController.sampleRate);

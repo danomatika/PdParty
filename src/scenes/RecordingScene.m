@@ -10,6 +10,7 @@
  */
 #import "RecordingScene.h"
 
+#import <AvFoundation/AVAudioPlayer.h>
 #import "PureData.h"
 
 @implementation RecordingScene
@@ -25,6 +26,17 @@
 	
 	self.file = path;
 	[self.pureData startPlaybackFrom:self.file];
+	
+	// set samplerate based on file samplerate
+	NSError *error;
+	AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:self.file] error:&error];
+	if(!player) {
+		DDLogError(@"RecordingScene: couldn't check sample rate of %@: %@", [self.file lastPathComponent], error.localizedDescription);
+	}
+	else {
+		self.pureData.sampleRate = [[player.settings objectForKey:AVSampleRateKey] integerValue];
+		player = nil;
+	}
 	
 	// load background
 	NSString *backgroundPath = [[Util bundlePath] stringByAppendingPathComponent:@"images/cassette_tape.jpg"];
