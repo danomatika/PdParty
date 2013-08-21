@@ -15,7 +15,6 @@
 // PD event receivers
 #define PD_KEY_R		@"#key"
 #define PD_OSC_R		@"#osc-in"
-#define PD_OSC_S		@"#osc-out"
 
 // RjDj event receivers
 #define RJ_TRANSPORT_R	@"#transport"
@@ -32,6 +31,10 @@
 // PdPaty event receivers
 #define PARTY_ROTATE_R	@"#rotate"
 
+// incoming event sends
+#define PD_OSC_S		@"#osc-out"
+#define RJ_GLOBAL_S		@"rjdj"
+
 // rotate event orientations
 #define PARTY_ORIENT_PORTRAIT				@"portrait"
 #define PARTY_ORIENT_PORTRAIT_UPSIDEDOWN	@"upsidedown"
@@ -41,6 +44,11 @@
 // sample rates
 #define PARTY_SAMPLERATE	44100
 #define RJ_SAMPLERATE		22050
+
+// playback event delegate
+@protocol PdPlaybackDelegate <NSObject>
+- (void)playbackFinished;
+@end
 
 @class Midi;
 @class Osc;
@@ -62,7 +70,10 @@
 
 // only has effect when [soundoutput] is used
 @property (assign, getter=isPlaying, nonatomic) BOOL playing;
+@property (assign, getter=isLooping, nonatomic) BOOL looping; // playback
+
 @property (assign, readonly, getter=isRecording, nonatomic) BOOL recording;
+@property (assign, readonly, getter=isPlayingback, nonatomic) BOOL playingback;
 
 // input/output volume, 0-1
 // only has effect when [soundinput]/[soundoutput] are used
@@ -75,6 +86,13 @@
 // start/stop recording, depends on [soundoutput]
 - (void)startRecordingTo:(NSString *)path;
 - (void)stopRecording;
+
+// start/stop playback, opens playback.pd
+- (void)startPlaybackFrom:(NSString *)path;
+- (void)stopPlayback;
+
+// receives event when playback is finished
+@property (assign, nonatomic) id<PdPlaybackDelegate> delegate;
 
 #pragma mark Send Events
 
@@ -96,6 +114,7 @@
 #pragma mark Send Values
 
 + (void)sendTransportPlay:(BOOL)play;
++ (void)sendTransportLoop:(BOOL)loop; // playback only
 
 + (void)sendMicVolume:(float)micVolume;
 + (void)sendVolume:(float)volume;

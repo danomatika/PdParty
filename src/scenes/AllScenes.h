@@ -14,3 +14,4 @@
 #import "RjScene.h"
 #import "DroidScene.h"
 #import "PartyScene.h"
+#import "RecordingScene.h"

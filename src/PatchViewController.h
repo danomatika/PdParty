@@ -14,7 +14,8 @@
 #import "KeyGrabber.h"
 
 // DetailViewController for patches/scenes 
-@interface PatchViewController : UIViewController <UISplitViewControllerDelegate, KeyGrabberDelegate>
+@interface PatchViewController : UIViewController
+	<UISplitViewControllerDelegate, KeyGrabberDelegate, PdPlaybackDelegate>
 
 @property (weak, nonatomic) SceneManager *sceneManager;
 

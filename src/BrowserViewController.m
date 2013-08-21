@@ -119,6 +119,10 @@
 			else if([[p pathExtension] isEqualToString: @"pd"]) { // add patch
 				[self.pathArray addObject:fullPath];
 			}
+			// add recordings
+			else if([RecordingScene isRecording:fullPath]) {
+				[self.pathArray addObject:fullPath];
+			}
 			else {
 				DDLogVerbose(@"Browser: dropped path: %@", p);
 			}
@@ -308,7 +312,12 @@
 
 - (BOOL)didSelectFile:(NSString *)path {
 	// regular patch
-	[self runScene:path withSceneType:SceneTypePatch];
+	if([[path pathExtension] isEqualToString:@"pd"]) {
+		[self runScene:path withSceneType:SceneTypePatch];
+	}
+	else if([RecordingScene isRecording:path]) {
+		[self runScene:path withSceneType:SceneTypeRecording];
+	}
 	return YES;
 }
 

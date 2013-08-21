@@ -45,6 +45,10 @@
 	return NO;
 }
 
+- (BOOL)requiresTouch {
+	return NO;
+}
+
 - (BOOL)requiresRotation {
 	return NO;
 }

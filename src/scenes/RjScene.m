@@ -47,8 +47,6 @@
 	[self.dispatcher addListener:self forSource:@"rj_image"];
 	[self.dispatcher addListener:self forSource:@"rj_text"];
 	
-	[PdBase addToSearchPath:[[Util documentsPath] stringByAppendingPathComponent:@"lib/rj"]];
-	
 	[RjScene removeRjAbstractionDuplicates:path];
 	
 	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {

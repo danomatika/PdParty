@@ -19,8 +19,10 @@
 
 @interface PureData () {
 	PdAudioController *audioController;
+	PdFile *playbackPatch;
 }
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
+@property (assign, readwrite, getter=isPlayingback, nonatomic) BOOL playingback;
 @end
 
 @implementation PureData
@@ -35,6 +37,8 @@
 		_volume = 1.0;
 		_playing = YES;
 		_recording = NO;
+		_playingback = NO;
+		_looping = NO;
 
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
@@ -52,14 +56,13 @@
 		
 		// add this class as a receiver
 		[self.dispatcher addListener:self forSource:PD_OSC_S];
+		[self.dispatcher addListener:self forSource:RJ_GLOBAL_S];
 		
 		// setup externals
 		[Externals setup];
 		
 		// open "external patches" that always run in the background
-		NSString * rjLibDir = [[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"];
-		[PdBase openFile:@"recorder.pd" path:rjLibDir];
-		[PdBase openFile:@"playback.pd" path:rjLibDir];
+		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"]];
 	}
 	return self;
 }
@@ -68,6 +71,7 @@
 
 - (void)sendCurrentPlayValues {
 	[PureData sendTransportPlay:_playing];
+	[PureData sendTransportLoop:_looping];
 	[PureData sendMicVolume:_micVolume];
 	[PureData sendVolume:_volume];
 }
@@ -85,6 +89,24 @@
 	[PdBase sendMessage:@"record" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:NO]] toReceiver:RJ_TRANSPORT_R];
 	self.recording = NO;
 	DDLogVerbose(@"PureData: stopped recording");
+}
+
+- (void)startPlaybackFrom:(NSString *)path {
+	if(!playbackPatch) {
+		playbackPatch = [PdFile openFileNamed:@"playback.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"]];
+	}
+	[PdBase sendMessage:@"playback" withArguments:[NSArray arrayWithObject:path] toReceiver:RJ_TRANSPORT_R];
+	self.playingback = YES;
+	DDLogVerbose(@"PureData: started playing back from %@", path);
+}
+
+- (void)stopPlayback {
+	if(playbackPatch) {
+		[playbackPatch closeFile];
+		playbackPatch = nil;
+		DDLogVerbose(@"PureData: closed playback.pd");
+	}
+	self.playingback = NO;
 }
 
 #pragma mark Send Events
@@ -115,6 +137,10 @@
 	[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:play]] toReceiver:RJ_TRANSPORT_R];
 }
 
++ (void)sendTransportLoop:(BOOL)loop {
+	[PdBase sendMessage:@"loop" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:loop]] toReceiver:RJ_TRANSPORT_R];
+}
+
 + (void)sendMicVolume:(float)micVolume {
 	[PdBase sendFloat:micVolume toReceiver:RJ_MICVOLUME_R];
 }
@@ -142,8 +168,23 @@
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	// message should be the osc address
-	[self.osc sendMessage:message withArguments:arguments];
+	
+	if([source isEqualToString:RJ_GLOBAL_S]) {
+	
+		if([message isEqualToString:@"playback"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+			if([[arguments objectAtIndex:0] floatValue] < 1) {
+				_playingback = NO;
+				if(self.delegate) {
+					[self.delegate playbackFinished];
+				}
+				DDLogVerbose(@"PureData: stopped playing back");
+			}
+		}
+	}
+	else if([source isEqualToString:PD_OSC_S]) {
+		// message should be the osc address
+		[self.osc sendMessage:message withArguments:arguments];
+	}
 }
 
 #pragma mark PdMidiReceiverDelegate
@@ -213,6 +254,12 @@
 	if(_playing == playing) return;
 	_playing = playing;
 	[PureData sendTransportPlay:_playing];
+}
+
+- (void)setLooping:(BOOL)looping {
+	if(_looping == looping) return;
+	_looping = looping;
+	[PureData sendTransportLoop:_looping];
 }
 
 - (void)setVolume:(float)volume {

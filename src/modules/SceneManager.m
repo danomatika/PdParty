@@ -83,6 +83,12 @@
 		case SceneTypeParty:
 			self.scene = [PartyScene sceneWithParent:parent andGui:self.gui];
 			break;
+		case SceneTypeRecording: {
+			RecordingScene *rs = [RecordingScene sceneWithParent:parent andControls:controls];
+			rs.pureData = self.pureData;
+			self.scene = rs;
+			break;
+		}
 		default: // SceneTypeEmpty
 			self.scene = [[Scene alloc] init];
 			break;
@@ -137,6 +143,9 @@
 	if(self.scene.type == SceneTypeRj) {
 		((RjScene *)self.scene).controlsView = controls;
 	}
+	else if(self.scene.type == SceneTypeRecording) {
+		((RecordingScene *)self.scene).controlsView = controls;
+	}
 	if(parent) {
 		[self reshapeWithFrame:parent.frame];
 	}
@@ -170,7 +179,9 @@
 #pragma mark Send Events
 
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
-	[PureData sendTouch:eventType forId:id atX:x andY:y];
+	if(self.scene.requiresTouch) {
+		[PureData sendTouch:eventType forId:id atX:x andY:y];
+	}
 	if(self.osc.isListening) {
 		[self.osc sendTouch:eventType forId:id atX:x andY:y];
 	}

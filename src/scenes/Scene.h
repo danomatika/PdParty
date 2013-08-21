@@ -22,7 +22,8 @@ typedef enum {
 	SceneTypePatch, // basic pd patch
 	SceneTypeRj,	// RjDj scene (folder with .rj ext & _main.pd)
 	SceneTypeDroid,	// DroidParty scene (folder with droidparty_main.pd)
-	SceneTypeParty	// PdParty scene (folder with _main.pd)
+	SceneTypeParty,	// PdParty scene (folder with _main.pd)
+	SceneTypeRecording // dummy scene for recording playback (.wav file)
 } SceneType;
 
 // base empty scene
@@ -41,6 +42,7 @@ typedef enum {
 // scene type settings
 @property (readonly, nonatomic) int sampleRate; // desired scene sample rate (default PARTY_SAMPLERATE)
 @property (readonly, nonatomic) BOOL requiresAccel; // does the scene require accel events? (default NO)
+@property (readonly, nonatomic) BOOL requiresTouch; // does the scene require touch events? (default NO)
 @property (readonly, nonatomic) BOOL requiresRotation; // does the scene require rotation events? (default NO)
 @property (readonly, nonatomic) BOOL requiresKeys; // does the scene require key events? (default NO)
 

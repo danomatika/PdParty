@@ -63,6 +63,7 @@
                     <navigationItem key="navigationItem" title="Patch" id="bJD-HZ-9qK"/>
                     <connections>
                         <outlet property="rjControlsView" destination="FWZ-tL-ukk" id="8o8-Rg-GcQ"/>
+                        <outlet property="rjInputLevelSlider" destination="4Kb-C3-4Lc" id="R8Q-ku-G7i"/>
                         <outlet property="rjPauseButton" destination="7bX-GZ-o5F" id="9Uh-Hp-L8a"/>
                         <outlet property="rjRecordButton" destination="vJa-Hz-hX5" id="Rl4-8B-3mk"/>
                     </connections>
@@ -872,66 +873,6 @@
             <point key="canvasLocation" x="-1467" y="-368"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="BrowserViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowserViewController.h"/>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="OscViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OscViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="enableOscConnection:"/>
-                <relationship kind="action" name="setHost:"/>
-                <relationship kind="action" name="setIncomingPort:"/>
-                <relationship kind="action" name="setOutgoingPort:"/>
-                <relationship kind="outlet" name="connectionEnabledSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="hostTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="incomingPortTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="localHostLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="outgoingPortTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="PatchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PatchViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="rjControlChanged:"/>
-                <relationship kind="outlet" name="rjControlsView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="rjInputLevelSlider" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="rjPauseButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="rjRecordButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="SettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="copyDefaultFolder:"/>
-                <relationship kind="action" name="oscEventTypeChanged:"/>
-                <relationship kind="outlet" name="libFolderButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="libFolderSpinner" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="oscAccelEnabledSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="oscKeyEnabledSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="oscRotationEnabledSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="oscTouchEnabledSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="samplesFolderButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="samplesFolderSpinner" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="testsFolderButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="testsFolderSpinner" candidateClass="UIActivityIndicatorView"/>
-            </relationships>
-        </class>
-        <class className="StartViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="enableWebServer:"/>
-                <relationship kind="action" name="setWebServerPort:"/>
-                <relationship kind="outlet" name="oscLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="serverEnabledSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="serverPortLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="serverPortTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

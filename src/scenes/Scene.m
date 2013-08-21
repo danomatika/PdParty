@@ -61,6 +61,10 @@
 	return NO;
 }
 
+- (BOOL)requiresTouch {
+	return NO;
+}
+
 - (BOOL)requiresRotation {
 	return NO;
 }
@@ -73,8 +77,12 @@
 
 - (void)addSearchPathsIn:(NSString *)directory {
 	
+	if(![[NSFileManager defaultManager] fileExistsAtPath:directory]) {
+		DDLogWarn(@"%@: search path %@ not found, skipping", self.typeString, directory);
+		return;
+	}
 	DDLogVerbose(@"%@: adding search paths in %@", self.typeString, directory);
-	
+
 	NSError *error;
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:&error];
 	if(!contents) {

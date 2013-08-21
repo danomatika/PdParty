@@ -42,6 +42,7 @@
 	if(!self.sceneManager) {
 		AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 		self.sceneManager = app.sceneManager;
+		self.sceneManager.pureData.delegate = self;
 	}
 
 	// hide rj controls by default
@@ -50,6 +51,8 @@
 	// update scene manager pointers for new patch controller view (if new)
 	if(![Util isDeviceATablet]) {
 		[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+		self.sceneManager.pureData.delegate = self;
+		[self updateRjControls];
 	}
 	
 	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
@@ -58,6 +61,7 @@
 - (void)dealloc {
 	// clear pointers when the view is popped
 	[self.sceneManager updateParent:nil andControls:nil];
+	self.sceneManager.pureData.delegate = nil;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -103,80 +107,142 @@
 	
 		// set nav controller title
 		self.navigationItem.title = self.sceneManager.scene.name;
+	}
 	
-		// hide iPad browser popover on selection 
-		if(self.masterPopoverController != nil) {
-			[self.masterPopoverController dismissPopoverAnimated:YES];
-		}
+	// hide iPad browser popover on selection 
+	if(self.masterPopoverController != nil) {
+		[self.masterPopoverController dismissPopoverAnimated:YES];
 	}
 }
 
 - (void)closeScene {
 	[self.sceneManager closeScene];
-	[self.rjRecordButton setTitle:@"Record"];
 }
 
 #pragma mark RJ Controls
 
 - (IBAction)rjControlChanged:(id)sender {
+
 	if(sender == self.rjPauseButton) {
 		//DDLogInfo(@"RJ Pause button pressed: %d", self.rjPauseButton.isSelected);
-		self.sceneManager.pureData.audioEnabled = !self.sceneManager.pureData.audioEnabled;
+		if(self.sceneManager.scene.type == SceneTypeRj) {
+			self.sceneManager.pureData.audioEnabled = !self.sceneManager.pureData.audioEnabled;
+			if(self.sceneManager.pureData.audioEnabled) {
+				[self.rjPauseButton setTitle:@"Pause"];
+			}
+			else {
+				[self.rjPauseButton setTitle:@"Play"];
+			}
+		}
+		else if(self.sceneManager.scene.type == SceneTypeRecording) {						
+			if(self.sceneManager.pureData.audioEnabled) {
+				
+				// restart playback if stopped
+				if(!self.sceneManager.pureData.isPlayingback) {
+					[(RecordingScene *)self.sceneManager.scene restartPlayback];
+					[self.rjPauseButton setTitle:@"Pause"];
+				}
+				else { // pause
+					self.sceneManager.pureData.audioEnabled = NO;
+					[self.rjPauseButton setTitle:@"Play"];
+				}
+			}
+			else {
+				self.sceneManager.pureData.audioEnabled = YES;
+				[(RecordingScene *)self.sceneManager.scene restartPlayback];
+				[self.rjPauseButton setTitle:@"Pause"];
+			}
+		}
+	}
+	else if(sender == self.rjRecordButton) {
+		if(self.sceneManager.scene.type == SceneTypeRj) {
+			//DDLogInfo(@"RJ Record button pressed: %d", self.rjRecordButton.isSelected);
+			if(!self.sceneManager.pureData.isRecording) {
+				
+				NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:@"recordings"];
+				if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
+					DDLogVerbose(@"Recordings dir not found, creating %@", recordDir);
+					NSError *error;
+					if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:NO attributes:nil error:&error]) {
+						DDLogError(@"Couldn't create %@, error: %@", recordDir, error.localizedDescription);
+						return;
+					}
+				}
+				
+				NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+				[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
+				NSString *date = [formatter stringFromDate:[NSDate date]];
+				[self.sceneManager.pureData startRecordingTo:[recordDir stringByAppendingPathComponent:[self.sceneManager.scene.name stringByAppendingFormat:@"_%@.wav", date]]];
+				[self.rjRecordButton setTitle:@"Stop"];
+			}
+			else {
+				[self.sceneManager.pureData stopRecording];
+				[self.rjRecordButton setTitle:@"Record"];
+			}
+		}
+		else if(self.sceneManager.scene.type == SceneTypeRecording) {
+			//DDLogInfo(@"RJ Loop button pressed: %d", self.rjRecordButton.isSelected);
+			self.sceneManager.pureData.looping = !self.sceneManager.pureData.isLooping;
+			if(self.sceneManager.pureData.isLooping) {
+				[self.rjRecordButton setTitle:@"No Loop"];
+			}
+			else {
+				[self.rjRecordButton setTitle:@"Loop"];
+			}
+		}
+	}
+	else if(sender == self.rjInputLevelSlider) {
+		if(self.sceneManager.scene.type == SceneTypeRj) {
+			//DDLogInfo(@"RJ Input level slider changed: %f", self.rjInputLevelSlider.value);
+			self.sceneManager.pureData.micVolume = self.rjInputLevelSlider.value;
+		}
+		else if(self.sceneManager.scene.type == SceneTypeRecording) {
+			//DDLogInfo(@"RJ Playback level slider changed: %f", self.rjInputLevelSlider.value);
+			self.sceneManager.pureData.volume = self.rjInputLevelSlider.value;
+		}
+	}
+}
+
+- (void)updateRjControls {
+	
+	if(self.sceneManager.scene.type == SceneTypeRj) {
+	
 		if(self.sceneManager.pureData.audioEnabled) {
 			[self.rjPauseButton setTitle:@"Pause"];
 		}
 		else {
 			[self.rjPauseButton setTitle:@"Play"];
 		}
-	}
-	else if(sender == self.rjRecordButton) {
-		//DDLogInfo(@"RJ Record button pressed: %d", self.rjRecordButton.isSelected);
-		if(!self.sceneManager.pureData.isRecording) {
-			
-			NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:@"recordings"];
-			if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
-				DDLogVerbose(@"Recordings dir not found, creating %@", recordDir);
-				NSError *error;
-				if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:NO attributes:nil error:&error]) {
-					DDLogError(@"Couldn't create %@, error: %@", recordDir, error.localizedDescription);
-					return;
-				}
-			}
-			
-			NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-			[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
-			NSString *date = [formatter stringFromDate:[NSDate date]];
-			[self.sceneManager.pureData startRecordingTo:[recordDir stringByAppendingPathComponent:[self.sceneManager.scene.name stringByAppendingFormat:@"_%@.wav", date]]];
+	
+		if(self.sceneManager.pureData.isRecording) {
 			[self.rjRecordButton setTitle:@"Stop"];
 		}
 		else {
-			[self.sceneManager.pureData stopRecording];
 			[self.rjRecordButton setTitle:@"Record"];
 		}
+		
+		self.rjInputLevelSlider.value = self.sceneManager.pureData.micVolume;
 	}
-	else if(sender == self.rjInputLevelSlider) {
-		//DDLogInfo(@"RJ Input level slider changed: %f", self.rjInputLevelSlider.value);
-		self.sceneManager.pureData.micVolume = self.rjInputLevelSlider.value;
-	}
-}
-
-- (void)updateRjControls {
+	else if(self.sceneManager.scene.type == SceneTypeRecording) {
 	
-	if(self.sceneManager.pureData.audioEnabled) {
-		[self.rjPauseButton setTitle:@"Pause"];
-	}
-	else {
-		[self.rjPauseButton setTitle:@"Play"];
-	}
+		if(self.sceneManager.pureData.audioEnabled && self.sceneManager.pureData.isPlayingback) {
+			[self.rjPauseButton setTitle:@"Pause"];
+		}
+		else {
+			[self.rjPauseButton setTitle:@"Play"];
+		}
 	
-	if(self.sceneManager.pureData.isRecording) {
-		[self.rjRecordButton setTitle:@"Stop"];
+		// use record as loop button for recording playback
+		if(self.sceneManager.pureData.isLooping) {
+			[self.rjRecordButton setTitle:@"No Loop"];
+		}
+		else {
+			[self.rjRecordButton setTitle:@"Loop"];
+		}
+		
+		// use slider as recording playback volume slider
+		self.rjInputLevelSlider.value = self.sceneManager.pureData.volume;
 	}
-	else {
-		[self.rjRecordButton setTitle:@"Record"];
-	}
-	
-	self.rjInputLevelSlider.value = self.sceneManager.pureData.micVolume;
 }
 
 #pragma mark Touches
@@ -236,6 +302,12 @@
 
 - (void)keyPressed:(int)key {
 	[self.sceneManager sendKey:key];
+}
+
+#pragma mark PdPlaybackDelegate
+
+- (void)playbackFinished {
+	[self.rjPauseButton setTitle:@"Play"];
 }
 
 #pragma mark UISplitViewControllerDelegate
