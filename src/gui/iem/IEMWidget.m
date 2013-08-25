@@ -45,6 +45,10 @@
 
 #pragma mark Overridden Getters / Setters
 
+- (void)setLabelFontSize:(int)labelFontSize {
+	_labelFontSize = MAX(labelFontSize, IEM_FONT_MINSIZE); // clamp to min of 4
+}
+
 - (NSString *)type {
 	return @"IEMWidget";
 }

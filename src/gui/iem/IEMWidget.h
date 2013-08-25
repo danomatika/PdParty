@@ -15,6 +15,7 @@
 @interface IEMWidget : Widget
 
 @property (assign, nonatomic) int labelFontSize; // loaded font size
+@property (weak, nonatomic) Gui *gui; // gui pointer needed for edit message reshapes
 
 // reshape label based on gui bounds & scale changes
 - (void)reshapeLabelForGui:(Gui *)gui;

@@ -15,6 +15,7 @@
 
 #import "Bang.h"
 #import "Toggle.h"
+#import "Slider.h"
 #import "Numberbox.h"
 #import "Comment.h"
 #import "Canvas.h"

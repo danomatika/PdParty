@@ -14,8 +14,9 @@
 
 @interface Slider : IEMWidget
 
-@property (assign, nonatomic) int log;
 @property (assign, nonatomic) WidgetOrientation orientation;
+@property (assign, nonatomic) BOOL log; // linear or logarithmic scale?
+@property (assign, nonatomic) BOOL steady; // steady on click?
 
 + (id)sliderFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui;
 

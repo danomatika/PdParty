@@ -103,12 +103,18 @@
 			else if([[list objectAtIndex:0] isEqualToString:@"bang"]) { // got a bang!
 				[self receiveBangFromSource:source];
 			}
+			else {
+				DDLogWarn(@"%@: dropped list", self.type);
+			}
 		}
+	}
+	else {
+		DDLogWarn(@"%@: dropped list", self.type);
 	}
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	
+
 	// set message sets value without sending
 	if([message isEqualToString:@"set"] && arguments.count > 1) {
 		if([arguments isNumberAt:0]) {
@@ -122,7 +128,8 @@
 		[self receiveBangFromSource:source];
 	}
 	else { // everything else
-		[self receiveList:arguments fromSource:source];
+		//[self receiveList:arguments fromSource:source];
+		[self receiveEditMessage:message withArguments:arguments];
 	}
 }
 
@@ -132,6 +139,10 @@
 
 - (void)receiveSetSymbol:(NSString *)symbol {
 	DDLogWarn(@"%@: dropped set symbol", self.type);
+}
+
+- (void)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+	DDLogWarn(@"%@: dropped edit message", self.type);
 }
 
 #pragma mark Sending

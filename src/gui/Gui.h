@@ -9,7 +9,6 @@
  *
  */
 #import "Widget.h"
-#import "Slider.h"
 
 #import "Log.h"
 #import "Util.h"

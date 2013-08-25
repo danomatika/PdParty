@@ -32,6 +32,8 @@ typedef enum {
 // receive a [; receiveName set something < message
 - (void)receiveSetFloat:(float)received;
 - (void)receiveSetSymbol:(NSString *)symbol;
+// for forwarding IEM widget edit messages
+- (void)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments;
 @end
 
 @class PdDispatcher;

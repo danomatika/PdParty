@@ -11,12 +11,22 @@
 #import "Slider.h"
 
 #import "Gui.h"
+#include "z_libpd.h"
+#include "g_all_guis.h" // iem gui
 
-@interface Slider ()
+@interface Slider () {
 
-// get scaled value based on width or height & max/min
-- (float)horizontalValue:(float)x;
-- (float)verticalValue:(float)y;
+	BOOL isReversed; // is the min value > max value?
+	double sizeConvFactor; // scaling factor for lin/log value conversion
+	int centerValue; // for detecting when to draw thicker control
+	int controlPos;
+	
+	BOOL isOneFinger;
+	float prevPos;
+}
+
+- (void)checkSize;
+- (void)checkMinAndMax;
 
 @end
 
@@ -46,8 +56,10 @@
 	s.orientation = orientation;
 	s.minValue = [[line objectAtIndex:7] floatValue];
 	s.maxValue = [[line objectAtIndex:8] floatValue];
-	s.log = [[line objectAtIndex:9] integerValue];
+	s.log = [[line objectAtIndex:9] boolValue];
 	s.inits = [[line objectAtIndex:10] boolValue];
+	[s checkMinAndMax];
+	[s checkSize];
 	
 	s.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
 	s.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
@@ -58,6 +70,7 @@
 	s.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
 
 	[s reshapeForGui:gui];
+	s.gui = gui;
 	
 	if(orientation == WidgetOrientationHorizontal) {
 		s.value = ([[line objectAtIndex:21] floatValue] * 0.01 * (s.maxValue - s.minValue)) /
@@ -68,6 +81,10 @@
 			([[line objectAtIndex:6] floatValue] - 1 + s.minValue);
 	}
 	
+	if([line count] > 21 && [line isNumberAt:22]) {
+		s.steady = [[line objectAtIndex:22] boolValue];
+	}
+	
 	[s sendInitValue];
 	
 	return s;
@@ -76,8 +93,13 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
-		self.log = 0;
+		self.log = NO;
 		self.orientation = WidgetOrientationHorizontal;
+		self.steady = YES;
+		isReversed = NO;
+		sizeConvFactor = 0;
+		isOneFinger = YES;
+		prevPos = 0;
     }
     return self;
 }
@@ -99,40 +121,107 @@
 	
 	// slider pos
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
-	CGContextSetLineWidth(context, 4);
 	CGContextSetShouldAntialias(context, NO); // no fuzzy straight lines
 	if(self.orientation == WidgetOrientationHorizontal) {
-		float x = round(rect.origin.x + ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.width);
+		float x = rect.origin.x + (self.value + 50) * 0.01 * self.gui.scaleX;
+		int controlWidth = 3;
 		// constrain pos at edges
-		if(x < 4) { // width of slider control + pixel padding
-			x = 4;
+		if(x < controlWidth) {
+			x = controlWidth;
 		}
-		else if(x > rect.size.width - (4 + 1)) {
-			x = rect.size.width - 5;
+		// width of slider control & pixel padding
+		else if(x > rect.size.width - (controlWidth - 1)) {
+			x = rect.size.width - controlWidth - 1;
 		}
+		else if (self.value == centerValue) {
+			controlWidth = 7; // thick line in middle
+		}
+		CGContextSetLineWidth(context, controlWidth);
 		CGContextMoveToPoint(context, x, round(rect.origin.y));
 		CGContextAddLineToPoint(context, x, round(rect.origin.y+rect.size.height-1));
 		CGContextStrokePath(context);
 	}
 	else { // vertical
-		float y = round(rect.origin.y+rect.size.height - ((self.value - self.minValue) / (self.maxValue - self.minValue)) * rect.size.height);
+		float y = rect.origin.y + (self.value + 50) * 0.01 * self.gui.scaleX;
+		int controlWidth = 3;
 		// constrain pos at edges
-		if(y < 4) { // width of slider control + pixel padding
-			y = 4;
+		if(y < controlWidth) {
+			y = controlWidth;
 		}
-		else if(y > rect.size.height - (4 + 1)) {
-			y = rect.size.height - 5;
+		// height of slider control & pixel padding
+		else if(y > rect.size.height - (controlWidth - 1)) {
+			y = rect.size.height - controlWidth - 1;
 		}
+		else if(self.value == centerValue) {
+			controlWidth = 7; // thick line in middle
+		}
+		CGContextSetLineWidth(context, controlWidth);
 		CGContextMoveToPoint(context, round(rect.origin.x), y);
 		CGContextAddLineToPoint(context, round(rect.origin.x+rect.size.width-1), y);
 		CGContextStrokePath(context);
 	}
 }
 
+- (void)sendFloat:(float)f {
+
+	if(self.log) {
+        f = self.minValue * exp(sizeConvFactor * (double)(f) * 0.01);
+    }
+	else {
+        f = (double)(f) * 0.01 * sizeConvFactor + self.minValue;
+	}
+	
+    if((f < 1.0e-10) && (f > -1.0e-10)) {
+        f = 0.0;
+	}
+	
+	[super sendFloat:f];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
-	[super setValue:MIN(self.maxValue, MAX(self.minValue, f))];
+		
+	double g;
+	
+	if(isReversed) {
+		f = MIN(self.minValue, MAX(self.maxValue, f));
+    }
+    else {
+		f = MIN(self.maxValue, MAX(self.minValue, f));
+    }
+
+	if(self.log) {
+        g = log(f / self.minValue) / sizeConvFactor;
+	}
+    else {
+        g = (f - self.minValue) / sizeConvFactor;
+    }
+	[super setValue:(int)(100.0*g + 0.49999)];
+	controlPos = self.value;
+}
+
+- (void)setLog:(BOOL)l {
+	if(_log == l) return;
+	_log = l;
+	
+	if(self.log) {
+		[self checkMinAndMax];
+	}
+	else {
+		
+		float size = CGRectGetWidth(self.originalFrame);
+		if(self.orientation == WidgetOrientationVertical) {
+			size = CGRectGetHeight(self.originalFrame);
+		}
+		
+		if(self.log) {
+			sizeConvFactor = log(self.maxValue / self.minValue) / (double)(size - 1);
+		}
+		else {
+			sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
+		}	
+	}
 }
 
 - (NSString *)type {
@@ -144,28 +233,121 @@
 
 #pragma mark Touches
 
+// from g_hslider.c & g_vslider.c
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
     UITouch *touch = [touches anyObject];
     CGPoint pos = [touch locationInView:self];
-	if(self.orientation == WidgetOrientationHorizontal) {
-		self.value = [self horizontalValue:pos.x];
+	
+	if([touches count] > 1) {
+		isOneFinger = NO;
 	}
 	else {
-		self.value = [self verticalValue:pos.y];
+		isOneFinger = YES;
 	}
-	[self sendFloat:self.value];
+	
+	if(self.orientation == WidgetOrientationHorizontal) {
+		
+		if(!self.steady) {
+			int v = (int)(100.0 * (pos.x / self.gui.scaleX));
+			v = MAX(MIN(v, (100 * CGRectGetWidth(self.originalFrame) - 100)), 0);
+			controlPos = v;
+			[super setValue:v];
+		}
+		
+		[self sendFloat:self.value];
+		prevPos = pos.x;
+	}
+	else if(self.orientation == WidgetOrientationVertical) {
+		
+		if(!self.steady) {
+			int v = (int)(100.0 * (pos.y / self.gui.scaleX));
+			v = MAX(MIN(v, (100 * CGRectGetHeight(self.originalFrame) - 100)), 0);
+			controlPos = v;
+			[super setValue:v];
+		}
+		
+		[self sendFloat:self.value];
+		prevPos = pos.y;
+	}
 }
 
+// from g_hslider.c & g_vslider.c
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint pos = [touch locationInView:self];
+	
 	if(self.orientation == WidgetOrientationHorizontal) {
-		self.value = [self horizontalValue:pos.x];
+		float delta = pos.x - prevPos;
+		float old = self.value;
+	
+		int v = 0;
+		if(!isOneFinger) {
+			controlPos += (int)delta;
+		}
+		else {
+			controlPos += 100 * (int)delta;
+		}
+		v = controlPos;
+		
+		if(v > (100 * CGRectGetWidth(self.originalFrame) - 100)) {
+			v = 100 * CGRectGetWidth(self.originalFrame) - 100;
+			controlPos += 50;
+			controlPos -= controlPos % 100;
+		}
+		if(v < 0) {
+			v = 0;
+			controlPos -= 50;
+			controlPos -= controlPos % 100;
+		}
+		[super setValue:v];
+		
+		// don't resend old values
+		if(old != v) {
+			[self sendFloat:v];
+		}
+		
+		prevPos = pos.x;
 	}
-	else {
-		self.value = [self verticalValue:pos.y];
+	else if(self.orientation == WidgetOrientationVertical) {
+		float delta = pos.y - prevPos;
+		float old = self.value;
+	
+		int v = 0;
+		if(!isOneFinger) {
+			controlPos += (int)delta;
+		}
+		else {
+			controlPos += 100 * (int)delta;
+		}
+		v = controlPos;
+		
+		if(v > (100 * CGRectGetHeight(self.originalFrame) - 100)) {
+			v = 100 * CGRectGetHeight(self.originalFrame) - 100;
+			controlPos += 50;
+			controlPos -= controlPos % 100;
+		}
+		if(v < 0) {
+			v = 0;
+			controlPos -= 50;
+			controlPos -= controlPos % 100;
+		}
+		[super setValue:v];
+		
+		// don't resend old values
+		if(old != v) {
+			[self sendFloat:v];
+		}
+		
+		prevPos = pos.y;
 	}
-	[self sendFloat:self.value];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	isOneFinger = YES;
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	isOneFinger = YES;
 }
 
 #pragma mark WidgetListener
@@ -176,17 +358,174 @@
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.value = received;
+	NSLog(@"hsl received: %f, value is now: %f", received, self.value);
 	[self sendFloat:self.value];
+}
+
+- (void)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+
+	if([message isEqualToString:@"color"] && [arguments count] > 2 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1] && [arguments isNumberAt:2])) {
+		// background, front-color, label-color
+		self.fillColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:2] intValue]];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"size"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// width, height
+		self.originalFrame = CGRectMake(
+			self.originalFrame.origin.x, self.originalFrame.origin.y,
+			MIN(MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE),
+			MIN(MAX([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE));
+		[self checkSize];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"pos"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// absolute pos
+		self.originalFrame = CGRectMake(
+			[[arguments objectAtIndex:0] floatValue], [[arguments objectAtIndex:1] floatValue],
+			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"delta"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// relative pos
+		self.originalFrame = CGRectMake(
+			self.originalFrame.origin.x + [[arguments objectAtIndex:0] floatValue],
+			self.originalFrame.origin.y + [[arguments objectAtIndex:1] floatValue],
+			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"label"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+		self.label.text = [arguments objectAtIndex:0];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"label_pos"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// x, y
+		self.originalLabelPos = CGPointMake([[arguments objectAtIndex:0] floatValue],
+											[[arguments objectAtIndex:1] floatValue]);
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"label_font"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// font id (ignored since there's only 1 font), font size
+		self.labelFontSize = [[arguments objectAtIndex:1] floatValue];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"send"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+		self.sendName = [arguments objectAtIndex:0];
+	}
+	else if([message isEqualToString:@"receive"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+		self.receiveName = [arguments objectAtIndex:0];
+	}
+	else if([message isEqualToString:@"init"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		self.inits = [[arguments objectAtIndex:0] boolValue];
+	}
+	else if([message isEqualToString:@"steady"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		self.steady = [[arguments objectAtIndex:0] boolValue];
+	}
+	else if([message isEqualToString:@"range"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// low, high
+		self.minValue = [[arguments objectAtIndex:0] floatValue];
+		self.maxValue = [[arguments objectAtIndex:1] floatValue];
+		[self checkMinAndMax];
+	}
+	else if([message isEqualToString:@"lin"]) {
+		self.log = NO;
+	}
+	else if([message isEqualToString:@"log"]) {
+		self.log = YES;
+	}
+	else {
+		DDLogWarn(@"%@: dropped edit message: %@", self.type, message);
+	}
 }
 
 #pragma mark Private
 
-- (float)horizontalValue:(float)x {
-	return ((x / self.frame.size.width) * (self.maxValue - self.minValue) + self.minValue);
+// from g_hslider.c & g_vslider.c
+- (void)checkSize {
+
+	float size = CGRectGetWidth(self.originalFrame);
+	if(self.orientation == WidgetOrientationVertical) {
+		size = CGRectGetHeight(self.originalFrame);
+	}
+
+    if(size < IEM_SL_MINSIZE) {
+        size = IEM_SL_MINSIZE;
+		if(self.orientation == WidgetOrientationHorizontal) {
+			self.originalFrame = CGRectMake(
+				self.originalFrame.origin.x, self.originalFrame.origin.y,
+				size, CGRectGetHeight(self.originalFrame));
+		}
+		else if(self.orientation == WidgetOrientationVertical) {
+			self.originalFrame = CGRectMake(
+				self.originalFrame.origin.x, self.originalFrame.origin.y,
+				CGRectGetWidth(self.originalFrame), size);
+		}
+	}
+	
+	centerValue = (size-1) * 50;
+    if(self.value > (size * 100 - 100)) {
+        self.value = size * 100 - 100;
+    }
+    if(self.log) {
+		sizeConvFactor = log(self.maxValue / self.minValue) / (double)(size - 1);
+    }
+	else {
+        sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
+	}
 }
 
-- (float)verticalValue:(float)y {
-	return (((self.frame.size.height - y) / self.frame.size.height) * (self.maxValue - self.minValue) + self.minValue);
+// from g_hslider.c & g_vslider.c
+- (void)checkMinAndMax {
+   
+	if(self.log) {
+        if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
+			self.maxValue = 1.0;
+		}
+        if(self.maxValue > 0.0) {
+            if(self.minValue <= 0.0) {
+                self.minValue = 0.01 * self.maxValue;
+			}
+        }
+        else {
+            if(self.minValue > 0.0) {
+                self.maxValue = 0.01 * self.minValue;
+			}
+        }
+    }
+	
+    if(self.minValue > self.maxValue) {
+        isReversed = YES;
+	}
+    else {
+        isReversed = NO;
+	}
+	
+	float size = CGRectGetWidth(self.originalFrame);
+	if(self.orientation == WidgetOrientationVertical) {
+		size = CGRectGetHeight(self.originalFrame);
+	}
+	
+	if(self.log) {
+		sizeConvFactor = log(self.maxValue / self.minValue) / (double)(size - 1);
+    }
+	else {
+        sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
+	}
 }
 
 @end
