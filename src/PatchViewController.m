@@ -163,10 +163,10 @@
 				
 				NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:@"recordings"];
 				if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
-					DDLogVerbose(@"Recordings dir not found, creating %@", recordDir);
+					DDLogVerbose(@"PatchViewController: recordings dir not found, creating %@", recordDir);
 					NSError *error;
 					if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:NO attributes:nil error:&error]) {
-						DDLogError(@"Couldn't create %@, error: %@", recordDir, error.localizedDescription);
+						DDLogError(@"PatchViewController: couldn't create %@, error: %@", recordDir, error.localizedDescription);
 						return;
 					}
 				}

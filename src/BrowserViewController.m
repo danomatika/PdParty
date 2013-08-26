@@ -176,7 +176,7 @@
 //		}
 //	}
 //	else {
-//		DDLogError(@"Can't select row in table view, file dosen't exist: %@", path);
+//		DDLogError(@"Browser: couldn't select row in table view, file dosen't exist: %@", path);
 //		[tableView deselectRowAtIndexPath:indexPath animated:NO];
 //	}
 

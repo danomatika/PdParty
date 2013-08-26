@@ -33,7 +33,7 @@
 + (id)sliderFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui {
 
 	if(line.count < 23) { // sanity check
-		DDLogWarn(@"Slider: Cannot create, atom line length < 23");
+		DDLogWarn(@"Slider: cannot create, atom line length < 23");
 		return nil;
 	}
 
@@ -43,7 +43,7 @@
 	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
 	if(![s hasValidSendName] && ![s hasValidReceiveName]) {
 		// drop something we can't interact with
-		DDLogVerbose(@"Slider: Dropping, send/receive names are empty");
+		DDLogVerbose(@"Slider: dropping, send/receive names are empty");
 		return nil;
 	}
 	

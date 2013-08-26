@@ -47,7 +47,7 @@
 + (id)vumeterFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 16) { // sanity check
-		DDLogWarn(@"VUMeter: Cannot create, atom line length < 16");
+		DDLogWarn(@"VUMeter: cannot create, atom line length < 16");
 		return nil;
 	}
 
@@ -56,7 +56,7 @@
 	v.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
 	if(![v hasValidReceiveName]) {
 		// drop something we can't interact with
-		DDLogVerbose(@"VUMeter: Dropping, receive name is empty");
+		DDLogVerbose(@"VUMeter: dropping, receive name is empty");
 		return nil;
 	}
 	

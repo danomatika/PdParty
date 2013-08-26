@@ -28,7 +28,7 @@
 + (id)radioFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui {
 
 	if(line.count < 19) { // sanity check
-		DDLogWarn(@"Radio: Cannot create, atom line length < 19");
+		DDLogWarn(@"Radio: cannot create, atom line length < 19");
 		return nil;
 	}
 
@@ -38,7 +38,7 @@
 	r.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	if(![r hasValidSendName] && ![r hasValidReceiveName]) {
 		// drop something we can't interact with
-		DDLogVerbose(@"Radio: Dropping, send/receive names are empty");
+		DDLogVerbose(@"Radio: dropping, send/receive names are empty");
 		return nil;
 	}
 	

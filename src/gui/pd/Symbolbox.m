@@ -17,7 +17,7 @@
 + (id)symbolboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 11) { // sanity check
-		DDLogWarn(@"Symbolbox: Cannot create, atom line length < 11");
+		DDLogWarn(@"Symbolbox: cannot create, atom line length < 11");
 		return nil;
 	}
 
@@ -27,7 +27,7 @@
 	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
 	if(![s hasValidSendName] && ![s hasValidReceiveName]) {
 		// drop something we can't interact with
-		DDLogVerbose(@"Symbolbox: Dropping, send/receive names are empty");
+		DDLogVerbose(@"Symbolbox: dropping, send/receive names are empty");
 		return nil;
 	}
 	

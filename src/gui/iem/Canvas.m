@@ -19,7 +19,7 @@
 + (id)canvasFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 18) { // sanity check
-		DDLogWarn(@"Canvas: Cannot create, atom line length < 18");
+		DDLogWarn(@"Canvas: cannot create, atom line length < 18");
 		return nil;
 	}
 

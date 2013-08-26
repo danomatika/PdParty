@@ -32,7 +32,7 @@
 + (id)bangFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 18) { // sanity check
-		DDLogWarn(@"Bang: Cannot create, atom line length < 18");
+		DDLogWarn(@"Bang: cannot create, atom line length < 18");
 		return nil;
 	}
 
@@ -42,7 +42,7 @@
 	b.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	if(![b hasValidSendName] && ![b hasValidReceiveName]) {
 		// drop something we can't interact with
-		DDLogVerbose(@"Bang: Dropping, send/receive names are empty");
+		DDLogVerbose(@"Bang: dropping, send/receive names are empty");
 		return nil;
 	}
 	

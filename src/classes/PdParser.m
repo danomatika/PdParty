@@ -21,7 +21,7 @@
 		[string appendString:[line objectAtIndex:i]];
 		[string appendString:@"] "];
 	}
-	DDLogInfo(@"%@", string);
+	DDLogVerbose(@"%@", string);
 }
 
 + (void)printAtoms:(NSArray *)atomLines {
