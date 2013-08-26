@@ -13,13 +13,14 @@
 #import "Gui.h"
 
 @interface Numberbox2 () {
+	double convFactor; // scaling factor for lin/log value conversion
 	int cornerSize; // bent corner pixel size
 	int touchPrevY;
 	bool isOneFinger;
 	BOOL isControlColorBlack;
 	BOOL isValueLabelRed;
 }
-
+- (void)checkMinAndMax;
 @end
 
 @implementation Numberbox2
@@ -48,7 +49,7 @@
 	n.valueWidth = [[line objectAtIndex:5] integerValue];
 	n.minValue = [[line objectAtIndex:7] floatValue];
 	n.maxValue = [[line objectAtIndex:8] floatValue];
-	n.log = [[line objectAtIndex:9] integerValue];
+	n.log = [[line objectAtIndex:9] boolValue];
 	n.inits = [[line objectAtIndex:10] boolValue];
 	
 	n.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
@@ -60,9 +61,12 @@
 	n.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
 	
 	n.value = [[line objectAtIndex:21] floatValue];
-	n.logHeight = [[line objectAtIndex:22] floatValue];
+	if([line count] > 22 && [line isNumberAt:22]) {
+		n.logHeight = [[line objectAtIndex:22] floatValue];
+	}
 
 	[n reshapeForGui:gui];
+	n.gui = gui;
 
 	return n;
 }
@@ -126,7 +130,7 @@
 - (void)reshapeForGui:(Gui *)gui {
 	
 	// value label
-	self.valueLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:self.labelFontSize * gui.scaleX];
+	self.valueLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
 	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
 	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
 	[self.valueLabel sizeToFit];
@@ -135,18 +139,21 @@
 		// make sure width matches valueWidth
 		valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
 	}
-	valueLabelFrame.origin = CGPointMake(round(gui.scaleX + (valueLabelFrame.size.height * 0.5)), round(gui.scaleX));
+	valueLabelFrame.origin = CGPointMake(
+		round((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * gui.scaleX),
+		round((CGRectGetHeight(self.originalFrame) * 0.5 * gui.scaleX) -
+			  CGRectGetHeight(self.valueLabel.frame) * 0.5));
 	self.valueLabel.frame = valueLabelFrame;
 	
-	// bounds from value label size
+	// width from value label
 	self.frame = CGRectMake(
 		round(self.originalFrame.origin.x * gui.scaleX),
 		round(self.originalFrame.origin.y * gui.scaleY),
 		round(CGRectGetWidth(self.valueLabel.frame) +
 			 (CGRectGetHeight(self.valueLabel.frame) * 0.5) +
-			 (charSize.width * 3) + (2 * gui.scaleX)), // space out right edge
-		round(CGRectGetHeight(self.valueLabel.frame)));
-	cornerSize = CGRectGetHeight(self.valueLabel.frame) * 0.40;
+			 (charSize.width * 3) + (gui.scaleX)), // space out right edge
+		round(CGRectGetHeight(self.originalFrame) * gui.scaleX));
+	cornerSize = 4 * gui.scaleX;
 
 	// label
 	[self reshapeLabelForGui:gui];
@@ -190,6 +197,27 @@
 	[super setControlColor:controlColor];
 }
 
+- (void)setLog:(BOOL)log {
+	_log = log;
+	if(_log) {
+		[self checkMinAndMax];
+	}
+}
+
+// from g_numbox.c
+- (void)setLogHeight:(float)logHeight {
+    if(logHeight < 10.0) {
+        logHeight = 10.0;
+	}
+    _logHeight = logHeight;
+    if(self.log) {
+        convFactor = exp(log(self.maxValue / self.minValue) / (double)(_logHeight));
+    }
+	else {
+        convFactor = 1.0;
+	}
+}
+
 - (NSString *)type {
 	return @"Numberbox2";
 }
@@ -213,13 +241,21 @@
     CGPoint pos = [touch locationInView:self];
 	int diff = touchPrevY - pos.y;
 	if(diff != 0) {
-		if(isOneFinger) {
-			self.value = self.value + diff;
+	
+		double k2 = 1.0;
+		double v = self.value;
+	
+		if(!isOneFinger) {
+			k2 = 0.01;
+		}
+    
+		if(self.log) {
+			v *= pow(convFactor, -k2 * diff);
 		}
 		else {
-			// mult & divide by ints to avoid float rounding errors ...
-			self.value = ((self.value*100) + (double) ((diff * 10) / 1000.f)*100)/100;
+			v -= k2 * diff;
 		}
+		self.value = v;
 		[self sendFloat:self.value];
 	}
 	touchPrevY = pos.y;
@@ -246,7 +282,7 @@
 	return view;
 }
 
-#pragma mark PdListener
+#pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {
 	[self sendFloat:self.value];
@@ -267,6 +303,77 @@
 
 - (void)receiveSetSymbol:(NSString *)symbol {
 	// swallows set symbols
+}
+
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+
+	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// value width in chars, height
+		self.valueWidth = MAX([[arguments objectAtIndex:0] integerValue], 1);
+		if([arguments count] > 1 && [arguments isNumberAt:1]) {
+		self.originalFrame = CGRectMake(
+			self.originalFrame.origin.x, self.originalFrame.origin.y,
+			CGRectGetWidth(self.originalFrame),
+			MAX([[arguments objectAtIndex:1] floatValue], 8));
+		}
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"range"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// low, high
+		self.minValue = [[arguments objectAtIndex:0] floatValue];
+		self.maxValue = [[arguments objectAtIndex:1] floatValue];
+		[self checkMinAndMax];
+		return YES;
+	}
+	else if([message isEqualToString:@"lin"]) {
+		self.log = NO;
+		return YES;
+	}
+	else if([message isEqualToString:@"log"]) {
+		self.log = YES;
+		return YES;
+	}
+	else {
+		return [super receiveEditMessage:message withArguments:arguments];
+	}
+	return NO;
+}
+
+#pragma mark Private
+
+// from g_numbox.c
+- (void)checkMinAndMax {
+
+    if(self.log) {
+        if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
+            self.maxValue = 1.0;
+		}
+        if(self.maxValue > 0.0) {
+            if(self.minValue <= 0.0) {
+                self.minValue = 0.01 * self.maxValue;
+			}
+        }
+        else {
+            if(self.minValue > 0.0) {
+                self.maxValue = 0.01 * self.minValue;
+			}
+        }
+    }
+    if(self.value < self.minValue) {
+        [self setValue:self.minValue];
+    }
+    if(self.value > self.maxValue) {
+        [self setValue:self.maxValue];
+    }
+    if(self.log) {
+        convFactor = exp(log(self.maxValue / self.minValue) / (double)(self.logHeight));
+    }
+	else {
+        convFactor = 1.0;
+    }
 }
 
 @end

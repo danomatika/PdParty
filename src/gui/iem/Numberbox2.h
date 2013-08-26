@@ -14,7 +14,8 @@
 
 @interface Numberbox2 : IEMWidget
 
-@property (assign, nonatomic) int log;
+@property (assign, nonatomic) BOOL log; // linear or logarithmic scale?
+@property (assign, nonatomic) BOOL steady; // steady on click?
 @property (assign, nonatomic) float logHeight;
 
 @property (assign, nonatomic) int valueWidth; // number of value chars to show

@@ -32,8 +32,8 @@ typedef enum {
 // receive a [; receiveName set something < message
 - (void)receiveSetFloat:(float)received;
 - (void)receiveSetSymbol:(NSString *)symbol;
-// for forwarding IEM widget edit messages
-- (void)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments;
+// for forwarding IEM widget edit messages, returns YES if message was handled
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments;
 @end
 
 @class PdDispatcher;
@@ -76,9 +76,10 @@ typedef enum {
 - (BOOL)hasValidReceiveName;
 
 // send to objects in pd
-- (void)send:(NSString *)message;
-- (void)sendFloat:(float) f;
 - (void)sendBang;
+- (void)sendFloat:(float) f;
+- (void)sendSymbol:(NSString *)symbol;
+- (void)sendList:(NSArray *)list;
 
 // send an init val if init is set
 - (void)sendInitValue;

@@ -38,7 +38,7 @@
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
 		round(self.originalLabelPos.x * gui.scaleX),
-		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize * 0.5 * gui.scaleX)),
+		round((self.originalLabelPos.y * gui.scaleX) - (self.labelFontSize * 0.5 * gui.scaleX)),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }
@@ -51,6 +51,90 @@
 
 - (NSString *)type {
 	return @"IEMWidget";
+}
+
+#pragma mark WidgetListener
+
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+
+	if([message isEqualToString:@"color"] && [arguments count] > 2 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1] && [arguments isNumberAt:2])) {
+		// background, front-color, label-color
+		self.fillColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:2] intValue]];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"size"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// width, height
+		self.originalFrame = CGRectMake(
+			self.originalFrame.origin.x, self.originalFrame.origin.y,
+			MIN(MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE),
+			MIN(MAX([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE));
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"pos"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// absolute pos
+		self.originalFrame = CGRectMake(
+			[[arguments objectAtIndex:0] floatValue], [[arguments objectAtIndex:1] floatValue],
+			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"delta"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// relative pos
+		self.originalFrame = CGRectMake(
+			self.originalFrame.origin.x + [[arguments objectAtIndex:0] floatValue],
+			self.originalFrame.origin.y + [[arguments objectAtIndex:1] floatValue],
+			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"label"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+		self.label.text = [arguments objectAtIndex:0];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"label_pos"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// x, y
+		self.originalLabelPos = CGPointMake([[arguments objectAtIndex:0] floatValue],
+											[[arguments objectAtIndex:1] floatValue]);
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"label_font"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// font id (ignored since there's only 1 font), font size
+		self.labelFontSize = MAX([[arguments objectAtIndex:1] floatValue], 4);
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"send"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+		self.sendName = [arguments objectAtIndex:0];
+		return YES;
+	}
+	else if([message isEqualToString:@"receive"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+		self.receiveName = [arguments objectAtIndex:0];
+		return YES;
+	}
+	else if([message isEqualToString:@"init"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		self.inits = [[arguments objectAtIndex:0] boolValue];
+		return YES;
+	}
+	return NO;
 }
 
 #pragma mark Util

@@ -11,6 +11,8 @@
 #import "Radio.h"
 
 #import "Gui.h"
+#include "z_libpd.h"
+#include "g_all_guis.h" // iem gui
 
 // helper class
 @interface RadioCell : UIView
@@ -45,7 +47,7 @@
 		0, 0); // size based on numCells
 			
 	r.orientation = orientation;
-	r.width = [[line objectAtIndex:5] integerValue];
+	r.size = [[line objectAtIndex:5] integerValue];
 	r.value = [[line objectAtIndex:6] integerValue];
 	r.inits = [[line objectAtIndex:7] boolValue];
 	r.numCells = [[line objectAtIndex:8] integerValue];
@@ -59,6 +61,7 @@
 	r.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
 
 	[r reshapeForGui:gui];
+	r.gui = gui;
 	
 	[r sendInitValue];
 	
@@ -68,7 +71,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
-		self.width = 15;
+		self.size = IEM_GUI_DEFAULTSIZE;
 		self.numCells = 8; // don't trigger redraw yet
 		self.minValue = 0;
 		self.orientation = WidgetOrientationHorizontal;
@@ -83,15 +86,15 @@
 		self.frame = CGRectMake(
 			round(self.originalFrame.origin.x * gui.scaleX),
 			round(self.originalFrame.origin.y * gui.scaleY),
-			round(self.width * self.numCells * gui.scaleX),
-			round(self.width * gui.scaleX));
+			round(self.size * self.numCells * gui.scaleX),
+			round(self.size * gui.scaleX));
 	}
 	else {
 		self.frame = CGRectMake(
 			round(self.originalFrame.origin.x * gui.scaleX),
 			round(self.originalFrame.origin.y * gui.scaleY),
-			round(self.width * gui.scaleX),
-			round(self.width * self.numCells * gui.scaleX));
+			round(self.size * gui.scaleX),
+			round(self.size * self.numCells * gui.scaleX));
 	}
 	
 	// cells, -1 for label which is at index
@@ -117,17 +120,17 @@
 	// reshape cells
 	for(int i = 1; i < self.subviews.count; ++i) {
 		CGRect frame;
+		float cellSize = self.size * gui.scaleX;
 		if(self.orientation == WidgetOrientationHorizontal) {
 			frame = CGRectMake(
-				round(self.width * gui.scaleX * (i-1)), 0,
-				round(self.width * gui.scaleX),
-				round(self.width * gui.scaleX));
+				round(cellSize * (i-1)), 0,
+				round(cellSize), round(cellSize));
 		}
 		else {
 			frame = CGRectMake(
-				0, round(self.width * gui.scaleX * (i-1)),
-				round(self.width * gui.scaleX),
-				round(self.width * gui.scaleX));
+				0, round(cellSize * (i-1)),
+				round(cellSize),
+				round(cellSize));
 		}
 		[[self.subviews objectAtIndex:i] setFrame:frame];
 		[[self.subviews objectAtIndex:i] setNeedsDisplay];
@@ -142,22 +145,27 @@
 - (void)setValue:(float)f {
 	int newVal = (int) MIN(self.maxValue, MAX(self.minValue, f)); // round to int
 	if(self.subviews.count > 1) { // label is at index 0, 1 & up are cells
-		RadioCell *oldCell = (RadioCell *)[self.subviews objectAtIndex:(int)self.value+1];
+		if([self.subviews count] > self.value+2) { // deselect current cell, if existing
+			RadioCell *oldCell = (RadioCell *)[self.subviews objectAtIndex:(int)self.value+1];
+			oldCell.selected = NO;
+		}
 		RadioCell *newCell = (RadioCell *)[self.subviews objectAtIndex:newVal+1];
-		oldCell.selected = NO;
 		newCell.selected = YES;
 	}
 	[super setValue:newVal];
 }
 
-- (void)setWidth:(int)width {
-	_width = width;
+- (void)setSize:(int)size {
+	_size = MAX(size, IEM_GUI_MINSIZE);
 	[self setNeedsDisplay]; // redraw with new width
 }
 
 - (void)setNumCells:(int)numCells {
 	if(numCells < 1) {
-		return;
+		numCells = 1;
+	}
+	if(numCells > IEM_RADIO_MAX) {
+		numCells = IEM_RADIO_MAX;
 	}
 	_numCells = numCells;
 	self.maxValue = numCells-1;
@@ -168,9 +176,9 @@
 
 - (NSString *)type {
 	if(self.orientation == WidgetOrientationHorizontal) {
-		return @"Radio";
+		return @"HRadio";
 	}
-	return @"Radio";
+	return @"VRadio";
 }
 
 #pragma mark WidgetListener
@@ -186,6 +194,28 @@
 
 - (void)receiveSetFloat:(float)received {
 	self.value = received;
+}
+
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+
+	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// size
+		self.size = [[arguments objectAtIndex:0] integerValue];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	if([message isEqualToString:@"number"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// number of cells
+		self.numCells = [[arguments objectAtIndex:0] integerValue];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else {
+		return [super receiveEditMessage:message withArguments:arguments];
+	}
+	return NO;
 }
 
 @end
@@ -246,7 +276,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	[self.parent setValue:self.whichCell];
 	[self.parent sendFloat:self.parent.value];
-//	DDLogVerbose(@"RadioCell %d hit", self.whichCell);
+	//DDLogVerbose(@"RadioCell %d hit", self.whichCell);
 }
 
 - (void)setSelected:(BOOL)selected {

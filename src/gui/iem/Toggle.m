@@ -11,6 +11,8 @@
 #import "Toggle.h"
 
 #import "Gui.h"
+#include "z_libpd.h"
+#include "g_all_guis.h" // iem gui
 
 @implementation Toggle
 
@@ -45,10 +47,11 @@
 	t.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
 	t.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
 	
-	t.toggleValue = [[line objectAtIndex:18] floatValue];
+	t.nonZeroValue = [[line objectAtIndex:18] floatValue];
 	t.value = [[line objectAtIndex:17] floatValue];
 	
 	[t reshapeForGui:gui];
+	t.gui = gui;
 	
 	[t sendInitValue];
 	
@@ -58,7 +61,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
-		self.toggleValue = 1;
+		self.nonZeroValue = 1;
     }
     return self;
 }
@@ -78,22 +81,33 @@
 	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));
 	
 	// toggle
-	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	if(self.value != 0) {
+		
+		// stroke width increases with size
+		CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
+		int w = 1;
+		if(CGRectGetWidth(self.originalFrame) >= 60) {
+			w = 3;
+		}
+		else if(CGRectGetWidth(self.originalFrame) >= 30) {
+			w = 2;
+		}
+		CGContextSetLineWidth(context, w);
+		
 		CGContextBeginPath(context);
-		CGContextMoveToPoint(context, 2, 2);
-		CGContextAddLineToPoint(context, rect.size.width-3, rect.size.height-3);
+		CGContextMoveToPoint(context, w, w);
+		CGContextAddLineToPoint(context, rect.size.width-w-1, rect.size.height-w-1);
 		CGContextStrokePath(context);
 		CGContextBeginPath(context);
-		CGContextMoveToPoint(context, rect.size.width-3, 2);
-		CGContextAddLineToPoint(context, 2, rect.size.height-3);
+		CGContextMoveToPoint(context, rect.size.width-w-1, w);
+		CGContextAddLineToPoint(context, w, rect.size.height-w-1);
 		CGContextStrokePath(context);
 	}
 }
 
 - (void)toggle {
 	if(self.value == 0) {
-		self.value = self.toggleValue;
+		self.value = self.nonZeroValue;
 	}
 	else {
 		self.value = 0;
@@ -103,10 +117,16 @@
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
-	if(f != 0) { // remember enabled value
-		self.toggleValue = f;
+	if(f != self.nonZeroValue) { // remember new enabled value
+		self.nonZeroValue = f;
 	}
 	[super setValue:f];
+}
+
+- (void)setNonZeroValue:(float)nonZeroValue {
+	if(nonZeroValue != 0.0) {
+		_nonZeroValue = nonZeroValue;
+	}
 }
 
 - (NSString *)type {
@@ -134,6 +154,28 @@
 
 - (void)receiveSetFloat:(float)received {
 	self.value = received;
+}
+
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+
+	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// size
+		self.originalFrame = CGRectMake(
+			self.originalFrame.origin.x, self.originalFrame.origin.y,
+			MIN(MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE),
+			MIN(MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE));
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"nonzero"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// nonzero value
+		self.nonZeroValue = [[arguments objectAtIndex:0] integerValue];
+		return YES;
+	}
+	else {
+		return [super receiveEditMessage:message withArguments:arguments];
+	}
+	return NO;
 }
 
 @end

@@ -11,11 +11,20 @@
 #import "Bang.h"
 
 #import "Gui.h"
+#include "z_libpd.h"
+#include "g_all_guis.h" // iem gui
 
 @interface Bang () {
+
+	BOOL hasInitBanged; // used with self.inits
+
+	double timestamp;
+	double elapsedHoldTimeMS; // how many ms have elapsed before an interrupt
 	NSTimer *flashTimer;
 }
+- (void)checkFlashTimes;
 - (void)stopFlash:(NSTimer *)timer;
+- (void)resumeFlash:(NSTimer *)timer;
 @end
 
 @implementation Bang
@@ -41,7 +50,10 @@
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
 	
-	b.bangTimeMS = [[line objectAtIndex:6] integerValue];
+	b.holdTimeMS = [[line objectAtIndex:6] integerValue];
+	b.interruptTimeMS = [[line objectAtIndex:7] integerValue];
+	b.inits = [[line objectAtIndex:8] boolValue];
+	[b checkFlashTimes];
 	
 	b.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
 	b.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
@@ -52,8 +64,23 @@
 	b.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
 	
 	[b reshapeForGui:gui];
+	b.gui = gui;
+	
+	if(b.inits) {
+		[b receiveBangFromSource:@""];
+	}
 	
 	return b;
+}
+
+- (id)initWithFrame:(CGRect)frame {    
+    self = [super initWithFrame:frame];
+    if(self) {
+		_interruptTimeMS = IEM_BNG_DEFAULTBREAKFLASHTIME;
+		_holdTimeMS = IEM_BNG_DEFAULTHOLDFLASHTIME;
+		hasInitBanged = NO;
+    }
+    return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -79,20 +106,55 @@
 	CGContextStrokeEllipseInRect(context, circleFrame);
 }
 
+- (void)reshapeForGui:(Gui *)gui {
+	[super reshapeForGui:gui];
+	// send bang on init
+	if(self.inits && hasInitBanged) {
+		[self bang];
+		[self sendBang];
+		hasInitBanged = YES;
+	}
+}
+
 - (void)bang {
-	if(flashTimer) {
+
+	// start new flash
+	if(!flashTimer) {
+		// start flash with full hold time
+		timestamp = CACurrentMediaTime();
+		flashTimer = [NSTimer scheduledTimerWithTimeInterval:((float)self.holdTimeMS/1000.f)
+													  target:self
+													selector:@selector(stopFlash:)
+													userInfo:nil
+													 repeats:NO];
+		self.value = 1;
+		elapsedHoldTimeMS = 0;
+	}
+	else { // interrupted
 		[flashTimer invalidate];
 		flashTimer = NULL;
+		
+		elapsedHoldTimeMS = (CACurrentMediaTime() - timestamp) * 1000;
+		
+		// retrigger flash after interrupt time
+		flashTimer = [NSTimer scheduledTimerWithTimeInterval:((float)self.interruptTimeMS/1000.f)
+													  target:self
+													selector:@selector(resumeFlash:)
+													userInfo:nil
+													 repeats:NO];
+		self.value = 0;
 	}
-	flashTimer = [NSTimer scheduledTimerWithTimeInterval:((float)self.bangTimeMS/1000.f)
-												  target:self
-												selector:@selector(stopFlash:)
-												userInfo:nil
-												 repeats:NO];
-	self.value = 1;
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (void)setInterruptTimeMS:(int)interruptTimeMS {
+	_interruptTimeMS = MAX(interruptTimeMS, IEM_BNG_MINBREAKFLASHTIME);
+}
+
+- (void)setHoldTimeMS:(int)holdTimeMS {
+	_holdTimeMS = MAX(holdTimeMS, IEM_BNG_MINHOLDFLASHTIME);
+}
 
 - (NSString *)type {
 	return @"Bang";
@@ -101,8 +163,7 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	[self bang];
-	[self sendBang];
+	[self receiveBangFromSource:@""];
 }
 
 #pragma mark WidgetListener
@@ -113,29 +174,79 @@
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	[self bang];
-	[self sendBang];
+	[self receiveBangFromSource:@""];
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	[self bang];
-	[self sendBang];
+	[self receiveBangFromSource:@""];
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	[self bang];
-	[self sendBang];
+	[self receiveBangFromSource:@""];
 }
 
-- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	[self bang];
-	[self sendBang];
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+
+	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// size
+		self.originalFrame = CGRectMake(
+			self.originalFrame.origin.x, self.originalFrame.origin.y,
+			MIN(MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE),
+			MIN(MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE));
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"flashtime"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// interrupt time, hold time
+		self.interruptTimeMS = [[arguments objectAtIndex:0] floatValue];
+		self.holdTimeMS = [[arguments objectAtIndex:1] floatValue];
+		[self checkFlashTimes];
+	}
+	else {
+		if(![super receiveEditMessage:message withArguments:arguments]) {
+			// treat anything else as a bang
+			[self receiveBangFromSource:@""];
+		}
+	}
+	return YES;
 }
 
 #pragma Private
 
+// form g_bang.c
+- (void)checkFlashTimes {
+    if(self.interruptTimeMS > self.holdTimeMS) {
+        float h;
+        h = self.holdTimeMS;
+		self.holdTimeMS = self.interruptTimeMS;
+        self.interruptTimeMS = h;
+    }
+}
+
 - (void)stopFlash:(NSTimer *)timer {
-  self.value = 0;
+	self.value = 0;
+	elapsedHoldTimeMS = 0;
+	[flashTimer invalidate];
+	flashTimer = NULL;
+}
+
+- (void)resumeFlash:(NSTimer *)timer {
+	[flashTimer invalidate];
+	
+	// restart timer to finish
+	double resumeHoldTime = self.holdTimeMS - (elapsedHoldTimeMS);
+	if(resumeHoldTime > 0) {
+		flashTimer = [NSTimer scheduledTimerWithTimeInterval:(resumeHoldTime/1000.f)
+												  target:self
+												selector:@selector(stopFlash:)
+												userInfo:nil
+												 repeats:NO];
+		self.value = 1;
+	}
+	else { // stop if there is no time left to show
+		[self stopFlash:nil];
+	}
 }
 
 @end

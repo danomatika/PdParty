@@ -14,7 +14,9 @@
 
 @interface Bang : IEMWidget
 
-@property (assign) int bangTimeMS;
+// flash times ms
+@property (assign, nonatomic) int interruptTimeMS;
+@property (assign, nonatomic) int holdTimeMS;
 
 + (id)bangFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 

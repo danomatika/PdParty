@@ -130,7 +130,7 @@
 @implementation NSMutableString (CharSetString)
 
 - (void)setCharacter:(unichar)c atIndex:(unsigned)i {
-	NSLog(@"setting %c at %d in \"%@\"", c, i, self);
+	//NSLog(@"setting %c at %d in \"%@\"", c, i, self);
 	[self replaceCharactersInRange:NSMakeRange(i, 1) withString:[NSString stringWithCharacters:&c length:1]];
 }
 

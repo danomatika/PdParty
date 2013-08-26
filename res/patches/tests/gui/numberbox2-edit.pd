@@ -1,0 +1,18 @@
+#N canvas 409 327 164 212 10;
+#X text 12 80 run tests/edit-osc &;
+#X obj 44 36 nbx 5 14 -1e+37 1e+37 0 0 \$0-gui-out \$0-gui-in a_numberbox
+0 -8 0 10 -262144 -1 -1 23 256;
+#X text 12 96 use the edit subpatch;
+#X text 11 114 in numberbox2-help;
+#N canvas 582 507 241 168 guts 0;
+#X obj 124 28 r #osc-in;
+#X obj 124 83 routeOSC /edit;
+#X obj 147 56 print #osc-in;
+#X obj 13 26 r \$0-gui-out;
+#X obj 13 55 print gui-out;
+#X obj 124 112 s \$0-gui-in;
+#X connect 0 0 1 0;
+#X connect 0 0 2 0;
+#X connect 1 0 5 0;
+#X connect 3 0 4 0;
+#X restore 45 150 pd guts;

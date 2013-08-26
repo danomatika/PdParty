@@ -11,6 +11,8 @@
 #import "Canvas.h"
 
 #import "Gui.h"
+#include "z_libpd.h"
+#include "g_all_guis.h" // iem gui
 
 @implementation Canvas
 
@@ -23,9 +25,9 @@
 
 	Canvas *c = [[Canvas alloc] initWithFrame:CGRectZero];
 
-	c.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]]; // not really used, but we'll load it anyway
+	c.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	c.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
-	// don't check receiveName as canvas could bea simple background component, etc
+	// don't check receiveName as canvas could be a simple background component, etc
 	
 	c.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
@@ -39,6 +41,7 @@
 	c.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
 	
 	[c reshapeForGui:gui];
+	c.gui = gui;
 	
 	return c;
 }
@@ -55,6 +58,46 @@
 
 - (NSString *)type {
 	return @"Canvas";
+}
+
+#pragma mark WidgetListener
+
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+
+	if([message isEqualToString:@"color"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// background, label-color
+		self.backgroundColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"size"]) {
+		// selectable object size, ignored here since we don't support editing patches
+		DDLogWarn(@"%@: ignoring size edit message", self.type);
+	}
+	else if([message isEqualToString:@"vis_size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// canvas size: width, height
+		float w = MAX([[arguments objectAtIndex:0] floatValue], 1);
+		float h = CGRectGetHeight(self.originalFrame);
+		if([arguments count] > 1 && [arguments isNumberAt:1]) {
+			h = MAX([[arguments objectAtIndex:0] floatValue], 1);
+		}
+		self.originalFrame = CGRectMake(
+			self.originalFrame.origin.x, self.originalFrame.origin.y, w, h);
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"get_pos"]) {
+		// send pos
+		[self sendList:[NSArray arrayWithObjects:
+			[NSNumber numberWithFloat:self.originalFrame.origin.x],
+			[NSNumber numberWithFloat:self.originalFrame.origin.y], nil]];
+	}
+	else {
+		return [super receiveEditMessage:message withArguments:arguments];
+	}
+	return YES;
 }
 
 @end

@@ -78,7 +78,7 @@
 		round(self.originalFrame.origin.y * gui.scaleY),
 		round(CGRectGetWidth(self.valueLabel.frame) + (2 * gui.scaleX)),
 		round(CGRectGetHeight(self.valueLabel.frame) + (2 * gui.scaleX)));
-	cornerSize = CGRectGetHeight(self.valueLabel.frame) * 0.40;
+	cornerSize = 4 * gui.scaleX;
 
 	// label
 	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];

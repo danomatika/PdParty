@@ -66,17 +66,17 @@
 #pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {
-	[self send:self.symbol];
+	[self sendSymbol:self.symbol];
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.symbol = @"float";
-	[self send:self.symbol];
+	[self sendSymbol:self.symbol];
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
 	self.symbol = symbol;
-	[self send:self.symbol];
+	[self sendSymbol:self.symbol];
 }
 
 - (void)receiveSetFloat:(float)received {

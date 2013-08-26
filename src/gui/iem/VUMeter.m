@@ -76,6 +76,7 @@
 	v.showScale = [[line objectAtIndex:15] boolValue];
 
 	[v reshapeForGui:gui];
+	v.gui = gui;
 	
 	return v;
 }
@@ -224,6 +225,35 @@
 	else {
 		[super receiveList:list fromSource:source];
 	}
+}
+
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+
+	if([message isEqualToString:@"color"] && [arguments count] > 1 &&
+		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
+		// background, label-color
+		self.fillColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		[self.meterView setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"scale"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		self.showScale = [[arguments objectAtIndex:0] boolValue];
+		[self setNeedsDisplay];
+		return YES;
+	}
+	else if([message isEqualToString:@"send"] || [message isEqualToString:@"init"]) {
+		// has no send & dosen't init
+		return NO;
+	}
+	else {
+		if([super receiveEditMessage:message withArguments:arguments]) {
+			[self.meterView setNeedsDisplay];
+			return YES;
+		}
+	}
+	return NO;
 }
 
 @end

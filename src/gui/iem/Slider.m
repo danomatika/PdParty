@@ -15,12 +15,10 @@
 #include "g_all_guis.h" // iem gui
 
 @interface Slider () {
-
 	BOOL isReversed; // is the min value > max value?
 	double sizeConvFactor; // scaling factor for lin/log value conversion
 	int centerValue; // for detecting when to draw thicker control
 	int controlPos;
-	
 	BOOL isOneFinger;
 	float prevPos;
 }
@@ -358,22 +356,12 @@
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.value = received;
-	NSLog(@"hsl received: %f, value is now: %f", received, self.value);
 	[self sendFloat:self.value];
 }
 
-- (void)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 
-	if([message isEqualToString:@"color"] && [arguments count] > 2 &&
-		([arguments isNumberAt:0] && [arguments isNumberAt:1] && [arguments isNumberAt:2])) {
-		// background, front-color, label-color
-		self.fillColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
-		self.controlColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:2] intValue]];
-		[self reshapeForGui:self.gui];
-		[self setNeedsDisplay];
-	}
-	else if([message isEqualToString:@"size"] && [arguments count] > 1 &&
+	if([message isEqualToString:@"size"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// width, height
 		self.originalFrame = CGRectMake(
@@ -383,57 +371,11 @@
 		[self checkSize];
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
-	}
-	else if([message isEqualToString:@"pos"] && [arguments count] > 1 &&
-		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
-		// absolute pos
-		self.originalFrame = CGRectMake(
-			[[arguments objectAtIndex:0] floatValue], [[arguments objectAtIndex:1] floatValue],
-			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
-		[self reshapeForGui:self.gui];
-		[self setNeedsDisplay];
-	}
-	else if([message isEqualToString:@"delta"] && [arguments count] > 1 &&
-		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
-		// relative pos
-		self.originalFrame = CGRectMake(
-			self.originalFrame.origin.x + [[arguments objectAtIndex:0] floatValue],
-			self.originalFrame.origin.y + [[arguments objectAtIndex:1] floatValue],
-			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
-		[self reshapeForGui:self.gui];
-		[self setNeedsDisplay];
-	}
-	else if([message isEqualToString:@"label"] && [arguments count] > 0 && [arguments isStringAt:0]) {
-		self.label.text = [arguments objectAtIndex:0];
-		[self reshapeForGui:self.gui];
-		[self setNeedsDisplay];
-	}
-	else if([message isEqualToString:@"label_pos"] && [arguments count] > 1 &&
-		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
-		// x, y
-		self.originalLabelPos = CGPointMake([[arguments objectAtIndex:0] floatValue],
-											[[arguments objectAtIndex:1] floatValue]);
-		[self reshapeForGui:self.gui];
-		[self setNeedsDisplay];
-	}
-	else if([message isEqualToString:@"label_font"] && [arguments count] > 1 &&
-		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
-		// font id (ignored since there's only 1 font), font size
-		self.labelFontSize = [[arguments objectAtIndex:1] floatValue];
-		[self reshapeForGui:self.gui];
-		[self setNeedsDisplay];
-	}
-	else if([message isEqualToString:@"send"] && [arguments count] > 0 && [arguments isStringAt:0]) {
-		self.sendName = [arguments objectAtIndex:0];
-	}
-	else if([message isEqualToString:@"receive"] && [arguments count] > 0 && [arguments isStringAt:0]) {
-		self.receiveName = [arguments objectAtIndex:0];
-	}
-	else if([message isEqualToString:@"init"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
-		self.inits = [[arguments objectAtIndex:0] boolValue];
+		return YES;
 	}
 	else if([message isEqualToString:@"steady"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		self.steady = [[arguments objectAtIndex:0] boolValue];
+		return YES;
 	}
 	else if([message isEqualToString:@"range"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
@@ -441,16 +383,20 @@
 		self.minValue = [[arguments objectAtIndex:0] floatValue];
 		self.maxValue = [[arguments objectAtIndex:1] floatValue];
 		[self checkMinAndMax];
+		return YES;
 	}
 	else if([message isEqualToString:@"lin"]) {
 		self.log = NO;
+		return YES;
 	}
 	else if([message isEqualToString:@"log"]) {
 		self.log = YES;
+		return YES;
 	}
 	else {
-		DDLogWarn(@"%@: dropped edit message: %@", self.type, message);
+		return [super receiveEditMessage:message withArguments:arguments];
 	}
+	return NO;
 }
 
 #pragma mark Private

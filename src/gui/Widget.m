@@ -129,7 +129,9 @@
 	}
 	else { // everything else
 		//[self receiveList:arguments fromSource:source];
-		[self receiveEditMessage:message withArguments:arguments];
+		if(![self receiveEditMessage:message withArguments:arguments]) {
+			DDLogWarn(@"%@: dropped message: %@", self.type, message);
+		}
 	}
 }
 
@@ -141,8 +143,9 @@
 	DDLogWarn(@"%@: dropped set symbol", self.type);
 }
 
-- (void)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-	DDLogWarn(@"%@: dropped edit message", self.type);
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+//	DDLogWarn(@"%@: dropped edit message", self.type);
+	return NO;
 }
 
 #pragma mark Sending
@@ -155,9 +158,9 @@
 	return (self.receiveName && ![self.receiveName isEqualToString:@""]);
 }
 
-- (void)send:(NSString *)message {
+- (void)sendBang {
 	if([self hasValidSendName]) {
-		[PdBase sendSymbol:message toReceiver:self.sendName];
+		[PdBase sendBangToReceiver:self.sendName];
 	}
 }
 
@@ -167,9 +170,15 @@
 	}
 }
 
-- (void)sendBang {
+- (void)sendSymbol:(NSString *)symbol {
 	if([self hasValidSendName]) {
-		[PdBase sendBangToReceiver:self.sendName];
+		[PdBase sendSymbol:symbol toReceiver:self.sendName];
+	}
+}
+
+- (void)sendList:(NSArray *)list {
+	if([self hasValidSendName]) {
+		[PdBase sendList:list toReceiver:self.sendName];
 	}
 }
 

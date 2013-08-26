@@ -14,7 +14,7 @@
 
 @interface Radio : IEMWidget
 
-@property (assign, nonatomic) int width; // pixel width of one side of a cell
+@property (assign, nonatomic) int size; // pixel size of one side of a cell
 @property (assign, nonatomic) int numCells;
 @property (assign, nonatomic) WidgetOrientation orientation;
 

@@ -212,6 +212,7 @@
 		30E89D4716ECEDF2005B40C4 /* Numberbox2.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4616ECEDF0005B40C4 /* Numberbox2.m */; };
 		30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4916EDB459005B40C4 /* VUMeter.m */; };
 		30F3E79517C5491100117305 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 30F3E79417C5491100117305 /* images */; };
+		30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3E79617CAA1BB00117305 /* QuartzCore.framework */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -532,6 +533,7 @@
 		30E89D4816EDB457005B40C4 /* VUMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUMeter.h; sourceTree = "<group>"; };
 		30E89D4916EDB459005B40C4 /* VUMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUMeter.m; sourceTree = "<group>"; };
 		30F3E79417C5491100117305 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
+		30F3E79617CAA1BB00117305 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -554,6 +556,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */,
 				30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */,
 				30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */,
 				30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */,
@@ -927,6 +930,7 @@
 		30ABE2A616B5A8E500464926 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30F3E79617CAA1BB00117305 /* QuartzCore.framework */,
 				30C77BE316F1C67500988EB9 /* libicucore.dylib */,
 				30E89D0516E8758A005B40C4 /* CoreMotion.framework */,
 				30FA775416E69660000E8D2B /* SystemConfiguration.framework */,
@@ -1271,14 +1275,14 @@
 				30E89D4316EC4748005B40C4 /* IEMWidget.m */,
 				30E89D4516ECEDEF005B40C4 /* Numberbox2.h */,
 				30E89D4616ECEDF0005B40C4 /* Numberbox2.m */,
-				30E89D4816EDB457005B40C4 /* VUMeter.h */,
-				30E89D4916EDB459005B40C4 /* VUMeter.m */,
 				30E89D2816EC46CE005B40C4 /* Radio.h */,
 				30E89D2916EC46CE005B40C4 /* Radio.m */,
 				30E89D2A16EC46CE005B40C4 /* Slider.h */,
 				30E89D2B16EC46CE005B40C4 /* Slider.m */,
 				30E89D2C16EC46CE005B40C4 /* Toggle.h */,
 				30E89D2D16EC46CE005B40C4 /* Toggle.m */,
+				30E89D4816EDB457005B40C4 /* VUMeter.h */,
+				30E89D4916EDB459005B40C4 /* VUMeter.m */,
 			);
 			path = iem;
 			sourceTree = "<group>";

@@ -14,7 +14,7 @@
 
 @interface Toggle : IEMWidget
 
-@property (assign, nonatomic) float toggleValue; // remember non zero value when off
+@property (assign, nonatomic) float nonZeroValue;
 
 + (id)toggleFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 

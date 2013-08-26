@@ -1,0 +1,22 @@
+#N canvas 310 116 178 209 10;
+#X obj 40 143 tgl 15 0 \$0-log empty log 17 7 0 10 -262144 -1 -1 0
+1;
+#N canvas 462 257 288 148 guts 0;
+#X obj -155 16 r \$0-log;
+#X obj -155 54 sel 0;
+#X obj 9 17 r nbx2-out;
+#X obj 9 51 print nbx2-out;
+#X msg -74 95 \; nbx2-in log;
+#X msg -165 95 \; nbx2-in lin;
+#X obj 34 110 s nbx2-in;
+#X msg 34 80 set 0;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 1 1 4 0;
+#X connect 2 0 3 0;
+#X connect 7 0 6 0;
+#X restore 88 143 pd guts;
+#X obj 39 37 nbx 5 14 -1e+37 1e+37 0 0 nbx2-in empty nbx1 0 -8 0 10
+-262144 -1 -1 121 256;
+#X obj 38 89 nbx 10 14 -1e+37 1e+37 0 0 nbx2-out nbx2-in nbx2 0 -8
+0 10 -262144 -1 -1 1e-35 256;
