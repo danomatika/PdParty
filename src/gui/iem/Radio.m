@@ -14,15 +14,6 @@
 #include "z_libpd.h"
 #include "g_all_guis.h" // iem gui
 
-// helper class
-@interface RadioCell : UIView
-
-@property (weak, nonatomic) Radio* parent;
-@property (assign, nonatomic) int whichCell; // cell id
-@property (assign, getter=isSelected, nonatomic) BOOL selected;
-
-@end
-
 @implementation Radio
 
 + (id)radioFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui {
@@ -77,61 +68,64 @@
     return self;
 }
 
+- (void)drawRect:(CGRect)rect {
+
+    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
+    CGContextSetLineWidth(context, 1.0);
+	
+	// background
+	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
+	CGContextFillRect(context, rect);
+	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+	
+	// cells
+	float cellSize = round(self.size * self.gui.scaleX);
+	for(int i = 0; i < self.numCells; ++i) {
+	
+		// bounds
+		CGRect cellRect;
+		if(self.orientation == WidgetOrientationHorizontal) {
+			cellRect = CGRectMake(i*cellSize, 0, cellSize, cellSize - 1);
+		}
+		else if(self.orientation == WidgetOrientationVertical) {
+			cellRect = CGRectMake(0, i*cellSize, cellSize - 1, cellSize);
+		}
+	
+		// border
+		CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
+		CGContextStrokeRect(context, cellRect);
+		
+		// selected?
+		if(i == (int)self.value) {
+			float buttonSize = round(cellSize/4);
+			CGRect buttonRect = CGRectMake(round(cellRect.origin.x-1 + buttonSize),
+										   round(cellRect.origin.y-1 + buttonSize),
+										   round(cellSize/2), round(cellSize/2));
+			CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
+			CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
+			CGContextFillRect(context, buttonRect);
+			CGContextStrokeRect(context, buttonRect);
+		}
+	}
+}
+
 - (void)reshapeForGui:(Gui *)gui {
+	
+	float cellSize = round(self.size * gui.scaleX);
 	
 	// bounds
 	if(self.orientation == WidgetOrientationHorizontal) {
 		self.frame = CGRectMake(
 			round(self.originalFrame.origin.x * gui.scaleX),
 			round(self.originalFrame.origin.y * gui.scaleY),
-			round(self.size * self.numCells * gui.scaleX),
-			round(self.size * gui.scaleX));
+			round(self.numCells * cellSize) + 1, cellSize);
 	}
 	else {
 		self.frame = CGRectMake(
 			round(self.originalFrame.origin.x * gui.scaleX),
 			round(self.originalFrame.origin.y * gui.scaleY),
-			round(self.size * gui.scaleX),
-			round(self.size * self.numCells * gui.scaleX));
-	}
-	
-	// cells, -1 for label which is at index
-	if(self.subviews.count-1 != self.numCells) {
-		if(self.subviews.count-1 < self.numCells) { // add
-			while(self.subviews.count-1 < self.numCells) {
-				RadioCell *cell = [[RadioCell alloc] initWithFrame:CGRectZero];
-				cell.parent = self;
-				cell.whichCell = self.subviews.count-1;
-				if(cell.whichCell == self.value) {
-					cell.selected = YES;
-				}
-				[self addSubview:cell];
-			}
-		}
-		else { // remove
-			while(self.subviews.count-1 > self.numCells) {
-				[[self.subviews lastObject] removeFromSuperview];
-			}
-		}
-	}
-	
-	// reshape cells
-	for(int i = 1; i < self.subviews.count; ++i) {
-		CGRect frame;
-		float cellSize = self.size * gui.scaleX;
-		if(self.orientation == WidgetOrientationHorizontal) {
-			frame = CGRectMake(
-				round(cellSize * (i-1)), 0,
-				round(cellSize), round(cellSize));
-		}
-		else {
-			frame = CGRectMake(
-				0, round(cellSize * (i-1)),
-				round(cellSize),
-				round(cellSize));
-		}
-		[[self.subviews objectAtIndex:i] setFrame:frame];
-		[[self.subviews objectAtIndex:i] setNeedsDisplay];
+			cellSize, round(self.numCells * cellSize) + 1);
 	}
 	
 	// label
@@ -142,14 +136,6 @@
 
 - (void)setValue:(float)f {
 	int newVal = (int) MIN(self.maxValue, MAX(self.minValue, f)); // round to int
-	if(self.subviews.count > 1) { // label is at index 0, 1 & up are cells
-		if([self.subviews count] > self.value+2) { // deselect current cell, if existing
-			RadioCell *oldCell = (RadioCell *)[self.subviews objectAtIndex:(int)self.value+1];
-			oldCell.selected = NO;
-		}
-		RadioCell *newCell = (RadioCell *)[self.subviews objectAtIndex:newVal+1];
-		newCell.selected = YES;
-	}
 	[super setValue:newVal];
 }
 
@@ -166,7 +152,7 @@
 		numCells = IEM_RADIO_MAX;
 	}
 	_numCells = numCells;
-	self.maxValue = numCells-1;
+	self.maxValue = numCells - 1;
 	if(numCells < self.value) {
 		self.value = self.maxValue;
 	}
@@ -177,6 +163,20 @@
 		return @"HRadio";
 	}
 	return @"VRadio";
+}
+
+#pragma mark Touches
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+    UITouch *touch = [touches anyObject];
+    CGPoint pos = [touch locationInView:self];
+	if(self.orientation == WidgetOrientationHorizontal) {
+		self.value = pos.x/round(self.size * self.gui.scaleX);
+	}
+	else {
+		self.value = pos.y/round(self.size * self.gui.scaleX);
+	}
+	[self sendFloat:self.value];
 }
 
 #pragma mark WidgetListener
@@ -214,72 +214,6 @@
 		return [super receiveEditMessage:message withArguments:arguments];
 	}
 	return NO;
-}
-
-@end
-
-#pragma mark RadioCell
-
-@implementation RadioCell
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
-		self.whichCell = -1;
-		self.selected = NO;
-    }
-    return self;
-}
-
-- (void)drawRect:(CGRect)rect {
-
-    CGContextRef context = UIGraphicsGetCurrentContext();
-	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetLineWidth(context, 1.0);
-	
-	// background
-	CGContextSetFillColorWithColor(context, self.parent.fillColor.CGColor);
-	CGContextFillRect(context, rect);
-	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
-	
-	// border
-	CGContextSetStrokeColorWithColor(context, self.parent.frameColor.CGColor);
-	if(self != [self.parent.subviews lastObject]) { // overlap borders except on last object
-		if(self.parent.orientation == WidgetOrientationHorizontal) {
-			CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect), CGRectGetHeight(rect)-1));
-		}
-		else {
-			CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect)-1, CGRectGetHeight(rect)));
-		}
-	}
-	else {
-		CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect)-1, CGRectGetHeight(rect)-1));
-	}
-	
-	// selected?
-	if(self.isSelected) {
-		CGContextSetFillColorWithColor(context, self.parent.controlColor.CGColor);
-		CGContextSetStrokeColorWithColor(context, self.parent.controlColor.CGColor);
-		CGRect selectedFrame = CGRectMake(
-			round(rect.origin.x + (CGRectGetWidth(rect) * 0.20)),
-			round(rect.origin.y + (CGRectGetHeight(rect) * 0.20)),
-			round(CGRectGetWidth(rect) * 0.60),
-			round(CGRectGetHeight(rect) * 0.60));
-		CGContextFillRect(context, selectedFrame);
-		CGContextStrokeRect(context, selectedFrame);
-	}
-}
-
-// notify the parent Radio of a hit
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	[self.parent setValue:self.whichCell];
-	[self.parent sendFloat:self.parent.value];
-	//DDLogVerbose(@"RadioCell %d hit", self.whichCell);
-}
-
-- (void)setSelected:(BOOL)selected {
-	_selected = selected;
-	[self setNeedsDisplay];
 }
 
 @end
