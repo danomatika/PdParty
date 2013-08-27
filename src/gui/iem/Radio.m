@@ -61,7 +61,7 @@
     self = [super initWithFrame:frame];
     if(self) {
 		self.size = IEM_GUI_DEFAULTSIZE;
-		self.numCells = 8; // don't trigger redraw yet
+		_numCells = 8; // don't trigger redraw yet
 		self.minValue = 0;
 		self.orientation = WidgetOrientationHorizontal;
     }
@@ -80,7 +80,7 @@
 	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
 	
 	// cells
-	float cellSize = round(self.size * self.gui.scaleX);
+	int cellSize = round(self.size * self.gui.scaleX);
 	for(int i = 0; i < self.numCells; ++i) {
 	
 		// bounds
@@ -98,9 +98,9 @@
 		
 		// selected?
 		if(i == (int)self.value) {
-			float buttonSize = round(cellSize/4);
-			CGRect buttonRect = CGRectMake(round(cellRect.origin.x-1 + buttonSize),
-										   round(cellRect.origin.y-1 + buttonSize),
+			int buttonSize = round(cellSize/4);
+			CGRect buttonRect = CGRectMake(round(cellRect.origin.x + buttonSize),
+										   round(cellRect.origin.y + buttonSize),
 										   round(cellSize/2), round(cellSize/2));
 			CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
 			CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
@@ -153,7 +153,7 @@
 	}
 	_numCells = numCells;
 	self.maxValue = numCells - 1;
-	if(numCells < self.value) {
+	if(numCells - 1 < self.value) {
 		self.value = self.maxValue;
 	}
 }
