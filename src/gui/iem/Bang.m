@@ -15,9 +15,6 @@
 #include "g_all_guis.h" // iem gui
 
 @interface Bang () {
-
-	BOOL hasInitBanged; // used with self.inits
-
 	double timestamp;
 	double elapsedHoldTimeMS; // how many ms have elapsed before an interrupt
 	NSTimer *flashTimer;
@@ -78,7 +75,6 @@
     if(self) {
 		_interruptTimeMS = IEM_BNG_DEFAULTBREAKFLASHTIME;
 		_holdTimeMS = IEM_BNG_DEFAULTHOLDFLASHTIME;
-		hasInitBanged = NO;
     }
     return self;
 }
@@ -106,15 +102,12 @@
 	CGContextStrokeEllipseInRect(context, circleFrame);
 }
 
-- (void)reshapeForGui:(Gui *)gui {
-	[super reshapeForGui:gui];
-	// send bang on init
-	if(self.inits && hasInitBanged) {
-		[self bang];
-		[self sendBang];
-		hasInitBanged = YES;
-	}
-}
+//- (void)sendInitValue {
+//	if(self.inits) {
+//		[self bang];
+//		[self sendBang];
+//	}
+//}
 
 - (void)bang {
 

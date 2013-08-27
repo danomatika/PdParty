@@ -53,8 +53,6 @@
 	[t reshapeForGui:gui];
 	t.gui = gui;
 	
-	[t sendInitValue];
-	
 	return t;
 }
 

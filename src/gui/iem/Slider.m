@@ -83,8 +83,6 @@
 		s.steady = [[line objectAtIndex:22] boolValue];
 	}
 	
-	[s sendInitValue];
-	
 	return s;
 }
 

@@ -63,8 +63,6 @@
 	[r reshapeForGui:gui];
 	r.gui = gui;
 	
-	[r sendInitValue];
-	
 	return r;
 }
 

@@ -81,7 +81,9 @@ typedef enum {
 - (void)sendSymbol:(NSString *)symbol;
 - (void)sendList:(NSArray *)list;
 
-// send an init val if init is set
+// send an init val if init is set,
+// this is done automatically by libpd when loading a patch and this method is
+// here if we need to trigger this manually in the future ...
 - (void)sendInitValue;
 
 #pragma mark Static Dispatcher
