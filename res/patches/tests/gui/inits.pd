@@ -1,0 +1,16 @@
+#N canvas 400 301 197 263 10;
+#X obj 49 42 bng 15 250 50 1 gui-out empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 88 44 tgl 15 1 gui-out empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 49 70 hsl 128 15 0 127 0 1 gui-out empty empty -2 -8 0 10 -262144
+-1 -1 1300 1;
+#X obj 124 45 nbx 5 14 -1e+37 1e+37 0 0 gui-out empty empty 0 -8 0
+10 -262144 -1 -1 0 256;
+#X obj 53 110 hradio 15 1 1 8 gui-out empty empty 0 -8 0 10 -262144
+-1 -1 2;
+#X obj 70 157 r gui-out;
+#X obj 70 186 print;
+#X obj 14 42 vsl 15 128 0 127 0 0 gui-out empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X connect 5 0 6 0;

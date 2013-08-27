@@ -48,12 +48,8 @@
 	// hide rj controls by default
 	self.rjControlsView.hidden = YES;
 	
-	// update scene manager for new patch controller view (if new), etc
-	// since view may not be inited when opening scene
+	// set title here since view hasn't been inited when opening on iPhone
 	if(![Util isDeviceATablet]) {
-		[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
-		self.sceneManager.pureData.delegate = self;
-		[self updateRjControls];
 		self.navigationItem.title = self.sceneManager.scene.name;
 	}
 	
@@ -68,9 +64,10 @@
 
 - (void)viewDidLayoutSubviews {
 	// update scene manager pointers for new patch controller view (if new)
-	if([Util isDeviceATablet]) {
-		[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
-	}
+	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	[self updateRjControls];
+	self.navigationItem.title = self.sceneManager.scene.name;
+	[self.view layoutSubviews];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
