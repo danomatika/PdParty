@@ -48,7 +48,7 @@
 		}
 		
 		// set dispatcher delegate
-		self.dispatcher = [[PdDispatcher alloc] init];
+		self.dispatcher = [[PureDataDispatcher alloc] init];
 		[PdBase setDelegate:self.dispatcher];
 		
 		// set midi receiver delegate
@@ -276,6 +276,20 @@
 	_micVolume = MIN(MAX(micVolume, 0.0), 1.0); // clamp to 0-1
 	[PureData sendMicVolume:_micVolume];
 	[[NSUserDefaults standardUserDefaults] setFloat:_micVolume forKey:@"micVolume"];
+}
+
+- (void)setOsc:(Osc *)osc {
+	_osc = osc;
+	self.dispatcher.osc = osc;
+}
+
+@end
+
+@implementation PureDataDispatcher
+
+- (void)receivePrint:(NSString *)message {
+	DDLogInfo(@"Pd: %@", message);
+	[self.osc sendPrint:message];
 }
 
 @end

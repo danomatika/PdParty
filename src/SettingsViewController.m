@@ -28,6 +28,7 @@
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
 	self.oscRotationEnabledSwitch.on = app.osc.rotationSendingEnabled;
 	self.oscKeyEnabledSwitch.on = app.osc.keySendingEnabled;
+	self.oscPrintEnabledSwitch.on = app.osc.printSendingEnabled;
 	
 	self.libFolderSpinner.hidden = YES;
 	self.samplesFolderSpinner.hidden = YES;
@@ -60,6 +61,9 @@
 	}
 	else if(sender == self.oscKeyEnabledSwitch) {
 		app.osc.keySendingEnabled = self.oscKeyEnabledSwitch.isOn;
+	}
+	else if(sender == self.oscPrintEnabledSwitch) {
+		app.osc.printSendingEnabled = self.oscPrintEnabledSwitch.isOn;
 	}
 }
 

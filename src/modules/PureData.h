@@ -45,17 +45,22 @@
 #define PARTY_SAMPLERATE	44100
 #define RJ_SAMPLERATE		22050
 
+@class Midi;
+@class Osc;
+
+// custom dispatcher to grab print events
+@interface PureDataDispatcher : PdDispatcher
+@property (weak, nonatomic) Osc *osc; // pointer to osc instance
+@end
+
 // playback event delegate
 @protocol PdPlaybackDelegate <NSObject>
 - (void)playbackFinished;
 @end
 
-@class Midi;
-@class Osc;
-
 @interface PureData : NSObject <PdReceiverDelegate, PdMidiReceiverDelegate>
 
-@property (strong, nonatomic) PdDispatcher *dispatcher; // message dispatcher
+@property (strong, nonatomic) PureDataDispatcher *dispatcher; // message dispatcher
 @property (weak, nonatomic) Midi *midi; // pointer to midi instance
 @property (weak, nonatomic) Osc *osc; // pointer to osc instance
 

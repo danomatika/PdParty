@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *oscTouchEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *oscRotationEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *oscKeyEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *oscPrintEnabledSwitch;
 
 - (IBAction)oscEventTypeChanged:(id)sender;
 

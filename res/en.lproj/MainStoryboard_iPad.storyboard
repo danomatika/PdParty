@@ -227,7 +227,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6uJ-Jc-Dgz">
-                                        <rect key="frame" x="0.0" y="167" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="167" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -256,12 +256,42 @@
                                             <constraint firstItem="rik-zd-WDU" firstAttribute="leading" secondItem="6uJ-Jc-Dgz" secondAttribute="leading" constant="30" id="tGs-Kp-yCb"/>
                                         </constraints>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="x6x-Af-bPp">
+                                        <rect key="frame" x="0.0" y="211" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Print" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1v-t2-jnS">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="9Uv-T5-RyZ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="NnA-9x-7WE">
+                                                    <connections>
+                                                        <action selector="oscEventTypeChanged:" destination="iuf-Pb-1Gb" eventType="valueChanged" id="ole-rd-9y9"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="D1v-t2-jnS" firstAttribute="centerY" secondItem="NnA-9x-7WE" secondAttribute="centerY" type="default" id="MYo-SH-ajq"/>
+                                            <constraint firstItem="NnA-9x-7WE" firstAttribute="top" secondItem="x6x-Af-bPp" secondAttribute="top" constant="8" id="VQH-Wd-rv3"/>
+                                            <constraint firstAttribute="trailing" secondItem="NnA-9x-7WE" secondAttribute="trailing" constant="30" id="Zfg-gC-QQt"/>
+                                            <constraint firstItem="D1v-t2-jnS" firstAttribute="leading" secondItem="x6x-Af-bPp" secondAttribute="leading" constant="30" id="kEh-cN-RjA"/>
+                                        </constraints>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Copy Default Folders" footerTitle="Copy default libs &amp; scenes to the Documents folder. Overwrites contents of existing folders with the same name." id="818-aL-zA6">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ffr-5T-j2H">
-                                        <rect key="frame" x="0.0" y="287" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="331" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -306,7 +336,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="USP-AB-x2j">
-                                        <rect key="frame" x="0.0" y="332" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="376" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -351,7 +381,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sUB-I6-wXx">
-                                        <rect key="frame" x="0.0" y="376" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="420" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -409,6 +439,7 @@
                         <outlet property="libFolderSpinner" destination="W8f-oQ-otM" id="SFJ-jr-Tvb"/>
                         <outlet property="oscAccelEnabledSwitch" destination="LKg-KT-KOx" id="bfg-qI-LhZ"/>
                         <outlet property="oscKeyEnabledSwitch" destination="85d-n7-H74" id="HG1-a2-hCy"/>
+                        <outlet property="oscPrintEnabledSwitch" destination="NnA-9x-7WE" id="2Ua-6G-c1Y"/>
                         <outlet property="oscRotationEnabledSwitch" destination="kzY-c5-6Fj" id="INo-C8-SdR"/>
                         <outlet property="oscTouchEnabledSwitch" destination="bbh-Pw-J7R" id="Im9-TK-WFH"/>
                         <outlet property="samplesFolderButton" destination="QeK-Qm-BfY" id="zXG-aP-wXi"/>

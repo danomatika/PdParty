@@ -44,6 +44,7 @@
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
 		self.rotationSendingEnabled = [defaults boolForKey:@"rotationSendingEnabled"];
 		self.keySendingEnabled = [defaults boolForKey:@"keySendingEnabled"];
+		self.printSendingEnabled = [defaults boolForKey:@"printSendingEnabled"];
 		
 		// should start listening if saved
 		self.listening = [defaults boolForKey:@"oscServerEnabled"];
@@ -110,6 +111,14 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendPrint:(NSString *)print {
+	if(!self.listening || !self.printSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_PRINT_ADDR;
+	[message addString:print];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setSendHost:(NSString *)sendHost {
@@ -166,6 +175,11 @@
 - (void)setKeySendingEnabled:(BOOL)keySendingEnabled {
 	_keySendingEnabled = keySendingEnabled;
 	[[NSUserDefaults standardUserDefaults] setBool:keySendingEnabled forKey:@"keySendingEnabled"];
+}
+
+- (void)setPrintSendingEnabled:(BOOL)printSendingEnabled {
+	_printSendingEnabled = printSendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:printSendingEnabled forKey:@"printSendingEnabled"];
 }
 
 @end

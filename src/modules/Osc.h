@@ -14,6 +14,7 @@
 #define OSC_ACCEL_ADDR	@"/pd/accelerate"
 #define OSC_ROTATE_ADDR	@"/pd/rotate"
 #define OSC_KEY_ADDR	@"/pd/key"
+#define OSC_PRINT_ADDR	@"/pd/print"
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
@@ -27,6 +28,7 @@
 @property (assign, nonatomic) BOOL touchSendingEnabled;
 @property (assign, nonatomic) BOOL rotationSendingEnabled;
 @property (assign, nonatomic) BOOL keySendingEnabled;
+@property (assign, nonatomic) BOOL printSendingEnabled;
 
 #pragma mark Send Events
 
@@ -44,5 +46,8 @@
 
 // pd key event
 - (void)sendKey:(int)key;
+
+// pd print event
+- (void)sendPrint:(NSString *)print;
 
 @end
