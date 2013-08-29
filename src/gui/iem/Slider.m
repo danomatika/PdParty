@@ -118,7 +118,7 @@
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	CGContextSetShouldAntialias(context, NO); // no fuzzy straight lines
 	if(self.orientation == WidgetOrientationHorizontal) {
-		float x = rect.origin.x + (self.value + 50) * 0.01 * self.gui.scaleX;
+		float x = (self.value + 50) * 0.01 * self.gui.scaleX;
 		int controlWidth = 3;
 		// constrain pos at edges
 		if(x < controlWidth) {
@@ -137,7 +137,7 @@
 		CGContextStrokePath(context);
 	}
 	else { // vertical
-		float y = rect.origin.y + (self.value + 50) * 0.01 * self.gui.scaleX;
+		float y = CGRectGetHeight(rect) - ((self.value + 50) * 0.01 * self.gui.scaleX);
 		int controlWidth = 3;
 		// constrain pos at edges
 		if(y < controlWidth) {
@@ -272,7 +272,7 @@
     CGPoint pos = [touch locationInView:self];
 	
 	if(self.orientation == WidgetOrientationHorizontal) {
-		float delta = pos.x - prevPos;
+		float delta = (pos.x - prevPos) / self.gui.scaleX;
 		float old = self.value;
 	
 		int v = 0;
@@ -304,7 +304,7 @@
 		prevPos = pos.x;
 	}
 	else if(self.orientation == WidgetOrientationVertical) {
-		float delta = pos.y - prevPos;
+		float delta = (pos.y - prevPos) / self.gui.scaleX;
 		float old = self.value;
 	
 		int v = 0;
@@ -312,7 +312,7 @@
 			controlPos += (int)delta;
 		}
 		else {
-			controlPos += 100 * (int)delta;
+			controlPos -= 100 * (int)delta;
 		}
 		v = controlPos;
 		
