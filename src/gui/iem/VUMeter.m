@@ -14,31 +14,17 @@
 #include "z_libpd.h"
 #include "g_all_guis.h" // iem gui
 
-#define VU_PAD_W	2
-#define VU_PAD_H	4
 #define VU_MAX_SCALE_CHAR_WIDTH	4
-
-#pragma mark MeterView
-
-// helper class, useful for future possible hit tests ...
-@interface MeterView : UIView
-
-@property (weak, nonatomic) VUMeter* parent;
-@property (assign, nonatomic) int rmsBar;		// max rms led bar index
-@property (assign, nonatomic) int peakBar;		// peak led bar index
-@property (assign, nonatomic) CGSize barSize;	// led bar size
-
-- (void)reshapeForGui:(Gui *)gui;
-
-@end
 
 #pragma mark VUMeter
 
-@interface VUMeter ()
+@interface VUMeter () {
+	BOOL isDefaultFillColor;
+	int rmsLed, peakLed; // led bar indices
+	int ledSize;
+}
 
-@property (assign) BOOL isDefaultFillColor;
-@property (weak) MeterView *meterView;
-@property (assign) float scaleX; // current gui.scaleX
+- (void)checkHeight;
 
 @end
 
@@ -60,11 +46,9 @@
 		return nil;
 	}
 	
-	// constrain height to multiples of IEM_VU_STEPS
 	v.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue],
-		floor([[line objectAtIndex:6] floatValue] / IEM_VU_STEPS) * IEM_VU_STEPS);
+		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
 	
 	v.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	v.originalLabelPos = CGPointMake([[line objectAtIndex:9] floatValue], [[line objectAtIndex:10] floatValue]);
@@ -75,7 +59,7 @@
 
 	v.showScale = [[line objectAtIndex:15] boolValue];
 
-	[v reshapeForGui:gui];
+	[v checkHeight];
 	v.gui = gui;
 	
 	return v;
@@ -84,70 +68,118 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
-	
 		self.showScale = YES;
-		self.scaleX = 1.0;
-		self.isDefaultFillColor = NO;
+		isDefaultFillColor = NO;
+		ledSize = 4;
 		
-		MeterView *m = [[MeterView alloc] initWithFrame:CGRectZero];
-		m.parent = self;
-		self.meterView = m;
-		[self addSubview:m];
+		// not interactive, so don't accept touch events
+		self.userInteractionEnabled = NO;
 	}
     return self;
 }
 
-- (void)reshapeForGui:(Gui *)gui {
-	
-	self.scaleX = gui.scaleX;
-	
-	// meter
-	[self.meterView reshapeForGui:gui];
-	
-	// bounds from meter size + optional scale width
-	CGRect bounds = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		CGRectGetWidth(self.meterView.frame),
-		CGRectGetHeight(self.meterView.frame));
-	if(self.showScale) {
-		CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospaced font
-		bounds.size.width += (charSize.width * VU_MAX_SCALE_CHAR_WIDTH) + 1;
-		bounds.size.height += self.labelFontSize;
-		bounds.origin.y -= self.labelFontSize/2;
-	}
-	self.frame = bounds;
-	
-	// label
-	[self reshapeLabelForGui:gui];
-	if(self.showScale) { // shift label down slightly since meter is shifted down
-		CGRect labelFrame = self.label.frame;
-		labelFrame.origin.y += self.meterView.frame.origin.y;
-		self.label.frame = labelFrame;
-	}
-}
-
 - (void)drawRect:(CGRect)rect {
+
+	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospace font
+	int yOffset = (charSize.height / 2);
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
+	CGContextSetLineWidth(context, 1.0);
+		
+	CGRect meterRect = CGRectMake(
+		0,//floor(-1 * self.gui.scaleX),
+		floor((-2 * self.gui.scaleX) + yOffset),
+		round((CGRectGetWidth(self.originalFrame)) * self.gui.scaleX),
+		round((CGRectGetHeight(self.originalFrame) + 4) * self.gui.scaleX));
 	
-	// vu scale text
-	if(self.showScale) {
-		CGPoint pos = CGPointMake(round(CGRectGetWidth(self.meterView.frame) + 1), 0);
-		int k1 = self.meterView.barSize.height+1, k2 = IEM_VU_STEPS+1, k3 = k1/2;
-		int k4 = -k3;
-		for(int i = 0; i <= IEM_VU_STEPS+1; ++i) {
-			pos.y = round((k4 + k1*(k2-i)) - (VU_PAD_H/2));
-			NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i+1]];
+	// background
+	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
+	CGContextFillRect(context, meterRect);
+	
+	// border
+	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
+	CGContextStrokeRect(context, meterRect);
+	
+	// from g_vumeter.c
+    int w4 = CGRectGetWidth(self.originalFrame) / 4,
+        quad1 = w4;
+    int quad3 = CGRectGetWidth(self.originalFrame) - w4,
+        end = CGRectGetWidth(self.originalFrame) + 2;
+    int k1 = ledSize + 1, k2 = IEM_VU_STEPS + 1, k3 = k1 / 2;
+    int led_col, yyy, i, k4 = -k3;
+
+    for(i = 1; i <= IEM_VU_STEPS; ++i) {
+        led_col = iemgui_vu_col[i];
+        yyy = k4 + k1 * (k2 - i);
+		
+		// led bar
+		if(i == peakLed || i <= rmsLed) {
+			UIColor *ledColor = [IEMWidget colorFromIEMColor:iemgui_vu_col[i]];
+			CGContextSetLineWidth(context, floor(ledSize * self.gui.scaleX));
+			CGContextSetStrokeColorWithColor(context, ledColor.CGColor);
+			if(i == peakLed) {
+				CGContextMoveToPoint(context, floor(1 * self.gui.scaleX), round(yyy * self.gui.scaleX) + yOffset);
+				CGContextAddLineToPoint(context,
+					round((CGRectGetWidth(self.originalFrame) - 1) * self.gui.scaleX),
+					round((yyy * self.gui.scaleX)  + yOffset));
+			}
+			else {
+				CGContextMoveToPoint(context, floor(quad1 * self.gui.scaleX), round((yyy * self.gui.scaleX) + yOffset));
+				CGContextAddLineToPoint(context, round(quad3 * self.gui.scaleX), round((yyy * self.gui.scaleX)) + yOffset);
+			}
+			CGContextStrokePath(context);
+		}
+				 
+		// scale
+        if(((i + 2) & 3) && self.showScale) {
+			yyy = k1 * (k2 - i);
+			NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
 			if(vuString.length > 0) {
-				CGPoint stringPos = CGPointMake(pos.x,//(2*self.scaleX)),
-				round(pos.y * self.scaleX));
+				CGPoint stringPos = CGPointMake(floor(end * self.gui.scaleX), floor(yyy * self.gui.scaleX));
 				CGContextSetFillColorWithColor(context, self.label.textColor.CGColor);
 				[vuString drawAtPoint:stringPos withFont:self.label.font];
 			}
 		}
 	}
+	
+	// the ">12" on top
+	if(self.showScale) {
+		int i = IEM_VU_STEPS + 1;
+		yyy = k1 * (k2 - i);
+		NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
+		CGPoint stringPos = CGPointMake(floor(end * self.gui.scaleX), floor(yyy * self.gui.scaleX));
+		CGContextSetFillColorWithColor(context, self.label.textColor.CGColor);
+		[vuString drawAtPoint:stringPos withFont:self.label.font];
+	}
+}
+
+- (void)reshapeForGui:(Gui *)gui {
+	
+	// reshape label first to make sure font has been set
+	[self reshapeLabelForGui:gui];
+	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospaced font
+	
+	// bounds from meter size + optional scale width
+	if(self.showScale) {
+		self.frame = CGRectMake(
+			round((self.originalFrame.origin.x - 1) * gui.scaleX),
+			round((self.originalFrame.origin.y * gui.scaleY) - (charSize.height / 2)),
+			round(((CGRectGetWidth(self.originalFrame)) * gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
+			round(((CGRectGetHeight(self.originalFrame) + 1) * gui.scaleX) + charSize.height));
+	}
+	else {
+		self.frame = CGRectMake(
+			round((self.originalFrame.origin.x - 1) * gui.scaleX),
+			round((self.originalFrame.origin.y * gui.scaleY) - (charSize.height / 2)),
+			round((CGRectGetWidth(self.originalFrame) * gui.scaleX) + 1),
+			round((CGRectGetHeight(self.originalFrame) + 1) * gui.scaleX) + charSize.height);
+	}
+
+	// shift label down slightly
+	CGRect labelFrame = self.label.frame;
+	labelFrame.origin.y += round(charSize.height / 4) + 1;
+	self.label.frame = labelFrame;
 }
 
 #pragma mark Overridden Getters / Setters
@@ -155,32 +187,30 @@
 - (void)setValue:(float)f {
     int i;
 	if(f <= IEM_VU_MINDB) {
-        self.meterView.rmsBar = 0;
+		rmsLed = 0;
     }
 	else if(f >= IEM_VU_MAXDB) {
-        self.meterView.rmsBar = IEM_VU_STEPS;
+		rmsLed = IEM_VU_STEPS;
     }
 	else {
         i = (int)(2.0 * (f + IEM_VU_OFFSET));
-        self.meterView.rmsBar = iemgui_vu_db2i[i];
+        rmsLed = iemgui_vu_db2i[i];
     }
     i = (int)((100.0 * f) + 10000.5);
     [super setValue:(0.01 * (i - 10000))];
-	[self.meterView setNeedsDisplay];
 }
-
 
 - (void)setPeakValue:(float)peakValue {
     int i;
     if(peakValue <= IEM_VU_MINDB) {
-        self.meterView.peakBar = 0;
+        peakLed = 0;
 	}
     else if(peakValue >= IEM_VU_MAXDB) {
-        self.meterView.peakBar = IEM_VU_STEPS;
+        peakLed = IEM_VU_STEPS;
 	}
     else {
         i = (int)(2.0 * (peakValue + IEM_VU_OFFSET));
-        self.meterView.peakBar = iemgui_vu_db2i[i];
+        peakLed = iemgui_vu_db2i[i];
     }
     i = (int)(100.0 * peakValue + 10000.5);
     _peakValue = 0.01 * (i - 10000);
@@ -191,13 +221,14 @@
 - (void)setFillColor:(UIColor *)fillColor {
 	CGFloat r, g, b, a;
 	[fillColor getRed:&r green:&g blue:&b alpha:&a];
-	if(r == 0.250980  && g == 0.250980 && b == 0.250980 && a == 1.0) { // check for default color value
+	// check for default color value
+	if(r == 0.250980  && g == 0.250980 && b == 0.250980 && a == 1.0) {
 		[super setFillColor:[UIColor colorWithWhite:0.25 alpha:1.0]];
-		self.isDefaultFillColor = YES;
+		isDefaultFillColor = YES;
 	}
 	else {
 		[super setFillColor:fillColor];
-		self.isDefaultFillColor = NO;
+		isDefaultFillColor = NO;
 	}
 }
 
@@ -236,10 +267,23 @@
 		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
-		[self.meterView setNeedsDisplay];
+	}
+	else if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// width, height
+		float w = MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE);
+		float h = CGRectGetHeight(self.originalFrame);
+		if([arguments count] > 1 && [arguments isNumberAt:1]) {
+			h = [[arguments objectAtIndex:1] floatValue];
+		}
+		self.originalFrame = CGRectMake(self.originalFrame.origin.x, self.originalFrame.origin.y, w, h);
+		[self checkHeight];
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+		return YES;
 	}
 	else if([message isEqualToString:@"scale"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		self.showScale = [[arguments objectAtIndex:0] boolValue];
+		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
 		return YES;
 	}
@@ -248,84 +292,25 @@
 		return NO;
 	}
 	else {
-		if([super receiveEditMessage:message withArguments:arguments]) {
-			[self.meterView setNeedsDisplay];
-			return YES;
-		}
+		return [super receiveEditMessage:message withArguments:arguments];
 	}
 	return NO;
 }
 
-@end
+#pragma mark Private
 
-#pragma mark MeterView
-
-@implementation MeterView
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
-		self.barSize = CGSizeMake(IEM_VU_DEFAULTSIZE * 2, IEM_VU_DEFAULTSIZE);
+// from g_vumeter.c
+- (void)checkHeight {
+    
+	int n = CGRectGetHeight(self.originalFrame) / IEM_VU_STEPS;
+    if(n < IEM_VU_MINSIZE) {
+        n = IEM_VU_MINSIZE;
 	}
-    return self;
-}
-
-- (void)reshapeForGui:(Gui *)gui {
-
-	// bounds
-	CGRect bounds = CGRectMake(0, 0,
-		round((CGRectGetWidth(self.parent.originalFrame) + VU_PAD_W + 1) * gui.scaleX),
-		round((CGRectGetHeight(self.parent.originalFrame) + VU_PAD_H + 1) * gui.scaleX));
-	if(self.parent.showScale) {
-		bounds.origin.y = round(self.parent.labelFontSize/2); // offset for scale text
-	}
-	self.frame = bounds;
-
-	// led bar
-	self.barSize = CGSizeMake(
-		round(((CGRectGetWidth(self.parent.originalFrame)/2) - 1)),
-		round(((CGRectGetHeight(self.parent.originalFrame) / IEM_VU_STEPS) - 1)));
-}
-
-- (void)drawRect:(CGRect)rect {
-
-    CGContextRef context = UIGraphicsGetCurrentContext();
-	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
+    ledSize = n-1;
 	
-	// background
-	CGContextSetFillColorWithColor(context, self.parent.fillColor.CGColor);
-	CGContextFillRect(context, rect);
-	
-	// border
-	CGContextSetStrokeColorWithColor(context, self.parent.frameColor.CGColor);
-	CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect)-1, CGRectGetHeight(rect)-1));
-	
-	// led bars
-	CGPoint pos = CGPointMake(round(rect.size.width/4) - 1, 0);
-	int k1 = self.barSize.height+1, k2 = IEM_VU_STEPS+1, k3 = k1/2;
-    int k4 = -k3;
-	for(int i = 1; i <= IEM_VU_STEPS; ++i) {
-		if(i == self.peakBar || i <= self.rmsBar) {
-			pos.y = k4 + k1*(k2-i) - 1;
-			CGRect bar;
-			if(i == self.peakBar) {
-				bar = CGRectMake(1, round(pos.y * self.parent.scaleX),
-					round(CGRectGetWidth(rect)-3),
-					round((self.barSize.height+1) * self.parent.scaleX));
-			}
-			else {
-				bar = CGRectMake(pos.x, round(pos.y * self.parent.scaleX),
-					round(CGRectGetWidth(rect)/2 + 1),
-					round((self.barSize.height+1) * self.parent.scaleX));
-			}
-			UIColor *barColor = [IEMWidget colorFromIEMColor:iemgui_vu_col[i]];
-			CGContextSetFillColorWithColor(context, barColor.CGColor);
-			CGContextSetStrokeColorWithColor(context, barColor.CGColor);
-			CGContextFillRect(context, bar);
-			CGContextStrokeRect(context, bar);
-		}
-	}
+	CGRect frame = self.originalFrame;
+	frame.size.height = IEM_VU_STEPS * n;
+	self.originalFrame = frame;
 }
 
 @end

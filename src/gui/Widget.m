@@ -116,12 +116,12 @@
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
 
 	// set message sets value without sending
-	if([message isEqualToString:@"set"] && arguments.count > 1) {
+	if([message isEqualToString:@"set"] && arguments.count > 0) {
 		if([arguments isNumberAt:0]) {
 			[self receiveSetFloat:[[arguments objectAtIndex:0] floatValue]];
 		}
-		else if([arguments isStringAt:1]) {
-			[self receiveSetSymbol:[arguments objectAtIndex:1]];
+		else if([arguments isStringAt:0]) {
+			[self receiveSetSymbol:[arguments objectAtIndex:0]];
 		}
 	}
 	else if([message isEqualToString:@"bang"]) { // got a bang!
@@ -182,11 +182,11 @@
 	}
 }
 
-//- (void)sendInitValue {
-//	if(self.inits) {
-//		[self sendFloat:self.value];
-//	}
-//}
+- (void)sendInitValue {
+	if(self.inits) {
+		[self sendFloat:self.value];
+	}
+}
 
 #pragma mark Overridden Getters / Setters
 

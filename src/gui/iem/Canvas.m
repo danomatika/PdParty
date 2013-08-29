@@ -81,7 +81,7 @@
 		float w = MAX([[arguments objectAtIndex:0] floatValue], 1);
 		float h = CGRectGetHeight(self.originalFrame);
 		if([arguments count] > 1 && [arguments isNumberAt:1]) {
-			h = MAX([[arguments objectAtIndex:0] floatValue], 1);
+			h = MAX([[arguments objectAtIndex:1] floatValue], 1);
 		}
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y, w, h);

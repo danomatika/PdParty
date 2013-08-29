@@ -1,25 +1,25 @@
-#N canvas 366 184 241 317 10;
+#N canvas 536 261 241 317 10;
 #X obj 46 48 vu 60 240 vu1-in vu1 -1 -8 0 10 -66577 -4160 1 0;
 #X obj 179 103 vu 15 120 vu2-in vu2 -1 -8 0 10 -262144 -1 0 0;
 #X floatatom 87 14 5 0 0 1 peak peak-in peak-out;
 #X floatatom 34 14 5 0 0 0 rms rms-in rms-out;
-#N canvas 475 269 505 332 guts 0;
+#N canvas 734 147 504 339 guts 0;
 #X obj 26 80 pack f f;
 #X obj 102 52 t b f;
 #X obj 26 105 s vu1-in;
-#X obj 334 104 random 102;
-#X obj 334 180 - 101;
-#X obj 334 214 pack 0 0;
-#X obj 334 54 metro 300;
-#X obj 334 78 t b b;
-#X obj 427 104 random 20;
-#X obj 334 126 t f f;
-#X obj 385 156 +;
-#X obj 385 181 - 101;
-#X obj 334 239 s vu2-in;
-#X obj 334 26 loadbang;
+#X obj 309 102 random 102;
+#X obj 309 178 - 101;
+#X obj 309 212 pack 0 0;
+#X obj 309 52 metro 300;
+#X obj 309 76 t b b;
+#X obj 402 102 random 20;
+#X obj 309 124 t f f;
+#X obj 360 154 +;
+#X obj 360 179 - 101;
+#X obj 309 237 s vu2-in;
+#X obj 309 24 loadbang;
 #X obj 27 259 line -100;
-#X obj 27 174 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 27 174 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 27 199 sel 0;
 #X obj 27 147 r bump_rms-out;
@@ -38,6 +38,10 @@
 #X msg 95 230 12 1000;
 #X msg 163 227 -100 1000;
 #X msg 231 228 12 1000;
+#X obj 190 81 s vu1-in;
+#X msg 190 53 scale \$1;
+#X msg 385 53 \; scale-in set 1;
+#X obj 190 26 r scale-out;
 #X connect 0 0 2 0;
 #X connect 1 0 0 0;
 #X connect 1 1 0 1;
@@ -53,6 +57,7 @@
 #X connect 10 0 11 0;
 #X connect 11 0 5 1;
 #X connect 13 0 6 0;
+#X connect 13 0 34 0;
 #X connect 14 0 22 0;
 #X connect 15 0 16 0;
 #X connect 16 0 28 0;
@@ -72,8 +77,12 @@
 #X connect 29 0 14 0;
 #X connect 30 0 18 0;
 #X connect 31 0 18 0;
-#X restore 165 263 pd guts;
+#X connect 33 0 32 0;
+#X connect 35 0 33 0;
+#X restore 165 276 pd guts;
 #X obj 159 18 bng 15 250 50 0 bump_rms-out empty bump_rms 17 7 0 10
 -262144 -1 -1;
 #X obj 159 50 bng 15 250 50 0 bump_peak-out empty bump_peak 17 7 0
 10 -262144 -1 -1;
+#X obj 161 247 tgl 15 0 scale-out scale-in scale 17 7 0 10 -262144
+-1 -1 1 1;

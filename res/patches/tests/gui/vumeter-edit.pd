@@ -1,12 +1,13 @@
-#N canvas 600 191 248 256 10;
-#X obj 126 87 r #osc-in;
-#X obj 126 142 routeOSC /edit;
+#N canvas 542 192 270 349 10;
 #X text 20 16 run tests/edit-osc &;
-#X obj 149 115 print #osc-in;
-#X obj 126 171 s \$0-gui-in;
 #X text 20 32 use the edit subpatch in radio-help;
-#X obj 40 80 vu 15 120 \$0-gui-in a_vu_meter -1 -8 0 10 -66577 -1 1
+#X obj 100 80 vu 8 200 \$0-gui-in a_vu_meter -1 -8 0 10 -66577 -1 1
 0;
+#N canvas 729 462 236 129 guts 0;
+#X obj 14 11 r #osc-in;
+#X obj 14 66 routeOSC /edit;
+#X obj 37 39 print #osc-in;
+#X obj 14 95 s \$0-gui-in;
 #N canvas 147 336 225 292 source 0;
 #X obj 48 120 random 102;
 #X obj 48 196 - 101;
@@ -33,7 +34,11 @@
 #X connect 8 0 2 1;
 #X connect 10 0 11 0;
 #X connect 11 0 3 0;
-#X restore 126 198 pd source;
+#X restore 145 95 pd source;
+#X obj 143 12 r foo7_rcv;
+#X obj 143 53 s \$0-gui-in;
 #X connect 0 0 1 0;
-#X connect 0 0 3 0;
-#X connect 1 0 4 0;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 5 0 6 0;
+#X restore 172 266 pd guts;
