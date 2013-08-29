@@ -36,8 +36,6 @@
 		}
 	}
 	c.label.text = text;
-
-	[c reshapeForGui:gui];
 	
 	return c;
 }

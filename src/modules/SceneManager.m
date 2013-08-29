@@ -116,6 +116,7 @@
 		[self.scene close];
 		self.scene = nil;
 		self.enableAccelerometer = NO;
+		hasReshaped = NO;
 	}
 }
 

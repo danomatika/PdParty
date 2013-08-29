@@ -65,7 +65,6 @@
 		n.logHeight = [[line objectAtIndex:22] floatValue];
 	}
 
-	[n reshapeForGui:gui];
 	n.gui = gui;
 
 	return n;

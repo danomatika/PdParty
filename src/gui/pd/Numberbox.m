@@ -49,8 +49,6 @@
 	n.labelPos = [[line objectAtIndex:7] integerValue];
 	n.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 
-	[n reshapeForGui:gui];
-
 	return n;
 }
 

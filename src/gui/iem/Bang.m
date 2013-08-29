@@ -60,7 +60,6 @@
 	b.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
 	b.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
 	
-	[b reshapeForGui:gui];
 	b.gui = gui;
 	
 	if(b.inits) {
@@ -102,12 +101,12 @@
 	CGContextStrokeEllipseInRect(context, circleFrame);
 }
 
-//- (void)sendInitValue {
-//	if(self.inits) {
-//		[self bang];
-//		[self sendBang];
-//	}
-//}
+- (void)sendInitValue {
+	if(self.inits) {
+		[self bang];
+		[self sendBang];
+	}
+}
 
 - (void)bang {
 

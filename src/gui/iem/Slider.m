@@ -67,7 +67,6 @@
 	s.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
 	s.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
 
-	[s reshapeForGui:gui];
 	s.gui = gui;
 	
 	if(orientation == WidgetOrientationHorizontal) {

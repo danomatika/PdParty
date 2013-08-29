@@ -51,7 +51,6 @@
 	r.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
 	r.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
 
-	[r reshapeForGui:gui];
 	r.gui = gui;
 	
 	return r;

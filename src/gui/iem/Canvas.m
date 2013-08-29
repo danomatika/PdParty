@@ -40,7 +40,6 @@
 	c.backgroundColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
 	c.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
 	
-	[c reshapeForGui:gui];
 	c.gui = gui;
 	
 	return c;

@@ -49,8 +49,7 @@
 	
 	t.nonZeroValue = [[line objectAtIndex:18] floatValue];
 	t.value = [[line objectAtIndex:17] floatValue];
-	
-	[t reshapeForGui:gui];
+
 	t.gui = gui;
 	
 	return t;
