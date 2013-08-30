@@ -69,7 +69,6 @@
 	// clear instance pointer for Now Playing button on iPhone
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	app.patchViewController = nil;
-	NSLog(@"DEALLOCED");
 }
 
 - (void)viewDidLayoutSubviews {
