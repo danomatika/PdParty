@@ -15,10 +15,12 @@
  */
 #import <UIKit/UIKit.h>
 
+#import "NowPlayingTableViewController.h"
+
 @class PatchViewController;
 
 // main MasterViewController for browsing the Documents dir
-@interface BrowserViewController : UITableViewController
+@interface BrowserViewController : NowPlayingTableViewController
 
 // strong to make sure to retain the view on iPhone
 @property (strong, nonatomic) PatchViewController *patchViewController;

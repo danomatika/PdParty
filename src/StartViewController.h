@@ -10,10 +10,12 @@
  */
 #import <UIKit/UIKit.h>
 
+#import "NowPlayingTableViewController.h"
+
 @class WebServer;
 
 // start page view
-@interface StartViewController : UITableViewController
+@interface StartViewController : NowPlayingTableViewController
 
 #pragma mark Connections
 

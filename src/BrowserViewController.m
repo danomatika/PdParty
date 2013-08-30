@@ -53,9 +53,6 @@
 	
 	// setup the root view
 	if(!self.currentDir) {
-		if([Util isDeviceATablet]) { // patch view is top on iPad
-			self.patchViewController = (PatchViewController *)[[self.parentViewController.splitViewController.viewControllers lastObject] topViewController];
-		}
 		self.currentDir = [Util documentsPath];
 	}
 }
@@ -248,7 +245,6 @@
 					board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
 				}
 				BrowserViewController *browserLayer = [board instantiateViewControllerWithIdentifier:@"BrowserViewController"];
-				browserLayer.patchViewController = self.patchViewController;
 				browserLayer.currentDir = path;
 				browserLayer.currentDirLevel = self.currentDirLevel+1;
 				[self.navigationController pushViewController:browserLayer animated:YES];
@@ -269,15 +265,7 @@
 	// load the selected patch
 	if([[segue identifier] isEqualToString:@"runScene"]) {
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		if(!self.patchViewController) {
-			[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
-			
-			// set view controller here since iPhone doesn't create it until the segue
-			self.patchViewController = (PatchViewController *)[segue destinationViewController];
-		}
-		else {
-			[self.patchViewController openScene:selectedPatch withType:selectedSceneType];
-		}
+		[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
     }
 }
 
@@ -287,7 +275,8 @@
 	selectedPatch = fullpath;
 	selectedSceneType = sceneType;
 	if([Util isDeviceATablet]) {
-		[self.patchViewController openScene:selectedPatch withType:selectedSceneType];
+		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		[app.patchViewController openScene:selectedPatch withType:selectedSceneType];
 	}
 	else {
 		[self performSegueWithIdentifier:@"runScene" sender:self];

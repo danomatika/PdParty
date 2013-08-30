@@ -26,6 +26,11 @@
 
 - (void)awakeFromNib {
 	activeTouches = [[NSMutableDictionary alloc] init];
+	
+	// set instance pointer
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.patchViewController = self;
+	
 	[super awakeFromNib];
 }
 
@@ -60,6 +65,11 @@
 	// clear pointers when the view is popped
 	[self.sceneManager updateParent:nil andControls:nil];
 	self.sceneManager.pureData.delegate = nil;
+	
+	// clear instance pointer for Now Playing button on iPhone
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.patchViewController = nil;
+	NSLog(@"DEALLOCED");
 }
 
 - (void)viewDidLayoutSubviews {

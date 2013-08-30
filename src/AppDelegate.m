@@ -14,7 +14,7 @@
 #import "Util.h"
 #import "Widget.h"
 
-//#import "PatchViewController.h"
+#import "PatchViewController.h"
 
 @interface AppDelegate ()
 

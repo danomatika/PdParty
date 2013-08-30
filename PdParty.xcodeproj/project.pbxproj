@@ -213,6 +213,7 @@
 		30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4916EDB459005B40C4 /* VUMeter.m */; };
 		30F3E79517C5491100117305 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 30F3E79417C5491100117305 /* images */; };
 		30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3E79617CAA1BB00117305 /* QuartzCore.framework */; };
+		30F5281C17D02E7B004736A6 /* NowPlayingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -534,6 +535,8 @@
 		30E89D4916EDB459005B40C4 /* VUMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUMeter.m; sourceTree = "<group>"; };
 		30F3E79417C5491100117305 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		30F3E79617CAA1BB00117305 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		30F5281A17D02E7A004736A6 /* NowPlayingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NowPlayingTableViewController.h; path = src/NowPlayingTableViewController.h; sourceTree = "<group>"; };
+		30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NowPlayingTableViewController.m; path = src/NowPlayingTableViewController.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -962,6 +965,8 @@
 				30ABE2E516B5D0FB00464926 /* main.m */,
 				30F7A19516C008A400DE265F /* BrowserViewController.h */,
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
+				30F5281A17D02E7A004736A6 /* NowPlayingTableViewController.h */,
+				30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */,
 				30960AFA16F5952300FAF2E7 /* OscViewController.h */,
 				30960AFB16F5952400FAF2E7 /* OscViewController.m */,
 				30ABE2EA16B5D0FB00464926 /* PatchViewController.h */,
@@ -1586,6 +1591,7 @@
 				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
 				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
 				30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */,
+				30F5281C17D02E7B004736A6 /* NowPlayingTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

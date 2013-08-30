@@ -22,6 +22,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 // global access
+@property (weak, nonatomic) PatchViewController *patchViewController;
 @property (strong, nonatomic) PureData *pureData;
 @property (strong, nonatomic) Midi *midi;
 @property (strong, nonatomic) Osc *osc;
