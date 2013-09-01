@@ -14,6 +14,10 @@
 #import "Util.h"
 #import "Widget.h"
 
+#ifndef DEBUG
+	#import <Crashlytics/Crashlytics.h>
+#endif
+
 #import "PatchViewController.h"
 
 @interface AppDelegate ()
@@ -28,6 +32,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+	
+	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
 	
 	// setup split view on iPad
 	if([Util isDeviceATablet]) {
@@ -49,6 +55,11 @@
 	DDLogInfo(@"Log level: %d", ddLogLevel);
 	
 	DDLogInfo(@"App resolution: %d %d", (int)[Util appWidth], (int)[Util appHeight]);
+	
+	// init crashlytics
+	#ifndef DEBUG
+		[Crashlytics startWithAPIKey:@"733ae8127473bb6b805cb36a50ab9aaf6cbdcc4f"];
+	#endif
 	
 	// copy patches in the resource folder on first run only
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"firstRun"]) {

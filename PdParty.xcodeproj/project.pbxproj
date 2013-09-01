@@ -214,6 +214,7 @@
 		30F3E79517C5491100117305 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 30F3E79417C5491100117305 /* images */; };
 		30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3E79617CAA1BB00117305 /* QuartzCore.framework */; };
 		30F5281C17D02E7B004736A6 /* NowPlayingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */; };
+		30F5282117D3BD24004736A6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F5282017D3BD24004736A6 /* Crashlytics.framework */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -537,6 +538,7 @@
 		30F3E79617CAA1BB00117305 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		30F5281A17D02E7A004736A6 /* NowPlayingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NowPlayingTableViewController.h; path = src/NowPlayingTableViewController.h; sourceTree = "<group>"; };
 		30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NowPlayingTableViewController.m; path = src/NowPlayingTableViewController.m; sourceTree = "<group>"; };
+		30F5282017D3BD24004736A6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = libs/Crashlytics.framework; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 				30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */,
 				30ABE2AA16B5A8E500464926 /* Foundation.framework in Frameworks */,
 				30ABE2AC16B5A8E500464926 /* CoreGraphics.framework in Frameworks */,
+				30F5282117D3BD24004736A6 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,6 +936,7 @@
 		30ABE2A616B5A8E500464926 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30F5282017D3BD24004736A6 /* Crashlytics.framework */,
 				30F3E79617CAA1BB00117305 /* QuartzCore.framework */,
 				30C77BE316F1C67500988EB9 /* libicucore.dylib */,
 				30E89D0516E8758A005B40C4 /* CoreMotion.framework */,
@@ -1340,6 +1344,7 @@
 				30ABE29F16B5A8E500464926 /* Sources */,
 				30ABE2A016B5A8E500464926 /* Frameworks */,
 				30ABE2A116B5A8E500464926 /* Resources */,
+				30F5281D17D1234A004736A6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1397,6 +1402,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		30F5281D17D1234A004736A6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    ./Crashlytics.framework/run 733ae8127473bb6b805cb36a50ab9aaf6cbdcc4f\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		30ABE29F16B5A8E500464926 /* Sources */ = {
@@ -1693,6 +1714,11 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/libs\"",
+				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "res/PdParty-Prefix.pch";
@@ -1716,6 +1742,11 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/libs\"",
+				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "res/PdParty-Prefix.pch";
