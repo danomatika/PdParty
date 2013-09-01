@@ -51,6 +51,14 @@
 	
 	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {
 		
+		// allow all orientations on iPad
+		if([Util isDeviceATablet]) {
+			self.preferredOrientations = UIInterfaceOrientationMaskAll;
+		}
+		else { // lock to portrait on iPhone
+			self.preferredOrientations = UIInterfaceOrientationMaskPortrait;
+		}
+		
 		// load background
 		NSString *backgroundPath = [path stringByAppendingPathComponent:@"image.jpg"];
 		if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {

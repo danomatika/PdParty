@@ -46,6 +46,9 @@ typedef enum {
 @property (readonly, nonatomic) BOOL requiresRotation; // does the scene require rotation events? (default NO)
 @property (readonly, nonatomic) BOOL requiresKeys; // does the scene require key events? (default NO)
 
+// preferred orientations, all by default
+@property (assign, nonatomic) UIInterfaceOrientationMask preferredOrientations;
+
 - (BOOL)open:(NSString *)path; // expects full path
 - (void)close;
 
@@ -60,5 +63,8 @@ typedef enum {
 
 // add subfolders in a given directory to the PD search path
 - (void)addSearchPathsIn:(NSString *)directory;
+
+// compute
++ (UIInterfaceOrientationMask)orientationMaskFromWidth:(float)width andHeight:(float)height;
 
 @end

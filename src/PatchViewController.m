@@ -57,8 +57,6 @@
 	if(![Util isDeviceATablet]) {
 		self.navigationItem.title = self.sceneManager.scene.name;
 	}
-	
-	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
 }
 
 - (void)dealloc {
@@ -72,10 +70,12 @@
 }
 
 - (void)viewDidLayoutSubviews {
+
 	// update scene manager pointers for new patch controller view (if new)
 	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
 	[self updateRjControls];
 	self.navigationItem.title = self.sceneManager.scene.name;
+
 	[self.view layoutSubviews];
 }
 
@@ -88,10 +88,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-// lock iPhone to portrait for RjDj scenes, allow rotation for all others
+// lock orientation based on scene's preferred orientation mask
 - (NSUInteger)supportedInterfaceOrientations {
-	if(![Util isDeviceATablet] && self.sceneManager.scene.type == SceneTypeRj) {
-		return UIInterfaceOrientationMaskPortrait;
+	if(self.sceneManager.scene) {
+		return self.sceneManager.scene.preferredOrientations;
 	}
 	return UIInterfaceOrientationMaskAll;
 }

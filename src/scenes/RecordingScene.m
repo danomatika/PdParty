@@ -27,6 +27,14 @@
 	self.file = path;
 	[self.pureData startPlaybackFrom:self.file];
 	
+	// allow all orientations on iPad
+	if([Util isDeviceATablet]) {
+		self.preferredOrientations = UIInterfaceOrientationMaskAll;
+	}
+	else { // lock to portrait on iPhone
+		self.preferredOrientations = UIInterfaceOrientationMaskPortrait;
+	}
+	
 	// set samplerate based on file samplerate
 	NSError *error;
 	AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:self.file] error:&error];

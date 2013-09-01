@@ -29,9 +29,8 @@
 	[PdBase addToSearchPath:dirPath];
 	
 	// add widgets before loading patch so dollar args can be replaced later
-	if(self.gui) {
-		[self.gui addWidgetsFromPatch:path];
-	}
+	[self.gui addWidgetsFromPatch:path];
+	self.preferredOrientations = [Scene orientationMaskFromWidth:self.gui.patchWidth andHeight:self.gui.patchHeight];
 	
 	DDLogVerbose(@"%@: opening %@ %@", self.typeString, fileName, dirPath);
 	
@@ -43,7 +42,7 @@
 	}
 	
 	// load widgets from gui
-	if(self.gui && self.parentView) {
+	if(self.parentView) {
 		DDLogVerbose(@"%@: adding %d widgets", self.typeString, self.gui.widgets.count);
 		for(Widget *widget in self.gui.widgets) {
 			[widget replaceDollarZerosForGui:self.gui fromPatch:self.patch];

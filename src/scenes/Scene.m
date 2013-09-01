@@ -18,6 +18,14 @@
 	return s;
 }
 
+- (id)init {
+    self = [super init];
+    if(self) {
+		self.preferredOrientations = UIInterfaceOrientationMaskAll;
+	}
+    return self;
+}
+
 - (void)dealloc {
 	[self close];
 }
@@ -98,6 +106,17 @@
 			[PdBase addToSearchPath:path];
 		}
 	}
+}
+
++ (UIInterfaceOrientationMask)orientationMaskFromWidth:(float)width andHeight:(float)height {
+	float aspect = width / height;
+	if(aspect < 1.0) { // portrait
+		return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+	}
+	else if(aspect > 1.0) { // landscape
+		return UIInterfaceOrientationMaskLandscape;
+	}
+	return UIInterfaceOrientationMaskAll;
 }
 
 @end

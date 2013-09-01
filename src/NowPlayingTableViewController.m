@@ -64,7 +64,7 @@
 			DDLogError(@"NowPlayingTableViewController: couldn't create patch view");
 			return;
 		}
-		[self.navigationController pushViewController:patchView animated:YES];
+		[self.navigationController pushViewController:(UIViewController *)patchView animated:YES];
 	}
 }
 
