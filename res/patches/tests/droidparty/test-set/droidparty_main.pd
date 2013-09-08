@@ -1,0 +1,34 @@
+#N canvas 353 264 353 212 10;
+#X obj 40 24 tgl 50 0 testtog1-snd testtog1-rcv testtog1 2 -7 0 10
+-262144 -1 -1 1 1;
+#X obj 196 23 tgl 50 0 testtog2-snd testtog2-rcv testtog2 2 -7 0 10
+-262144 -1 -1 1 1;
+#X obj 33 133 hsl 128 40 0 1 0 0 testsli1-snd testsli1-rcv testsli1
+-2 -8 0 10 -262144 -1 -1 12700 1;
+#X obj 190 133 hsl 128 40 0 1 0 0 testsli2-snd testsli2-rcv testsli2
+-2 -8 0 10 -262144 -1 -1 12700 1;
+#N canvas 1 29 466 342 guts 1;
+#X obj 165 95 r testtog1-snd;
+#X msg 225 231 set \$1;
+#X obj 175 124 r testtog2-snd;
+#X obj 121 267 s testtog1-rcv;
+#X obj 244 262 s testsli2-rcv;
+#X obj 225 290 s testsli1-rcv;
+#X obj 107 295 s testtog2-rcv;
+#X obj 149 66 r testsli1-snd;
+#X obj 107 45 r testsli2-snd;
+#X obj 107 206 != 0;
+#X msg 107 228 set \$1;
+#X obj 107 171 f;
+#X connect 0 0 11 0;
+#X connect 1 0 4 0;
+#X connect 1 0 5 0;
+#X connect 2 0 11 0;
+#X connect 7 0 11 0;
+#X connect 8 0 11 0;
+#X connect 9 0 10 0;
+#X connect 10 0 6 0;
+#X connect 10 0 3 0;
+#X connect 11 0 9 0;
+#X connect 11 0 1 0;
+#X restore 123 38 pd guts;

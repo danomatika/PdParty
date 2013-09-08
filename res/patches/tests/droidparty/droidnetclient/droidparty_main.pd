@@ -1,0 +1,56 @@
+#N canvas 461 699 210 139 10;
+#X obj 4 4 cnv 15 200 130 empty canvas label 10 15 0 14 -204786 -1
+0;
+#X obj 30 54 tgl 30 0 connect-snd connect-rcv connect -5 35 0 10 -262144
+-1 -1 0 1;
+#X obj 99 37 bng 30 250 50 0 count-snd empty count 32 17 0 10 -260097
+-1 -1;
+#X obj 99 72 tgl 30 0 action-snd action-rcv server_do_count 0 35 0
+10 -257985 -1 -1 0 1;
+#N canvas 737 671 404 220 guts 1;
+#X obj 9 40 r test-snd;
+#X obj 9 104 s canvas;
+#X obj 9 62 list trim;
+#X obj 82 40 loadbang;
+#X msg 82 62 label label;
+#X obj 9 84 route canvas _connected_;
+#X obj 79 106 sel 0 1;
+#X msg 187 86 disconnect;
+#X msg 79 126 color 0 22 22;
+#X msg 98 146 color 16 22 22;
+#X obj 79 167 s connect-rcv;
+#X obj 168 42 sel 1 0;
+#X obj 168 108 s test-rcv;
+#X obj 168 21 r connect-snd;
+#X obj 256 153 s test-rcv;
+#X msg 168 63 connect 192.168.1.40 33445;
+#X obj 256 109 i;
+#X obj 283 108 + 1;
+#X obj 256 87 r count-snd;
+#X msg 256 131 send client_count:\$1;
+#X obj 282 21 r action-snd;
+#X msg 282 43 send action \$1;
+#X connect 0 0 2 0;
+#X connect 2 0 5 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 5 1 6 0;
+#X connect 6 0 8 0;
+#X connect 6 1 9 0;
+#X connect 7 0 12 0;
+#X connect 8 0 10 0;
+#X connect 9 0 10 0;
+#X connect 11 0 15 0;
+#X connect 11 1 7 0;
+#X connect 13 0 11 0;
+#X connect 15 0 12 0;
+#X connect 16 0 17 0;
+#X connect 16 0 19 0;
+#X connect 17 0 16 1;
+#X connect 18 0 16 0;
+#X connect 19 0 14 0;
+#X connect 20 0 21 0;
+#X connect 21 0 14 0;
+#X restore 151 11 pd guts;
+#X obj 10 115 droidnetclient test;

@@ -13,16 +13,27 @@
 #import "PdParser.h"
 #import "PdFile.h"
 
+// pd
+#import "Number.h"
+#import "Symbol.h"
+#import "Comment.h"
+
+// iem
 #import "Bang.h"
 #import "Toggle.h"
-#import "Slider.h"
-#import "Numberbox.h"
-#import "Comment.h"
-#import "Canvas.h"
-#import "Symbolbox.h"
-#import "Radio.h"
 #import "Numberbox2.h"
+#import "Slider.h"
+#import "Radio.h"
 #import "VUMeter.h"
+#import "Canvas.h"
+
+// droidparty
+#import "Display.h"
+#import "Numberbox.h"
+#import "Ribbon.h"
+#import "Taplist.h"
+#import "Touch.h"
+#import "Wordbutton.h"
 
 @interface Gui ()
 
@@ -49,27 +60,27 @@
     return self;
 }
 
-- (void)addComment:(NSArray *)atomLine {
-	Comment *c = [Comment commentFromAtomLine:atomLine withGui:self];
-	if(c) {
-		[self.widgets addObject:c];
-		DDLogVerbose(@"Gui: added %@", c.type);
-	}
-}
-
-- (void)addNumberbox:(NSArray *)atomLine {
-	Numberbox *n = [Numberbox numberboxFromAtomLine:atomLine withGui:self];
+- (void)addNumber:(NSArray *)atomLine {
+	Number *n = [Number numberFromAtomLine:atomLine withGui:self];
 	if(n) {
 		[self.widgets addObject:n];
 		DDLogVerbose(@"Gui: added %@", n.type);
 	}
 }
 
-- (void)addSymbolbox:(NSArray *)atomLine {
-	Symbolbox *s = [Symbolbox symbolboxFromAtomLine:atomLine withGui:self];
+- (void)addSymbol:(NSArray *)atomLine {
+	Symbol *s = [Symbol symbolFromAtomLine:atomLine withGui:self];
 	if(s) {
 		[self.widgets addObject:s];
 		DDLogVerbose(@"Gui: added %@", s.type);
+	}
+}
+
+- (void)addComment:(NSArray *)atomLine {
+	Comment *c = [Comment commentFromAtomLine:atomLine withGui:self];
+	if(c) {
+		[self.widgets addObject:c];
+		DDLogVerbose(@"Gui: added %@", c.type);
 	}
 }
 
@@ -89,6 +100,14 @@
 	}
 }
 
+- (void)addNumberbox2:(NSArray *)atomLine {
+	Numberbox2 *n = [Numberbox2 numberbox2FromAtomLine:atomLine withGui:self];
+	if(n) {
+		[self.widgets addObject:n];
+		DDLogVerbose(@"Gui: added %@", n.type);
+	}
+}
+
 - (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation {
 	Slider *s = [Slider sliderFromAtomLine:atomLine withOrientation:orientation withGui:self];
 	if(s) {
@@ -105,6 +124,14 @@
 	}
 }
 
+- (void)addVUMeter:(NSArray *)atomLine {
+	VUMeter *v = [VUMeter vumeterFromAtomLine:atomLine withGui:self];
+	if(v) {
+		[self.widgets addObject:v];
+		DDLogVerbose(@"Gui: added %@", v.type);
+	}
+}
+
 - (void)addCanvas:(NSArray *)atomLine {
 	Canvas *c = [Canvas canvasFromAtomLine:atomLine withGui:self];
 	if(c) {
@@ -113,19 +140,51 @@
 	}
 }
 
-- (void)addNumberbox2:(NSArray *)atomLine {
-	Numberbox2 *n = [Numberbox2 numberbox2FromAtomLine:atomLine withGui:self];
+- (void)addDisplay:(NSArray *)atomLine {
+	Display *d = [Display displayFromAtomLine:atomLine withGui:self];
+	if(d) {
+		[self.widgets addObject:d];
+		DDLogVerbose(@"Gui: added %@", d.type);
+	}
+}
+
+- (void)addNumberbox:(NSArray *)atomLine {
+	Numberbox *n = [Numberbox numberboxFromAtomLine:atomLine withGui:self];
 	if(n) {
 		[self.widgets addObject:n];
 		DDLogVerbose(@"Gui: added %@", n.type);
 	}
 }
 
-- (void)addVUMeter:(NSArray *)atomLine {
-	VUMeter *v = [VUMeter vumeterFromAtomLine:atomLine withGui:self];
-	if(v) {
-		[self.widgets addObject:v];
-		DDLogVerbose(@"Gui: added %@", v.type);
+- (void)addRibbon:(NSArray *)atomLine {
+	Ribbon *r = [Ribbon ribbonFromAtomLine:atomLine withGui:self];
+	if(r) {
+		[self.widgets addObject:r];
+		DDLogVerbose(@"Gui: added %@", r.type);
+	}
+}
+
+- (void)addTaplist:(NSArray *)atomLine {
+	Taplist *t = [Taplist taplistFromAtomLine:atomLine withGui:self];
+	if(t) {
+		[self.widgets addObject:t];
+		DDLogVerbose(@"Gui: added %@", t.type);
+	}
+}
+
+- (void)addTouch:(NSArray *)atomLine {
+	Touch *t = [Touch touchFromAtomLine:atomLine withGui:self];
+	if(t) {
+		[self.widgets addObject:t];
+		DDLogVerbose(@"Gui: added %@", t.type);
+	}
+}
+
+- (void)addWordbutton:(NSArray *)atomLine {
+	Wordbutton *w = [Wordbutton wordbuttonFromAtomLine:atomLine withGui:self];
+	if(w) {
+		[self.widgets addObject:w];
+		DDLogVerbose(@"Gui: added %@", w.type);
 	}
 }
 
@@ -159,24 +218,27 @@
 				if (line.count >= 2) {
 				
 					// built in pd things
-					if([lineType isEqualToString:@"text"]) {
-						[self addComment:line];
-					}
-					else if([lineType isEqualToString:@"floatatom"]) {
-						[self addNumberbox:line];
+					if([lineType isEqualToString:@"floatatom"]) {
+						[self addNumber:line];
 					}
 					else if([lineType isEqualToString:@"symbolatom"]) {
-						[self addSymbolbox:line];
+						[self addSymbol:line];
+					}
+					else if([lineType isEqualToString:@"text"]) {
+						[self addComment:line];
 					}
 					else if([lineType isEqualToString:@"obj"] && line.count >= 5) {
 						NSString *objType = [line objectAtIndex:4];
 						
-						// pd objects
+						// iem gui objects
 						if([objType isEqualToString:@"bng"]) {
 							[self addBang:line];
 						}
 						else if([objType isEqualToString:@"tgl"]) {
 							[self addToggle:line];
+						}
+						else if([objType isEqualToString:@"nbx"]) {
+							[self addNumberbox2:line];
 						}
 						else if([objType isEqualToString:@"hsl"]) {
 							[self addSlider:line withOrientation:WidgetOrientationHorizontal];
@@ -190,14 +252,33 @@
 						else if([objType isEqualToString:@"vradio"]) {
 							[self addRadio:line withOrientation:WidgetOrientationVertical];
 						}
+						else if([objType isEqualToString:@"vu"]) {
+							[self addVUMeter:line];
+						}
 						else if([objType isEqualToString:@"cnv"]) {
 							[self addCanvas:line];
 						}
-						else if([objType isEqualToString:@"nbx"]) {
-							[self addNumberbox2:line];
+						
+						// droidparty objects
+						else if([objType isEqualToString:@"display"]) {
+							// this works but isn't supported in PdPart yet ...
+							[self addDisplay:line];
 						}
-						else if([objType isEqualToString:@"vu"]) {
-							[self addVUMeter:line];
+						else if([objType isEqualToString:@"numberbox"]) {
+							[self addNumberbox:line];
+						}
+//						// TODO: not really working yet
+//						else if([objType isEqualToString:@"ribbon"]) {
+//							[self addRibbon:line];
+//						}
+						else if([objType isEqualToString:@"taplist"]) {
+							[self addTaplist:line];
+						}
+						else if([objType isEqualToString:@"touch"]) {
+							[self addTouch:line];
+						}
+						else if([objType isEqualToString:@"wordbutton"]) {
+							[self addWordbutton:line];
 						}
 						
 						// print warnings on objects that aren't completely compatible

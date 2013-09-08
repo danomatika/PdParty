@@ -206,8 +206,8 @@
 		30E89D3D16EC46CF005B40C4 /* Toggle.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D2D16EC46CE005B40C4 /* Toggle.m */; };
 		30E89D3E16EC46CF005B40C4 /* AtomWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3016EC46CF005B40C4 /* AtomWidget.m */; };
 		30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3216EC46CF005B40C4 /* Comment.m */; };
-		30E89D4016EC46CF005B40C4 /* Numberbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3416EC46CF005B40C4 /* Numberbox.m */; };
-		30E89D4116EC46CF005B40C4 /* Symbolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3616EC46CF005B40C4 /* Symbolbox.m */; };
+		30E89D4016EC46CF005B40C4 /* Number.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3416EC46CF005B40C4 /* Number.m */; };
+		30E89D4116EC46CF005B40C4 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3616EC46CF005B40C4 /* Symbol.m */; };
 		30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4316EC4748005B40C4 /* IEMWidget.m */; };
 		30E89D4716ECEDF2005B40C4 /* Numberbox2.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4616ECEDF0005B40C4 /* Numberbox2.m */; };
 		30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4916EDB459005B40C4 /* VUMeter.m */; };
@@ -215,6 +215,12 @@
 		30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3E79617CAA1BB00117305 /* QuartzCore.framework */; };
 		30F5281C17D02E7B004736A6 /* NowPlayingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */; };
 		30F5282117D3BD24004736A6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F5282017D3BD24004736A6 /* Crashlytics.framework */; };
+		30F5282517D7B3DD004736A6 /* Wordbutton.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5282417D7B3DC004736A6 /* Wordbutton.m */; };
+		30F5282817D8FA81004736A6 /* Numberbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5282717D8FA81004736A6 /* Numberbox.m */; };
+		30F5282B17D90ACB004736A6 /* Taplist.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5282A17D90ACA004736A6 /* Taplist.m */; };
+		30F5283117D92A4A004736A6 /* Touch.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5283017D92A4A004736A6 /* Touch.m */; };
+		30F5283417D93743004736A6 /* Display.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5283317D93742004736A6 /* Display.m */; };
+		30F5283717D982AE004736A6 /* Ribbon.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5283617D982AC004736A6 /* Ribbon.m */; };
 		30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18C16BFF66F00DE265F /* ringbuffer.c */; };
 		30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A18E16BFF66F00DE265F /* z_print_util.c */; };
 		30F7A19416BFF66F00DE265F /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19016BFF66F00DE265F /* z_queued.c */; };
@@ -524,10 +530,10 @@
 		30E89D3016EC46CF005B40C4 /* AtomWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtomWidget.m; sourceTree = "<group>"; };
 		30E89D3116EC46CF005B40C4 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		30E89D3216EC46CF005B40C4 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		30E89D3316EC46CF005B40C4 /* Numberbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox.h; sourceTree = "<group>"; };
-		30E89D3416EC46CF005B40C4 /* Numberbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Numberbox.m; sourceTree = "<group>"; };
-		30E89D3516EC46CF005B40C4 /* Symbolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbolbox.h; sourceTree = "<group>"; };
-		30E89D3616EC46CF005B40C4 /* Symbolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbolbox.m; sourceTree = "<group>"; };
+		30E89D3316EC46CF005B40C4 /* Number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Number.h; sourceTree = "<group>"; };
+		30E89D3416EC46CF005B40C4 /* Number.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Number.m; sourceTree = "<group>"; };
+		30E89D3516EC46CF005B40C4 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
+		30E89D3616EC46CF005B40C4 /* Symbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbol.m; sourceTree = "<group>"; };
 		30E89D4216EC4748005B40C4 /* IEMWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEMWidget.h; sourceTree = "<group>"; };
 		30E89D4316EC4748005B40C4 /* IEMWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IEMWidget.m; sourceTree = "<group>"; };
 		30E89D4516ECEDEF005B40C4 /* Numberbox2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox2.h; sourceTree = "<group>"; };
@@ -539,6 +545,18 @@
 		30F5281A17D02E7A004736A6 /* NowPlayingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NowPlayingTableViewController.h; path = src/NowPlayingTableViewController.h; sourceTree = "<group>"; };
 		30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NowPlayingTableViewController.m; path = src/NowPlayingTableViewController.m; sourceTree = "<group>"; };
 		30F5282017D3BD24004736A6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = libs/Crashlytics.framework; sourceTree = "<group>"; };
+		30F5282317D7B3DC004736A6 /* Wordbutton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wordbutton.h; sourceTree = "<group>"; };
+		30F5282417D7B3DC004736A6 /* Wordbutton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wordbutton.m; sourceTree = "<group>"; };
+		30F5282617D8FA81004736A6 /* Numberbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox.h; sourceTree = "<group>"; };
+		30F5282717D8FA81004736A6 /* Numberbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Numberbox.m; sourceTree = "<group>"; };
+		30F5282917D90ACA004736A6 /* Taplist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Taplist.h; sourceTree = "<group>"; };
+		30F5282A17D90ACA004736A6 /* Taplist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Taplist.m; sourceTree = "<group>"; };
+		30F5282F17D92A49004736A6 /* Touch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Touch.h; sourceTree = "<group>"; };
+		30F5283017D92A4A004736A6 /* Touch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Touch.m; sourceTree = "<group>"; };
+		30F5283217D93741004736A6 /* Display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Display.h; sourceTree = "<group>"; };
+		30F5283317D93742004736A6 /* Display.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Display.m; sourceTree = "<group>"; };
+		30F5283517D982AB004736A6 /* Ribbon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ribbon.h; sourceTree = "<group>"; };
+		30F5283617D982AC004736A6 /* Ribbon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ribbon.m; sourceTree = "<group>"; };
 		30F7A18C16BFF66F00DE265F /* ringbuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ringbuffer.c; sourceTree = "<group>"; };
 		30F7A18D16BFF66F00DE265F /* ringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ringbuffer.h; sourceTree = "<group>"; };
 		30F7A18E16BFF66F00DE265F /* z_print_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z_print_util.c; sourceTree = "<group>"; };
@@ -903,6 +921,7 @@
 		30A319E516B61FF700C7729B /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				30F5282217D7B3DB004736A6 /* droidparty */,
 				30A319EB16B61FF700C7729B /* Gui.h */,
 				30A319EA16B61FF700C7729B /* Gui.m */,
 				30E89D1F16EC46CE005B40C4 /* iem */,
@@ -1303,12 +1322,31 @@
 				30E89D3016EC46CF005B40C4 /* AtomWidget.m */,
 				30E89D3116EC46CF005B40C4 /* Comment.h */,
 				30E89D3216EC46CF005B40C4 /* Comment.m */,
-				30E89D3316EC46CF005B40C4 /* Numberbox.h */,
-				30E89D3416EC46CF005B40C4 /* Numberbox.m */,
-				30E89D3516EC46CF005B40C4 /* Symbolbox.h */,
-				30E89D3616EC46CF005B40C4 /* Symbolbox.m */,
+				30E89D3316EC46CF005B40C4 /* Number.h */,
+				30E89D3416EC46CF005B40C4 /* Number.m */,
+				30E89D3516EC46CF005B40C4 /* Symbol.h */,
+				30E89D3616EC46CF005B40C4 /* Symbol.m */,
 			);
 			path = pd;
+			sourceTree = "<group>";
+		};
+		30F5282217D7B3DB004736A6 /* droidparty */ = {
+			isa = PBXGroup;
+			children = (
+				30F5283217D93741004736A6 /* Display.h */,
+				30F5283317D93742004736A6 /* Display.m */,
+				30F5282617D8FA81004736A6 /* Numberbox.h */,
+				30F5282717D8FA81004736A6 /* Numberbox.m */,
+				30F5283517D982AB004736A6 /* Ribbon.h */,
+				30F5283617D982AC004736A6 /* Ribbon.m */,
+				30F5282917D90ACA004736A6 /* Taplist.h */,
+				30F5282A17D90ACA004736A6 /* Taplist.m */,
+				30F5282F17D92A49004736A6 /* Touch.h */,
+				30F5283017D92A4A004736A6 /* Touch.m */,
+				30F5282317D7B3DC004736A6 /* Wordbutton.h */,
+				30F5282417D7B3DC004736A6 /* Wordbutton.m */,
+			);
+			path = droidparty;
 			sourceTree = "<group>";
 		};
 		30F7A18B16BFF66F00DE265F /* util */ = {
@@ -1556,8 +1594,8 @@
 				30E89D3D16EC46CF005B40C4 /* Toggle.m in Sources */,
 				30E89D3E16EC46CF005B40C4 /* AtomWidget.m in Sources */,
 				30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */,
-				30E89D4016EC46CF005B40C4 /* Numberbox.m in Sources */,
-				30E89D4116EC46CF005B40C4 /* Symbolbox.m in Sources */,
+				30E89D4016EC46CF005B40C4 /* Number.m in Sources */,
+				30E89D4116EC46CF005B40C4 /* Symbol.m in Sources */,
 				30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */,
 				30E89D4716ECEDF2005B40C4 /* Numberbox2.m in Sources */,
 				30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */,
@@ -1613,6 +1651,12 @@
 				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
 				30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */,
 				30F5281C17D02E7B004736A6 /* NowPlayingTableViewController.m in Sources */,
+				30F5282517D7B3DD004736A6 /* Wordbutton.m in Sources */,
+				30F5282817D8FA81004736A6 /* Numberbox.m in Sources */,
+				30F5282B17D90ACB004736A6 /* Taplist.m in Sources */,
+				30F5283117D92A4A004736A6 /* Touch.m in Sources */,
+				30F5283417D93743004736A6 /* Display.m in Sources */,
+				30F5283717D982AE004736A6 /* Ribbon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,7 @@
+#N canvas 76 202 671 56 10;
+#X obj 10 12 bng 30 250 50 0 empty empty empty 4 15 0 10 -262144 -1
+-1;
+#X text 138 11 This is a test to see how a patch is drawn when its
+;
+#X text 139 27 width/height ratio largely differs from screen's one.
+;

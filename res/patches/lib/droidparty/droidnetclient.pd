@@ -1,0 +1,10 @@
+#N canvas 406 253 284 175 10;
+#X obj 34 76 netclient;
+#X obj 34 43 r \$1-rcv;
+#X obj 34 144 s \$1-snd;
+#X msg 85 104 _connected_ \$1;
+#X text 11 9 args: send/receive-name;
+#X connect 0 0 2 0;
+#X connect 0 1 3 0;
+#X connect 1 0 0 0;
+#X connect 3 0 2 0;

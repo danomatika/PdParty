@@ -1,0 +1,14 @@
+#N struct 1223template-marker float a float b;
+#N canvas 189 27 233 289 10;
+#X obj 37 58 ribbon 150 25 ribbontwo;
+#X obj 78 173 unpack f f;
+#X obj 78 146 r ribbontwo;
+#X obj 36 172 print;
+#X msg 78 214 \; one \$1;
+#X floatatom 38 102 5 0 0 0 - one -;
+#X floatatom 144 102 5 0 0 0 - two -;
+#X msg 135 220 \; two \$1;
+#X connect 1 0 4 0;
+#X connect 1 1 7 0;
+#X connect 2 0 1 0;
+#X connect 2 0 3 0;

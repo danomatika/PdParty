@@ -14,7 +14,7 @@
 
 @implementation PdParser
 
-+ (void)printAtom:(NSArray *)line {
++ (void)printAtomLine:(NSArray *)line {
 	NSMutableString *string = [[NSMutableString alloc] init];
 	for(int i = 0; i < line.count; ++i) {
 		[string appendString:@"["];
@@ -24,9 +24,9 @@
 	DDLogVerbose(@"%@", string);
 }
 
-+ (void)printAtoms:(NSArray *)atomLines {
++ (void)printAtomLineArray:(NSArray *)atomLines {
 	for(int i = 0; i < atomLines.count; ++i) {
-		[PdParser printAtom:[atomLines objectAtIndex:i]];
+		[PdParser printAtomLine:[atomLines objectAtIndex:i]];
 	}
 }
 

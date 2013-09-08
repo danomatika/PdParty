@@ -8,20 +8,20 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Symbolbox.h"
+#import "Symbol.h"
 
 #import "Gui.h"
 
-@implementation Symbolbox
+@implementation Symbol
 
-+ (id)symbolboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
++ (id)symbolFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 11) { // sanity check
 		DDLogWarn(@"Symbolbox: cannot create, atom line length < 11");
 		return nil;
 	}
 
-	Symbolbox *s = [[Symbolbox alloc] initWithFrame:CGRectZero];
+	Symbol *s = [[Symbol alloc] initWithFrame:CGRectZero];
 
 	s.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
@@ -58,7 +58,7 @@
 }
 
 - (NSString *)type {
-	return @"Symbolbox";
+	return @"Symbol";
 }
 
 #pragma mark WidgetListener

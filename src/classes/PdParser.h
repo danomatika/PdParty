@@ -13,17 +13,17 @@
 @interface PdParser : NSObject
 	
 // print out a particular atom line with words separated by spaces
-+ (void)printAtom:(NSArray *)line;
++ (void)printAtomLine:(NSArray *)line;
 
 /// print out all of the atoms found
 /// atomLines is an array of atom lines
-+ (void)printAtoms:(NSArray *)atomLines;
++ (void)printAtomLineArray:(NSArray *)atomLines;
 
 /// read a pd patch into a string
 /// returns an empty string ("") on an error
 + (NSString *)readPatch:(NSString *)patch;
 
-/// parse a given pd patch text into atom lines
+/// parse a given pd patch text into an array of atom lines
 + (NSArray *)getAtomLines:(NSString *)patchText;
 
 @end

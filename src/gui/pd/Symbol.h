@@ -12,8 +12,10 @@
 
 @class Gui;
 
-@interface Numberbox : AtomWidget
+@interface Symbol : AtomWidget
 
-+ (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
+@property (strong, nonatomic)	NSString *symbol; // symbol text access
+
++ (id)symbolFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

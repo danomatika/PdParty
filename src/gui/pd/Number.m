@@ -8,26 +8,26 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Numberbox.h"
+#import "Number.h"
 
 #import "Gui.h"
 
-@interface Numberbox () {
+@interface Number () {
 	int touchPrevY;
 	bool isOneFinger;
 }
 @end
 
-@implementation Numberbox
+@implementation Number
 
-+ (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
++ (id)numberFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 11) { // sanity check
 		DDLogWarn(@"Numberbox: cannot create, atom line length < 11");
 		return nil;
 	}
 
-	Numberbox *n = [[Numberbox alloc] initWithFrame:CGRectZero];
+	Number *n = [[Number alloc] initWithFrame:CGRectZero];
 
 	n.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	n.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
@@ -78,7 +78,7 @@
 }
 
 - (NSString *)type {
-	return @"Numberbox";
+	return @"Number";
 }
 
 #pragma mark Touches
