@@ -36,6 +36,7 @@
 
 // print the pos & size of a CGRect
 + (void)logRect:(CGRect)rect;
++ (void)logRect:(CGRect)rect withHeader:(NSString *)header;
 
 // print an NSArray, uses object description strings
 + (void)logArray:(NSArray *)array;

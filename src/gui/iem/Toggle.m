@@ -102,6 +102,19 @@
 	}
 }
 
+- (void)reshapeForGui:(Gui *)gui {
+
+	// bounds
+	self.frame = CGRectMake(
+		round(self.originalFrame.origin.x * gui.scaleX),
+		round(self.originalFrame.origin.y * gui.scaleY),
+		round(self.originalFrame.size.width * gui.scaleX),
+		round(self.originalFrame.size.height * gui.scaleX));
+
+	// label
+	[self reshapeLabelForGui:gui];
+}
+
 - (void)toggle {
 	if(self.value == 0) {
 		self.value = self.nonZeroValue;

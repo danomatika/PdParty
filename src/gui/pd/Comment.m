@@ -55,13 +55,19 @@
 	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
 	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monspaced font
 	self.label.preferredMaxLayoutWidth = charSize.width * (GUI_LINE_WRAP - 1);
-	[self.label sizeToFit];
+	CGSize maxLabelSize;
+	maxLabelSize.width = charSize.width * (GUI_LINE_WRAP - 1);
 	if(self.label.text.length > GUI_LINE_WRAP) { // force line wrapping based on size
-		CGRect labelFrame = self.label.frame;
-		labelFrame.size.width = self.label.preferredMaxLayoutWidth;
-		labelFrame.size.height = self.label.font.lineHeight * ((self.label.text.length / GUI_LINE_WRAP) + 1);
-		self.label.frame = labelFrame;
+		maxLabelSize.height = charSize.height * ((self.label.text.length / (GUI_LINE_WRAP - 1) + 1));
 	}
+	else {
+		maxLabelSize.height = charSize.height;
+	}
+	CGRect labelFrame = self.label.frame;
+	labelFrame.size = [self.label.text sizeWithFont:self.label.font
+								  constrainedToSize:maxLabelSize
+									  lineBreakMode:self.label.lineBreakMode];
+	self.label.frame = labelFrame;
 
 	// bounds based on computed label size
 	self.frame = CGRectMake(

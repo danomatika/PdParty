@@ -68,6 +68,10 @@
 	DDLogVerbose(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 }
 
++ (void)logRect:(CGRect)rect withHeader:(NSString *)header {
+	DDLogVerbose(@"%@: %.2f %.2f %.2f %.2f", header, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+}
+
 + (void)logArray:(NSArray *)array {
 	NSMutableString *arrayString = [[NSMutableString alloc] init];
 	for(NSObject *object in array) {

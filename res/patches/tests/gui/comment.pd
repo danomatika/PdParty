@@ -1,4 +1,4 @@
-#N canvas 492 113 324 401 16;
+#N canvas 492 113 598 371 16;
 #X text 21 24 a comment .. yeah!;
 #X text 28 132 this is a longer comment and should wrap at 60 chars
 automatically;
