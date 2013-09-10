@@ -163,15 +163,15 @@
 @implementation UINavigationController (Rotation_IOS6)
 
 - (BOOL)shouldAutorotate {
-    return [[self.viewControllers lastObject] shouldAutorotate];
+    return [self.topViewController shouldAutorotate];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return [[self.viewControllers lastObject] supportedInterfaceOrientations];
+    return [self.topViewController supportedInterfaceOrientations];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return [[self.viewControllers lastObject] preferredInterfaceOrientationForPresentation];
+    return [self.topViewController preferredInterfaceOrientationForPresentation];
 }
 
 @end

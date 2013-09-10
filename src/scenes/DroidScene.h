@@ -10,7 +10,7 @@
  */
 #import "PatchScene.h"
 
-// DroidParty scene (folder with droidparty_main.pd)
+// DroidParty scene (folder with droidparty_main.pd), landscape only
 @interface DroidScene : PatchScene
 
 // path is to scene folder

@@ -76,6 +76,11 @@
 	[super didReceiveMemoryWarning];
 }
 
+// lock orientation
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
+
 #pragma mark File Browsing
 
 // file access error codes:
@@ -136,11 +141,6 @@
 - (void)unloadDirectory {
 	[self.pathArray removeAllObjects];
 	[self.tableView reloadData];
-}
-
-// lock orientation
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 #pragma mark UITableViewController

@@ -20,7 +20,9 @@
 }
 
 - (BOOL)open:(NSString *)path {
-	return [super open:[path stringByAppendingPathComponent:@"droidparty_main.pd"]];
+	BOOL ret = [super open:[path stringByAppendingPathComponent:@"droidparty_main.pd"]];
+	self.preferredOrientations = UIInterfaceOrientationMaskLandscape;
+	return ret;
 }
 
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {

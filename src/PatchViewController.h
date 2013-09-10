@@ -17,6 +17,8 @@
 @interface PatchViewController : UIViewController
 	<UISplitViewControllerDelegate, KeyGrabberDelegate, PdPlaybackDelegate>
 
+#pragma mark Scene Management
+
 @property (weak, nonatomic) SceneManager *sceneManager;
 
 // close the current scene and open a new one, requires full path to current patch
@@ -24,6 +26,11 @@
 
 // close the current scene
 - (void)closeScene;
+
+#pragma mark Rotation
+
+// force a rotation of the view in degrees
+@property (assign, nonatomic) int rotation;
 
 #pragma mark RJ Controls
 

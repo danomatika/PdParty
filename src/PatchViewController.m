@@ -20,6 +20,9 @@
 
 @property (nonatomic, strong) UIPopoverController *masterPopoverController;
 
+// check if the view needs to be manually rotated
+-(void)checkRotation:(UIInterfaceOrientation)currentOrientation;
+
 @end
 
 @implementation PatchViewController
@@ -59,6 +62,20 @@
 	}
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+
+// // force device rotaton, kind of hackish
+//	if(![Util isDeviceATablet]) {
+//		UIViewController *c = [[UIViewController alloc] init];
+//		[self presentViewController:c animated:NO completion:nil];
+//		[self dismissViewControllerAnimated:NO completion:nil];
+//	}
+
+	[self checkRotation:[[UIApplication sharedApplication] statusBarOrientation]];
+	
+	[super viewWillAppear:animated];
+}
+
 - (void)dealloc {
 	// clear pointers when the view is popped
 	[self.sceneManager updateParent:nil andControls:nil];
@@ -75,12 +92,15 @@
 	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
 	[self updateRjControls];
 	self.navigationItem.title = self.sceneManager.scene.name;
+	
+	//[self.sceneManager rotated:fromInterfaceOrientation to:self.interfaceOrientation];
 
 	[self.view layoutSubviews];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	[self.sceneManager rotated:fromInterfaceOrientation to:self.interfaceOrientation];
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	[self.sceneManager rotated:toInterfaceOrientation to:self.interfaceOrientation];
+	[self checkRotation:toInterfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,6 +116,28 @@
 	return UIInterfaceOrientationMaskAll;
 }
 
+// only called if this is a modal view (when forcing device rotation)
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+//	if(self.sceneManager.scene) {
+//		int currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+//		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
+//			if(currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+//				return UIInterfaceOrientationPortraitUpsideDown;
+//			}
+//			return UIInterfaceOrientationPortrait;
+//		}
+//		else {
+//			if(currentOrientation == UIInterfaceOrientationLandscapeLeft) {
+//				return UIInterfaceOrientationLandscapeLeft;
+//			}
+//			return UIInterfaceOrientationLandscapeRight;
+//		}
+//	}
+//	return UIInterfaceOrientationPortrait;
+//}
+
+#pragma mark Scene Management
+
 - (void)openScene:(NSString *)path withType:(SceneType)type {
 
 	// set the scenemanager here since iPhone dosen't load view until *after* this is called
@@ -105,6 +147,8 @@
 	}
 	
 	if([self.sceneManager openScene:path withType:type forParent:self.view andControls:self.rjControlsView]) {
+
+		[self checkRotation:[[UIApplication sharedApplication] statusBarOrientation]];
 		
 		// turn up volume & turn on transport, update gui
 		[self updateRjControls];
@@ -253,6 +297,29 @@
 	}
 }
 
+#pragma mark Overridden Getters / Setters
+
+- (void)setRotation:(int)rotation {
+	if(rotation == _rotation) {
+		return;
+	}
+	_rotation = rotation;
+	if(self.rotation == 0) {
+		if(!CGAffineTransformIsIdentity(self.view.transform)) {
+			self.view.frame = CGRectMake(0, 0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
+			self.view.center = CGPointMake(CGRectGetHeight(self.view.frame)/2, CGRectGetWidth(self.view.frame)/2);
+			self.view.transform = CGAffineTransformIdentity;
+		}
+	}
+	else {
+		if(CGAffineTransformIsIdentity(self.view.transform)) {
+			self.view.frame = CGRectMake(0, 0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
+			self.view.center = CGPointMake(CGRectGetHeight(self.view.frame)/2, CGRectGetWidth(self.view.frame)/2);
+			self.view.transform = CGAffineTransformMakeRotation(self.rotation / 180.0 * M_PI);
+		}
+	}
+}
+
 #pragma mark Touches
 
 // persistent touch ids from ofxIPhone:
@@ -339,6 +406,32 @@
 // hide master view controller by default on all orientations
 - (BOOL)splitViewController:(UISplitViewController *)splitController shouldHideViewController:(UIViewController *)viewController inOrientation:(UIInterfaceOrientation)orientation {
 	return YES;
+}
+
+#pragma mark Private
+
+- (void)checkRotation:(UIInterfaceOrientation)currentOrientation {
+	if(!self.sceneManager.scene) {
+		return;
+	}
+	if(UIInterfaceOrientationIsPortrait(currentOrientation)) {
+		if(self.sceneManager.scene.preferredOrientations & UIInterfaceOrientationMaskLandscape) {
+			DDLogVerbose(@"PatchViewController: forcing rotation, in portrait but scene is landscape");
+			self.rotation = -90;
+		}
+		else {
+			self.rotation = 0;
+		}
+	}
+	else { // landscape
+		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
+			DDLogVerbose(@"PatchViewController: forcing rotation, in landscape but scene is portrait");
+			self.rotation = -90;
+		}
+		else {
+			self.rotation = 0;
+		}
+	}
 }
 
 @end
