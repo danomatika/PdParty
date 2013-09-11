@@ -16,4 +16,6 @@
 
 + (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
+- (void)reshapeValueLabel;
+
 @end

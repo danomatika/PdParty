@@ -87,6 +87,10 @@
 	[super reshapeForGui:gui];
 
 	// label
+	[self reshapeLabel];
+}
+
+- (void)reshapeLabel {
 	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
 	self.label.preferredMaxLayoutWidth = round(CGRectGetWidth(self.frame) * 0.75);
 	[self.label sizeToFit];
@@ -100,6 +104,7 @@
 		[super setValue:value];
 		if(self.value < [self.list count]) {
 			self.label.text = [self.list objectAtIndex:(int)value];
+			[self reshapeLabel];
 		}
 	}
 }

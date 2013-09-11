@@ -100,6 +100,10 @@
 		round(self.originalFrame.size.height * gui.scaleX));
 	
 	// value label
+	[self reshapeValueLabel];
+}
+
+- (void)reshapeValueLabel {
 	self.valueLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
 	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
 	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
@@ -109,6 +113,11 @@
 
 #pragma mark Overridden Getters / Setters
 
+- (void)setValue:(float)value {
+	[super setValue:value];
+	[self reshapeValueLabel];
+}
+
 - (NSString *)type {
 	return @"Numberbox";
 }
@@ -116,8 +125,9 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	touchDown = YES;
 	[super touchesBegan:touches withEvent:event];
+	touchDown = YES;
+	[self setNeedsDisplay];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
