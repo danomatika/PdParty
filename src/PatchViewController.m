@@ -17,17 +17,13 @@
 	NSMutableDictionary *activeTouches; // for persistent ids
 	KeyGrabberView *grabber; // for keyboard events
 }
-
 @property (nonatomic, strong) UIPopoverController *masterPopoverController;
-
-// check if the view needs to be manually rotated, returns true if it was
-- (BOOL)checkRotation:(UIInterfaceOrientation)currentOrientation;
-
 @end
 
 @implementation PatchViewController
 
 - (void)awakeFromNib {
+	_rotation = 0;
 	activeTouches = [[NSMutableDictionary alloc] init];
 	
 	// set instance pointer
@@ -85,14 +81,48 @@
 // called when view bounds change (after rotations, etc)
 - (void)viewDidLayoutSubviews {
 
-	// rotate if needed, update gui subviews, then set new view size as setting new size
-	// before updating leads to wrong gui scaling values
-	BOOL rotated = [self checkRotation:[[UIApplication sharedApplication] statusBarOrientation]];
 	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
-	if(rotated) {
-		self.view.frame = CGRectMake(0, 0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
-	}
 	
+	// rotates toward home button on bottom or left
+	int currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+	if((self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAll) ||
+	   (self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAllButUpsideDown)) {
+		self.rotation = 0;
+	}
+	else if(UIInterfaceOrientationIsLandscape(currentOrientation)) {
+		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
+			DDLogVerbose(@"PatchViewController: rotating view to portrait for current scene");
+			if(currentOrientation == UIInterfaceOrientationLandscapeLeft) {
+				self.rotation = 90;
+				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationLandscapeLeft];
+			}
+			else {
+				self.rotation = -90;
+				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationLandscapeRight];
+			}
+		}
+		else {
+			self.rotation = 0;
+		}
+	}
+	else { // default is portrait
+		if(self.sceneManager.scene.preferredOrientations & UIInterfaceOrientationMaskLandscape) {
+			DDLogVerbose(@"PatchViewController: rotating view to landscape for current scene");
+			if(currentOrientation == UIInterfaceOrientationPortrait) {
+				self.rotation = -90;
+				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationPortrait];
+			}
+			else {
+				self.rotation = 90;
+				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationPortraitUpsideDown];
+			}
+		}
+		else {
+			self.rotation = 0;
+		}
+	}
+	[self.sceneManager reshapeWithBounds:self.view.bounds];
+
 	[self updateRjControls];
 	self.navigationItem.title = self.sceneManager.scene.name;
 
@@ -301,17 +331,18 @@
 	_rotation = rotation;
 	if(self.rotation == 0) {
 		if(!CGAffineTransformIsIdentity(self.view.transform)) {
-			self.view.frame = CGRectMake(0, 0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
-			self.view.center = CGPointMake(CGRectGetHeight(self.view.frame)/2, CGRectGetWidth(self.view.frame)/2);
+			DDLogVerbose(@"PatchViewController: rotating view back to 0");
+			//self.view.center = CGPointMake(CGRectGetHeight(self.view.frame)/2, CGRectGetWidth(self.view.frame)/2);
 			self.view.transform = CGAffineTransformIdentity;
+			self.view.bounds = CGRectMake(0, 0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds));
+			//self.view.center = CGPointMake(CGRectGetWidth(self.view.bounds)/2, CGRectGetHeight(self.view.bounds)/2);
 		}
 	}
 	else {
 		if(CGAffineTransformIsIdentity(self.view.transform)) {
-			// don't set size here, set manually later
-			//self.view.frame = CGRectMake(0, 0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
-			self.view.center = CGPointMake(CGRectGetHeight(self.view.frame)/2, CGRectGetWidth(self.view.frame)/2);
+			//self.view.center = CGPointMake(CGRectGetHeight(self.view.bounds)/2, CGRectGetWidth(self.view.bounds)/2);
 			self.view.transform = CGAffineTransformMakeRotation(self.rotation / 180.0 * M_PI);
+			self.view.bounds = CGRectMake(0, 0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds));
 		}
 	}
 }
@@ -402,45 +433,6 @@
 // hide master view controller by default on all orientations
 - (BOOL)splitViewController:(UISplitViewController *)splitController shouldHideViewController:(UIViewController *)viewController inOrientation:(UIInterfaceOrientation)orientation {
 	return YES;
-}
-
-#pragma mark Private
-
-- (void)updateSceneViews {
-
-}
-
-- (BOOL)checkRotation:(UIInterfaceOrientation)currentOrientation {
-	if(!self.sceneManager.scene) {
-		return NO;
-	}
-	
-	if((self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAll) ||
-		(self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAllButUpsideDown)) {
-			self.rotation = 0;
-	}
-	else if(UIInterfaceOrientationIsLandscape(currentOrientation)) {
-		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
-			DDLogVerbose(@"PatchViewController: forcing rotation, in landscape but scene is portrait");
-			self.rotation = -90;
-			return YES;
-		}
-		else {
-			self.rotation = 0;
-		}
-	}
-	else { // default it portrait
-		if(self.sceneManager.scene.preferredOrientations & UIInterfaceOrientationMaskLandscape) {
-			DDLogVerbose(@"PatchViewController: forcing rotation, in portrait but scene is landscape");
-			self.rotation = -90;
-			return YES;
-		}
-		else {
-			self.rotation = 0;
-		}
-	}
-	
-	return NO;
 }
 
 @end

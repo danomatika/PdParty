@@ -32,7 +32,7 @@
 - (void)closeScene;
 
 // reshape the gui elements to a give size
-- (void)reshapeWithFrame:(CGRect)frame;
+- (void)reshapeWithBounds:(CGRect)bounds;
 
 // update view pointers in case the patch view controller has changed  
 - (void)updateParent:(UIView *)parent andControls:(UIView *)controls;

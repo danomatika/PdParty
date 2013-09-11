@@ -25,7 +25,7 @@
 @interface Gui : NSObject
 
 @property (strong, nonatomic) NSMutableArray *widgets;	// widget array
-@property (assign, nonatomic) CGRect bounds; // current view bounds
+@property (assign, nonatomic) CGSize parentViewSize; // current view size
 
 // pixel size of original pd patch
 @property (assign, readonly, nonatomic) int patchWidth;

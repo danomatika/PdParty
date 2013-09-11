@@ -103,7 +103,7 @@
 	}
 	
 	// set controls
-	controlsSize.width = backgroundSize.width;
+	controlsSize.width = viewSize.width;
 	controlsSize.height = viewSize.height - backgroundSize.height;
 	self.controlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
 }

@@ -120,9 +120,13 @@
 	}
 }
 
-- (void)reshapeWithFrame:(CGRect)frame {
+- (void)reshapeWithBounds:(CGRect)bounds {
 	
-	self.gui.bounds = frame;
+	self.gui.parentViewSize = bounds.size;
+	
+	if(!self.scene) {
+		return;
+	}
 		
 	// do animations if gui has already been setup once
 	// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
@@ -139,16 +143,15 @@
 }
 
 - (void)updateParent:(UIView *)parent andControls:(UIView *)controls {
-	if(!self.scene) return;
+	if(!self.scene) {
+		return;
+	}
 	self.scene.parentView = parent;
 	if(self.scene.type == SceneTypeRj) {
 		((RjScene *)self.scene).controlsView = controls;
 	}
 	else if(self.scene.type == SceneTypeRecording) {
 		((RecordingScene *)self.scene).controlsView = controls;
-	}
-	if(parent) {
-		[self reshapeWithFrame:parent.frame];
 	}
 }
 

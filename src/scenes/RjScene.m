@@ -108,9 +108,9 @@
 		backgroundSize.height = backgroundSize.width;
 	}
 	else {
-		backgroundSize.width = viewSize.height * 0.8;
+		backgroundSize.width = round(viewSize.height * 0.8);
 		backgroundSize.height = backgroundSize.width;
-		xPos = (viewSize.width - backgroundSize.width)/2;
+		xPos = round((viewSize.width - backgroundSize.width)/2);
 	}
 	
 	// set background
@@ -126,7 +126,7 @@
 	}
 	
 	// set controls
-	controlsSize.width = backgroundSize.width;
+	controlsSize.width = viewSize.width;
 	controlsSize.height = viewSize.height - backgroundSize.height;
 	self.controlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
 }

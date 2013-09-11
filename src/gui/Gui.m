@@ -206,8 +206,8 @@
 					self.fontSize = [[line objectAtIndex:6] integerValue];
 					
 					// set pd gui to ios gui scale amount based on relative sizes
-					self.scaleX = CGRectGetWidth(self.bounds) / self.patchWidth;
-					self.scaleY = CGRectGetHeight(self.bounds) / self.patchHeight;
+					self.scaleX = self.parentViewSize.width / self.patchWidth;
+					self.scaleY = self.parentViewSize.height / self.patchHeight;
 				}
 			}
 			else if([lineType isEqualToString:@"restore"]) {
@@ -305,10 +305,10 @@
 
 #pragma mark Overridden Getters & Setters
 
-- (void)setBounds:(CGRect)bounds {
-	_bounds = bounds;
-	self.scaleX = CGRectGetWidth(bounds) / self.patchWidth;
-	self.scaleY = CGRectGetHeight(bounds) / self.patchHeight;
+- (void)setParentViewSize:(CGSize)parentViewSize {
+	_parentViewSize = parentViewSize;
+	self.scaleX = self.parentViewSize.width / self.patchWidth;
+	self.scaleY = self.parentViewSize.height / self.patchHeight;
 }
 
 #pragma Utils
