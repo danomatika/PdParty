@@ -256,7 +256,7 @@
 			v *= pow(convFactor, -k2 * diff);
 		}
 		else {
-			v -= k2 * diff;
+			v += k2 * diff;
 		}
 		self.value = v;
 		[self sendFloat:self.value];
