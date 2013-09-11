@@ -137,8 +137,8 @@
 		return NO;
 	}
 	// rj scenes require 320x320 coord system
-	pos->x = (int) (pos->x/CGRectGetWidth(self.background.frame) * 320);
-	pos->y = (int) (pos->y/CGRectGetHeight(self.background.frame) * 320);
+	pos->x = (int) (p.x/CGRectGetWidth(self.background.frame) * 320);
+	pos->y = (int) (p.y/CGRectGetHeight(self.background.frame) * 320);
 	return YES;
 }
 
