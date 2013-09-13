@@ -286,12 +286,13 @@
                         <constraints>
                             <constraint firstItem="pXG-8H-Bls" firstAttribute="trailing" secondItem="BPP-uk-huC" secondAttribute="trailing" type="default" id="Cab-0y-c9i"/>
                             <constraint firstItem="pXG-8H-Bls" firstAttribute="bottom" secondItem="BPP-uk-huC" secondAttribute="bottom" type="default" id="MoU-NI-jmv"/>
-                            <constraint firstItem="pXG-8H-Bls" firstAttribute="top" secondItem="BPP-uk-huC" secondAttribute="top" constant="320" id="hsq-ab-EcC"/>
+                            <constraint firstItem="pXG-8H-Bls" firstAttribute="top" secondItem="BPP-uk-huC" secondAttribute="top" constant="320" type="user" id="hsq-ab-EcC"/>
                             <constraint firstItem="pXG-8H-Bls" firstAttribute="leading" secondItem="BPP-uk-huC" secondAttribute="leading" type="default" id="yos-KH-Pyv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Patch" id="jS9-YK-GRw"/>
                     <connections>
+                        <outlet property="rjControlsVSpace" destination="hsq-ab-EcC" id="awc-bL-67X"/>
                         <outlet property="rjControlsView" destination="pXG-8H-Bls" id="99P-f2-BVs"/>
                         <outlet property="rjInputLevelSlider" destination="ZER-u6-E5w" id="6fw-O1-G01"/>
                         <outlet property="rjPauseButton" destination="5Hq-kg-54J" id="2r1-l1-xjY"/>

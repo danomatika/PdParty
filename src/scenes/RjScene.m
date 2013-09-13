@@ -72,7 +72,6 @@
 			DDLogWarn(@"RjScene: no background image");
 		}
 		
-		[self reshape];
 		return YES;
 	}
 	
@@ -101,7 +100,7 @@
 	CGFloat xPos = 0;
 	
 	// rj backgrounds are always square
-	viewSize = self.parentView.frame.size;
+	viewSize = self.parentView.bounds.size;
 	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
 	if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
 		backgroundSize.width = viewSize.width;

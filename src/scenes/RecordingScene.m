@@ -59,8 +59,6 @@
 		DDLogWarn(@"RecordingScene: no background image");
 	}
 	
-	[self reshape];
-	
 	return YES;
 }
 

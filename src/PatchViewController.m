@@ -50,6 +50,9 @@
 	}
 
 	// hide rj controls by default
+	//[self.rjControlsView removeFromSuperview];
+	//[self.view addSubview:self.rjControlsView];
+	//self.rjControlsView.contentMode = UIViewContentModeScaleToFill;
 	self.rjControlsView.hidden = YES;
 	
 	// set title here since view hasn't been inited when opening on iPhone
@@ -123,6 +126,11 @@
 	}
 	[self.sceneManager reshapeWithBounds:self.view.bounds];
 
+	// hack to set vertical space above controls
+	if([Util isDeviceATablet]) {
+		self.rjControlsVSpace.constant = self.rjControlsView.frame.origin.y;
+	}
+	
 	[self updateRjControls];
 	self.navigationItem.title = self.sceneManager.scene.name;
 
@@ -332,15 +340,12 @@
 	if(self.rotation == 0) {
 		if(!CGAffineTransformIsIdentity(self.view.transform)) {
 			DDLogVerbose(@"PatchViewController: rotating view back to 0");
-			//self.view.center = CGPointMake(CGRectGetHeight(self.view.frame)/2, CGRectGetWidth(self.view.frame)/2);
 			self.view.transform = CGAffineTransformIdentity;
 			self.view.bounds = CGRectMake(0, 0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds));
-			//self.view.center = CGPointMake(CGRectGetWidth(self.view.bounds)/2, CGRectGetHeight(self.view.bounds)/2);
 		}
 	}
 	else {
 		if(CGAffineTransformIsIdentity(self.view.transform)) {
-			//self.view.center = CGPointMake(CGRectGetHeight(self.view.bounds)/2, CGRectGetWidth(self.view.bounds)/2);
 			self.view.transform = CGAffineTransformMakeRotation(self.rotation / 180.0 * M_PI);
 			self.view.bounds = CGRectMake(0, 0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds));
 		}

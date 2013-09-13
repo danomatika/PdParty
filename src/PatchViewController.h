@@ -39,6 +39,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *rjRecordButton;
 @property (weak, nonatomic) IBOutlet UISlider *rjInputLevelSlider;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rjControlsVSpace;
+
 - (IBAction)rjControlChanged:(id)sender;
 
 // update the rj controls based on the current PureData settings

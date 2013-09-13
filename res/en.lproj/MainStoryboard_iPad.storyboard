@@ -54,14 +54,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="FWZ-tL-ukk" firstAttribute="top" secondItem="2TM-1u-wSI" secondAttribute="top" constant="512" type="user" id="5aH-Qs-P9p"/>
-                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="trailing" secondItem="2TM-1u-wSI" secondAttribute="trailing" type="default" id="HZR-rg-6V0"/>
+                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="leading" secondItem="2TM-1u-wSI" secondAttribute="leading" type="user" id="6xC-7T-MNR"/>
                             <constraint firstItem="FWZ-tL-ukk" firstAttribute="bottom" secondItem="2TM-1u-wSI" secondAttribute="bottom" type="user" id="SOs-ld-VPq"/>
-                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="leading" secondItem="2TM-1u-wSI" secondAttribute="leading" constant="-2" id="Y6v-Tn-VrZ"/>
+                            <constraint firstItem="FWZ-tL-ukk" firstAttribute="centerX" secondItem="2TM-1u-wSI" secondAttribute="centerX" type="default" id="xsm-Wd-G8U"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" title="Patch" id="bJD-HZ-9qK"/>
                     <connections>
+                        <outlet property="rjControlsVSpace" destination="5aH-Qs-P9p" id="UMp-g7-aqQ"/>
                         <outlet property="rjControlsView" destination="FWZ-tL-ukk" id="8o8-Rg-GcQ"/>
                         <outlet property="rjInputLevelSlider" destination="4Kb-C3-4Lc" id="R8Q-ku-G7i"/>
                         <outlet property="rjPauseButton" destination="7bX-GZ-o5F" id="9Uh-Hp-L8a"/>
