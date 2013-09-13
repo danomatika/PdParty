@@ -57,7 +57,7 @@
 	return self;
 }
 
-- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent andControls:(UIView *)controls {
+- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent {
 	if([self.currentPath isEqualToString:path]) {
 		DDLogVerbose(@"SceneManager openScene: ignoring scene with same path");
 		return NO;
@@ -114,9 +114,9 @@
 	}
 }
 
-- (void)reshapeWithBounds:(CGRect)bounds {
+- (void)reshapeToParentSize:(CGSize)size {
 	
-	self.gui.parentViewSize = bounds.size;
+	self.gui.parentViewSize = size;
 	
 	if(!self.scene) {
 		return;
@@ -136,17 +136,11 @@
 	}
 }
 
-- (void)updateParent:(UIView *)parent andControls:(ControlsView *)controls {
+- (void)updateParent:(UIView *)parent {
 	if(!self.scene) {
 		return;
 	}
 	self.scene.parentView = parent;
-	if(self.scene.type == SceneTypeRj) {
-		((RjScene *)self.scene).controlsView = controls;
-	}
-	else if(self.scene.type == SceneTypeRecording) {
-		((RecordingScene *)self.scene).controlsView = controls;
-	}
 }
 
 - (void)rotated:(UIInterfaceOrientation)fromOrientation to:(UIInterfaceOrientation)toOrientation {

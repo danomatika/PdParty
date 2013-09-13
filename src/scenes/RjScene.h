@@ -10,15 +10,12 @@
  */
 #import "PatchScene.h"
 
-@class ControlsView;
-
 // an RjDj scene (folder with .rj ext & _main.pd)
 @interface RjScene : PatchScene <PdListener>
 
 // path is to scene folder
 
 @property (weak, nonatomic) PdDispatcher *dispatcher;
-@property (weak, nonatomic) ControlsView *controlsView;
 
 @property (strong, nonatomic) UIImageView *background;
 

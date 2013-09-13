@@ -72,10 +72,6 @@
 		self.background = nil;
 	}
 	
-	if(self.controlsView) {
-		self.controlsView.hidden = YES;
-	}
-	
 	[super close];
 }
 
@@ -100,9 +96,6 @@
 	if(self.background) {
 		self.background.frame = CGRectMake(xPos, 0, backgroundSize.width, backgroundSize.height);
 	}
-	
-	// set controls
-	self.controlsView.height = viewSize.height - backgroundSize.height;
 }
 
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
@@ -144,16 +137,6 @@
 	}
 }
 
-- (void)setControlsView:(ControlsView *)controlsView {
-	if(_controlsView != controlsView) {
-		_controlsView = controlsView;
-		
-		// bring out the rjdj controls
-		[self.parentView bringSubviewToFront:self.controlsView];
-		self.controlsView.hidden = NO;
-	}
-}
-
 - (BOOL)requiresAccel {
 	return NO;
 }
@@ -168,6 +151,14 @@
 
 - (BOOL)requiresKeys {
 	return NO;
+}
+
+- (BOOL)requiresOnscreenControls {
+	return YES;
+}
+
+- (int)contentHeight {
+	return CGRectGetHeight(self.background.bounds);
 }
 
 #pragma mark Util

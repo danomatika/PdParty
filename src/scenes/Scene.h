@@ -49,6 +49,10 @@ typedef enum {
 // preferred orientations, all by default
 @property (assign, nonatomic) UIInterfaceOrientationMask preferredOrientations;
 
+// does the scene require on screen controls?
+@property (readonly, nonatomic) BOOL requiresOnscreenControls;
+@property (readonly, nonatomic) int contentHeight; // used for positioning controls
+
 - (BOOL)open:(NSString *)path; // expects full path
 - (void)close;
 

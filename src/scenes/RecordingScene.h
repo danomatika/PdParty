@@ -11,7 +11,6 @@
 #import "Scene.h"
 
 @class PureData;
-@class ControlsView;
 
 // Recording scene (wav file playback)
 @interface RecordingScene : Scene
@@ -19,7 +18,6 @@
 // path is to .wav file
 
 @property (weak, nonatomic) PureData *pureData;
-@property (weak, nonatomic) ControlsView *controlsView;
 
 @property (strong, nonatomic) NSString *file;
 @property (strong, nonatomic) UIImageView *background;

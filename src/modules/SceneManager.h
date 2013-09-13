@@ -14,8 +14,6 @@
 #import "PureData.h"
 #import "Osc.h"
 
-@class ControlsView;
-
 @interface SceneManager : NSObject <UIAccelerometerDelegate>
 
 @property (strong, nonatomic) Gui *gui; // pd gui widgets
@@ -28,16 +26,16 @@
 @property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
 
 // close the current scene and open a new one, requires full path to current patch
-- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent andControls:(ControlsView *)controls;
+- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent;
 
 // close the current scene
 - (void)closeScene;
 
 // reshape the gui elements to a give size
-- (void)reshapeWithBounds:(CGRect)bounds;
+- (void)reshapeToParentSize:(CGSize)size;
 
 // update view pointers in case the patch view controller has changed  
-- (void)updateParent:(UIView *)parent andControls:(ControlsView *)controls;
+- (void)updateParent:(UIView *)parent;
 
 // set a new orientation, sends rotation event
 - (void)rotated:(UIInterfaceOrientation)fromOrientation to:(UIInterfaceOrientation)toOrientation;

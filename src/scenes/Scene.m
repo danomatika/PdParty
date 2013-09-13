@@ -81,6 +81,14 @@
 	return NO;
 }
 
+- (BOOL)requiresOnscreenControls {
+	return NO;
+}
+
+- (int)contentHeight {
+	return CGRectGetHeight(self.parentView.bounds);
+}
+
 #pragma mark Util
 
 - (void)addSearchPathsIn:(NSString *)directory {

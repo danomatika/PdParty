@@ -89,10 +89,6 @@
 		self.background = nil;
 	}
 	
-	if(self.controlsView) {
-		self.controlsView.hidden = YES;
-	}
-	
 	[super close];
 }
 
@@ -124,9 +120,6 @@
 	for(RjWidget *widget in array) {
 		[widget reshape];
 	}
-	
-	// set control height
-	self.controlsView.height = viewSize.height - backgroundSize.height;
 }
 
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
@@ -169,16 +162,6 @@
 	}
 }
 
-- (void)setControlsView:(ControlsView *)controlsView {
-	if(_controlsView != controlsView) {
-		_controlsView = controlsView;
-		
-		// bring out the rjdj controls
-		[self.parentView bringSubviewToFront:self.controlsView];
-		self.controlsView.hidden = NO;
-	}
-}
-
 - (int)sampleRate {
 	return RJ_SAMPLERATE;
 }
@@ -189,6 +172,14 @@
 
 - (BOOL)requiresKeys {
 	return NO;
+}
+
+- (BOOL)requiresOnscreenControls {
+	return YES;
+}
+
+- (int)contentHeight {
+	return CGRectGetHeight(self.background.bounds);
 }
 
 #pragma mark Util

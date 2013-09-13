@@ -36,20 +36,9 @@
 	if(![Util isDeviceATablet]) {
 		controlsHeight = 96;
 	}
-	
 	self.controlsView = [[ControlsView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), controlsHeight)];
 	self.controlsView.translatesAutoresizingMaskIntoConstraints = NO;
 	self.controlsView.sceneManager = app.sceneManager;
-	[self.view addSubview:self.controlsView];
-	
-	// auto layout constraints
-	[self.view addConstraints:[NSArray arrayWithObjects:
-		[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-										toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
-		[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-										toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
-		[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-										toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil]];
 
 	// start keygrabber
 	grabber = [[KeyGrabberView alloc] init];
@@ -66,19 +55,9 @@
 	}
 }
 
-// should only be called once on iPad, called every time on iPhone
-//- (void)viewWillAppear:(BOOL)animated {
-//	// force device rotaton, kind of hackish
-//	if(![Util isDeviceATablet]) {
-//		UIViewController *c = [[UIViewController alloc] init];
-//		[self presentViewController:c animated:NO completion:nil];
-//		[self dismissViewControllerAnimated:NO completion:nil];
-//	}
-//}
-
 - (void)dealloc {
-	// clear pointers when the view is popped
-	[self.sceneManager updateParent:nil andControls:nil];
+	// clear pointer when the view is popped
+	[self.sceneManager updateParent:nil];
 	
 	// clear instance pointer for Now Playing button on iPhone
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -88,7 +67,7 @@
 // called when view bounds change (after rotations, etc)
 - (void)viewDidLayoutSubviews {
 
-	[self.sceneManager updateParent:self.view andControls:self.controlsView];
+	[self.sceneManager updateParent:self.view];
 	
 	// rotates toward home button on bottom or left
 	int currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -128,9 +107,40 @@
 			self.rotation = 0;
 		}
 	}
-	[self.sceneManager reshapeWithBounds:self.view.bounds];
+	[self.sceneManager reshapeToParentSize:self.view.bounds.size];
+
+	// update on screen controls
+	if(self.sceneManager.scene.requiresOnscreenControls) {
 	
+		// controls should be on screen at the bottom of the view
+		if(self.controlsView.superview != self.view) {
+			[self.controlsView removeFromSuperview];
+			
+			// add to this view
+			[self.view addSubview:self.controlsView];
+			self.controlsView.hidden = NO;
+	
+			// auto layout constraints
+			[self.view addConstraints:[NSArray arrayWithObjects:
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+												toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+												toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+												toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil]];
+		}
+		self.controlsView.height = CGRectGetHeight(self.view.bounds) - self.sceneManager.scene.contentHeight;
+	}
+	else {
+	
+		// controls should be in a popup activated from a button
+		if(self.controlsView.superview == self.view) {
+			[self.controlsView removeFromSuperview];
+			self.controlsView.hidden = YES;
+		}
+	}
 	[self.controlsView updateControls];
+
 	self.navigationItem.title = self.sceneManager.scene.name;
 
 	[self.view setNeedsUpdateConstraints];
@@ -184,7 +194,7 @@
 		self.sceneManager = app.sceneManager;
 	}
 	
-	if([self.sceneManager openScene:path withType:type forParent:self.view andControls:self.controlsView]) {
+	if([self.sceneManager openScene:path withType:type forParent:self.view]) {
 		
 		// does the scene need key events?
 		grabber.active = self.sceneManager.scene.requiresKeys;
