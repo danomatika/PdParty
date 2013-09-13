@@ -79,6 +79,7 @@
 		3062046E174FB0AF00DEC1C2 /* rj_zcr~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30620469174FB0AF00DEC1C2 /* rj_zcr~.c */; };
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
+		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
@@ -348,6 +349,8 @@
 		306204721753C90400DEC1C2 /* RjScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjScene.m; sourceTree = "<group>"; };
 		306204731753C90400DEC1C2 /* PatchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchScene.h; sourceTree = "<group>"; };
 		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
+		30774FA417E2A7A70060C5C6 /* ControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlsView.h; path = src/ControlsView.h; sourceTree = "<group>"; };
+		30774FA517E2A7A80060C5C6 /* ControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControlsView.m; path = src/ControlsView.m; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		30960AFA16F5952300FAF2E7 /* OscViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscViewController.h; path = src/OscViewController.h; sourceTree = "<group>"; };
 		30960AFB16F5952400FAF2E7 /* OscViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OscViewController.m; path = src/OscViewController.m; sourceTree = "<group>"; };
@@ -983,6 +986,8 @@
 				30C9BF5716E8456B00E5AA5B /* modules */,
 				30ABE2E116B5D0FB00464926 /* AppDelegate.h */,
 				30ABE2E216B5D0FB00464926 /* AppDelegate.m */,
+				30774FA417E2A7A70060C5C6 /* ControlsView.h */,
+				30774FA517E2A7A80060C5C6 /* ControlsView.m */,
 				30ABE2E316B5D0FB00464926 /* Log.h */,
 				30ABE2E416B5D0FB00464926 /* Log.m */,
 				30ABE2E516B5D0FB00464926 /* main.m */,
@@ -1657,6 +1662,7 @@
 				30F5283117D92A4A004736A6 /* Touch.m in Sources */,
 				30F5283417D93743004736A6 /* Display.m in Sources */,
 				30F5283717D982AE004736A6 /* Ribbon.m in Sources */,
+				30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

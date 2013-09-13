@@ -10,6 +10,7 @@
  */
 #import "RjScene.h"
 
+#import "ControlsView.h"
 #import "RjImage.h"
 #import "RjText.h"
 
@@ -26,10 +27,10 @@
 
 @implementation RjScene
 
-+ (id)sceneWithParent:(UIView *)parent andControls:(UIView *)controls {
++ (id)sceneWithParent:(UIView *)parent andDispatcher:(PdDispatcher *)dispatcher {
 	RjScene *s = [[RjScene alloc] init];
 	s.parentView = parent;
-	s.controlsView = controls;
+	s.dispatcher = dispatcher;
 	return s;
 }
 
@@ -124,10 +125,8 @@
 		[widget reshape];
 	}
 	
-	// set controls
-	controlsSize.width = viewSize.width;
-	controlsSize.height = viewSize.height - backgroundSize.height;
-	self.controlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
+	// set control height
+	self.controlsView.height = viewSize.height - backgroundSize.height;
 }
 
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
@@ -170,7 +169,7 @@
 	}
 }
 
-- (void)setControlsView:(UIView *)controlsView {
+- (void)setControlsView:(ControlsView *)controlsView {
 	if(_controlsView != controlsView) {
 		_controlsView = controlsView;
 		

@@ -10,15 +10,16 @@
  */
 #import "RecordingScene.h"
 
+#import "ControlsView.h"
 #import <AvFoundation/AVAudioPlayer.h>
 #import "PureData.h"
 
 @implementation RecordingScene
 
-+ (id)sceneWithParent:(UIView *)parent andControls:(UIView *)controls {
++ (id)sceneWithParent:(UIView *)parent andPureData:(PureData *)pureData {
 	RecordingScene *s = [[RecordingScene alloc] init];
 	s.parentView = parent;
-	s.controlsView = controls;
+	s.pureData = pureData;
 	return s;
 }
 
@@ -101,9 +102,7 @@
 	}
 	
 	// set controls
-	controlsSize.width = viewSize.width;
-	controlsSize.height = viewSize.height - backgroundSize.height;
-	self.controlsView.frame = CGRectMake(0, backgroundSize.height, controlsSize.width, controlsSize.height);
+	self.controlsView.height = viewSize.height - backgroundSize.height;
 }
 
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
@@ -145,7 +144,7 @@
 	}
 }
 
-- (void)setControlsView:(UIView *)controlsView {
+- (void)setControlsView:(ControlsView *)controlsView {
 	if(_controlsView != controlsView) {
 		_controlsView = controlsView;
 		

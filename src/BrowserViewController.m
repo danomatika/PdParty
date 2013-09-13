@@ -37,19 +37,15 @@
 
 @implementation BrowserViewController
 
-- (void)awakeFromNib {
+- (void)viewDidLoad {
+    // Do any additional setup after loading the view, typically from a nib.
+
 	if([Util isDeviceATablet]) {
 	    self.clearsSelectionOnViewWillAppear = NO;
 	    self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
 	}
 	self.pathArray = [[NSMutableArray alloc] init];
 	self.currentDirLevel = 0;
-    [super awakeFromNib];
-}
-
-- (void)viewDidLoad {
-    // Do any additional setup after loading the view, typically from a nib.
-	[super viewDidLoad];
 	
 	// setup the root view
 	if(!self.currentDir) {

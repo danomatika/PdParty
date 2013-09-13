@@ -245,59 +245,9 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="BPP-uk-huC">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <view contentMode="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="pXG-8H-Bls">
-                                <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZER-u6-E5w">
-                                        <connections>
-                                            <action selector="rjControlChanged:" destination="0Ko-AI-7bJ" eventType="valueChanged" id="gIN-RH-J3F"/>
-                                        </connections>
-                                    </slider>
-                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="gvi-Uc-RJZ">
-                                        <items>
-                                            <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="fTG-ZR-xK0"/>
-                                            <barButtonItem title="Play" style="plain" id="5Hq-kg-54J">
-                                                <connections>
-                                                    <action selector="rjControlChanged:" destination="0Ko-AI-7bJ" id="8wn-Gy-9op"/>
-                                                </connections>
-                                            </barButtonItem>
-                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="I6n-nA-AGs"/>
-                                            <barButtonItem title="Record" style="plain" id="y27-rq-orl">
-                                                <connections>
-                                                    <action selector="rjControlChanged:" destination="0Ko-AI-7bJ" id="NAc-g8-oaE"/>
-                                                </connections>
-                                            </barButtonItem>
-                                            <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Dru-P0-NYs"/>
-                                        </items>
-                                    </toolbar>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="gvi-Uc-RJZ" firstAttribute="leading" secondItem="pXG-8H-Bls" secondAttribute="leading" type="default" id="2sI-Ox-n2b"/>
-                                    <constraint firstItem="ZER-u6-E5w" firstAttribute="leading" secondItem="pXG-8H-Bls" secondAttribute="leading" constant="40" type="user" id="9hO-NH-mF4"/>
-                                    <constraint firstAttribute="bottom" secondItem="ZER-u6-E5w" secondAttribute="bottom" constant="20" symbolic="YES" type="user" id="Vzh-KM-m8B"/>
-                                    <constraint firstItem="gvi-Uc-RJZ" firstAttribute="top" secondItem="pXG-8H-Bls" secondAttribute="top" type="default" id="abr-Up-pak"/>
-                                    <constraint firstAttribute="trailing" secondItem="ZER-u6-E5w" secondAttribute="trailing" constant="40" type="user" id="bBi-t6-49R"/>
-                                    <constraint firstItem="gvi-Uc-RJZ" firstAttribute="trailing" secondItem="pXG-8H-Bls" secondAttribute="trailing" type="default" id="cs6-qe-27p"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="pXG-8H-Bls" firstAttribute="trailing" secondItem="BPP-uk-huC" secondAttribute="trailing" type="default" id="Cab-0y-c9i"/>
-                            <constraint firstItem="pXG-8H-Bls" firstAttribute="bottom" secondItem="BPP-uk-huC" secondAttribute="bottom" type="default" id="MoU-NI-jmv"/>
-                            <constraint firstItem="pXG-8H-Bls" firstAttribute="top" secondItem="BPP-uk-huC" secondAttribute="top" constant="320" type="user" id="hsq-ab-EcC"/>
-                            <constraint firstItem="pXG-8H-Bls" firstAttribute="leading" secondItem="BPP-uk-huC" secondAttribute="leading" type="default" id="yos-KH-Pyv"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Patch" id="jS9-YK-GRw"/>
-                    <connections>
-                        <outlet property="rjControlsVSpace" destination="hsq-ab-EcC" id="awc-bL-67X"/>
-                        <outlet property="rjControlsView" destination="pXG-8H-Bls" id="99P-f2-BVs"/>
-                        <outlet property="rjInputLevelSlider" destination="ZER-u6-E5w" id="6fw-O1-G01"/>
-                        <outlet property="rjPauseButton" destination="5Hq-kg-54J" id="2r1-l1-xjY"/>
-                        <outlet property="rjRecordButton" destination="y27-rq-orl" id="3og-tt-AXo"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nac-nB-azG" sceneMemberID="firstResponder"/>
             </objects>
@@ -834,6 +784,63 @@
             <point key="canvasLocation" x="877" y="64"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="BrowserViewController" superclassName="NowPlayingTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowserViewController.h"/>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="NowPlayingTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NowPlayingTableViewController.h"/>
+        </class>
+        <class className="OscViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OscViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableOscConnection:"/>
+                <relationship kind="action" name="setHost:"/>
+                <relationship kind="action" name="setIncomingPort:"/>
+                <relationship kind="action" name="setOutgoingPort:"/>
+                <relationship kind="outlet" name="connectionEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="hostTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="incomingPortTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="localHostLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="outgoingPortTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="PatchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PatchViewController.h"/>
+        </class>
+        <class className="SettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="copyDefaultFolder:"/>
+                <relationship kind="action" name="oscEventTypeChanged:"/>
+                <relationship kind="outlet" name="libFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="libFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="oscAccelEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscKeyEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscPrintEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscRotationEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscTouchEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="samplesFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="samplesFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="testsFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="testsFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+        <class className="StartViewController" superclassName="NowPlayingTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableWebServer:"/>
+                <relationship kind="action" name="setWebServerPort:"/>
+                <relationship kind="outlet" name="oscLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="serverEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="serverPortLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="serverPortTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

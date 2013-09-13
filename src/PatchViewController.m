@@ -22,7 +22,8 @@
 
 @implementation PatchViewController
 
-- (void)awakeFromNib {
+- (void)viewDidLoad {
+
 	_rotation = 0;
 	activeTouches = [[NSMutableDictionary alloc] init];
 	
@@ -30,11 +31,25 @@
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	app.patchViewController = self;
 	
-	[super awakeFromNib];
-}
-
-- (void)viewDidLoad {
-	[super viewDidLoad];
+	// setup controls view
+	int controlsHeight = 192;
+	if(![Util isDeviceATablet]) {
+		controlsHeight = 96;
+	}
+	
+	self.controlsView = [[ControlsView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), controlsHeight)];
+	self.controlsView.translatesAutoresizingMaskIntoConstraints = NO;
+	self.controlsView.sceneManager = app.sceneManager;
+	[self.view addSubview:self.controlsView];
+	
+	// auto layout constraints
+	[self.view addConstraints:[NSArray arrayWithObjects:
+		[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+										toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
+		[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+										toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
+		[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+										toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil]];
 
 	// start keygrabber
 	grabber = [[KeyGrabberView alloc] init];
@@ -42,18 +57,8 @@
 	grabber.delegate = self;
 	[self.view addSubview:grabber];
 
-	// set the scenemanager here since iPhone dosen't load view until *after* this is called
-	if(!self.sceneManager) {
-		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-		self.sceneManager = app.sceneManager;
-		self.sceneManager.pureData.delegate = self;
-	}
-
-	// hide rj controls by default
-	//[self.rjControlsView removeFromSuperview];
-	//[self.view addSubview:self.rjControlsView];
-	//self.rjControlsView.contentMode = UIViewContentModeScaleToFill;
-	self.rjControlsView.hidden = YES;
+	// hide controls by default
+	self.controlsView.hidden = YES;
 	
 	// set title here since view hasn't been inited when opening on iPhone
 	if(![Util isDeviceATablet]) {
@@ -74,7 +79,6 @@
 - (void)dealloc {
 	// clear pointers when the view is popped
 	[self.sceneManager updateParent:nil andControls:nil];
-	self.sceneManager.pureData.delegate = nil;
 	
 	// clear instance pointer for Now Playing button on iPhone
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -84,7 +88,7 @@
 // called when view bounds change (after rotations, etc)
 - (void)viewDidLayoutSubviews {
 
-	[self.sceneManager updateParent:self.view andControls:self.rjControlsView];
+	[self.sceneManager updateParent:self.view andControls:self.controlsView];
 	
 	// rotates toward home button on bottom or left
 	int currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -125,15 +129,11 @@
 		}
 	}
 	[self.sceneManager reshapeWithBounds:self.view.bounds];
-
-	// hack to set vertical space above controls
-	if([Util isDeviceATablet]) {
-		self.rjControlsVSpace.constant = self.rjControlsView.frame.origin.y;
-	}
 	
-	[self updateRjControls];
+	[self.controlsView updateControls];
 	self.navigationItem.title = self.sceneManager.scene.name;
 
+	[self.view setNeedsUpdateConstraints];
 	[self.view layoutSubviews];
 }
 
@@ -184,7 +184,7 @@
 		self.sceneManager = app.sceneManager;
 	}
 	
-	if([self.sceneManager openScene:path withType:type forParent:self.view andControls:self.rjControlsView]) {
+	if([self.sceneManager openScene:path withType:type forParent:self.view andControls:self.controlsView]) {
 		
 		// does the scene need key events?
 		grabber.active = self.sceneManager.scene.requiresKeys;
@@ -202,132 +202,6 @@
 
 - (void)closeScene {
 	[self.sceneManager closeScene];
-}
-
-#pragma mark RJ Controls
-
-- (IBAction)rjControlChanged:(id)sender {
-
-	if(sender == self.rjPauseButton) {
-		//DDLogInfo(@"RJ Pause button pressed: %d", self.rjPauseButton.isSelected);
-		if(self.sceneManager.scene.type == SceneTypeRj) {
-			self.sceneManager.pureData.audioEnabled = !self.sceneManager.pureData.audioEnabled;
-			if(self.sceneManager.pureData.audioEnabled) {
-				[self.rjPauseButton setTitle:@"Pause"];
-			}
-			else {
-				[self.rjPauseButton setTitle:@"Play"];
-			}
-		}
-		else if(self.sceneManager.scene.type == SceneTypeRecording) {						
-			if(self.sceneManager.pureData.audioEnabled) {
-				
-				// restart playback if stopped
-				if(!self.sceneManager.pureData.isPlayingback) {
-					[(RecordingScene *)self.sceneManager.scene restartPlayback];
-					[self.rjPauseButton setTitle:@"Pause"];
-				}
-				else { // pause
-					self.sceneManager.pureData.audioEnabled = NO;
-					[self.rjPauseButton setTitle:@"Play"];
-				}
-			}
-			else {
-				self.sceneManager.pureData.audioEnabled = YES;
-				[(RecordingScene *)self.sceneManager.scene restartPlayback];
-				[self.rjPauseButton setTitle:@"Pause"];
-			}
-		}
-	}
-	else if(sender == self.rjRecordButton) {
-		if(self.sceneManager.scene.type == SceneTypeRj) {
-			//DDLogInfo(@"RJ Record button pressed: %d", self.rjRecordButton.isSelected);
-			if(!self.sceneManager.pureData.isRecording) {
-				
-				NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:@"recordings"];
-				if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
-					DDLogVerbose(@"PatchViewController: recordings dir not found, creating %@", recordDir);
-					NSError *error;
-					if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:NO attributes:nil error:&error]) {
-						DDLogError(@"PatchViewController: couldn't create %@, error: %@", recordDir, error.localizedDescription);
-						return;
-					}
-				}
-				
-				NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-				[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
-				NSString *date = [formatter stringFromDate:[NSDate date]];
-				[self.sceneManager.pureData startRecordingTo:[recordDir stringByAppendingPathComponent:[self.sceneManager.scene.name stringByAppendingFormat:@"_%@.wav", date]]];
-				[self.rjRecordButton setTitle:@"Stop"];
-			}
-			else {
-				[self.sceneManager.pureData stopRecording];
-				[self.rjRecordButton setTitle:@"Record"];
-			}
-		}
-		else if(self.sceneManager.scene.type == SceneTypeRecording) {
-			//DDLogInfo(@"RJ Loop button pressed: %d", self.rjRecordButton.isSelected);
-			self.sceneManager.pureData.looping = !self.sceneManager.pureData.isLooping;
-			if(self.sceneManager.pureData.isLooping) {
-				[self.rjRecordButton setTitle:@"No Loop"];
-			}
-			else {
-				[self.rjRecordButton setTitle:@"Loop"];
-			}
-		}
-	}
-	else if(sender == self.rjInputLevelSlider) {
-		if(self.sceneManager.scene.type == SceneTypeRj) {
-			//DDLogInfo(@"RJ Input level slider changed: %f", self.rjInputLevelSlider.value);
-			self.sceneManager.pureData.micVolume = self.rjInputLevelSlider.value;
-		}
-		else if(self.sceneManager.scene.type == SceneTypeRecording) {
-			//DDLogInfo(@"RJ Playback level slider changed: %f", self.rjInputLevelSlider.value);
-			self.sceneManager.pureData.volume = self.rjInputLevelSlider.value;
-		}
-	}
-}
-
-- (void)updateRjControls {
-	
-	if(self.sceneManager.scene.type == SceneTypeRj) {
-	
-		if(self.sceneManager.pureData.audioEnabled) {
-			[self.rjPauseButton setTitle:@"Pause"];
-		}
-		else {
-			[self.rjPauseButton setTitle:@"Play"];
-		}
-	
-		if(self.sceneManager.pureData.isRecording) {
-			[self.rjRecordButton setTitle:@"Stop"];
-		}
-		else {
-			[self.rjRecordButton setTitle:@"Record"];
-		}
-		
-		self.rjInputLevelSlider.value = self.sceneManager.pureData.micVolume;
-	}
-	else if(self.sceneManager.scene.type == SceneTypeRecording) {
-	
-		if(self.sceneManager.pureData.audioEnabled && self.sceneManager.pureData.isPlayingback) {
-			[self.rjPauseButton setTitle:@"Pause"];
-		}
-		else {
-			[self.rjPauseButton setTitle:@"Play"];
-		}
-	
-		// use record as loop button for recording playback
-		if(self.sceneManager.pureData.isLooping) {
-			[self.rjRecordButton setTitle:@"No Loop"];
-		}
-		else {
-			[self.rjRecordButton setTitle:@"Loop"];
-		}
-		
-		// use slider as recording playback volume slider
-		self.rjInputLevelSlider.value = self.sceneManager.pureData.volume;
-	}
 }
 
 #pragma mark Overridden Getters / Setters
@@ -409,12 +283,6 @@
 
 - (void)keyPressed:(int)key {
 	[self.sceneManager sendKey:key];
-}
-
-#pragma mark PdPlaybackDelegate
-
-- (void)playbackFinished {
-	[self.rjPauseButton setTitle:@"Play"];
 }
 
 #pragma mark UISplitViewControllerDelegate

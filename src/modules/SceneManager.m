@@ -71,24 +71,18 @@
 		case SceneTypePatch:
 			self.scene = [PatchScene sceneWithParent:parent andGui:self.gui];
 			break;
-		case SceneTypeRj: {
-			RjScene *rj = [RjScene sceneWithParent:parent andControls:controls];
-			rj.dispatcher = self.pureData.dispatcher;
-			self.scene = rj;
+		case SceneTypeRj:
+			self.scene = [RjScene sceneWithParent:parent andDispatcher:self.pureData.dispatcher];
 			break;
-		}
 		case SceneTypeDroid:
 			self.scene = [DroidScene sceneWithParent:parent andGui:self.gui];
 			break;
 		case SceneTypeParty:
 			self.scene = [PartyScene sceneWithParent:parent andGui:self.gui];
 			break;
-		case SceneTypeRecording: {
-			RecordingScene *rs = [RecordingScene sceneWithParent:parent andControls:controls];
-			rs.pureData = self.pureData;
-			self.scene = rs;
+		case SceneTypeRecording:
+			self.scene = [RecordingScene sceneWithParent:parent andPureData:self.pureData];
 			break;
-		}
 		default: // SceneTypeEmpty
 			self.scene = [[Scene alloc] init];
 			break;
@@ -142,7 +136,7 @@
 	}
 }
 
-- (void)updateParent:(UIView *)parent andControls:(UIView *)controls {
+- (void)updateParent:(UIView *)parent andControls:(ControlsView *)controls {
 	if(!self.scene) {
 		return;
 	}
