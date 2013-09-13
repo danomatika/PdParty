@@ -62,16 +62,15 @@
 		
 		// load background
 		NSString *backgroundPath = [path stringByAppendingPathComponent:@"image.jpg"];
-		if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
-			self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
-			if(!self.background.image) {
-				DDLogError(@"RjScene: couldn't load background image");
-			}
-			[self.parentView addSubview:self.background];
+		if(![[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
+			DDLogWarn(@"RjScene: no background image, loading default background");
+			backgroundPath = [[Util bundlePath] stringByAppendingPathComponent:@"images/rjdj_default.jpg"];
 		}
-		else {
-			DDLogWarn(@"RjScene: no background image");
+		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
+		if(!self.background.image) {
+			DDLogError(@"RjScene: couldn't load background image");
 		}
+		[self.parentView addSubview:self.background];
 		
 		return YES;
 	}
