@@ -70,6 +70,7 @@
 		if(!self.background.image) {
 			DDLogError(@"RjScene: couldn't load background image");
 		}
+		self.background.contentMode = UIViewContentModeScaleAspectFill;
 		[self.parentView addSubview:self.background];
 		
 		return YES;

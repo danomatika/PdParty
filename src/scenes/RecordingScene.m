@@ -54,6 +54,7 @@
 		if(!self.background.image) {
 			DDLogError(@"RecordingScene: couldn't load background image");
 		}
+		self.background.contentMode = UIViewContentModeScaleAspectFill;
 		[self.parentView addSubview:self.background];
 	}
 	else {
