@@ -92,7 +92,7 @@
 - (void)controlChanged:(id)sender {
 
 	if(sender == self.leftButton) {
-		DDLogVerbose(@"ControlsView: left button pressed");
+		//DDLogVerbose(@"ControlsView: left button pressed");
 		if(self.sceneManager.scene.type == SceneTypeRj) {
 			self.sceneManager.pureData.audioEnabled = !self.sceneManager.pureData.audioEnabled;
 			if(self.sceneManager.pureData.audioEnabled) {
@@ -123,7 +123,7 @@
 		}
 	}
 	else if(sender == self.rightButton) {
-		DDLogVerbose(@"ControlsView: right button pressed");
+		//DDLogVerbose(@"ControlsView: right button pressed");
 		if(self.sceneManager.scene.type == SceneTypeRj) {
 			if(!self.sceneManager.pureData.isRecording) {
 				
@@ -159,7 +159,7 @@
 		}
 	}
 	else if(sender == self.levelSlider) {
-		DDLogVerbose(@"ControlsView: level slider changed: %f", self.levelSlider.value);
+		//DDLogVerbose(@"ControlsView: level slider changed: %f", self.levelSlider.value);
 		if(self.sceneManager.scene.type == SceneTypeRj) {
 			self.sceneManager.pureData.micVolume = self.levelSlider.value;
 		}
