@@ -20,6 +20,10 @@
 	// may not exist yet when opening first scene
 	NSString *selectedPatch; // maybe subpatch in the case of Rj Scenes, etc
 	SceneType selectedSceneType;
+	
+	// for maintaining the scroll pos when navigating back,
+	// from http://make-smart-iphone-apps.blogspot.com/2011/04/how-to-maintain-uitableview-scrolled.html
+	CGPoint savedScrollPos;
 }
 
 @property (strong, readwrite) NSMutableArray *pathArray; // table view path
@@ -58,6 +62,9 @@
 	[super viewWillAppear:animated];
 	
 	[self loadDirectory:self.currentDir];
+
+	// reset to saved pos
+	[self.tableView setContentOffset:savedScrollPos animated:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -249,6 +256,7 @@
 		else {
 			[self didSelectFile:path];
 		}
+		savedScrollPos = [tableView contentOffset];
 	}
 	else {
 		DDLogError(@"Browser: can't select row in table view, file dosen't exist: %@", path);
