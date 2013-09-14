@@ -13,7 +13,14 @@
 // start page view
 @interface SettingsViewController : UITableViewController
 
-#pragma mark OSC
+#pragma mark Behavior
+
+@property (weak, nonatomic) IBOutlet UISwitch *lockScreenDisabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *runInBackgroundSwitch;
+
+- (IBAction)behaviorChanged:(id)sender;
+
+#pragma mark OSC Event Fowarding
 
 @property (weak, nonatomic) IBOutlet UISwitch *oscAccelEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *oscTouchEnabledSwitch;

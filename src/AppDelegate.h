@@ -28,6 +28,11 @@
 @property (strong, nonatomic) Osc *osc;
 @property (strong, nonatomic) SceneManager *sceneManager;
 
+#pragma mark App Behavior
+
+@property (assign, getter=isLockScreenDisabled, nonatomic) BOOL lockScreenDisabled;
+@property (assign, nonatomic) BOOL runsInBackground;
+
 #pragma mark Util
 
 // recursively copy dirs and patches in the resource patches dir to the

@@ -24,6 +24,9 @@
 	
 	app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
+	self.lockScreenDisabledSwitch.on = app.isLockScreenDisabled;
+	self.runInBackgroundSwitch.on = app.runsInBackground;
+	
 	self.oscAccelEnabledSwitch.on = app.osc.accelSendingEnabled;
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
 	self.oscRotationEnabledSwitch.on = app.osc.rotationSendingEnabled;
@@ -47,7 +50,18 @@
 	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
-#pragma mark OSC
+#pragma mark Behavior
+
+- (IBAction)behaviorChanged:(id)sender {
+	if(sender == self.lockScreenDisabledSwitch) {
+		app.lockScreenDisabled = self.lockScreenDisabledSwitch.isOn;
+	}
+	else if(sender == self.runInBackgroundSwitch) {
+		app.runsInBackground = self.runInBackgroundSwitch.isOn;
+	}
+}
+
+#pragma mark OSC Event Forwarding
 
 - (IBAction)oscEventTypeChanged:(id)sender {
 	if(sender == self.oscAccelEnabledSwitch) {

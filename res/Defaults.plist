@@ -28,5 +28,9 @@
 	<integer>8080</integer>
 	<key>micVolume</key>
 	<real>1</real>
+	<key>lockScreenDisabled</key>
+	<false/>
+	<key>runsInBackground</key>
+	<false/>
 </dict>
 </plist>
