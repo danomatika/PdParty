@@ -33,4 +33,9 @@
 // close the current scene
 - (void)closeScene;
 
+#pragma mark UI
+
+// called when a right nav bar button is pressed
+- (void)navButtonPressed:(id)sender;
+
 @end

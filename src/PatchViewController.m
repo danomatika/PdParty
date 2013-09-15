@@ -12,15 +12,36 @@
 
 #import "Log.h"
 #import "AppDelegate.h"
+#import "UIPopoverController+iPhone.h"
 
 @interface PatchViewController () {
 	NSMutableDictionary *activeTouches; // for persistent ids
 	KeyGrabberView *grabber; // for keyboard events
 }
-@property (nonatomic, strong) UIPopoverController *masterPopoverController;
+
+@property (strong, nonatomic) UIPopoverController *masterPopoverController;
+@property (strong, nonatomic) UIPopoverController *controlsPopover;
+
+// check the current orientation against the scene's prefferred orientations &
+// manually rotate the view if needed
+- (void)checkOrientation;
+
+// display the controls on screen or in a popup as required by the current scene
+- (void)updateControls;
+
 @end
 
 @implementation PatchViewController
+
+- (void)awakeFromNib {
+
+	// set here for when patch is pushed onto the nav controller manually by the
+	// Now Playing button
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	self.sceneManager = app.sceneManager;
+
+	[super awakeFromNib];
+}
 
 - (void)viewDidLoad {
 
@@ -45,9 +66,6 @@
 	grabber.active = YES;
 	grabber.delegate = self;
 	[self.view addSubview:grabber];
-
-	// hide controls by default
-	self.controlsView.hidden = YES;
 	
 	// set title here since view hasn't been inited when opening on iPhone
 	if(![Util isDeviceATablet]) {
@@ -67,83 +85,15 @@
 // called when view bounds change (after rotations, etc)
 - (void)viewDidLayoutSubviews {
 
+	// update parent, orient, and reshape scene
 	[self.sceneManager updateParent:self.view];
-	
-	// rotates toward home button on bottom or left
-	int currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-	if((self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAll) ||
-	   (self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAllButUpsideDown)) {
-		self.rotation = 0;
-	}
-	else if(UIInterfaceOrientationIsLandscape(currentOrientation)) {
-		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
-			DDLogVerbose(@"PatchViewController: rotating view to portrait for current scene");
-			if(currentOrientation == UIInterfaceOrientationLandscapeLeft) {
-				self.rotation = 90;
-				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationLandscapeLeft];
-			}
-			else {
-				self.rotation = -90;
-				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationLandscapeRight];
-			}
-		}
-		else {
-			self.rotation = 0;
-		}
-	}
-	else { // default is portrait
-		if(self.sceneManager.scene.preferredOrientations & UIInterfaceOrientationMaskLandscape) {
-			DDLogVerbose(@"PatchViewController: rotating view to landscape for current scene");
-			if(currentOrientation == UIInterfaceOrientationPortrait) {
-				self.rotation = -90;
-				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationPortrait];
-			}
-			else {
-				self.rotation = 90;
-				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationPortraitUpsideDown];
-			}
-		}
-		else {
-			self.rotation = 0;
-		}
-	}
+	[self checkOrientation];
 	[self.sceneManager reshapeToParentSize:self.view.bounds.size];
 
 	// update on screen controls
-	if(self.sceneManager.scene.requiresOnscreenControls) {
-	
-		// controls should be on screen at the bottom of the view
-		if(self.controlsView.superview != self.view) {
-			[self.controlsView removeFromSuperview];
-			
-			// add to this view
-			[self.view addSubview:self.controlsView];
-			self.controlsView.hidden = NO;
-	
-			// auto layout constraints
-			[self.view addConstraints:[NSArray arrayWithObjects:
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-												toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-												toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-												toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil]];
-		}
-		self.controlsView.height = CGRectGetHeight(self.view.bounds) - self.sceneManager.scene.contentHeight;
-	}
-	else {
-	
-		// controls should be in a popup activated from a button
-		if(self.controlsView.superview == self.view) {
-			[self.controlsView removeFromSuperview];
-			self.controlsView.hidden = YES;
-		}
-	}
-	[self.controlsView updateControls];
-
+	[self updateControls];
 	self.navigationItem.title = self.sceneManager.scene.name;
 
-	[self.view setNeedsUpdateConstraints];
 	[self.view layoutSubviews];
 }
 
@@ -184,6 +134,15 @@
 //	return UIInterfaceOrientationPortrait;
 //}
 
+- (void)viewWillDisappear:(BOOL)animated {
+
+	// clean up popover or there will be an exception when navigating away while
+	// popover is still displayed on iPhone
+	if(self.controlsPopover.popoverVisible) {
+		[self.controlsPopover dismissPopoverAnimated:YES];
+	}
+}
+
 #pragma mark Scene Management
 
 - (void)openScene:(NSString *)path withType:(SceneType)type {
@@ -212,6 +171,21 @@
 
 - (void)closeScene {
 	[self.sceneManager closeScene];
+}
+
+#pragma mark UI
+
+- (void)navButtonPressed:(id)sender {
+	if(sender == self.navigationItem.rightBarButtonItem) {
+		if(!self.controlsPopover.popoverVisible) {
+			[self.controlsPopover presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
+										 permittedArrowDirections:UIPopoverArrowDirectionUp
+														 animated:YES];
+		}
+		else {
+			[self.controlsPopover dismissPopoverAnimated:YES];
+		}
+	}
 }
 
 #pragma mark Overridden Getters / Setters
@@ -316,6 +290,125 @@
 // hide master view controller by default on all orientations
 - (BOOL)splitViewController:(UISplitViewController *)splitController shouldHideViewController:(UIViewController *)viewController inOrientation:(UIInterfaceOrientation)orientation {
 	return YES;
+}
+
+#pragma mark Private
+
+- (void)checkOrientation {
+
+	// rotates toward home button on bottom or left
+	int currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+	if((self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAll) ||
+	   (self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAllButUpsideDown)) {
+		self.rotation = 0;
+	}
+	else if(UIInterfaceOrientationIsLandscape(currentOrientation)) {
+		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
+			DDLogVerbose(@"PatchViewController: rotating view to portrait for current scene");
+			if(currentOrientation == UIInterfaceOrientationLandscapeLeft) {
+				self.rotation = 90;
+				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationLandscapeLeft];
+			}
+			else {
+				self.rotation = -90;
+				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationLandscapeRight];
+			}
+		}
+		else {
+			self.rotation = 0;
+		}
+	}
+	else { // default is portrait
+		if(self.sceneManager.scene.preferredOrientations & UIInterfaceOrientationMaskLandscape) {
+			DDLogVerbose(@"PatchViewController: rotating view to landscape for current scene");
+			if(currentOrientation == UIInterfaceOrientationPortrait) {
+				self.rotation = -90;
+				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationPortrait];
+			}
+			else {
+				self.rotation = 90;
+				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationPortraitUpsideDown];
+			}
+		}
+		else {
+			self.rotation = 0;
+		}
+	}
+}
+
+- (void)updateControls {
+
+	if(self.sceneManager.scene.requiresOnscreenControls) {
+	
+		// controls should be on screen at the bottom of the view
+		if(self.controlsPopover || !self.controlsView.superview) {
+			[self.controlsView removeFromSuperview];
+			
+			// make sure to close popover if it's still visible on iPad
+			if(self.controlsPopover.popoverVisible) {
+				[self.controlsPopover dismissPopoverAnimated:YES];
+			}
+			self.controlsPopover = nil;
+			self.navigationItem.rightBarButtonItem = nil;
+			
+			// larger sizing for iPad
+			if(![Util isDeviceATablet]) {
+				[self.controlsView defaultSize];
+			}
+			
+			// add to this view
+			[self.view addSubview:self.controlsView];
+	
+			// auto layout constraints
+			[self.view addConstraints:[NSArray arrayWithObjects:
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+												toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+												toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+												toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil]];
+		}
+		self.controlsView.height = CGRectGetHeight(self.view.bounds) - self.sceneManager.scene.contentHeight;
+	}
+	else {
+	
+		// controls should be in a popup activated from a nav button
+		if(!self.controlsPopover) {
+			[self.controlsView removeFromSuperview];
+			
+			// create nav button
+			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Controls"
+																					  style:UIBarButtonItemStylePlain
+																					 target:self
+																					 action:@selector(navButtonPressed:)];
+			
+			// smaller controls in iPad popover
+			if([Util isDeviceATablet]) {
+				[self.controlsView halfDefaultSize];
+			}
+				
+			// create popover
+			UIViewController *controlsViewController = [[UIViewController alloc] init];
+			[controlsViewController.view addSubview:self.controlsView];
+			self.controlsPopover = [[UIPopoverController alloc] initWithContentViewController:controlsViewController];
+			self.controlsPopover.popoverContentSize = CGSizeMake(320, self.controlsView.height);
+		
+			// auto layout constraints
+			[controlsViewController.view addConstraints:[NSArray arrayWithObjects:
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+												toItem:controlsViewController.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+												toItem:controlsViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
+												toItem:controlsViewController.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0],
+				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+												toItem:controlsViewController.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil]];
+		}
+	}
+	[self.controlsView setNeedsUpdateConstraints];
+	[self.controlsView.superview setNeedsUpdateConstraints];
+	
+	[self.controlsView updateControls];
 }
 
 @end
