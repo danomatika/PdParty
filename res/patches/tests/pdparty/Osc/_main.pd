@@ -34,6 +34,6 @@
 #X connect 13 2 11 0;
 #X connect 13 3 12 0;
 #X restore 160 207 pd guts;
-#X text 40 247 run test.pd on your desktop;
 #X text 40 264 to communicate with this scene;
 #X text 40 281 don't forget to turn on OSC;
+#X text 40 247 run tests/osc.pd on your desktop;

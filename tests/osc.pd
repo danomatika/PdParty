@@ -29,7 +29,7 @@
 #X msg 313 101 /pd/key \$1;
 #X obj 13 187 routeOSC /touch /accelerate /rotate /key /print;
 #X obj 252 240 print party;
-#X msg 364 156 connect 10.0.1.12 8088;
+#X msg 364 156 connect 127.0.0.1 8088;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
 #X connect 4 0 6 0;
