@@ -98,7 +98,7 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	[self.sceneManager rotated:fromInterfaceOrientation to:self.interfaceOrientation];
+	self.sceneManager.currentOrientation = [self interfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -307,11 +307,11 @@
 			DDLogVerbose(@"PatchViewController: rotating view to portrait for current scene");
 			if(currentOrientation == UIInterfaceOrientationLandscapeLeft) {
 				self.rotation = 90;
-				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationLandscapeLeft];
+				self.sceneManager.currentOrientation = UIInterfaceOrientationLandscapeLeft;
 			}
 			else {
 				self.rotation = -90;
-				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationLandscapeRight];
+				self.sceneManager.currentOrientation = UIInterfaceOrientationLandscapeRight;
 			}
 		}
 		else {
@@ -323,11 +323,11 @@
 			DDLogVerbose(@"PatchViewController: rotating view to landscape for current scene");
 			if(currentOrientation == UIInterfaceOrientationPortrait) {
 				self.rotation = -90;
-				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationPortrait];
+				self.sceneManager.currentOrientation = UIInterfaceOrientationPortrait;
 			}
 			else {
 				self.rotation = 90;
-				[self.sceneManager rotated:currentOrientation to:UIInterfaceOrientationPortraitUpsideDown];
+				self.sceneManager.currentOrientation = UIInterfaceOrientationPortraitUpsideDown;
 			}
 		}
 		else {

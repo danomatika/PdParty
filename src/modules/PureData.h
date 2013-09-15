@@ -35,12 +35,6 @@
 #define PD_OSC_S		@"#osc-out"
 #define RJ_GLOBAL_S		@"rjdj"
 
-// rotate event orientations
-#define PARTY_ORIENT_PORTRAIT				@"portrait"
-#define PARTY_ORIENT_PORTRAIT_UPSIDEDOWN	@"upsidedown"
-#define PARTY_ORIENT_LANDSCAPE_LEFT			@"landleft"
-#define PARTY_ORIENT_LANDSCAPE_RIGHT		@"landright"
-
 // sample rates
 #define PARTY_SAMPLERATE	44100
 #define RJ_SAMPLERATE		22050
@@ -106,9 +100,6 @@
 
 // rj accel event
 + (void)sendAccel:(float)x y:(float)y z:(float)z;
-
-// pdparty rotate event
-+ (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;
 
 // pd key event
 + (void)sendKey:(int)key;

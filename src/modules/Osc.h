@@ -10,11 +10,10 @@
  */
 #import "CocoaOSC.h"
 
-#define OSC_TOUCH_ADDR	@"/pd/touch"
-#define OSC_ACCEL_ADDR	@"/pd/accelerate"
-#define OSC_ROTATE_ADDR	@"/pd/rotate"
-#define OSC_KEY_ADDR	@"/pd/key"
-#define OSC_PRINT_ADDR	@"/pd/print"
+#define OSC_TOUCH_ADDR	@"/pdparty/touch"
+#define OSC_ACCEL_ADDR	@"/pdparty/accelerate"
+#define OSC_KEY_ADDR	@"/pdparty/key"
+#define OSC_PRINT_ADDR	@"/pdparty/print"
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
@@ -26,7 +25,6 @@
 // should the following events be sent automatically? (default: NO)
 @property (assign, nonatomic) BOOL accelSendingEnabled;
 @property (assign, nonatomic) BOOL touchSendingEnabled;
-@property (assign, nonatomic) BOOL rotationSendingEnabled;
 @property (assign, nonatomic) BOOL keySendingEnabled;
 @property (assign, nonatomic) BOOL printSendingEnabled;
 
@@ -40,9 +38,6 @@
 
 // rj touch event
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
-
-// pdparty rotate event
-- (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation;
 
 // pd key event
 - (void)sendKey:(int)key;

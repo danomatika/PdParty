@@ -1,23 +1,23 @@
-#N canvas 71 67 375 451 10;
-#X obj 16 381 bng 40 250 50 0 empty q q 18 20 0 10 -262144 -1 -1;
-#X obj 72 381 bng 40 250 50 0 empty w w 18 20 0 10 -262144 -1 -1;
-#X obj 128 381 bng 40 250 50 0 empty e e 18 20 0 10 -262144 -1 -1;
-#X obj 185 381 bng 40 250 50 0 empty r r 18 20 0 10 -262144 -1 -1;
-#X obj 242 381 bng 40 250 50 0 empty t t 18 20 0 10 -262144 -1 -1;
-#X obj 299 381 bng 40 250 50 0 empty y y 18 20 0 10 -262144 -1 -1;
+#N canvas 71 67 363 453 10;
+#X obj 19 337 bng 40 250 50 0 empty q q 18 20 0 10 -262144 -1 -1;
+#X obj 75 337 bng 40 250 50 0 empty w w 18 20 0 10 -262144 -1 -1;
+#X obj 131 337 bng 40 250 50 0 empty e e 18 20 0 10 -262144 -1 -1;
+#X obj 188 337 bng 40 250 50 0 empty r r 18 20 0 10 -262144 -1 -1;
+#X obj 245 337 bng 40 250 50 0 empty t t 18 20 0 10 -262144 -1 -1;
+#X obj 302 337 bng 40 250 50 0 empty y y 18 20 0 10 -262144 -1 -1;
 #X obj 10 10 cnv 15 160 160 empty empty touch 20 12 0 14 -233017 -66577
 0;
 #X floatatom 17 56 5 0 0 1 id touch_down_id -;
 #X floatatom 74 56 5 0 0 1 x touch_down_x -;
 #X floatatom 125 56 5 0 0 1 y touch_down_y -;
-#X obj 192 209 cnv 15 80 60 empty empty [key] 20 12 0 14 -233017 -66577
+#X obj 10 234 cnv 15 80 60 empty empty [key] 20 12 0 14 -233017 -66577
 0;
-#X floatatom 213 240 5 0 0 1 - key -;
-#X obj 192 11 cnv 15 160 160 empty empty accelerate 20 12 0 14 -233017
+#X floatatom 31 265 5 0 0 1 - key -;
+#X obj 190 11 cnv 15 160 160 empty empty accelerate 20 12 0 14 -233017
 -66577 0;
-#X floatatom 214 56 10 0 0 1 x ax -;
-#X floatatom 215 101 10 0 0 1 y ay -;
-#X floatatom 215 143 10 0 0 1 z az -;
+#X floatatom 212 56 10 0 0 1 x ax -;
+#X floatatom 213 101 10 0 0 1 y ay -;
+#X floatatom 213 143 10 0 0 1 z az -;
 #X floatatom 18 101 5 0 0 1 id touch_xy_id -;
 #X floatatom 75 101 5 0 0 1 x touch_xy_x -;
 #X floatatom 126 101 5 0 0 1 y touch_xy_y -;
@@ -66,7 +66,7 @@
 #X connect 0 1 1 0;
 #X connect 0 2 2 0;
 #X connect 4 0 0 0;
-#X restore 230 180 pd accel;
+#X restore 228 180 pd accel;
 #N canvas 814 111 303 150 key 0;
 #X obj 21 25 key;
 #X obj 72 55 route 113 119 101 114 116 121;
@@ -86,23 +86,7 @@
 #X connect 1 4 6 0;
 #X connect 1 5 7 0;
 #X connect 9 0 1 0;
-#X restore 211 280 pd key;
+#X restore 106 238 pd key;
 #X text 17 124 up;
 #X text 16 79 xy;
-#X obj 12 209 cnv 15 160 120 empty empty rotate 20 12 0 14 -233017
--66577 0;
-#X floatatom 20 244 5 0 0 1 degreesZ rotate_degreesZ -;
-#X symbolatom 20 301 12 0 0 1 orientation rotate_orientation -;
-#N canvas 690 211 222 185 rotate 0;
-#X obj 25 19 r #rotate;
-#X obj 25 142 s rotate_orientation;
-#X obj 25 51 unpack s f f;
-#X obj 59 111 s rotate_degreesZ;
-#X obj 94 84 s rotate_degreesXY;
-#X connect 0 0 2 0;
-#X connect 2 0 1 0;
-#X connect 2 1 3 0;
-#X connect 2 2 4 0;
-#X restore 25 338 pd rotate;
-#X floatatom 20 272 5 0 0 1 degreesXY rotate_degreesXY -;
-#X text 87 354 try a usb/bluetooth keyboard;
+#X text 104 265 try a usb/bluetooth keyboard;

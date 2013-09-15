@@ -42,7 +42,6 @@
 		
 		self.accelSendingEnabled = [defaults boolForKey:@"accelSendingEnabled"];
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
-		self.rotationSendingEnabled = [defaults boolForKey:@"rotationSendingEnabled"];
 		self.keySendingEnabled = [defaults boolForKey:@"keySendingEnabled"];
 		self.printSendingEnabled = [defaults boolForKey:@"printSendingEnabled"];
 		
@@ -91,15 +90,6 @@
 	[message addFloat:id+1];
 	[message addFloat:x];
 	[message addFloat:y];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
-}
-
-- (void)sendRotate:(float)degrees newOrientation:(NSString*)orientation {
-	if(!self.listening || !self.rotationSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_ROTATE_ADDR;
-	[message addFloat:degrees];
-	[message addString:orientation];
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
@@ -165,11 +155,6 @@
 - (void)setTouchSendingEnabled:(BOOL)touchSendingEnabled {
 	_touchSendingEnabled = touchSendingEnabled;
 	[[NSUserDefaults standardUserDefaults] setBool:touchSendingEnabled forKey:@"touchSendingEnabled"];
-}
-
-- (void)setRotationSendingEnabled:(BOOL)rotationSendingEnabled {
-	_rotationSendingEnabled = rotationSendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:rotationSendingEnabled forKey:@"rotationSendingEnabled"];
 }
 
 - (void)setKeySendingEnabled:(BOOL)keySendingEnabled {

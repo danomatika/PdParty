@@ -30,8 +30,6 @@
 // update the controls based on the current PureData settings
 - (void)updateControls;
 
-//- (void)readdConstraints;
-
 #pragma mark Sizing
 
 // constraint constants

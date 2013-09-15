@@ -19,7 +19,6 @@
 
 @interface SceneManager () {
 	CMMotionManager *motionManager; // for accel data
-	UIInterfaceOrientation currentOrientation; // accel orientation based on this
 	BOOL hasReshaped; // has the gui been reshaped?
 }
 @property (strong, readwrite, nonatomic) NSString* currentPath;
@@ -39,10 +38,10 @@
 		
 		// current UI orientation for accel
 		if([Util isDeviceATablet]) { // iPad can started rotated
-			currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+			self.currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 		}
 		else { // do not start rotated on iPhone
-			currentOrientation = UIInterfaceOrientationPortrait;
+			self.currentOrientation = UIInterfaceOrientationPortrait;
 		}
 		
 		// set osc and pure data pointer
@@ -143,31 +142,6 @@
 	self.scene.parentView = parent;
 }
 
-- (void)rotated:(UIInterfaceOrientation)fromOrientation to:(UIInterfaceOrientation)toOrientation {
-	
-	int rotate = [Util orientationInDegrees:fromOrientation] - [Util orientationInDegrees:toOrientation];
-	
-	NSString *orient;
-	switch(toOrientation) {
-		case UIInterfaceOrientationPortrait:
-			orient = PARTY_ORIENT_PORTRAIT;
-			break;
-		case UIInterfaceOrientationPortraitUpsideDown:
-			orient = PARTY_ORIENT_PORTRAIT_UPSIDEDOWN;
-			break;
-		case UIInterfaceOrientationLandscapeLeft:
-			orient = PARTY_ORIENT_LANDSCAPE_LEFT;
-			break;
-		case UIInterfaceOrientationLandscapeRight:
-			orient = PARTY_ORIENT_LANDSCAPE_RIGHT;
-			break;
-	}
-
-	//DDLogVerbose(@"rotate: %d %@", rotate, orient);
-	[self sendRotate:rotate newOrientation:orient];
-	currentOrientation = toOrientation;
-}
-
 #pragma mark Send Events
 
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
@@ -176,15 +150,6 @@
 	}
 	if(self.osc.isListening) {
 		[self.osc sendTouch:eventType forId:id atX:x andY:y];
-	}
-}
-
-- (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation {
-	if(self.scene.requiresRotation) {
-		[PureData sendRotate:degrees newOrientation:orientation];
-	}
-	if(self.osc.isListening) {
-		[self.osc sendRotate:degrees newOrientation:orientation];
 	}
 }
 
@@ -219,7 +184,7 @@
 //													accelerometerData.acceleration.y,
 //													accelerometerData.acceleration.z);
 					// orient accel data to current orientation
-					switch(currentOrientation) {
+					switch(self.currentOrientation) {
 						case UIInterfaceOrientationPortrait:
 							[PureData sendAccel:accelerometerData.acceleration.x
 											  y:accelerometerData.acceleration.y

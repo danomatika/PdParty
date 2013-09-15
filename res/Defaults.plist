@@ -10,8 +10,6 @@
 	<false/>
 	<key>touchSendingEnabled</key>
 	<false/>
-	<key>rotationSendingEnabled</key>
-	<false/>
 	<key>keySendingEnabled</key>
 	<false/>
 	<key>printSendingEnabled</key>

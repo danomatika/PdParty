@@ -119,10 +119,6 @@
 	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:x], [NSNumber numberWithFloat:y], [NSNumber numberWithFloat:z], nil] toReceiver:RJ_ACCELERATE_R];
 }
 
-+ (void)sendRotate:(float)degrees newOrientation:(NSString *)orientation {
-	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:degrees], orientation, nil] toReceiver:PARTY_ROTATE_R];
-}
-
 + (void)sendKey:(int)key {
 	[PdBase sendFloat:key toReceiver:PD_KEY_R];
 }

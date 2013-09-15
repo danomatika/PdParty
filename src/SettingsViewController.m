@@ -29,7 +29,6 @@
 	
 	self.oscAccelEnabledSwitch.on = app.osc.accelSendingEnabled;
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
-	self.oscRotationEnabledSwitch.on = app.osc.rotationSendingEnabled;
 	self.oscKeyEnabledSwitch.on = app.osc.keySendingEnabled;
 	self.oscPrintEnabledSwitch.on = app.osc.printSendingEnabled;
 	
@@ -69,9 +68,6 @@
 	}
 	else if(sender == self.oscTouchEnabledSwitch) {
 		app.osc.touchSendingEnabled = self.oscTouchEnabledSwitch.isOn;
-	}
-	else if(sender == self.oscRotationEnabledSwitch) {
-		app.osc.rotationSendingEnabled = self.oscRotationEnabledSwitch.isOn;
 	}
 	else if(sender == self.oscKeyEnabledSwitch) {
 		app.osc.keySendingEnabled = self.oscKeyEnabledSwitch.isOn;
