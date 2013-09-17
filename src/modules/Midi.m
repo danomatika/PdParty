@@ -149,7 +149,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 	}
 	self.midi.networkEnabled = networkEnabled;
 	[[NSUserDefaults standardUserDefaults] setBool:self.midi.networkEnabled forKey:@"networkMidiEnabled"];
-	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
 }
 
 - (BOOL)isNetworkEnabled {

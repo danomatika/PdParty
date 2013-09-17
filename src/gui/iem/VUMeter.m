@@ -107,10 +107,9 @@
     int quad3 = CGRectGetWidth(self.originalFrame) - w4,
         end = CGRectGetWidth(self.originalFrame) + 2;
     int k1 = ledSize + 1, k2 = IEM_VU_STEPS + 1, k3 = k1 / 2;
-    int led_col, yyy, i, k4 = -k3;
+    int yyy, i, k4 = -k3;
 
     for(i = 1; i <= IEM_VU_STEPS; ++i) {
-        led_col = iemgui_vu_col[i];
         yyy = k4 + k1 * (k2 - i);
 		
 		// led bar

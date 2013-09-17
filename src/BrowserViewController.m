@@ -268,7 +268,6 @@
 
 	// load the selected patch
 	if([[segue identifier] isEqualToString:@"runScene"]) {
-		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
     }
 }
