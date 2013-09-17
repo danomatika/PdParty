@@ -373,7 +373,7 @@
 	else {
 	
 		// controls should be in a popup activated from a nav button
-		if(!self.controlsPopover) {
+		if(!self.controlsPopover && self.sceneManager.scene) {
 			[self.controlsView removeFromSuperview];
 			
 			// create nav button
