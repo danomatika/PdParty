@@ -54,9 +54,9 @@
 #pragma OSCConnectionDelegate
 
 - (void)oscConnection:(OSCConnection *)connection didReceivePacket:(OSCPacket *)packet {
-	#ifdef DEBUG
-		DDLogVerbose(@"OSC message to %@: %@", packet.address, [packet.arguments description]);
-	#endif
+//	#ifdef DEBUG
+//		DDLogVerbose(@"OSC message to %@: %@", packet.address, [packet.arguments description]);
+//	#endif
 	[PureData sendOscMessage:packet.address withArguments:packet.arguments];
 }
 

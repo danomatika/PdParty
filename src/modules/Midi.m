@@ -358,7 +358,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 #pragma mark Sending
 
 - (void)sendNoteOn:(int)channel pitch:(int)pitch velocity:(int)velocity {
-	DDLogVerbose(@"Midi: sending Note %d %d %d", channel, pitch, velocity);
+	//DDLogVerbose(@"Midi: sending Note %d %d %d", channel, pitch, velocity);
 	[messageOut setLength:3];
 	unsigned char *bytes = (unsigned char*)[messageOut bytes];
 	bytes[0] = MIDI_NOTE_ON+channel;
@@ -368,7 +368,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendControlChange:(int)channel controller:(int)controller value:(int)value {
-	DDLogVerbose(@"Midi: sending Control %d %d %d", channel, controller, value);
+	//DDLogVerbose(@"Midi: sending Control %d %d %d", channel, controller, value);
 	[messageOut setLength:3];
 	unsigned char *bytes = (unsigned char*)[messageOut bytes];
 	bytes[0] = MIDI_CONTROL_CHANGE+channel;
@@ -378,7 +378,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendProgramChange:(int)channel value:(int)value {
-	DDLogVerbose(@"Midi: sending Program %d %d", channel, value);
+	//DDLogVerbose(@"Midi: sending Program %d %d", channel, value);
 	[messageOut setLength:2];
 	unsigned char *bytes = (unsigned char*)[messageOut bytes];
 	bytes[0] = MIDI_PROGRAM_CHANGE+channel;
@@ -387,7 +387,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendPitchBend:(int)channel value:(int)value {
-	DDLogVerbose(@"Midi: sending PitchBend %d %d", channel, value);
+	//DDLogVerbose(@"Midi: sending PitchBend %d %d", channel, value);
 	[messageOut setLength:3];
 	unsigned char *bytes = (unsigned char*)[messageOut bytes];
 	bytes[0] = MIDI_PITCH_BEND+channel;
@@ -397,7 +397,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendAftertouch:(int)channel value:(int)value {
-	DDLogVerbose(@"Midi: sending Aftertouch %d %d", channel, value);
+	//DDLogVerbose(@"Midi: sending Aftertouch %d %d", channel, value);
 	[messageOut setLength:2];
 	unsigned char *bytes = (unsigned char*)[messageOut bytes];
 	bytes[0] = MIDI_AFTERTOUCH+channel;
@@ -406,7 +406,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendPolyAftertouch:(int)channel pitch:(int)pitch value:(int)value {
-	DDLogVerbose(@"Midi: sending PolyAftertouch %d %d %d", channel, pitch, value);
+	//DDLogVerbose(@"Midi: sending PolyAftertouch %d %d %d", channel, pitch, value);
 	[messageOut setLength:3];
 	unsigned char *bytes = (unsigned char*)[messageOut bytes];
 	bytes[0] = MIDI_POLY_AFTERTOUCH+channel;
@@ -416,7 +416,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendMidiByte:(int)port byte:(int)byte {
-	DDLogVerbose(@"Midi: sending Sysex byte %02X to %d", byte, port);
+	//DDLogVerbose(@"Midi: sending Sysex byte %02X to %d", byte, port);
 	[messageOut setLength:1];
 	unsigned char *bytes = (unsigned char*)[messageOut bytes];
 	bytes[0] = byte;
@@ -424,7 +424,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendSysex:(int)port byte:(int)byte {
-	DDLogVerbose(@"Midi: sending Midi byte %02X to %d", byte, port);
+	//DDLogVerbose(@"Midi: sending Midi byte %02X to %d", byte, port);
 	[messageOut setLength:1];
 	unsigned char *bytes = (unsigned char*)[messageOut bytes];
 	bytes[0] = byte;
@@ -446,44 +446,44 @@ uint64_t absoluteToNanos(uint64_t time) {
 		channel = (int) (bytes[0] & 0x0F);
 	}
 	
-	#ifdef DEBUG
-		[Util logData:message withHeader:@"Midi: received "];
-	#endif
+//	#ifdef DEBUG
+//		[Util logData:message withHeader:@"Midi: received "];
+//	#endif
 	
 	switch(statusByte) {
 		case MIDI_NOTE_ON :
 		case MIDI_NOTE_OFF:
 			[PdBase sendNoteOn:channel pitch:bytes[1] velocity:bytes[2]];
-			DDLogVerbose(@"Midi: received Note %d %d %d", channel, bytes[1], bytes[2]);
+			//DDLogVerbose(@"Midi: received Note %d %d %d", channel, bytes[1], bytes[2]);
 			break;
 		case MIDI_CONTROL_CHANGE: {
 			[PdBase sendControlChange:channel controller:bytes[1] value:bytes[2]];
-			DDLogVerbose(@"Midi: received Control %d %d %d", channel, bytes[1], bytes[2]);
+			//DDLogVerbose(@"Midi: received Control %d %d %d", channel, bytes[1], bytes[2]);
 			break;
 		}
 		case MIDI_PROGRAM_CHANGE:
 			[PdBase sendProgramChange:channel value:bytes[1]];
-			DDLogVerbose(@"Midi: received Program %d %d", channel, bytes[1]);
+			//DDLogVerbose(@"Midi: received Program %d %d", channel, bytes[1]);
 			break;
 		case MIDI_PITCH_BEND: {
 			int value = (bytes[2] << 7) + bytes[1]; // msb + lsb
 			[PdBase sendPitchBend:channel value:value];
-			DDLogVerbose(@"Midi: received PitchBend %d %d", channel, value);
+			//DDLogVerbose(@"Midi: received PitchBend %d %d", channel, value);
 			break;
 		}
 		case MIDI_AFTERTOUCH:
 			[PdBase sendAftertouch:channel value:bytes[1]];
-			DDLogVerbose(@"Midi: received Aftertouch %d %d", channel, bytes[1]);
+			//DDLogVerbose(@"Midi: received Aftertouch %d %d", channel, bytes[1]);
 			break;
 		case MIDI_POLY_AFTERTOUCH:
 			[PdBase sendPolyAftertouch:channel pitch:bytes[1] value:bytes[2]];
-			DDLogVerbose(@"Midi: received PolyAftertouch %d %d %d", channel, bytes[1], bytes[2]);
+			//DDLogVerbose(@"Midi: received PolyAftertouch %d %d %d", channel, bytes[1], bytes[2]);
 			break;
 		case MIDI_SYSEX:
 			for(int i = 0; i < message.length; ++i) {
 				[PdBase sendSysex:channel byte:bytes[i]];
 			}
-			DDLogVerbose(@"Midi: received %d Sysex bytes to %d", message.length, channel);
+			//DDLogVerbose(@"Midi: received %d Sysex bytes to %d", message.length, channel);
 			break;
 		default:
 //			for(int i = 0; i < message.length; ++i) {
@@ -497,9 +497,9 @@ uint64_t absoluteToNanos(uint64_t time) {
 // adapted from PGMidi sendBytes
 - (void)sendMessage:(NSData *)message {
 	
-	#ifdef DEBUG
-		[Util logData:message withHeader:@"Midi: sending "];
-	#endif
+//	#ifdef DEBUG
+//		[Util logData:message withHeader:@"Midi: sending "];
+//	#endif
 
     Byte packetBuffer[message.length+100];
     MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
@@ -514,9 +514,9 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 - (void)sendMessage:(NSData *)message toPort:(int)port {
 
-	#ifdef DEBUG
-		[Util logData:message withHeader:@"Midi: sending "];
-	#endif
+//	#ifdef DEBUG
+//		[Util logData:message withHeader:@"Midi: sending "];
+//	#endif
 
 	Byte packetBuffer[message.length];
     MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
