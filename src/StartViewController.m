@@ -48,7 +48,7 @@
 	}
 	if(app.midi.isEnabled) {
 		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%d) Out(%d)",
-			app.midi.midi.sources.count, app.midi.midi.destinations.count];
+			app.midi.inputs.count, app.midi.outputs.count];
 	}
 	else {
 		self.midiLabel.text = @"MIDI: Disabled";

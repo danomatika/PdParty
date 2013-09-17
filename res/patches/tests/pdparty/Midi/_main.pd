@@ -112,7 +112,6 @@
 #X obj 44 178 makenote 64 500;
 #X obj 44 210 noteout 1;
 #X obj 44 149 unpack f f;
-#X obj 333 125 bendout;
 #N canvas 551 149 369 179 sysexout 0;
 #X obj -23 11 inlet;
 #X obj -23 100 midiout 1;
@@ -139,6 +138,8 @@
 #X obj 332 188 r touchout-val;
 #X obj 504 88 r polytouchout-val;
 #X obj 507 189 r sysexout-bng;
+#X obj 333 150 bendout;
+#X msg 366 126 \$1 1;
 #X connect 0 0 3 0;
 #X connect 1 0 4 0;
 #X connect 2 0 5 0;
@@ -149,14 +150,15 @@
 #X connect 6 1 7 1;
 #X connect 8 0 6 0;
 #X connect 8 1 6 1;
-#X connect 17 0 16 0;
-#X connect 18 0 15 0;
-#X connect 20 0 17 0;
-#X connect 21 0 14 0;
-#X connect 22 0 9 0;
-#X connect 23 0 11 0;
-#X connect 24 0 18 0;
-#X connect 25 0 10 0;
+#X connect 16 0 15 0;
+#X connect 17 0 14 0;
+#X connect 19 0 16 0;
+#X connect 20 0 13 0;
+#X connect 21 0 25 0;
+#X connect 22 0 10 0;
+#X connect 23 0 17 0;
+#X connect 24 0 9 0;
+#X connect 26 0 25 0;
 #X restore 345 328 pd output;
 #X obj 135 198 cnv 15 154 54 empty empty ctlout 20 12 0 14 -233017
 -66577 0;
@@ -165,19 +167,19 @@
 #X obj 135 263 cnv 15 154 54 empty empty pgmout 20 12 0 14 -233017
 -66577 0;
 #X obj 151 291 hsl 128 15 0 127 0 0 pgmout-val empty empty 2 8 0 10
--262144 -1 -1 0 1;
+-262144 -1 -1 9100 1;
 #X obj 301 199 cnv 15 154 54 empty empty bendout 20 12 0 14 -233017
 -66577 0;
-#X obj 317 227 hsl 128 15 0 16384 0 0 bendout-val empty empty 2 8 0
-10 -262144 -1 -1 0 1;
+#X obj 317 227 hsl 128 15 -8192 8192 0 0 bendout-val empty empty 2
+8 0 10 -262144 -1 -1 800 1;
 #X obj 301 264 cnv 15 154 54 empty empty touchout 20 12 0 14 -233017
 -66577 0;
 #X obj 317 292 hsl 128 15 0 127 0 0 touchout-val empty empty 2 8 0
-10 -262144 -1 -1 0 1;
+10 -262144 -1 -1 4900 1;
 #X obj 471 198 cnv 15 154 54 empty empty polytouchout 20 12 0 14 -233017
 -66577 0;
 #X obj 487 226 hsl 128 15 0 127 0 0 polytouchout-val empty empty 2
-8 0 10 -262144 -1 -1 0 1;
+8 0 10 -262144 -1 -1 5000 1;
 #X obj 471 265 cnv 15 154 54 empty empty sysexout 20 12 0 14 -233017
 -66577 0;
 #X obj 580 282 bng 25 250 50 0 sysexout-bng empty empty 24 10 0 10

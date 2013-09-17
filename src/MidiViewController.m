@@ -33,6 +33,8 @@
 	
 	self.midiEnabledSwitch.on = midi.isEnabled;
 	self.networkMidiEnabledSwitch.on = midi.isNetworkEnabled;
+	self.virtualInputEnabledSwitch.on = midi.isVirtualInputEnabled;
+	self.virtualOutputEnabledSwitch.on = midi.isVirtualOutputEnabled;
 }
 
 - (void)dealloc {
@@ -48,11 +50,26 @@
 
 - (IBAction)enableMidi:(id)sender {
 	midi.enabled = self.midiEnabledSwitch.isOn;
+	
+	// reload everything
+	self.networkMidiEnabledSwitch.on = midi.isNetworkEnabled;
+	self.virtualInputEnabledSwitch.on = midi.isVirtualInputEnabled;
+	self.virtualOutputEnabledSwitch.on = midi.isVirtualOutputEnabled;
 	[self.tableView reloadData];
 }
 
 - (IBAction)enableNetworkMidi:(id)sender {
 	midi.networkEnabled = self.networkMidiEnabledSwitch.isOn;
+}
+
+- (IBAction)enableVirtualInput:(id)sender {
+	midi.virtualInputEnabled = self.virtualInputEnabledSwitch.isOn;
+	[self.tableView reloadData];
+}
+
+- (IBAction)enableVirtualOutput:(id)sender {
+	midi.virtualOutputEnabled = self.virtualOutputEnabledSwitch.isOn;
+	[self.tableView reloadData];
 }
 
 #pragma mark UITableViewController
@@ -62,13 +79,13 @@
 
 	if(section == 0) {
 		// hide cells based on midi status
-		return midi.isEnabled ? 2 : 1;
+		return midi.isEnabled ? 2 : 1; // change back to 4 to reenable virtual port controls
 	}
 	else if(section == 1) {
-		return midi.midi.sources.count;
+		return midi.inputs.count;
 	}
 	else if(section == 2) {
-		return midi.midi.destinations.count;
+		return midi.outputs.count;
 	}
 	
 	// default, just in case
@@ -81,20 +98,22 @@
 	UITableViewCell *cell;
 	
 	if(indexPath.section == 1) { // inputs
-		NSLog(@"%d midi sources", midi.midi.sources.count);
-		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiInputCell" forIndexPath:indexPath];
+		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiInputCell"];//] forIndexPath:indexPath];
 		if(!cell) {
 			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MidiInputCell"];
 		}
-		cell.textLabel.text = [[midi.midi.sources objectAtIndex:indexPath.row] name];
+		cell.userInteractionEnabled = NO;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.textLabel.text = [[midi.inputs objectAtIndex:indexPath.row] name];
 	}
 	else if(indexPath.section == 2) { // outputs
-		NSLog(@"%d midi destinations", midi.midi.destinations.count);
-		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiOutputCell" forIndexPath:indexPath];
+		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiOutputCell"];//] forIndexPath:indexPath];
 		if(!cell) {
 			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MidiOutputCell"];
 		}
-		cell.textLabel.text = [[midi.midi.destinations objectAtIndex:indexPath.row] name];
+		cell.userInteractionEnabled = NO;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.textLabel.text = [[midi.outputs objectAtIndex:indexPath.row] name];
 	}
 	else { // section 0: static cells
 		cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -103,16 +122,59 @@
     return cell;
 }
 
+// the following are largely from this post https://devforums.apple.com/message/502990#502990
+// on mixing static & dynamic table sections which basically requires overriding all
+// methods which take an indexPath in order to avoid index out of bounds exceptions with
+// the dynamic sections
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	return NO;
+}
+
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+	return NO;
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return UITableViewCellEditingStyleNone;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+	// if a dynamic section, make all rows the same height as row 0
+	if(indexPath.section == 1 || indexPath.section == 2) {
+		return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
+	}
+	else {
+		return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+	}
+}
+
+-(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+	// if dynamic section make all rows the same indentation level as row 0
+	if(indexPath.section == 1 || indexPath.section == 2) {
+		return [super tableView:tableView indentationLevelForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
+	}
+	else {
+		return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
+	}
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	// shouldn't be called since nothing is selectable
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 #pragma mark MidiConnectionDelegate
 
-- (void)midiSourceConnectionEvent {
+- (void)midiInputConnectionEvent {
 	// reload inputs section
 	NSRange range = NSMakeRange(1, 1);
 	NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];                                     
 	[self.tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)midiDestinationConnectionEvent {
+- (void)midiOutputConnectionEvent {
 	// relaod outputs section
 	NSRange range = NSMakeRange(2, 1);
 	NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];                                     

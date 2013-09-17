@@ -34,5 +34,9 @@
 	<false/>
 	<key>networkMidiEnabled</key>
 	<false/>
+	<key>virtualMidiInputEnabled</key>
+	<false/>
+	<key>virtualMidiOutputEnabled</key>
+	<false/>
 </dict>
 </plist>

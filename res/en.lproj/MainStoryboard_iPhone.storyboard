@@ -871,7 +871,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="M91-gz-QgX">
-                                        <rect key="frame" x="0.0" y="55" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="55" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -897,12 +897,66 @@
                                             <constraint firstAttribute="trailing" secondItem="Y0d-Dw-s2c" secondAttribute="trailing" constant="30" id="x7u-eX-aZK"/>
                                         </constraints>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="bCb-zl-zVz">
+                                        <rect key="frame" x="0.0" y="99" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Virtual Input" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GhL-Xp-Igt">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4Ot-6I-ggv">
+                                                    <connections>
+                                                        <action selector="enableVirtualInput:" destination="7cK-Fs-3HK" eventType="valueChanged" id="Ncy-Rq-X4h"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="GhL-Xp-Igt" firstAttribute="leading" secondItem="bCb-zl-zVz" secondAttribute="leading" constant="30" id="1kb-Tx-XEZ"/>
+                                            <constraint firstAttribute="trailing" secondItem="4Ot-6I-ggv" secondAttribute="trailing" constant="30" id="cJO-65-l3P"/>
+                                            <constraint firstItem="4Ot-6I-ggv" firstAttribute="centerY" secondItem="GhL-Xp-Igt" secondAttribute="centerY" type="default" id="iSG-9L-0l5"/>
+                                            <constraint firstItem="4Ot-6I-ggv" firstAttribute="top" secondItem="bCb-zl-zVz" secondAttribute="top" constant="7" id="rO0-vi-xPn"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="KTn-3C-WIC">
+                                        <rect key="frame" x="0.0" y="143" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Virtual Output" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTl-SG-hgz">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HGa-yD-LfI">
+                                                    <connections>
+                                                        <action selector="enableVirtualOutput:" destination="7cK-Fs-3HK" eventType="valueChanged" id="g29-Zz-yO7"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="oTl-SG-hgz" firstAttribute="leading" secondItem="KTn-3C-WIC" secondAttribute="leading" constant="30" id="36r-El-brB"/>
+                                            <constraint firstAttribute="trailing" secondItem="HGa-yD-LfI" secondAttribute="trailing" constant="30" id="GZG-5j-wkc"/>
+                                            <constraint firstItem="HGa-yD-LfI" firstAttribute="centerY" secondItem="oTl-SG-hgz" secondAttribute="centerY" type="default" id="eI9-th-ExB"/>
+                                            <constraint firstItem="HGa-yD-LfI" firstAttribute="top" secondItem="KTn-3C-WIC" secondAttribute="top" constant="7" id="yIq-Qn-n1L"/>
+                                        </constraints>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Inputs" id="M3w-HL-Xfi">
                                 <cells>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MidiInputCell" textLabel="mUE-oc-Iuc" style="IBUITableViewCellStyleDefault" id="x4v-uk-3vG">
-                                        <rect key="frame" x="0.0" y="146" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="234" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -922,7 +976,7 @@
                             <tableViewSection headerTitle="Outputs" id="3zQ-Oh-OUi">
                                 <cells>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MidiOutputCell" textLabel="uC4-AD-uS7" style="IBUITableViewCellStyleDefault" id="ACO-tJ-NpD">
-                                        <rect key="frame" x="0.0" y="238" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="326" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -950,6 +1004,8 @@
                     <connections>
                         <outlet property="midiEnabledSwitch" destination="MJD-cx-RrL" id="pSB-a6-Urw"/>
                         <outlet property="networkMidiEnabledSwitch" destination="Y0d-Dw-s2c" id="w0b-1M-mhL"/>
+                        <outlet property="virtualInputEnabledSwitch" destination="4Ot-6I-ggv" id="Ol1-ws-R6x"/>
+                        <outlet property="virtualOutputEnabledSwitch" destination="HGa-yD-LfI" id="rlQ-BX-z90"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vkU-7V-ada" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -31,7 +31,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *serverPortTextField;
 
 - (IBAction)enableWebServer:(id)sender;
-
 - (IBAction)setWebServerPort:(id)sender;
 
 @end

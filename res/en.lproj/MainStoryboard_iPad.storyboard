@@ -938,7 +938,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="mEd-1T-1X7">
-                                        <rect key="frame" x="0.0" y="55" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="55" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -964,23 +964,70 @@
                                             <constraint firstItem="0Jq-av-b2b" firstAttribute="top" secondItem="mEd-1T-1X7" secondAttribute="top" constant="10" id="hvm-lN-G07"/>
                                         </constraints>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="eH6-90-OrX">
+                                        <rect key="frame" x="0.0" y="99" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Virtual Input" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oMI-EW-JsG">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8k2-1e-HXb">
+                                                    <connections>
+                                                        <action selector="enableVirtualInput:" destination="AG3-I5-1e2" eventType="valueChanged" id="yjh-gp-LSb"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="8k2-1e-HXb" secondAttribute="trailing" constant="30" id="BK6-uk-qtb"/>
+                                            <constraint firstItem="oMI-EW-JsG" firstAttribute="top" secondItem="eH6-90-OrX" secondAttribute="top" constant="10" id="LaO-Po-c6r"/>
+                                            <constraint firstItem="oMI-EW-JsG" firstAttribute="leading" secondItem="eH6-90-OrX" secondAttribute="leading" constant="30" id="ihb-jR-HR4"/>
+                                            <constraint firstItem="8k2-1e-HXb" firstAttribute="top" secondItem="oMI-EW-JsG" secondAttribute="top" type="default" id="q1m-ER-qf5"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="a19-Fy-DXw">
+                                        <rect key="frame" x="0.0" y="143" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Virtual Output" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JC7-dB-Ttm">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6xd-EZ-KVp">
+                                                    <connections>
+                                                        <action selector="enableVirtualOutput:" destination="AG3-I5-1e2" eventType="valueChanged" id="9wK-Bi-kW1"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="JC7-dB-Ttm" firstAttribute="top" secondItem="a19-Fy-DXw" secondAttribute="top" constant="10" id="I48-XI-opG"/>
+                                            <constraint firstItem="JC7-dB-Ttm" firstAttribute="leading" secondItem="a19-Fy-DXw" secondAttribute="leading" constant="30" id="ZoW-D6-YYW"/>
+                                            <constraint firstAttribute="trailing" secondItem="6xd-EZ-KVp" secondAttribute="trailing" constant="30" id="ad3-Rf-MNf"/>
+                                            <constraint firstItem="6xd-EZ-KVp" firstAttribute="top" secondItem="JC7-dB-Ttm" secondAttribute="top" type="default" id="yU7-Jj-4iI"/>
+                                        </constraints>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Inputs" id="7sI-u8-Jvc">
                                 <cells>
-                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MidiInputCell" textLabel="o9m-Hb-90C" style="IBUITableViewCellStyleDefault" id="ybw-Lt-1i8">
-                                        <rect key="frame" x="0.0" y="144" width="320" height="46"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MidiInputCell" id="lKE-In-60o">
+                                        <rect key="frame" x="0.0" y="232" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9m-Hb-90C">
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
@@ -988,8 +1035,8 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Outputs" id="8HU-eK-TXU">
                                 <cells>
-                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MidiOutputCell" id="ROu-Ie-PWi">
-                                        <rect key="frame" x="0.0" y="234" width="320" height="46"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MidiOutputCell" id="Mz6-HE-BCh">
+                                        <rect key="frame" x="0.0" y="322" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -1009,6 +1056,8 @@
                     <connections>
                         <outlet property="midiEnabledSwitch" destination="wTt-BQ-ws6" id="oX7-Kf-lzd"/>
                         <outlet property="networkMidiEnabledSwitch" destination="5MV-wH-nVM" id="tsg-LR-CLa"/>
+                        <outlet property="virtualInputEnabledSwitch" destination="8k2-1e-HXb" id="GxW-LK-pSy"/>
+                        <outlet property="virtualOutputEnabledSwitch" destination="6xd-EZ-KVp" id="mUD-zb-u4h"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mNn-CV-4ka" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1016,6 +1065,79 @@
             <point key="canvasLocation" x="2140" y="-1706"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="BrowserViewController" superclassName="NowPlayingTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowserViewController.h"/>
+        </class>
+        <class className="MidiViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MidiViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableMidi:"/>
+                <relationship kind="action" name="enableNetworkMidi:"/>
+                <relationship kind="action" name="enableVirtualInput:"/>
+                <relationship kind="action" name="enableVirtualOutput:"/>
+                <relationship kind="outlet" name="midiEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="networkMidiEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="virtualInputEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="virtualOutputEnabledSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="NowPlayingTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NowPlayingTableViewController.h"/>
+        </class>
+        <class className="OscViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OscViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableOscConnection:"/>
+                <relationship kind="action" name="setHost:"/>
+                <relationship kind="action" name="setIncomingPort:"/>
+                <relationship kind="action" name="setOutgoingPort:"/>
+                <relationship kind="outlet" name="connectionEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="hostTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="incomingPortTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="localHostLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="outgoingPortTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="PatchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PatchViewController.h"/>
+        </class>
+        <class className="SettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="behaviorChanged:"/>
+                <relationship kind="action" name="copyDefaultFolder:"/>
+                <relationship kind="action" name="oscEventTypeChanged:"/>
+                <relationship kind="outlet" name="libFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="libFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="lockScreenDisabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscAccelEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscKeyEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscPrintEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="oscTouchEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="runInBackgroundSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="samplesFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="samplesFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="testsFolderButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="testsFolderSpinner" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+        <class className="StartViewController" superclassName="NowPlayingTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="enableWebServer:"/>
+                <relationship kind="action" name="setWebServerPort:"/>
+                <relationship kind="outlet" name="midiLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="oscLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="serverEnabledSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="serverPortLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="serverPortTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

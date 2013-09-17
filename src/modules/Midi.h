@@ -14,11 +14,14 @@
 
 // midi connection event delegate
 @protocol MidiConnectionDelegate <NSObject>
-- (void)midiSourceConnectionEvent; // a source has been added or removed
-- (void)midiDestinationConnectionEvent; // a destination has been added or removed
+- (void)midiInputConnectionEvent; // an input has been added or removed
+- (void)midiOutputConnectionEvent; // an output has been added or removed
 @end
 
 @interface Midi : NSObject <PGMidiDelegate, PGMidiSourceDelegate>
+
+// called when new connections are made
+@property (assign, nonatomic) id<MidiConnectionDelegate> delegate;
 
 // enabled midi in/out?
 @property (getter=isEnabled, nonatomic) BOOL enabled;
@@ -26,8 +29,13 @@
 // enable Core Midi networking session
 @property (getter=isNetworkEnabled, nonatomic) BOOL networkEnabled;
 
-@property (strong, nonatomic) PGMidi *midi; // underlying pgmidi object
-@property (assign, nonatomic) id<MidiConnectionDelegate> delegate;
+// enable virtual connections
+@property (getter=isVirtualInputEnabled, nonatomic) BOOL virtualInputEnabled;
+@property (getter=isVirtualOutputEnabled, nonatomic) BOOL virtualOutputEnabled;
+
+// PGMidiSource & PGMidiDestination array acess
+@property (weak, readonly, nonatomic) NSArray *inputs;
+@property (weak, readonly, nonatomic) NSArray *outputs;
 
 // midi input message ignores
 @property bool bIgnoreSysex;

@@ -75,7 +75,6 @@
 	
 	// setup midi
 	self.midi = [[Midi alloc] init];
-	self.midi.networkEnabled = YES;
 	
 	// setup osc
 	self.osc = [[Osc alloc] init];

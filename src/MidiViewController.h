@@ -17,8 +17,12 @@
 
 @property (weak, nonatomic) IBOutlet UISwitch *midiEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *networkMidiEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *virtualInputEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *virtualOutputEnabledSwitch;
 
 - (IBAction)enableMidi:(id)sender;
 - (IBAction)enableNetworkMidi:(id)sender;
+- (IBAction)enableVirtualInput:(id)sender;
+- (IBAction)enableVirtualOutput:(id)sender;
 
 @end

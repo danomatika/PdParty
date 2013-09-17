@@ -53,6 +53,19 @@
     return self;
 }
 
+- (void)reshapeForGui:(Gui *)gui {
+
+	// bounds
+	self.frame = CGRectMake(
+		round(self.originalFrame.origin.x * gui.scaleX),
+		round(self.originalFrame.origin.y * gui.scaleY),
+		round(self.originalFrame.size.width * gui.scaleX),
+		round(self.originalFrame.size.height * gui.scaleY));
+
+	// label
+	[self reshapeLabelForGui:gui];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)type {

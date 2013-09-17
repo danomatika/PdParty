@@ -69,6 +69,8 @@ uint64_t absoluteToNanos(uint64_t time) {
 	NSMutableData *messageIn, *messageOut;	// raw byte buffers
 }
 
+@property (strong, nonatomic) PGMidi *midi; // underlying pgmidi object
+
 - (void)handleMessage:(NSData *)message withDelta:(double)deltatime;
 - (void)sendMessage:(NSData *)message;
 - (void)sendMessage:(NSData *)message toPort:(int)port;
@@ -93,7 +95,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		self.enabled = [defaults boolForKey:@"midiEnabled"];
-		self.networkEnabled = [defaults boolForKey:@"networkMidiEnabled"];
 	}
 	return self;
 }
@@ -105,11 +106,16 @@ uint64_t absoluteToNanos(uint64_t time) {
 		return;
 	}
 	if(!self.midi) {
-		IF_IOS_HAS_COREMIDI (
+		if([PGMidi midiAvailable]) {
+		
 			self.midi = [[PGMidi alloc] init];
 			self.midi.delegate = self;
 			
-			self.networkEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"networkMidiEnabled"];
+			self.midi.networkEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"networkMidiEnabled"];
+			
+			self.midi.virtualEndpointName = @"PdParty Virtual Port";
+			self.midi.virtualSourceEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"virtualMidiInputEnabled"];
+			self.midi.virtualDestinationEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"virtualMidiOutputEnabled"];
 			
 			// autoconnect
 			for(PGMidiSource *source in self.midi.sources) {
@@ -117,9 +123,16 @@ uint64_t absoluteToNanos(uint64_t time) {
 			}
 			[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"midiEnabled"];
 			DDLogVerbose(@"Midi: midi enabled");
-		)
+		}
+		else {
+			DDLogWarn(@"Midi: sorry, your OS version does not support CoreMIDI");
+		}
 	}
 	else {
+		self.midi.delegate = nil;
+		self.midi.networkEnabled = NO;
+		self.midi.virtualSourceEnabled = NO;
+		self.midi.virtualDestinationEnabled = NO;
 		self.midi = nil;
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"midiEnabled"];
 		DDLogVerbose(@"Midi: midi disabled");
@@ -131,14 +144,48 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)setNetworkEnabled:(BOOL)networkEnabled {
+	if(self.midi.networkEnabled == networkEnabled) {
+		return;
+	}
 	self.midi.networkEnabled = networkEnabled;
 	[[NSUserDefaults standardUserDefaults] setBool:self.midi.networkEnabled forKey:@"networkMidiEnabled"];
 	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
-	DDLogVerbose(@"Midi: networking session \"%@\" %@", session.networkName, networkEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isNetworkEnabled {
 	return self.midi.networkEnabled;
+}
+
+- (void)setVirtualInputEnabled:(BOOL)virtualInputEnabled {
+	if(self.midi.virtualSourceEnabled == virtualInputEnabled) {
+		return;
+	}
+	self.midi.virtualSourceEnabled = virtualInputEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:self.midi.virtualSourceEnabled forKey:@"virtualMidiInputEnabled"];
+}
+
+- (BOOL)isVirtualInputEnabled {
+	return self.midi.virtualSourceEnabled;
+}
+
+- (void)setVirtualOutputEnabled:(BOOL)virtualOutputEnabled {
+	if(self.midi.virtualDestinationEnabled == virtualOutputEnabled) {
+		return;
+	}
+	self.midi.virtualDestinationEnabled = virtualOutputEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:self.midi.virtualDestinationEnabled forKey:@"virtualMidiOutputEnabled"];
+}
+
+- (BOOL)isVirtualOutputEnabled {
+	return self.midi.virtualDestinationEnabled;
+}
+
+- (NSArray *)inputs {
+	return self.midi.sources;
+}
+
+- (NSArray *)outputs {
+	return self.midi.destinations;
 }
 
 #pragma mark PGMidiDelegate
@@ -146,30 +193,31 @@ uint64_t absoluteToNanos(uint64_t time) {
 - (void)midi:(PGMidi *)midi sourceAdded:(PGMidiSource *)source {
 	[source addDelegate:self];
 	if(self.delegate) {
-		[self.delegate midiSourceConnectionEvent];
+		[self.delegate midiInputConnectionEvent];
 	}
-	DDLogVerbose(@"Midi: source added: %@", source.name);
+	DDLogVerbose(@"Midi: input added: \"%@\"", source.name);
 }
 
 - (void)midi:(PGMidi *)midi sourceRemoved:(PGMidiSource *)source {
+	[source removeDelegate:self];
 	if(self.delegate) {
-		[self.delegate midiSourceConnectionEvent];
+		[self.delegate midiInputConnectionEvent];
 	}
-	DDLogVerbose(@"Midi: source removed: %@", source.name);
+	DDLogVerbose(@"Midi: input removed: \"%@\"", source.name);
 }
 
 - (void)midi:(PGMidi *)midi destinationAdded:(PGMidiDestination *)destination {
 	if(self.delegate) {
-		[self.delegate midiDestinationConnectionEvent];
+		[self.delegate midiOutputConnectionEvent];
 	}
-	DDLogVerbose(@"Midi: destination added: %@", destination.name);
+	DDLogVerbose(@"Midi: output added: \"%@\"", destination.name);
 }
 
 - (void)midi:(PGMidi *)midi destinationRemoved:(PGMidiDestination *)destination {
 	if(self.delegate) {
-		[self.delegate midiDestinationConnectionEvent];
+		[self.delegate midiOutputConnectionEvent];
 	}
-	DDLogVerbose(@"Midi: destination removed: %@", destination.name);
+	DDLogVerbose(@"Midi: output removed: \"%@\"", destination.name);
 }
 
 #pragma mark PGMidiSourceDelegate
