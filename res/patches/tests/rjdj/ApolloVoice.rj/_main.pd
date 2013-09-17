@@ -1,0 +1,97 @@
+#N canvas 79 460 366 163 10;
+#X declare -path .;
+#X declare -path ../pd;
+#X declare -path ../../pd;
+#N canvas 592 236 588 274 LICENSE 0;
+#X text 57 36 Released under the GNU General Public License ver. 3
+or later. See the file LICENSE.txt for the full text.;
+#X text 79 84 (c) 2010 Dan Wilcox danomatika.com;
+#X restore 258 86 pd LICENSE;
+#X obj 28 104 soundoutput;
+#X obj 258 27 declare -path .;
+#N canvas 0 22 448 215 more_paths 0;
+#X text 27 19 You can add more paths here as well \, like the path
+to soundoutput.pd on your computer etc.;
+#X obj 36 57 declare -path ../pd;
+#X obj 35 79 declare -path ../../pd;
+#X restore 258 55 pd more_paths;
+#N canvas 222 159 390 201 info 0;
+#X text 19 11 A recreation the Nasa Quindar Tones \, most often referred
+to as the "beeps" that were heard during the American Apollo space
+missions to the Moon. These tones were used as Push-To-Talk remote
+transmitter controls used to mute the Mission Control to spacecraft
+uplink radio to avoid annoying the astronauts when the Capcom had nothing
+to say. Although known popularly through media recorded at Mission
+Control \, they were filtered out of the audio stream and never heard
+by the astronauts.;
+#X text 18 146 http://en.wikipedia.org/wiki/Quindar_tones;
+#X text 18 172 Dan Wilcox 2011 danomatika.com;
+#X restore 257 123 pd info;
+#N canvas 579 373 493 515 quindar 0;
+#X obj 191 450 outlet~;
+#X obj 191 325 osc~;
+#X msg 142 221 2525;
+#X text 129 143 intro tone;
+#X text 207 76 Quindar Tones \, see http://en.wikipedia.org/wiki/Quindar_tones
+;
+#X obj 71 143 t b b b;
+#X msg 90 177 1;
+#X obj 280 144 t b b b;
+#X msg 299 183 1;
+#X text 338 142 outro tone;
+#X msg 351 218 2475;
+#X obj 90 221 t a;
+#X obj 299 219 t a;
+#X obj 225 180 delay 250;
+#X obj 16 174 delay 250;
+#X obj 235 324 t a;
+#X obj 149 75 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 149 101 sel 1;
+#X msg 269 358 0;
+#X obj 206 392 line~;
+#X obj 191 419 *~;
+#X msg 16 199 0 5;
+#X msg 225 204 0 5;
+#X obj 269 330 loadbang;
+#X obj 149 -5 r #touch;
+#X obj 149 16 route down up;
+#X msg 149 45 1;
+#X msg 186 45 0;
+#X connect 1 0 20 0;
+#X connect 2 0 1 0;
+#X connect 5 0 14 0;
+#X connect 5 1 6 0;
+#X connect 5 2 2 0;
+#X connect 6 0 11 0;
+#X connect 7 0 13 0;
+#X connect 7 1 8 0;
+#X connect 7 2 10 0;
+#X connect 8 0 12 0;
+#X connect 10 0 1 0;
+#X connect 11 0 15 0;
+#X connect 12 0 15 0;
+#X connect 13 0 22 0;
+#X connect 14 0 21 0;
+#X connect 15 0 19 0;
+#X connect 16 0 17 0;
+#X connect 17 0 5 0;
+#X connect 17 1 7 0;
+#X connect 18 0 19 0;
+#X connect 19 0 20 1;
+#X connect 20 0 0 0;
+#X connect 21 0 11 0;
+#X connect 22 0 12 0;
+#X connect 23 0 18 0;
+#X connect 24 0 25 0;
+#X connect 25 0 26 0;
+#X connect 25 1 27 0;
+#X connect 26 0 16 0;
+#X connect 27 0 16 0;
+#X restore 28 49 pd quindar;
+#X text 22 23 ApolloVoice RjDj Scene - _main.pd;
+#X obj 28 76 *~ 3;
+#X text 70 76 louder;
+#X connect 5 0 7 0;
+#X connect 7 0 1 1;
+#X connect 7 0 1 0;

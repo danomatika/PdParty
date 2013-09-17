@@ -20,6 +20,7 @@
 #pragma mark Connections
 
 @property (weak, nonatomic) IBOutlet UILabel *oscLabel;
+@property (weak, nonatomic) IBOutlet UILabel *midiLabel;
 
 #pragma mark WebServer
 

@@ -1,0 +1,92 @@
+#N canvas 607 187 673 411 10;
+#X obj 86 41 inlet~;
+#X obj 70 411 outlet~;
+#X obj 394 101 inlet;
+#X obj 452 45 loadbang;
+#X msg 452 70 freq 0.8 \, mod 1.8;
+#X floatatom 253 61 5 0 0 0 - - -;
+#X obj 148 186 *~;
+#X obj 166 162 vline~;
+#X msg 167 139 1 10 \, 0 10 \$1;
+#X msg 254 37 250;
+#X obj 254 348 *~;
+#X obj 272 323 vline~;
+#X obj 453 98 u_loader e_repeater-\$1 \$0;
+#X obj 70 390 c_xfade;
+#X msg 115 368 \$1 10;
+#X obj 116 347 r \$0-dry;
+#X obj 393 170 u_dispatch \$0 dry;
+#X obj 393 191 u_dispatch \$0 float;
+#X obj 285 36 r \$0-float;
+#X obj 393 128 u_dispatch \$0 feedback;
+#X obj 339 79 r \$0-feedback;
+#X obj 273 162 pack 200 1;
+#X obj 254 375 delwrite~ \$0-del 1000;
+#X obj 252 195 delread~ \$0-del;
+#X msg 273 299 0 \, \$2 10 \$1;
+#X obj 339 98 min 1;
+#X obj 340 118 max 0;
+#X obj 394 149 u_dispatch \$0 num;
+#X msg 450 371 0 10;
+#X obj 405 258 * 0;
+#X obj 423 217 r \$0-num;
+#X obj 450 351 del;
+#X obj 450 329 t b f;
+#X obj 405 278 moses 1;
+#X obj 264 87 t f f;
+#X obj 422 237 - 1;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 532 19 pd LICENSE-GPL;
+#X connect 0 0 6 0;
+#X connect 0 0 13 1;
+#X connect 2 0 19 0;
+#X connect 3 0 4 0;
+#X connect 4 0 19 0;
+#X connect 5 0 8 0;
+#X connect 5 0 23 0;
+#X connect 5 0 34 0;
+#X connect 6 0 13 0;
+#X connect 6 0 22 0;
+#X connect 7 0 6 1;
+#X connect 8 0 7 0;
+#X connect 9 0 5 0;
+#X connect 10 0 22 0;
+#X connect 11 0 10 1;
+#X connect 13 0 1 0;
+#X connect 14 0 13 2;
+#X connect 15 0 14 0;
+#X connect 16 0 17 0;
+#X connect 18 0 5 0;
+#X connect 19 0 27 0;
+#X connect 20 0 25 0;
+#X connect 21 0 24 0;
+#X connect 23 0 13 0;
+#X connect 23 0 10 0;
+#X connect 24 0 11 0;
+#X connect 25 0 26 0;
+#X connect 26 0 21 1;
+#X connect 27 0 16 0;
+#X connect 28 0 11 0;
+#X connect 29 0 33 0;
+#X connect 30 0 35 0;
+#X connect 31 0 28 0;
+#X connect 32 0 31 0;
+#X connect 32 1 31 1;
+#X connect 33 1 32 0;
+#X connect 34 0 29 0;
+#X connect 34 1 21 0;
+#X connect 35 0 29 1;

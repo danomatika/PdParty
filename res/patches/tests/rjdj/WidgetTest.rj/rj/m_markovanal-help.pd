@@ -1,0 +1,122 @@
+#N canvas 175 58 909 585 10;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 114 141 Summary: analyses a stream of number pairs;
+#X text 114 214 Inlet 0: stream of integer numbers to analyse;
+#X text 114 120 Name: m_markovanal;
+#X text 116 381 Description: m_markovanal analyses a stream of number
+pairs and maps them to histograms describing how often a certain number
+followed another number. It's intended to be used in a first order
+markov chain like the [c_markov] object offers. You can directly connect
+the outlet or [m_markovanal] to the probability inlet of [c_markov]
+and then "dump" the histogramm lists into it.;
+#X text 117 529 Tags: analysis \, markov chain \, number pairs;
+#X text 116 504 Related: c_markov \, u_listdrip;
+#X text 114 234 Inlet 1: dump: dump all histograms to outlet. dump
+<num>: dump histogram of <num> only. reset: reset all histograms. reset
+<num>: reset histogram of <num> only.;
+#X text 114 163 Argument 0: float specifying the range of numbers to
+analyse. [m_markovanal] will record number pairs consisting of numbers
+ranging from 0 to <argument - 1>;
+#X text 114 279 Outlet 0: lists describing a histogram. Each histogram
+starts with a number between 0 and the maximum as specified by the
+object argument minus one \, that then is followed by <max> numbers
+\, which indicate \, how often the respective position was seen following
+the first number in the past. You can directly connect this outlet
+to [c_markov].;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 7 35 pd REFERENCE;
+#X text 7 14 m_markovanal - analyse a stream of number pairs;
+#N canvas 0 0 944 536 using-with-c_markov 0;
+#X msg 320 54 1;
+#X msg 288 54 0;
+#X msg 355 55 2;
+#X obj 310 122 t a;
+#X msg 357 192 0 \, 1 \, 2 \, 3 \, 0 \, 2 \, 1 \,;
+#X obj 357 149 u_cocollect;
+#X msg 431 126 reset;
+#X obj 405 247 t b b;
+#X msg 395 55 3;
+#X obj 363 336 u_cocollect;
+#X msg 363 358 3 2 0 0 0 \, 2 0 2 0 2 \, 1 1 0 2 0 \, 0 0 2 2 0 \,
+;
+#X msg 405 275 dump;
+#X obj 171 330 c_markov 4;
+#X obj 171 274 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 171 362 m_majorscale 60;
+#X obj 171 449 s_rhodey xxx;
+#X obj 171 425 pack 0 0;
+#X obj 170 477 soundoutput;
+#X floatatom 128 359 5 0 0 0 - - -;
+#X floatatom 130 329 5 0 0 0 - - -;
+#X obj 171 300 metro 150;
+#X obj 171 400 makenote 80 100;
+#X obj 310 298 m_markovanal 4;
+#X msg 447 295 reset;
+#X obj 367 172 bng 15 250 50 0 empty empty press_1st 17 7 1 10 -4034
+-1 -1;
+#X obj 405 227 bng 15 250 50 0 empty empty dump_to_markov_chain 17
+7 1 10 -4034 -1 -1;
+#X text 458 334 Histograms;
+#X text 258 27 numbers from 0 to <max - 1>;
+#X text 494 48 This example shows how [m_markovanal] can be used in
+conjunction with c_markov] to generate melodies similar to an existing
+melody.;
+#X connect 0 0 3 0;
+#X connect 1 0 3 0;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 3 0 22 0;
+#X connect 4 0 22 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 1;
+#X connect 7 0 11 0;
+#X connect 7 1 9 1;
+#X connect 8 0 3 0;
+#X connect 9 0 10 0;
+#X connect 11 0 22 1;
+#X connect 12 0 14 0;
+#X connect 12 0 18 0;
+#X connect 13 0 20 0;
+#X connect 14 0 21 0;
+#X connect 15 0 17 0;
+#X connect 15 0 17 1;
+#X connect 16 0 15 0;
+#X connect 19 0 12 0;
+#X connect 20 0 12 0;
+#X connect 21 0 16 0;
+#X connect 21 1 16 1;
+#X connect 22 0 9 0;
+#X connect 22 0 12 1;
+#X connect 23 0 22 1;
+#X connect 24 0 4 0;
+#X connect 25 0 7 0;
+#X restore 487 454 pd using-with-c_markov;
+#X obj 484 300 u_cocollect;
+#X msg 484 323 3 0 0 0 0 \, 2 0 1 0 1 \, 1 0 0 1 0 \, 0 0 1 1 0 \,
+;
+#X obj 484 234 m_markovanal 4;
+#X text 579 299 Histograms;
+#X text 485 434 Example:;
+#X msg 638 99 dump;
+#X msg 484 59 0 \, 1 \, 2 \, 3 \, 0 \, 2 \, 1 \,;
+#X obj 484 36 loadbang;
+#X text 555 35 stream of numbers;
+#X obj 579 205 t a b;
+#X text 692 98 dump all histograms;
+#X msg 638 145 reset;
+#X text 697 144 reset all histograms;
+#X text 700 167 reset histogram 2 only;
+#X msg 638 122 dump 3;
+#X text 692 118 dump histogram 3 only;
+#X msg 638 168 reset 3;
+#X connect 3 0 4 0;
+#X connect 5 0 3 0;
+#X connect 8 0 12 0;
+#X connect 9 0 5 0;
+#X connect 10 0 9 0;
+#X connect 12 0 5 1;
+#X connect 12 1 3 1;
+#X connect 14 0 12 0;
+#X connect 17 0 12 0;
+#X connect 19 0 12 0;

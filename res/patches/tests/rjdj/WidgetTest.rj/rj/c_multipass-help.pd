@@ -1,0 +1,242 @@
+#N canvas 110 59 1044 528 10;
+#N canvas 195 34 889 568 random-drums 0;
+#X obj 70 302 s_drumelectro;
+#X obj 70 112 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 71 368 soundoutput;
+#X floatatom 83 154 5 0 0 0 - - -;
+#X obj 281 396 s \$0-hit;
+#X obj 281 324 r \$0-tick;
+#X msg 281 349 \$1 sn 200;
+#X obj 355 323 loadbang;
+#X obj 501 398 s \$0-hit;
+#X obj 501 326 r \$0-tick;
+#X obj 575 325 loadbang;
+#X msg 575 350 0 0 0 0 0 0 50 0;
+#X obj 494 263 s \$0-hit;
+#X obj 494 191 r \$0-tick;
+#X obj 568 190 loadbang;
+#X msg 568 215 0 60;
+#X obj 70 181 s \$0-tick;
+#X obj 70 237 r \$0-hit;
+#X obj 258 396 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 481 398 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 472 264 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 325 166 s \$0-hit;
+#X obj 325 94 r \$0-tick;
+#X obj 399 93 loadbang;
+#X obj 303 167 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 325 119 \$1 bd;
+#X obj 327 265 s \$0-hit;
+#X obj 327 193 r \$0-tick;
+#X obj 401 192 loadbang;
+#X obj 305 266 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 0 0 450 300 show 0;
+#X obj 41 39 inlet;
+#X obj 186 36 inlet;
+#X obj 41 124 outlet;
+#X msg 186 76 set;
+#X obj 41 59 list prepend set;
+#X obj 41 83 list trim;
+#X connect 0 0 4 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 5 0 2 0;
+#X restore 79 258 pd show;
+#X msg 79 280 hh 400;
+#X msg 401 217 0 0 90 0;
+#X msg 355 348 0 0 20 0 90 0 0 0;
+#X obj 70 131 c_multimetro 8 150;
+#X obj 71 327 e_softclip;
+#X obj 193 86 loadbang;
+#X msg 193 110 140 100;
+#X msg 501 351 \$1 cp 100;
+#X msg 399 118 100 0 10 5;
+#X text 72 36 A slightly randomized drum sequencer;
+#X obj 325 143 c_multipass;
+#X obj 281 373 c_multipass;
+#X obj 501 375 c_multipass;
+#X obj 494 240 c_multipass;
+#X obj 327 242 c_multipass;
+#X msg 327 218 \$1 hh 400;
+#X msg 494 215 \$1 oh 200;
+#X connect 0 0 35 0;
+#X connect 1 0 34 0;
+#X connect 5 0 6 0;
+#X connect 6 0 42 0;
+#X connect 7 0 33 0;
+#X connect 9 0 38 0;
+#X connect 10 0 11 0;
+#X connect 11 0 43 1;
+#X connect 13 0 47 0;
+#X connect 14 0 15 0;
+#X connect 15 0 44 1;
+#X connect 17 0 0 0;
+#X connect 17 0 30 0;
+#X connect 22 0 25 0;
+#X connect 23 0 39 0;
+#X connect 25 0 41 0;
+#X connect 27 0 46 0;
+#X connect 28 0 32 0;
+#X connect 30 0 31 0;
+#X connect 32 0 45 1;
+#X connect 33 0 42 1;
+#X connect 34 0 3 0;
+#X connect 34 0 16 0;
+#X connect 35 0 2 0;
+#X connect 35 0 2 1;
+#X connect 36 0 37 0;
+#X connect 37 0 34 2;
+#X connect 38 0 43 0;
+#X connect 39 0 41 1;
+#X connect 41 0 21 0;
+#X connect 41 0 24 0;
+#X connect 42 0 4 0;
+#X connect 42 0 18 0;
+#X connect 43 0 8 0;
+#X connect 43 0 19 0;
+#X connect 44 0 12 0;
+#X connect 44 0 20 0;
+#X connect 45 0 26 0;
+#X connect 45 0 29 0;
+#X connect 46 0 45 0;
+#X connect 47 0 44 0;
+#X restore 794 34 pd random-drums;
+#N canvas 335 108 706 495 graphical-example 0;
+#X obj 164 217 loadbang;
+#X obj 90 154 max;
+#X obj 90 175 until;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-test 4 float 2;
+#X coords 0 100 4 0 200 140 1;
+#X restore 349 171 graph;
+#X obj 90 331 tabread \$0-test;
+#X obj 90 390 tabwrite \$0-test;
+#X obj 90 295 t f f;
+#X obj 214 155 s \$0-test;
+#X msg 214 129 const 0;
+#X obj 90 360 + 0.1;
+#X msg 90 244 \$1 \$1;
+#X msg 164 242 100 40 20 90;
+#X msg 90 129 200;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-prob 4 float 0;
+#X coords 0 100 3 0 200 140 1;
+#X restore 349 171 graph;
+#X obj 187 269 list prepend 0;
+#X obj 187 290 s \$0-prob;
+#X text 219 107 reset;
+#X obj 90 198 f 0;
+#X obj 123 199 + 1;
+#X obj 90 220 mod 4;
+#X text 62 19 Each time you press the 200 \, the numbers 0 \, 1 \,
+2 \, 3 get sent as pairs into the c_multipass object and are passed
+according to the probabilities stored inside.;
+#X text 68 69 See how the grand total approaches the probability curve.
+;
+#X obj 90 267 c_multipass;
+#X connect 0 0 11 0;
+#X connect 1 0 2 0;
+#X connect 2 0 17 0;
+#X connect 4 0 9 0;
+#X connect 6 0 4 0;
+#X connect 6 1 5 1;
+#X connect 8 0 7 0;
+#X connect 9 0 5 0;
+#X connect 10 0 22 0;
+#X connect 11 0 14 0;
+#X connect 11 0 22 1;
+#X connect 12 0 1 0;
+#X connect 14 0 15 0;
+#X connect 17 0 19 0;
+#X connect 18 0 17 1;
+#X connect 19 0 18 0;
+#X connect 19 0 10 0;
+#X connect 22 0 6 0;
+#X restore 794 59 pd graphical-example;
+#X obj 478 152 c_multipass;
+#X msg 552 126 100 0 50;
+#X obj 478 185 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 552 101 loadbang;
+#X text 632 96 Pass messages starting with 0 with a probability of
+100 percent \, messages starting with 1 are never passed (prob=0%)
+and messages starting with 3 are passed half of the time (prob=50%).
+;
+#X msg 478 31 0;
+#X text 514 30 passes with 100%;
+#X msg 478 56 1;
+#X text 514 52 passes with 0%;
+#X msg 478 81 2;
+#X text 514 74 passes with 50%;
+#X text 516 259 passes with 100%;
+#X text 516 281 passes with 0%;
+#X text 516 303 passes with 50%;
+#X msg 480 260 3;
+#X msg 480 285 4;
+#X msg 480 310 5;
+#X text 473 211 Actually all messages whose first element modulo the
+list length is 0 \, 1 or 2 are passed accordingly. So in the example
+this applies \, too:;
+#X text 700 259 passes with 100%;
+#X msg 664 260 6;
+#X msg 829 259 9;
+#X text 674 298 and so on.;
+#X obj 519 454 c_multipass;
+#X obj 609 390 loadbang;
+#X floatatom 519 479 5 0 0 0 - - -;
+#X floatatom 519 390 5 0 0 0 - - -;
+#X floatatom 478 390 5 0 0 0 - - -;
+#X msg 478 412 0 \$1;
+#X msg 519 412 1 \$1;
+#X floatatom 558 390 5 0 0 0 - - -;
+#X msg 558 412 2 \$1;
+#X msg 609 415 100 10 0;
+#X msg 615 454 seed 10000;
+#X text 470 342 If you send lists to the object \, the first element
+is split off \, the rest is passed through (or not ...);
+#X text 865 258 also passes with 100%;
+#X text 728 454 Also see:;
+#X obj 805 454 c_pass;
+#X text 9 6 c_multipass - passes messages with probability lookup;
+#N canvas 550 144 695 621 REFERENCE 0;
+#X text 114 121 Name: c_multipass;
+#X text 114 148 Summary: passes messages with probability lookup;
+#X text 114 175 Inlet 0: message to pass (or not). The first item selects
+the probability to use \, and it's split off the message when passed
+to the outlet.;
+#X text 114 228 Inlet 1: float list: set the probability table \, seed
+<num>: seed random number generator;
+#X text 114 268 Outlet 0: Incoming list with first element removed
+\, if messaged has passed.;
+#X text 114 308 Description: [c_multipass] lets a message pass according
+to a probability percentage set as a list through the last inlet. The
+first message in that list gives the probability for messages starting
+with 0 \, the second is for messages starting with 1 and so on. 100
+% passes always \, 0 percent passes never. The outcome is the incoming
+list with its first element split off.;
+#X text 116 427 Tags: random \, sequencing;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 14 30 pd REFERENCE;
+#X connect 2 0 4 0;
+#X connect 3 0 2 1;
+#X connect 5 0 3 0;
+#X connect 7 0 2 0;
+#X connect 9 0 2 0;
+#X connect 11 0 2 0;
+#X connect 24 0 26 0;
+#X connect 25 0 33 0;
+#X connect 27 0 30 0;
+#X connect 28 0 29 0;
+#X connect 29 0 24 0;
+#X connect 30 0 24 0;
+#X connect 31 0 32 0;
+#X connect 32 0 24 0;
+#X connect 33 0 24 1;
+#X connect 34 0 24 1;

@@ -1,0 +1,39 @@
+#N canvas 0 22 450 300 10;
+#X obj 85 207 outlet~;
+#X obj 218 215 outlet~;
+#X obj 88 29 inlet;
+#X obj 86 141 makefilename %s-1;
+#X obj 219 142 makefilename %s-2;
+#X obj 85 113 symbol;
+#X obj 217 117 symbol;
+#X obj 245 34 inlet;
+#X obj 323 218 outlet;
+#X obj 86 162 s_fplaytable \$1;
+#X obj 218 163 s_fplaytable \$1;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 312 29 pd LICENSE-GPL;
+#X connect 2 0 5 0;
+#X connect 2 0 6 0;
+#X connect 3 0 9 0;
+#X connect 4 0 10 0;
+#X connect 5 0 3 0;
+#X connect 6 0 4 0;
+#X connect 7 0 9 1;
+#X connect 7 0 10 1;
+#X connect 9 0 0 0;
+#X connect 10 0 1 0;
+#X connect 10 1 8 0;

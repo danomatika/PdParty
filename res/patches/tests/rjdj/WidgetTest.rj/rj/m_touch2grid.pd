@@ -1,0 +1,96 @@
+#N canvas 291 28 895 506 10;
+#X obj 102 107 inlet;
+#X obj 102 458 outlet;
+#X obj 257 109 inlet;
+#X obj 239 460 outlet;
+#X obj 427 105 inlet;
+#X obj 480 104 u_loader m_touch2grid-\$1 \$0;
+#X obj 427 166 u_dispatch \$0 xdiv;
+#X obj 427 187 u_dispatch \$0 ydiv;
+#X obj 702 158 loadbang;
+#X obj 150 180 r \$0-xdiv;
+#X obj 305 182 r \$0-ydiv;
+#X msg 702 224 xdiv \$1 \, ydiv \$2;
+#X obj 447 136 r \$0-init;
+#X obj 702 245 s \$0-init;
+#X obj 305 219 f \$3;
+#X obj 702 195 pack \$2 \$3;
+#X obj 427 206 u_dispatch \$0 div;
+#X obj 631 157 r \$0-div;
+#X obj 257 319 int;
+#X obj 102 321 int;
+#X obj 305 266 / 320;
+#X obj 257 294 *;
+#X obj 150 266 / 320;
+#X obj 102 294 *;
+#X obj 150 219 f \$2;
+#X obj 327 437 +;
+#X obj 345 389 *;
+#X obj 327 460 outlet;
+#X obj 257 340 t a a;
+#X obj 427 227 u_dispatch \$0 xmax;
+#X obj 427 248 u_dispatch \$0 ymax;
+#X obj 343 240 t b a;
+#X obj 343 218 r \$0-ymax;
+#X obj 187 239 t b a;
+#X obj 187 218 r \$0-xmax;
+#X text 536 390 0 1 2 3;
+#X text 535 408 4 5 6 7;
+#X text 535 427 8 9 10 11;
+#X text 620 406 for a 4x3 grid;
+#X text 383 460 index (0=upper left \, xdiv*ydiv-1 = lower right);
+#X obj 102 346 t a b a;
+#X obj 239 435 f;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 502 59 pd LICENSE-GPL;
+#X connect 0 0 23 0;
+#X connect 2 0 21 0;
+#X connect 4 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 16 0;
+#X connect 8 0 15 0;
+#X connect 9 0 24 0;
+#X connect 10 0 14 0;
+#X connect 11 0 13 0;
+#X connect 12 0 6 0;
+#X connect 14 0 20 0;
+#X connect 15 0 11 0;
+#X connect 16 0 29 0;
+#X connect 17 0 11 0;
+#X connect 18 0 28 0;
+#X connect 19 0 40 0;
+#X connect 20 0 21 1;
+#X connect 21 0 18 0;
+#X connect 22 0 23 1;
+#X connect 23 0 19 0;
+#X connect 24 0 22 0;
+#X connect 24 0 26 1;
+#X connect 25 0 27 0;
+#X connect 26 0 25 1;
+#X connect 28 0 41 1;
+#X connect 28 1 26 0;
+#X connect 29 0 30 0;
+#X connect 31 0 20 0;
+#X connect 31 1 20 1;
+#X connect 32 0 31 0;
+#X connect 33 0 22 0;
+#X connect 33 1 22 1;
+#X connect 34 0 33 0;
+#X connect 40 0 1 0;
+#X connect 40 1 41 0;
+#X connect 40 2 25 0;
+#X connect 41 0 3 0;

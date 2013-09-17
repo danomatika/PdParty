@@ -1,0 +1,60 @@
+#N canvas 66 26 941 539 10;
+#X obj 641 156 / 127;
+#X obj 532 91 t a b;
+#X msg 532 69 80;
+#X obj 532 134 makenote 100 400;
+#X obj 641 182 t a a;
+#X floatatom 586 110 5 0 0 2 velocity - -;
+#X floatatom 704 89 5 0 0 1 A - -;
+#X floatatom 735 114 5 0 0 1 D - -;
+#X floatatom 767 142 5 0 0 1 S(%) - -;
+#X floatatom 799 167 5 0 0 1 R - -;
+#X msg 490 320 0.307087 9 \, 0.184252 55 \, 0 200 \,;
+#X msg 578 293 reset;
+#X obj 641 238 line 0 10;
+#X obj 644 273 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 641 210 c_madsr 1 80 100 60 200;
+#N canvas 359 81 803 624 REFERENCE 0;
+#X text 115 178 Argument 0: peak level;
+#X text 115 200 Argument 1: attack time (msec);
+#X text 115 222 Argument 2: decay time (msec);
+#X text 115 244 Argument 3: sustain level in percent!;
+#X text 115 266 Argument 4: release time (msec);
+#X text 115 343 Inlet 1: peak level;
+#X text 115 365 Inlet 2: attack time (msec);
+#X text 115 387 Inlet 3: decay time (msec);
+#X text 115 409 Inlet 4: sustain level in percent!;
+#X text 115 431 Inlet 5: release time (msec);
+#X text 116 295 Inlet 0: trigger float. Positive triggers start attack
+and decay from the current level. Zero triggers release \, negative
+triggers cause a jump to zero before attacking.;
+#X text 114 143 Summary: ADSR envelope generator for messages;
+#X text 116 471 Description: This is a generator for message rate ADSR
+envelopes following the classical Miller S. Puckette linear ADSR envelope
+design. It is designed to be used with an additional [line] object.
+;
+#X text 117 449 Outlet 0: timed <target \, delay> pairs for [line]
+;
+#X text 114 121 Name: c_madsr;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 17 34 pd REFERENCE;
+#X text 14 9 c_madsr - ADSR envelope generator for messages;
+#X obj 490 293 u_cocollect;
+#X connect 0 0 4 0;
+#X connect 1 0 3 0;
+#X connect 1 1 17 1;
+#X connect 2 0 1 0;
+#X connect 3 1 0 0;
+#X connect 4 0 14 0;
+#X connect 4 1 14 1;
+#X connect 5 0 3 1;
+#X connect 6 0 14 2;
+#X connect 7 0 14 3;
+#X connect 8 0 14 4;
+#X connect 9 0 14 5;
+#X connect 11 0 17 1;
+#X connect 12 0 13 0;
+#X connect 14 0 12 0;
+#X connect 14 0 17 0;
+#X connect 17 0 10 0;

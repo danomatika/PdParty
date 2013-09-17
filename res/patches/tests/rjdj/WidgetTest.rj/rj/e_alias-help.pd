@@ -1,0 +1,45 @@
+#N canvas 132 46 774 557 10;
+#X obj 471 81 osc~ 220;
+#X obj 470 104 *~ 0.5;
+#X floatatom 565 58 5 0 0 0 - - -;
+#X obj 470 208 soundoutput;
+#X obj 470 140 e_alias name 4;
+#X msg 565 77 alias \$1;
+#X obj 612 202 tabwrite~ \$0-scope;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-scope 441 float 2;
+#X coords 0 1 441 -1 200 140 1;
+#X restore 468 274 graph;
+#X obj 612 180 metro 100;
+#X obj 612 161 tgl 15 0 empty empty scope 17 7 1 10 -262144 -1 -1 0
+1;
+#X msg 577 118 dry \$1;
+#X floatatom 577 101 5 0 0 1 dry_wet - -;
+#X text 7 14 e_alias - distort by reducing the sample rate to generate
+aliasing;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 114 121 Name: e_alias;
+#X text 114 141 Summary: distort by reducing the sample rate to generate
+aliasing;
+#X text 114 174 Argument 0: name for state saving (required);
+#X text 114 194 Argument 1: aliasing factor (optional);
+#X text 114 214 Inlet 0: audio signal to distort;
+#X text 114 267 Outlet 0: alias-distorted audio signal.;
+#X text 112 301 Description: distorts any audio signal by reducing
+the sample rate to generate aliasing.;
+#X text 122 529 Tags: distortion \, effect;
+#X text 114 234 Inlet 1: alias <factor>: set aliasing. dry <amount>:
+regulat dry/wet mix \, default 0 which is fully wet.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X connect 0 0 1 0;
+#X connect 1 0 4 0;
+#X connect 2 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 0 3 1;
+#X connect 4 0 6 0;
+#X connect 5 0 4 1;
+#X connect 8 0 6 0;
+#X connect 9 0 8 0;
+#X connect 10 0 4 1;
+#X connect 11 0 10 0;

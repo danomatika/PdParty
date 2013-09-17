@@ -12,24 +12,27 @@
  */
 #import "PGMidi.h"
 
+// midi connection event delegate
+@protocol MidiConnectionDelegate <NSObject>
+- (void)midiSourceConnectionEvent; // a source has been added or removed
+- (void)midiDestinationConnectionEvent; // a destination has been added or removed
+@end
+
 @interface Midi : NSObject <PGMidiDelegate, PGMidiSourceDelegate>
 
-// enable Core Midi networking session
-@property (assign, getter=isNetworkEnabled, nonatomic) BOOL networkEnabled;
+// enabled midi in/out?
+@property (getter=isEnabled, nonatomic) BOOL enabled;
 
-// source / destination hot plugging
-- (void)midi:(PGMidi *)midi sourceAdded:(PGMidiSource *)source;
-- (void)midi:(PGMidi *)midi sourceRemoved:(PGMidiSource *)source;
-- (void)midi:(PGMidi *)midi destinationAdded:(PGMidiDestination *)destination;
-- (void)midi:(PGMidi *)midi destinationRemoved:(PGMidiDestination *)destination;
+// enable Core Midi networking session
+@property (getter=isNetworkEnabled, nonatomic) BOOL networkEnabled;
+
+@property (strong, nonatomic) PGMidi *midi; // underlying pgmidi object
+@property (assign, nonatomic) id<MidiConnectionDelegate> delegate;
 
 // midi input message ignores
 @property bool bIgnoreSysex;
 @property bool bIgnoreTiming;
 @property bool bIgnoreSense;
-
-// receiving
-- (void)midiSource:(PGMidiSource *)input midiReceived:(const MIDIPacketList *)packetList;
 
 // sending
 - (void)sendNoteOn:(int)channel pitch:(int)pitch velocity:(int)velocity;

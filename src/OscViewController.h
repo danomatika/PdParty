@@ -10,9 +10,7 @@
  */
 #import <UIKit/UIKit.h>
 
-@class Osc;
-
-// start page view
+// osc settings view
 @interface OscViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet UISwitch *connectionEnabledSwitch;

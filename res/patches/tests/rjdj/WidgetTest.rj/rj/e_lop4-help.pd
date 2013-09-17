@@ -1,0 +1,31 @@
+#N canvas 345 214 853 531 10;
+#X obj 559 123 noise~;
+#X obj 559 253 soundoutput;
+#X obj 625 140 mtof;
+#X floatatom 625 119 5 0 0 2 pitch - -;
+#X floatatom 674 120 5 0 0 2 Q - -;
+#X obj 558 220 *~ 0.2;
+#X obj 559 178 e_lop4 1000 2;
+#N canvas 123 90 709 698 REFERENCE 0;
+#X text 114 214 Inlet 0: audio signal to distort;
+#X text 114 234 Inlet 1: cutoff frequency in Hz;
+#X text 114 174 Argument 0: cutoff frequency in Hz;
+#X text 113 250 Inlet 2: Q;
+#X text 114 194 Argument 1: Q;
+#X text 115 268 Outlet 0: filtered audio signal.;
+#X text 122 529 Tags: filter \, lowpass \, resonance \, pole;
+#X text 114 121 Name: e_lop4;
+#X text 114 141 Summary: 4-pole resonant lowpass filter with Q inlet
+;
+#X text 112 301 Description: Lowpass filter with four poles and Q inlet
+for resonance. Nasty.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 9 40 pd REFERENCE;
+#X text 7 14 e_lop4 - 4-pole resonant lowpass filter with Q inlet;
+#X connect 0 0 6 0;
+#X connect 2 0 6 1;
+#X connect 3 0 2 0;
+#X connect 4 0 6 2;
+#X connect 5 0 1 0;
+#X connect 5 0 1 1;
+#X connect 6 0 5 0;

@@ -1,0 +1,14 @@
+#N canvas 363 399 572 344 10;
+#X obj 80 184 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 68 134 Inlet: 0/1 to switch off or on. Default is on. Switch
+it off to save some CPU cycles.;
+#X obj 80 207 m_accel_status;
+#X text 47 32 m_accel_status - detect accelerometer (de)activity;
+#X text 65 69 On iPod \, iPhone \, ... the accelerometer sensor can
+switch itself off during sleep. m_accel_status will report this with
+a 0 \, and will send a 1 if the sensor is switched on again.;
+#X obj 80 236 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X connect 0 0 2 0;
+#X connect 2 0 5 0;

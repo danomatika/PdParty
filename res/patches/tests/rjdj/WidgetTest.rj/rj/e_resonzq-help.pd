@@ -1,0 +1,112 @@
+#N canvas 36 6 1030 631 10;
+#X obj 308 159 mtof;
+#X floatatom 308 139 5 0 0 2 fc - -;
+#X floatatom 358 138 5 1 5000 2 Q - -;
+#X obj 222 244 *~ 0;
+#X obj 256 244 tgl 15 0 empty empty osc 17 7 1 10 -262144 -1 -1 0 1
+;
+#X obj 221 218 osc~;
+#X obj 221 196 + 0;
+#X obj 221 171 t b a;
+#X floatatom 221 152 5 0 0 2 detune - -;
+#X obj 48 245 *~ 0;
+#X obj 82 245 tgl 15 0 empty empty noise 17 7 1 10 -262144 -1 -1 1
+1;
+#X obj 47 170 noise~;
+#X obj 120 203 vline~;
+#N canvas 0 0 450 300 spektrum 0;
+#N canvas 424 123 538 363 fft 0;
+#X obj 19 62 inlet~;
+#X obj 85 214 inlet;
+#X obj 19 92 rfft~;
+#X obj 19 125 *~;
+#X obj 50 125 *~;
+#X obj 19 155 sqrt~;
+#X obj 332 109 block~ 4096 1;
+#X obj 19 181 biquad~ 0 0 0 0 1;
+#X text 83 93 Fourier series;
+#X text 88 146 magnitude;
+#X text 86 131 calculate;
+#X text 21 3 This subpatch computes the spectrum of the incoming signal
+with a (rectangular windowed) FFT. FFTs aren't properly introduced
+until much later.;
+#X text 83 62 signal to analyze;
+#X text 182 166 delay two samples;
+#X text 181 182 for better graphing;
+#X text 135 216 "bang" into this inlet to graph it;
+#X obj 85 248 tabwrite~ \$0-spectrum;
+#X connect 0 0 2 0;
+#X connect 1 0 16 0;
+#X connect 2 0 3 0;
+#X connect 2 0 3 1;
+#X connect 2 1 4 0;
+#X connect 2 1 4 1;
+#X connect 3 0 5 0;
+#X connect 4 0 5 0;
+#X connect 5 0 7 0;
+#X connect 7 0 16 0;
+#X restore 51 259 pd fft;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-spectrum 128 float 0;
+#X coords 0 4300 127 -40 200 100 1;
+#X restore 142 126 graph;
+#X obj 116 210 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 116 237 metro 200;
+#X obj 51 230 inlet~;
+#X connect 2 0 3 0;
+#X connect 3 0 0 1;
+#X connect 4 0 0 0;
+#X coords 0 -1 1 1 250 130 1 100 100;
+#X restore 289 398 pd spektrum;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-scope 512 float 2;
+#X coords 0 1 511 -1 200 140 1;
+#X restore 546 395 graph;
+#X obj 47 336 tgl 15 0 empty empty scope 17 7 1 10 -262144 -1 -1 1
+1;
+#X obj 47 421 tabwrite~ \$0-scope;
+#X obj 47 363 metro 40;
+#X floatatom 308 187 5 0 0 0 - - -;
+#X msg 120 171 1 \, 0 0 0.1;
+#X obj 494 209 hradio 15 1 0 3 empty empty no/peak/power_normalization
+0 -8 1 10 -262144 -1 -1 1;
+#X obj 223 335 e_resonzq 2000 20 2;
+#X obj 150 474 soundoutput;
+#X text 28 21 e_resonzq;
+#X text 70 46 2-pole resonant bandpass filter.;
+#X text 69 73 Peak gain normalized resonator with Q (Csound's "resonz"
+opcode with Q instead of Bandwith inlet.);
+#X text 524 43 Notes on normalization:;
+#X text 409 337 Arguments: <center freq> <Q> <normalization method>
+;
+#X text 544 133 2: power normalization. Use this on white noise or
+impulses. It's louder than peak norm.;
+#X text 543 65 0: no normalization. ACHTUNG: This results in very loud
+output!!!;
+#X text 544 98 1: peak normalization. Use this on pitched input like
+sine waves.;
+#X connect 0 0 6 0;
+#X connect 0 0 18 0;
+#X connect 1 0 0 0;
+#X connect 2 0 21 2;
+#X connect 3 0 21 0;
+#X connect 4 0 3 1;
+#X connect 5 0 3 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 0;
+#X connect 7 1 6 1;
+#X connect 8 0 7 0;
+#X connect 9 0 21 0;
+#X connect 10 0 9 1;
+#X connect 11 0 9 0;
+#X connect 12 0 21 0;
+#X connect 15 0 17 0;
+#X connect 17 0 16 0;
+#X connect 18 0 21 1;
+#X connect 19 0 12 0;
+#X connect 20 0 21 3;
+#X connect 21 0 13 0;
+#X connect 21 0 16 0;
+#X connect 21 0 22 0;
+#X connect 21 0 22 1;

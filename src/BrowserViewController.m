@@ -26,7 +26,7 @@
 	CGPoint savedScrollPos;
 }
 
-@property (strong, readwrite) NSMutableArray *pathArray; // table view path
+@property (strong, readwrite) NSMutableArray *pathArray; // table view paths
 @property (strong, readwrite) NSString *currentDir; // current directory path
 @property (assign, readwrite) int currentDirLevel;
 

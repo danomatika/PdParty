@@ -1,0 +1,2 @@
+a_breath - breath controller that analyses the mic input volume
+a_onset - detect onsets in an audio signal

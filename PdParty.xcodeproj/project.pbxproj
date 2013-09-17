@@ -25,6 +25,7 @@
 		30245657173582340016583B /* pipelist.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245646173582340016583B /* pipelist.c */; };
 		30245658173582340016583B /* routeOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245647173582340016583B /* routeOSC.c */; };
 		30245659173582340016583B /* unpackOSC.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245648173582340016583B /* unpackOSC.c */; };
+		302E896017E668340004B935 /* MidiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302E895F17E668320004B935 /* MidiViewController.m */; };
 		303BD3001756A119000FBEB5 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD2FF1756A119000FBEB5 /* Scene.m */; };
 		303BD30417570070000FBEB5 /* DroidScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD30317570070000FBEB5 /* DroidScene.m */; };
 		303BD307175702AF000FBEB5 /* PartyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD306175702AF000FBEB5 /* PartyScene.m */; };
@@ -256,6 +257,8 @@
 		30245646173582340016583B /* pipelist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pipelist.c; sourceTree = "<group>"; };
 		30245647173582340016583B /* routeOSC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = routeOSC.c; sourceTree = "<group>"; };
 		30245648173582340016583B /* unpackOSC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unpackOSC.c; sourceTree = "<group>"; };
+		302E895E17E668300004B935 /* MidiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MidiViewController.h; path = src/MidiViewController.h; sourceTree = "<group>"; };
+		302E895F17E668320004B935 /* MidiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MidiViewController.m; path = src/MidiViewController.m; sourceTree = "<group>"; };
 		303BD2FE17569FE2000FBEB5 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		303BD2FF1756A119000FBEB5 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
 		303BD3011756A6E2000FBEB5 /* AllScenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllScenes.h; sourceTree = "<group>"; };
@@ -992,6 +995,8 @@
 				30774FA417E2A7A70060C5C6 /* ControlsView.h */,
 				30774FA517E2A7A80060C5C6 /* ControlsView.m */,
 				30ABE2E516B5D0FB00464926 /* main.m */,
+				302E895E17E668300004B935 /* MidiViewController.h */,
+				302E895F17E668320004B935 /* MidiViewController.m */,
 				30F7A19516C008A400DE265F /* BrowserViewController.h */,
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
 				30F5281A17D02E7A004736A6 /* NowPlayingTableViewController.h */,
@@ -1669,6 +1674,7 @@
 				30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */,
 				30B01DEB17E374800052F26F /* Log.m in Sources */,
 				30B01DEE17E3C2170052F26F /* UIPopoverController+iPhone.m in Sources */,
+				302E896017E668340004B935 /* MidiViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

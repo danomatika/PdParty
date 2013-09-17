@@ -1,0 +1,59 @@
+#N canvas 268 205 755 533 10;
+#X obj 128 230 g_showimage some.jpg 200 100;
+#X obj 128 185 tgl 15 0 empty empty show/hide 17 7 1 10 -262144 -1
+-1 0 1;
+#X msg 321 116 pos \$1 \$2;
+#X floatatom 321 70 5 0 0 0 - - -;
+#X floatatom 367 69 5 0 0 0 - - -;
+#N canvas 0 0 450 300 pack 0;
+#X obj 110 108 inlet;
+#X obj 153 107 inlet;
+#X obj 153 133 t b a;
+#X obj 110 168 pack 0 0;
+#X obj 110 194 outlet;
+#X connect 0 0 3 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 1 3 1;
+#X connect 3 0 4 0;
+#X restore 321 92 pd pack;
+#X text 403 116 set default position;
+#X floatatom 337 140 5 0 0 0 - - -;
+#X floatatom 383 139 5 0 0 0 - - -;
+#N canvas 0 0 450 300 pack 0;
+#X obj 110 108 inlet;
+#X obj 153 107 inlet;
+#X obj 153 133 t b a;
+#X obj 110 168 pack 0 0;
+#X obj 110 194 outlet;
+#X connect 0 0 3 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 1 3 1;
+#X connect 3 0 4 0;
+#X restore 337 162 pd pack;
+#X msg 337 186 move \$1 \$2;
+#X text 419 186 set default position and show;
+#X obj 342 229 g_tgl show;
+#X msg 425 235 show \$1;
+#X text 490 236 show and hide (like 1st inlet;
+#X text 53 31 g_showimage - show an image on the touchscreen;
+#X text 117 274 As default the image is hidden!;
+#X text 78 308 When specifiying the filename \, you should use a patch
+relative to the location of [g_showimage].;
+#X obj 106 416 g_showimage ../images/myimage.jpg 200 100;
+#X text 77 356 For example if you have g_showimage.pd in a directory
+"SCENE_DIR/rj" and your images in "SCENE_DIR/img" you should use this:
+;
+#X text 83 458 rj_image currently ignores anything you [declare] :(
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 1;
+#X connect 3 0 5 0;
+#X connect 4 0 5 1;
+#X connect 5 0 2 0;
+#X connect 7 0 9 0;
+#X connect 8 0 9 1;
+#X connect 9 0 10 0;
+#X connect 10 0 0 1;
+#X connect 12 0 0 1;

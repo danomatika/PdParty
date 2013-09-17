@@ -1,0 +1,135 @@
+#N canvas 25 103 972 527 10;
+#X obj 554 57 tgl 15 0 empty empty on/off 17 7 1 10 -262144 -1 -1 0
+1;
+#X floatatom 554 232 5 0 0 0 - - -;
+#X floatatom 619 144 5 0 0 2 length - -;
+#X floatatom 684 146 5 0 0 2 period - -;
+#X obj 554 284 timer;
+#X obj 554 307 list prepend;
+#X obj 554 259 t b b a;
+#X msg 554 360;
+#X msg 554 333 set \$1 \$2;
+#X msg 745 148 200 300 400 150;
+#X msg 514 332 set;
+#X msg 479 142 set 3;
+#X msg 572 153 bang;
+#X msg 574 175 stop;
+#X obj 554 201 c_multimetro 16 125;
+#X obj 549 430 tgl 15 0 empty empty on/off 17 7 1 10 -262144 -1 -1
+0 1;
+#X floatatom 549 469 5 0 0 0 - - -;
+#X obj 549 448 c_multimetro 0 125;
+#X text 546 392 If you set the pattern length to 0 \, the counter will
+not be bounded and grow constanly:;
+#X msg 567 112 hold \$1;
+#X obj 567 85 tgl 15 0 empty empty hold 17 7 1 10 -262144 -1 -1 0 1
+;
+#X obj 514 247 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 272 171 591 481 swing-it 0;
+#X obj 219 272 + 1;
+#X obj 186 272 * 1;
+#X obj 303 292 * 1;
+#X obj 323 246 swap 1;
+#X obj 323 270 -;
+#X obj 263 153 t b a b a;
+#X obj 186 335 pack 0 0;
+#X obj 186 180 t a a;
+#X obj 263 133 / 100;
+#X floatatom 263 113 5 0 0 1 swing-percentage - -;
+#N canvas 0 0 450 300 show 0;
+#X obj 41 39 inlet;
+#X obj 186 36 inlet;
+#X obj 41 124 outlet;
+#X msg 186 76 set;
+#X obj 41 59 list prepend set;
+#X obj 41 83 list trim;
+#X connect 0 0 4 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 5 0 2 0;
+#X restore 205 366 pd show;
+#X msg 205 386 135 115;
+#X obj 186 132 m_bpm2ms;
+#X floatatom 186 112 5 0 0 0 bpm - -;
+#X obj 186 154 / 4;
+#X obj 186 424 outlet;
+#X text 86 27 This example shows how you can delay each second beat
+by a fraction of the beat duration \, while still keeping the overall
+tempo the same.;
+#X text 85 79 Great for house music.;
+#X connect 0 0 1 1;
+#X connect 1 0 6 0;
+#X connect 2 0 6 1;
+#X connect 3 0 4 0;
+#X connect 3 1 4 1;
+#X connect 4 0 2 1;
+#X connect 5 0 1 0;
+#X connect 5 1 0 0;
+#X connect 5 2 2 0;
+#X connect 5 3 3 0;
+#X connect 6 0 10 0;
+#X connect 6 0 15 0;
+#X connect 7 0 1 0;
+#X connect 7 1 2 0;
+#X connect 8 0 5 0;
+#X connect 9 0 8 0;
+#X connect 10 0 11 0;
+#X connect 12 0 14 0;
+#X connect 13 0 12 0;
+#X connect 14 0 7 0;
+#X restore 707 202 pd swing-it;
+#X text 709 220 swing beats inside;
+#N canvas 550 144 695 621 REFERENCE 0;
+#X text 114 121 Name: c_multimetro;
+#X text 114 141 Summary: variable period metro with counter inside
+;
+#X text 114 161 Argument 0: pattern length. If length is 0 \, then
+the counter is unbounded.;
+#X text 114 194 Argument 1: single period;
+#X text 114 214 Inlet 0: 0/1 rsp. bang/stop for start/stop of metro.
+"set POS" message to set the internal counter. "hold 0/1" message to
+pause counting \, so that the same number is send all the time.;
+#X text 114 273 Inlet 1: pattern length. If length is 0 \, then the
+counter is unrestricted.;
+#X text 114 306 Inlet 2: (list of) periods \, will be cycled.;
+#X text 114 326 Outlet 0: beat number.;
+#X text 122 529 Tags: metro \, timebase \, messages;
+#X text 116 356 Description: c_multimetro is a metro that also includes
+a counter. The counter step is sent to the outlet. The counter is a
+modulo-counter \, of the first argument "pattern length" is larger
+than 0 \, otherwise the counter is unrestricted. c_multimetro supports
+irregular beats by sending a list with more than one number to the
+second inlet.;
+#X text 118 457 A period list like "200 300 400 150" is interpreted
+as: duration of beat0==200 \, duration of beat1=300 \, duration of
+beat2=400 \, duration of beat3=150 and so on for beat([modulo pattern
+length] modulo period list-length).;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 21 35 pd REFERENCE;
+#X text 19 10 c_multimetro - variable period metro with counter inside.
+;
+#X text 747 125 period lists;
+#X connect 0 0 14 0;
+#X connect 1 0 6 0;
+#X connect 2 0 14 1;
+#X connect 3 0 14 2;
+#X connect 4 0 5 0;
+#X connect 5 0 8 0;
+#X connect 6 0 4 0;
+#X connect 6 1 4 1;
+#X connect 6 2 5 1;
+#X connect 8 0 7 0;
+#X connect 9 0 14 2;
+#X connect 10 0 7 0;
+#X connect 11 0 14 0;
+#X connect 12 0 14 0;
+#X connect 13 0 14 0;
+#X connect 14 0 1 0;
+#X connect 14 0 21 0;
+#X connect 15 0 17 0;
+#X connect 17 0 16 0;
+#X connect 19 0 14 0;
+#X connect 20 0 19 0;
+#X connect 22 0 14 2;

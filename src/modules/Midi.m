@@ -69,8 +69,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 	NSMutableData *messageIn, *messageOut;	// raw byte buffers
 }
 
-@property (nonatomic, strong) PGMidi *midi;
-
 - (void)handleMessage:(NSData *)message withDelta:(double)deltatime;
 - (void)sendMessage:(NSData *)message;
 - (void)sendMessage:(NSData *)message toPort:(int)port;
@@ -80,32 +78,61 @@ uint64_t absoluteToNanos(uint64_t time) {
 @implementation Midi
 
 - (id)init {
-	IF_IOS_HAS_COREMIDI (
-		self = [super init];
-		if(self) {
-			PGMidi *pgmidi = [[PGMidi alloc] init];
-			pgmidi.delegate = self;
-			self.midi = pgmidi;
-			
-			lastTime = 0;
-			bFirstPacket = true;
-			bContinueSysex = false;
-			messageIn = [[NSMutableData alloc] init];
-			messageOut = [[NSMutableData alloc] init];
-			
-			self.bIgnoreSense = YES;
-			self.bIgnoreSysex = NO;
-			self.bIgnoreTiming = YES;
-		}
-		return self;
-	)
-	return nil;
+	self = [super init];
+	if(self) {
+		
+		lastTime = 0;
+		bFirstPacket = true;
+		bContinueSysex = false;
+		messageIn = [[NSMutableData alloc] init];
+		messageOut = [[NSMutableData alloc] init];
+		
+		self.bIgnoreSense = YES;
+		self.bIgnoreSysex = NO;
+		self.bIgnoreTiming = YES;
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		self.enabled = [defaults boolForKey:@"midiEnabled"];
+		self.networkEnabled = [defaults boolForKey:@"networkMidiEnabled"];
+	}
+	return self;
 }
 
 #pragma mark Overridden Getters / Setters
 
+- (void)setEnabled:(BOOL)enabled {
+	if((BOOL)self.midi == enabled) {
+		return;
+	}
+	if(!self.midi) {
+		IF_IOS_HAS_COREMIDI (
+			self.midi = [[PGMidi alloc] init];
+			self.midi.delegate = self;
+			
+			self.networkEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"networkMidiEnabled"];
+			
+			// autoconnect
+			for(PGMidiSource *source in self.midi.sources) {
+				[source addDelegate:self];
+			}
+			[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"midiEnabled"];
+			DDLogVerbose(@"Midi: midi enabled");
+		)
+	}
+	else {
+		self.midi = nil;
+		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"midiEnabled"];
+		DDLogVerbose(@"Midi: midi disabled");
+	}
+}
+
+- (BOOL)isEnabled {
+	return self.midi;
+}
+
 - (void)setNetworkEnabled:(BOOL)networkEnabled {
 	self.midi.networkEnabled = networkEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:self.midi.networkEnabled forKey:@"networkMidiEnabled"];
 	MIDINetworkSession* session = [MIDINetworkSession defaultSession];
 	DDLogVerbose(@"Midi: networking session \"%@\" %@", session.networkName, networkEnabled ? @"enabled" : @"disabled");
 }
@@ -114,37 +141,34 @@ uint64_t absoluteToNanos(uint64_t time) {
 	return self.midi.networkEnabled;
 }
 
-- (void)setMidi:(PGMidi *)newMidi {
-
-    self.midi.delegate = nil;
-    for(PGMidiSource *source in self.midi.sources) {
-		[source removeDelegate:nil];
-	}
-
-    _midi = newMidi;
-
-    self.midi.delegate = self;
-    for(PGMidiSource *source in self.midi.sources) {
-		[source addDelegate:self];
-	}
-}
-
 #pragma mark PGMidiDelegate
 
 - (void)midi:(PGMidi *)midi sourceAdded:(PGMidiSource *)source {
 	[source addDelegate:self];
+	if(self.delegate) {
+		[self.delegate midiSourceConnectionEvent];
+	}
 	DDLogVerbose(@"Midi: source added: %@", source.name);
 }
 
 - (void)midi:(PGMidi *)midi sourceRemoved:(PGMidiSource *)source {
+	if(self.delegate) {
+		[self.delegate midiSourceConnectionEvent];
+	}
 	DDLogVerbose(@"Midi: source removed: %@", source.name);
 }
 
 - (void)midi:(PGMidi *)midi destinationAdded:(PGMidiDestination *)destination {
+	if(self.delegate) {
+		[self.delegate midiDestinationConnectionEvent];
+	}
 	DDLogVerbose(@"Midi: destination added: %@", destination.name);
 }
 
 - (void)midi:(PGMidi *)midi destinationRemoved:(PGMidiDestination *)destination {
+	if(self.delegate) {
+		[self.delegate midiDestinationConnectionEvent];
+	}
 	DDLogVerbose(@"Midi: destination removed: %@", destination.name);
 }
 

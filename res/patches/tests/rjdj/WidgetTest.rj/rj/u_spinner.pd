@@ -1,0 +1,85 @@
+#N canvas 256 175 900 519 10;
+#X obj 83 29 inlet;
+#X obj 269 29 inlet;
+#X obj 342 29 u_loader u_spinner-\$1 \$0;
+#X obj 269 115 u_dispatch \$0 items;
+#X obj 142 322 r \$0-items;
+#N canvas 0 0 691 471 lookup 0;
+#X obj 332 168 list;
+#X msg 148 176 set \, adddollar \$1;
+#X obj 116 259 outlet;
+#X obj 357 139 inlet;
+#X obj 84 46 inlet;
+#X obj 116 120 moses;
+#X obj 148 142 + 1;
+#X msg 116 154 set;
+#X msg 116 227 \$4;
+#X obj 84 73 t b a;
+#X connect 0 0 8 0;
+#X connect 1 0 8 0;
+#X connect 3 0 0 1;
+#X connect 4 0 9 0;
+#X connect 5 0 7 0;
+#X connect 5 1 6 0;
+#X connect 6 0 1 0;
+#X connect 7 0 8 0;
+#X connect 8 0 2 0;
+#X connect 9 0 0 0;
+#X connect 9 1 5 0;
+#X restore 82 348 pd lookup;
+#X obj 82 235 +;
+#X obj 82 278 clip 0 7;
+#X obj 82 405 outlet;
+#X obj 82 371 list;
+#X obj 159 256 list length;
+#X obj 159 277 - 1;
+#X obj 159 231 r \$0-items;
+#X obj 269 90 u_dispatch \$0 resolution;
+#X text 452 90 how many steps to count before activating the next item
+;
+#X text 453 114 list of items to choose;
+#X obj 122 80 r \$0-resolution;
+#X msg 297 62 resolution 10 \, items a b c d e;
+#X obj 83 102 div 10;
+#X obj 83 125 change;
+#X obj 83 152 t f f;
+#X obj 82 177 -;
+#X obj 230 408 outlet;
+#X obj 82 304 t a a;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 662 39 pd LICENSE-GPL;
+#X connect 0 0 18 0;
+#X connect 1 0 13 0;
+#X connect 4 0 5 1;
+#X connect 5 0 9 0;
+#X connect 6 0 7 0;
+#X connect 7 0 6 1;
+#X connect 7 0 23 0;
+#X connect 9 0 8 0;
+#X connect 10 0 11 0;
+#X connect 11 0 7 2;
+#X connect 12 0 10 0;
+#X connect 13 0 3 0;
+#X connect 16 0 18 1;
+#X connect 17 0 13 0;
+#X connect 18 0 19 0;
+#X connect 19 0 20 0;
+#X connect 20 0 21 1;
+#X connect 20 1 21 0;
+#X connect 21 0 6 0;
+#X connect 23 0 5 0;
+#X connect 23 1 22 0;

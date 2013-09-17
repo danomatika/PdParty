@@ -1,0 +1,50 @@
+#N canvas 79 5 1028 562 10;
+#X floatatom 601 297 5 0 0 0 - - -;
+#X msg 601 371;
+#X msg 601 121 bang;
+#X msg 661 321 bang;
+#X floatatom 618 148 5 0 0 0 - - -;
+#X obj 601 274 c_drunk;
+#X msg 737 162 5 10 2;
+#X msg 662 170 set \$1;
+#X floatatom 662 147 5 0 0 0 - - -;
+#X obj 601 346 u_collect;
+#X text 694 282 default 128 2;
+#X text 693 268 args set initial bound and maximum stepsize;
+#X floatatom 735 223 5 0 0 2 bound - -;
+#X floatatom 790 222 5 0 0 2 max_stepsize - -;
+#X msg 514 118 seed 1234;
+#N canvas -12 63 820 742 REFERENCE 0;
+#X text 114 121 Name: c_drunk;
+#X text 114 143 Summary: output random numbers bound to a range (random
+walk);
+#X text 113 231 Inlet 0: bang \, set <float> \, float \, list \, seed
+<float>;
+#X text 113 253 Inlet 1: float to set bound;
+#X text 113 275 Inlet 2: float to set stepsize;
+#X text 111 362 "bang" trigger output of next value;
+#X text 111 384 "set <float>" set next value without triggering output
+;
+#X text 111 406 "float" set next value and trigger output;
+#X text 111 428 "list" is distributed among the three inlets;
+#X text 117 448 "seed <float>" seed the random number generators.;
+#X text 114 315 Description: c_drunk generates a random walk bound
+to a settable range and with a setable maximum stepsize.;
+#X text 114 200 Argument 1: maximum stepsize (default 2);
+#X text 115 178 Argument 0: initial bound (default 128);
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 38 73 pd REFERENCE;
+#X text 56 19 c_drunk - output random numbers bound to a range (random
+walk);
+#X connect 0 0 9 0;
+#X connect 2 0 5 0;
+#X connect 3 0 9 1;
+#X connect 4 0 5 0;
+#X connect 5 0 0 0;
+#X connect 6 0 5 0;
+#X connect 7 0 5 0;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 12 0 5 1;
+#X connect 13 0 5 2;
+#X connect 14 0 5 0;

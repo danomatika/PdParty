@@ -1,0 +1,31 @@
+#N canvas 345 167 585 508 10;
+#X obj 392 196 m_bpm2ms;
+#X floatatom 109 325 5 0 0 0 - - -;
+#X floatatom 109 380 5 0 0 0 - - -;
+#X text 316 197 also see:;
+#X text 33 41 m_beat2ms - convert beats to durations in milliseconds
+;
+#X text 62 139 Inlet 1: BPM;
+#X obj 109 351 m_beat2ms 120;
+#X obj 109 181 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 2;
+#X floatatom 197 321 5 0 0 0 bpm - -;
+#X msg 197 282 180;
+#X msg 235 282 120;
+#X obj 126 249 swap 1;
+#X obj 126 277 /;
+#X obj 126 224 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 2;
+#X text 61 76 Argument: BPM (optional);
+#X text 120 115 "1" means one beat i.e. a quarter note.;
+#X text 63 98 Inlet 0: number of beats to convert.;
+#X connect 1 0 6 0;
+#X connect 6 0 2 0;
+#X connect 7 0 1 0;
+#X connect 8 0 6 1;
+#X connect 9 0 8 0;
+#X connect 10 0 8 0;
+#X connect 11 0 12 0;
+#X connect 11 1 12 1;
+#X connect 12 0 1 0;
+#X connect 13 0 11 0;

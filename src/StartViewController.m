@@ -46,6 +46,13 @@
 	else {
 		self.oscLabel.text = @"OSC: Disabled";
 	}
+	if(app.midi.isEnabled) {
+		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%d) Out(%d)",
+			app.midi.midi.sources.count, app.midi.midi.destinations.count];
+	}
+	else {
+		self.midiLabel.text = @"MIDI: Disabled";
+	}
 	
 	[super viewWillAppear:animated];
 }
@@ -122,7 +129,7 @@
 // http://stackoverflow.com/questions/1547497/change-uitableview-section-header-footer-while-running-the-app?rq=1
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
 	switch(section) {
-		case 2:
+		case 1:
 			if(self.server.isRunning) {
 				return [NSString stringWithFormat:@"Connect to http://%@.local:%d\n  or http://%@:%d",
 					self.server.hostName, self.server.port, [WebServer wifiInterfaceAddress], self.server.port];

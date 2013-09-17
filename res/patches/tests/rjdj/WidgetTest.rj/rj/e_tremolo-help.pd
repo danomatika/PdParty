@@ -1,0 +1,14 @@
+#N canvas 0 22 629 347 10;
+#X obj 157 118 e_tremolo mtrem;
+#X obj 158 78 osc~ 440;
+#X obj 156 159 soundoutput;
+#X msg 268 74 freq 10;
+#X msg 277 95 dry 0.5;
+#X text 372 58 a simple tremolo effect;
+#X text 39 10 e_tremolo <name> inlets: inlet 0: input signal inlet
+1: message <freq> <dry>;
+#X connect 0 0 2 0;
+#X connect 0 0 2 1;
+#X connect 1 0 0 0;
+#X connect 3 0 0 1;
+#X connect 4 0 0 1;

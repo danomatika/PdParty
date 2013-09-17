@@ -1,0 +1,49 @@
+#N canvas 728 203 519 432 10;
+#X obj 86 33 inlet;
+#X obj 275 52 inlet;
+#X obj 151 352 outlet;
+#X obj 169 268 outlet;
+#X obj 326 250 list prepend;
+#X obj 405 220 t a;
+#X obj 86 58 route bang;
+#X obj 86 83 b;
+#X obj 151 84 t b a;
+#X obj 151 124 list;
+#X obj 275 111 select 0;
+#X obj 326 133 b;
+#X obj 326 209 list;
+#X obj 169 244 t a a;
+#X obj 151 317 list;
+#X obj 151 155 t b a b b b;
+#X obj 169 215 u_listdrip;
+#N canvas 228 198 627 317 LICENSE-BSD 0;
+#X text 121 56 This software is copyrighted by Miller Puckette \, Reality
+Jockey Ltd. and others. The terms (the "Standard Improved BSD License")
+apply to all files associated with the software unless explicitly disclaimed
+in individual files.;
+#X text 123 148 See the file LICENSE.txt for the full license text.
+;
+#X restore 403 40 pd LICENSE-BSD;
+#X connect 0 0 6 0;
+#X connect 1 0 10 0;
+#X connect 4 0 5 0;
+#X connect 4 0 14 1;
+#X connect 5 0 4 1;
+#X connect 6 0 7 0;
+#X connect 6 1 8 0;
+#X connect 7 0 9 0;
+#X connect 8 0 9 0;
+#X connect 8 1 9 1;
+#X connect 9 0 15 0;
+#X connect 10 1 11 0;
+#X connect 11 0 12 0;
+#X connect 12 0 4 0;
+#X connect 13 0 3 0;
+#X connect 13 1 12 1;
+#X connect 14 0 2 0;
+#X connect 15 0 14 0;
+#X connect 15 1 16 0;
+#X connect 15 2 14 1;
+#X connect 15 3 4 1;
+#X connect 15 4 12 1;
+#X connect 16 0 13 0;

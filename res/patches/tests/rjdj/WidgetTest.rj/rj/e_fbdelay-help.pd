@@ -1,0 +1,110 @@
+#N canvas 66 126 1088 544 10;
+#N canvas 129 294 659 624 REFERENCE 0;
+#X text 114 174 Argument 0: name for state saving (required);
+#X text 114 141 Summary: feedback delay line with lowpass filtered
+feedback path;
+#X text 114 121 Name: e_fbdelay;
+#X text 114 214 Inlet 0: audio signal to delay;
+#X text 114 234 Inlet 1: audio signal to set delay time;
+#X text 114 352 Outlet 0: feedback-delayed audio signal;
+#X text 114 254 Inlet 2: messages. feedback <float>: set feedback level.
+lpfreq <float>: set lowpass filter freq. delay <float>: set delay time
+in ms. delayfreq <float>: set delay time as frequency in Hz. dry <float>:
+dry/wet balance \, default 0=all wet. input <float>: set input signal
+level (def: 1). itime <float>: set interpolation duration of delay
+time changes (def: 10);
+#X text 111 529 Tags: delay \, effect \, karplus-strong \, feedback
+\, resonator;
+#X text 114 194 Argument 1: max delay time in milliseconds (required)
+;
+#X text 114 372 Description: This mono feedback delay line delays a
+signal \, passes it through a lowpass filter \, attenuates it and then
+sends it back to the delay line. Can be used as a resonator as in a
+Karplus-Strong guitar. Delay times can be set with an audio signal
+into the middle inlet or set through the last inlet where they will
+be added to the delay of the audio delay inlet. Delay times can be
+set either in milliseconds or as frequency values \, which makes the
+fbdelay tunable.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 7 45 pd REFERENCE;
+#X text 7 14 e_fbdelay - feedback delay line with lowpass filtered
+feedback path.;
+#X obj 481 147 vline~;
+#X obj 499 169 noise~;
+#X obj 480 191 *~;
+#X obj 478 414 soundoutput;
+#X obj 479 357 e_fbdelay mydelay 2000;
+#X msg 630 297 feedback \$1;
+#X obj 630 243 / 100;
+#X obj 630 137 vsl 15 100 0 100 0 0 empty empty feedback 0 -9 1 10
+-262144 -1 -1 9900 1;
+#X obj 553 319 sig~ 0;
+#X obj 481 84 bng 24 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1;
+#X msg 481 111 0.8 10 \, 0 20 10;
+#X obj 877 141 vsl 15 100 0 2000 0 0 empty empty delay_time(ms) 0 -9
+1 10 -262144 -1 -1 0 1;
+#X msg 877 297 delay \$1;
+#X floatatom 884 250 8 0 0 0 - - -;
+#X floatatom 647 267 5 0 0 0 - - -;
+#X obj 953 113 vsl 15 128 0 127 0 0 empty empty delay_frequency 0 -9
+1 10 -262144 -1 -1 2400 1;
+#X msg 953 297 delayfreq \$1;
+#X obj 953 247 mtof;
+#X floatatom 991 250 5 0 0 1 pitch - -;
+#X obj 717 105 vsl 15 128 0 127 0 0 empty empty lowpass_cutoff_fr.
+0 -9 1 10 -262144 -1 -1 10600 1;
+#X obj 717 239 mtof;
+#X floatatom 731 267 8 0 0 0 - - -;
+#X msg 717 297 lpfreq \$1;
+#X obj 953 317 s \$0-trigger;
+#X obj 481 44 r \$0-trigger;
+#X obj 481 64 bang;
+#X obj 553 213 vsl 15 100 0 2000 0 0 empty empty delay_time(ms) -10
+-9 1 10 -262144 -1 -1 0 1;
+#X floatatom 969 277 8 0 0 1 freq - -;
+#X obj 670 362 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 667 380 5 0 0 0 - - -;
+#X msg 667 397 dry \$1;
+#X text 667 416 default is dry=0 i.e. fully wet;
+#X msg 798 297 input \$1;
+#X obj 798 243 / 100;
+#X obj 798 137 vsl 15 100 0 100 0 0 empty empty inputlevel 0 -9 1 10
+-262144 -1 -1 0 1;
+#X floatatom 815 267 5 0 0 0 - - -;
+#X connect 2 0 4 0;
+#X connect 3 0 4 1;
+#X connect 4 0 6 0;
+#X connect 6 0 5 0;
+#X connect 6 0 5 1;
+#X connect 7 0 6 2;
+#X connect 8 0 7 0;
+#X connect 8 0 16 0;
+#X connect 9 0 8 0;
+#X connect 10 0 6 1;
+#X connect 11 0 12 0;
+#X connect 12 0 2 0;
+#X connect 13 0 14 0;
+#X connect 13 0 15 0;
+#X connect 14 0 6 2;
+#X connect 17 0 19 0;
+#X connect 17 0 20 0;
+#X connect 18 0 6 2;
+#X connect 18 0 25 0;
+#X connect 19 0 18 0;
+#X connect 19 0 29 0;
+#X connect 21 0 22 0;
+#X connect 22 0 24 0;
+#X connect 22 0 23 0;
+#X connect 24 0 6 2;
+#X connect 26 0 27 0;
+#X connect 27 0 11 0;
+#X connect 28 0 10 0;
+#X connect 30 0 31 0;
+#X connect 31 0 32 0;
+#X connect 32 0 6 2;
+#X connect 34 0 6 2;
+#X connect 35 0 37 0;
+#X connect 35 0 34 0;
+#X connect 36 0 35 0;
