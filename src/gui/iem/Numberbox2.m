@@ -124,6 +124,8 @@
 	CGContextAddLineToPoint(context, rect.size.height/2, rect.size.height/2);
 	CGContextAddLineToPoint(context, 1, rect.size.height-1);
 	CGContextStrokePath(context);
+	
+	CGPathRelease(path);
 }
 
 - (void)reshapeForGui:(Gui *)gui {

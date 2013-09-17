@@ -55,6 +55,8 @@
 	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
 	CGContextAddPath(context, path);
 	CGContextStrokePath(context);
+	
+	CGPathRelease(path);
 }
 
 - (void)reshapeForGui:(Gui *)gui {

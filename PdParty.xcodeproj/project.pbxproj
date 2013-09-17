@@ -1468,7 +1468,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    ./Crashlytics.framework/run 733ae8127473bb6b805cb36a50ab9aaf6cbdcc4f\nfi";
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    ./libs/Crashlytics.framework/run 733ae8127473bb6b805cb36a50ab9aaf6cbdcc4f\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
