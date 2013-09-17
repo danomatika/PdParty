@@ -29,6 +29,13 @@
 
 - (IBAction)oscEventTypeChanged:(id)sender;
 
+#pragma mark Audio Latency
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *ticksPerBufferSegmentedControl;
+@property (weak, nonatomic) IBOutlet UILabel *latencyLabel;
+
+- (IBAction)ticksPerBufferChanged:(id)sender;
+
 #pragma mark Default Folders
 
 @property (weak, nonatomic) IBOutlet UIButton *libFolderButton;

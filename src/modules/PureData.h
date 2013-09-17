@@ -65,6 +65,18 @@
 // new sample rate ignored if it is equal to the current samplerate
 @property (nonatomic) int sampleRate;
 
+// setting the ticks per buffer sets the buffer size / audio latency
+// range is 1 - 32, 16 by default
+@property (nonatomic) int ticksPerBuffer;
+
+// calculate the buffer size based on pd's block size:
+// buffer size = ticks per buffer * block size (64)
+- (int)calculateBufferSize;
+
+// calculate the latency: (buffer size / samplerate) * 2
+// 4 tpb * 64 = 256, latency = (256 / 44100) * 2 = 11.6 ms
+- (float)calculateLatency; // ms
+
 #pragma mark Current Play Values
 
 // only has effect when [soundoutput] is used

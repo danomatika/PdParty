@@ -43,6 +43,7 @@
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
 		self.sampleRate = PARTY_SAMPLERATE;
+		self.ticksPerBuffer = [[NSUserDefaults standardUserDefaults] integerForKey:@"ticksPerBuffer"];
 		if(ddLogLevel >= LOG_LEVEL_VERBOSE) {
 			[audioController print];
 		}
@@ -65,6 +66,14 @@
 		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"]];
 	}
 	return self;
+}
+
+- (int)calculateBufferSize {
+	return audioController.ticksPerBuffer * [PdBase getBlockSize];
+}
+
+- (float)calculateLatency {
+	return ((float)[self calculateBufferSize] / (float)audioController.sampleRate) * 2.0 * 1000;
 }
 
 #pragma mark Current Play Values
@@ -239,7 +248,35 @@
 	else {
 		DDLogVerbose(@"PureData: sampleRate now %d", audioController.sampleRate);
 	}
+	
+	[audioController configureTicksPerBuffer:2];
+	DDLogVerbose(@"PureData: ticks per buffer: %d", audioController.ticksPerBuffer);
 	audioController.active = YES;
+}
+
+- (int)ticksPerBuffer {
+	return audioController.ticksPerBuffer;
+}
+
+- (void)setTicksPerBuffer:(int)ticksPerBuffer {
+	if(audioController.ticksPerBuffer == ticksPerBuffer) return;
+	
+	if(ticksPerBuffer <= 0 || ticksPerBuffer > 32) {
+		DDLogWarn(@"PureData: ignoring obviously bad ticks per buffer: %d", ticksPerBuffer);
+		return;
+	}
+
+	PdAudioStatus status = [audioController configureTicksPerBuffer:ticksPerBuffer];
+	if(status == PdAudioError) {
+		DDLogError(@"PureData: could not set ticks per buffer");
+	}
+	else if(status == PdAudioPropertyChanged) {
+		DDLogWarn(@"PureData: the ticks per buffer value was not accceptable");
+	}
+	else {
+		[[NSUserDefaults standardUserDefaults] setInteger:ticksPerBuffer forKey:@"ticksPerBuffer"];
+		DDLogVerbose(@"PureData: ticks per buffer now %d", audioController.ticksPerBuffer);
+	}
 }
 
 - (BOOL)isAudioEnabled {

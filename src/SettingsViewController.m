@@ -15,6 +15,7 @@
 
 @interface SettingsViewController () {
 	AppDelegate *app;
+	NSArray *ticksPerBufferValues;
 }
 @end
 
@@ -31,6 +32,18 @@
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
 	self.oscKeyEnabledSwitch.on = app.osc.keySendingEnabled;
 	self.oscPrintEnabledSwitch.on = app.osc.printSendingEnabled;
+	
+	ticksPerBufferValues = [NSArray arrayWithObjects:
+		[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:4],
+		[NSNumber numberWithInt:8], [NSNumber numberWithInt:16], [NSNumber numberWithInt:32], nil];
+	for(int i = ticksPerBufferValues.count-1; i > 0; --i) {
+		NSNumber *value = [ticksPerBufferValues objectAtIndex:i];
+		if(app.pureData.ticksPerBuffer >= [value intValue]) {
+			self.ticksPerBufferSegmentedControl.selectedSegmentIndex = i;
+			break;
+		}
+	}
+	self.latencyLabel.text = [NSString stringWithFormat:@"%.1f ms", [app.pureData calculateLatency]];
 	
 	self.libFolderSpinner.hidden = YES;
 	self.samplesFolderSpinner.hidden = YES;
@@ -75,6 +88,15 @@
 	else if(sender == self.oscPrintEnabledSwitch) {
 		app.osc.printSendingEnabled = self.oscPrintEnabledSwitch.isOn;
 	}
+}
+
+#pragma mark Audio Latency
+
+- (IBAction)ticksPerBufferChanged:(id)sender {
+	// get value from array
+	int index = self.ticksPerBufferSegmentedControl.selectedSegmentIndex;
+	app.pureData.ticksPerBuffer = [[ticksPerBufferValues objectAtIndex:index] integerValue];
+	self.latencyLabel.text = [NSString stringWithFormat:@"%.1f ms", [app.pureData calculateLatency]];
 }
 
 #pragma mark Default Folders

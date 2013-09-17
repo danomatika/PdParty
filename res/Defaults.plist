@@ -6,6 +6,10 @@
 	<integer>15</integer>
 	<key>firstRun</key>
 	<true/>
+	<key>lockScreenDisabled</key>
+	<false/>
+	<key>runsInBackground</key>
+	<false/>
 	<key>accelSendingEnabled</key>
 	<false/>
 	<key>touchSendingEnabled</key>
@@ -14,6 +18,8 @@
 	<false/>
 	<key>printSendingEnabled</key>
 	<false/>
+	<key>ticksPerBuffer</key>
+	<integer>16</integer>
 	<key>oscSendHost</key>
 	<string>127.0.0.1</string>
 	<key>oscSendPort</key>
@@ -26,10 +32,6 @@
 	<integer>8080</integer>
 	<key>micVolume</key>
 	<real>1</real>
-	<key>lockScreenDisabled</key>
-	<false/>
-	<key>runsInBackground</key>
-	<false/>
 	<key>midiEnabled</key>
 	<false/>
 	<key>networkMidiEnabled</key>

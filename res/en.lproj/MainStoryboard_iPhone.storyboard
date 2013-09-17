@@ -663,10 +663,69 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Audio Latency" footerTitle="Lower latencies are more responsive, yet use more CPU time." id="a1B-i8-5GH">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="132" id="cTe-I4-MiK">
+                                        <rect key="frame" x="0.0" y="437" width="320" height="134"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="131"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Buffer Size" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfe-Sm-Sag">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Latency" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="llV-mi-vTk">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5.8 ms" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uLU-Ha-FO9">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="119" id="6TI-YL-LCi"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="JrK-39-flH">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="284" id="gjE-Ve-CYk"/>
+                                                    </constraints>
+                                                    <segments>
+                                                        <segment title="64"/>
+                                                        <segment title="128"/>
+                                                        <segment title="256"/>
+                                                        <segment title="512"/>
+                                                        <segment title="1024"/>
+                                                        <segment title="2048"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="ticksPerBufferChanged:" destination="RNJ-xj-nga" eventType="valueChanged" id="rGt-x8-eyb"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="uLU-Ha-FO9" firstAttribute="baseline" secondItem="llV-mi-vTk" secondAttribute="baseline" type="default" id="5hY-Yh-wvr"/>
+                                            <constraint firstItem="JrK-39-flH" firstAttribute="centerX" secondItem="xfe-Sm-Sag" secondAttribute="centerX" type="default" id="9d3-DU-eQb"/>
+                                            <constraint firstItem="xfe-Sm-Sag" firstAttribute="top" secondItem="cTe-I4-MiK" secondAttribute="top" constant="16" id="LrR-4z-Fgf"/>
+                                            <constraint firstAttribute="bottom" secondItem="llV-mi-vTk" secondAttribute="bottom" constant="12" id="MLC-yE-A5n"/>
+                                            <constraint firstAttribute="trailing" secondItem="uLU-Ha-FO9" secondAttribute="trailing" constant="30" id="aO4-sW-C5j"/>
+                                            <constraint firstItem="JrK-39-flH" firstAttribute="top" secondItem="xfe-Sm-Sag" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="euN-9I-AUe"/>
+                                            <constraint firstItem="JrK-39-flH" firstAttribute="centerX" secondItem="cTe-I4-MiK" secondAttribute="centerX" type="default" id="fnf-Ex-rwY"/>
+                                            <constraint firstItem="llV-mi-vTk" firstAttribute="leading" secondItem="cTe-I4-MiK" secondAttribute="leading" constant="30" id="wVD-np-Wao"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Copy Default Folders" footerTitle="Copy default libs &amp; scenes to the Documents folder. Overwrites contents of existing folders with the same name." id="K55-PK-ECj">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="etW-dl-FRQ">
-                                        <rect key="frame" x="0.0" y="437" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="667" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -711,7 +770,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3Qu-S9-cIv">
-                                        <rect key="frame" x="0.0" y="482" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="712" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -756,7 +815,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="s0g-Eq-PZI">
-                                        <rect key="frame" x="0.0" y="526" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="756" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -811,6 +870,7 @@
                     <navigationItem key="navigationItem" title="Settings" id="rQW-Uu-yxs"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="latencyLabel" destination="uLU-Ha-FO9" id="T7N-Lm-Myr"/>
                         <outlet property="libFolderButton" destination="ynH-bs-kU9" id="kpd-yZ-8gp"/>
                         <outlet property="libFolderSpinner" destination="Jcj-8s-nzA" id="tUX-6R-PbI"/>
                         <outlet property="lockScreenDisabledSwitch" destination="6WX-TF-JRS" id="Cou-Qi-GN6"/>
@@ -823,6 +883,7 @@
                         <outlet property="samplesFolderSpinner" destination="Aa1-gb-jyh" id="FBs-3P-N5B"/>
                         <outlet property="testsFolderButton" destination="2Oh-fK-K8n" id="S7f-SM-pbV"/>
                         <outlet property="testsFolderSpinner" destination="KUo-kY-umg" id="eaj-md-7zg"/>
+                        <outlet property="ticksPerBufferSegmentedControl" destination="JrK-39-flH" id="GJK-fp-sfB"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gVA-Xq-Ofo" userLabel="First Responder" sceneMemberID="firstResponder"/>
