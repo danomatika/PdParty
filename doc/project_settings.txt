@@ -1,7 +1,21 @@
-Headers: libs
+Header Search paths:
+
+libs
+$(SDKROOT)/usr/include/libxml2
+libs/CocoaHTTPServer/Vendor/CocoaAsyncSocket
 
 C Flags: -DPD -DHAVE_UNISTD_H -DUSEAPI_DUMMY
 
-Frameworks: AudioToolbox CoreAudio CoreMidi
+Frameworks:
+
+CoreMIDI
+Security
+MobileCoreServices
+CFNetwork
+libxml2.dylib
+SystemConfiguration
+CoreMotion
+libicucore.dylib
+QuartzCore
 
 Compiler flags for non-Arc libs: -fno-objc-arc
