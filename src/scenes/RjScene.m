@@ -166,10 +166,6 @@
 	return RJ_SAMPLERATE;
 }
 
-- (BOOL)requiresRotation {
-	return NO;
-}
-
 - (BOOL)requiresKeys {
 	return NO;
 }

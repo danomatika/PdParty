@@ -301,7 +301,7 @@ PdParty sends and receives OSC messages internally between the PureData instance
 * **[r #osc-in]**: incoming OSC messages
 * **[s #osc-out]**: outgoing OSC messages
 
-Also, most of these events can also be streamed over OSC, included Pd prints. The receive addresses 
+Also, most of these events can also be streamed over OSC, included Pd prints. The receive addresses are as follows:
 
 * /pdparty/touch
 * /pdparty/accelrate

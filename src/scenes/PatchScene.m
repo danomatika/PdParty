@@ -119,10 +119,6 @@
 	return YES;
 }
 
-- (BOOL)requiresRotation {
-	return YES;
-}
-
 - (BOOL)requiresKeys {
 	return YES;
 }
