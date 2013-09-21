@@ -212,7 +212,7 @@ Patching for PdParty
 
 *Instructions largely borrowed from [PdDroidParty](http://droidparty.net/)*
 
-1. Create a new Pd patch that will contain your GUI objects like sliders, toggles, numberboxes etc. Place your main patch logic inside a subpatch and use the [soundinput] & [soundoutput] [rjlib objects](https://github.com/rjdj/rjlib/tree/master/pd) in place of [adc~] and [dac] (these are required for the on screen volume and recording controls).
+1. Create a new Pd patch that will contain your GUI objects like sliders, toggles, numberboxes etc. Place your main patch logic inside a subpatch and use the [soundinput] & [soundoutput] [rjlib objects](https://github.com/rjdj/rjlib/tree/master/pd) in place of [adc~] and [dac] \(these are required for the on screen volume and recording controls\).
 
 2. PdParty will scale GUI objects to fit the screen of the device. Your patch should have the rough dimensions of a phone/tablet in landscape mode (e.g. 3:2 aspect ratio or e.g. 480x320 should usually work well). If it's not exact it doesn't matter - the GUI elements will be scaled.
 
@@ -277,11 +277,11 @@ All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to
 
 ### PdDroidParty Compatibility
 
-PdParty currently supports the following PdDroidParty abstractions: [numberbox], [wordbutton], [taplist], & [touch]. More advanced abstractions ([loadsave]. [menubang], etc may be added in the future. Custom fonts & SVG widgets/styling are planned, but not an immediate priority and will be saved for a later date. Standalone app support is not planned due to the nature of the iOS AppStore.
+PdParty currently supports the following PdDroidParty abstractions: [numberbox], [wordbutton], [taplist], & [touch]. More advanced abstractions ([loadsave], [menubang], etc) may be added in the future. Custom fonts & SVG widgets/styling are planned, but not an immediate priority.
 
 ### RjDj Compatibility
 
-PdParty support RjDj-style scene directories, backgrounds, and the [rj_image] and [rj_text] objects. The rj externals ([rj_accum], [rj_barkflux_accum~], [rj_centroid~], [rj_senergy~], & [rj_zcr~]) are also included. Currently, scene paging and metadata are not supported.
+PdParty supports RjDj-style scene directories, backgrounds, and the [rj_image] and [rj_text] objects. The rj externals ([rj_accum], [rj_barkflux_accum~], [rj_centroid~], [rj_senergy~], & [rj_zcr~]) are also included. Currently, scene paging and metadata are not supported.
 
 ### Events
 
