@@ -57,7 +57,7 @@ Fast forward a few years and the future of ubiquitous, mobile/wearable computati
 Now I have a stable, low latency mobile/wearable platform with a touchscreen, accelerometer, wifi networking, and usb midi/audio. Here's my belt-based wearable setup using an iPad 2, Camera Connection Kit, powered usb hub, Roland Edirol UA-25 bus-powered usb audio interface, and a Behringer direct box (the latter two are built into the green case on the left):
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/belt_setup/jpg"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/belt_setup.jpg"/>
 </p>
 
 App Layout
@@ -91,9 +91,9 @@ This is also where you can enable the WebDAV server to access the app's Document
 
 This is a simple "drill-down" file browser in the app's Document's folder. Stuff in here is sandboxed between app versions. Simply navigate to patches or scene folders to run them. A "Now Playing" nav button will take you back to the Scene View for the currently playing patch/scene.
 
-It only displays folders and supported file types. Filetype icons will be added in the future.
+It only displays folders and supported file types. File type icons will be added in the future.
 
-You can delete items by swiping right on them to show the delete button. Moving, copying, & renaming files/folders may be added in the future.
+You can delete items by swiping right to show the delete button. Moving, copying, & renaming files/folders may be added in the future.
 
 The default layout is:
 
@@ -102,7 +102,7 @@ The default layout is:
 * **samples**: PdParty example patches and scenes
 * **tests**: internal tests
 
-Feel free to delete samples and tests. **Do not** delete the libs folder as the abstractions inside are required. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions.
+Feel free to delete samples and tests. **Do not delete the libs folder** as the abstractions inside are required. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions.
 
 These default folders can be restored on the Settings screen.
 
@@ -114,7 +114,7 @@ Running a patch/scene launches the Scene View:
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/patch_scene_iPhone.png"/>
 </p>
 
-Gui elements work similarly to those in the Pure Data gui, except now you have multitouch instead of that 10 foot pole called a mouse pointer. Also, Numberboxes can be incrementally scrolled using two fingers. Empty space is used for touch events if the patch/scene type supports them.
+Gui elements work similarly to those in the Pure Data gui, except now you have multitouch instead of the 10 foot pole called a mouse pointer. Also, Numberboxes can be incrementally scrolled using two fingers. Empty space is used for touch events if the patch/scene type supports them.
 
 The desired aspect ratio is inferred from the patch canvas size and the Scene View is automatically rotated. Also, the device orientation is locked depending on if the Scene is in portrait or landscape. The exceptions to this are PdDroidParty scenes which are always landscape:
 
@@ -170,7 +170,7 @@ Enable the OSC server here and update it's settings: ports, host (destination ad
 
 Enable CoreMIDI here and optionally enable Network MIDI with a Mac OSX machine.
 
-the Inputs & Outputs are refreshed when a MIDI device is plugged in/out. Currently, PdParty automatically connects to all detected MIDI devices.
+Inputs & Outputs are refreshed when a MIDI device is plugged in/out. Currently, PdParty automatically connects to all detected MIDI devices.
 
 ### App Settings
 
@@ -187,13 +187,15 @@ the Inputs & Outputs are refreshed when a MIDI device is plugged in/out. Current
 These settings are mainly for live performance reasons where you don't want the device to go to sleep when you're trying to wow your audience. Obviously, keeping the screen on and audio running will drain your battery but in my tests so far it will still last for quite a while.
 
 * Disable lock screen: this disables the lock screen sleep timer and keeps the display on
-* Runs in background: allows the app to continue to run while backgrounded while audio is on (including when screen is locked and display is off)
+* Runs in background: allows the app to continue to run when backgrounded as long as audio dsp is on (including when screen is locked and display is off)
 
 #### OSC Event Forwarding
 
-These are useful options for patch creation & debugging. Basically, you can send accelerometer, touch, and key (requires a usb/bluetooth keyboard) events from the device to your computer while you work on your patch/scene in Pure Data. You can also receive live Pd prints from a running patch/scene in PdParty to make sure everything is working as expected.
+These are useful options for patch creation & debugging. Basically, you can send accelerometer, touch, and key\* events from the device to your computer while you work on your patch/scene in Pure Data. You can also receive live Pd prints from a running patch/scene in PdParty to make sure everything is working as expected.
 
 The OSC server needs to be enabled and a patch/scene must be running in order for events to be streamed.
+
+\* *requires a usb/bluetooth keyboard*
 
 #### Audio Latency
 
@@ -218,27 +220,31 @@ Patching for PdParty
 
 4. All GUI elements should communicate with the main audio patches using send and receive only. You can usually set send and receive for each GUI by right clicking on the object and choosing 'properties' in Pd. Do not directly connect cables to the GUI elements as they won't work. It helps to keep the GUIs on their own in the main patch and have it include the logic of your patch as an abstraction or subpatch containing senders and receivers for interfacing with GUI elements. This is good patch design practice anyway as it is basically a model-view-controller methodology.
 
-5. Copy the patch and/or it's containing directory and any needed abstractions to your iOS device using WebDAV over your local network. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems (for instance, the Mac OSX Finder can mount WebAV server folders: Go->Connect to Server… CMD+K):
+5. Copy the patch and/or it's containing directory and any needed abstractions to your iOS device using HTTP over your local network. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems\*.
+ 
+6. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
+
+\* for instance, the Mac OSX Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/finder_connect_to_server.png"/>
 </p>
 
-6. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
-
 ### Scenes
 
-PdParty also supports running "scenes" which are basically folders with a specific layout that are treated as a single entity:
+PdParty also supports running "scenes" which are basically folders with a specific layout that are treated as a single entity for encapsulation and have certain event attributes:
 
 * RjDj scenes:
   * a folder that ends in *.rj that contains a _main.pd
   * an optional background Image.jpg which must have a square aspect ratio
+  * requires only #accelerate & #touch events
 * PdDroidParty scenes
   * a folder that contains a droidparty_main.pd
+  * locked to landscape
+  * does not require any events (#accelerate, #touch, or [key])
 * PdParty scenes
   * a folder that contains a _main.pd
-  
-Essentially, these allow you to encapsulate patches inside a single folder.
+  * requires all event types
 
 ### Pure Data Compatibility
 
@@ -275,7 +281,7 @@ PdParty currently supports the following PdDroidParty abstractions: [numberbox],
 
 ### RjDj Compatibility
 
-PdParty support RjDj-style scene directories, backgrounds, and the [rj-image] and [rj-text] objects. The rj externals ([rj_accum], [rj_barkflux_accum~], [rj_centroid~], [rj_senergy~], & [rj_zcr~]) are also included. Currently, scene paging and metadata are not supported.
+PdParty support RjDj-style scene directories, backgrounds, and the [rj_image] and [rj_text] objects. The rj externals ([rj_accum], [rj_barkflux_accum~], [rj_centroid~], [rj_senergy~], & [rj_zcr~]) are also included. Currently, scene paging and metadata are not supported.
 
 ### Events
 
@@ -332,3 +338,6 @@ TODOs
 * WebDAV is slow when transferring lots of files. zip transfers should be supported …
 * Allow alternate styling for gui elements (i.e. TouchOSC)
 * add support for more advanced PdDroidParty objects [loadsave], [menubang], etc
+
+Happy Patching!
+===============
