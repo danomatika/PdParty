@@ -36,6 +36,11 @@ This project uses:
 * [CocoaHTTPServer](https://github.com/robbiehanson/CocoaHTTPServer): WebDAV server
 * [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/index.php?title=Main_Page): font
 
+### 3rd Party Services
+
+* [Testflight](http://www.testflightapp.com): alpha/beta testing distribution
+* [Crashlytics](http://crashlytics.com): automated crash reporting 
+
 INSTALLATION & BUILDING
 -----------------------
 

@@ -15,7 +15,7 @@ See https://github.com/danomatika/PdParty for documentation
 Description
 -----------
 
-PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
+PdParty is an iOS 6+ app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
 
 <p align="center">
 	This patch in Pure Data …<br/>
@@ -37,7 +37,7 @@ Acknowledgements
 
 * [Miller Puckette](http://msp.ucsd.edu/) and the [Pure Data](http://puredata.info/) community
 * [libpd](https://github.com/libpd/libpd): Peter Brinkmann and Rich Eakin
-* my long suffering / pillar of support wife Anika
+* my long suffering / pillar of support wife [Anika](http://anikahirt.de)
 * [Reality Jockey](http://rjdj.me/) for proving PD + mobile devices = win
 * Chris McCormick for providing the design basis with [PdDroidParty](http://droidparty.net/)
 * Frank B. and the rjlib crew for a great vanilla abstraction set
