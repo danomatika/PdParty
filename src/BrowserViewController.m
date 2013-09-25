@@ -51,7 +51,7 @@
 	self.pathArray = [[NSMutableArray alloc] init];
 	self.currentDirLevel = 0;
 	
-	// setup the root view
+	// setup the docs path if this is the browser root view
 	if(!self.currentDir) {
 		self.currentDir = [Util documentsPath];
 	}
@@ -268,6 +268,7 @@
 
 	// load the selected patch
 	if([[segue identifier] isEqualToString:@"runScene"]) {
+		// iPhone opens here
 		[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
     }
 }
@@ -278,6 +279,7 @@
 	selectedPatch = fullpath;
 	selectedSceneType = sceneType;
 	if([Util isDeviceATablet]) {
+		// iPad opens here
 		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 		[app.patchViewController openScene:selectedPatch withType:selectedSceneType];
 	}

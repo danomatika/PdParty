@@ -19,6 +19,7 @@
 #endif
 
 #import "PatchViewController.h"
+#import "MBProgressHUD.h"
 
 @interface AppDelegate ()
 
@@ -61,12 +62,20 @@
 		[Crashlytics startWithAPIKey:@"733ae8127473bb6b805cb36a50ab9aaf6cbdcc4f"];
 	#endif
 	
-	// copy patches in the resource folder on first run only
+	// copy patches in the resource folder on first run only,
+	// blocks UI with progress HUD until done
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"firstRun"]) {
-		[self copyLibFolder];
-		[self copySamplesFolder];
-		[self copyTestsFolder];
-		[defaults setBool:NO forKey:@"firstRun"];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:YES];
+		hud.labelText = @"Setting up for the first time...";
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+			[self copyLibFolder];
+			[self copySamplesFolder];
+			[self copyTestsFolder];
+			[defaults setBool:NO forKey:@"firstRun"];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[hud hide:YES];
+			});
+		});
 	}
 	
 	// setup app behavior

@@ -248,9 +248,6 @@
 	else {
 		DDLogVerbose(@"PureData: sampleRate now %d", audioController.sampleRate);
 	}
-	
-	[audioController configureTicksPerBuffer:2];
-	DDLogVerbose(@"PureData: ticks per buffer: %d", audioController.ticksPerBuffer);
 	audioController.active = YES;
 }
 

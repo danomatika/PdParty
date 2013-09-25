@@ -81,6 +81,9 @@
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
+		3083BD4A17F2867400EDF587 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3083BD4617F2867400EDF587 /* LICENSE */; };
+		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
+		3083BD4C17F2867400EDF587 /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 3083BD4917F2867400EDF587 /* README.mdown */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
@@ -355,6 +358,10 @@
 		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
 		30774FA417E2A7A70060C5C6 /* ControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlsView.h; path = src/ControlsView.h; sourceTree = "<group>"; };
 		30774FA517E2A7A80060C5C6 /* ControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControlsView.m; path = src/ControlsView.m; sourceTree = "<group>"; };
+		3083BD4617F2867400EDF587 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		3083BD4717F2867400EDF587 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		3083BD4817F2867400EDF587 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		3083BD4917F2867400EDF587 /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mdown; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		30960AFA16F5952300FAF2E7 /* OscViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscViewController.h; path = src/OscViewController.h; sourceTree = "<group>"; };
 		30960AFB16F5952400FAF2E7 /* OscViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OscViewController.m; path = src/OscViewController.m; sourceTree = "<group>"; };
@@ -919,6 +926,18 @@
 			path = src/scenes;
 			sourceTree = "<group>";
 		};
+		3083BD4517F2867400EDF587 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				3083BD4617F2867400EDF587 /* LICENSE */,
+				3083BD4717F2867400EDF587 /* MBProgressHUD.h */,
+				3083BD4817F2867400EDF587 /* MBProgressHUD.m */,
+				3083BD4917F2867400EDF587 /* README.mdown */,
+			);
+			name = MBProgressHUD;
+			path = libs/MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		3088883C16BF062700781682 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1019,6 +1038,7 @@
 				30C77BC416F1C4CF00988EB9 /* CocoaAsyncSocket */,
 				305081C616E198C900895CB2 /* CocoaHTTPServer */,
 				30C77BB516F1BEAB00988EB9 /* CocoaOSC */,
+				3083BD4517F2867400EDF587 /* MBProgressHUD */,
 				30FA775016E68936000E8D2B /* net */,
 				30ABE31916B5D15400464926 /* pd */,
 				30ABE39816B5D15400464926 /* pgmidi */,
@@ -1441,12 +1461,14 @@
 			files = (
 				30ABE30316B5D11D00464926 /* Default-568h@2x.png in Resources */,
 				30ABE30416B5D11D00464926 /* Default.png in Resources */,
+				3083BD4A17F2867400EDF587 /* LICENSE in Resources */,
 				30ABE30516B5D11D00464926 /* Default@2x.png in Resources */,
 				30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */,
 				30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */,
 				30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */,
 				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
 				30ACA10D16D1866000B50B73 /* patches in Resources */,
+				3083BD4C17F2867400EDF587 /* README.mdown in Resources */,
 				303BD3381759C6D5000FBEB5 /* templates.txt in Resources */,
 				303BD33F1759C6D5000FBEB5 /* test-loop~.pd in Resources */,
 				300507B417C2C11700D1563C /* Defaults.plist in Resources */,
@@ -1561,6 +1583,7 @@
 				30ABE40C16B5D15400464926 /* PGMidiAllSources.mm in Sources */,
 				30ABE40D16B5D15400464926 /* PGMidiFind.mm in Sources */,
 				30A319F416B61FF700C7729B /* Gui.m in Sources */,
+				3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */,
 				30A319F716B61FF700C7729B /* Widget.m in Sources */,
 				30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */,
 				30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */,
@@ -1778,8 +1801,9 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/libs\"",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/libs\\\"",
+					/Users/dano/src/PdParty/libs,
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1806,8 +1830,9 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/libs\"",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/libs\\\"",
+					/Users/dano/src/PdParty/libs,
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
