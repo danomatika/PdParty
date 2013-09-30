@@ -22,6 +22,9 @@ void pique_setup();
 void sigmund_tilde_setup();
 void stdout_setup();
 
+// ggee
+void getdir_setup();
+
 // mrpeach
 void httpreceive_setup();
 void httpreq_setup();
@@ -59,6 +62,9 @@ void rj_zcr_tilde_setup();
 	pique_setup();
 	sigmund_tilde_setup();
 	stdout_setup();
+	
+	// ggee
+	getdir_setup();
 
 	// mrpeach
 	//httpreceive_setup();

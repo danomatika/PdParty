@@ -23,6 +23,12 @@ svn export https://pure-data.svn.sourceforge.net/svnroot/pure-data/trunk/externa
 
 ## copy external abs and source
 
+# ggee
+mkdir -p $SRC_DIR/ggee
+cp -v externals/ggee/control/getdir.c $SRC_DIR/ggee
+#cp -v externals/ggee/control/stripdir.c $SRC_DIR/ggee
+#cp -v externals/ggee/control/moog~.c $SRC_DIR/ggee
+
 # mrpeach
 mkdir -p $SRC_DIR/mrpeach/osc
 cp -Rv externals/mrpeach/osc/LICENSE.txt $SRC_DIR/mrpeach/osc

@@ -86,6 +86,7 @@
 		3083BD4C17F2867400EDF587 /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 3083BD4917F2867400EDF587 /* README.mdown */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
+		30A0C05717F9362D00F36C68 /* getdir.c in Sources */ = {isa = PBXBuildFile; fileRef = 30A0C05617F9362D00F36C68 /* getdir.c */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
 		30A319F716B61FF700C7729B /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319F016B61FF700C7729B /* Widget.m */; };
 		30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A716B5A8E500464926 /* UIKit.framework */; };
@@ -365,6 +366,7 @@
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		30960AFA16F5952300FAF2E7 /* OscViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscViewController.h; path = src/OscViewController.h; sourceTree = "<group>"; };
 		30960AFB16F5952400FAF2E7 /* OscViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OscViewController.m; path = src/OscViewController.m; sourceTree = "<group>"; };
+		30A0C05617F9362D00F36C68 /* getdir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getdir.c; sourceTree = "<group>"; };
 		30A319EA16B61FF700C7729B /* Gui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gui.m; sourceTree = "<group>"; };
 		30A319EB16B61FF700C7729B /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		30A319F016B61FF700C7729B /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
@@ -621,6 +623,7 @@
 			children = (
 				3024563017357ECC0016583B /* Externals.h */,
 				3024563117357F540016583B /* Externals.m */,
+				30A0C05517F9362D00F36C68 /* ggee */,
 				30620464174FB0AF00DEC1C2 /* rj */,
 				3024560D17357A760016583B /* mrpeach */,
 			);
@@ -944,6 +947,14 @@
 				3088883D16BF062700781682 /* DejaVuSansMono.ttf */,
 			);
 			path = fonts;
+			sourceTree = "<group>";
+		};
+		30A0C05517F9362D00F36C68 /* ggee */ = {
+			isa = PBXGroup;
+			children = (
+				30A0C05617F9362D00F36C68 /* getdir.c */,
+			);
+			path = ggee;
 			sourceTree = "<group>";
 		};
 		30A319E516B61FF700C7729B /* gui */ = {
@@ -1571,6 +1582,7 @@
 				30ABE40016B5D15400464926 /* x_acoustics.c in Sources */,
 				30ABE40116B5D15400464926 /* x_arithmetic.c in Sources */,
 				30ABE40216B5D15400464926 /* x_connective.c in Sources */,
+				30A0C05717F9362D00F36C68 /* getdir.c in Sources */,
 				30ABE40316B5D15400464926 /* x_gui.c in Sources */,
 				30ABE40416B5D15400464926 /* x_interface.c in Sources */,
 				30ABE40516B5D15400464926 /* x_list.c in Sources */,
