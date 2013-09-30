@@ -106,6 +106,7 @@
 		if(self.pureData.isRecording) {
 			[self.pureData stopRecording];
 		}
+		[PureData sendCloseBang];
 		[self.scene close];
 		self.scene = nil;
 		self.enableAccelerometer = NO;

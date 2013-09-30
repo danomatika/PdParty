@@ -136,6 +136,10 @@
 	[PdBase sendMessage:address withArguments:arguments toReceiver:PD_OSC_R];
 }
 
++ (void)sendCloseBang {
+	[PdBase sendBangToReceiver:PD_CLOSEBANG_R];
+}
+
 #pragma mark Send Values
 
 + (void)sendTransportPlay:(BOOL)play {

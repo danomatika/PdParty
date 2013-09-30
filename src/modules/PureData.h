@@ -15,6 +15,7 @@
 // PD event receivers
 #define PD_KEY_R		@"#key"
 #define PD_OSC_R		@"#osc-in"
+#define PD_CLOSEBANG_R	@"#closebang"
 
 // RjDj event receivers
 #define RJ_TRANSPORT_R	@"#transport"
@@ -118,6 +119,9 @@
 
 // osc message
 + (void)sendOscMessage:(NSString *)address withArguments:(NSArray *)arguments;
+
+// [closebang] emulation until libpd supports it ...
++ (void)sendCloseBang;
 
 #pragma mark Send Values
 
