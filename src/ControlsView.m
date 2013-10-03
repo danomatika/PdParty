@@ -11,7 +11,6 @@
 #import "ControlsView.h"
 
 #import "Log.h"
-#import "AppDelegate.h"
 
 @interface ControlsView () {
 	NSLayoutConstraint *heightConstraint;
@@ -146,21 +145,7 @@
 		}
 		else {
 			if(!self.sceneManager.pureData.isRecording) {
-				
-				NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:@"recordings"];
-				if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
-					DDLogVerbose(@"ControlsView: recordings dir not found, creating %@", recordDir);
-					NSError *error;
-					if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:NO attributes:nil error:&error]) {
-						DDLogError(@"ControlsView: couldn't create %@, error: %@", recordDir, error.localizedDescription);
-						return;
-					}
-				}
-				
-				NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-				[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
-				NSString *date = [formatter stringFromDate:[NSDate date]];
-				[self.sceneManager.pureData startRecordingTo:[recordDir stringByAppendingPathComponent:[self.sceneManager.scene.name stringByAppendingFormat:@"_%@.wav", date]]];
+				[self.sceneManager.pureData startedRecordingToRecordDir:self.sceneManager.scene.name withTimestamp:YES];
 				[self.rightButton setTitle:@"Stop"];
 			}
 			else {
@@ -283,6 +268,16 @@
 }
 
 #pragma mark PdPlaybackDelegate
+
+// outside events need to update the gui
+
+- (void)remoteRecordingStarted {
+	[self.rightButton setTitle:@"Stop"];
+}
+
+- (void)remoteRecordingFinished {
+	[self.rightButton setTitle:@"Record"];
+}
 
 - (void)playbackFinished {
 	[self.leftButton setTitle:@"Play"];

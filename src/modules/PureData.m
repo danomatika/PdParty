@@ -58,6 +58,7 @@
 		// add this class as a receiver
 		[self.dispatcher addListener:self forSource:PD_OSC_S];
 		[self.dispatcher addListener:self forSource:RJ_GLOBAL_S];
+		[self.dispatcher addListener:self forSource:PARTY_GLOBAL_S];
 		
 		// setup externals
 		[Externals setup];
@@ -98,6 +99,33 @@
 	[PdBase sendMessage:@"record" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:NO]] toReceiver:RJ_TRANSPORT_R];
 	self.recording = NO;
 	DDLogVerbose(@"PureData: stopped recording");
+}
+
+- (BOOL)startedRecordingToRecordDir:(NSString *)path withTimestamp:(BOOL)timestamp {
+	if(self.isRecording) return NO;
+				
+	NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:RECORDINGS_DIR];
+	if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
+		DDLogVerbose(@"PureData: recordings dir not found, creating %@", recordDir);
+		NSError *error;
+		if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:YES attributes:nil error:&error]) {
+			DDLogError(@"PureData: couldn't create %@, error: %@", recordDir, error.localizedDescription);
+			return NO;
+		}
+	}
+	
+	if(timestamp) {
+		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+		[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
+		NSString *date = [formatter stringFromDate:[NSDate date]];
+		[self startRecordingTo:[recordDir stringByAppendingPathComponent:
+			[[path stringByDeletingPathExtension] stringByAppendingFormat:@"_%@.wav", date]]];
+	}
+	else {
+		[self startRecordingTo:[recordDir stringByAppendingPathComponent:
+			[[path stringByDeletingPathExtension] stringByAppendingFormat:@".wav"]]];
+	}
+	return YES;
 }
 
 - (void)startPlaybackFrom:(NSString *)path {
@@ -193,6 +221,34 @@
 	else if([source isEqualToString:PD_OSC_S]) {
 		// message should be the osc address
 		[self.osc sendMessage:message withArguments:arguments];
+	}
+	else if([source isEqualToString:PARTY_GLOBAL_S]) {
+	
+		// received scene name
+		static NSString *sceneName = nil;
+	
+		// start/stop recording remotely, set scene name first
+		if([message isEqualToString:@"record"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+			if([[arguments objectAtIndex:0] boolValue]) {
+				if(sceneName && [self startedRecordingToRecordDir:[sceneName lastPathComponent] withTimestamp:YES]) {
+					if(self.delegate) {
+						[self.delegate remoteRecordingStarted];
+					}
+				}
+			}
+			else {
+				if(!self.isRecording) {
+					return;
+				}
+				[self stopRecording];
+				if(self.delegate) {
+					[self.delegate remoteRecordingFinished];
+				}
+			}
+		}
+		else if([message isEqualToString:@"scene"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+			sceneName = [arguments objectAtIndex:0];
+		}
 	}
 }
 

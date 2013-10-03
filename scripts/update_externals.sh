@@ -28,6 +28,7 @@ mkdir -p $SRC_DIR/ggee
 cp -v externals/ggee/control/getdir.c $SRC_DIR/ggee
 #cp -v externals/ggee/control/stripdir.c $SRC_DIR/ggee
 #cp -v externals/ggee/control/moog~.c $SRC_DIR/ggee
+#cp -v externals/ggee/control/xfm~.c $SRC_DIR/ggee
 
 # mrpeach
 mkdir -p $SRC_DIR/mrpeach/osc

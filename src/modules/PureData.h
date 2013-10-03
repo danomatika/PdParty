@@ -29,16 +29,19 @@
 #define RJ_TOUCH_DOWN	@"down"
 #define RJ_TOUCH_XY		@"xy"
 
-// PdPaty event receivers
+// PdParty event receivers
 #define PARTY_ROTATE_R	@"#rotate"
 
 // incoming event sends
 #define PD_OSC_S		@"#osc-out"
 #define RJ_GLOBAL_S		@"rjdj"
+#define PARTY_GLOBAL_S	@"#pdparty"
 
 // sample rates
 #define PARTY_SAMPLERATE	44100
 #define RJ_SAMPLERATE		22050
+
+#define RECORDINGS_DIR	@"recordings" // in the Documents dir
 
 @class Midi;
 @class Osc;
@@ -48,9 +51,11 @@
 @property (weak, nonatomic) Osc *osc; // pointer to osc instance
 @end
 
-// playback event delegate
-@protocol PdPlaybackDelegate <NSObject>
-- (void)playbackFinished;
+//event delegate
+@protocol PdEventDelegate <NSObject>
+- (void)remoteRecordingStarted;		// called if recording is started via a msg
+- (void)remoteRecordingFinished;	// called if recording is stopped via a msg
+- (void)playbackFinished;	// called when a wav file playback finished & looping is disabled
 @end
 
 @interface PureData : NSObject <PdReceiverDelegate, PdMidiReceiverDelegate>
@@ -99,12 +104,16 @@
 - (void)startRecordingTo:(NSString *)path;
 - (void)stopRecording;
 
+// wrapper around startRecordingTo that creates the recording dir if needed and
+// optionally appends a timestamp string to the filename, returns NO if not started
+- (BOOL)startedRecordingToRecordDir:(NSString *)path withTimestamp:(BOOL)timestamp;
+
 // start/stop playback, opens playback.pd
 - (void)startPlaybackFrom:(NSString *)path;
 - (void)stopPlayback;
 
 // receives event when playback is finished
-@property (assign, nonatomic) id<PdPlaybackDelegate> delegate;
+@property (assign, nonatomic) id<PdEventDelegate> delegate;
 
 #pragma mark Send Events
 
