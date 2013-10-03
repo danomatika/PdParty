@@ -220,9 +220,21 @@ Patching for PdParty
 
 4. All GUI elements should communicate with the main audio patches using send and receive only. You can usually set send and receive for each GUI by right clicking on the object and choosing 'properties' in Pd. Do not directly connect cables to the GUI elements as they won't work. It helps to keep the GUIs on their own in the main patch and have it include the logic of your patch as an abstraction or subpatch containing senders and receivers for interfacing with GUI elements. This is good patch design practice anyway as it is basically a model-view-controller methodology.
 
-5. Copy the patch and/or it's containing directory and any needed abstractions to your iOS device using HTTP over your local network. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems\*.
+5. Copy the patch and/or it's containing directory and any needed abstractions to your iOS device using iTunes File Sharing or via WebDAV over your local network:
+
+    - iTunes File Sharing
+    
+        1. Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this pane and/or use the "Add…" and "Save to…" buttons. 
+        
+        <p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/finder_connect_to_server.png"/>
+</p>
+
+    - WebDAV 
+
+        1.  Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems\*.
  
-6. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
+        2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
 
 \* for instance, the Mac OSX Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K:
 
