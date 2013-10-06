@@ -1,4 +1,4 @@
-PdParty 0.4.1-alpha
+PdParty 0.4.3-alpha
 ===================
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-13
