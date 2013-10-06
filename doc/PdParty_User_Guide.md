@@ -306,6 +306,17 @@ PdParty returns the following events:
   * _y_: y position
 * **[r #accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
 
+#### Recording
+
+You can manually trigger recording via sending messages to the internal #pdparty receiver in your patches:
+
+* **\[s #pdparty]** _filename_: set filename for recording 
+  * _filename_: timestamp is appended & file is saved to the recordings dir
+* **[\#pdparty]** _record_: recording control, also connected to the GUI 
+  * _record_: boolean to start/stop recording
+  
+Note: Recording will only work if you are using the rjlib [soundoutput] patch instead of [dac~].
+
 #### OSC
 
 PdParty sends and receives OSC messages internally between the PureData instance and the OSC server:
