@@ -1,4 +1,4 @@
-PdParty 0.4.3-alpha
+PdParty 0.4.4-alpha
 ===================
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-13
@@ -266,9 +266,9 @@ It's highly recommended that you use a vanilla-based abstraction library like [r
 
 When patching for PdParty (as with RjDj & PdDroidParty), it is recommended to disable all external libraries except for mrpeach if you are using pd-extended. This should help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my PD settings file, one for desktop development and another for pd-vanilla/libpd work.
 
-#### [expr] & [expr~]
+#### [expr], [expr~], & [fexpr~]
 
-Currently, [expr] and [expr~] are not included with PdParty since they are licensed under the GPL, which is incompatible for linked libraries with the Apple AppStore licensing. There's some confusion as to what license the sources use (the license in the source headers are different to the license in the source dir), if that is cleared up then I'd be happy to add them.
+[expr], [expr~], & [fexpr~] are included with PdParty. They are under the LGPL license which is compatible with the Apple App Store licensing requirements as long as the PdParty source is open (which it is). I'm making a note of this, as it may not be the case with other closed source libpd based apps.
 
 #### Key events
 

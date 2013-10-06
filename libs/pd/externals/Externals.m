@@ -15,6 +15,9 @@
 // pd
 void bonk_tilde_setup();
 void choice_setup();
+void expr_setup();
+void expr_tilde_setup();
+void fexpr_tilde_setup();
 void fiddle_tilde_setup();
 void loop_tilde_setup();
 void lrshift_tilde_setup();
@@ -55,6 +58,9 @@ void rj_zcr_tilde_setup();
 
 	// pd
 	bonk_tilde_setup();
+	expr_setup();
+	expr_tilde_setup();
+	fexpr_tilde_setup();
 	choice_setup();
 	fiddle_tilde_setup();
 	loop_tilde_setup();

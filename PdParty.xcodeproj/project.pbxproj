@@ -236,6 +236,11 @@
 		30FA775316E68936000E8D2B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA775216E68936000E8D2B /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FA775416E69660000E8D2B /* SystemConfiguration.framework */; };
 		30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FAB41917C50DEE00ED10BC /* RecordingScene.m */; };
+		30FCF40918012DBF00047A05 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF40318012DBF00047A05 /* LICENSE.txt */; };
+		30FCF40A18012DBF00047A05 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF40418012DBF00047A05 /* README.txt */; };
+		30FCF40B18012DBF00047A05 /* vexp.c in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF40518012DBF00047A05 /* vexp.c */; };
+		30FCF40C18012DBF00047A05 /* vexp_fun.c in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF40718012DBF00047A05 /* vexp_fun.c */; };
+		30FCF40D18012DBF00047A05 /* vexp_if.c in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF40818012DBF00047A05 /* vexp_if.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -590,6 +595,13 @@
 		30FA775416E69660000E8D2B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		30FAB41817C50DEE00ED10BC /* RecordingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingScene.h; sourceTree = "<group>"; };
 		30FAB41917C50DEE00ED10BC /* RecordingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingScene.m; sourceTree = "<group>"; };
+		30FCF40218012DBF00047A05 /* fts_to_pd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fts_to_pd.h; sourceTree = "<group>"; };
+		30FCF40318012DBF00047A05 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		30FCF40418012DBF00047A05 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		30FCF40518012DBF00047A05 /* vexp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vexp.c; sourceTree = "<group>"; };
+		30FCF40618012DBF00047A05 /* vexp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vexp.h; sourceTree = "<group>"; };
+		30FCF40718012DBF00047A05 /* vexp_fun.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vexp_fun.c; sourceTree = "<group>"; };
+		30FCF40818012DBF00047A05 /* vexp_if.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vexp_if.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1136,6 +1148,7 @@
 			children = (
 				303BD3161759C6D5000FBEB5 /* bonk~ */,
 				303BD31A1759C6D5000FBEB5 /* choice */,
+				30FCF40118012DBF00047A05 /* expr~ */,
 				303BD31D1759C6D5000FBEB5 /* fiddle~ */,
 				303BD3201759C6D5000FBEB5 /* loop~ */,
 				303BD3241759C6D5000FBEB5 /* lrshift~ */,
@@ -1418,6 +1431,21 @@
 			path = libs/net;
 			sourceTree = "<group>";
 		};
+		30FCF40118012DBF00047A05 /* expr~ */ = {
+			isa = PBXGroup;
+			children = (
+				30FCF40218012DBF00047A05 /* fts_to_pd.h */,
+				30FCF40318012DBF00047A05 /* LICENSE.txt */,
+				30FCF40418012DBF00047A05 /* README.txt */,
+				30FCF40518012DBF00047A05 /* vexp.c */,
+				30FCF40618012DBF00047A05 /* vexp.h */,
+				30FCF40718012DBF00047A05 /* vexp_fun.c */,
+				30FCF40818012DBF00047A05 /* vexp_if.c */,
+			);
+			name = "expr~";
+			path = "libs/pd/pure-data/extra/expr~";
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1473,8 +1501,10 @@
 				30ABE30316B5D11D00464926 /* Default-568h@2x.png in Resources */,
 				30ABE30416B5D11D00464926 /* Default.png in Resources */,
 				3083BD4A17F2867400EDF587 /* LICENSE in Resources */,
+				30FCF40918012DBF00047A05 /* LICENSE.txt in Resources */,
 				30ABE30516B5D11D00464926 /* Default@2x.png in Resources */,
 				30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */,
+				30FCF40A18012DBF00047A05 /* README.txt in Resources */,
 				30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */,
 				30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */,
 				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
@@ -1603,6 +1633,7 @@
 				30F7A19716C008A500DE265F /* BrowserViewController.m in Sources */,
 				3050820F16E198C900895CB2 /* DDData.m in Sources */,
 				3050821016E198C900895CB2 /* DDNumber.m in Sources */,
+				30FCF40D18012DBF00047A05 /* vexp_if.c in Sources */,
 				3050821116E198C900895CB2 /* DDRange.m in Sources */,
 				3050821216E198C900895CB2 /* HTTPAuthenticationRequest.m in Sources */,
 				3050821316E198C900895CB2 /* HTTPConnection.m in Sources */,
@@ -1660,6 +1691,7 @@
 				30C77BF216F1C84E00988EB9 /* AsyncUdpSocket.m in Sources */,
 				30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */,
 				3024563217357F540016583B /* Externals.m in Sources */,
+				30FCF40C18012DBF00047A05 /* vexp_fun.c in Sources */,
 				30245649173582340016583B /* midifile.c in Sources */,
 				3024564A173582340016583B /* httpreceive.c in Sources */,
 				3024564B173582340016583B /* httpreq.c in Sources */,
@@ -1686,6 +1718,7 @@
 				303BD30417570070000FBEB5 /* DroidScene.m in Sources */,
 				303BD307175702AF000FBEB5 /* PartyScene.m in Sources */,
 				303BD30F17590275000FBEB5 /* RjImage.m in Sources */,
+				30FCF40B18012DBF00047A05 /* vexp.c in Sources */,
 				303BD31017590275000FBEB5 /* RjText.m in Sources */,
 				303BD3151759928D000FBEB5 /* RjWidget.m in Sources */,
 				303BD3371759C6D5000FBEB5 /* bonk~.c in Sources */,

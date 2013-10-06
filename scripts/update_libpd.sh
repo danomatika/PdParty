@@ -20,10 +20,6 @@ rm libpd/pure-data/extra/makefile.subdir
 rm libpd/libpd_wrapper/util/z_hook_util.c
 rm libpd/libpd_wrapper/util/z_hook_util.h
 
-# remove expr~ since it's GPL, leave that up to devs
-rm -rf libpd/pure-data/extra/expr~
-rm libpd/pure-data/extra/expr-help.pd
-
 # leave pd~ out for now
 rm -rf libpd/pure-data/extra/pd~
 
