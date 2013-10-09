@@ -222,25 +222,29 @@ Patching for PdParty
 
 5. Copy the patch and/or it's containing directory and any needed abstractions to your iOS device using iTunes File Sharing or via WebDAV over your local network:
 
-    - iTunes File Sharing
+    - **iTunes File Sharing**
     
         1. Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this pane and/or use the "Add…" and "Save to…" buttons. 
         
         <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/finder_connect_to_server.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/itunes_file_sharing.png"/>
 </p>
 
-    - WebDAV 
+    - **WebDAV** 
 
-        1.  Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems\*.
+        1.  Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems.
+        
+            *  **Mac OSX**: Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K. Login as a Guest:
+
+            <p align="center">
+	            <img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/finder_connect_to_server.png"/>
+            </p>
+            
+            * **Linux**: both Nautilus (Gnome) & Konqueror (KDE) support mounting WebDAV folders, also [FileZilla](https://filezilla-project.org/) and other file transfer applications should work
+            
+            * **Windows**: the [CloudSafe Webdav Client](http://secure.cloudsafe.com/pages/topics_cloudsafeclient.html) maps Webdav network folders to a virtual Windows disk. After installation, an icon will appear in the system tray. Other options include [Filezilla](https://filezilla-project.org/) and [Cyberduck](http://cyberduck.ch/).
  
         2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
-
-\* for instance, the Mac OSX Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K:
-
-<p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/finder_connect_to_server.png"/>
-</p>
 
 ### Scenes
 
