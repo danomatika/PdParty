@@ -27,6 +27,8 @@ void stdout_setup();
 
 // ggee
 void getdir_setup();
+void moog_tilde_setup();
+void stripdir_setup();
 
 // mrpeach
 void httpreceive_setup();
@@ -71,6 +73,8 @@ void rj_zcr_tilde_setup();
 	
 	// ggee
 	getdir_setup();
+	moog_tilde_setup();
+	stripdir_setup();
 
 	// mrpeach
 	//httpreceive_setup();

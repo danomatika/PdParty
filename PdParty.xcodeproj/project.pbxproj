@@ -81,6 +81,8 @@
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
+		307C81771807CCF700E2EA1A /* moog~.c in Sources */ = {isa = PBXBuildFile; fileRef = 307C81761807CCF700E2EA1A /* moog~.c */; };
+		307C81791807CD3A00E2EA1A /* stripdir.c in Sources */ = {isa = PBXBuildFile; fileRef = 307C81781807CD3A00E2EA1A /* stripdir.c */; };
 		3083BD4A17F2867400EDF587 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3083BD4617F2867400EDF587 /* LICENSE */; };
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
 		3083BD4C17F2867400EDF587 /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 3083BD4917F2867400EDF587 /* README.mdown */; };
@@ -364,6 +366,8 @@
 		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
 		30774FA417E2A7A70060C5C6 /* ControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlsView.h; path = src/ControlsView.h; sourceTree = "<group>"; };
 		30774FA517E2A7A80060C5C6 /* ControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControlsView.m; path = src/ControlsView.m; sourceTree = "<group>"; };
+		307C81761807CCF700E2EA1A /* moog~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "moog~.c"; sourceTree = "<group>"; };
+		307C81781807CD3A00E2EA1A /* stripdir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stripdir.c; sourceTree = "<group>"; };
 		3083BD4617F2867400EDF587 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3083BD4717F2867400EDF587 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3083BD4817F2867400EDF587 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -965,6 +969,8 @@
 			isa = PBXGroup;
 			children = (
 				30A0C05617F9362D00F36C68 /* getdir.c */,
+				307C81761807CCF700E2EA1A /* moog~.c */,
+				307C81781807CD3A00E2EA1A /* stripdir.c */,
 			);
 			path = ggee;
 			sourceTree = "<group>";
@@ -1598,6 +1604,7 @@
 				30ABE3F216B5D15400464926 /* m_glob.c in Sources */,
 				30ABE3F316B5D15400464926 /* m_memory.c in Sources */,
 				30ABE3F416B5D15400464926 /* m_obj.c in Sources */,
+				307C81791807CD3A00E2EA1A /* stripdir.c in Sources */,
 				30ABE3F516B5D15400464926 /* m_pd.c in Sources */,
 				30ABE3F616B5D15400464926 /* m_sched.c in Sources */,
 				30ABE3F716B5D15400464926 /* s_audio.c in Sources */,
@@ -1732,6 +1739,7 @@
 				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
 				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
 				30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */,
+				307C81771807CCF700E2EA1A /* moog~.c in Sources */,
 				30F5281C17D02E7B004736A6 /* NowPlayingTableViewController.m in Sources */,
 				30F5282517D7B3DD004736A6 /* Wordbutton.m in Sources */,
 				30F5282817D8FA81004736A6 /* Numberbox.m in Sources */,
@@ -1846,9 +1854,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)",
-					"\\\"$(SRCROOT)/libs\\\"",
-					/Users/dano/src/PdParty/libs,
+					libs,
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1875,9 +1881,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)",
-					"\\\"$(SRCROOT)/libs\\\"",
-					/Users/dano/src/PdParty/libs,
+					libs,
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
