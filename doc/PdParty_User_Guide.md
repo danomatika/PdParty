@@ -232,7 +232,7 @@ Patching for PdParty
 
     - **WebDAV** 
 
-        1.  Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems.
+        1.  Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using OSX or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#).
         
             *  **Mac OSX**: Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K. Login as a Guest:
 
