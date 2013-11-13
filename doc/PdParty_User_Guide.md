@@ -224,7 +224,9 @@ Patching for PdParty
 
     - **iTunes File Sharing**
     
-        1. Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this pane and/or use the "Add…" and "Save to…" buttons. 
+        1. Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add…" and "Save to…" buttons.
+
+*Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that's just how the iTunes file sharing system currently works.* 
         
         <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/itunes_file_sharing.png"/>
