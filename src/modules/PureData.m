@@ -43,7 +43,6 @@
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
 		self.sampleRate = PARTY_SAMPLERATE;
-		self.ticksPerBuffer = [[NSUserDefaults standardUserDefaults] integerForKey:@"ticksPerBuffer"];
 		if(ddLogLevel >= LOG_LEVEL_VERBOSE) {
 			[audioController print];
 		}
@@ -65,6 +64,10 @@
 		
 		// open "external patches" that always run in the background
 		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"]];
+	
+		// set ticks per buffer after everything else is setup, setting a tpb of 1 too early results in no audio
+		// and feedback until it is changed ... this fixes that
+		self.ticksPerBuffer = [[NSUserDefaults standardUserDefaults] integerForKey:@"ticksPerBuffer"];
 	}
 	return self;
 }

@@ -224,17 +224,17 @@ Patching for PdParty
 
     - **iTunes File Sharing**
     
-        1. Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add…" and "Save to…" buttons.
+        Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add…" and "Save to…" buttons\*.
 
-*Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that's just how the iTunes file sharing system currently works.* 
+        *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that's just how the iTunes file sharing system currently works.* 
         
         <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/itunes_file_sharing.png"/>
+<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/itunes_file_sharing.png"/>
 </p>
 
     - **WebDAV** 
 
-        1.  Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using OSX or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#).
+      1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using OSX or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#).
         
             *  **Mac OSX**: Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K. Login as a Guest:
 
@@ -246,7 +246,7 @@ Patching for PdParty
             
             * **Windows**: Windows Explorer does not support mapping WebDAV folders, but [Cyberduck](http://cyberduck.ch/) and [FileZilla](https://filezilla-projects.org) work nicely
  
-        2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
+      2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
 
 ### Scenes
 
