@@ -240,9 +240,9 @@ Patching for PdParty
 	            <img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/finder_connect_to_server.png"/>
             </p>
             
-            * **Linux**: both Nautilus (Gnome) & Konqueror (KDE) support mounting WebDAV folders, also [FileZilla](https://filezilla-project.org/) and other file transfer applications should work
+            * **Linux**: both Nautilus (Gnome) & Konqueror (KDE) support mounting WebDAV folders, also [FileZilla](https://filezilla-project.org) and other file transfer applications should work
             
-            * **Windows**: the [CloudSafe Webdav Client](http://secure.cloudsafe.com/pages/topics_cloudsafeclient.html) maps Webdav network folders to a virtual Windows disk. After installation, an icon will appear in the system tray. Other options include [Filezilla](https://filezilla-project.org/) and [Cyberduck](http://cyberduck.ch/).
+            * **Windows**: Windows Explorer does not support mapping WebDAV folders, but [Cyberduck](http://cyberduck.ch/) and [FileZilla](https://filezilla-projects.org) work nicely
  
         2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
 
