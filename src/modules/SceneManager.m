@@ -338,7 +338,7 @@
 	// handle locations, oldest is first
 	for(CLLocation *location in locations) {
 		
-		DDLogVerbose(@"locate %@", location.description);
+//		DDLogVerbose(@"locate %@", location.description);
 		
 		NSString *timestamp = [locationDateFormatter stringFromDate:location.timestamp];
 		

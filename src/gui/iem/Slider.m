@@ -356,6 +356,10 @@
 	[self sendFloat:self.value];
 }
 
+- (void)receiveSetFloat:(float)received {
+	self.value = received;
+}
+
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 
 	if([message isEqualToString:@"size"] && [arguments count] > 1 &&
