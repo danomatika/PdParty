@@ -13,7 +13,7 @@
 #import "SceneManager.h"
 
 // RjDj-inspired onscreen controls
-@interface ControlsView : UIView <PdEventDelegate>
+@interface ControlsView : UIView <PdRecordEventDelegate>
 
 // make sure to set this or nothing will happen ...
 @property (weak, nonatomic) SceneManager *sceneManager;

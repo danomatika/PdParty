@@ -15,7 +15,7 @@
 #import "PureData.h"
 #import "Osc.h"
 
-@interface SceneManager : NSObject <UIAccelerometerDelegate, CLLocationManagerDelegate>
+@interface SceneManager : NSObject <UIAccelerometerDelegate, CLLocationManagerDelegate, PdLocateEventDelegate>
 
 @property (strong, nonatomic) Gui *gui; // pd gui widgets
 @property (strong, nonatomic) Scene* scene; // current scene

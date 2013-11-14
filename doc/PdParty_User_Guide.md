@@ -256,13 +256,20 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * a folder that ends in *.rj that contains a _main.pd
   * an optional background Image.jpg which must have a square aspect ratio
   * requires only #accelerate & #touch events
+  * \#touch positions are normalized from 0-320
+  * 20500 samplerate
 * PdDroidParty scenes
   * a folder that contains a droidparty_main.pd
   * locked to landscape
   * does not require any events (#accelerate, #touch, or [key])
+  * 44100 samplerate
 * PdParty scenes
   * a folder that contains a _main.pd
   * requires all event types
+  * \#touch positions are normalized from 0-1
+  * 44100 samplerate
+  
+Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene.
 
 ### Pure Data Compatibility
 
@@ -308,8 +315,8 @@ PdParty returns the following events:
 * **[r #touch] _eventType_ _id_ _x_ _y_**: multitouch touch event
   * _eventType_: symbol "down", "xy" (move), or "up"
   * _id_: persistent touch id
-  * _x_: x position
-  * _y_: y position
+  * _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
+  * _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
 * **[r #accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
 * **[ r #locate] _timestamp_ _lat_ _lon_ _alt_ _speed_ _horz_accuracy_ _vert_accuracy_**
   * _lat_: latitude in degrees
@@ -319,19 +326,42 @@ PdParty returns the following events:
   * _horz_accuracy_: horizontal accuracy (+/-) of the lat & lon in meters
   * _vert_accuracy_: vertical accuracy (+/-) of the alt in meters
   * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
+  
+_Note: RjDj scenes only receive #touch & #accelerate, PdDroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the cause of RjDj as the RjDj app is no longer available)._
+  
+#### Locate (GPS) Control
 
-_Note: RjDj scenes only receive #touch & #accelerate, PdDroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the cause of RjDj as the RjDj app is no longer available).
+Locate events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFI only, cell tower + GPS chip, etc).
+
+Since running the GPS location service will affect battery life in most cases, it must be manually started and configured after the scene is loaded by sending messages to the internal #pdparty receiver:
+  
+* **#pdparty locate _value_**: location service run control
+  * _value_: boolean to start/stop the location service
+* **#pdparty locate accuracy _type_**: set desired accuracy, this setting impacts battery life
+  * _type_: desired accuracy as one of the following strings: 
+    * navigation: highest possible accuracy using additional sensors at all times, intended to be used only while the device is plugged in 
+    * best: highest accuracy on battery (default)
+    * 10m: accurate to within 10 meters
+    * 100m: accurate to within 100 meters
+    * 1km: accurate to the nearest kilometer
+    * 3km: accurate to the nearest 3 kilometers
+* **#pdparty locate filter _distance_**: set the distance filter for locate events
+  * _distance_: the minimum distance in meters of horizontal movement required before a locate event is generated (default 0), a value of 0 indicates no filtering, negative values are clipped to 0
+
+It usually takes a few seconds to fix your position after enabling the location services.
+
+_Note: Locate events are only available in PdParty & Patch scene types._
 
 #### Recording
 
 You can manually trigger recording via sending messages to the internal #pdparty receiver in your patches:
 
-* **#pdparty scene _name_**: set the scene/file name for recording 
+* **#pdparty record _name_**: set the scene/file name for recording 
   * _name_: timestamp is appended & file is saved to the recordings dir
 * **#pdparty record _value_**: recording control, also connected to the GUI 
   * _value_: boolean to start/stop recording
   
-Note: Recording will only work if you are using the rjlib [soundoutput] patch instead of [dac~].
+_Note: Recording will only work if you are using the rjlib [soundoutput] patch instead of [dac~]._
 
 #### OSC
 

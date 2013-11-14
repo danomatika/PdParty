@@ -1,0 +1,99 @@
+#N canvas 592 121 370 526 10;
+#X obj 11 91 tgl 30 0 runlocate empty run 7 15 0 10 -262144 -1 -1 0
+1;
+#X text 8 7 location (aka GPS) events require extra battery & cpu \,
+;
+#X obj 11 136 cnv 15 340 100 empty empty locate 20 12 0 14 -233017
+-66577 0;
+#X floatatom 20 162 10 0 0 1 latitude lat -;
+#X floatatom 20 186 10 0 0 1 longitude lon -;
+#X symbolatom 167 139 25 0 0 0 - timestamp -;
+#X floatatom 20 211 10 0 0 1 altitude_(m) alt -;
+#X floatatom 167 163 10 0 0 1 speed_(mps) speed -;
+#X floatatom 167 187 10 0 0 1 horz_accuracy_(m) haccuracy -;
+#X floatatom 167 211 10 0 0 1 vert_accuracy_(m) vaccuracy -;
+#X text 47 97 turn them on by sending a msg to #pdparty: locate 1;
+#X obj 20 477 hsl 320 30 0 127 0 0 filter-out filter-in distance_filter_0_-_1000m
+8 15 0 10 -262144 -1 -1 0 1;
+#X obj 18 331 hradio 54 1 0 6 accuracy-out accuracy-in empty 0 -8 0
+10 -262144 -1 -1 1;
+#X text 10 393 navigation;
+#X text 86 393 best;
+#X text 143 393 10m;
+#X text 195 393 100m;
+#X text 251 392 1km;
+#X text 307 393 3km;
+#X text 8 273 are dependent on the desired accuracy & distance filter
+;
+#X text 9 28 so they are off by default;
+#X text 9 57 your device should have a gps chip for best results;
+#X text 8 255 the speed of location events & overall resource usage
+;
+#X text 12 432 distance filer threshold (default 0) \, events ocurr
+when;
+#X text 12 448 the location has changed beyond this threshold;
+#N canvas 869 362 504 293 guts 0;
+#X obj 20 22 r #locate;
+#X obj 137 86 s timestamp;
+#X obj 20 261 s lat;
+#X obj 39 235 s lon;
+#X obj 78 178 s speed;
+#X obj 59 206 s alt;
+#X obj 117 116 s vaccuracy;
+#X obj 98 146 s haccuracy;
+#X obj 20 55 unpack f f f f f f s;
+#X obj 238 24 r runlocate;
+#X obj 238 86 s #pdparty;
+#X msg 238 58 locate \$1;
+#X obj 351 25 loadbang;
+#X msg 351 60 \; accuracy-in set 1 \; filter-in set 0;
+#X obj 238 136 r accuracy-out;
+#X obj 368 137 r filter-out;
+#X obj 238 259 s #pdparty;
+#X msg 368 216 locate filter \$1;
+#N canvas 651 529 319 192 type 0;
+#X obj 16 9 inlet;
+#X obj 16 38 sel 0 1 2 3 4 5;
+#X msg 16 84 navigation;
+#X msg 103 84 best;
+#X msg 152 83 10m;
+#X msg 191 83 100m;
+#X msg 238 83 1km;
+#X msg 280 83 3km;
+#X obj 16 133 symbol;
+#X obj 16 167 outlet;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 3 0;
+#X connect 1 2 4 0;
+#X connect 1 3 5 0;
+#X connect 1 4 6 0;
+#X connect 1 5 7 0;
+#X connect 2 0 8 0;
+#X connect 3 0 8 0;
+#X connect 4 0 8 0;
+#X connect 5 0 8 0;
+#X connect 6 0 8 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X restore 238 183 pd type;
+#X msg 238 216 locate accuracy \$1;
+#X connect 0 0 8 0;
+#X connect 8 0 2 0;
+#X connect 8 1 3 0;
+#X connect 8 2 5 0;
+#X connect 8 3 4 0;
+#X connect 8 4 7 0;
+#X connect 8 5 6 0;
+#X connect 8 6 1 0;
+#X connect 9 0 11 0;
+#X connect 11 0 10 0;
+#X connect 12 0 13 0;
+#X connect 14 0 18 0;
+#X connect 15 0 17 0;
+#X connect 17 0 16 0;
+#X connect 18 0 19 0;
+#X connect 19 0 16 0;
+#X restore 304 138 pd guts;
+#X text 15 306 accuracy (default "best") \, "navigation" is *intensive*
+;

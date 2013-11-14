@@ -66,6 +66,12 @@
 	return self;
 }
 
+- (void)dealloc {
+	if(self.pureData) {
+		self.pureData.locateDelegate = nil;
+	}
+}
+
 - (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent {
 	if([self.currentPath isEqualToString:path]) {
 		DDLogVerbose(@"SceneManager openScene: ignoring scene with same path");
@@ -99,7 +105,6 @@
 	self.pureData.audioEnabled = YES;
 	self.pureData.sampleRate = self.scene.sampleRate;
 	self.enableAccelerometer = self.scene.requiresAccel;
-	self.enableLocation = self.scene.requiresLocate;
 	self.pureData.playing = YES;
 	[self.scene open:path];
 	
@@ -176,6 +181,14 @@
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (void)setPureData:(PureData *)pureData {
+	if(_pureData) {
+		_pureData.locateDelegate = nil;
+	}
+	_pureData = pureData;
+	_pureData.locateDelegate = self;
+}
 
 - (void)setEnableAccelerometer:(BOOL)enableAccelerometer {
 	if(self.enableAccelerometer == enableAccelerometer) {
@@ -260,19 +273,21 @@
 			locationDateFormatter = [[NSDateFormatter alloc] init];
 			[locationDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
 			
+			locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+			locationManager.distanceFilter = kCLDistanceFilterNone;
 			[locationManager startUpdatingLocation];
 			
-			DDLogVerbose(@"SceneManager: enabled accel");
+			DDLogVerbose(@"SceneManager: enabled location");
 		}
 		else {
-			DDLogWarn(@"SceneManager: couldn't enable locate, location services not available on this device");
+			DDLogWarn(@"SceneManager: couldn't enable location, location services not available on this device");
 		}
 	}
 	else { // stop
 		if([CLLocationManager locationServicesEnabled]) {
 			[locationManager stopUpdatingLocation];
 			locationDateFormatter = nil;
-			DDLogVerbose(@"SceneManager: disabled accel");
+			DDLogVerbose(@"SceneManager: disabled location");
 		}
 	}
 }
@@ -358,6 +373,57 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
 	DDLogError(@"SceneManager: location manager error: %@", error.localizedDescription);
+}
+
+#pragma mark PdLocationEventDelegate
+
+- (void)startLocationUpdates {
+	if(self.scene.requiresLocate) {
+		self.enableLocation = YES;
+	}
+}
+
+- (void)stopLocationUpdates {
+	if(self.scene.requiresLocate) {
+		self.enableLocation = NO;
+	}
+}
+
+- (void)setDesiredAccuracy:(NSString *)accuracy {
+	if([accuracy isEqualToString:@"navigation"]) {
+		locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+	}
+	else if([accuracy isEqualToString:@"best"]) {
+		locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	}
+	else if([accuracy isEqualToString:@"10m"]) {
+		locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+	}
+	else if([accuracy isEqualToString:@"100m"]) {
+		locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+	}
+	else if([accuracy isEqualToString:@"1km"]) {
+		locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+	}
+	else if([accuracy isEqualToString:@"3km"]) {
+		locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+	}
+	else {
+		DDLogWarn(@"SceneManager: ignoring unknown location accuracy string: %@", accuracy);
+		return;
+	}
+	DDLogVerbose(@"SceneManager: location accuracy: %@", accuracy);
+}
+
+- (void)setDistanceFilter:(float)distance {
+	if(distance > 0 ) {
+		locationManager.distanceFilter = distance;
+		DDLogVerbose(@"SceneManager: location distance filter: %f", distance);
+	}
+	else { // clip 0 & negative values
+		locationManager.distanceFilter = kCLDistanceFilterNone;
+		DDLogVerbose(@"SceneManager: location distance filter: none");
+	}
 }
 
 @end

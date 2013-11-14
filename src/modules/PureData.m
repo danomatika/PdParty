@@ -224,8 +224,8 @@
 		if([message isEqualToString:@"playback"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 			if([[arguments objectAtIndex:0] floatValue] < 1) {
 				_playingback = NO;
-				if(self.delegate) {
-					[self.delegate playbackFinished];
+				if(self.recordDelegate) {
+					[self.recordDelegate playbackFinished];
 				}
 				DDLogVerbose(@"PureData: stopped playing back");
 			}
@@ -237,15 +237,46 @@
 	}
 	else if([source isEqualToString:PARTY_GLOBAL_S]) {
 	
-		// received scene name
-		static NSString *sceneName = nil;
+		
+		static NSString *sceneName = nil; // received scene name
+	
+		// location service control
+		if([message isEqualToString:@"locate"] && [arguments count] > 0) {
+			if([arguments isNumberAt:0]) {
+				if(self.locateDelegate) {
+					if([[arguments objectAtIndex:0] boolValue]) {
+						[self.locateDelegate startLocationUpdates];
+					}
+					else {
+						[self.locateDelegate stopLocationUpdates];
+					}
+				}
+			}
+			else if([arguments isStringAt:0] && [arguments count] > 1) {
+				if([[arguments objectAtIndex:0] isEqualToString:@"accuracy"] && [arguments isStringAt:1]) {
+					if(self.locateDelegate) {
+						[self.locateDelegate setDesiredAccuracy:[arguments objectAtIndex:1]];
+					}
+				}
+				else if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
+					if(self.locateDelegate) {
+						[self.locateDelegate setDistanceFilter:[[arguments objectAtIndex:1] floatValue]];
+					}
+				}
+			}
+		}
+	
+		// set the scene name for remote recording
+		else if([message isEqualToString:@"scene"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+			sceneName = [arguments objectAtIndex:0];
+		}
 	
 		// start/stop recording remotely, set scene name first
-		if([message isEqualToString:@"record"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		else if([message isEqualToString:@"record"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 			if([[arguments objectAtIndex:0] boolValue]) {
 				if(sceneName && [self startedRecordingToRecordDir:[sceneName lastPathComponent] withTimestamp:YES]) {
-					if(self.delegate) {
-						[self.delegate remoteRecordingStarted];
+					if(self.recordDelegate) {
+						[self.recordDelegate remoteRecordingStarted];
 					}
 				}
 			}
@@ -254,13 +285,10 @@
 					return;
 				}
 				[self stopRecording];
-				if(self.delegate) {
-					[self.delegate remoteRecordingFinished];
+				if(self.recordDelegate) {
+					[self.recordDelegate remoteRecordingFinished];
 				}
 			}
-		}
-		else if([message isEqualToString:@"scene"] && [arguments count] > 0 && [arguments isStringAt:0]) {
-			sceneName = [arguments objectAtIndex:0];
 		}
 	}
 }

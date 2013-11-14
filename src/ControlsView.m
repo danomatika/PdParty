@@ -93,7 +93,7 @@
 
 - (void)dealloc {
 	if(self.sceneManager) {
-		self.sceneManager.pureData.delegate = nil;
+		self.sceneManager.pureData.recordDelegate = nil;
 	}
 }
 
@@ -230,10 +230,10 @@
 		return;
 	}
 	if(self.sceneManager) {
-		self.sceneManager.pureData.delegate = nil;
+		self.sceneManager.pureData.recordDelegate = nil;
 	}
 	_sceneManager = sceneManager;
-	self.sceneManager.pureData.delegate = self;
+	self.sceneManager.pureData.recordDelegate = self;
 }
 
 - (void)setHeight:(float)height {
@@ -267,7 +267,7 @@
 	return toolbarHeightConstraint.constant;
 }
 
-#pragma mark PdPlaybackDelegate
+#pragma mark PdRecordEventDelegate
 
 // outside events need to update the gui
 

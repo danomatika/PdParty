@@ -51,8 +51,14 @@
 @property (weak, nonatomic) Osc *osc; // pointer to osc instance
 @end
 
-// event delegate
-@protocol PdEventDelegate <NSObject>
+// event delegates
+@protocol PdLocateEventDelegate <NSObject>
+- (void)startLocationUpdates; // called if location service is started via a msg
+- (void)stopLocationUpdates;  // called if location service is stopped via a msg
+- (void)setDesiredAccuracy:(NSString *)accuracy; // set the desired accuracy
+- (void)setDistanceFilter:(float)distance;
+@end
+@protocol PdRecordEventDelegate <NSObject>
 - (void)remoteRecordingStarted;		// called if recording is started via a msg
 - (void)remoteRecordingFinished;	// called if recording is stopped via a msg
 - (void)playbackFinished;	// called when a wav file playback finished & looping is disabled
@@ -113,7 +119,10 @@
 - (void)stopPlayback;
 
 // receives event when playback is finished
-@property (assign, nonatomic) id<PdEventDelegate> delegate;
+@property (assign, nonatomic) id<PdRecordEventDelegate> recordDelegate;
+
+// receieves location control events
+@property (assign, nonatomic) id<PdLocateEventDelegate> locateDelegate;
 
 #pragma mark Send Events
 
