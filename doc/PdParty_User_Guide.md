@@ -273,11 +273,14 @@ Running a regular .pd patch (a Patch scene) is the same as running a PdParty sce
 
 ### Pure Data Compatibility
 
-PdParty is built using libpd and can be compared to Pd-vanilla. It also includes the mrpeach midifile, OSC, & UDP externals.
+PdParty is built using libpd and can be compared to Pd-vanilla with the following externals:
+
+* **mrpeach**: [midifile], [udpsend], [udpreceive], [routeOSC], [packOSC], [unpackOSC], [pipelist]
+* **ggee**: [getdir], [moog~], [stripdir]
 
 It's highly recommended that you use a vanilla-based abstraction library like [rjlib](https://github.com/rjdj/rjlib) for expanded functionality.
 
-When patching for PdParty (as with RjDj & PdDroidParty), it is recommended to disable all external libraries except for mrpeach if you are using pd-extended. This should help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my PD settings file, one for desktop development and another for pd-vanilla/libpd work.
+When patching for PdParty (as with RjDj & PdDroidParty), it is recommended to disable all external libraries except for mrpeach & ggee if you are using pd-extended. This should help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
 
 #### [expr], [expr~], & [fexpr~]
 
