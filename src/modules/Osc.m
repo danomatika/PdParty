@@ -42,6 +42,7 @@
 		
 		self.accelSendingEnabled = [defaults boolForKey:@"accelSendingEnabled"];
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
+		self.locateSendingEnabled = [defaults boolForKey:@"locateSendingEnabled"];
 		self.keySendingEnabled = [defaults boolForKey:@"keySendingEnabled"];
 		self.printSendingEnabled = [defaults boolForKey:@"printSendingEnabled"];
 		
@@ -90,6 +91,22 @@
 	[message addFloat:id+1];
 	[message addFloat:x];
 	[message addFloat:y];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt speed:(float)speed
+	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
+	timestamp:(NSString *)timestamp {
+	if(!self.listening || !self.locateSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_LOCATE_ADDR;
+	[message addFloat:lat];
+	[message addFloat:lon];
+	[message addFloat:alt];
+	[message addFloat:speed];
+	[message addFloat:horzAccuracy];
+	[message addFloat:vertAccuracy];
+	[message addString:timestamp];
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
@@ -155,6 +172,11 @@
 - (void)setTouchSendingEnabled:(BOOL)touchSendingEnabled {
 	_touchSendingEnabled = touchSendingEnabled;
 	[[NSUserDefaults standardUserDefaults] setBool:touchSendingEnabled forKey:@"touchSendingEnabled"];
+}
+
+- (void)setLocateSendingEnabled:(BOOL)locateSendingEnabled {
+	_locateSendingEnabled = locateSendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:locateSendingEnabled forKey:@"locateSendingEnabled"];
 }
 
 - (void)setKeySendingEnabled:(BOOL)keySendingEnabled {

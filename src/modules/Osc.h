@@ -12,6 +12,7 @@
 
 #define OSC_TOUCH_ADDR	@"/pdparty/touch"
 #define OSC_ACCEL_ADDR	@"/pdparty/accelerate"
+#define OSC_LOCATE_ADDR @"/pdparty/locate"
 #define OSC_KEY_ADDR	@"/pdparty/key"
 #define OSC_PRINT_ADDR	@"/pdparty/print"
 
@@ -25,6 +26,7 @@
 // should the following events be sent automatically? (default: NO)
 @property (assign, nonatomic) BOOL accelSendingEnabled;
 @property (assign, nonatomic) BOOL touchSendingEnabled;
+@property (assign, nonatomic) BOOL locateSendingEnabled;
 @property (assign, nonatomic) BOOL keySendingEnabled;
 @property (assign, nonatomic) BOOL printSendingEnabled;
 
@@ -38,6 +40,11 @@
 
 // rj touch event
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
+
+// pd party locate event
+- (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt speed:(float)speed
+	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
+	timestamp:(NSString *)timestamp;
 
 // pd key event
 - (void)sendKey:(int)key;

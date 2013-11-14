@@ -146,6 +146,10 @@
 	return NO;
 }
 
+- (BOOL)requiresLocate {
+	return NO;
+}
+
 - (BOOL)requiresKeys {
 	return NO;
 }

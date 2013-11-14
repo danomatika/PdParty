@@ -311,15 +311,25 @@ PdParty returns the following events:
   * _x_: x position
   * _y_: y position
 * **[r #accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
+* **[ r #locate] _timestamp_ _lat_ _lon_ _alt_ _speed_ _horz_accuracy_ _vert_accuracy_**
+  * _lat_: latitude in degrees
+  * _lon_: longitude in degrees
+  * _alt_: altitude from sea level in meters, + above & - below
+  * _speed_: average speed in meters per second (not guaranteed to be accurate), invalid if negative
+  * _horz_accuracy_: horizontal accuracy (+/-) of the lat & lon in meters
+  * _vert_accuracy_: vertical accuracy (+/-) of the alt in meters
+  * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
+
+_Note: RjDj scenes only receive #touch & #accelerate, PdDroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the cause of RjDj as the RjDj app is no longer available).
 
 #### Recording
 
 You can manually trigger recording via sending messages to the internal #pdparty receiver in your patches:
 
-* **\[s #pdparty]** _filename_: set filename for recording 
-  * _filename_: timestamp is appended & file is saved to the recordings dir
-* **[\#pdparty]** _record_: recording control, also connected to the GUI 
-  * _record_: boolean to start/stop recording
+* **#pdparty scene _name_**: set the scene/file name for recording 
+  * _name_: timestamp is appended & file is saved to the recordings dir
+* **#pdparty record _value_**: recording control, also connected to the GUI 
+  * _value_: boolean to start/stop recording
   
 Note: Recording will only work if you are using the rjlib [soundoutput] patch instead of [dac~].
 
@@ -334,6 +344,7 @@ Also, most of these events can also be streamed over OSC, included Pd prints. Th
 
 * /pdparty/touch
 * /pdparty/accelrate
+* /pdparty/locate
 * /pdparty/key
 * /pdparty/print
 

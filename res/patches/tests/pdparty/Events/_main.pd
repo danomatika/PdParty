@@ -1,18 +1,18 @@
 #N canvas 71 67 363 453 10;
-#X obj 19 337 bng 40 250 50 0 empty q q 18 20 0 10 -262144 -1 -1;
-#X obj 75 337 bng 40 250 50 0 empty w w 18 20 0 10 -262144 -1 -1;
-#X obj 131 337 bng 40 250 50 0 empty e e 18 20 0 10 -262144 -1 -1;
-#X obj 188 337 bng 40 250 50 0 empty r r 18 20 0 10 -262144 -1 -1;
-#X obj 245 337 bng 40 250 50 0 empty t t 18 20 0 10 -262144 -1 -1;
-#X obj 302 337 bng 40 250 50 0 empty y y 18 20 0 10 -262144 -1 -1;
+#X obj 22 396 bng 40 250 50 0 empty q q 18 20 0 10 -262144 -1 -1;
+#X obj 78 396 bng 40 250 50 0 empty w w 18 20 0 10 -262144 -1 -1;
+#X obj 134 396 bng 40 250 50 0 empty e e 18 20 0 10 -262144 -1 -1;
+#X obj 191 396 bng 40 250 50 0 empty r r 18 20 0 10 -262144 -1 -1;
+#X obj 248 396 bng 40 250 50 0 empty t t 18 20 0 10 -262144 -1 -1;
+#X obj 305 396 bng 40 250 50 0 empty y y 18 20 0 10 -262144 -1 -1;
 #X obj 10 10 cnv 15 160 160 empty empty touch 20 12 0 14 -233017 -66577
 0;
 #X floatatom 17 56 5 0 0 1 id touch_down_id -;
 #X floatatom 74 56 5 0 0 1 x touch_down_x -;
 #X floatatom 125 56 5 0 0 1 y touch_down_y -;
-#X obj 10 234 cnv 15 80 60 empty empty [key] 20 12 0 14 -233017 -66577
+#X obj 12 312 cnv 15 80 60 empty empty [key] 20 12 0 14 -233017 -66577
 0;
-#X floatatom 31 265 5 0 0 1 - key -;
+#X floatatom 33 343 5 0 0 1 - key -;
 #X obj 190 11 cnv 15 160 160 empty empty accelerate 20 12 0 14 -233017
 -66577 0;
 #X floatatom 212 56 10 0 0 1 x ax -;
@@ -54,7 +54,7 @@
 #X connect 10 0 0 0;
 #X connect 10 1 5 0;
 #X connect 10 2 6 0;
-#X restore 19 179 pd touch;
+#X restore 89 15 pd touch;
 #N canvas 664 235 218 152 accel 0;
 #X obj 40 58 unpack f f f;
 #X obj 74 87 s ay;
@@ -66,7 +66,7 @@
 #X connect 0 1 1 0;
 #X connect 0 2 2 0;
 #X connect 4 0 0 0;
-#X restore 228 180 pd accel;
+#X restore 293 16 pd accel;
 #N canvas 814 111 303 150 key 0;
 #X obj 21 25 key;
 #X obj 72 55 route 113 119 101 114 116 121;
@@ -86,7 +86,35 @@
 #X connect 1 4 6 0;
 #X connect 1 5 7 0;
 #X connect 9 0 1 0;
-#X restore 106 238 pd key;
+#X restore 103 323 pd key;
 #X text 17 124 up;
 #X text 16 79 xy;
-#X text 104 265 try a usb/bluetooth keyboard;
+#X text 100 346 try a usb/bluetooth keyboard;
+#X obj 11 191 cnv 15 340 100 empty empty locate 20 12 0 14 -233017
+-66577 0;
+#X floatatom 20 218 10 0 0 1 latitude lat -;
+#X floatatom 20 242 10 0 0 1 longitude lon -;
+#X symbolatom 168 195 25 0 0 0 - timestamp -;
+#X floatatom 20 267 10 0 0 1 altitude_(m) alt -;
+#X floatatom 167 219 10 0 0 1 speed_(mps) speed -;
+#X floatatom 167 243 10 0 0 1 horz_accuracy_(m) haccuracy -;
+#X floatatom 167 267 10 0 0 1 vert_accuracy_(m) vaccuracy -;
+#N canvas 272 380 225 299 locate 0;
+#X obj 20 22 r #locate;
+#X obj 137 86 s timestamp;
+#X obj 20 261 s lat;
+#X obj 39 235 s lon;
+#X obj 78 178 s speed;
+#X obj 59 206 s alt;
+#X obj 117 116 s vaccuracy;
+#X obj 98 146 s haccuracy;
+#X obj 20 55 unpack f f f f f f s;
+#X connect 0 0 8 0;
+#X connect 8 0 2 0;
+#X connect 8 1 3 0;
+#X connect 8 2 5 0;
+#X connect 8 3 4 0;
+#X connect 8 4 7 0;
+#X connect 8 5 6 0;
+#X connect 8 6 1 0;
+#X restore 289 324 pd locate;

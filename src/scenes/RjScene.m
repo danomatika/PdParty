@@ -166,6 +166,10 @@
 	return RJ_SAMPLERATE;
 }
 
+- (BOOL)requiresLocate {
+	return NO;
+}
+
 - (BOOL)requiresKeys {
 	return NO;
 }

@@ -30,7 +30,7 @@
 #define RJ_TOUCH_XY		@"xy"
 
 // PdParty event receivers
-#define PARTY_ROTATE_R	@"#rotate"
+#define PARTY_LOCATE_R	@"#locate"
 
 // incoming event sends
 #define PD_OSC_S		@"#osc-out"
@@ -51,7 +51,7 @@
 @property (weak, nonatomic) Osc *osc; // pointer to osc instance
 @end
 
-//event delegate
+// event delegate
 @protocol PdEventDelegate <NSObject>
 - (void)remoteRecordingStarted;		// called if recording is started via a msg
 - (void)remoteRecordingFinished;	// called if recording is stopped via a msg
@@ -122,6 +122,11 @@
 
 // rj accel event
 + (void)sendAccel:(float)x y:(float)y z:(float)z;
+
+// pd party locate event
++ (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt speed:(float)speed
+	  horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
+	  timestamp:(NSString *)timestamp;
 
 // pd key event
 + (void)sendKey:(int)key;

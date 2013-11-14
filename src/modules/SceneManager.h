@@ -9,12 +9,13 @@
  *
  */
 #import <UIKit/UIKit.h>
- 
+#import <CoreLocation/CoreLocation.h>
+
 #import "AllScenes.h"
 #import "PureData.h"
 #import "Osc.h"
 
-@interface SceneManager : NSObject <UIAccelerometerDelegate>
+@interface SceneManager : NSObject <UIAccelerometerDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) Gui *gui; // pd gui widgets
 @property (strong, nonatomic) Scene* scene; // current scene
@@ -25,6 +26,9 @@
 
 @property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
 @property (assign, nonatomic) UIInterfaceOrientation currentOrientation; // accel orientation based on this
+
+@property (assign, nonatomic) BOOL enableLocation; // enable receiving location events?
+@property (assign, nonatomic) BOOL enableHeading; // enable receiving heading events?
 
 // close the current scene and open a new one, requires full path to current patch
 - (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent;

@@ -14,6 +14,8 @@
 	<false/>
 	<key>touchSendingEnabled</key>
 	<false/>
+	<key>locateSendingEnabled</key>
+	<false/>
 	<key>keySendingEnabled</key>
 	<false/>
 	<key>printSendingEnabled</key>

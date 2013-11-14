@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		300507B217C29CE700D1563C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300507B117C29CE600D1563C /* SettingsViewController.m */; };
 		300507B417C2C11700D1563C /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 300507B317C2C11700D1563C /* Defaults.plist */; };
+		300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300EC0451833D74F00219F48 /* CoreLocation.framework */; };
 		3024563217357F540016583B /* Externals.m in Sources */ = {isa = PBXBuildFile; fileRef = 3024563117357F540016583B /* Externals.m */; };
 		30245649173582340016583B /* midifile.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245634173582340016583B /* midifile.c */; };
 		3024564A173582340016583B /* httpreceive.c in Sources */ = {isa = PBXBuildFile; fileRef = 30245636173582340016583B /* httpreceive.c */; };
@@ -249,6 +250,7 @@
 		300507B017C29CE600D1563C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = src/SettingsViewController.h; sourceTree = "<group>"; };
 		300507B117C29CE600D1563C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = src/SettingsViewController.m; sourceTree = "<group>"; };
 		300507B317C2C11700D1563C /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
+		300EC0451833D74F00219F48 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3024563017357ECC0016583B /* Externals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
 		3024563117357F540016583B /* Externals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Externals.m; sourceTree = "<group>"; };
 		30245634173582340016583B /* midifile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = midifile.c; sourceTree = "<group>"; };
@@ -613,6 +615,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */,
 				30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */,
 				30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */,
 				30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */,
@@ -1012,6 +1015,7 @@
 		30ABE2A616B5A8E500464926 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				300EC0451833D74F00219F48 /* CoreLocation.framework */,
 				30F5282017D3BD24004736A6 /* Crashlytics.framework */,
 				30F3E79617CAA1BB00117305 /* QuartzCore.framework */,
 				30C77BE316F1C67500988EB9 /* libicucore.dylib */,

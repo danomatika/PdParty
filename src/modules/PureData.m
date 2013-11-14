@@ -119,7 +119,7 @@
 	
 	if(timestamp) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-		[formatter setDateFormat:@"yy-MM-dd_hhmmss"];
+		[formatter setDateFormat:@"yyyy-MM-dd_HHmmss"];
 		NSString *date = [formatter stringFromDate:[NSDate date]];
 		[self startRecordingTo:[recordDir stringByAppendingPathComponent:
 			[[path stringByDeletingPathExtension] stringByAppendingFormat:@"_%@.wav", date]]];
@@ -157,6 +157,16 @@
 
 + (void)sendAccel:(float)x y:(float)y z:(float)z {
 	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:x], [NSNumber numberWithFloat:y], [NSNumber numberWithFloat:z], nil] toReceiver:RJ_ACCELERATE_R];
+}
+
++ (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt speed:(float)speed
+	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
+	timestamp:(NSString *)timestamp {
+	[PdBase sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:lat], [NSNumber numberWithFloat:lon],
+		[NSNumber numberWithFloat:alt], [NSNumber numberWithFloat:speed],
+		[NSNumber numberWithFloat:horzAccuracy], [NSNumber numberWithFloat:vertAccuracy],
+		timestamp, nil] toReceiver:PARTY_LOCATE_R];
 }
 
 + (void)sendKey:(int)key {

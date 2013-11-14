@@ -119,6 +119,10 @@
 	return YES;
 }
 
+- (BOOL)requiresLocate {
+	return YES;
+}
+
 - (BOOL)requiresKeys {
 	return YES;
 }

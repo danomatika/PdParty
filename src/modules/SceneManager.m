@@ -18,7 +18,13 @@
 #define ACCEL_UPDATE_HZ	60.0
 
 @interface SceneManager () {
+	
 	CMMotionManager *motionManager; // for accel data
+	
+	CLLocationManager *locationManager; // for location data
+	BOOL hasIgnoredStartingLocation; // ignore the initial, old location
+	NSDateFormatter *locationDateFormatter;
+	
 	BOOL hasReshaped; // has the gui been reshaped?
 }
 @property (strong, readwrite, nonatomic) NSString* currentPath;
@@ -43,6 +49,10 @@
 		else { // do not start rotated on iPhone
 			self.currentOrientation = UIInterfaceOrientationPortrait;
 		}
+		
+		// init location manager
+		locationManager = [[CLLocationManager alloc] init];
+		locationManager.delegate = self;
 		
 		// set osc and pure data pointer
 		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -89,6 +99,7 @@
 	self.pureData.audioEnabled = YES;
 	self.pureData.sampleRate = self.scene.sampleRate;
 	self.enableAccelerometer = self.scene.requiresAccel;
+	self.enableLocation = self.scene.requiresLocate;
 	self.pureData.playing = YES;
 	[self.scene open:path];
 	
@@ -190,41 +201,33 @@
 							[PureData sendAccel:accelerometerData.acceleration.x
 											  y:accelerometerData.acceleration.y
 											  z:accelerometerData.acceleration.z];
-							if(self.osc.isListening) {
-								[self.osc sendAccel:accelerometerData.acceleration.x
-												  y:accelerometerData.acceleration.y
-												  z:accelerometerData.acceleration.z];
-							}
+							[self.osc sendAccel:accelerometerData.acceleration.x
+											  y:accelerometerData.acceleration.y
+											  z:accelerometerData.acceleration.z];
 							break;
 						case UIInterfaceOrientationLandscapeRight:
 							[PureData sendAccel:-accelerometerData.acceleration.y
 											  y:accelerometerData.acceleration.x
 											  z:accelerometerData.acceleration.z];
-							if(self.osc.isListening) {
-								[self.osc sendAccel:-accelerometerData.acceleration.y
-												  y:accelerometerData.acceleration.x
-												  z:accelerometerData.acceleration.z];
-							}
+							[self.osc sendAccel:-accelerometerData.acceleration.y
+											  y:accelerometerData.acceleration.x
+											  z:accelerometerData.acceleration.z];
 							break;
 						case UIInterfaceOrientationPortraitUpsideDown:
 							[PureData sendAccel:-accelerometerData.acceleration.x
 											  y:-accelerometerData.acceleration.y
 											  z:accelerometerData.acceleration.z];
-							if(self.osc.isListening) {
-								[self.osc sendAccel:-accelerometerData.acceleration.x
-												  y:-accelerometerData.acceleration.y
-												  z:accelerometerData.acceleration.z];
-							}
+							[self.osc sendAccel:-accelerometerData.acceleration.x
+											  y:-accelerometerData.acceleration.y
+											  z:accelerometerData.acceleration.z];
 							break;
 						case UIInterfaceOrientationLandscapeLeft:
 							[PureData sendAccel:accelerometerData.acceleration.y
 											  y:-accelerometerData.acceleration.x
 											  z:accelerometerData.acceleration.z];
-							if(self.osc.isListening) {
-								[self.osc sendAccel:accelerometerData.acceleration.y
-												  y:-accelerometerData.acceleration.x
-												  z:accelerometerData.acceleration.z];
-							}
+							[self.osc sendAccel:accelerometerData.acceleration.y
+											  y:-accelerometerData.acceleration.x
+											  z:accelerometerData.acceleration.z];
 							break;
 					}
 				}];
@@ -240,6 +243,121 @@
 			DDLogVerbose(@"SceneManager: disabled accel");
 		}
 	}
+}
+
+- (void)setEnableLocation:(BOOL)enableLocation {
+	if(self.enableLocation == enableLocation) {
+		return;
+	}
+	_enableLocation = enableLocation;
+	
+	// start
+	if(enableLocation) {
+		if([CLLocationManager locationServicesEnabled]) {
+			
+			hasIgnoredStartingLocation = NO;
+			
+			locationDateFormatter = [[NSDateFormatter alloc] init];
+			[locationDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+			
+			[locationManager startUpdatingLocation];
+			
+			DDLogVerbose(@"SceneManager: enabled accel");
+		}
+		else {
+			DDLogWarn(@"SceneManager: couldn't enable locate, location services not available on this device");
+		}
+	}
+	else { // stop
+		if([CLLocationManager locationServicesEnabled]) {
+			[locationManager stopUpdatingLocation];
+			locationDateFormatter = nil;
+			DDLogVerbose(@"SceneManager: disabled accel");
+		}
+	}
+}
+
+#pragma mark CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+	
+	NSString *statusString;
+	switch(status) {
+		
+		case kCLAuthorizationStatusRestricted:
+			statusString = @"Restricted";
+			if([CLLocationManager locationServicesEnabled]) {
+				[locationManager stopUpdatingLocation];
+			}
+			break;
+   
+		case kCLAuthorizationStatusDenied:
+			if([CLLocationManager locationServicesEnabled]) {
+				[locationManager stopUpdatingLocation];
+			}
+			statusString = @"Denied";
+			break;
+		
+		case kCLAuthorizationStatusAuthorized:
+			statusString = @"Authorized";
+			break;
+		
+		default:
+			statusString = @"Not Determined";
+			break;
+	}
+	DDLogVerbose(@"SceneManager: location authorization: %@", statusString);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+
+	// ignore stale stored location when starting
+	if(!hasIgnoredStartingLocation) {
+		CLLocation *location = [locations objectAtIndex:0];
+		if(abs([location.timestamp timeIntervalSinceNow]) > 1.0) {
+			hasIgnoredStartingLocation = YES;
+			return; // assume there aren't any extra locations in the array
+		}
+	}
+	
+	// handle locations, oldest is first
+	for(CLLocation *location in locations) {
+		
+		DDLogVerbose(@"locate %@", location.description);
+		
+		NSString *timestamp = [locationDateFormatter stringFromDate:location.timestamp];
+		
+		[PureData sendLocate:location.coordinate.latitude
+						 lon:location.coordinate.longitude
+						 alt:location.altitude
+					   speed:location.speed
+				horzAccuracy:location.horizontalAccuracy
+				vertAccuracy:location.verticalAccuracy
+				   timestamp:timestamp];
+		
+		[self.osc sendLocate:location.coordinate.latitude
+						 lon:location.coordinate.longitude
+						 alt:location.altitude
+					   speed:location.speed
+				horzAccuracy:location.horizontalAccuracy
+				vertAccuracy:location.verticalAccuracy
+				   timestamp:timestamp];
+	}
+}
+
+- (void)locationManagerDidPauseLocationUpdates:(CLLocationManager *)manager {
+	DDLogVerbose(@"SceneManager: location updates paused");
+}
+
+- (void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager {
+	DDLogVerbose(@"SceneManager: location updates resumed");
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+	DDLogError(@"SceneManager: location manager error: %@", error.localizedDescription);
 }
 
 @end

@@ -17,5 +17,6 @@ SystemConfiguration
 CoreMotion
 libicucore.dylib
 QuartzCore
+CoreLocation
 
 Compiler flags for non-Arc libs: -fno-objc-arc
