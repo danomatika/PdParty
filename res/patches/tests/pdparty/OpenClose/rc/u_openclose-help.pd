@@ -1,0 +1,42 @@
+#N canvas 388 168 868 521 10;
+#N canvas 153 90 582 570 REFERENCE 0;
+#X text 24 31 Name: [u_openclose];
+#X text 24 51 Summary: open and close relative patch filenames \, the
+previosuly opened patch is automatically closed;
+#X text 24 109 Inlet 0: "open" <symbol> - open a given patch \; "close"
+- close the currently open patch;
+#X text 24 165 Outlet 0: <symbol> - the last opened patch path;
+#X text 24 185 Outlet 1: <symbol> - the last closed patch path;
+#X text 24 434 Tags: opening patches \, utilities;
+#X text 24 377 See also: [c_playlist] \, [getdir];
+#X text 24 234 Description: This is basically a wrapper around the
+2.open_close.pd example in pd-msg. You give it a relative path to a
+.pd file and it opens it for you. Send another patch and it closes
+the previously opened patch before opening the new one. Closes current
+patch when the [u_openclose] abstraction is closed. This is useful
+in conjunction with [c_playlist] to open and close individual songs
+which are encapsulated as separate patch files. NOTE: this requires
+the ggee [getdir] external \, so it won't work in pd-vanilla.;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 51 Example:;
+#X text 495 488 rc-patches (https://github.com/danomatika/rc-patches)
+- 2013;
+#X msg 564 248 close;
+#X text 610 249 close the currently open patch;
+#X symbolatom 563 348 20 0 0 1 closed - -;
+#X symbolatom 500 376 20 0 0 1 opened - -;
+#X msg 500 102 open media/file1.pd;
+#X msg 534 138 open media/file2.pd;
+#X text 129 21 - open and close patches via filename;
+#X obj 500 316 u_openclose;
+#X text 535 414 note: takes relative filenames;
+#X text 552 171 closes prev patch before openign new one;
+#X obj 8 20 u_openclose;
+#X connect 4 0 11 0;
+#X connect 8 0 11 0;
+#X connect 9 0 11 0;
+#X connect 11 0 7 0;
+#X connect 11 1 6 0;

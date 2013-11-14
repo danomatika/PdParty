@@ -1,0 +1,51 @@
+#N canvas 183 22 882 511 10;
+#N canvas 54 148 582 570 REFERENCE 0;
+#X text 24 51 Summary: convert an incoming list into a symbol with
+list elements separated by a given sumbol;
+#X text 24 91 Argument 0: <symbol> separator between list elements
+\, default is a space;
+#X text 24 134 Inlet 0: a list to convert;
+#X text 24 154 Inlet 1: <symbol> separator between list elements \,
+<float> separator as an ascii char value;
+#X text 24 196 Outlet 0: converted list as a symbol;
+#X text 24 256 Description: This is essentially a pd-vanilla version
+of [list2symbol] in the zexy external.;
+#X text 24 434 Tags: Lists \, Utilities;
+#X text 24 334 See also: [list2symbol] & [l2s] (require zexy) [list]
+[u_listdrop] [u_lister];
+#X text 24 31 Name: [u_list2symbol];
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 51 Example:;
+#X msg 484 89 list this was a list and is now a symbol;
+#X msg 507 114 anythings work fine too;
+#X msg 559 148 symbol --;
+#X msg 581 198 symbol;
+#X text 629 199 even to a zero-length symbol!;
+#X symbolatom 484 308 50 0 0 0 - - -;
+#X msg 569 174 symbol .;
+#X msg 485 353 yet another list of symbols;
+#X symbolatom 485 426 50 0 0 0 - - -;
+#X text 587 390 <-- also set the separator as a creation arg;
+#X text 625 146 set the separator (default is a space);
+#X msg 597 233 32;
+#X msg 606 256 33;
+#X text 637 239 also takes ascii char values;
+#X text 129 21 - convert a list into a symbol;
+#X obj 8 20 u_list2symbol;
+#X obj 484 275 u_list2symbol;
+#X obj 485 390 u_list2symbol _;
+#X text 483 475 rc-patches (https://github.com/danomatika/rc-patches)
+- 2012;
+#X connect 3 0 19 0;
+#X connect 4 0 19 0;
+#X connect 5 0 19 1;
+#X connect 6 0 19 1;
+#X connect 9 0 19 1;
+#X connect 10 0 20 0;
+#X connect 14 0 19 1;
+#X connect 15 0 19 1;
+#X connect 19 0 8 0;
+#X connect 20 0 11 0;

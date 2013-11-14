@@ -1,0 +1,27 @@
+#N canvas 71 237 386 478 10;
+#X declare -path rc;
+#X text 27 68 switch between two patches by opening and closing them
+;
+#X obj 125 167 hradio 60 1 0 2 \$0-switcher-out empty switcher 0 -8
+0 10 -262144 -1 -1 0;
+#X text 36 185 low tone ->;
+#X text 267 186 <- high tone;
+#X obj 169 274 bng 30 250 50 0 \$0-close-out empty close 1 -8 0 10
+-262144 -1 -1;
+#N canvas 484 442 249 265 guts 0;
+#X obj 28 58 sel 0 1;
+#X obj 28 215 u_openclose;
+#X msg 134 173 close;
+#X msg 135 101 open patch2.pd;
+#X msg 28 100 open patch1.pd;
+#X obj 134 143 r \$0-close-out;
+#X obj 28 29 r \$0-switcher-out;
+#X obj 131 216 declare -path rc;
+#X connect 0 0 4 0;
+#X connect 0 1 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 2 0;
+#X connect 6 0 0 0;
+#X restore 160 368 pd guts;
