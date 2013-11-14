@@ -16,4 +16,6 @@
 
 + (id)commentFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
+@property (assign, nonatomic) int numForcedLineBreaks; // num line breaks forced by a ; char
+
 @end

@@ -1,4 +1,4 @@
-#N canvas 592 121 370 526 10;
+#N canvas 592 121 364 526 10;
 #X obj 11 91 tgl 30 0 runlocate empty run 7 15 0 10 -262144 -1 -1 0
 1;
 #X text 8 7 location (aka GPS) events require extra battery & cpu \,
@@ -29,9 +29,6 @@
 #X text 9 57 your device should have a gps chip for best results;
 #X text 8 255 the speed of location events & overall resource usage
 ;
-#X text 12 432 distance filer threshold (default 0) \, events ocurr
-when;
-#X text 12 448 the location has changed beyond this threshold;
 #N canvas 869 362 504 293 guts 0;
 #X obj 20 22 r #locate;
 #X obj 137 86 s timestamp;
@@ -96,4 +93,8 @@ when;
 #X connect 19 0 16 0;
 #X restore 304 138 pd guts;
 #X text 15 306 accuracy (default "best") \, "navigation" is *intensive*
+;
+#X text 12 432 distance filer threshold (default 0) \, events occur
+when;
+#X text 12 448 your pos has changed beyond this value \, 0 = no filter
 ;

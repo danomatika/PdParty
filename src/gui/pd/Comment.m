@@ -27,15 +27,32 @@
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 		0, 0); // size based on label size
 
-	// create the comment string
+	// create the comment string, handle escaped chars
 	NSMutableString *text = [[NSMutableString alloc] init];
+	BOOL appendSpace = NO;
 	for(int i = 4; i < line.count; ++i) {
-		[text appendString:[line objectAtIndex:i]];
-		if(i < line.count - 1) {
-			[text appendString:@" "];
+		if([[line objectAtIndex:i] isEqualToString:@"\\,"]) {
+			[text appendString:@","];
+		}
+		else if([[line objectAtIndex:i] isEqualToString:@"\\;"]) {
+			[text appendString:@";\n"]; // semi ; force a line break in pd gui
+			c.numForcedLineBreaks++;
+			appendSpace = NO;
+		}
+		else if([[line objectAtIndex:i] isEqualToString:@"\\$"]) {
+			[text appendString:@"$"];
+		}
+		else {
+			if(appendSpace) {
+				[text appendString:@" "];
+			}
+			appendSpace = YES;
+			[text appendString:[line objectAtIndex:i]];
 		}
 	}
 	c.label.text = text;
+	
+//	DDLogVerbose(@"Comment: text is \"%@\"", text);
 	
 	return c;
 }
@@ -43,6 +60,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
+		self.numForcedLineBreaks = 0;
 		self.label.numberOfLines = 0;
 		self.label.lineBreakMode = NSLineBreakByWordWrapping;
 	}
@@ -62,6 +80,9 @@
 	}
 	else {
 		maxLabelSize.height = charSize.height;
+	}
+	if(self.numForcedLineBreaks > 0) {
+		maxLabelSize.height += charSize.height * self.numForcedLineBreaks;
 	}
 	CGRect labelFrame = self.label.frame;
 	labelFrame.size = [self.label.text sizeWithFont:self.label.font

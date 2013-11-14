@@ -1,4 +1,6 @@
 #N canvas 492 113 598 371 16;
-#X text 21 24 a comment .. yeah!;
 #X text 28 132 this is a longer comment and should wrap at 60 chars
 automatically;
+#X text 32 252 this comment \, it has some \; escaped $ chars \, \;
+$in it \;;
+#X text 21 24 a comment ... yeah!;
