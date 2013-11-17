@@ -286,17 +286,17 @@
 			locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 			locationManager.distanceFilter = kCLDistanceFilterNone;
 			[locationManager startUpdatingLocation];
-			[self.pureData sendPrint:@"pdparty: location enabled"];
+			[self.pureData sendPrint:@"locate enabled"];
 		}
 		else {
-			[self.pureData sendPrint:@"pdparty: couldn't enable location, location services disabled or not available on this device"];
+			[self.pureData sendPrint:@"couldn't enable locate, location services disabled or not available on this device"];
 		}
 	}
 	else { // stop
 		if([CLLocationManager locationServicesEnabled]) {
 			[locationManager stopUpdatingLocation];
 			locationDateFormatter = nil;
-			[self.pureData sendPrint:@"pdparty: location disabled"];
+			[self.pureData sendPrint:@"locate disabled"];
 		}
 	}
 }
@@ -318,17 +318,17 @@
 			
 			locationManager.headingFilter = 1;
 			[locationManager startUpdatingHeading];
-			[self.pureData sendPrint:@"pdparty: heading enabled"];
+			[self.pureData sendPrint:@"heading enabled"];
 		}
 		else {
-			[self.pureData sendPrint:@"pdparty: couldn't enable heading, heading not available on this device"];
+			[self.pureData sendPrint:@"couldn't enable heading, heading not available on this device"];
 		}
 	}
 	else { // stop
 		if([CLLocationManager headingAvailable]) {
 			[locationManager stopUpdatingHeading];
 			headingDateFormatter = nil;
-			[self.pureData sendPrint:@"pdparty: heading disabled"];
+			[self.pureData sendPrint:@"heading disabled"];
 		}
 	}
 }
@@ -465,11 +465,11 @@
 		locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
 	}
 	else {
-		[self.pureData sendPrint:[NSString stringWithFormat:@"pdparty: ignoring unknown location accuracy string: %@", accuracy]];
+		[self.pureData sendPrint:[NSString stringWithFormat:@"ignoring unknown locate accuracy string: %@", accuracy]];
 		return;
 	}
 	
-	DDLogVerbose(@"SceneManager: ocation accuracy: %@", accuracy);
+	DDLogVerbose(@"SceneManager: location accuracy: %@", accuracy);
 }
 
 - (void)setDistanceFilter:(float)distance {
