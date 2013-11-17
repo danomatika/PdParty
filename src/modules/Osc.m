@@ -43,6 +43,7 @@
 		self.accelSendingEnabled = [defaults boolForKey:@"accelSendingEnabled"];
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
 		self.locateSendingEnabled = [defaults boolForKey:@"locateSendingEnabled"];
+		self.headingSendingEnabled = [defaults boolForKey:@"headingSendingEnabled"];
 		self.keySendingEnabled = [defaults boolForKey:@"keySendingEnabled"];
 		self.printSendingEnabled = [defaults boolForKey:@"printSendingEnabled"];
 		
@@ -94,7 +95,8 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
-- (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt speed:(float)speed
+- (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
+	speed:(float)speed course:(float)course
 	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
 	timestamp:(NSString *)timestamp {
 	if(!self.listening || !self.locateSendingEnabled) return;
@@ -104,8 +106,19 @@
 	[message addFloat:lon];
 	[message addFloat:alt];
 	[message addFloat:speed];
+	[message addFloat:course];
 	[message addFloat:horzAccuracy];
 	[message addFloat:vertAccuracy];
+	[message addString:timestamp];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp {
+	if(!self.listening || !self.locateSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_HEADING_ADDR;
+	[message addFloat:degrees];
+	[message addFloat:accuracy];
 	[message addString:timestamp];
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
@@ -177,6 +190,11 @@
 - (void)setLocateSendingEnabled:(BOOL)locateSendingEnabled {
 	_locateSendingEnabled = locateSendingEnabled;
 	[[NSUserDefaults standardUserDefaults] setBool:locateSendingEnabled forKey:@"locateSendingEnabled"];
+}
+
+- (void)setHeadingSendingEnabled:(BOOL)headingSendingEnabled {
+	_headingSendingEnabled = headingSendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:headingSendingEnabled forKey:@"headingSendingEnabled"];
 }
 
 - (void)setKeySendingEnabled:(BOOL)keySendingEnabled {

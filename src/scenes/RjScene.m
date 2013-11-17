@@ -166,7 +166,11 @@
 	return RJ_SAMPLERATE;
 }
 
-- (BOOL)requiresLocate {
+- (BOOL)supportsLocate {
+	return NO;
+}
+
+- (BOOL)supportsHeading {
 	return NO;
 }
 

@@ -23,7 +23,7 @@
 	
 	CLLocationManager *locationManager; // for location data
 	BOOL hasIgnoredStartingLocation; // ignore the initial, old location
-	NSDateFormatter *locationDateFormatter;
+	NSDateFormatter *locationDateFormatter, *headingDateFormatter;
 	
 	BOOL hasReshaped; // has the gui been reshaped?
 }
@@ -126,6 +126,8 @@
 		[self.scene close];
 		self.scene = nil;
 		self.enableAccelerometer = NO;
+		self.enableLocation = NO;
+		self.enableHeading = NO;
 		hasReshaped = NO;
 	}
 }
@@ -188,6 +190,12 @@
 	}
 	_pureData = pureData;
 	_pureData.locateDelegate = self;
+}
+
+- (void)setCurrentOrientation:(UIInterfaceOrientation)currentOrientation {
+	_currentOrientation = currentOrientation;
+	// TODO: currently dosen't handle faceup / facde down UIDeviceOrientations
+	locationManager.headingOrientation = currentOrientation;
 }
 
 - (void)setEnableAccelerometer:(BOOL)enableAccelerometer {
@@ -264,6 +272,8 @@
 	}
 	_enableLocation = enableLocation;
 	
+	NSString *msg;
+	
 	// start
 	if(enableLocation) {
 		if([CLLocationManager locationServicesEnabled]) {
@@ -276,18 +286,49 @@
 			locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 			locationManager.distanceFilter = kCLDistanceFilterNone;
 			[locationManager startUpdatingLocation];
-			
-			DDLogVerbose(@"SceneManager: enabled location");
+			[self.pureData sendPrint:@"pdparty: location enabled"];
 		}
 		else {
-			DDLogWarn(@"SceneManager: couldn't enable location, location services not available on this device");
+			[self.pureData sendPrint:@"pdparty: couldn't enable location, location services disabled or not available on this device"];
 		}
 	}
 	else { // stop
 		if([CLLocationManager locationServicesEnabled]) {
 			[locationManager stopUpdatingLocation];
 			locationDateFormatter = nil;
-			DDLogVerbose(@"SceneManager: disabled location");
+			[self.pureData sendPrint:@"pdparty: location disabled"];
+		}
+	}
+}
+
+- (void)setEnableHeading:(BOOL)enableHeading {
+	if(self.enableHeading == enableHeading) {
+		return;
+	}
+	_enableHeading = enableHeading;
+	
+	NSString *msg;
+	
+	// start
+	if(enableHeading) {
+		if([CLLocationManager headingAvailable]) {
+			
+			headingDateFormatter = [[NSDateFormatter alloc] init];
+			[headingDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+			
+			locationManager.headingFilter = 1;
+			[locationManager startUpdatingHeading];
+			[self.pureData sendPrint:@"pdparty: heading enabled"];
+		}
+		else {
+			[self.pureData sendPrint:@"pdparty: couldn't enable heading, heading not available on this device"];
+		}
+	}
+	else { // stop
+		if([CLLocationManager headingAvailable]) {
+			[locationManager stopUpdatingHeading];
+			headingDateFormatter = nil;
+			[self.pureData sendPrint:@"pdparty: heading disabled"];
 		}
 	}
 }
@@ -346,6 +387,7 @@
 						 lon:location.coordinate.longitude
 						 alt:location.altitude
 					   speed:location.speed
+					   course:location.course
 				horzAccuracy:location.horizontalAccuracy
 				vertAccuracy:location.verticalAccuracy
 				   timestamp:timestamp];
@@ -354,6 +396,7 @@
 						 lon:location.coordinate.longitude
 						 alt:location.altitude
 					   speed:location.speed
+					   course:location.course
 				horzAccuracy:location.horizontalAccuracy
 				vertAccuracy:location.verticalAccuracy
 				   timestamp:timestamp];
@@ -369,6 +412,18 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
+
+//	DDLogVerbose(@"heading %@", newHeading.description);
+	
+	NSString *timestamp = [headingDateFormatter stringFromDate:newHeading.timestamp];
+	
+	[PureData sendHeading:newHeading.magneticHeading
+				 accuracy:newHeading.headingAccuracy
+				timestamp:timestamp];
+				
+	[self.osc sendHeading:newHeading.magneticHeading
+				 accuracy:newHeading.headingAccuracy
+				timestamp:timestamp];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -378,18 +433,19 @@
 #pragma mark PdLocationEventDelegate
 
 - (void)startLocationUpdates {
-	if(self.scene.requiresLocate) {
+	if(self.scene.supportsLocate) {
 		self.enableLocation = YES;
 	}
 }
 
 - (void)stopLocationUpdates {
-	if(self.scene.requiresLocate) {
+	if(self.scene.supportsLocate) {
 		self.enableLocation = NO;
 	}
 }
 
 - (void)setDesiredAccuracy:(NSString *)accuracy {
+	
 	if([accuracy isEqualToString:@"navigation"]) {
 		locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 	}
@@ -409,20 +465,44 @@
 		locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
 	}
 	else {
-		DDLogWarn(@"SceneManager: ignoring unknown location accuracy string: %@", accuracy);
+		[self.pureData sendPrint:[NSString stringWithFormat:@"pdparty: ignoring unknown location accuracy string: %@", accuracy]];
 		return;
 	}
-	DDLogVerbose(@"SceneManager: location accuracy: %@", accuracy);
+	
+	DDLogVerbose(@"SceneManager: ocation accuracy: %@", accuracy);
 }
 
 - (void)setDistanceFilter:(float)distance {
 	if(distance > 0 ) {
 		locationManager.distanceFilter = distance;
-		DDLogVerbose(@"SceneManager: location distance filter: %f", distance);
+		DDLogVerbose(@"SceneManager: location distance filter: +/- %f", distance);
 	}
 	else { // clip 0 & negative values
 		locationManager.distanceFilter = kCLDistanceFilterNone;
 		DDLogVerbose(@"SceneManager: location distance filter: none");
+	}
+}
+
+- (void)startHeadingUpdates {
+	if(self.scene.supportsHeading) {
+		self.enableHeading = YES;
+	}
+}
+
+- (void)stopHeadingUpdates {
+	if(self.scene.supportsHeading) {
+		self.enableHeading = NO;
+	}
+}
+
+- (void)setHeadingFilter:(float)degrees {
+	if(degrees > 0 ) {
+		locationManager.headingFilter = degrees;
+		DDLogVerbose(@"SceneManager: heading filter: +/- %f", degrees);
+	}
+	else { // clip 0 & negative values
+		locationManager.headingFilter = kCLHeadingFilterNone;
+		DDLogVerbose(@"SceneManager: heading filter: none");
 	}
 }
 

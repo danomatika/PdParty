@@ -152,25 +152,46 @@
 #pragma mark Send Events
 
 + (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
-	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:id+1], [NSNumber numberWithFloat:x], [NSNumber numberWithFloat:y], nil] toReceiver:RJ_TOUCH_R];
+	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:
+		[NSNumber numberWithInt:id+1],
+		[NSNumber numberWithFloat:x],
+		[NSNumber numberWithFloat:y], nil]
+		toReceiver:RJ_TOUCH_R];
 }
 
 + (void)sendAccel:(float)x y:(float)y z:(float)z {
-	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:x], [NSNumber numberWithFloat:y], [NSNumber numberWithFloat:z], nil] toReceiver:RJ_ACCELERATE_R];
+	[PdBase sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:x],
+		[NSNumber numberWithFloat:y],
+		[NSNumber numberWithFloat:z], nil]
+		toReceiver:RJ_ACCELERATE_R];
 }
 
-+ (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt speed:(float)speed
++ (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
+	speed:(float)speed  course:(float)course
 	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
 	timestamp:(NSString *)timestamp {
 	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:lat], [NSNumber numberWithFloat:lon],
-		[NSNumber numberWithFloat:alt], [NSNumber numberWithFloat:speed],
+		[NSNumber numberWithFloat:lat], [NSNumber numberWithFloat:lon], [NSNumber numberWithFloat:alt],
+		[NSNumber numberWithFloat:speed], [NSNumber numberWithFloat:course],
 		[NSNumber numberWithFloat:horzAccuracy], [NSNumber numberWithFloat:vertAccuracy],
 		timestamp, nil] toReceiver:PARTY_LOCATE_R];
 }
 
++ (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp {
+	[PdBase sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:degrees],
+		[NSNumber numberWithFloat:accuracy],
+		timestamp, nil] toReceiver:PARTY_HEADING_R];
+}
+
 + (void)sendKey:(int)key {
 	[PdBase sendFloat:key toReceiver:PD_KEY_R];
+}
+
+- (void)sendPrint:(NSString *)print {
+	DDLogInfo(@"Pd: %@", print);
+	[self.osc sendPrint:print];
 }
 
 + (void)sendOscMessage:(NSString *)address withArguments:(NSArray *)arguments {
@@ -261,6 +282,27 @@
 				else if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
 					if(self.locateDelegate) {
 						[self.locateDelegate setDistanceFilter:[[arguments objectAtIndex:1] floatValue]];
+					}
+				}
+			}
+		}
+		
+		// heading control
+		if([message isEqualToString:@"heading"] && [arguments count] > 0) {
+			if([arguments isNumberAt:0]) {
+				if(self.locateDelegate) {
+					if([[arguments objectAtIndex:0] boolValue]) {
+						[self.locateDelegate startHeadingUpdates];
+					}
+					else {
+						[self.locateDelegate stopHeadingUpdates];
+					}
+				}
+			}
+			else if([arguments isStringAt:0] && [arguments count] > 1) {
+				if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
+					if(self.locateDelegate) {
+						[self.locateDelegate setHeadingFilter:[[arguments objectAtIndex:1] floatValue]];
 					}
 				}
 			}

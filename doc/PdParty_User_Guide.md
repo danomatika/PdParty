@@ -1,4 +1,4 @@
-PdParty 0.4.4-alpha
+PdParty 0.4.5-alpha
 ===================
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-13
@@ -193,7 +193,9 @@ These settings are mainly for live performance reasons where you don't want the 
 
 These are useful options for patch creation & debugging. Basically, you can send accelerometer, touch, and key\* events from the device to your computer while you work on your patch/scene in Pure Data. You can also receive live Pd prints from a running patch/scene in PdParty to make sure everything is working as expected.
 
-The OSC server needs to be enabled and a patch/scene must be running in order for events to be streamed.
+The OSC server needs to be enabled and a patch/scene must be running in order for events to be streamed. The easiest option is to run an existing patch or upload an empty one you can run while sending events. Event sending *will not* work unless a patch or scene is being run.
+
+_Note: Locate & Heading events require the services to be enabled within the patch/scene before any events will be sent. Also, certain scene types do not support all events, please see "Scenes" in "Patching for PdParty" for more info._
 
 \* *requires a usb/bluetooth keyboard*
 
@@ -326,8 +328,13 @@ PdParty returns the following events:
   * _lon_: longitude in degrees
   * _alt_: altitude from sea level in meters, + above & - below
   * _speed_: average speed in meters per second (not guaranteed to be accurate), invalid if negative
+  * _course_: direction of travel in degrees -> 0 N, 90 S, 180 S, 270 E, invalid if negative
   * _horz_accuracy_: horizontal accuracy (+/-) of the lat & lon in meters
   * _vert_accuracy_: vertical accuracy (+/-) of the alt in meters
+  * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
+* **[r #heading] _degrees_ _accuracy_ _timestamp_**: orientation toward magnetic north with the top of UI at 0 degrees
+  * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E 
+  * _accuracy_: +/- accuracy deviation of the heading value in degrees, a negative vale is invalid (device is not calibrated, etc)
   * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
   
 _Note: RjDj scenes only receive #touch & #accelerate, PdDroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the cause of RjDj as the RjDj app is no longer available)._
@@ -353,7 +360,18 @@ Since running the GPS location service will affect battery life in most cases, i
 
 It usually takes a few seconds to fix your position after enabling the location services.
 
-_Note: Locate events are only available in PdParty & Patch scene types._
+_Note: Locate events are only available in PdParty & Patch scene types. Events work best on devices with multiple location sensors (phone) and may not work on some devices at all._
+
+#### Heading (Compass) Control
+
+A heading event is simply the compass orientation toward magnetic north with the top of the current UI orientation being at 0 degrees.
+
+Like locate events, the tracking the heading requires extra resources so it must be manual started by the scene after it is loaded by sending messages to the internal #pdparty receiver:
+
+* **#pdparty heading _value_**: heading service run control
+* **#pdparty heading filter _degrees_**: the minimum amount of change in degrees required before a heading event is generated (default 1), a value of 0 indicates no filtering, negative values are clipped to 0
+
+_Note: Heading events are only available in PdParty & Patch scene types. Events work best on devices with a digital compass (phones) and may not work on some devices at all._
 
 #### Recording
 

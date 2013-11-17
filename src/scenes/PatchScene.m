@@ -119,7 +119,11 @@
 	return YES;
 }
 
-- (BOOL)requiresLocate {
+- (BOOL)supportsLocate {
+	return YES;
+}
+
+- (BOOL)supportsHeading {
 	return YES;
 }
 

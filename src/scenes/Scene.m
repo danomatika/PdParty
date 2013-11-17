@@ -73,7 +73,11 @@
 	return NO;
 }
 
-- (BOOL)requiresLocate {
+- (BOOL)supportsLocate {
+	return NO;
+}
+
+- (BOOL)supportsHeading {
 	return NO;
 }
 

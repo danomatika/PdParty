@@ -31,6 +31,7 @@
 	self.oscAccelEnabledSwitch.on = app.osc.accelSendingEnabled;
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
 	self.oscLocationEnabledSwitch.on = app.osc.locateSendingEnabled;
+	self.oscHeadingEnabledSwitch.on = app.osc.headingSendingEnabled;
 	self.oscKeyEnabledSwitch.on = app.osc.keySendingEnabled;
 	self.oscPrintEnabledSwitch.on = app.osc.printSendingEnabled;
 	
@@ -85,6 +86,9 @@
 	}
 	else if(sender == self.oscLocationEnabledSwitch) {
 		app.osc.locateSendingEnabled = self.oscLocationEnabledSwitch.isOn;
+	}
+	else if(sender == self.oscHeadingEnabledSwitch) {
+		app.osc.headingSendingEnabled = self.oscHeadingEnabledSwitch.isOn;
 	}
 	else if(sender == self.oscKeyEnabledSwitch) {
 		app.osc.keySendingEnabled = self.oscKeyEnabledSwitch.isOn;

@@ -16,6 +16,8 @@
 	<false/>
 	<key>locateSendingEnabled</key>
 	<false/>
+	<key>headingSendingEnabled</key>
+	<false/>
 	<key>keySendingEnabled</key>
 	<false/>
 	<key>printSendingEnabled</key>

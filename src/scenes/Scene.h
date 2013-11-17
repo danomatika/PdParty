@@ -43,7 +43,8 @@ typedef enum {
 @property (readonly, nonatomic) int sampleRate; // desired scene sample rate (default PARTY_SAMPLERATE)
 @property (readonly, nonatomic) BOOL requiresAccel; // does the scene require accel events? (default NO)
 @property (readonly, nonatomic) BOOL requiresTouch; // does the scene require touch events? (default NO)
-@property (readonly, nonatomic) BOOL requiresLocate; // does the scene require locate events? (default NO)
+@property (readonly, nonatomic) BOOL supportsLocate; // does the scene support locate events? (default NO)
+@property (readonly, nonatomic) BOOL supportsHeading; // does the scene support heading events? (default NO)
 @property (readonly, nonatomic) BOOL requiresKeys; // does the scene require key events? (default NO)
 
 // preferred orientations, all by default

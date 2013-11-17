@@ -31,6 +31,7 @@
 
 // PdParty event receivers
 #define PARTY_LOCATE_R	@"#locate"
+#define PARTY_HEADING_R @"#heading"
 
 // incoming event sends
 #define PD_OSC_S		@"#osc-out"
@@ -53,11 +54,18 @@
 
 // event delegates
 @protocol PdLocateEventDelegate <NSObject>
+
 - (void)startLocationUpdates; // called if location service is started via a msg
 - (void)stopLocationUpdates;  // called if location service is stopped via a msg
 - (void)setDesiredAccuracy:(NSString *)accuracy; // set the desired accuracy
 - (void)setDistanceFilter:(float)distance;
+
+- (void)startHeadingUpdates; // called if heading service is started via a msg
+- (void)stopHeadingUpdates;  // called if heading service is stopped via a msg
+- (void)setHeadingFilter:(float)degrees;
+
 @end
+
 @protocol PdRecordEventDelegate <NSObject>
 - (void)remoteRecordingStarted;		// called if recording is started via a msg
 - (void)remoteRecordingFinished;	// called if recording is stopped via a msg
@@ -133,12 +141,19 @@
 + (void)sendAccel:(float)x y:(float)y z:(float)z;
 
 // pd party locate event
-+ (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt speed:(float)speed
++ (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
+	  speed:(float)speed course:(float)course
 	  horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
 	  timestamp:(NSString *)timestamp;
 
+// pd party heading event
++ (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp;
+
 // pd key event
 + (void)sendKey:(int)key;
+
+// pd print event
+- (void)sendPrint:(NSString *)print;
 
 // osc message
 + (void)sendOscMessage:(NSString *)address withArguments:(NSArray *)arguments;
