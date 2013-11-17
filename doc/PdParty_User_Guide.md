@@ -8,9 +8,9 @@ BSD Simplified License.
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
 WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
-See https://github.com/danomatika/PdParty for documentation
+See <https://github.com/danomatika/PdParty> for documentation
 
-**This User Guide is a work in progress. Apologies if it is a bit light for now.**
+**This User Guide is currently a work in progress.**
 
 Description
 -----------
@@ -212,7 +212,15 @@ These buttons simply allow you to copy the default libs, samples, and test folde
 Patching for PdParty
 --------------------
 
-*Instructions largely borrowed from [PdDroidParty](http://droidparty.net/)*
+### TL;DR
+
+PdParty only shows gui objects (numbox, slider, etc) with send or receive names. It does not render your entire patch, so you need to create send and receives through the guis you want to appear on the device when you run your patch/scene.
+
+Naturally, you can download the PdParty source and open the test patches & examples to see how this is done: <https://github.com/danomatika/PdParty/tree/master/res/patches>
+
+### Detailed Instructions
+
+*Largely borrowed from [PdDroidParty](http://droidparty.net/)*
 
 1. Create a new Pd patch that will contain your GUI objects like sliders, toggles, numberboxes etc. Place your main patch logic inside a subpatch and use the [soundinput] & [soundoutput] [rjlib objects](https://github.com/rjdj/rjlib/tree/master/pd) in place of [adc~] and [dac] \(these are required for the on screen volume and recording controls\).
 
@@ -315,9 +323,14 @@ PdParty supports RjDj-style scene directories, backgrounds, and the [rj_image] a
 
 ### Events
 
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_events_scene_iPhone.png"/><br/>
+	Event test PdParty scene
+</p>
+
 PdParty returns the following events:
 
-* **[r #touch] _eventType_ _id_ _x_ _y_**: multitouch touch event
+* **[r #touch] _eventType_ _id_ _x_ _y_**: multitouch event
   * _eventType_: symbol "down", "xy" (move), or "up"
   * _id_: persistent touch id
   * _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
@@ -341,6 +354,11 @@ _Note: RjDj scenes only receive #touch & #accelerate, PdDroidParty scenes do not
   
 #### Locate (GPS) Control
 
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_locate_scene_iPhone.png"/><br/>
+	Locate test PdParty scene
+</p>
+
 Locate events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFI only, cell tower + GPS chip, etc).
 
 Since running the GPS location service will affect battery life in most cases, it must be manually started and configured after the scene is loaded by sending messages to the internal #pdparty receiver:
@@ -363,6 +381,11 @@ It usually takes a few seconds to fix your position after enabling the location 
 _Note: Locate events are only available in PdParty & Patch scene types. Events work best on devices with multiple location sensors (phone) and may not work on some devices at all._
 
 #### Heading (Compass) Control
+
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_heading_scene_iPhone.png"/><br/>
+	Heading test PdParty scene
+</p>
 
 A heading event is simply the compass orientation toward magnetic north with the top of the current UI orientation being at 0 degrees.
 
@@ -391,22 +414,23 @@ PdParty sends and receives OSC messages internally between the PureData instance
 * **[r #osc-in]**: incoming OSC messages
 * **[s #osc-out]**: outgoing OSC messages
 
-Also, most of these events can also be streamed over OSC, included Pd prints. The receive addresses are as follows:
+All of the PdParty events can be streamed over OSC, included Pd prints. The receive addresses are as follows:
 
 * /pdparty/touch
 * /pdparty/accelrate
 * /pdparty/locate
+* /pdparty/heading
 * /pdparty/key
 * /pdparty/print
 
-See tests/osc.pd for an example:
+See tests/osc-event-receiver.pd in the PdParty source repository for an event receiver you can use while patching & debugging on your computer:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/osc_patch.png"/><br/>
-	osc.pd test patch
+	osc-event-receiver.pd test patch
 </p>
 
-Also, try this with the tests/pdparty/Osc scene on the device:
+Also, try the tests/osc-test.pd test patch on your computer with the tests/pdparty/Osc scene on the device for a simple example on two-way communication:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_osc_scene_iPhone.png"/><br/>
