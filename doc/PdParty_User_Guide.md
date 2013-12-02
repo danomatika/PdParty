@@ -336,19 +336,24 @@ PdParty returns the following events:
   * _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
   * _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
 * **[r #accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
-* **[ r #locate] _timestamp_ _lat_ _lon_ _alt_ _speed_ _horz_accuracy_ _vert_accuracy_**
+* **[r #locate] _lat_ _lon_ _alt_ _speed_ _course_ _horz\_accuracy_ _vert\_accuracy_ _timestamp_**
   * _lat_: latitude in degrees
   * _lon_: longitude in degrees
   * _alt_: altitude from sea level in meters, + above & - below
   * _speed_: average speed in meters per second (not guaranteed to be accurate), invalid if negative
   * _course_: direction of travel in degrees -> 0 N, 90 S, 180 S, 270 E, invalid if negative
-  * _horz_accuracy_: horizontal accuracy (+/-) of the lat & lon in meters
-  * _vert_accuracy_: vertical accuracy (+/-) of the alt in meters
+  * _horz\_accuracy_: horizontal accuracy (+/-) of the lat & lon in meters
+  * _vert\_accuracy_: vertical accuracy (+/-) of the alt in meters
   * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
 * **[r #heading] _degrees_ _accuracy_ _timestamp_**: orientation toward magnetic north with the top of UI at 0 degrees
   * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E 
   * _accuracy_: +/- accuracy deviation of the heading value in degrees, a negative vale is invalid (device is not calibrated, etc)
   * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
+  
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/receiving_events_patch.png"/><br/>
+	Receiving PdParty events
+</p>
   
 _Note: RjDj scenes only receive #touch & #accelerate, PdDroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the cause of RjDj as the RjDj app is no longer available)._
   
@@ -416,12 +421,14 @@ PdParty sends and receives OSC messages internally between the PureData instance
 
 All of the PdParty events can be streamed over OSC, included Pd prints. The receive addresses are as follows:
 
-* /pdparty/touch
+* /pdparty/touch 
 * /pdparty/accelrate
 * /pdparty/locate
 * /pdparty/heading
 * /pdparty/key
 * /pdparty/print
+
+_Note: The argument number and types are equivalent with their receive counterparts, i.e. /pdparty/touch receives the same data as [r #touch]._
 
 See tests/osc-event-receiver.pd in the PdParty source repository for an event receiver you can use while patching & debugging on your computer:
 
