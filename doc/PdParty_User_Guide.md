@@ -336,14 +336,14 @@ PdParty returns the following events:
   * _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
   * _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
 * **[r #accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
-* **[r #locate] _lat_ _lon_ _alt_ _speed_ _course_ _horz_accuracy_ _vert_accuracy_ _timestamp_**
+* **[r #locate] _lat_ _lon_ _alt_ _speed_ _course_ _horzAccuracy_ _vertAccuracy_ _timestamp_**
   * _lat_: latitude in degrees
   * _lon_: longitude in degrees
   * _alt_: altitude from sea level in meters, + above & - below
   * _speed_: average speed in meters per second (not guaranteed to be accurate), invalid if negative
   * _course_: direction of travel in degrees -> 0 N, 90 S, 180 S, 270 E, invalid if negative
-  * _horz_accuracy_: horizontal accuracy (+/-) of the lat & lon in meters
-  * _vert_accuracy_: vertical accuracy (+/-) of the alt in meters
+  * _horzAccuracy_: horizontal accuracy (+/-) of the lat & lon in meters
+  * _vertAccuracy_: vertical accuracy (+/-) of the alt in meters
   * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
 * **[r #heading] _degrees_ _accuracy_ _timestamp_**: orientation toward magnetic north with the top of UI at 0 degrees
   * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E 
