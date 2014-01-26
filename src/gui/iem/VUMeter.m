@@ -62,6 +62,8 @@
 	[v checkHeight];
 	v.gui = gui;
 	
+	v.value = -100; // default to off which is -100 dB
+	
 	return v;
 }
 
