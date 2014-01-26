@@ -158,7 +158,7 @@
 	
 	// bad value
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Port Number"
-														message:@"Port number should be an integer greater than 1024 or 0 to choose a random port."
+														message:@"Port number should be an integer greater than 1024. Set 0 to choose a random port."
 													   delegate:self
 											  cancelButtonTitle:@"Ok"
 											  otherButtonTitles:nil];

@@ -19,7 +19,7 @@
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
-@property (assign, getter=isListening, nonatomic) BOOL listening;
+@property (readonly, nonatomic) BOOL isListening;
 @property (strong, nonatomic) NSString *sendHost; // do not set when listening
 @property (nonatomic) int sendPort; // do not set when listening
 @property (nonatomic) int listenPort;
@@ -31,6 +31,14 @@
 @property (assign, nonatomic) BOOL headingSendingEnabled;
 @property (assign, nonatomic) BOOL keySendingEnabled;
 @property (assign, nonatomic) BOOL printSendingEnabled;
+
+// returns YES if listening was started or the server was already listening,
+// returns NO & sets the error if the server cannot be started
+// note: does *not* restart, you must do that manually
+- (BOOL)startListening:(NSError *)error;
+
+// stops the server
+- (void)stopListening;
 
 #pragma mark Send Events
 

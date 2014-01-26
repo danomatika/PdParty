@@ -16,7 +16,15 @@
 
 @interface OscViewController () {
 	Osc *osc;
+	NSTimer *oscRestartTimer;
 }
+
+// restart the osc server
+- (void) restart;
+
+// timer function to start the server after a gui change
+- (void)startOsc:(NSTimer *)theTimer;
+
 @end
 
 @implementation OscViewController
@@ -58,35 +66,58 @@
 #pragma mark Settings
 
 - (IBAction)enableOscConnection:(id)sender {
-	osc.listening = self.connectionEnabledSwitch.isOn;
+	if(self.connectionEnabledSwitch.isOn) {
+		[self startOsc:nil];
+	}
+	else {
+		[osc stopListening];
+	}
 	[self.tableView reloadData];
 }
 
 - (IBAction)setHost:(id)sender {
 	osc.sendHost = self.hostTextField.text;
-	if(osc.isListening) { // restart?
-		osc.listening = NO;
-		osc.listening = YES;
-	}
 }
 
 - (IBAction)setOutgoingPort:(id)sender {
 	int port = [WebServer checkPortValueFromTextField:self.outgoingPortTextField];
-	if(port < 0) {
+	if(port < 0) { // set current port on bad value
+		self.outgoingPortTextField.text = [NSString stringWithFormat:@"%d", osc.sendPort];
 		return;
 	}
 	osc.sendPort = port;
 }
 
 - (IBAction)setIncomingPort:(id)sender {
+	NSLog(@"setting incoming port");
 	int port = [WebServer checkPortValueFromTextField:self.incomingPortTextField];
-	if(port < 0) {
+	if(port < 0) { // set current port on bad value
+		self.incomingPortTextField.text = [NSString stringWithFormat:@"%d", osc.listenPort];
 		return;
 	}
 	osc.listenPort = port;
-	if(osc.isListening) { // restart?
-		osc.listening = NO;
-		osc.listening = YES;
+	if(osc.isListening) {
+		[self restart];
+	}
+}
+
+- (void)restart {
+	[osc stopListening];
+	
+	// launch timer to make sure osc has enough time to disconnect
+	oscRestartTimer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(startOsc:) userInfo:nil repeats:NO];
+	[[NSRunLoop mainRunLoop] addTimer:oscRestartTimer forMode:NSDefaultRunLoopMode];
+}
+
+- (void)startOsc:(NSTimer *)theTimer {
+	NSError *error;
+	if(![osc startListening:error]) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Couldn't start OSC Server"
+									message:[NSString stringWithFormat:@"Check your port & address settings.\nError: %@", error]
+								   delegate:self
+						  cancelButtonTitle:@"Ok"
+						  otherButtonTitles:nil];
+		[alertView show];
 	}
 }
 

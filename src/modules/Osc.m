@@ -16,6 +16,7 @@
 @interface Osc () {
 	OSCConnection *connection;
 }
+@property (readwrite, nonatomic) BOOL isListening;
 @end
 
 @implementation Osc
@@ -48,9 +49,43 @@
 		self.printSendingEnabled = [defaults boolForKey:@"printSendingEnabled"];
 		
 		// should start listening if saved
-		self.listening = [defaults boolForKey:@"oscServerEnabled"];
+		if([defaults boolForKey:@"oscServerEnabled"]) {
+			[self startListening:nil];
+		}
 	}
 	return self;
+}
+
+- (BOOL)startListening:(NSError *)error {
+	if(self.isListening) return YES; // still listening
+
+	if(![connection bindToAddress:nil port:self.listenPort error:&error]) {
+		if(error) { // error might be nil
+			DDLogError(@"OSC: could not bind UDP connection: %@", error);
+		}
+		else {
+			DDLogError(@"OSC: could not bind UDP connection");
+		}
+		self.isListening = NO;
+		return NO;
+	}
+	DDLogVerbose(@"OSC: started listening on port %d", connection.localPort);
+	[connection receivePacket];
+	self.isListening = YES;
+	
+	[[NSUserDefaults standardUserDefaults] setBool:self.isListening forKey:@"oscServerEnabled"];
+
+	return YES;
+}
+
+- (void)stopListening {
+	if(!self.isListening) return;
+	
+	DDLogVerbose(@"OSC: stopped listening on port %d", connection.localPort);
+	[connection disconnect];
+	self.isListening = NO;
+		
+	[[NSUserDefaults standardUserDefaults] setBool:self.isListening forKey:@"oscServerEnabled"];
 }
 
 #pragma OSCConnectionDelegate
@@ -65,7 +100,7 @@
 #pragma mark Send Events
 
 - (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments {
-	if(!self.listening) return;
+	if(!self.isListening) return;
 	OSCMutableMessage *m = [[OSCMutableMessage alloc] init];
     m.address = address;
 	for(NSObject *object in arguments) {
@@ -75,7 +110,7 @@
 }
 
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
-	if(!self.listening || !self.accelSendingEnabled) return;
+	if(!self.isListening || !self.accelSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_ACCEL_ADDR;
 	[message addFloat:x];
@@ -85,7 +120,7 @@
 }
 
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
-	if(!self.listening || !self.touchSendingEnabled) return;
+	if(!self.isListening || !self.touchSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_TOUCH_ADDR;
 	[message addString:eventType];
@@ -99,7 +134,7 @@
 	speed:(float)speed course:(float)course
 	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
 	timestamp:(NSString *)timestamp {
-	if(!self.listening || !self.locateSendingEnabled) return;
+	if(!self.isListening || !self.locateSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_LOCATE_ADDR;
 	[message addFloat:lat];
@@ -114,7 +149,7 @@
 }
 
 - (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp {
-	if(!self.listening || !self.locateSendingEnabled) return;
+	if(!self.isListening || !self.locateSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_HEADING_ADDR;
 	[message addFloat:degrees];
@@ -124,7 +159,7 @@
 }
 
 - (void)sendKey:(int)key {
-	if(!self.listening || !self.keySendingEnabled) return;
+	if(!self.isListening || !self.keySendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_KEY_ADDR;
 	[message addFloat:key];
@@ -132,7 +167,7 @@
 }
 
 - (void)sendPrint:(NSString *)print {
-	if(!self.listening || !self.printSendingEnabled) return;
+	if(!self.isListening || !self.printSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_PRINT_ADDR;
 	[message addString:print];
@@ -154,27 +189,6 @@
 - (void)setListenPort:(int)listenPort {
 	_listenPort = listenPort;
 	[[NSUserDefaults standardUserDefaults] setInteger:listenPort forKey:@"oscListenPort"];
-}
-
-- (void)setListening:(BOOL)listening {
-	if(_listening == listening) return;
-	if(listening) {
-		NSError *error;
-		if(![connection bindToAddress:nil port:self.listenPort error:&error]) {
-			DDLogError(@"OSC: could not bind UDP connection: %@", error);
-			_listening = NO;
-			return;
-		}
-		DDLogVerbose(@"OSC: started listening on port %d", connection.localPort);
-		[connection receivePacket];
-		_listening = YES;
-	}
-	else {
-		DDLogVerbose(@"OSC: stopped listening on port %d", connection.localPort);
-		[connection disconnect];
-		_listening = NO;
-	}
-	[[NSUserDefaults standardUserDefaults] setBool:_listening forKey:@"oscServerEnabled"];
 }
 
 - (void)setAccelSendingEnabled:(BOOL)accelSendingEnabled {
