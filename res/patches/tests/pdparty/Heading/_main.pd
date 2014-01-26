@@ -1,0 +1,159 @@
+#N canvas 518 260 364 526 10;
+#X obj 11 91 tgl 30 0 runheading empty run 7 15 0 10 -262144 -1 -1
+0 1;
+#X obj 20 477 hsl 320 30 0 45 0 0 filter-out filter-in filter_0_-_15_degrees
+8 15 0 10 -262144 -1 -1 0 1;
+#X text 9 28 so they are off by default;
+#X text 7 375 the speed of location events & overall resource usage
+;
+#X text 8 7 heading (aka compass) events require extra battery & cpu
+\,;
+#X text 9 57 your device should have a magnetometer for best results
+;
+#X text 47 97 turn it on by sending a msg to #pdparty: heading 1;
+#X obj 11 140 cnv 15 340 60 empty empty heading 20 12 0 14 -233017
+-66577 0;
+#X symbolatom 167 145 25 0 0 0 - heading-timestamp -;
+#X floatatom 19 175 10 0 0 1 degrees degrees -;
+#X floatatom 166 175 10 0 0 1 accuracy_(deg) degree-accuracy -;
+#N canvas 709 185 472 232 guts 0;
+#X obj 238 86 s #pdparty;
+#X obj 20 22 r #heading;
+#X obj 20 55 unpack f f s;
+#X obj 54 120 s degree-accuracy;
+#X obj 20 184 s degrees;
+#X obj 89 86 s heading-timestamp;
+#X msg 238 58 heading \$1;
+#X obj 238 24 r runheading;
+#X obj 344 27 loadbang;
+#X obj 238 133 r filter-out;
+#X obj 238 201 s #pdparty;
+#X msg 238 168 heading filter \$1;
+#N canvas 772 52 429 486 degrees 0;
+#X obj 25 18 inlet;
+#X obj 25 450 outlet;
+#X obj 274 129 value redcolor;
+#X obj 318 104 value greycolor;
+#X obj 291 20 loadbang;
+#X msg 318 78 10;
+#X msg 274 78 13;
+#X obj 77 76 v greycolor;
+#X msg 77 107 \; north color \$1 1 \; northwest color \$1 1 \; west
+color \$1 1 \; southwest color \$1 1 \; south color \$1 1 \; southeast
+color \$1 1 \; east color \$1 1 \; northeast color \$1 1;
+#X obj 88 20 hsl 128 15 0 360 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 50 354 v redcolor;
+#X obj 50 49 t f b;
+#X obj 50 417 s;
+#X obj 130 384 symbol;
+#X msg 50 383 color \$1 1;
+#X obj 291 48 t b b;
+#X msg 98 49 bang;
+#N canvas 56 447 603 400 degrees 0;
+#X obj 15 50 moses 0;
+#X msg 54 102 north;
+#X msg 294 205 south;
+#X msg 420 256 west;
+#X obj 54 76 moses 22.5;
+#X obj 111 102 moses 67.5;
+#X obj 168 128 moses 112.5;
+#X obj 231 154 moses 157.5;
+#X obj 294 180 moses 202.5;
+#X obj 357 206 moses 247.5;
+#X obj 420 231 moses 292.5;
+#X obj 483 257 moses 337.5;
+#X msg 352 232 southwest;
+#X msg 483 284 northwest;
+#X msg 546 308 north;
+#X obj 15 16 inlet degrees;
+#X obj 168 360 outlet compass pos;
+#X msg 222 180 southeast;
+#X msg 168 154 east;
+#X msg 101 128 northeast;
+#X connect 0 1 4 0;
+#X connect 1 0 16 0;
+#X connect 2 0 16 0;
+#X connect 3 0 16 0;
+#X connect 4 0 1 0;
+#X connect 4 1 5 0;
+#X connect 5 0 19 0;
+#X connect 5 1 6 0;
+#X connect 6 0 18 0;
+#X connect 6 1 7 0;
+#X connect 7 0 17 0;
+#X connect 7 1 8 0;
+#X connect 8 0 2 0;
+#X connect 8 1 9 0;
+#X connect 9 0 12 0;
+#X connect 9 1 10 0;
+#X connect 10 0 3 0;
+#X connect 10 1 11 0;
+#X connect 11 0 13 0;
+#X connect 11 1 14 0;
+#X connect 12 0 16 0;
+#X connect 13 0 16 0;
+#X connect 14 0 16 0;
+#X connect 15 0 0 0;
+#X connect 17 0 16 0;
+#X connect 18 0 16 0;
+#X connect 19 0 16 0;
+#X restore 50 282 pd degrees to compass rose;
+#X obj 50 319 t b a;
+#X obj 50 250 expr abs(360 - $f1);
+#X text 174 251 rotate the compass the opposite dir;
+#X connect 0 0 1 0;
+#X connect 0 0 11 0;
+#X connect 4 0 15 0;
+#X connect 5 0 3 0;
+#X connect 6 0 2 0;
+#X connect 7 0 8 0;
+#X connect 9 0 11 0;
+#X connect 10 0 14 0;
+#X connect 11 0 19 0;
+#X connect 11 1 7 0;
+#X connect 13 0 12 1;
+#X connect 14 0 12 0;
+#X connect 15 0 7 0;
+#X connect 15 1 6 0;
+#X connect 15 1 5 0;
+#X connect 16 0 7 0;
+#X connect 17 0 18 0;
+#X connect 18 0 10 0;
+#X connect 18 1 13 0;
+#X connect 19 0 17 0;
+#X restore 20 154 pd degrees to cnv;
+#X msg 344 62 \; filter-in set 1;
+#X connect 1 0 2 0;
+#X connect 2 0 12 0;
+#X connect 2 1 3 0;
+#X connect 2 2 5 0;
+#X connect 6 0 0 0;
+#X connect 7 0 6 0;
+#X connect 8 0 13 0;
+#X connect 9 0 11 0;
+#X connect 11 0 10 0;
+#X connect 12 0 4 0;
+#X restore 302 144 pd guts;
+#X text 7 393 are dependent on the rotational filter value;
+#X text 8 422 rotation filter threshold in degrees (default 1) \,;
+#X obj 158 229 cnv 15 40 40 empty north empty 20 12 0 14 -258699 -166441
+0;
+#X obj 158 310 cnv 15 40 40 empty south empty 20 12 0 14 -233017 -166441
+0;
+#X obj 158 269 cnv 15 40 40 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 198 269 cnv 15 40 40 empty east empty 20 12 0 14 -233017 -166441
+0;
+#X obj 118 269 cnv 15 40 40 empty west empty 20 12 0 14 -233017 -166441
+0;
+#X obj 198 229 cnv 15 40 40 empty northeast empty 20 12 0 14 -233017
+-166441 0;
+#X obj 198 310 cnv 15 40 40 empty southeast empty 20 12 0 14 -233017
+-166441 0;
+#X obj 118 310 cnv 15 40 40 empty southwest empty 20 12 0 14 -233017
+-166441 0;
+#X obj 118 229 cnv 15 40 40 empty northwest empty 20 12 0 14 -233017
+-166441 0;
+#X text 9 437 events occur when your orientation has changed beyond
+this value \, 0 = no filter;
