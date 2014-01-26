@@ -4,6 +4,7 @@
 *.pbxuser
 *.perspectivev3
 xcuserdata
+xcshareddata
 build
 *.app
 *.a

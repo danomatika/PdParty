@@ -63,7 +63,7 @@
 #define snprintf sprintf_s
 #endif
 
-#define MAX_CONNECT 32 /* maximum number of connections */
+#define MAX_CONNECT 1024 /* maximum number of connections to reserve space for */
 #define INBUFSIZE 65536L /* was 4096: size of receiving data buffer */
 #define MAX_UDP_RECEIVE 65536L /* longer than data in maximum UDP packet */
 
@@ -112,6 +112,7 @@ typedef struct _tcpserver
     t_atom                      x_addrbytes[4];
     t_int                       x_sock_fd;
     t_int                       x_connectsocket;
+    t_int                       x_port;
     t_int                       x_nconnections;
     t_int                       x_blocked;
     t_atom                      x_msgoutbuf[MAX_UDP_RECEIVE];
@@ -151,6 +152,7 @@ static void tcpserver_connectpoll(t_tcpserver *x);
 static void tcpserver_print(t_tcpserver *x);
 static void tcpserver_unblock(t_tcpserver *x);
 static void *tcpserver_new(t_floatarg fportno);
+static void tcpserver_port(t_tcpserver *x, t_floatarg fportno);
 static void tcpserver_free(t_tcpserver *x);
 void tcpserver_setup(void);
 static void tcpserver_dump(t_tcpserver *x, t_float dump);
@@ -195,7 +197,7 @@ static t_tcpserver_socketreceiver *tcpserver_socketreceiver_new(void *owner, t_t
     t_tcpserver_socketreceiver *x = (t_tcpserver_socketreceiver *)getbytes(sizeof(*x));
     if (!x)
     {
-        error("%s_socketreceiver: unable to allocate %d bytes", objName, sizeof(*x));
+        error("%s_socketreceiver: unable to allocate %lu bytes", objName, sizeof(*x));
     }
     else
     {
@@ -388,7 +390,7 @@ static void tcpserver_send_bytes(int client, t_tcpserver *x, int argc, t_atom *a
                     ttsp = (t_tcpserver_send_params *)getbytes(sizeof(t_tcpserver_send_params));
                     if (ttsp == NULL)
                     {
-                        error("%s: unable to allocate %d bytes for t_tcpserver_send_params", objName, sizeof(t_tcpserver_send_params));
+                        error("%s: unable to allocate %lu bytes for t_tcpserver_send_params", objName, sizeof(t_tcpserver_send_params));
                         goto failed;
                     }
                     ttsp->client = client;
@@ -442,7 +444,7 @@ static void tcpserver_send_bytes(int client, t_tcpserver *x, int argc, t_atom *a
                         ttsp = (t_tcpserver_send_params *)getbytes(sizeof(t_tcpserver_send_params));
                         if (ttsp == NULL)
                         {
-                            error("%s: unable to allocate %d bytes for t_tcpserver_send_params", objName, sizeof(t_tcpserver_send_params));
+                            error("%s: unable to allocate %lu bytes for t_tcpserver_send_params", objName, sizeof(t_tcpserver_send_params));
                             goto failed;
                         }
                         ttsp->client = client;
@@ -484,7 +486,7 @@ static void tcpserver_send_bytes(int client, t_tcpserver *x, int argc, t_atom *a
             ttsp = (t_tcpserver_send_params *)getbytes(sizeof(t_tcpserver_send_params));
             if (ttsp == NULL)
             {
-                error("%s: unable to allocate %d bytes for t_tcpserver_send_params", objName, sizeof(t_tcpserver_send_params));
+                error("%s: unable to allocate %lu bytes for t_tcpserver_send_params", objName, sizeof(t_tcpserver_send_params));
                 goto failed;
             }
             ttsp->client = client;
@@ -754,7 +756,7 @@ static void tcpserver_buf_size(t_tcpserver *x, t_symbol *s, int argc, t_atom *ar
 {
     int     client = -1;
     float   buf_size = 0;
-    t_atom  output_atom[3];
+//    t_atom  output_atom[3];
 
     if(x->x_nconnections <= 0)
     {
@@ -809,11 +811,11 @@ static void *tcpserver_broadcast_thread(void *arg)
     int                             sockfd = 0;
     char                            fpath[FILENAME_MAX];
     FILE                            *fptr;
-    t_atom                          output_atom[3];
-    t_tcpserver_send_params         *ttsp;
-    pthread_t                       sender_thread;
-    pthread_attr_t                  sender_attr;
-    int                             sender_thread_result;
+//    t_atom                          output_atom[3];
+//    t_tcpserver_send_params         *ttsp;
+//    pthread_t                       sender_thread;
+//    pthread_attr_t                  sender_attr;
+//    int                             sender_thread_result;
     int                             result;
 
     for (i = j = 0; i < ttbp->argc; ++i)
@@ -1003,7 +1005,7 @@ static void tcpserver_broadcast(t_tcpserver *x, t_symbol *s, int argc, t_atom *a
                 ttbp = (t_tcpserver_broadcast_params *)getbytes(sizeof(t_tcpserver_broadcast_params));
                 if (ttbp == NULL)
                 {
-                    error("%s_broadcast: unable to allocate %d bytes for t_tcpserver_broadcast_params", objName, sizeof(t_tcpserver_broadcast_params));
+                    error("%s_broadcast: unable to allocate %lu bytes for t_tcpserver_broadcast_params", objName, sizeof(t_tcpserver_broadcast_params));
                 }
                 else
                 {
@@ -1060,11 +1062,17 @@ static void tcpserver_connectpoll(t_tcpserver *x)
 {
     struct sockaddr_in  incomer_address;
     unsigned int        sockaddrl = sizeof( struct sockaddr );
-    int                 fd = accept(x->x_connectsocket, (struct sockaddr*)&incomer_address, &sockaddrl);
+    int                 fd;
     int                 i;
     int                 optVal;
     unsigned int        optLen = sizeof(int);
 
+    if (MAX_CONNECT <= x->x_nconnections)
+    { /* no more free space for t_tcpserver_socketreceiver pointers, maybe increase MAX_CONNECT? */
+        post("%s: too many connections (MAX_CONNECT is %d)", objName, x->x_nconnections);
+        return;
+    }
+    fd = accept(x->x_connectsocket, (struct sockaddr*)&incomer_address, &sockaddrl);
     if (fd < 0) post("%s: accept failed", objName);
     else
     {
@@ -1134,6 +1142,96 @@ static void tcpserver_print(t_tcpserver *x)
 static void tcpserver_unblock(t_tcpserver *x)
 {
     x->x_blocked = 0;
+}
+
+static void tcpserver_port(t_tcpserver*x, t_floatarg fportno)
+{
+    t_atom              output_atom;
+    int                 portno = fportno;
+    struct sockaddr_in  server;
+    socklen_t           serversize = sizeof(server);
+    int                 sockfd = x->x_connectsocket;
+    int                 optVal = 1;
+    int                 optLen = sizeof(int);
+
+
+    if(x->x_port == portno)  return;
+
+    if(x->x_nconnections > 0)
+    {
+        post ("%s: can't change port (connection count is %d)", objName, x->x_nconnections);
+        return;
+    }
+
+    SETFLOAT(&output_atom, -1);
+
+    /* shut down the old socket */
+    if (sockfd >= 0)
+    {
+        sys_rmpollfn(sockfd);
+        sys_closesocket(sockfd);
+        x->x_connectsocket = -1;
+        x->x_port = -1;
+    }
+
+    /* create a whole new socket */
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+#ifdef DEBUG
+    post("%s: receive socket %d", objName, sockfd);
+#endif
+    if (sockfd < 0)
+    {
+        sys_sockerror("tcpserver: socket");
+        return;
+    }
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = INADDR_ANY;
+    /* enable reuse of local address */
+#ifdef _WIN32
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char*)&optVal, optLen) == SOCKET_ERROR)
+#else
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char*)&optVal, optLen) == -1)
+#endif
+        sys_sockerror("tcpserver: setsockopt SO_REUSEADDR");
+
+    /* assign server port number */
+    server.sin_port = htons((u_short)portno);
+    /* name the socket */
+    if (bind(sockfd, (struct sockaddr *)&server, serversize) < 0)
+    {
+        sys_sockerror("tcpserver: bind");
+        sys_closesocket(sockfd);
+        outlet_anything(x->x_status_outlet, gensym("port"), 1, &output_atom);
+        return;
+    }
+
+    /* streaming protocol */
+    if (listen(sockfd, 5) < 0)
+    {
+        sys_sockerror("tcpserver: listen");
+        sys_closesocket(sockfd);
+        sockfd = -1;
+        outlet_anything(x->x_status_outlet, gensym("port"), 1, &output_atom);
+        return;
+    }
+    else
+    {
+        sys_addpollfn(sockfd, (t_fdpollfn)tcpserver_connectpoll, x); // wait for new connections 
+    }
+
+    x->x_connectsocket = sockfd;
+    x->x_nconnections = 0;
+    x->x_blocked = 0;
+
+
+    // find out which port is actually used (useful when assigning "0")
+    if(!getsockname(sockfd, (struct sockaddr *)&server, &serversize))
+    {
+        x->x_port=ntohs(server.sin_port);
+    }
+
+    SETFLOAT(&output_atom, x->x_port);
+    outlet_anything(x->x_status_outlet, gensym("port"), 1, &output_atom);
 }
 
 static void *tcpserver_new(t_floatarg fportno)
@@ -1209,9 +1307,11 @@ static void *tcpserver_new(t_floatarg fportno)
         x->x_addrbytes[i].a_type = A_FLOAT;
         x->x_addrbytes[i].a_w.w_float = 0;
     }
-    post ("tcpserver listening on port %d", portno);
+    x->x_port = portno;
+    post ("tcpserver listening on port %d", x->x_port);
     return (x);
 }
+
 
 static void tcpserver_free(t_tcpserver *x)
 {
@@ -1251,6 +1351,7 @@ void tcpserver_setup(void)
     class_addmethod(tcpserver_class, (t_method)tcpserver_dump, gensym("dump"), A_FLOAT, 0);
     class_addmethod(tcpserver_class, (t_method)tcpserver_unblock, gensym("unblock"), 0);
     class_addmethod(tcpserver_class, (t_method)tcpserver_broadcast, gensym("broadcast"), A_GIMME, 0);
+    class_addmethod(tcpserver_class, (t_method)tcpserver_port, gensym("port"), A_FLOAT, 0);
     class_addlist(tcpserver_class, (t_method)tcpserver_send);
 }
 
