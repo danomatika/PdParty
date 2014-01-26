@@ -1,6 +1,4 @@
 #N canvas 0 22 430 253 10;
-#X obj 13 110 packOSC;
-#X obj 13 215 udpsend;
 #X msg 37 150 connect 127.0.0.1 8088;
 #X msg 43 181 disconnect;
 #X obj 213 108 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
@@ -17,7 +15,7 @@
 #X obj 226 170 cnv 15 100 60 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 361 99 vu 15 120 empty empty -1 -8 0 10 -66577 -1 1 0;
-#N canvas 178 108 253 211 receives 0;
+#N canvas 178 108 265 220 receives 0;
 #X obj 12 22 r goo2_rcv;
 #X obj 12 125 list prepend /edit;
 #X obj 12 154 list trim;
@@ -45,7 +43,9 @@
 #X connect 14 0 1 0;
 #X restore 13 54 pd receives;
 #X text 12 13 for use with the iem gui edit tests;
-#X connect 0 0 1 0;
-#X connect 2 0 1 0;
-#X connect 3 0 1 0;
-#X connect 12 0 0 0;
+#X obj 13 215 mrpeach/udpsend;
+#X obj 13 110 mrpeach/packOSC;
+#X connect 0 0 12 0;
+#X connect 1 0 12 0;
+#X connect 10 0 13 0;
+#X connect 13 0 12 0;
