@@ -10,18 +10,18 @@
  */
 #import "AppDelegate.h"
 
+#ifndef DEBUG
+	#import <Crashlytics/Crashlytics.h>
+#endif
+#import "MBProgressHUD.h"
+#import "ZipArchive.h"
+
 #import "Log.h"
 #import "Util.h"
 #import "Widget.h"
 
-#ifndef DEBUG
-	#import <Crashlytics/Crashlytics.h>
-#endif
-
 #import "PatchViewController.h"
 #import "BrowserViewController.h"
-#import "MBProgressHUD.h"
-#import "ZipArchive.h"
 
 @interface AppDelegate ()
 
@@ -277,18 +277,38 @@
 	
 	DDLogVerbose(@"AppDelegate: copying %@ to Documents", folderPath);
 	
-	// remove existing folder
+	// create dest folder if it doesn't exist
 	NSString* destPath = [[Util documentsPath] stringByAppendingPathComponent:folderPath];
-	if([[NSFileManager defaultManager] fileExistsAtPath:destPath]) {
-		if(![[NSFileManager defaultManager] removeItemAtPath:destPath error:&error]) {
+	if(![[NSFileManager defaultManager] fileExistsAtPath:destPath]) {
+		if(![[NSFileManager defaultManager] createDirectoryAtPath:destPath withIntermediateDirectories:NO attributes:NULL error:&error]) {
 			DDLogError(@"AppDelegate: couldn't remove %@, error: %@", destPath, error.localizedDescription);
 		}
 	}
 	
-	// copy
+	// patch folder resources are in patches/*
 	NSString* srcPath = [[[Util bundlePath] stringByAppendingPathComponent:@"patches"] stringByAppendingPathComponent:folderPath];
-	if(![[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:destPath error:&error]) {
-		DDLogError(@"AppDelegate: couldn't copy %@ to %@, error: %@", srcPath, destPath, error.localizedDescription);
+	
+	// copy all items within src into dest, this way we don't lose any other files or folders added by the user
+	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:srcPath error:&error];
+	if(!contents) {
+		DDLogError(@"AppDelegate: couldn't read contents of path %@, error: %@", srcPath, error.localizedDescription);
+		return;
+	}
+	for(NSString *p in contents) {
+		NSString *path = [srcPath stringByAppendingPathComponent:p];
+		NSString *newPath = [destPath stringByAppendingPathComponent:p];
+		
+		// remove existing subitem
+		if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
+			if(![[NSFileManager defaultManager] removeItemAtPath:newPath error:&error]) {
+				DDLogError(@"AppDelegate: couldn't remove %@, error: %@", newPath, error.localizedDescription);
+			}
+		}
+
+		// copy subitem
+		if(![[NSFileManager defaultManager] copyItemAtPath:path toPath:newPath error:&error]) {
+			DDLogError(@"AppDelegate: couldn't copy %@ to %@, error: %@", path, newPath, error.localizedDescription);
+		}
 	}
 }
 

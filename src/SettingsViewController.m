@@ -10,6 +10,8 @@
  */
 #import "SettingsViewController.h"
 
+#import "MBProgressHUD.h"
+
 #import "Osc.h"
 #import "AppDelegate.h"
 
@@ -46,10 +48,6 @@
 		}
 	}
 	self.latencyLabel.text = [NSString stringWithFormat:@"%.1f ms", [app.pureData calculateLatency]];
-	
-	self.libFolderSpinner.hidden = YES;
-	self.samplesFolderSpinner.hidden = YES;
-	self.testsFolderSpinner.hidden = YES;
 	
     [super viewDidLoad];
 }
@@ -111,31 +109,34 @@
 
 - (IBAction)copyDefaultFolder:(id)sender {
 	if(sender == self.libFolderButton) {
-		self.libFolderButton.enabled = NO;
-		self.libFolderSpinner.hidden = NO;
-		[self.libFolderSpinner startAnimating];
-		[app copyLibFolder];
-		self.libFolderSpinner.hidden = YES;
-		self.libFolderButton.enabled = YES;
-		[self.libFolderSpinner stopAnimating];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud.labelText = @"Copying LIB folder...";
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+			[app copyLibFolder];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[hud hide:YES];
+			});
+		});
 	}
 	else if(sender == self.samplesFolderButton) {
-		self.samplesFolderButton.enabled = NO;
-		self.samplesFolderSpinner.hidden = NO;
-		[self.samplesFolderSpinner startAnimating];
-		[app copySamplesFolder];
-		self.samplesFolderSpinner.hidden = YES;
-		self.samplesFolderButton.enabled = YES;
-		[self.samplesFolderSpinner stopAnimating];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud.labelText = @"Copying samples folder...";
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+			[app copySamplesFolder];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[hud hide:YES];
+			});
+		});
 	}
 	else if(sender == self.testsFolderButton) {
-		self.testsFolderButton.enabled = NO;
-		self.testsFolderSpinner.hidden = NO;
-		[self.testsFolderSpinner startAnimating];
-		[app copyTestsFolder];
-		self.testsFolderSpinner.hidden = YES;
-		self.testsFolderButton.enabled = YES;
-		[self.testsFolderSpinner stopAnimating];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud.labelText = @"Copying tests folder...";
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+			[app copyTestsFolder];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[hud hide:YES];
+			});
+		});
 	}
 }
 

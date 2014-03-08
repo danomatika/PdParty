@@ -3,7 +3,7 @@ PdParty
 
 Pure Data patches for iOS
 
-Copyright (c) [Dan Wilcox](danomatika.com) 2011-13
+Copyright (c) [Dan Wilcox](danomatika.com) 2011-14
 
 BSD Simplified License.
 
@@ -35,6 +35,7 @@ This project uses:
 * [CocoaOSC](https://github.com/danieldickison/CocoaOSC): Open Sound Control i/o
 * [CocoaHTTPServer](https://github.com/robbiehanson/CocoaHTTPServer): WebDAV server
 * [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/index.php?title=Main_Page): font
+* [ZipArchive](https://code.google.com/p/ziparchive/): support for decompressing zip archives
 
 ### 3rd Party Services
 

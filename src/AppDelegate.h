@@ -39,7 +39,8 @@
 #pragma mark Util
 
 // recursively copy dirs and patches in the resource patches dir to the
-// Documents folder, removes/overwrites any currently existing dirs
+// Documents folder, removes/overwrites any currently existing subdirs matching
+// those within the source dir
 - (void)copyLibFolder;
 - (void)copySamplesFolder;
 - (void)copyTestsFolder;

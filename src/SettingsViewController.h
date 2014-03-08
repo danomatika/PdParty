@@ -41,13 +41,8 @@
 #pragma mark Default Folders
 
 @property (weak, nonatomic) IBOutlet UIButton *libFolderButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *libFolderSpinner;
-
 @property (weak, nonatomic) IBOutlet UIButton *samplesFolderButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *samplesFolderSpinner;
-
 @property (weak, nonatomic) IBOutlet UIButton *testsFolderButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *testsFolderSpinner;
 
 - (IBAction)copyDefaultFolder:(id)sender;
 
