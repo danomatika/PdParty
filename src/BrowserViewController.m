@@ -44,6 +44,10 @@
 - (void)viewDidLoad {
     // Do any additional setup after loading the view, typically from a nib.
 
+	// set instance pointer
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.browserViewController = self;
+
 	if([Util isDeviceATablet]) {
 	    self.clearsSelectionOnViewWillAppear = NO;
 	    self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
@@ -107,8 +111,8 @@
 	for(NSString *p in contents) {
 		DDLogVerbose(@"Browser: 	%@", p);
 		
-		// remove Finder DS_Store garbage (created over WebDAV)
-		if([p isEqualToString:@"._.DS_Store"] || [p isEqualToString:@".DS_Store"]) {
+		// remove Finder DS_Store garbage (created over WebDAV) and __MACOSX added to zip files
+		if([p isEqualToString:@"._.DS_Store"] || [p isEqualToString:@".DS_Store"] || [p isEqualToString:@"__MACOSX"]) {
 			if(![[NSFileManager defaultManager] removeItemAtPath:[dirPath stringByAppendingPathComponent:p] error:&error]) {
 				DDLogError(@"Browser: couldn't remove %@, error: %@", p, error.localizedDescription);
 			}
@@ -141,9 +145,32 @@
 	DDLogVerbose(@"Browser: current directory now %@", dirPath);
 }
 
+- (void)reloadDirectory {
+	[self unloadDirectory];
+	[self loadDirectory:self.currentDir];
+}
+
 - (void)unloadDirectory {
 	[self.pathArray removeAllObjects];
 	[self.tableView reloadData];
+}
+
+- (BOOL)tryOpeningPath:(NSString*)path {
+	BOOL isDir;
+	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+		if(isDir) {
+			if([self didSelectDirectory:path]) {
+				return YES;
+			}
+		}
+		else {
+			if([self didSelectFile:path]) {
+				return YES;
+			}
+		}
+	}
+	DDLogWarn(@"Browser: tried opening %@, but nothing to do", path);
+	return NO;
 }
 
 #pragma mark UITableViewController

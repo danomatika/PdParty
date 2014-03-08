@@ -16,6 +16,7 @@
 #import "SceneManager.h"
 
 @class PatchViewController;
+@class BrowserViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -23,6 +24,8 @@
 
 // global access
 @property (weak, nonatomic) PatchViewController *patchViewController;
+@property (weak, nonatomic) BrowserViewController *browserViewController;
+
 @property (strong, nonatomic) PureData *pureData;
 @property (strong, nonatomic) Midi *midi;
 @property (strong, nonatomic) Osc *osc;

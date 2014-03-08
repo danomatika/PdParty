@@ -32,7 +32,13 @@
 // change to and load a new current dir
 - (void)loadDirectory:(NSString *)dirPath;
 
+// reload the current directory
+- (void)reloadDirectory;
+
 // unload the current directory, does not clear currentDir
 - (void)unloadDirectory;
+
+// try opening a path in the PatchBrowser, dosen't affect current browser dir
+- (BOOL)tryOpeningPath:(NSString*)path;
 
 @end

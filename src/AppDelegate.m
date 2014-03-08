@@ -19,7 +19,9 @@
 #endif
 
 #import "PatchViewController.h"
+#import "BrowserViewController.h"
 #import "MBProgressHUD.h"
+#import "ZipArchive.h"
 
 @interface AppDelegate ()
 
@@ -35,6 +37,11 @@
     // Override point for customization after application launch.
 	
 	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
+	
+	// light status bar text on iOS 7
+	if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+	}
 	
 	// setup split view on iPad
 	if([Util isDeviceATablet]) {
@@ -136,6 +143,106 @@
 	self.pureData.audioEnabled = NO;
 	[self.osc stopListening];
 	self.midi.networkEnabled = NO;
+}
+
+// references:
+// http://www.infragistics.com/community/blogs/stevez/archive/2013/03/04/associate-a-file-type-with-your-ios-application.aspx
+- (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
+	// Called when a registered file type is transferred via the Open With... mechanism
+	
+	NSError *error;
+	NSString *path = [url path];
+	NSString *filename = [path lastPathComponent];
+	NSString *ext = [path pathExtension];
+	
+	DDLogVerbose(@"AppDelegate: receiving %@", filename);
+
+	// pd patch
+	if([ext isEqualToString:@"pd"]) {
+		NSString *newPath = [[Util documentsPath] stringByAppendingPathComponent:[path lastPathComponent]];
+		
+		if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
+			if(![[NSFileManager defaultManager] removeItemAtPath:newPath error:&error]) {
+				DDLogError(@"AppDelegate: couldn't remove %@, error: %@", newPath, error.localizedDescription);
+			}
+		}
+		if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
+			DDLogError(@"AppDelegate: couldn't move %@, error: %@", path, error.localizedDescription);
+			UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle: @"Copy Failed"
+                                      message: [NSString stringWithFormat:@"Could not copy %@ to Documents", filename]
+                                      delegate: nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
+			[alert show];
+			return NO;
+		}
+		[[NSFileManager defaultManager]removeItemAtURL:url error:&error]; // remove original file
+
+//		[self.browserViewController tryOpeningPath:newPath];
+		DDLogVerbose(@"AppDelegate: copied %@ to Documents", filename);
+		UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle: @"Copy Succeeded"
+                                      message: [NSString stringWithFormat:@"%@ copied to Documents", filename]
+                                      delegate: nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
+		[alert show];
+	}
+	else { // assume zip file
+		
+		ZipArchive *zip = [[ZipArchive alloc] init];
+		
+		if([zip UnzipOpenFile:[url path]]) {
+			
+			if([zip UnzipFileTo:[Util documentsPath] overWrite:YES]) {
+                if(![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) { // remove original file
+					DDLogError(@"AppDelegate: couldn't remove %@, error: %@", path, error.localizedDescription);
+				}
+			}
+            else{
+				DDLogError(@"AppDelegate: couldn't open zipfile: %@", [url path]);
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle: @"Unzip Failed"
+                                      message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
+                                      delegate: nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
+                [alert show];
+            }
+			
+            if(![zip UnzipCloseFile]) {
+				DDLogError(@"AppDelegate: couldn't close zipfile: %@", path);
+			}
+        }
+		else {
+			DDLogError(@"AppDelegate: couldn't unzip %@ to Documents", path);
+			UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle: @"Unzip Failed"
+                                      message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
+                                      delegate: nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
+			[alert show];
+			return NO;
+		}
+
+		DDLogVerbose(@"AppDelegate: unzipped %@ to Documents", filename);
+		UIAlertView *alert = [[UIAlertView alloc]
+								  initWithTitle: @"Unzip Succeeded"
+								  message: [NSString stringWithFormat:@"%@ unzipped to Documents", filename]
+								  delegate: nil
+								  cancelButtonTitle:@"OK"
+								  otherButtonTitles:nil];
+		[alert show];
+	}
+	
+	// reload if we're in the Documents dir
+	if(self.browserViewController.currentDirLevel == 0) {
+		[self.browserViewController reloadDirectory];
+	}
+	
+	return YES;
 }
 
 #pragma mark Util

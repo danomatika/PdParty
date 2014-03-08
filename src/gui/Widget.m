@@ -23,12 +23,12 @@
 		self.originalLabelPos = CGPointZero;
 	
 		self.fillColor = WIDGET_FILL_COLOR;
-        self.frameColor = WIDGET_FRAME_COLOR;
+		self.frameColor = WIDGET_FRAME_COLOR;
 		self.controlColor = WIDGET_FRAME_COLOR;
 		self.backgroundColor = [UIColor clearColor];
 		
 		self.minValue = 0.0;
-        self.maxValue = 1.0;
+		self.maxValue = 1.0;
 		self.value = 0.0;
 		self.inits = NO;
 	
@@ -244,7 +244,7 @@ static PdDispatcher *dispatcher = nil;
             i = width - 4;
             for(idecimal=0; idecimal < i; idecimal++) {
                 if([string characterAtIndex:idecimal] == '.') {
-                    break;
+					break;
 				}
 			}
             if(idecimal > (width - 4)){
@@ -261,10 +261,10 @@ static PdDispatcher *dispatcher = nil;
         else {
             for(idecimal = 0; idecimal < string.length; idecimal++) {
                 if([string characterAtIndex:idecimal] == '.') {
-                    break;
+					break;
 				}
 			}
-            if(idecimal > width) {
+			if(idecimal > width) {
 				[string setString:(f < 0.0 ? @"-" : @"+")];
             }
         }

@@ -8,7 +8,36 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
-		<dict/>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>pd</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.puredata.pd</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>pdz</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.puredata.pdz</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>rjz</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.rjdj.rjz</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
@@ -52,6 +81,8 @@
 	<false/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleBlackOpaque</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 	<key>UIStatusBarTintParameters</key>
 	<dict>
 		<key>UINavigationBar</key>
@@ -75,6 +106,85 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.text
+public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Pure Data Patch</string>
+			<key>UTTypeIdentifier</key>
+			<string>org.puredata.pd</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>pd</string>
+					<string>PD</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.archive</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Zipped Pure Data Project</string>
+			<key>UTTypeIdentifier</key>
+			<string>org.puredata.pdz</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>pdz</string>
+					<string>PDZ</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.archive</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Zipped RjDj Scene</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.rjdj.rjz</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>rjz</string>
+					<string>RJZ</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.archive</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Zip File</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.pkware.zip-archive</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>zip</string>
+					<string>ZIP</string>
+				</array>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>
