@@ -10,6 +10,8 @@
  */
 #import "BrowserViewController.h"
 
+#import "ZipArchive.h"
+
 #import "AppDelegate.h"
 #import "PatchViewController.h"
 #import "Log.h"
@@ -125,11 +127,15 @@
 			if([Util isDirectory:fullPath]) { // add directory
 				[self.pathArray addObject:fullPath];
 			}
-			else if([[p pathExtension] isEqualToString: @"pd"]) { // add patch
+			else if([[p pathExtension] isEqualToString:@"pd"]) { // add patch
 				[self.pathArray addObject:fullPath];
 			}
-			// add recordings
-			else if([RecordingScene isRecording:fullPath]) {
+			else if([RecordingScene isRecording:fullPath]) { // add recordings
+				[self.pathArray addObject:fullPath];
+			}
+			else if([[p pathExtension] isEqualToString:@"zip"] || // add zipfiles
+					[[p pathExtension] isEqualToString:@"pdz"] ||
+					[[p pathExtension] isEqualToString:@"rjz"]) {
 				[self.pathArray addObject:fullPath];
 			}
 			else {
@@ -282,6 +288,7 @@
 		}
 		else {
 			[self didSelectFile:path];
+			[tableView deselectRowAtIndexPath:indexPath animated:NO];
 		}
 		savedScrollPos = [tableView contentOffset];
 	}
@@ -332,12 +339,67 @@
 }
 
 - (BOOL)didSelectFile:(NSString *)path {
+	
 	// regular patch
 	if([[path pathExtension] isEqualToString:@"pd"]) {
 		[self runScene:path withSceneType:SceneTypePatch];
 	}
+	
+	// recordings
 	else if([RecordingScene isRecording:path]) {
 		[self runScene:path withSceneType:SceneTypeRecording];
+	}
+	
+	 // unzip zipfiles
+	else if([[path pathExtension] isEqualToString:@"zip"] ||
+			[[path pathExtension] isEqualToString:@"pdz"] ||
+			[[path pathExtension] isEqualToString:@"rjz"]) {
+		
+		NSError *error;
+		NSString *filename = [path lastPathComponent];
+		
+		ZipArchive *zip = [[ZipArchive alloc] init];
+		
+		if([zip UnzipOpenFile:path]) {
+			if(![zip UnzipFileTo:[Util documentsPath] overWrite:YES]) {
+				DDLogError(@"Browser: couldn't open zipfile: %@", path);
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle: @"Unzip Failed"
+                                      message: [NSString stringWithFormat:@"Could not decompress %@", filename]
+                                      delegate: nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            [zip UnzipCloseFile];
+        }
+		else {
+			DDLogError(@"Browser: couldn't unzip %@", path);
+			UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle: @"Unzip Failed"
+                                      message: [NSString stringWithFormat:@"Could not decompress %@", filename]
+                                      delegate: nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
+			[alert show];
+			return NO;
+		}
+		
+		// remove existing file
+		if(![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) {
+			DDLogError(@"Browser: couldn't remove %@, error: %@", path, error.localizedDescription);
+		}
+
+		DDLogVerbose(@"Browser: unzipped %@", filename);
+		UIAlertView *alert = [[UIAlertView alloc]
+								  initWithTitle: @"Unzip Succeeded"
+								  message: [NSString stringWithFormat:@"%@ unzipped", filename]
+								  delegate: nil
+								  cancelButtonTitle:@"OK"
+								  otherButtonTitles:nil];
+		[alert show];
+
+		[self reloadDirectory];
 	}
 	return YES;
 }

@@ -193,15 +193,14 @@
 		
 		ZipArchive *zip = [[ZipArchive alloc] init];
 		
-		if([zip UnzipOpenFile:[url path]]) {
-			
+		if([zip UnzipOpenFile:path]) {
 			if([zip UnzipFileTo:[Util documentsPath] overWrite:YES]) {
                 if(![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) { // remove original file
 					DDLogError(@"AppDelegate: couldn't remove %@, error: %@", path, error.localizedDescription);
 				}
 			}
             else{
-				DDLogError(@"AppDelegate: couldn't open zipfile: %@", [url path]);
+				DDLogError(@"AppDelegate: couldn't open zipfile: %@", path);
                 UIAlertView *alert = [[UIAlertView alloc]
                                       initWithTitle: @"Unzip Failed"
                                       message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
@@ -210,10 +209,7 @@
                                       otherButtonTitles:nil];
                 [alert show];
             }
-			
-            if(![zip UnzipCloseFile]) {
-				DDLogError(@"AppDelegate: couldn't close zipfile: %@", path);
-			}
+            [zip UnzipCloseFile];
         }
 		else {
 			DDLogError(@"AppDelegate: couldn't unzip %@ to Documents", path);
