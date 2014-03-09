@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
 
 	// do not extend under nav bar on iOS 7
-	if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
 		self.edgesForExtendedLayout = UIRectEdgeNone;
 	}
 
@@ -79,6 +79,7 @@
 }
 
 - (void)dealloc {
+	
 	// clear pointer when the view is popped
 	[self.sceneManager updateParent:nil];
 	
@@ -89,7 +90,7 @@
 
 // called when view bounds change (after rotations, etc)
 - (void)viewDidLayoutSubviews {
-
+	
 	// update parent, orient, and reshape scene
 	[self.sceneManager updateParent:self.view];
 	[self checkOrientation];
@@ -99,6 +100,7 @@
 	[self updateControls];
 	self.navigationItem.title = self.sceneManager.scene.name;
 
+	// needed for autolayout
 	[self.view layoutSubviews];
 }
 
@@ -166,6 +168,9 @@
 	
 		// set nav controller title
 		self.navigationItem.title = self.sceneManager.scene.name;
+		
+		// make sure controls are updated and nav bar buttons are created
+		[self updateControls];
 	}
 	
 	// hide iPad browser popover on selection 
@@ -180,7 +185,7 @@
 
 #pragma mark UI
 
-- (void)navButtonPressed:(id)sender {
+- (void)controlsNavButtonPressed:(id)sender {
 	if(sender == self.navigationItem.rightBarButtonItem) {
 		if(!self.controlsPopover.popoverVisible) {
 			[self.controlsPopover presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
@@ -190,6 +195,13 @@
 		else {
 			[self.controlsPopover dismissPopoverAnimated:YES];
 		}
+	}
+}
+
+- (void)infoNavButtonPressed:(id)sender {
+	if(sender == self.navigationItem.rightBarButtonItem) {
+		// cause transition to info view
+		[self performSegueWithIdentifier:@"showInfo" sender:self];
 	}
 }
 
@@ -354,7 +366,14 @@
 				[self.controlsPopover dismissPopoverAnimated:YES];
 			}
 			self.controlsPopover = nil;
-			self.navigationItem.rightBarButtonItem = nil;
+			
+			// create nav button if the scene has any info to show
+			if(self.sceneManager.scene.hasInfo) {
+				self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Info"
+																						  style:UIBarButtonItemStylePlain
+																						 target:self
+																						action:@selector(infoNavButtonPressed:)];
+			}
 			
 			// larger sizing for iPad
 			if(![Util isDeviceATablet]) {
@@ -385,7 +404,7 @@
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Controls"
 																					  style:UIBarButtonItemStylePlain
 																					 target:self
-																					 action:@selector(navButtonPressed:)];
+																					 action:@selector(controlsNavButtonPressed:)];
 			
 			// smaller controls in iPad popover
 			if([Util isDeviceATablet]) {

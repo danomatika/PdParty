@@ -33,6 +33,9 @@
 // close the current scene and open a new one, requires full path to current patch
 - (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent;
 
+// reload the current scene
+- (BOOL)reloadScene;
+
 // close the current scene
 - (void)closeScene;
 

@@ -164,6 +164,7 @@
 		3094B44D18C97CCF00AFE178 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44618C97CCF00AFE178 /* zip.c */; };
 		3094B44E18C97CCF00AFE178 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44918C97CCF00AFE178 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3094B45018CAEC6E00AFE178 /* pdParty-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 3094B44F18CAEC6E00AFE178 /* pdParty-76.png */; };
+		3094B45718CBD20A00AFE178 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3094B45618CBD20A00AFE178 /* InfoViewController.m */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
 		30A0C05717F9362D00F36C68 /* getdir.c in Sources */ = {isa = PBXBuildFile; fileRef = 30A0C05617F9362D00F36C68 /* getdir.c */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
@@ -471,6 +472,8 @@
 		3094B44818C97CCF00AFE178 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		3094B44918C97CCF00AFE178 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		3094B44F18CAEC6E00AFE178 /* pdParty-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdParty-76.png"; sourceTree = "<group>"; };
+		3094B45518CBD20A00AFE178 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoViewController.h; path = src/InfoViewController.h; sourceTree = SOURCE_ROOT; };
+		3094B45618CBD20A00AFE178 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoViewController.m; path = src/InfoViewController.m; sourceTree = SOURCE_ROOT; };
 		30960AFA16F5952300FAF2E7 /* OscViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscViewController.h; path = src/OscViewController.h; sourceTree = "<group>"; };
 		30960AFB16F5952400FAF2E7 /* OscViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OscViewController.m; path = src/OscViewController.m; sourceTree = "<group>"; };
 		30A0C05617F9362D00F36C68 /* getdir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getdir.c; sourceTree = "<group>"; };
@@ -1099,6 +1102,8 @@
 				302E895F17E668320004B935 /* MidiViewController.m */,
 				30F7A19516C008A400DE265F /* BrowserViewController.h */,
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
+				3094B45518CBD20A00AFE178 /* InfoViewController.h */,
+				3094B45618CBD20A00AFE178 /* InfoViewController.m */,
 				30F5281A17D02E7A004736A6 /* NowPlayingTableViewController.h */,
 				30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */,
 				30960AFA16F5952300FAF2E7 /* OscViewController.h */,
@@ -1769,6 +1774,7 @@
 				303BD30417570070000FBEB5 /* DroidScene.m in Sources */,
 				3054E91718958B5E004F55D6 /* x_midi.c in Sources */,
 				303BD307175702AF000FBEB5 /* PartyScene.m in Sources */,
+				3094B45718CBD20A00AFE178 /* InfoViewController.m in Sources */,
 				3054E90418958B5E004F55D6 /* m_obj.c in Sources */,
 				3054E91218958B5E004F55D6 /* x_array.c in Sources */,
 				303BD30F17590275000FBEB5 /* RjImage.m in Sources */,

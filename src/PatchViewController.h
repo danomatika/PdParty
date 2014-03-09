@@ -36,6 +36,7 @@
 #pragma mark UI
 
 // called when a right nav bar button is pressed
-- (void)navButtonPressed:(id)sender;
+- (void)controlsNavButtonPressed:(id)sender;
+- (void)infoNavButtonPressed:(id)sender;
 
 @end

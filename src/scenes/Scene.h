@@ -35,6 +35,12 @@ typedef enum {
 @property (strong, nonatomic) PdFile *patch;
 @property (readonly, nonatomic) NSString *name; // scene name
 
+// rjdj style  scene info, probabaly loaded from a file, etc
+@property (readonly, nonatomic) BOOL hasInfo; // returns YES if the current info is good
+@property (readonly, nonatomic) NSString *artist; // scene artist name
+@property (readonly, nonatomic) NSString *category; // scene category
+@property (readonly, nonatomic) NSString *description; // scene description
+
 // set these before calling the open method
 @property (weak, nonatomic) UIView *parentView; // parent UIView
 @property (weak, nonatomic) Gui *gui;			// PD gui (optional, leave nil if not used)

@@ -49,12 +49,13 @@
 - (void)reshape {
 	self.transform = CGAffineTransformIdentity;
 	if(self.centered) {
-		self.frame = CGRectMake(0, 0,
-			round(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
-			round(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
 		self.center = CGPointMake(
 			round(self.originalFrame.origin.x * self.parentScene.scale),
 			round(self.originalFrame.origin.y * self.parentScene.scale));
+		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y,
+			round(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
+			round(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
+		
 	}
 	else {
 		self.frame = CGRectMake(

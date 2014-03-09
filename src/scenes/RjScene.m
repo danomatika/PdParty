@@ -15,6 +15,7 @@
 #import "RjText.h"
 
 @interface RjScene () {
+	NSDictionary *info;
 	NSMutableDictionary *widgets;
 }
 
@@ -72,6 +73,18 @@
 		}
 		self.background.contentMode = UIViewContentModeScaleAspectFill;
 		[self.parentView addSubview:self.background];
+		
+		// load info
+		NSString *infoPath = [path stringByAppendingPathComponent:@"Info.plist"];
+		if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
+			info = [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
+			if(!info) {
+				DDLogWarn(@"RjScene: couldn't load Info.plist");
+			}
+		}
+		else {
+			DDLogWarn(@"RjScene: no Info.plist");
+		}
 		
 		return YES;
 	}
@@ -136,7 +149,47 @@
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
+	if(self.hasInfo) {
+		NSString *n = [info objectForKey:@"name"];
+		if(n) {
+			return n;
+		}
+	}
 	return [[self.patch.pathName lastPathComponent] stringByDeletingPathExtension];
+}
+
+- (BOOL)hasInfo {
+	return (BOOL) info;
+}
+
+- (NSString *)artist {
+	if(self.hasInfo) {
+		NSString *a = [info objectForKey:@"author"];
+		if(a) {
+			return a;
+		}
+	}
+	return [super artist];
+}
+
+- (NSString *)category {
+	if(self.hasInfo) {
+		NSString *c = [info objectForKey:@"category"];
+		if(c) {
+			return c;
+		}
+	}
+	return [super category];
+}
+
+- (NSString *)description {
+	if(self.hasInfo) {
+		NSString *d = [info objectForKey:@"description"];
+		if (d) {
+			return d;
+		}
+	}
+	return [super description];
 }
 
 - (SceneType)type {

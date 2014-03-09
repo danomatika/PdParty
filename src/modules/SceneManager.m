@@ -73,7 +73,12 @@
 }
 
 - (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent {
-	if([self.currentPath isEqualToString:path]) {
+	return [self openScene:path withType:type forParent:parent allowReload:NO];
+}
+
+// helper
+- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent allowReload:(BOOL)reload {
+	if(!reload && [self.currentPath isEqualToString:path]) {
 		DDLogVerbose(@"SceneManager openScene: ignoring scene with same path");
 		return NO;
 	}
@@ -115,6 +120,17 @@
 	self.currentPath = path;
 	
 	return YES;
+}
+
+- (BOOL)reloadScene {
+	if(!self.scene) {
+		DDLogVerbose(@"SceneManager reloadScene: ignoring empty scene reload");
+		return NO;
+	}
+	DDLogVerbose(@"SceneManager: reloading %@", self.scene.name);
+	SceneType type = self.scene.type;
+	UIView *parent = self.scene.parentView;
+	return [self openScene:self.currentPath withType:type forParent:parent allowReload:YES];
 }
 
 - (void)closeScene {

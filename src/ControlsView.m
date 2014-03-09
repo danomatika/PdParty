@@ -45,6 +45,8 @@
 		self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
 		self.toolbar.barStyle = UIBarStyleBlack;
 		
+//		self.leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(controlChanged:)];
+		
 		self.leftButton = [[UIBarButtonItem alloc] initWithTitle:@"Pause" style:UIBarButtonItemStylePlain target:self action:@selector(controlChanged:)];
 		self.rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Record" style:UIBarButtonItemStylePlain target:self action:@selector(controlChanged:)];
 	

@@ -286,7 +286,7 @@
 	}
 	
 	// patch folder resources are in patches/*
-	NSString* srcPath = [[[Util bundlePath] stringByAppendingPathComponent:@"patches"] stringByAppendingPathComponent:folderPath];
+	NSString *srcPath = [[[Util bundlePath] stringByAppendingPathComponent:@"patches"] stringByAppendingPathComponent:folderPath];
 	
 	// copy all items within src into dest, this way we don't lose any other files or folders added by the user
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:srcPath error:&error];

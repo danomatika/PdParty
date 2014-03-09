@@ -53,6 +53,23 @@
 	return @"EmptyScene";
 }
 
+
+- (BOOL)hasInfo {
+	return NO;
+}
+
+- (NSString *)artist {
+	return @"Unknown Artist";
+}
+
+- (NSString *)category {
+	return @"None";
+}
+
+- (NSString *)description {
+	return @"None";
+}
+
 - (SceneType)type {
 	return SceneTypeEmpty;
 }
