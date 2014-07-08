@@ -249,6 +249,24 @@
 	return NO;
 }
 
++ (UIImage*)thumbnailForSceneAt:(NSString *)fullpath {
+	if([[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"thumb.jpg"]]) {
+		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:@"thumb.jpg"]];
+	}
+	else if([[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"image.jpg"]]) {
+		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:@"image.jpg"]];
+	}
+	return nil;
+}
+
++ (NSDictionary*)infoForSceneAt:(NSString *)fullpath {
+	NSString *infoPath = [fullpath stringByAppendingPathComponent:@"Info.plist"];
+	if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
+		return [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
+	}
+	return nil;
+}
+
 #pragma mark WidgetListener
 
 // mostly borrowed from the pd-for-android ScenePlayer

@@ -133,9 +133,7 @@
 			else if([RecordingScene isRecording:fullPath]) { // add recordings
 				[self.pathArray addObject:fullPath];
 			}
-			else if([[p pathExtension] isEqualToString:@"zip"] || // add zipfiles
-					[[p pathExtension] isEqualToString:@"pdz"] ||
-					[[p pathExtension] isEqualToString:@"rjz"]) {
+			else if([BrowserViewController isZipFile:p]) { // add zipfiles
 				[self.pathArray addObject:fullPath];
 			}
 			else {
@@ -179,6 +177,12 @@
 	return NO;
 }
 
++ (BOOL)isZipFile:(NSString *)path {
+	return ([[path pathExtension] isEqualToString:@"zip"] ||
+			[[path pathExtension] isEqualToString:@"pdz"] ||
+			[[path pathExtension] isEqualToString:@"rjz"]);
+}
+
 #pragma mark UITableViewController
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -195,25 +199,70 @@
     // Customize the appearance of table view cells.
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserCell" forIndexPath:indexPath];
+	cell.detailTextLabel.text = @"";
 
 	NSString *path = self.pathArray[indexPath.row];
 	
-//  BOOL isDir;
-//	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-//		if(isDir) {
-//			//cell.imageView =
-//		}
-//		else {
-//			// is patch
-//			//cell.imageView =
-//		}
-//	}
-//	else {
-//		DDLogError(@"Browser: couldn't select row in table view, file dosen't exist: %@", path);
-//		[tableView deselectRowAtIndexPath:indexPath animated:NO];
-//	}
-
-	cell.textLabel.text = [path lastPathComponent];
+	// set file type icon
+	BOOL isDir;
+	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+		if(isDir) {
+			if([RjScene isRjDjDirectory:path]) {
+				
+				// thumbnail
+				UIImage *thumb = [RjScene thumbnailForSceneAt:path];
+				if(thumb) {
+					cell.imageView.image = thumb;
+				}
+				else {
+					cell.imageView.image = [UIImage imageNamed:@"folder"];
+				}
+				
+				// info
+				NSDictionary *info = [RjScene infoForSceneAt:path];
+				if(info) {
+					if([info objectForKey:@"name"]) {
+						cell.textLabel.text = [info objectForKey:@"name"];
+					}
+					else {
+						cell.textLabel.text = [path lastPathComponent];
+					}
+					if([info objectForKey:@"author"]) {
+						cell.detailTextLabel.text = [info objectForKey:@"author"];
+					}
+				}
+			}
+			else if([DroidScene isDroidPartyDirectory:path]) {
+				cell.imageView.image = [UIImage imageNamed:@"android"];
+				cell.textLabel.text = [path lastPathComponent];
+			}
+			else if([PartyScene isPdPartyDirectory:path]) {
+				cell.imageView.image = [UIImage imageNamed:@"pdparty"];
+				cell.textLabel.text = [path lastPathComponent];
+			}
+			else {
+				cell.imageView.image = [UIImage imageNamed:@"folder"];
+				[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+				cell.textLabel.text = [path lastPathComponent];
+			}
+		}
+		else { // files
+			if([BrowserViewController isZipFile:path]) {
+				cell.imageView.image = [UIImage imageNamed:@"archive"];
+			}
+			else if([RecordingScene isRecording:path]) {
+				cell.imageView.image = [UIImage imageNamed:@"audioFile"];
+			}
+			else {
+				cell.imageView.image = [UIImage imageNamed:@"file"];
+			}
+			cell.textLabel.text = [path lastPathComponent];
+		}
+	}
+	else {
+		DDLogWarn(@"Browser: couldn't customize cell, file doesn't exist: %@", path);
+		[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	}
 	
     return cell;
 }
@@ -307,7 +356,7 @@
     }
 }
 
-#pragma mark Private / Util
+#pragma mark Private
 
 - (void)runScene:(NSString *)fullpath withSceneType:(SceneType)sceneType {
 	selectedPatch = fullpath;
@@ -351,9 +400,7 @@
 	}
 	
 	 // unzip zipfiles
-	else if([[path pathExtension] isEqualToString:@"zip"] ||
-			[[path pathExtension] isEqualToString:@"pdz"] ||
-			[[path pathExtension] isEqualToString:@"rjz"]) {
+	else if([BrowserViewController isZipFile:path]) {
 		
 		NSError *error;
 		NSString *filename = [path lastPathComponent];

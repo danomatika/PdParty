@@ -39,6 +39,9 @@
 - (void)unloadDirectory;
 
 // try opening a path in the PatchBrowser, dosen't affect current browser dir
-- (BOOL)tryOpeningPath:(NSString*)path;
+- (BOOL)tryOpeningPath:(NSString *)path;
+
+// is the given file path a zip file?
++ (BOOL)isZipFile:(NSString *)path;
 
 @end

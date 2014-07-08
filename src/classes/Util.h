@@ -20,6 +20,9 @@
 // is this device an ipad?
 + (BOOL)isDeviceATablet;
 
+// get device iOS version as a float aka 6.1, 7.02, etc
++ (float)deviceOSVersion;
+
 #pragma mark App
 
 // application pixel dimensions, does not include status bar
@@ -53,6 +56,14 @@
 // returns YES if given path exists and is a directory
 + (BOOL)isDirectory:(NSString *)path;
 
+#pragma mark Conversion
+
+// renders a given string into a UIImage
++ (UIImage *)imageFromString:(NSString *)string withFont:(UIFont*)font;
+
+// returns a tinted copy of a given image
++ (UIImage *)image:(UIImage *)image withTint:(UIColor *)tint;
+
 @end
 
 #pragma mark Array Category
@@ -70,5 +81,13 @@
 @interface NSMutableString (CharSetString)
 
 - (void)setCharacter:(unichar)c atIndex:(unsigned)i;
+
+@end
+
+#pragma Image Category
+
+@interface UIImage (OverlayColor)
+
+- (UIImage *)imageWithColor:(UIColor *)color;
 
 @end

@@ -18,6 +18,9 @@
 // make sure to set this or nothing will happen ...
 @property (weak, nonatomic) SceneManager *sceneManager;
 
+// use a light background?
+@property (assign, nonatomic) BOOL lightBackground;
+
 #pragma mark UI
 
 @property (strong, nonatomic) UIToolbar *toolbar;

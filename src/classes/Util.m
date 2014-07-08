@@ -27,21 +27,25 @@
 	#endif
 }
 
-+ (BOOL)isDeviceATablet; {
++ (BOOL)isDeviceATablet {
 	return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+}
+
++ (float)deviceOSVersion {
+	return [[[UIDevice currentDevice] systemVersion] floatValue];
 }
 
 #pragma mark App
 
-+ (CGFloat) appWidth {
++ (CGFloat)appWidth {
     return [UIScreen mainScreen].applicationFrame.size.width;
 }
 
-+ (CGFloat) appHeight {
++ (CGFloat)appHeight {
     return [UIScreen mainScreen].applicationFrame.size.height;
 }
 
-+ (CGSize) appSize {
++ (CGSize)appSize {
     return CGSizeMake(
 		[UIScreen mainScreen].applicationFrame.size.width,
 		[UIScreen mainScreen].applicationFrame.size.height);
@@ -98,6 +102,38 @@
 	return isDir;
 }
 
+#pragma mark Conversion
+
+// from:
+// http://stackoverflow.com/questions/2765537/how-do-i-use-the-nsstring-draw-functionality-to-create-a-uiimage-from-text#2768081
++ (UIImage *)imageFromString:(NSString *)string withFont:(UIFont*)font {
+	
+    CGSize size  = [string sizeWithFont:font];
+	UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+
+    // draw in context, you can use also drawInRect:withFont:
+    [string drawAtPoint:CGPointMake(0.0, 0.0) withFont:font];
+
+    // transfer image
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();    
+
+    return image;
+}
+
++ (UIImage *)image:(UIImage *)image withTint:(UIColor *)tint {
+	CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
+	UIGraphicsBeginImageContextWithOptions(rect.size, NO, image.scale);
+	CGContextRef c = UIGraphicsGetCurrentContext();
+	[image drawInRect:rect];
+	CGContextSetFillColorWithColor(c, [tint CGColor]);
+	CGContextSetBlendMode(c, kCGBlendModeSourceAtop);
+	CGContextFillRect(c, rect);
+	UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return result;
+}
+
 @end
 
 #pragma mark Array Category
@@ -121,6 +157,28 @@
 - (void)setCharacter:(unichar)c atIndex:(unsigned)i {
 	//NSLog(@"setting %c at %d in \"%@\"", c, i, self);
 	[self replaceCharactersInRange:NSMakeRange(i, 1) withString:[NSString stringWithCharacters:&c length:1]];
+}
+
+@end
+
+#pragma mark Image Category
+
+@implementation UIImage (Overlay)
+
+// from http://stackoverflow.com/questions/19274789/change-image-tintcolor-in-ios7
+- (UIImage *)imageWithColor:(UIColor *)color {
+	UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextTranslateCTM(context, 0, self.size.height);
+	CGContextScaleCTM(context, 1.0, -1.0);
+	CGContextSetBlendMode(context, kCGBlendModeNormal);
+	CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+	CGContextClipToMask(context, rect, self.CGImage);
+	[color setFill];
+	CGContextFillRect(context, rect);
+	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return newImage;
 }
 
 @end

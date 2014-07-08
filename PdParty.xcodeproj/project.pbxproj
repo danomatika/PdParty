@@ -157,13 +157,13 @@
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
 		3083BD4C17F2867400EDF587 /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 3083BD4917F2867400EDF587 /* README.mdown */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
+		308986BE18CD195E004423AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 308986BD18CD195E004423AD /* Images.xcassets */; };
 		3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3094B43B18C975AE00AFE178 /* libz.1.2.5.dylib */; };
 		3094B44A18C97CCF00AFE178 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44018C97CCF00AFE178 /* ioapi.c */; };
 		3094B44B18C97CCF00AFE178 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44218C97CCF00AFE178 /* mztools.c */; };
 		3094B44C18C97CCF00AFE178 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44418C97CCF00AFE178 /* unzip.c */; };
 		3094B44D18C97CCF00AFE178 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44618C97CCF00AFE178 /* zip.c */; };
 		3094B44E18C97CCF00AFE178 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44918C97CCF00AFE178 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		3094B45018CAEC6E00AFE178 /* pdParty-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 3094B44F18CAEC6E00AFE178 /* pdParty-76.png */; };
 		3094B45718CBD20A00AFE178 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3094B45618CBD20A00AFE178 /* InfoViewController.m */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
 		30A0C05717F9362D00F36C68 /* getdir.c in Sources */ = {isa = PBXBuildFile; fileRef = 30A0C05617F9362D00F36C68 /* getdir.c */; };
@@ -459,6 +459,7 @@
 		3083BD4817F2867400EDF587 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3083BD4917F2867400EDF587 /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mdown; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
+		308986BD18CD195E004423AD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3094B43B18C975AE00AFE178 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		3094B43F18C97CCF00AFE178 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		3094B44018C97CCF00AFE178 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
@@ -471,7 +472,6 @@
 		3094B44718C97CCF00AFE178 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		3094B44818C97CCF00AFE178 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		3094B44918C97CCF00AFE178 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
-		3094B44F18CAEC6E00AFE178 /* pdParty-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdParty-76.png"; sourceTree = "<group>"; };
 		3094B45518CBD20A00AFE178 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoViewController.h; path = src/InfoViewController.h; sourceTree = SOURCE_ROOT; };
 		3094B45618CBD20A00AFE178 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoViewController.m; path = src/InfoViewController.m; sourceTree = SOURCE_ROOT; };
 		30960AFA16F5952300FAF2E7 /* OscViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscViewController.h; path = src/OscViewController.h; sourceTree = "<group>"; };
@@ -1143,7 +1143,7 @@
 				30ABE2F316B5D11D00464926 /* Default-568h@2x.png */,
 				30ABE2F416B5D11D00464926 /* Default.png */,
 				30ABE2F516B5D11D00464926 /* Default@2x.png */,
-				3094B44F18CAEC6E00AFE178 /* pdParty-76.png */,
+				308986BD18CD195E004423AD /* Images.xcassets */,
 				30ABE2F616B5D11D00464926 /* InfoPlist.strings */,
 				30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */,
 				30ABE2FA16B5D11D00464926 /* MainStoryboard_iPhone.storyboard */,
@@ -1543,6 +1543,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = danomatika;
+				TargetAttributes = {
+					30ABE2A216B5A8E500464926 = {
+						DevelopmentTeam = 3567T5L8KK;
+					};
+				};
 			};
 			buildConfigurationList = 30ABE29D16B5A8E500464926 /* Build configuration list for PBXProject "PdParty" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1566,7 +1571,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3094B45018CAEC6E00AFE178 /* pdParty-76.png in Resources */,
 				30ABE30316B5D11D00464926 /* Default-568h@2x.png in Resources */,
 				30ABE30416B5D11D00464926 /* Default.png in Resources */,
 				3083BD4A17F2867400EDF587 /* LICENSE in Resources */,
@@ -1575,6 +1579,7 @@
 				30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */,
 				30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */,
 				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
+				308986BE18CD195E004423AD /* Images.xcassets in Resources */,
 				30ACA10D16D1866000B50B73 /* patches in Resources */,
 				3083BD4C17F2867400EDF587 /* README.mdown in Resources */,
 				300507B417C2C11700D1563C /* Defaults.plist in Resources */,
@@ -1921,6 +1926,8 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					libs,
@@ -1938,6 +1945,7 @@
 					"-DDEBUG_PDPARTY",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5428AB18-DC32-4BCD-9CCB-CF3FC6AD01EF";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1948,6 +1956,8 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					libs,
@@ -1964,6 +1974,7 @@
 					"-DUSEAPI_DUMMY",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5428AB18-DC32-4BCD-9CCB-CF3FC6AD01EF";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};

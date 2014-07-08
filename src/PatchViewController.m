@@ -11,12 +11,14 @@
 #import "PatchViewController.h"
 
 #import "Log.h"
+#import "Util.h"
 #import "AppDelegate.h"
 #import "UIPopoverController+iPhone.h"
 
 @interface PatchViewController () {
 	NSMutableDictionary *activeTouches; // for persistent ids
 	KeyGrabberView *grabber; // for keyboard events
+	NSArray *controlsConstraints; // auto layout constraints for the controls view
 }
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -291,7 +293,11 @@
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController {
 
 	if([Util isDeviceATablet]) {
-		barButtonItem.title = NSLocalizedString(@"Patches", @"Patches");
+		barButtonItem.title = nil;
+		barButtonItem.image = [UIImage imageNamed:@"browser"];
+		if(!barButtonItem.image) { // fallback
+			barButtonItem.title = NSLocalizedString(@"Patches", @"Patches");
+		}
 	}
     
 	[self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
@@ -367,16 +373,33 @@
 			}
 			self.controlsPopover = nil;
 			
+			// make sure the color is black as it might have been white in a popover
+			if([Util deviceOSVersion] >= 7.0) {
+				self.controlsView.lightBackground = NO;
+			}
+			
 			// create nav button if the scene has any info to show
 			if(self.sceneManager.scene.hasInfo) {
-				self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Info"
+				self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil
 																						  style:UIBarButtonItemStylePlain
 																						 target:self
 																						action:@selector(infoNavButtonPressed:)];
+				if([Util deviceOSVersion] >= 7.0) {
+					self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"info"];
+				}
+				else { // light button on iOS 6
+					self.navigationItem.rightBarButtonItem.image = [Util image:[UIImage imageNamed:@"info"] withTint:[UIColor whiteColor]];
+				}
+				if(!self.navigationItem.rightBarButtonItem.image) { // fallback
+					self.navigationItem.rightBarButtonItem.title = @"Info";
+				}
+			}
+			else {
+				self.navigationItem.rightBarButtonItem = nil;
 			}
 			
 			// larger sizing for iPad
-			if(![Util isDeviceATablet]) {
+			if([Util isDeviceATablet]) {
 				[self.controlsView defaultSize];
 			}
 			
@@ -384,13 +407,17 @@
 			[self.view addSubview:self.controlsView];
 	
 			// auto layout constraints
-			[self.view addConstraints:[NSArray arrayWithObjects:
+			if(controlsConstraints) {
+				[self.view removeConstraints:controlsConstraints];
+			}
+			controlsConstraints = [NSArray arrayWithObjects:
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
 												toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
 												toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-												toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil]];
+												toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil];
+			[self.view addConstraints:controlsConstraints];
 		}
 		self.controlsView.height = CGRectGetHeight(self.view.bounds) - self.sceneManager.scene.contentHeight;
 	}
@@ -400,11 +427,26 @@
 		if(!self.controlsPopover && self.sceneManager.scene) {
 			[self.controlsView removeFromSuperview];
 			
+			// white background for pop over on iOS 7, otherwise black
+			if([Util deviceOSVersion] >= 7.0) {
+				self.controlsView.lightBackground = YES;
+			}
+			
 			// create nav button
-			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Controls"
+			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil
 																					  style:UIBarButtonItemStylePlain
 																					 target:self
 																					 action:@selector(controlsNavButtonPressed:)];
+			if([Util deviceOSVersion] >= 7.0) {
+				self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"controls"];
+			}
+			else { // light button on iOS 6
+				self.navigationItem.rightBarButtonItem.image = [Util image:[UIImage imageNamed:@"controls"] withTint:[UIColor whiteColor]];
+			}
+			
+			if(!self.navigationItem.rightBarButtonItem.image) { // fallback
+				self.navigationItem.rightBarButtonItem.title = @"Controls";
+			}
 			
 			// smaller controls in iPad popover
 			if([Util isDeviceATablet]) {
@@ -418,7 +460,10 @@
 			self.controlsPopover.popoverContentSize = CGSizeMake(320, self.controlsView.height);
 		
 			// auto layout constraints
-			[controlsViewController.view addConstraints:[NSArray arrayWithObjects:
+			if(controlsConstraints) {
+				[self.view removeConstraints:controlsConstraints];
+			}
+			controlsConstraints = [NSArray arrayWithObjects:
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
 												toItem:controlsViewController.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
@@ -426,7 +471,8 @@
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
 												toItem:controlsViewController.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0],
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-												toItem:controlsViewController.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil]];
+												toItem:controlsViewController.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil];
+			[controlsViewController.view addConstraints:controlsConstraints];
 		}
 	}
 	[self.controlsView setNeedsUpdateConstraints];
