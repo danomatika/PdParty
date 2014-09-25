@@ -34,7 +34,9 @@ This project uses:
 * [PGMidi](https://github.com/petegoodliffe/PGMidi): midi i/o
 * [CocoaOSC](https://github.com/danieldickison/CocoaOSC): Open Sound Control i/o
 * [CocoaHTTPServer](https://github.com/robbiehanson/CocoaHTTPServer): WebDAV server
-* [ZipArchive](https://code.google.com/p/ziparchive/): support for decompressing zip archives
+* [ZipArchive](https://code.google.com/p/ziparchive): support for decompressing zip archives
+* [UIAlertView+Blocks](https://github.com/ryanmaxwell/UIAlertView-Blocks)
+* [UIActionSheet+Blocks](https://github.com/ryanmaxwell/UIActionSheet-Blocks)
 
 ### 3rd Party Resources
 

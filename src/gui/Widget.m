@@ -230,7 +230,7 @@ static PdDispatcher *dispatcher = nil;
 	
 	// if it is in exponential mode
     if(string.length >= 5) {
-        i = string.length - 4;
+        i = (int)string.length - 4;
         if(([string characterAtIndex:i] == 'e') || ([string characterAtIndex:i] == 'E'))
             is_exp = YES;
     }
@@ -251,7 +251,7 @@ static PdDispatcher *dispatcher = nil;
                 [string setString:(f < 0.0 ? @"-" : @"+")];
             }
             else {
-                int new_exp_index = width-4, old_exp_index = string.length-4;
+                int new_exp_index = width-4, old_exp_index = (int)string.length-4;
 
                 for(i = 0; i < 4; i++, new_exp_index++, old_exp_index++) {
 					[string setCharacter:[string characterAtIndex:old_exp_index] atIndex:new_exp_index];

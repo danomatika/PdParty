@@ -34,6 +34,7 @@
 #import "Taplist.h"
 #import "Touch.h"
 #import "Wordbutton.h"
+#import "Loadsave.h"
 
 @interface Gui ()
 
@@ -188,6 +189,14 @@
 	}
 }
 
+- (void)addLoadsave:(NSArray *)atomLine {
+	Loadsave *l = [Loadsave loadsaveFromAtomLine:atomLine withGui:self];
+	if(l) {
+		[self.widgets addObject:l];
+		DDLogVerbose(@"Gui: added %@", l.type);
+	}
+}
+
 - (void)addWidgetsFromAtomLines:(NSArray *)lines {
 	int level = 0;
 	
@@ -201,9 +210,9 @@
 			if([lineType isEqualToString:@"canvas"]) {
 				level++;
 				if(level == 1) {
-					self.patchWidth = [[line objectAtIndex:4] integerValue];
-					self.patchHeight = [[line objectAtIndex:5] integerValue];
-					self.fontSize = [[line objectAtIndex:6] integerValue];
+					self.patchWidth = (int) [[line objectAtIndex:4] integerValue];
+					self.patchHeight = (int) [[line objectAtIndex:5] integerValue];
+					self.fontSize = (int) [[line objectAtIndex:6] integerValue];
 					
 					// set pd gui to ios gui scale amount based on relative sizes
 					self.scaleX = self.parentViewSize.width / self.patchWidth;
@@ -279,6 +288,9 @@
 						}
 						else if([objType isEqualToString:@"wordbutton"]) {
 							[self addWordbutton:line];
+						}
+						else if([objType isEqualToString:@"loadsave"]) {
+							[self addLoadsave:line];
 						}
 						
 						// print warnings on objects that aren't completely compatible

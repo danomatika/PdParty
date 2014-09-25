@@ -217,6 +217,18 @@
 		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
 		30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6316E8457400E5AA5B /* KeyGrabber.m */; };
 		30C9BF6716E8460700E5AA5B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6616E8460700E5AA5B /* Util.m */; };
+		30D60AAB198A8E3A003DFA70 /* FileBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D60AA8198A8E3A003DFA70 /* FileBrowser.m */; };
+		30D60AAC198A8E3A003DFA70 /* FileBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D60AAA198A8E3A003DFA70 /* FileBrowserCell.m */; };
+		30D60ACD198ACDC9003DFA70 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D60AC2198ACDC9003DFA70 /* NSMutableArray+SWUtilityButtons.m */; };
+		30D60ACE198ACDC9003DFA70 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D60AC4198ACDC9003DFA70 /* SWCellScrollView.m */; };
+		30D60ACF198ACDC9003DFA70 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D60AC6198ACDC9003DFA70 /* SWLongPressGestureRecognizer.m */; };
+		30D60AD0198ACDC9003DFA70 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D60AC8198ACDC9003DFA70 /* SWTableViewCell.m */; };
+		30D60AD1198ACDC9003DFA70 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D60ACA198ACDC9003DFA70 /* SWUtilityButtonTapGestureRecognizer.m */; };
+		30D60AD2198ACDC9003DFA70 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D60ACC198ACDC9003DFA70 /* SWUtilityButtonView.m */; };
+		30DCC10B196CCCD700B887C5 /* Loadsave.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCC10A196CCCD700B887C5 /* Loadsave.m */; };
+		30E336431972942B004ED403 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 30E3363E1972942B004ED403 /* LICENSE */; };
+		30E336441972942B004ED403 /* UIActionSheet+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E336401972942B004ED403 /* UIActionSheet+Blocks.m */; };
+		30E336451972942B004ED403 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E336421972942B004ED403 /* UIAlertView+Blocks.m */; };
 		30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E89D0516E8758A005B40C4 /* CoreMotion.framework */; };
 		30E89D1E16EC4535005B40C4 /* PdParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D1D16EC4535005B40C4 /* PdParser.m */; };
 		30E89D3716EC46CF005B40C4 /* Bang.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D2116EC46CE005B40C4 /* Bang.m */; };
@@ -568,6 +580,29 @@
 		30C9BF6316E8457400E5AA5B /* KeyGrabber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyGrabber.m; sourceTree = "<group>"; };
 		30C9BF6516E8460700E5AA5B /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		30C9BF6616E8460700E5AA5B /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		30D60AA7198A8E3A003DFA70 /* FileBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileBrowser.h; sourceTree = "<group>"; };
+		30D60AA8198A8E3A003DFA70 /* FileBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileBrowser.m; sourceTree = "<group>"; };
+		30D60AA9198A8E3A003DFA70 /* FileBrowserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileBrowserCell.h; sourceTree = "<group>"; };
+		30D60AAA198A8E3A003DFA70 /* FileBrowserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileBrowserCell.m; sourceTree = "<group>"; };
+		30D60AC1198ACDC9003DFA70 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
+		30D60AC2198ACDC9003DFA70 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
+		30D60AC3198ACDC9003DFA70 /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
+		30D60AC4198ACDC9003DFA70 /* SWCellScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCellScrollView.m; sourceTree = "<group>"; };
+		30D60AC5198ACDC9003DFA70 /* SWLongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWLongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		30D60AC6198ACDC9003DFA70 /* SWLongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWLongPressGestureRecognizer.m; sourceTree = "<group>"; };
+		30D60AC7198ACDC9003DFA70 /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
+		30D60AC8198ACDC9003DFA70 /* SWTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWTableViewCell.m; sourceTree = "<group>"; };
+		30D60AC9198ACDC9003DFA70 /* SWUtilityButtonTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonTapGestureRecognizer.h; sourceTree = "<group>"; };
+		30D60ACA198ACDC9003DFA70 /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
+		30D60ACB198ACDC9003DFA70 /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
+		30D60ACC198ACDC9003DFA70 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
+		30DCC109196CCCD700B887C5 /* Loadsave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loadsave.h; sourceTree = "<group>"; };
+		30DCC10A196CCCD700B887C5 /* Loadsave.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Loadsave.m; sourceTree = "<group>"; };
+		30E3363E1972942B004ED403 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		30E3363F1972942B004ED403 /* UIActionSheet+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Blocks.h"; sourceTree = "<group>"; };
+		30E336401972942B004ED403 /* UIActionSheet+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Blocks.m"; sourceTree = "<group>"; };
+		30E336411972942B004ED403 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
+		30E336421972942B004ED403 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		30E89D0516E8758A005B40C4 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		30E89D1C16EC4535005B40C4 /* PdParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdParser.h; sourceTree = "<group>"; };
 		30E89D1D16EC4535005B40C4 /* PdParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdParser.m; sourceTree = "<group>"; };
@@ -1121,6 +1156,8 @@
 		30ABE2D316B5CE3100464926 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				30D60AC0198ACDC9003DFA70 /* SWTableViewCell */,
+				30E3363D1972942B004ED403 /* blocks */,
 				30C77BC416F1C4CF00988EB9 /* CocoaAsyncSocket */,
 				305081C616E198C900895CB2 /* CocoaHTTPServer */,
 				30C77BB516F1BEAB00988EB9 /* CocoaOSC */,
@@ -1406,6 +1443,7 @@
 		30C9BF6116E8457400E5AA5B /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				30D60AA6198A8E3A003DFA70 /* browser */,
 				30C9BF6216E8457400E5AA5B /* KeyGrabber.h */,
 				30C9BF6316E8457400E5AA5B /* KeyGrabber.m */,
 				30B01DE917E374800052F26F /* Log.h */,
@@ -1419,6 +1457,50 @@
 			);
 			name = classes;
 			path = src/classes;
+			sourceTree = "<group>";
+		};
+		30D60AA6198A8E3A003DFA70 /* browser */ = {
+			isa = PBXGroup;
+			children = (
+				30D60AA7198A8E3A003DFA70 /* FileBrowser.h */,
+				30D60AA8198A8E3A003DFA70 /* FileBrowser.m */,
+				30D60AA9198A8E3A003DFA70 /* FileBrowserCell.h */,
+				30D60AAA198A8E3A003DFA70 /* FileBrowserCell.m */,
+			);
+			path = browser;
+			sourceTree = "<group>";
+		};
+		30D60AC0198ACDC9003DFA70 /* SWTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				30D60AC1198ACDC9003DFA70 /* NSMutableArray+SWUtilityButtons.h */,
+				30D60AC2198ACDC9003DFA70 /* NSMutableArray+SWUtilityButtons.m */,
+				30D60AC3198ACDC9003DFA70 /* SWCellScrollView.h */,
+				30D60AC4198ACDC9003DFA70 /* SWCellScrollView.m */,
+				30D60AC5198ACDC9003DFA70 /* SWLongPressGestureRecognizer.h */,
+				30D60AC6198ACDC9003DFA70 /* SWLongPressGestureRecognizer.m */,
+				30D60AC7198ACDC9003DFA70 /* SWTableViewCell.h */,
+				30D60AC8198ACDC9003DFA70 /* SWTableViewCell.m */,
+				30D60AC9198ACDC9003DFA70 /* SWUtilityButtonTapGestureRecognizer.h */,
+				30D60ACA198ACDC9003DFA70 /* SWUtilityButtonTapGestureRecognizer.m */,
+				30D60ACB198ACDC9003DFA70 /* SWUtilityButtonView.h */,
+				30D60ACC198ACDC9003DFA70 /* SWUtilityButtonView.m */,
+			);
+			name = SWTableViewCell;
+			path = libs/SWTableViewCell;
+			sourceTree = "<group>";
+		};
+		30E3363D1972942B004ED403 /* blocks */ = {
+			isa = PBXGroup;
+			children = (
+				30E3363E1972942B004ED403 /* LICENSE */,
+				30E3363F1972942B004ED403 /* UIActionSheet+Blocks.h */,
+				30E336401972942B004ED403 /* UIActionSheet+Blocks.m */,
+				30E336411972942B004ED403 /* UIAlertView+Blocks.h */,
+				30E336421972942B004ED403 /* UIAlertView+Blocks.m */,
+			);
+			name = blocks;
+			path = libs/blocks;
 			sourceTree = "<group>";
 		};
 		30E89D1F16EC46CE005B40C4 /* iem */ = {
@@ -1462,6 +1544,8 @@
 		30F5282217D7B3DB004736A6 /* droidparty */ = {
 			isa = PBXGroup;
 			children = (
+				30DCC109196CCCD700B887C5 /* Loadsave.h */,
+				30DCC10A196CCCD700B887C5 /* Loadsave.m */,
 				30F5283217D93741004736A6 /* Display.h */,
 				30F5283317D93742004736A6 /* Display.m */,
 				30F5282617D8FA81004736A6 /* Numberbox.h */,
@@ -1581,6 +1665,7 @@
 				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
 				308986BE18CD195E004423AD /* Images.xcassets in Resources */,
 				30ACA10D16D1866000B50B73 /* patches in Resources */,
+				30E336431972942B004ED403 /* LICENSE in Resources */,
 				3083BD4C17F2867400EDF587 /* README.mdown in Resources */,
 				300507B417C2C11700D1563C /* Defaults.plist in Resources */,
 				30F3E79517C5491100117305 /* images in Resources */,
@@ -1610,12 +1695,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30E336451972942B004ED403 /* UIAlertView+Blocks.m in Sources */,
 				30ABE41516B5D5DD00464926 /* PdAudioController.m in Sources */,
 				30ABE41616B5D5DD00464926 /* PdBase.m in Sources */,
 				30ABE2EC16B5D0FB00464926 /* AppDelegate.m in Sources */,
 				30ABE2EE16B5D0FB00464926 /* main.m in Sources */,
 				3054E90D18958B5E004F55D6 /* s_path.c in Sources */,
 				30ABE2F116B5D0FB00464926 /* PatchViewController.m in Sources */,
+				30D60AD1198ACDC9003DFA70 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				3054E8E918958B5E004F55D6 /* g_array.c in Sources */,
 				3054E91D18958B5E004F55D6 /* x_time.c in Sources */,
 				30ABE3A816B5D15400464926 /* s_libpdmidi.c in Sources */,
@@ -1634,6 +1721,7 @@
 				3054E91918958B5E004F55D6 /* x_net.c in Sources */,
 				3054E8EF18958B5E004F55D6 /* g_hdial.c in Sources */,
 				30ABE40B16B5D15400464926 /* PGMidi.mm in Sources */,
+				30D60AD0198ACDC9003DFA70 /* SWTableViewCell.m in Sources */,
 				30ABE40C16B5D15400464926 /* PGMidiAllSources.mm in Sources */,
 				30ABE40D16B5D15400464926 /* PGMidiFind.mm in Sources */,
 				3054E90E18958B5E004F55D6 /* s_print.c in Sources */,
@@ -1641,11 +1729,13 @@
 				3054E90618958B5E004F55D6 /* m_sched.c in Sources */,
 				3054E90018958B5E004F55D6 /* m_class.c in Sources */,
 				3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */,
+				30D60AAC198A8E3A003DFA70 /* FileBrowserCell.m in Sources */,
 				30A319F716B61FF700C7729B /* Widget.m in Sources */,
 				30F7A19216BFF66F00DE265F /* ringbuffer.c in Sources */,
 				30F7A19316BFF66F00DE265F /* z_print_util.c in Sources */,
 				30F7A19416BFF66F00DE265F /* z_queued.c in Sources */,
 				3054E8E318958B5E004F55D6 /* d_misc.c in Sources */,
+				30DCC10B196CCCD700B887C5 /* Loadsave.m in Sources */,
 				30F7A19716C008A500DE265F /* BrowserViewController.m in Sources */,
 				3050820F16E198C900895CB2 /* DDData.m in Sources */,
 				3054E91318958B5E004F55D6 /* x_connective.c in Sources */,
@@ -1702,6 +1792,7 @@
 				30C9BF6716E8460700E5AA5B /* Util.m in Sources */,
 				3054E91B18958B5E004F55D6 /* x_scalar.c in Sources */,
 				3054E8FC18958B5E004F55D6 /* g_vslider.c in Sources */,
+				30D60AAB198A8E3A003DFA70 /* FileBrowser.m in Sources */,
 				30E89D1E16EC4535005B40C4 /* PdParser.m in Sources */,
 				30E89D3716EC46CF005B40C4 /* Bang.m in Sources */,
 				30E89D3816EC46CF005B40C4 /* Canvas.m in Sources */,
@@ -1709,6 +1800,7 @@
 				30E89D3C16EC46CF005B40C4 /* Slider.m in Sources */,
 				30E89D3D16EC46CF005B40C4 /* Toggle.m in Sources */,
 				30E89D3E16EC46CF005B40C4 /* AtomWidget.m in Sources */,
+				30D60AD2198ACDC9003DFA70 /* SWUtilityButtonView.m in Sources */,
 				30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */,
 				30E89D4016EC46CF005B40C4 /* Number.m in Sources */,
 				3054E8E418958B5E004F55D6 /* d_osc.c in Sources */,
@@ -1721,6 +1813,7 @@
 				3054E91C18958B5E004F55D6 /* x_text.c in Sources */,
 				3054E8F718958B5E004F55D6 /* g_template.c in Sources */,
 				30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */,
+				30D60ACF198ACDC9003DFA70 /* SWLongPressGestureRecognizer.m in Sources */,
 				3054E8EC18958B5E004F55D6 /* g_editor.c in Sources */,
 				3054E88918958AFE004F55D6 /* z_hooks.c in Sources */,
 				30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */,
@@ -1759,6 +1852,7 @@
 				30245656173582340016583B /* packOSC.c in Sources */,
 				3054E8E618958B5E004F55D6 /* d_soundfile.c in Sources */,
 				3054E91518958B5E004F55D6 /* x_interface.c in Sources */,
+				30D60ACE198ACDC9003DFA70 /* SWCellScrollView.m in Sources */,
 				3054E8DA18958B5E004F55D6 /* d_dac.c in Sources */,
 				30245657173582340016583B /* pipelist.c in Sources */,
 				30245658173582340016583B /* routeOSC.c in Sources */,
@@ -1791,6 +1885,7 @@
 				3054E8F518958B5E004F55D6 /* g_rtext.c in Sources */,
 				3094B44A18C97CCF00AFE178 /* ioapi.c in Sources */,
 				303BD3371759C6D5000FBEB5 /* bonk~.c in Sources */,
+				30E336441972942B004ED403 /* UIActionSheet+Blocks.m in Sources */,
 				3054E90318958B5E004F55D6 /* m_memory.c in Sources */,
 				3054E8F818958B5E004F55D6 /* g_text.c in Sources */,
 				303BD33A1759C6D5000FBEB5 /* choice.c in Sources */,
@@ -1819,6 +1914,7 @@
 				3054E91618958B5E004F55D6 /* x_list.c in Sources */,
 				30F5283417D93743004736A6 /* Display.m in Sources */,
 				30F5283717D982AE004736A6 /* Ribbon.m in Sources */,
+				30D60ACD198ACDC9003DFA70 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */,
 				30B01DEB17E374800052F26F /* Log.m in Sources */,
 				30B01DEE17E3C2170052F26F /* UIPopoverController+iPhone.m in Sources */,

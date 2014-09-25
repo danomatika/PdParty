@@ -281,7 +281,7 @@
 	NSString* destPath = [[Util documentsPath] stringByAppendingPathComponent:folderPath];
 	if(![[NSFileManager defaultManager] fileExistsAtPath:destPath]) {
 		if(![[NSFileManager defaultManager] createDirectoryAtPath:destPath withIntermediateDirectories:NO attributes:NULL error:&error]) {
-			DDLogError(@"AppDelegate: couldn't remove %@, error: %@", destPath, error.localizedDescription);
+			DDLogError(@"AppDelegate: couldn't create %@, error: %@", destPath, error.localizedDescription);
 		}
 	}
 	
