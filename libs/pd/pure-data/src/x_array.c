@@ -55,7 +55,7 @@ static void *table_donew(t_symbol *s, int size, int flags,
          sprintf(tabname, "%s%d", t->s_name, tabcount++);
          s = gensym(tabname); 
     }
-    if (size <= 1)
+    if (size < 1)
         size = 100;
     SETFLOAT(a, 0);
     SETFLOAT(a+1, 50);
@@ -104,7 +104,7 @@ static void array_define_yrange(t_glist *x, t_floatarg ylo, t_floatarg yhi)
     {
         int n = garray_getarray((t_garray *)gl->gl_list)->a_n;
         vmess(&x->gl_list->g_pd, gensym("bounds"),
-            "ffff", 0., yhi, (float)(n-1), ylo);
+            "ffff", 0., yhi, (double)(n == 1 ? n : n-1), ylo);
         vmess(&x->gl_list->g_pd, gensym("xlabel"),
             "fff", ylo + glist_pixelstoy(gl, 2) - glist_pixelstoy(gl, 0),
                 0., (float)(n-1));
@@ -317,7 +317,7 @@ static t_array *array_client_getbuf(t_array_client *x, t_glist **glist)
 
 static void array_client_senditup(t_array_client *x)
 {
-    t_glist *glist;
+    t_glist *glist = 0;
     t_array *a = array_client_getbuf(x, &glist);
     array_redraw(a, glist);
 }

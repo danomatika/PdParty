@@ -20,7 +20,30 @@
 #include "m_imp.h"
 #include "g_all_guis.h"
 
+#if PD_MINOR_VERSION < 46
+# define HAVE_SCHED_TICK_ARG
+#endif
+
+#ifdef HAVE_SCHED_TICK_ARG
+# define SCHED_TICK(x) sched_tick(x)
+#else
+# define SCHED_TICK(x) sched_tick()
+#endif
 void pd_init(void);
+
+// (optional) built in pd externals setup functions
+#ifdef LIBPD_EXTRA
+  void bob_tilde_setup();
+  void bonk_tilde_setup();
+  void choice_setup();
+  void expr_setup(); // also loads expr~ & fexpr~
+  void fiddle_tilde_setup();
+  void loop_tilde_setup();
+  void lrshift_tilde_setup();
+  void pique_setup();
+  void sigmund_tilde_setup();
+  void stdout_setup();
+#endif
 
 static t_atom *argv = NULL, *curr;
 static int argm = 0, argc;
@@ -52,11 +75,27 @@ int libpd_init(void) {
   sys_hipriority = 0;
   sys_nmidiin = 0;
   sys_nmidiout = 0;
+  sys_init_fdpoll();
+#ifdef HAVE_SCHED_TICK_ARG
   sys_time = 0;
+#endif
   pd_init();
   libpdreceive_setup();
   sys_set_audio_api(API_DUMMY);
   sys_searchpath = NULL;
+	
+#ifdef LIBPD_EXTRA
+  bob_tilde_setup();
+  bonk_tilde_setup();
+  choice_setup();
+  expr_setup();
+  fiddle_tilde_setup();
+  loop_tilde_setup();
+  lrshift_tilde_setup();
+  pique_setup();
+  sigmund_tilde_setup();
+  stdout_setup();
+#endif
 	
 	return 0;
 }
@@ -107,7 +146,7 @@ int libpd_process_raw(const float *inBuffer, float *outBuffer) {
     *p++ = *inBuffer++;
   }
   memset(sys_soundout, 0, n_out * sizeof(t_sample));
-  sched_tick(sys_time + sys_time_per_dsp_tick);
+  SCHED_TICK(sys_time + sys_time_per_dsp_tick);
   for (p = sys_soundout, i = 0; i < n_out; i++) {
     *outBuffer++ = *p++;
   }
@@ -127,7 +166,7 @@ static const t_sample sample_to_short = SHRT_MAX,
       } \
     } \
     memset(sys_soundout, 0, sys_outchannels*DEFDACBLKSIZE*sizeof(t_sample)); \
-    sched_tick(sys_time + sys_time_per_dsp_tick); \
+    SCHED_TICK(sys_time + sys_time_per_dsp_tick); \
     for (j = 0, p0 = sys_soundout; j < DEFDACBLKSIZE; j++, p0++) { \
       for (k = 0, p1 = p0; k < sys_outchannels; k++, p1 += DEFDACBLKSIZE) { \
         *outBuffer++ = *p1 _y; \

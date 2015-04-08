@@ -69,6 +69,7 @@ void glist_delete(t_glist *x, t_gobj *y)
     t_object *ob;
     t_gotfn chkdsp = zgetfn(&y->g_pd, gensym("dsp"));
     t_canvas *canvas = glist_getcanvas(x);
+    t_rtext *rtext = 0;
     int drawcommand = class_isdrawcommand(y->g_pd);
     int wasdeleting;
     
@@ -112,7 +113,7 @@ void glist_delete(t_glist *x, t_gobj *y)
         gobj_vis(y, x, 0);
     }
     if (x->gl_editor && (ob = pd_checkobject(&y->g_pd)))
-        rtext_new(x, ob);
+        rtext = rtext_new(x, ob);
     if (x->gl_list == y) x->gl_list = y->g_next;
     else for (g = x->gl_list; g; g = g->g_next)
         if (g->g_next == y)
@@ -121,6 +122,8 @@ void glist_delete(t_glist *x, t_gobj *y)
         break;
     }
     pd_free(&y->g_pd);
+    if (rtext)
+        rtext_free(rtext);
     if (chkdsp) canvas_update_dsp();
     if (drawcommand)
         canvas_redrawallfortemplate(template_findbyname(canvas_makebindsym(
@@ -897,12 +900,13 @@ static void graph_getrect(t_gobj *z, t_glist *glist,
             hadwindow = x->gl_havewindow;
             x->gl_havewindow = 0;
             for (g = x->gl_list; g; g = g->g_next)
-                if (gobj_shouldvis(g, x))
             {
                     /* don't do this for arrays, just let them hang outside the
-                    box. */
-                if (pd_class(&g->g_pd) == garray_class)
-                    continue;
+                    box.  And ignore "text" objects which aren't shown on 
+                    parent */
+                if (pd_class(&g->g_pd) == garray_class ||
+                    pd_checkobject(&g->g_pd))
+                        continue;
                 gobj_getrect(g, x, &x21, &y21, &x22, &y22);
                 if (x22 > x2) 
                     x2 = x22;

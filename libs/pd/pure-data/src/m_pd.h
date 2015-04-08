@@ -9,8 +9,8 @@ extern "C" {
 #endif
 
 #define PD_MAJOR_VERSION 0
-#define PD_MINOR_VERSION 45
-#define PD_BUGFIX_VERSION 4
+#define PD_MINOR_VERSION 46
+#define PD_BUGFIX_VERSION 6
 #define PD_TEST_VERSION ""
 extern int pd_compatibilitylevel;   /* e.g., 43 for pd 0.43 compatibility */
 
@@ -247,7 +247,17 @@ typedef struct _text t_object;
 
 typedef void (*t_method)(void);
 typedef void *(*t_newmethod)( void);
+
+/* in ARM 64 a varargs prototype generates a different function call sequence
+from a fixed one, so in that special case we maek a more restrictive
+definition for t_gotfn.  This will break some code in the "chaos" package
+in Pd extended.  (that code will run incorrectly anyhow so why not catch it
+at compile time anyhow.) */
+#ifdef __aarch64__
+typedef void (*t_gotfn)(void *x);
+#else
 typedef void (*t_gotfn)(void *x, ...);
+#endif
 
 /* ---------------- pre-defined objects and symbols --------------*/
 EXTERN t_pd pd_objectmaker;     /* factory for creating "object" boxes */
@@ -273,12 +283,27 @@ EXTERN t_gotfn getfn(t_pd *x, t_symbol *s);
 EXTERN t_gotfn zgetfn(t_pd *x, t_symbol *s);
 EXTERN void nullfn(void);
 EXTERN void pd_vmess(t_pd *x, t_symbol *s, char *fmt, ...);
+
+/* the following macrose are for sending non-type-checkable mesages, i.e.,
+using function lookup but circumventing type checking on arguments.  Only
+use for internal messaging protected by A_CANT so that the message can't
+be generated at patch level. */
 #define mess0(x, s) ((*getfn((x), (s)))((x)))
-#define mess1(x, s, a) ((*getfn((x), (s)))((x), (a)))
-#define mess2(x, s, a,b) ((*getfn((x), (s)))((x), (a),(b)))
-#define mess3(x, s, a,b,c) ((*getfn((x), (s)))((x), (a),(b),(c)))
-#define mess4(x, s, a,b,c,d) ((*getfn((x), (s)))((x), (a),(b),(c),(d)))
-#define mess5(x, s, a,b,c,d,e) ((*getfn((x), (s)))((x), (a),(b),(c),(d),(e)))
+typedef void (*t_gotfn1)(void *x, void *arg1);
+#define mess1(x, s, a) ((*(t_gotfn1)getfn((x), (s)))((x), (a)))
+typedef void (*t_gotfn2)(void *x, void *arg1, void *arg2);
+#define mess2(x, s, a,b) ((*(t_gotfn2)getfn((x), (s)))((x), (a),(b)))
+typedef void (*t_gotfn3)(void *x, void *arg1, void *arg2, void *arg3);
+#define mess3(x, s, a,b,c) ((*(t_gotfn3)getfn((x), (s)))((x), (a),(b),(c)))
+typedef void (*t_gotfn4)(void *x,
+    void *arg1, void *arg2, void *arg3, void *arg4);
+#define mess4(x, s, a,b,c,d) \
+    ((*(t_gotfn4)getfn((x), (s)))((x), (a),(b),(c),(d)))
+typedef void (*t_gotfn5)(void *x,
+    void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
+#define mess5(x, s, a,b,c,d,e) \
+    ((*(t_gotfn5)getfn((x), (s)))((x), (a),(b),(c),(d),(e)))
+
 EXTERN void obj_list(t_object *x, t_symbol *s, int argc, t_atom *argv);
 EXTERN t_pd *pd_newest(void);
 
@@ -597,8 +622,8 @@ typedef struct _resample
 {
   int method;       /* up/downsampling method ID */
 
-  t_int downsample; /* downsampling factor */
-  t_int upsample;   /* upsampling factor */
+  int downsample; /* downsampling factor */
+  int upsample;   /* upsampling factor */
 
   t_sample *s_vec;   /* here we hold the resampled data */
   int      s_n;
@@ -725,6 +750,17 @@ static inline int PD_BIGORSMALL(t_sample f) {
 #endif /* _MSC_VER */
     /* get version number at run time */
 EXTERN void sys_getversion(int *major, int *minor, int *bugfix);
+
+EXTERN_STRUCT _pdinstance;
+#define t_pdinstance struct _pdinstance       /* m_imp.h */
+
+/* m_pd.c */
+
+EXTERN t_pdinstance *pdinstance_new( void);
+EXTERN void pd_setinstance(t_pdinstance *x);
+EXTERN void pdinstance_free(t_pdinstance *x);
+EXTERN t_canvas *pd_getcanvaslist(void);
+EXTERN int pd_getdspstate(void);
 
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus)
 }

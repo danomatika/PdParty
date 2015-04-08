@@ -114,11 +114,6 @@ t_template *template_new(t_symbol *templatesym, int argc, t_atom *argv)
     return (x);
 }
 
-int template_size(t_template *x)
-{
-    return (x->t_n * sizeof(t_word));
-}
-
 int template_find_field(t_template *x, t_symbol *name, int *p_onset,
     int *p_type, t_symbol **p_arraytype)
 {
@@ -437,7 +432,7 @@ void template_conform(t_template *tfrom, t_template *tto)
     if (doit)
     {
         t_glist *gl;
-        for (gl = canvas_list; gl; gl = gl->gl_next)
+        for (gl = pd_getcanvaslist(); gl; gl = gl->gl_next)
             template_conformglist(tfrom, tto, gl, conformaction);
     }
     freebytes(conformaction, sizeof(int) * nto);
@@ -615,6 +610,9 @@ static void *gtemplate_new(t_symbol *s, int argc, t_atom *argv)
     t_symbol *sym = atom_getsymbolarg(0, argc, argv);
     if (argc >= 1)
         argc--; argv++;
+    if (sym->s_name[0] == '-')
+        post("warning: struct '%s' initial '-' may confuse get/set, etc.",
+            sym->s_name);  
     return (gtemplate_donew(canvas_makebindsym(sym), argc, argv));
 }
 
@@ -960,7 +958,7 @@ typedef struct _curve
     t_canvas *x_canvas;
 } t_curve;
 
-static void *curve_new(t_symbol *classsym, t_int argc, t_atom *argv)
+static void *curve_new(t_symbol *classsym, int argc, t_atom *argv)
 {
     t_curve *x = (t_curve *)pd_new(curve_class);
     char *classname = classsym->s_name;
@@ -1338,7 +1336,7 @@ typedef struct _plot
     t_fielddesc x_scalarvis;    /* true if drawing the scalar at each point */
 } t_plot;
 
-static void *plot_new(t_symbol *classsym, t_int argc, t_atom *argv)
+static void *plot_new(t_symbol *classsym, int argc, t_atom *argv)
 {
     t_plot *x = (t_plot *)pd_new(plot_class);
     int defstyle = PLOTSTYLE_POLY;
@@ -2090,24 +2088,18 @@ static int array_doclick(t_array *array, t_glist *glist, t_scalar *sc,
         array_motion_template = elemtemplate;
         array_motion_xperpix = glist_dpixtodx(glist, 1);
         array_motion_yperpix = glist_dpixtody(glist, 1);
-            /* if we're the only array here and if we appear to have
+            /* if we're a garray, the only one here, and if we appear to have
             only a 'y' field, click always succeeds and furthermore we'll
             call "motion" later. */
-        if (glist->gl_list && !glist->gl_list->g_next &&
-            elemsize == sizeof(t_word))
+        if (glist->gl_list && pd_class(&glist->gl_list->g_pd) == garray_class
+            && !glist->gl_list->g_next &&
+                elemsize == sizeof(t_word))
         {
             int xval = glist_pixelstox(glist, xpix);
             if (xval < 0)
                 xval = 0;
             else if (xval >= array->a_n)
                 xval = array->a_n - 1;
-            if (doit)
-            {
-                fielddesc_setcoord(yfield, elemtemplate,
-                    (t_word *)(((char *)array->a_vec) + elemsize * xval),
-                        glist_pixelstoy(glist, ypix), 1);
-                glist_grab(glist, 0, array_motion, 0, xpix, ypix);
-            }
             array_motion_yfield = yfield;
             array_motion_ycumulative = glist_pixelstoy(glist, ypix);
             array_motion_fatten = 0;
@@ -2116,6 +2108,17 @@ static int array_doclick(t_array *array, t_glist *glist, t_scalar *sc,
             array_motion_lastx = array_motion_initx = xval;
             array_motion_npoints = array->a_n;
             array_motion_wp = (t_word *)((char *)array->a_vec);
+            if (doit)
+            {
+                fielddesc_setcoord(yfield, elemtemplate,
+                    (t_word *)(((char *)array->a_vec) + elemsize * xval),
+                        glist_pixelstoy(glist, ypix), 1);
+                glist_grab(glist, 0, array_motion, 0, xpix, ypix);
+                if (array_motion_scalar)
+                    scalar_redraw(array_motion_scalar, array_motion_glist);
+                if (array_motion_array)
+                    array_redraw(array_motion_array, array_motion_glist);
+            }
         }
         else
         {
@@ -2336,7 +2339,7 @@ typedef struct _drawnumber
     t_canvas *x_canvas;
 } t_drawnumber;
 
-static void *drawnumber_new(t_symbol *classsym, t_int argc, t_atom *argv)
+static void *drawnumber_new(t_symbol *classsym, int argc, t_atom *argv)
 {
     t_drawnumber *x = (t_drawnumber *)pd_new(drawnumber_class);
     char *classname = classsym->s_name;

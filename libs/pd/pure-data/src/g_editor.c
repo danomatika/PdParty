@@ -17,8 +17,6 @@
 void glist_readfrombinbuf(t_glist *x, t_binbuf *b, char *filename,
     int selectem);
 
-void open_via_helppath(const char *name, const char *dir);
-
 /* ------------------ forward declarations --------------- */
 static void canvas_doclear(t_canvas *x);
 static void glist_setlastxy(t_glist *gl, int xval, int yval);
@@ -68,19 +66,32 @@ void gobj_delete(t_gobj *x, t_glist *glist)
 int gobj_shouldvis(t_gobj *x, struct _glist *glist)
 {
     t_object *ob;
+            /* if our parent is a graph, and if that graph itself isn't
+            visible, then we aren't either. */
+    if (!glist->gl_havewindow && glist->gl_isgraph && glist->gl_owner
+        && !gobj_shouldvis(&glist->gl_gobj, glist->gl_owner))
+            return (0);
+            /* if we're graphing-on-parent and the object falls outside the
+            graph rectangle, don't draw it. */
     if (!glist->gl_havewindow && glist->gl_isgraph && glist->gl_goprect &&
-        glist->gl_owner && (pd_class(&x->g_pd) != scalar_class)
-            && (pd_class(&x->g_pd) != garray_class))
+        glist->gl_owner)
     {
-        /* if we're graphing-on-parent and the object falls outside the
-        graph rectangle, don't draw it. */
         int x1, y1, x2, y2, gx1, gy1, gx2, gy2, m;
+            /* for some reason the bounds check on arrays and scalars
+            don't seem to apply here.  Perhaps this was in order to allow
+            arrays to reach outside their containers?  I no longer understand
+            this. */
+        if (pd_class(&x->g_pd) == scalar_class
+            || pd_class(&x->g_pd) == garray_class)
+                return (1);
         gobj_getrect(&glist->gl_gobj, glist->gl_owner, &x1, &y1, &x2, &y2);
         if (x1 > x2)
             m = x1, x1 = x2, x2 = m;
         if (y1 > y2)
             m = y1, y1 = y2, y2 = m;
         gobj_getrect(x, glist, &gx1, &gy1, &gx2, &gy2);
+        /* post("graph %d %d %d %d, %s %d %d %d %d",
+            x1, x2, y1, y2, class_gethelpname(x->g_pd), gx1, gx2, gy1, gy2); */
         if (gx1 < x1 || gx1 > x2 || gx2 < x1 || gx2 > x2 ||
             gy1 < y1 || gy1 > y2 || gy2 < y1 || gy2 > y2)
                 return (0);
@@ -762,7 +773,7 @@ void canvas_reload(t_symbol *name, t_symbol *dir, t_gobj *except)
     int dspwas = canvas_suspend_dsp();
     glist_amreloadingabstractions = 1;
         /* find all root canvases */
-    for (x = canvas_list; x; x = x->gl_next)
+    for (x = pd_getcanvaslist(); x; x = x->gl_next)
         glist_doreload(x, name, dir, except);
     glist_amreloadingabstractions = 0;
     canvas_resume_dsp(dspwas);
@@ -903,9 +914,9 @@ void canvas_destroy_editor(t_glist *x)
     glist_noselect(x);
     if (x->gl_editor)
     {
-        for (y = x->gl_list; y; y = y->g_next)
-            if (ob = pd_checkobject(&y->g_pd))
-                rtext_free(glist_findrtext(x, ob));
+        t_rtext *rtext;
+        while (rtext = x->gl_editor->e_rtext)
+            rtext_free(rtext);
         editor_free(x->gl_editor, x);
         x->gl_editor = 0;
     }
@@ -1002,9 +1013,6 @@ void canvas_setgraph(t_glist *x, int flag, int nogoprect)
 {
     if (!flag && glist_isgraph(x))
     {
-        int hadeditor = (x->gl_editor != 0);
-        if (hadeditor)
-            canvas_destroy_editor(x);
         if (x->gl_owner && !x->gl_loading && glist_isvisible(x->gl_owner))
             gobj_vis(&x->gl_gobj, x->gl_owner, 0);
         x->gl_isgraph = 0;
@@ -1042,8 +1050,9 @@ void garray_properties(t_garray *x);
     /* tell GUI to create a properties dialog on the canvas.  We tell
     the user the negative of the "pixel" y scale to make it appear to grow
     naturally upward, whereas pixels grow downward. */
-void canvas_properties(t_glist *x)
+void canvas_properties(t_gobj*z, t_glist*unused)
 {
+    t_glist *x = (t_glist*)z;
     t_gobj *y;
     char graphbuf[200];
     if (glist_isgraph(x) != 0)
@@ -1200,7 +1209,7 @@ static void canvas_done_popup(t_canvas *x, t_float which, t_float xpos, t_float 
         }
     }
     if (which == 0)
-        canvas_properties(x);
+        canvas_properties(&x->gl_gobj, 0);
     else if (which == 2)
         open_via_helppath("intro.pd", canvas_getdir((t_canvas *)x)->s_name);
 }
@@ -1942,7 +1951,7 @@ void glob_verifyquit(void *dummy, t_floatarg f)
 {
     t_glist *g, *g2;
         /* find all root canvases */
-    for (g = canvas_list; g; g = g->gl_next)
+    for (g = pd_getcanvaslist(); g; g = g->gl_next)
         if (g2 = glist_finddirty(g))
     {
         canvas_vis(g2, 1);
@@ -2150,7 +2159,7 @@ void canvas_finderror(void *error_object)
 {
     t_canvas *x;
         /* find all root canvases */
-    for (x = canvas_list; x; x = x->gl_next)
+    for (x = pd_getcanvaslist(); x; x = x->gl_next)
     {
         if (glist_dofinderror(x, error_object))
             return;
@@ -2342,9 +2351,9 @@ static void canvas_cut(t_canvas *x)
 {
     if (!x->gl_editor)  /* ignore if invisible */ 
         return;
-    if (x->gl_editor && x->gl_editor->e_selectedline)
+    if (x->gl_editor && x->gl_editor->e_selectedline)   /* delete line */
         canvas_clearline(x);
-    else if (x->gl_editor->e_textedfor)
+    else if (x->gl_editor->e_textedfor) /* delete selected text in a box */
     {
         char *buf;
         int bufsize;
@@ -2352,9 +2361,10 @@ static void canvas_cut(t_canvas *x)
         if (!bufsize && x->gl_editor->e_selection &&
             !x->gl_editor->e_selection->sel_next)
         {
-            t_object *ob = (t_object *)x->gl_editor->e_selection->sel_what;
-            glist_noselect(x);
-            glist_select(x, &ob->te_g);
+                /* if the text is already empty, delete the box.  We
+                first clear 'textedfor' so that canvas_doclear later will
+                think the whole box was selected, not the text */
+            x->gl_editor->e_textedfor = 0;
             goto deleteobj;
         }
         canvas_copy(x);
@@ -2363,7 +2373,7 @@ static void canvas_cut(t_canvas *x)
     }
     else if (x->gl_editor && x->gl_editor->e_selection)
     {
-    deleteobj:
+    deleteobj:      /* delete one or more objects */
         canvas_setundo(x, canvas_undo_cut,
             canvas_undo_set_cut(x, UCUT_CUT), "cut");
         canvas_copy(x);
