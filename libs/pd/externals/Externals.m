@@ -12,19 +12,6 @@
 
 // explicit declarations
 
-// pd
-void bonk_tilde_setup();
-void choice_setup();
-void expr_setup();
-void expr_tilde_setup();
-void fexpr_tilde_setup();
-void fiddle_tilde_setup();
-void loop_tilde_setup();
-void lrshift_tilde_setup();
-void pique_setup();
-void sigmund_tilde_setup();
-void stdout_setup();
-
 // ggee
 void getdir_setup();
 void moog_tilde_setup();
@@ -57,17 +44,6 @@ void rj_zcr_tilde_setup();
 @implementation Externals
 
 + (void)setup {
-
-	// pd
-	bonk_tilde_setup();
-	expr_setup(); // also loads expr~ & fexpr~
-	choice_setup();
-	fiddle_tilde_setup();
-	loop_tilde_setup();
-	lrshift_tilde_setup();
-	pique_setup();
-	sigmund_tilde_setup();
-	stdout_setup();
 	
 	// ggee
 	getdir_setup();

@@ -287,11 +287,18 @@ void sys_set_priority(int higher)
 #ifdef USEAPI_JACK    
     p3 = (higher ? p1 + 7 : p1 + 5);
 #else
-    p3 = (higher ? p2 - 1 : p2 - 3);
+    p3 = (higher ? p2 - 5 : p2 - 7);
 #endif
     par.sched_priority = p3;
-    if (sched_setscheduler(0,SCHED_FIFO,&par) != -1)
-       fprintf(stderr, "priority %d scheduling enabled.\n", p3);
+    if (sched_setscheduler(0,SCHED_FIFO,&par) < 0)
+    {
+        if (!higher)
+            post("priority %d scheduling failed; running at normal priority",
+                p3);
+        else fprintf(stderr, "priority %d scheduling failed.\n", p3);
+    }
+    else if (!higher && sys_verbose)
+        post("priority %d scheduling enabled.\n", p3);
 #endif
 
 #ifdef REALLY_POSIX_MEMLOCK /* this doesn't work on Fedora 4, for example. */
@@ -786,14 +793,15 @@ void sys_queuegui(void *client, t_glist *glist, t_guicallbackfn f)
 void sys_unqueuegui(void *client)
 {
     t_guiqueue *gq, *gq2;
+    while (sys_guiqueuehead && sys_guiqueuehead->gq_client == client)
+    {
+        gq = sys_guiqueuehead;
+        sys_guiqueuehead = sys_guiqueuehead->gq_next;
+        t_freebytes(gq, sizeof(*gq));
+    }
     if (!sys_guiqueuehead)
         return;
-    if (sys_guiqueuehead->gq_client == client)
-    {
-        t_freebytes(sys_guiqueuehead, sizeof(*sys_guiqueuehead));
-        sys_guiqueuehead = 0;
-    }
-    else for (gq = sys_guiqueuehead; gq2 = gq->gq_next; gq = gq2)
+    for (gq = sys_guiqueuehead; gq2 = gq->gq_next; gq = gq2)
         if (gq2->gq_client == client)
     {
         gq->gq_next = gq2->gq_next;
@@ -807,7 +815,13 @@ int sys_pollgui(void)
     return (sys_domicrosleep(0, 1) || sys_poll_togui());
 }
 
-
+void sys_init_fdpoll(void)
+{
+    /* create an empty FD poll list */
+    sys_fdpoll = (t_fdpoll *)t_getbytes(0);
+    sys_nfdpoll = 0;
+    inbinbuf = binbuf_new();
+}
 
 /* --------------------- starting up the GUI connection ------------- */
 
@@ -848,11 +862,8 @@ int sys_startgui(const char *libdir)
     int stdinpipe[2];
     pid_t childpid;
 #endif /* _WIN32 */
-    /* create an empty FD poll list */
-    sys_fdpoll = (t_fdpoll *)t_getbytes(0);
-    sys_nfdpoll = 0;
-    inbinbuf = binbuf_new();
-
+    sys_init_fdpoll();
+    
 #if !defined(_WIN32) && !defined(__CYGWIN__)
     signal(SIGHUP, sys_huphandler);
     signal(SIGINT, sys_exithandler);
@@ -1057,10 +1068,14 @@ int sys_startgui(const char *libdir)
                         wish_paths[i], libdir, PDGUIDIR, portno);
             }
 #else /* __APPLE__ */
+            /* sprintf the wish command with needed environment variables.
+            For some reason the wish script fails if HOME isn't defined so
+            if necessary we put that in here too. */
             sprintf(cmdbuf,
-  "TCL_LIBRARY=\"%s/lib/tcl/library\" TK_LIBRARY=\"%s/lib/tk/library\" \
+  "TCL_LIBRARY=\"%s/lib/tcl/library\" TK_LIBRARY=\"%s/lib/tk/library\"%s \
   wish \"%s/" PDGUIDIR "/pd-gui.tcl\" %d\n",
-                 libdir, libdir, libdir, portno);
+                 libdir, libdir, (getenv("HOME") ? "" : " HOME=/tmp"),
+                    libdir, portno);
 #endif /* __APPLE__ */
             sys_guicmd = cmdbuf;
         }
@@ -1152,7 +1167,9 @@ int sys_startgui(const char *libdir)
             sys_hipriority = 0;
         }
     }
-
+    else if (sys_verbose)
+        post("not setting real-time priority");
+    
     if (sys_hipriority)
     {
             /* To prevent lockup, we fork off a watchdog process with

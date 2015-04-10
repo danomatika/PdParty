@@ -89,6 +89,9 @@ EXTERN void sys_close_audio(void);
     /* return true if the interface prefers always being open (ala jack) : */
 EXTERN int audio_shouldkeepopen( void);
 EXTERN int audio_isopen( void);     /* true if audio interface is open */
+EXTERN int sys_audiodevnametonumber(int output, const char *name);
+EXTERN void sys_audiodevnumbertoname(int output, int devno, char *name,
+    int namesize);
 
 int sys_send_dacs(void);
 void sys_reportidle(void);
@@ -121,6 +124,9 @@ EXTERN void sys_get_midi_devs(char *indevlist, int *nindevs,
    int maxndev, int devdescsize);
 EXTERN void sys_get_midi_params(int *pnmidiindev, int *pmidiindev,
     int *pnmidioutdev, int *pmidioutdev);
+EXTERN int sys_mididevnametonumber(int output, const char *name);
+EXTERN void sys_mididevnumbertoname(int output, int devno, char *name,
+    int namesize);
 
 EXTERN void sys_reopen_midi( void);
 EXTERN void sys_close_midi( void);
@@ -168,6 +174,7 @@ void sched_set_using_audio(int flag);
 /* s_inter.c */
 
 EXTERN void sys_microsleep(int microsec);
+EXTERN void sys_init_fdpoll(void);
 
 EXTERN void sys_bail(int exitcode);
 EXTERN int sys_pollgui(void);
@@ -380,7 +387,7 @@ EXTERN void sys_clearhist(void );
 EXTERN void sys_initmidiqueue(void );
 EXTERN int sys_addhist(int phase);
 EXTERN void sys_setmiditimediff(double inbuftime, double outbuftime);
-EXTERN void sched_tick(double next_sys_time);
+EXTERN void sched_tick( void);
 EXTERN void sys_pollmidiqueue(void );
 EXTERN int sys_pollgui(void );
 EXTERN void sys_setchsr(int chin, int chout, int sr);

@@ -114,6 +114,7 @@ static void sys_expandpath(const char *from, char *to, int bufsize)
             strncpy(to + strlen(to), from + 1, bufsize - strlen(to));
             to[bufsize-1] = 0;
         }
+        else *to = 0;
     }
     else
     {
@@ -514,10 +515,6 @@ void open_via_helppath(const char *name, const char *dir)
         MAXPDSTRING, 0, sys_helppath)) >= 0)
             goto gotone;
 
-        /* 3. "objectname.pd" */
-    if ((fd = do_open_via_path(usedir, name, "", dirbuf, &basename, 
-        MAXPDSTRING, 0, sys_helppath)) >= 0)
-            goto gotone;
     post("sorry, couldn't find help patch for \"%s\"", name);
     return;
 gotone:

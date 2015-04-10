@@ -1,45 +1,64 @@
 #! /bin/bash
 
 WD=$(dirname $0)
-srcDir=libpd
-destDir=../libs/pd
+
+SRC=libpd
+DEST=../libs/pd
 
 ###
 
 cd $WD
 
 # get latest source
-git clone git://github.com/libpd/libpd.git -b pd_045-4
+git clone git://github.com/libpd/libpd.git
+cd $SRC
+git submodule init
+git submodule update
+cd -
 
-# remove uneeded makefiles
-find $srcDir -name "GNUmakefile.am" -delete
-find $srcDir -name "Makefile.am" -delete
-find $srcDir -name "makefile" -delete
-rm $srcDir/pure-data/extra/makefile.subdir
+# remove uneeded makefiles, etc in src
+find $SRC/pure-data -name "makefile*" -delete
+find $SRC/pure-data -name "Makefile.am" -delete
+find $SRC/pure-data -name "GNUmakefile.am" -delete
+find $SRC/pure-data -name "*.pd" -delete
+rm $SRC/pure-data/src/CHANGELOG.txt
+rm $SRC/pure-data/src/notes.txt
+rm $SRC/pure-data/src/pd.ico
+rm $SRC/pure-data/src/pd.rc
 
-# we dont need the csharp wrapper
-rm $srcDir/libpd_wrapper/util/z_hook_util.c
-rm $srcDir/libpd_wrapper/util/z_hook_util.h
+# remove unneeded audio apis
+rm $SRC/pure-data/src/s_audio_alsa*
+rm $SRC/pure-data/src/s_audio_audiounit.c
+rm $SRC/pure-data/src/s_audio_esd.c
+rm $SRC/pure-data/src/s_audio_jack.c
+rm $SRC/pure-data/src/s_audio_mmio.c
+rm $SRC/pure-data/src/s_audio_oss.c
+rm $SRC/pure-data/src/s_audio_pa.c
+rm $SRC/pure-data/src/s_audio_paring.*
 
-# leave pd~ out for now
-rm -rf $srcDir/pure-data/extra/pd~
+# remove unneeded midi apis
+rm $SRC/pure-data/src/s_midi_alsa.c
+rm $SRC/pure-data/src/s_midi_dummy.c
+rm $SRC/pure-data/src/s_midi_mmio.c
+rm $SRC/pure-data/src/s_midi_oss.c
+rm $SRC/pure-data/src/s_midi_pm.c
+rm $SRC/pure-data/src/s_midi.c
 
-# setup dest dir
-mkdir -p $destDir
+# remove uneeded fft library interfaces
+rm $SRC/pure-data/src/d_fft_fftw.c
 
-# copy license
-cp -v $srcDir/LICENSE.txt $destDir
-
-# copy extras patches to patches lib folder
-mkdir -p ../res/patches/lib/pd
-find $srcDir/pure-data/extra -name "*-help.pd" -delete # don't need help files
-mv -v $srcDir/pure-data/extra/*.pd ../res/patches/lib/pd
+# remove some other stuff we don't need ...
+rm $SRC/pure-data/src/s_entry.c
+rm $SRC/pure-data/src/s_watchdog.c
+rm $SRC/pure-data/src/u_pdreceive.c
+rm $SRC/pure-data/src/u_pdsend.c
 
 # copy sources
-cp -Rv $srcDir/objc $destDir
-cp -Rv $srcDir/pure-data $destDir
-cp -Rv $srcDir/libpd_wrapper $destDir
+mkdir -p $DEST/pure-data
+cp -Rv $SRC/objc $DEST/
+cp -Rv $SRC/pure-data/src $DEST/pure-data
+cp -Rv $SRC/pure-data/extra $DEST/pure-data
+cp -Rv $SRC/libpd_wrapper $DEST/
 
 # cleanup
-rm -rf $srcDir
-
+rm -rf $SRC
