@@ -59,7 +59,7 @@
 		
 		// create a new patch view and push it on the stack
 		UIStoryboard *board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
-		PatchViewController *patchView = [board instantiateViewControllerWithIdentifier:@"PatchViewController"];
+		PatchViewController *patchView = (PatchViewController *)[board instantiateViewControllerWithIdentifier:@"PatchViewController"];
 		if(!patchView) {
 			DDLogError(@"NowPlayingTableViewController: couldn't create patch view");
 			return;

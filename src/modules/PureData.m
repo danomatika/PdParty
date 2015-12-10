@@ -67,7 +67,7 @@
 	
 		// set ticks per buffer after everything else is setup, setting a tpb of 1 too early results in no audio
 		// and feedback until it is changed ... this fixes that
-		self.ticksPerBuffer = [[NSUserDefaults standardUserDefaults] integerForKey:@"ticksPerBuffer"];
+		self.ticksPerBuffer = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"ticksPerBuffer"];
 	}
 	return self;
 }

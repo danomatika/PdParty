@@ -86,7 +86,7 @@
 }
 
 // lock orientation
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
@@ -109,7 +109,7 @@
 	}
 	
 	// add contents to pathArray as absolute paths
-	DDLogVerbose(@"Browser: found %d paths", contents.count);
+	DDLogVerbose(@"Browser: found %lu paths", (unsigned long)contents.count);
 	for(NSString *p in contents) {
 		DDLogVerbose(@"Browser: 	%@", p);
 		

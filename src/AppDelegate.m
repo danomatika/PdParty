@@ -10,9 +10,6 @@
  */
 #import "AppDelegate.h"
 
-#ifndef DEBUG
-	#import <Crashlytics/Crashlytics.h>
-#endif
 #import "MBProgressHUD.h"
 #import "ZipArchive.h"
 
@@ -59,15 +56,10 @@
 	// init logger
 	[DDLog addLogger:[DDTTYLogger sharedInstance]];
 	[DDLog addLogger:[[DDFileLogger alloc] init]];
-	ddLogLevel = [defaults integerForKey:@"logLevel"];
+	ddLogLevel = (int)[defaults integerForKey:@"logLevel"];
 	DDLogInfo(@"Log level: %d", ddLogLevel);
 	
 	DDLogInfo(@"App resolution: %d %d", (int)[Util appWidth], (int)[Util appHeight]);
-	
-	// init crashlytics
-	#ifndef DEBUG
-		[Crashlytics startWithAPIKey:@"733ae8127473bb6b805cb36a50ab9aaf6cbdcc4f"];
-	#endif
 	
 	// copy patches in the resource folder on first run only,
 	// blocks UI with progress HUD until done

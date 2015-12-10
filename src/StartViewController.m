@@ -47,7 +47,7 @@
 		self.oscLabel.text = @"OSC: Disabled";
 	}
 	if(app.midi.isEnabled) {
-		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%d) Out(%d)",
+		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%lu) Out(%lu)",
 			app.midi.inputs.count, app.midi.outputs.count];
 	}
 	else {
@@ -69,7 +69,7 @@
 }
 
 // lock orientation
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 

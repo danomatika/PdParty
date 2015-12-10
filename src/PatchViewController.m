@@ -116,7 +116,7 @@
 }
 
 // lock orientation based on scene's preferred orientation mask
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if(self.sceneManager.scene) {
 		return self.sceneManager.scene.preferredOrientations;
 	}

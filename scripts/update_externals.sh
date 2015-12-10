@@ -10,7 +10,7 @@ WD=$(dirname $0)
 VER=0.42.5
 
 SRC_DIR=../libs/pd/externals/
-PATCH_DIR=../bin/data/externals
+PATCH_DIR=../bin/data/pd-externals
 
 ###
 
@@ -30,14 +30,14 @@ cp -v externals/ggee/control/stripdir.c $SRC_DIR/ggee
 cp -v externals/ggee/filters/moog~.c $SRC_DIR/ggee
 
 # mrpeach
-mkdir -p $SRC_DIR/mrpeach/osc
-cp -Rv externals/mrpeach/osc/LICENSE.txt $SRC_DIR/mrpeach/osc
-cp -Rv externals/mrpeach/osc/*.h $SRC_DIR/mrpeach/osc
-cp -Rv externals/mrpeach/osc/*.c $SRC_DIR/mrpeach/osc
-mkdir -p $SRC_DIR/mrpeach/net
-cp -Rv externals/mrpeach/net/LICENSE.txt $SRC_DIR/mrpeach/net
-cp -Rv externals/mrpeach/net/*.h $SRC_DIR/mrpeach/net
-cp -Rv externals/mrpeach/net/*.c $SRC_DIR/mrpeach/net
+#mkdir -p $SRC_DIR/mrpeach/osc
+#cp -Rv externals/mrpeach/osc/LICENSE.txt $SRC_DIR/mrpeach/osc
+#cp -Rv externals/mrpeach/osc/*.h $SRC_DIR/mrpeach/osc
+#cp -Rv externals/mrpeach/osc/*.c $SRC_DIR/mrpeach/osc
+#mkdir -p $SRC_DIR/mrpeach/net
+#cp -Rv externals/mrpeach/net/LICENSE.txt $SRC_DIR/mrpeach/net
+#cp -Rv externals/mrpeach/net/*.h $SRC_DIR/mrpeach/net
+#cp -Rv externals/mrpeach/net/*.c $SRC_DIR/mrpeach/net
 mkdir -p $SRC_DIR/mrpeach/midifile
 cp -Rv externals/mrpeach/midifile/*.c $SRC_DIR/mrpeach/midifile
 #cp -Rv externals/mrpeach/sqosc~/*.c $SRC_DIR/mrpeach # doesn't build on ios

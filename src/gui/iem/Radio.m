@@ -38,18 +38,18 @@
 		0, 0); // size based on numCells
 			
 	r.orientation = orientation;
-	r.size = [[line objectAtIndex:5] integerValue];
-	r.value = [[line objectAtIndex:6] integerValue];
+	r.size = [[line objectAtIndex:5] intValue];
+	r.value = [[line objectAtIndex:6] intValue];
 	r.inits = [[line objectAtIndex:7] boolValue];
-	r.numCells = [[line objectAtIndex:8] integerValue];
+	r.numCells = [[line objectAtIndex:8] intValue];
 	
 	r.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
 	r.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
 	r.labelFontSize = [[line objectAtIndex:15] floatValue];
 	
-	r.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
-	r.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
-	r.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+	r.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
+	r.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] intValue]];
+	r.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
 
 	r.gui = gui;
 	
@@ -197,14 +197,14 @@
 
 	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// size
-		self.size = [[arguments objectAtIndex:0] integerValue];
+		self.size = [[arguments objectAtIndex:0] intValue];
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	if([message isEqualToString:@"number"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// number of cells
-		self.numCells = [[arguments objectAtIndex:0] integerValue];
+		self.numCells = [[arguments objectAtIndex:0] intValue];
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
 		return YES;

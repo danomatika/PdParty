@@ -266,6 +266,8 @@
 											  y:-accelerometerData.acceleration.x
 											  z:accelerometerData.acceleration.z];
 							break;
+						case UIInterfaceOrientationUnknown:
+							break;
 					}
 				}];
 			DDLogVerbose(@"SceneManager: enabled accel");
@@ -386,7 +388,7 @@
 	// ignore stale stored location when starting
 	if(!hasIgnoredStartingLocation) {
 		CLLocation *location = [locations objectAtIndex:0];
-		if(abs([location.timestamp timeIntervalSinceNow]) > 1.0) {
+		if(fabs([location.timestamp timeIntervalSinceNow]) > 1.0) {
 			hasIgnoredStartingLocation = YES;
 			return; // assume there aren't any extra locations in the array
 		}

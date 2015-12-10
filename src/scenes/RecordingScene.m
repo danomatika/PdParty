@@ -43,7 +43,7 @@
 		DDLogError(@"RecordingScene: couldn't check sample rate of %@: %@", [self.file lastPathComponent], error.localizedDescription);
 	}
 	else {
-		self.pureData.sampleRate = [[player.settings objectForKey:AVSampleRateKey] integerValue];
+		self.pureData.sampleRate = [[player.settings objectForKey:AVSampleRateKey] intValue];
 		player = nil;
 	}
 	

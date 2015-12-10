@@ -47,8 +47,8 @@
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
 	
-	b.holdTimeMS = [[line objectAtIndex:6] integerValue];
-	b.interruptTimeMS = [[line objectAtIndex:7] integerValue];
+	b.holdTimeMS = [[line objectAtIndex:6] intValue];
+	b.interruptTimeMS = [[line objectAtIndex:7] intValue];
 	b.inits = [[line objectAtIndex:8] boolValue];
 	[b checkFlashTimes];
 	
@@ -56,9 +56,9 @@
 	b.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
 	b.labelFontSize = [[line objectAtIndex:15] floatValue];
 	
-	b.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
-	b.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] integerValue]];
-	b.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+	b.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
+	b.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] intValue]];
+	b.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
 	
 	b.gui = gui;
 	
