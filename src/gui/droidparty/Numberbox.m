@@ -144,6 +144,14 @@
 
 #pragma mark WidgetListener
 
+- (void)receiveSetFloat:(float)received {
+	self.value = received;
+}
+
+- (void)receiveSetSymbol:(NSString *)symbol {
+	// swallows set symbols
+}
+
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	// swallow range message sent by droidparty numberbox.pd abstraction
 	if([message isEqualToString:@"range"]) {
