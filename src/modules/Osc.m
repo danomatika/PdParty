@@ -109,6 +109,16 @@
 	[connection sendPacket:m toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendPacket:(NSData *)data {
+	if(!self.isListening) return;
+	OSCPacket *p = [[OSCPacket alloc] initWithData:data];
+	if(!p) {
+		DDLogWarn(@"OSC: couldn't send raw packet");
+		return;
+	}
+	[connection sendPacket:p toHost:self.sendHost port:self.sendPort];
+}
+
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.accelSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];

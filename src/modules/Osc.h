@@ -42,8 +42,11 @@
 
 #pragma mark Send Events
 
-// send to pdParty osc reciever
+// send to pdParty osc receiver
 - (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments;
+
+// send a raw byte packet to pdParty osc receiver
+- (void)sendPacket:(NSData *)data;
 
 // rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;

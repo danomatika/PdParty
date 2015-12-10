@@ -194,8 +194,28 @@
 	[self.osc sendPrint:print];
 }
 
+// mimic [oscparse] by separating address components,
+// send as a message to avoid the "list" type prepend
 + (void)sendOscMessage:(NSString *)address withArguments:(NSArray *)arguments {
-	[PdBase sendMessage:address withArguments:arguments toReceiver:PD_OSC_R];
+	NSMutableArray *list = [[NSMutableArray alloc] init];
+	NSString *firstComponent = NULL;
+	NSArray *components = [address componentsSeparatedByString:@"/"];
+	for(NSString *s in components) {
+		if(![s isEqualToString:@""]) { // first component is empty
+			if(!firstComponent) {
+				firstComponent = s; // first non-empty component
+			}
+			else {
+				[list addObject:s]; // everything else
+			}
+		}
+	}
+	[list addObjectsFromArray:arguments];
+	if(!firstComponent) {
+		DDLogWarn(@"PureData: cannot send OSC message with empty address");
+		return;
+	}
+	[PdBase sendMessage:firstComponent withArguments:list toReceiver:PD_OSC_R];
 }
 
 + (void)sendCloseBang {
@@ -223,25 +243,28 @@
 #pragma mark PdReceiverDelegate
 
 - (void)receiveBangFromSource:(NSString *)source {
-	DDLogWarn(@"PureData: dropped bang");
+	DDLogVerbose(@"PureData: dropped bang");
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	DDLogWarn(@"PureData: dropped float: %f", received);
+	DDLogVerbose(@"PureData: dropped float: %f", received);
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	DDLogWarn(@"PureData: dropped symbol: %@", symbol);
+	DDLogVerbose(@"PureData: dropped symbol: %@", symbol);
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	DDLogWarn(@"PureData: dropped list: %@", [list description]);
+	if([source isEqualToString:PD_OSC_S]) {
+		[self.osc sendPacket:[self encodeList:list]];
+	}
+	else {
+		DDLogVerbose(@"PureData: dropped list: %@", list.description);
+	}
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	
 	if([source isEqualToString:RJ_GLOBAL_S]) {
-	
 		if([message isEqualToString:@"playback"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 			if([[arguments objectAtIndex:0] floatValue] < 1) {
 				_playingback = NO;
@@ -252,13 +275,7 @@
 			}
 		}
 	}
-	else if([source isEqualToString:PD_OSC_S]) {
-		// message should be the osc address
-		[self.osc sendMessage:message withArguments:arguments];
-	}
 	else if([source isEqualToString:PARTY_GLOBAL_S]) {
-	
-		
 		static NSString *sceneName = nil; // received scene name
 	
 		// location service control
@@ -332,6 +349,9 @@
 				}
 			}
 		}
+	}
+	else {
+		DDLogVerbose(@"PureData: dropped message: %@ %@", message, arguments.description);
 	}
 }
 
@@ -454,6 +474,19 @@
 - (void)setOsc:(Osc *)osc {
 	_osc = osc;
 	self.dispatcher.osc = osc;
+}
+
+// PRIVATE
+
+// encode a libpd list into raw byte data
+- (NSData *)encodeList:(NSArray *)list {
+	NSMutableData *data = [NSMutableData data];
+	for(NSNumber *i in list) {
+		unsigned char byte[1];
+		byte[0] = [i charValue];
+		[data appendBytes:byte length:1];
+	}
+	return data;
 }
 
 @end
