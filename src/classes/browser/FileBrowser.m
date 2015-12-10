@@ -26,7 +26,6 @@ static const void *FileBrowserDidCreateFolderBlockKey = &FileBrowserDidCreateFol
 static const void *FileBrowserDidRenameBlockKey = &FileBrowserDidRenameBlockKey;
 static const void *FileBrowserDidMoveBlockKey = &FileBrowserDidMoveBlockKey;
 static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
-//static const void *FileBrowserDidCancelBlockKey = &FileBrowserDidCancelBlockKey;
 
 @interface FileBrowser () {
 	
@@ -58,6 +57,7 @@ static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+	// make sure the custom cell class is known
 	[self.tableView registerClass:FileBrowserCell.class forCellReuseIdentifier:@"FileBrowserCell"];
 	
 	self.pathArray = [[NSMutableArray alloc] init];
@@ -130,14 +130,14 @@ static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
 				[self.pathArray addObject:fullPath];
 			}
 			else if(!self.directoriesOnly) {
-				if(self.extension) { // restrict by extension
-					if([[p pathExtension] isEqualToString:self.extension]) {
-						[self.pathArray addObject:fullPath];
-					}
-				}
-				else { // allow all
+//				if(self.extension) { // restrict by extension
+//					if([[p pathExtension] isEqualToString:self.extension]) {
+//						[self.pathArray addObject:fullPath];
+//					}
+//				}
+//				else { // allow all
 					[self.pathArray addObject:fullPath];
-				}
+//				}
 			}
 //			else if([[p pathExtension] isEqualToString:@"pd"]) { // add patch
 //				[self.pathArray addObject:fullPath];
@@ -455,6 +455,7 @@ static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
 				[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 				cell.textLabel.text = [path lastPathComponent];
 //			}
+			
 		}
 		else { // files
 //			if([BrowserViewController isZipFile:path]) {
@@ -468,6 +469,13 @@ static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
 //			}
 			[cell setAccessoryType:UITableViewCellAccessoryNone];
 			cell.textLabel.text = [path lastPathComponent];
+			
+			if(self.extension) { // restrict by extension
+				if(![[path pathExtension] isEqualToString:self.extension]) {
+					cell.textLabel.textColor = [UIColor grayColor];
+					cell.imageView.image = [Util image:cell.imageView.image withTint:[UIColor grayColor]];
+				}
+			}
 		}
 	}
 	else {
@@ -483,7 +491,7 @@ static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
 	if(!self.isEditing) {
 	
 		NSString *path = [self.pathArray objectAtIndex:indexPath.row];
-		DDLogVerbose(@"FileBrowser: didSelect %d", indexPath.row);
+		DDLogVerbose(@"FileBrowser: didSelect %ld", (long)indexPath.row);
 		
 		// set file type icon
 		BOOL isDir;
@@ -506,6 +514,14 @@ static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
 //					}
 			}
 			else {
+			
+				if(self.extension) { // restrict by extension
+					if(![[path pathExtension] isEqualToString:self.extension]) {
+						[tableView deselectRowAtIndexPath:indexPath animated:NO];
+						return;
+					}
+				}
+			
 				DDLogVerbose(@"FileBrowser: selected file %@", path);
 				
 				FileBrowserSelectionBlock completion = self.didSelectFile;
@@ -524,8 +540,9 @@ static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
 	}
 }
 
+// cells must be editable for mass Move & Delete actions
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;//self.isEditing; // disable the built in delete button since a custom one is provided in FileBrowserCell
+    return YES;
 }
 
 //- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -710,8 +727,8 @@ static const void *FileBrowserDidDeleteBlockKey = &FileBrowserDidDeleteBlockKey;
 	UINavigationController *navigationController;
 	
 	NSArray *pathComponents = [self.currentDir pathComponents];
-	int rootLevel = [[[Util documentsPath] pathComponents] count];
-	int currentLevel = [pathComponents count];
+	int rootLevel = (int)[[[Util documentsPath] pathComponents] count]-1;
+	int currentLevel = (int)[pathComponents count];
 	DDLogVerbose(@"FileBrowser: root %d, current %d, %@", rootLevel, currentLevel, pathComponents);
 	
 	NSString *dir = [Util documentsPath];
