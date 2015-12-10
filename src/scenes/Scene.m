@@ -127,7 +127,7 @@
 		return;
 	}
 	
-	DDLogVerbose(@"%@: found %lu paths", self.typeString, contents.count);
+	DDLogVerbose(@"%@: found %lu paths", self.typeString, (unsigned long)contents.count);
 	for(NSString *p in contents) {
 		NSString *path = [directory stringByAppendingPathComponent:p];
 		if([Util isDirectory:path]) {

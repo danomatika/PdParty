@@ -87,7 +87,7 @@
 	}
 	
 	// verbose
-	DDLogVerbose(@"PdParser: parsed %lu atom lines", atomLines.count);
+	DDLogVerbose(@"PdParser: parsed %lu atom lines", (unsigned long)atomLines.count);
 	
 	return atomLines;
 }

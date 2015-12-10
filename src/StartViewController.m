@@ -47,7 +47,7 @@
 		self.oscLabel.text = @"OSC: Disabled";
 	}
 	if(app.midi.isEnabled) {
-		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%lu) Out(%lu)",
+		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%u) Out(%u)",
 			app.midi.inputs.count, app.midi.outputs.count];
 	}
 	else {

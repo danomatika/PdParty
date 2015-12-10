@@ -23,8 +23,8 @@ cp -Rv rjlib/deprecated/* $DESTDIR/rj_deprecated
 #cp -Rv rjlib/rj ../bin/data/externals
 
 # copy rj external sources
-mkdir -p ../libs/pd/externals/rj
-cp -v rjlib/src/*.c ../libs/pd/externals/rj
+mkdir -p ../libs/pd-externals/rj
+cp -v rjlib/src/*.c ../libs/pd-externals/rj
 
 # cleanup
 rm -rf rjlib
