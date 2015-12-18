@@ -65,41 +65,87 @@
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	if(([message isEqualToString:@"load"] || [message isEqualToString:@"save"])) {
-		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.ext);
 
+		// load variables
 		if(arguments.count > 0 && [arguments isStringAt:0]) {
 			self.directory = [arguments objectAtIndex:0];
 		}
 		else {
-			self.directory = @"";
+			self.directory = nil;
 		}
-		
 		if(arguments.count > 1 && [arguments isStringAt:1]) {
-			self.ext = [arguments objectAtIndex:1];
+			self.extension = [arguments objectAtIndex:1];
 		}
 		else {
-			self.ext = @"";
+			self.extension = nil;
 		}
-		
 		self.sendName = [self.name stringByAppendingFormat:@"-%@", message];
+		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
 		
-		AppDelegate *app = [[UIApplication sharedApplication] delegate];
+		// launch browser
 		FileBrowser *browser = [[FileBrowser alloc] initWithStyle:UITableViewStylePlain];
-		browser.extension = [self.ext isEqualToString:@""] ? nil : self.ext;
-		browser.didSelectFile = ^(FileBrowser *b, NSString *selection) {
-			[self sendSymbol:selection];
-			[b dismissViewControllerAnimated:YES completion:nil];
-		};
-		browser.modalPresentationStyle = UIModalPresentationFormSheet;
-		
-		UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browser];
-		navigationController.navigationBar.barStyle = UIBarStyleBlack;
-		[app.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
-		[browser loadDirectory:app.sceneManager.currentPath];
-		
+		browser.delegate = self;
+		browser.extensions = self.extension ? @[self.extension, @"txt"] : nil;
+		//browser.canAddDirectories = (self.directory ? NO : YES);
+		//browser.showMoveButton = (self.directory ? NO : YES);
+		//browser.directoriesOnly = YES;
+		//browser.modalPresentationStyle = UIModalPresentationFormSheet;
+		if([message isEqualToString:@"load"]) {
+			browser.canAddFiles = NO;
+			if(self.extension) {
+				browser.title = [NSString stringWithFormat:@"Load .%@ file", self.extension];
+			}
+			else {
+				browser.title = @"Load file";
+			}
+		}
+		else { // @"save"
+			if(self.extension) {
+				browser.title = [NSString stringWithFormat:@"Save .%@ file", self.extension];
+			}
+			else {
+				browser.title = @"Save file";
+			}
+		}
+		AppDelegate *app = [[UIApplication sharedApplication] delegate];
+		//if(self.directory) {
+		//	[browser loadDirectory:app.sceneManager.currentPath];
+		//}
+		//else {
+			[browser loadDirectory:app.sceneManager.currentPath relativeTo:[Util documentsPath]];
+		//}
+		NSLog(@"TOP DIR: %@", browser.top.currentDir);
+		if(self.directory && self.extension && [browser.top fileCountForExtensions] == 0) {
+			if([message isEqualToString:@"load"]) {
+				DDLogVerbose(@"Loadsave: dir & extension set when loading, but no files to load");
+				UIAlertView *alertView = [[UIAlertView alloc]
+									  initWithTitle:[NSString stringWithFormat:@"No .%@ files found", self.extension]
+									  message:@"Save one first?"
+									  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+				[alertView show];
+			}
+			else { // @"save"
+				[browser.top showNewFileDialog];
+			}
+		}
+		else {
+			[browser presentAnimated:YES];
+		}
 		return YES;
 	}
 	return NO;
+}
+
+#pragma mark FileBrowserDelegate
+
+- (void)fileBrowser:(FileBrowser *)browser selectedFile:(NSString *)file {
+	[self sendSymbol:file];
+	[browser dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)fileBrowser:(FileBrowser *)browser createdFile:(NSString *)path {
+	[self sendSymbol:path];
+	[browser dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

@@ -9,14 +9,15 @@
  *
  */
 #import "Widget.h"
+#import "FileBrowser.h"
 
 @class Gui;
 
-@interface Loadsave : Widget
+@interface Loadsave : Widget <FileBrowserDelegate>
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *directory;
-@property (strong, nonatomic) NSString *ext;
+@property (strong, nonatomic) NSString *extension;
 
 + (id)loadsaveFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
