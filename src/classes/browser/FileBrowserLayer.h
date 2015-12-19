@@ -63,8 +63,12 @@ typedef enum {
 /// unwanted path names or types
 - (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir;
 
-/// stylizes default table view cell for a given path, override to customize cell
-/// with file icons, etc for certain paths
-- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir;
+/// stylizes default table view cell for a given path
+///
+/// sets cell text to lastpath component, grey text for non selectable cells,
+/// and disclosure indicator for directories
+///
+/// override to customize cell with file icons, etc for certain paths
+- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable;
 
 @end

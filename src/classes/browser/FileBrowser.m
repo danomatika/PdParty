@@ -395,6 +395,10 @@
 	return i;
 }
 
+- (BOOL)pathHasAllowedExtension:(NSString *)path {
+	return self.extensions ? [self.extensions containsObject:[path pathExtension]] : NO;
+}
+
 #pragma mark Overridden Getters/Setters
 
 - (NSString *)directory {

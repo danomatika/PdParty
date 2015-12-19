@@ -12,7 +12,6 @@
 
 #import "AppDelegate.h"
 #import "Gui.h"
-#import "FileBrowser.h"
 #import "UIAlertView+Blocks.h"
 
 @implementation Loadsave
@@ -84,7 +83,7 @@
 		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
 		
 		// launch browser
-		FileBrowser *browser = [[FileBrowser alloc] initWithStyle:UITableViewStylePlain];
+		Browser *browser = [[Browser alloc] initWithStyle:UITableViewStylePlain];
 		browser.delegate = self;
 		browser.extensions = self.extension ? @[self.extension] : nil;
 		browser.canAddDirectories = (self.directory ? NO : YES);

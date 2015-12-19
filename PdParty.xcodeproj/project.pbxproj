@@ -53,6 +53,7 @@
 		30555CEB1C1FAA6C009F4F9B /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CE81C1FAA6C009F4F9B /* UIAlertView+Blocks.m */; };
 		30555CF01C24C242009F4F9B /* FileBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CED1C24C242009F4F9B /* FileBrowser.m */; };
 		30555CF11C24C242009F4F9B /* FileBrowserLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CEF1C24C242009F4F9B /* FileBrowserLayer.m */; };
+		30555CF41C25E18E009F4F9B /* Browser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CF31C25E18E009F4F9B /* Browser.m */; };
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
@@ -337,6 +338,8 @@
 		30555CED1C24C242009F4F9B /* FileBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileBrowser.m; sourceTree = "<group>"; };
 		30555CEE1C24C242009F4F9B /* FileBrowserLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileBrowserLayer.h; sourceTree = "<group>"; };
 		30555CEF1C24C242009F4F9B /* FileBrowserLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileBrowserLayer.m; sourceTree = "<group>"; };
+		30555CF21C25E18D009F4F9B /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
+		30555CF31C25E18E009F4F9B /* Browser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
 		306204711753C90400DEC1C2 /* RjScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RjScene.h; sourceTree = "<group>"; };
 		306204721753C90400DEC1C2 /* RjScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjScene.m; sourceTree = "<group>"; };
 		306204731753C90400DEC1C2 /* PatchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchScene.h; sourceTree = "<group>"; };
@@ -1350,6 +1353,8 @@
 			isa = PBXGroup;
 			children = (
 				30D60AA6198A8E3A003DFA70 /* browser */,
+				30555CF21C25E18D009F4F9B /* Browser.h */,
+				30555CF31C25E18E009F4F9B /* Browser.m */,
 				30C9BF6216E8457400E5AA5B /* KeyGrabber.h */,
 				30C9BF6316E8457400E5AA5B /* KeyGrabber.m */,
 				30B01DE917E374800052F26F /* Log.h */,
@@ -1678,6 +1683,7 @@
 				308E061E1AD8611800BD1C79 /* d_arithmetic.c in Sources */,
 				3050821B16E198C900895CB2 /* HTTPDynamicFileResponse.m in Sources */,
 				3050821C16E198C900895CB2 /* HTTPFileResponse.m in Sources */,
+				30555CF41C25E18E009F4F9B /* Browser.m in Sources */,
 				3050821D16E198C900895CB2 /* HTTPRedirectResponse.m in Sources */,
 				3050821E16E198C900895CB2 /* WebSocket.m in Sources */,
 				308E06311AD8611800BD1C79 /* g_array.c in Sources */,

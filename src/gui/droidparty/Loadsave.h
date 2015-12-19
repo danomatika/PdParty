@@ -9,7 +9,7 @@
  *
  */
 #import "Widget.h"
-#import "FileBrowser.h"
+#import "Browser.h"
 
 @class Gui;
 

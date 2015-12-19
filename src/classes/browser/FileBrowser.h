@@ -115,4 +115,8 @@
 /// get the number of files for a file extension
 - (unsigned int)fileCountForExtension:(NSString *)extension;
 
+/// returns YES if the given path has one of the allowed file extensions,
+/// also returns NO if extensions are not set
+- (BOOL)pathHasAllowedExtension:(NSString *)path;
+
 @end

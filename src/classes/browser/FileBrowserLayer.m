@@ -120,21 +120,9 @@ static NSMutableArray *s_movePaths; //< paths to move
 	DDLogVerbose(@"FileBrowser: found %d paths", (int) contents.count);
 	for(NSString *p in contents) {
 		DDLogVerbose(@"FileBrowser: 	%@", p);
-		
-		// remove Finder DS_Store garbage (created over WebDAV) and __MACOSX added to zip files
-		if([p isEqualToString:@"._.DS_Store"] || [p isEqualToString:@".DS_Store"] || [p isEqualToString:@"__MACOSX"]) {
-			if(![[NSFileManager defaultManager] removeItemAtPath:[dirPath stringByAppendingPathComponent:p] error:&error]) {
-				DDLogError(@"FileBrowser: couldn't remove %@, error: %@", p, error.localizedDescription);
-			}
-			else {
-				DDLogVerbose(@"FileBrowser: removed %@", p);
-			}
-		}
-		else { // add paths
-			NSString *fullPath = [dirPath stringByAppendingPathComponent:p];
-			if([self shouldAddPath:fullPath isDir:[Util isDirectory:fullPath]]) {
-				[self.paths addObject:fullPath];
-			}
+		NSString *fullPath = [dirPath stringByAppendingPathComponent:p];
+		if([self shouldAddPath:fullPath isDir:[Util isDirectory:fullPath]]) {
+			[self.paths addObject:fullPath];
 		}
 	}
 	self.directory = dirPath;
@@ -163,7 +151,15 @@ static NSMutableArray *s_movePaths; //< paths to move
 	return YES;
 }
 
-- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir {
+- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable {
+	if(isSelectable) {
+		cell.textLabel.textColor = [UIColor blackColor];
+		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+	}
+	else {
+		cell.textLabel.textColor = [UIColor grayColor];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	}
 	if(isDir) {
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 		cell.textLabel.text = [path lastPathComponent];
@@ -325,17 +321,18 @@ static NSMutableArray *s_movePaths; //< paths to move
 	BOOL isDir;
 	NSString *path = [self.paths objectAtIndex:indexPath.row];
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-		if(!isDir && self.root.extensions) { // restrict by extension using grey color
-			if(![self.root.extensions containsObject:[path pathExtension]]) {
-				cell.textLabel.textColor = [UIColor grayColor];
-				cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			}
-			else {
-				cell.textLabel.textColor = [UIColor blackColor];
-				cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-			}
-		}
-		[self styleCell:cell forPath:path isDir:isDir];
+//		if(!isDir && self.root.extensions) { // restrict by extension using grey color
+//			if(![self.root.extensions containsObject:[path pathExtension]]) {
+//				cell.textLabel.textColor = [UIColor grayColor];
+//				cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//			}
+//			else {
+//				cell.textLabel.textColor = [UIColor blackColor];
+//				cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+//			}
+//		}
+		BOOL isSelectable = !isDir && self.root.extensions; // restrict by extension using grey color
+		[self styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
 	}
 	else {
 		DDLogWarn(@"FileBrowser: couldn't customize cell, path doesn't exist: %@", path);
@@ -360,11 +357,9 @@ static NSMutableArray *s_movePaths; //< paths to move
 				[self.navigationController pushViewController:browserLayer animated:YES];
 			}
 			else {
-				if(self.root.extensions) { // restrict by extension
-					if(![self.root.extensions containsObject:[path pathExtension]]) {
-						[tableView deselectRowAtIndexPath:indexPath animated:NO];
-						return;
-					}
+				if(![self.root pathHasAllowedExtension:path]) { // restrict by extension
+					[tableView deselectRowAtIndexPath:indexPath animated:NO];
+					return;
 				}
 				DDLogVerbose(@"FileBrowser: selected file %@", path);
 				if([self.root.delegate respondsToSelector:@selector(fileBrowser:selectedFile:)]) {
