@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "Gui.h"
 #import "FileBrowser.h"
+#import "UIAlertView+Blocks.h"
 
 @implementation Loadsave
 
@@ -85,11 +86,10 @@
 		// launch browser
 		FileBrowser *browser = [[FileBrowser alloc] initWithStyle:UITableViewStylePlain];
 		browser.delegate = self;
-		browser.extensions = self.extension ? @[self.extension, @"txt"] : nil;
-		//browser.canAddDirectories = (self.directory ? NO : YES);
-		//browser.showMoveButton = (self.directory ? NO : YES);
-		//browser.directoriesOnly = YES;
-		//browser.modalPresentationStyle = UIModalPresentationFormSheet;
+		browser.extensions = self.extension ? @[self.extension] : nil;
+		browser.canAddDirectories = (self.directory ? NO : YES);
+		browser.showMoveButton = (self.directory ? NO : YES);
+		browser.directoriesOnly = YES;
 		if([message isEqualToString:@"load"]) {
 			browser.canAddFiles = NO;
 			if(self.extension) {
@@ -108,14 +108,30 @@
 			}
 		}
 		AppDelegate *app = [[UIApplication sharedApplication] delegate];
-		//if(self.directory) {
-		//	[browser loadDirectory:app.sceneManager.currentPath];
-		//}
-		//else {
+		if(self.directory) {
+			NSString *path = [app.sceneManager.currentPath stringByAppendingPathComponent:self.directory];
+			if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+				DDLogInfo(@"LoadSave: %@ doesn't exist, create it?", self.directory);
+				UIAlertView *alertView = [[UIAlertView alloc]
+									  initWithTitle:[NSString stringWithFormat:@"%@ folder doesn't exist", self.extension]
+									  message:@"Create it?"
+									  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
+				alertView.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
+					if(buttonIndex == 1) { // Create
+						[browser createDirectoryPath:path];
+					}
+				};
+				[alertView show];
+				return YES;
+			}
+			else {
+				[browser loadDirectory:path];
+			}
+		}
+		else {
 			[browser loadDirectory:app.sceneManager.currentPath relativeTo:[Util documentsPath]];
-		//}
-		NSLog(@"TOP DIR: %@", browser.top.currentDir);
-		if(self.directory && self.extension && [browser.top fileCountForExtensions] == 0) {
+		}
+		if(self.directory && self.extension && [browser fileCountForExtensions] == 0) {
 			if([message isEqualToString:@"load"]) {
 				DDLogVerbose(@"Loadsave: dir & extension set when loading, but no files to load");
 				UIAlertView *alertView = [[UIAlertView alloc]
@@ -125,7 +141,7 @@
 				[alertView show];
 			}
 			else { // @"save"
-				[browser.top showNewFileDialog];
+				[browser showNewFileDialog];
 			}
 		}
 		else {

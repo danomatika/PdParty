@@ -8,8 +8,7 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-
-#import <UIKit/UIKit.h>
+#import "FileBrowserLayer.h"
 
 @class FileBrowser;
 
@@ -23,33 +22,13 @@
 - (void)fileBrowser:(FileBrowser *)browser createdDirectory:(NSString *)path;
 @end
 
-/// file browser modes
-typedef enum {
-	FileBrowserModeBrowse,
-	FileBrowserModeEdit,
-	FileBrowserModeMove
-} FileBrowserMode;
-
 /// drill-down file browser with basic editing functions: move, rename, & delete
-///
-/// pushes multiple layer onto a nav controller automatically, use the top &
-/// root properties to access key layers as the FileBrowser instance itself
-/// may not refer to the current top layer being displayed
-///
-@interface FileBrowser : UITableViewController
+/// pushes multiple layer onto a nav controller automatically
+@interface FileBrowser : FileBrowserLayer
 
 /// receive selection events
 /// this value is shared by the root layer to all pushed layers
 @property (assign, nonatomic) id<FileBrowserDelegate> delegate;
-
-/// current browser mode (default: FileBrowserModeBrowse)
-@property (readonly, nonatomic) FileBrowserMode mode;
-
-/// current directory path (default: Documents)
-@property (strong, readonly, nonatomic) NSString *currentDir;
-
-/// table view paths in the current dir
-@property (strong, readonly, nonatomic) NSMutableArray *paths;
 
 /// required file extensions (w/out period), leave nil to allow all (default: nil)
 /// if only 1 file extension is set, automatically appends extension in new file
@@ -76,15 +55,6 @@ typedef enum {
 /// can add dirs from plus button Add Sheet? (default: YES)
 @property (assign, nonatomic) BOOL canAddDirectories;
 
-/// set a custom navigation bar title, (default: current dir name)
-@property (copy, nonatomic) NSString *title;
-
-/// root browser layer or self if a single layer
-@property (readonly, nonatomic) FileBrowser *root;
-
-/// browser top layer or self if a single layer
-@property (readonly, nonatomic) FileBrowser *top;
-
 #pragma mark Present
 
 /// presents the browser in a navigation controller from the current key window,
@@ -105,12 +75,6 @@ typedef enum {
 /// use root & top properties to access root & top browser layers
 - (void)loadDirectory:(NSString *)dirPath relativeTo:(NSString *)basePath;
 
-/// reload the current directory
-- (void)reloadDirectory;
-
-/// unload the current directory, clears paths but not currentDir
-- (void)unloadDirectory;
-
 /// clear current directory and paths
 - (void)clearDirectory;
 
@@ -130,11 +94,11 @@ typedef enum {
 
 #pragma mark Utils
 
-/// create file at the current location
-- (BOOL)createFile:(NSString *)file;
+/// create full file path, shows dialog on overwrite
+- (BOOL)createFilePath:(NSString *)file;
 
-/// create directory at the current location
-- (BOOL)createDirectory:(NSString *)dir;
+/// create full directory path
+- (BOOL)createDirectoryPath:(NSString *)dir;
 
 /// rename full path
 - (BOOL)renamePath:(NSString *)path to:(NSString *)newPath;
@@ -150,19 +114,5 @@ typedef enum {
 
 /// get the number of files for a file extension
 - (unsigned int)fileCountForExtension:(NSString *)extension;
-
-#pragma mark Subclassing
-
-/// creates the Cancel button in browse mode, override to provide a custom button
-/// uses target:self action:@selector(cancelButtonPressed)
-- (UIBarButtonItem *)browsingModeRightBarItem;
-
-/// used to determine whether to add a path to the browser, override to filter out
-/// unwanted path names or types
-- (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir;
-
-/// stylizes default table view cell for a given path, override to customize cell
-/// with file icons, etc for certain paths
-- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir;
 
 @end
