@@ -92,12 +92,23 @@ static NSMutableArray *s_movePaths; //< paths to move
 	if(self.toolbarItems.count > 0) {
 		self.navigationController.toolbarHidden = NO;
 	}
+	
+	// reload if required
+	if(self.directory && self.paths.count == 0) {
+		[self reloadDirectory];
+	}
 
 	// reset to saved pos
 	if(scrollPosSet) {
 		[self.tableView setContentOffset:scrollPos animated:NO];
 		scrollPosSet = NO;
 	}
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	// clear data when not in view
+	[self unloadDirectory];
 }
 
 #pragma mark Location
@@ -132,6 +143,11 @@ static NSMutableArray *s_movePaths; //< paths to move
 - (void)reloadDirectory {
 	[self.paths removeAllObjects];
 	[self loadDirectory:self.directory];
+	[self.tableView reloadData];
+}
+
+- (void)unloadDirectory {
+	[self.paths removeAllObjects];
 	[self.tableView reloadData];
 }
 

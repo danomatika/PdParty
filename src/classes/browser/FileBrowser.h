@@ -7,6 +7,10 @@
  *
  * See https://github.com/danomatika/PdParty for documentation
  *
+ * References for an iOS "drilldown" table view browser:
+ *   - http://www.iphonesdkarticles.com/2009/03/uitableview-drill-down-table-view.html
+ *   - http://stackoverflow.com/questions/8683141/drill-down-tableview-in-storyboards
+ *   - http://stackoverflow.com/questions/8848857/how-do-i-change-initwithnibname-in-storyboard
  */
 #import "FileBrowserLayer.h"
 

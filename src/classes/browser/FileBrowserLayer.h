@@ -21,6 +21,9 @@ typedef enum {
 
 /// single drill-down file browser layer with basic editing functions: move,
 /// rename, & delete
+///
+/// note: clears paths & table cells when going out of view to save memory
+///
 /// do not use directly, use FileBrowser instead
 @interface FileBrowserLayer : UITableViewController
 
@@ -47,7 +50,10 @@ typedef enum {
 /// reload the current directory
 - (void)reloadDirectory;
 
-/// clear current directory and paths
+// clar current paths & cells
+- (void)unloadDirectory;
+
+/// clear current directory, paths, & cells
 - (void)clearDirectory;
 
 #pragma mark Subclassing
