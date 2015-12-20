@@ -45,7 +45,8 @@
 		self.label.textAlignment = NSTextAlignmentCenter;
 		self.label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		self.label.adjustsFontSizeToFitWidth = YES;
-    }
+		self.label.numberOfLines = 0;
+	}
     return self;
 }
 
