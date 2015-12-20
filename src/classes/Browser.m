@@ -15,6 +15,11 @@
 
 @implementation Browser
 
+// lock orientation
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
+
 #pragma mark Utils
 
 + (BOOL)isZipFile:(NSString *)path {
@@ -24,10 +29,6 @@
 }
 
 #pragma mark Subclassing
-
-- (void)setup {
-	[super setup];
-}
 
 - (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
 	if(isDir) {
@@ -72,6 +73,7 @@
 	[super styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
 	cell.detailTextLabel.text = @"";
 	if(isDir) {
+		cell.accessoryType = UITableViewCellAccessoryNone;
 		if([RjScene isRjDjDirectory:path]) {
 			
 			// thumbnail
@@ -105,6 +107,7 @@
 		}
 		else {
 			cell.imageView.image = [UIImage imageNamed:@"folder"];
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		}
 	}
 	else { // files

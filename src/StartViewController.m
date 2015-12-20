@@ -38,7 +38,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	if(app.osc.isListening) {
 		self.oscLabel.text = [NSString stringWithFormat:@"OSC: %@", app.osc.sendHost];
@@ -53,7 +52,7 @@
 	else {
 		self.midiLabel.text = @"MIDI: Disabled";
 	}
-	
+	self.navigationItem.rightBarButtonItem = [app nowPlayingButton];
 	[super viewWillAppear:animated];
 }
 

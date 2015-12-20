@@ -7,41 +7,21 @@
  *
  * See https://github.com/danomatika/PdParty for documentation
  *
- * References for an iOS "drilldown" table view browser:
- *   - http://www.iphonesdkarticles.com/2009/03/uitableview-drill-down-table-view.html
- *   - http://stackoverflow.com/questions/8683141/drill-down-tableview-in-storyboards
- *   - http://stackoverflow.com/questions/8848857/how-do-i-change-initwithnibname-in-storyboard
- *
  */
 #import <UIKit/UIKit.h>
 
 #import "NowPlayingTableViewController.h"
+#import "Browser.h"
 
 @class PatchViewController;
 
 // main MasterViewController for browsing the Documents dir
-@interface BrowserViewController : NowPlayingTableViewController
+@interface BrowserViewController : Browser <FileBrowserDelegate>
 
 // strong to make sure to retain the view on iPhone
 @property (strong, nonatomic) PatchViewController *patchViewController;
 
-@property (strong, readonly) NSMutableArray *pathArray; // table view paths
-@property (strong, readonly) NSString *currentDir; // current directory path
-@property (assign, readonly) int currentDirLevel; // currently dir depth relative to Documents
-
-// change to and load a new current dir
-- (void)loadDirectory:(NSString *)dirPath;
-
-// reload the current directory
-- (void)reloadDirectory;
-
-// unload the current directory, does not clear currentDir
-- (void)unloadDirectory;
-
 // try opening a path in the PatchBrowser, dosen't affect current browser dir
 - (BOOL)tryOpeningPath:(NSString *)path;
-
-// is the given file path a zip file?
-+ (BOOL)isZipFile:(NSString *)path;
 
 @end

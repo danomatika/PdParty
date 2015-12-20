@@ -476,7 +476,7 @@
 	self.dispatcher.osc = osc;
 }
 
-// PRIVATE
+#pragma mark Private
 
 // encode a libpd list into raw byte data
 - (NSData *)encodeList:(NSArray *)list {

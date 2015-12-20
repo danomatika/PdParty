@@ -36,6 +36,15 @@
 @property (assign, getter=isLockScreenDisabled, nonatomic) BOOL lockScreenDisabled;
 @property (assign, nonatomic) BOOL runsInBackground;
 
+#pragma mark Now Playing
+
+/// create "Now Playing" nav bar button, target:self action:@selector(cNowPlayingPressed)
+/// returns nil on iPad
+- (UIBarButtonItem *)nowPlayingButton;
+
+/// push patch view on sender.navigationController on iPhone, ignored on iPad
+- (void)nowPlayingPressed:(id)sender;
+
 #pragma mark Util
 
 // recursively copy dirs and patches in the resource patches dir to the

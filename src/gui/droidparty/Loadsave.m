@@ -86,9 +86,11 @@
 		Browser *browser = [[Browser alloc] initWithStyle:UITableViewStylePlain];
 		browser.delegate = self;
 		browser.extensions = self.extension ? @[self.extension] : nil;
+		browser.directoriesOnly = YES;
 		browser.canAddDirectories = (self.directory ? NO : YES);
 		browser.showMoveButton = (self.directory ? NO : YES);
-		browser.directoriesOnly = YES;
+		browser.modalPresentationStyle = UIModalPresentationFormSheet;
+		browser.modalInPopover = YES;
 		if([message isEqualToString:@"load"]) {
 			browser.canAddFiles = NO;
 			if(self.extension) {

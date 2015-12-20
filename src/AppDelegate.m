@@ -226,11 +226,53 @@
 	}
 	
 	// reload if we're in the Documents dir
-	if(self.browserViewController.currentDirLevel == 0) {
-		[self.browserViewController reloadDirectory];
-	}
+	[self.browserViewController reloadDirectory];
 	
 	return YES;
+}
+
+#pragma mark Now Playing
+
+// references:
+// * http://stackoverflow.com/questions/2071028/want-to-add-uinavigationbar-rightbarbutton-like-now-playing-button-of-ipod-wh
+// * LastFM app: https://github.com/c99koder/lastfm-iphone/blob/master/Classes/UIViewController%2BNowPlayingButton.h
+
+- (UIBarButtonItem *)nowPlayingButton {
+	if(!self.sceneManager.scene || [Util isDeviceATablet]) {
+		return nil;
+	}
+	return [[UIBarButtonItem alloc] initWithTitle:@"Now Playing"
+											style:UIBarButtonItemStylePlain
+										   target:self
+										   action:@selector(nowPlayingPressed:)];
+}
+
+- (void)nowPlayingPressed:(id)sender {
+	DDLogVerbose(@"AppDelegate: now playing button pressed");
+	if([Util isDeviceATablet]) {
+		return;
+	}
+	
+	// this should always be set on iPad since it's the detail view,
+	// so this code should only be called on iPhone
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	if(!app.patchViewController) {
+		
+		// create a new patch view and push it on the stack
+		UIStoryboard *board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+		PatchViewController *patchView = (PatchViewController *)[board instantiateViewControllerWithIdentifier:@"PatchViewController"];
+		if(!patchView) {
+			DDLogError(@"AppDelegate: couldn't create patch view");
+			return;
+		}
+		UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+		if([root isKindOfClass:[UINavigationController class]]) {
+			[(UINavigationController *)root pushViewController:(UIViewController *)patchView animated:YES];
+		}
+		else {
+			DDLogError(@"AppDelegate: can't push now playing, rootViewController is not a UINavigationController");
+		}
+	}
 }
 
 #pragma mark Util
@@ -257,7 +299,6 @@
 
 - (void)setRunsInBackground:(BOOL)runsInBackground {
 	_runsInBackground = runsInBackground;
-	// do something
 	[[NSUserDefaults standardUserDefaults] setBool:runsInBackground forKey:@"runsInBackground"];
 }
 

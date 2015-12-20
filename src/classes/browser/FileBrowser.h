@@ -18,12 +18,25 @@
 
 /// file browser event delegate
 @protocol FileBrowserDelegate <NSObject>
+
+/// full file path selected
 - (void)fileBrowser:(FileBrowser *)browser selectedFile:(NSString *)path;
+
 @optional
-- (void)fileBrowser:(FileBrowser *)browser selectedDirectory:(NSString *)path;
+
+/// full directory path selected, return YES to push new layer or NO if handling
+/// path manually
+- (BOOL)fileBrowser:(FileBrowser *)browser selectedDirectory:(NSString *)path;
+
+/// the browser has been canceled and just disappeared
 - (void)fileBrowserCancel:(FileBrowser *)browser;
+
+/// file path has been created
 - (void)fileBrowser:(FileBrowser *)browser createdFile:(NSString *)path;
+
+/// directory path has been created
 - (void)fileBrowser:(FileBrowser *)browser createdDirectory:(NSString *)path;
+
 @end
 
 /// drill-down file browser with basic editing functions: move, rename, & delete
@@ -122,5 +135,23 @@
 /// returns YES if the given path has one of the allowed file extensions,
 /// also returns NO if extensions are not set
 - (BOOL)pathHasAllowedExtension:(NSString *)path;
+
+#pragma mark Subclassing
+
+/// creates the Cancel button in browse mode, override to provide a custom button
+/// uses target:layer action:@selector(cancelButtonPressed)
+- (UIBarButtonItem *)browsingModeRightBarItemForLayer:(FileBrowserLayer *)layer;
+
+/// used to determine whether to add a path to the browser, override to filter out
+/// unwanted path names or types
+- (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir;
+
+/// stylizes default table view cell for a given path
+///
+/// sets cell text to lastpath component, grey text for non selectable cells,
+/// and disclosure indicator for directories
+///
+/// override to customize cell with file icons, etc for certain paths
+- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable;
 
 @end

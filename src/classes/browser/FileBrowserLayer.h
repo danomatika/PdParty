@@ -39,7 +39,7 @@ typedef enum {
 /// set a custom navigation bar title, (default: current dir name)
 @property (copy, nonatomic) NSString *title;
 
-// root browser layer or self if a single layer
+// root browser layer or self if a single layer, this must be set to a valid object
 @property (nonatomic) FileBrowser *root;
 
 #pragma mark Location
@@ -60,21 +60,5 @@ typedef enum {
 
 /// setup resources during init, make sure to call [super setup] if overriding
 - (void)setup;
-
-/// creates the Cancel button in browse mode, override to provide a custom button
-/// uses target:self action:@selector(cancelButtonPressed)
-- (UIBarButtonItem *)browsingModeRightBarItem;
-
-/// used to determine whether to add a path to the browser, override to filter out
-/// unwanted path names or types
-- (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir;
-
-/// stylizes default table view cell for a given path
-///
-/// sets cell text to lastpath component, grey text for non selectable cells,
-/// and disclosure indicator for directories
-///
-/// override to customize cell with file icons, etc for certain paths
-- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable;
 
 @end

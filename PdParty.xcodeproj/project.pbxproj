@@ -229,7 +229,6 @@
 		30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4916EDB459005B40C4 /* VUMeter.m */; };
 		30F3E79517C5491100117305 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 30F3E79417C5491100117305 /* images */; };
 		30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3E79617CAA1BB00117305 /* QuartzCore.framework */; };
-		30F5281C17D02E7B004736A6 /* NowPlayingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */; };
 		30F5282517D7B3DD004736A6 /* Wordbutton.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5282417D7B3DC004736A6 /* Wordbutton.m */; };
 		30F5282817D8FA81004736A6 /* Numberbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5282717D8FA81004736A6 /* Numberbox.m */; };
 		30F5282B17D90ACB004736A6 /* Taplist.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5282A17D90ACA004736A6 /* Taplist.m */; };
@@ -591,8 +590,6 @@
 		30E89D4916EDB459005B40C4 /* VUMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUMeter.m; sourceTree = "<group>"; };
 		30F3E79417C5491100117305 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		30F3E79617CAA1BB00117305 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		30F5281A17D02E7A004736A6 /* NowPlayingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NowPlayingTableViewController.h; path = src/NowPlayingTableViewController.h; sourceTree = "<group>"; };
-		30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NowPlayingTableViewController.m; path = src/NowPlayingTableViewController.m; sourceTree = "<group>"; };
 		30F5282017D3BD24004736A6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = libs/Crashlytics.framework; sourceTree = "<group>"; };
 		30F5282317D7B3DC004736A6 /* Wordbutton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wordbutton.h; sourceTree = "<group>"; };
 		30F5282417D7B3DC004736A6 /* Wordbutton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wordbutton.m; sourceTree = "<group>"; };
@@ -1149,8 +1146,6 @@
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
 				3094B45518CBD20A00AFE178 /* InfoViewController.h */,
 				3094B45618CBD20A00AFE178 /* InfoViewController.m */,
-				30F5281A17D02E7A004736A6 /* NowPlayingTableViewController.h */,
-				30F5281B17D02E7B004736A6 /* NowPlayingTableViewController.m */,
 				30960AFA16F5952300FAF2E7 /* OscViewController.h */,
 				30960AFB16F5952400FAF2E7 /* OscViewController.m */,
 				30ABE2EA16B5D0FB00464926 /* PatchViewController.h */,
@@ -1797,7 +1792,6 @@
 				308E065F1AD8611800BD1C79 /* x_midi.c in Sources */,
 				308E06441AD8611800BD1C79 /* g_vslider.c in Sources */,
 				30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */,
-				30F5281C17D02E7B004736A6 /* NowPlayingTableViewController.m in Sources */,
 				30F5282517D7B3DD004736A6 /* Wordbutton.m in Sources */,
 				308E064E1AD8611800BD1C79 /* m_sched.c in Sources */,
 				30F5282817D8FA81004736A6 /* Numberbox.m in Sources */,

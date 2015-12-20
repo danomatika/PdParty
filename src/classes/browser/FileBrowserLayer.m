@@ -27,9 +27,6 @@ static NSMutableArray *s_movePaths; //< paths to move
 	CGPoint scrollPos;
 	BOOL scrollPosSet;
 }
-// readwrite overrides
-@property (readwrite, nonatomic) NSString *directory;
-@property (readwrite, nonatomic) NSMutableArray *paths;
 @end
 
 @implementation FileBrowserLayer
@@ -68,22 +65,20 @@ static NSMutableArray *s_movePaths; //< paths to move
     return self;
 }
 
-- (void)setup {
-	scrollPos = CGPointZero;
-	scrollPosSet = NO;
-	self.paths = [[NSMutableArray alloc] init];
-	_mode = FileBrowserModeBrowse;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
 	// make sure the cell class is known
 	[self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"FileBrowserCell"];
+	
+	// set size in iPad popup
+	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+		self.clearsSelectionOnViewWillAppear = NO;
+		self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
 	
 	// (re)generate navigation items
 	self.mode = _mode;
@@ -92,9 +87,12 @@ static NSMutableArray *s_movePaths; //< paths to move
 	if(self.toolbarItems.count > 0) {
 		self.navigationController.toolbarHidden = NO;
 	}
+	else {
+		self.navigationController.toolbarHidden = YES;
+	}
 	
 	// reload if required
-	if(self.directory && self.paths.count == 0) {
+	if(_directory && _paths.count == 0) {
 		[self reloadDirectory];
 	}
 
@@ -103,6 +101,14 @@ static NSMutableArray *s_movePaths; //< paths to move
 		[self.tableView setContentOffset:scrollPos animated:NO];
 		scrollPosSet = NO;
 	}
+	
+	[super viewWillAppear:animated];
+}
+
+// make sure toolbar from browser does not carry over on iPhone
+- (void)viewWillDisappear:(BOOL)animated {
+	self.navigationController.toolbarHidden = YES;
+	[super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -132,58 +138,45 @@ static NSMutableArray *s_movePaths; //< paths to move
 	for(NSString *p in contents) {
 		DDLogVerbose(@"FileBrowser: 	%@", p);
 		NSString *fullPath = [dirPath stringByAppendingPathComponent:p];
-		if([self shouldAddPath:fullPath isDir:[Util isDirectory:fullPath]]) {
-			[self.paths addObject:fullPath];
+		if([self.root shouldAddPath:fullPath isDir:[Util isDirectory:fullPath]]) {
+			[_paths addObject:fullPath];
 		}
 	}
-	self.directory = dirPath;
+	_directory = dirPath;
 	[self.tableView reloadData];
+	// custom back button with current dir to show on layer above
+	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+												 initWithTitle:[_directory lastPathComponent]
+												 style:UIBarButtonItemStylePlain
+												 target:self
+												 action:@selector(backButtonPressed:)];
 }
 
 - (void)reloadDirectory {
-	[self.paths removeAllObjects];
-	[self loadDirectory:self.directory];
+	[_paths removeAllObjects];
+	[self loadDirectory:_directory];
 	[self.tableView reloadData];
 }
 
 - (void)unloadDirectory {
-	[self.paths removeAllObjects];
+	[_paths removeAllObjects];
 	[self.tableView reloadData];
 }
 
 - (void)clearDirectory {
-	[self.paths removeAllObjects];
+	[_paths removeAllObjects];
 	[self.tableView reloadData];
-	self.directory = nil;
+	_directory = nil;
+	self.navigationItem.backBarButtonItem = nil;
 }
 
 #pragma mark Subclassing
 
-- (UIBarButtonItem *)browsingModeRightBarItem {
-	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed)];
-}
-
-- (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
-	return YES;
-}
-
-- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable {
-	if(isSelectable) {
-		cell.textLabel.textColor = [UIColor blackColor];
-		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-	}
-	else {
-		cell.textLabel.textColor = [UIColor grayColor];
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	}
-	if(isDir) {
-		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-		cell.textLabel.text = [path lastPathComponent];
-	}
-	else { // files
-		[cell setAccessoryType:UITableViewCellAccessoryNone];
-		cell.textLabel.text = [path lastPathComponent];
-	}
+- (void)setup {
+	scrollPos = CGPointZero;
+	scrollPosSet = NO;
+	_paths = [[NSMutableArray alloc] init];
+	_mode = FileBrowserModeBrowse;
 }
 
 #pragma mark Overridden Getters/Setters
@@ -223,7 +216,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 									   action:@selector(editButtonPressed)]];
 			}
 			self.toolbarItems = barButtons;
-			self.navigationItem.rightBarButtonItem = [self browsingModeRightBarItem];
+			self.navigationItem.rightBarButtonItem = [self.root browsingModeRightBarItemForLayer:self];
 			[self setEditing:NO animated:YES];
 			break;
 		case FileBrowserModeEdit:
@@ -284,24 +277,9 @@ static NSMutableArray *s_movePaths; //< paths to move
 	}
 }
 
-// custom back button with current dir to show on layer above
-- (void)setDirectory:(NSString *)directory {
-	_directory = directory;
-	if(_directory) {
-		self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-												 initWithTitle:[_directory lastPathComponent]
-												 style:UIBarButtonItemStylePlain
-												 target:self
-												 action:@selector(backButtonPressed:)];
-	}
-	else {
-		self.navigationItem.backBarButtonItem = nil;
-	}
-}
-
 // nav bar title is generated based on this value
 - (NSString *)title {
-	return (super.title ? super.title : [self.directory lastPathComponent]);
+	return (super.title ? super.title : [_directory lastPathComponent]);
 }
 
 // when not editing, disable multi selection to enable swipe to Delete
@@ -327,7 +305,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
 	if(section == 0) {
-		return self.paths.count;
+		return _paths.count;
 	}
 	return 0;
 }
@@ -335,20 +313,13 @@ static NSMutableArray *s_movePaths; //< paths to move
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileBrowserCell" forIndexPath:indexPath];
 	BOOL isDir;
-	NSString *path = [self.paths objectAtIndex:indexPath.row];
+	NSString *path = [_paths objectAtIndex:indexPath.row];
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-//		if(!isDir && self.root.extensions) { // restrict by extension using grey color
-//			if(![self.root.extensions containsObject:[path pathExtension]]) {
-//				cell.textLabel.textColor = [UIColor grayColor];
-//				cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//			}
-//			else {
-//				cell.textLabel.textColor = [UIColor blackColor];
-//				cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-//			}
-//		}
-		BOOL isSelectable = !isDir && self.root.extensions; // restrict by extension using grey color
-		[self styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
+		BOOL isSelectable = YES;
+		if(!isDir && self.root.extensions) { // restrict by extension using grey color
+			isSelectable = [self.root pathHasAllowedExtension:path];
+		}
+		[self.root styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
 	}
 	else {
 		DDLogWarn(@"FileBrowser: couldn't customize cell, path doesn't exist: %@", path);
@@ -359,25 +330,31 @@ static NSMutableArray *s_movePaths; //< paths to move
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(!self.isEditing) {
-		NSString *path = [self.paths objectAtIndex:indexPath.row];
-		DDLogVerbose(@"FileBrowser: didSelect %ld", (long)indexPath.row);
+		NSString *path = [_paths objectAtIndex:indexPath.row];
 		BOOL isDir;
 		if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
 			if(isDir) {
-				// create a new browser table view and push it on the stack
-				DDLogVerbose(@"FileBrowser: now pushing folder %@", [path lastPathComponent]);
-				FileBrowserLayer *browserLayer = [[FileBrowserLayer alloc] initWithStyle:self.tableView.style];
-				browserLayer.root = self.root;
-				browserLayer.title = self.title;
-				[browserLayer loadDirectory:path];
-				[self.navigationController pushViewController:browserLayer animated:YES];
+				DDLogVerbose(@"FileBrowser: now selected dir %@", [path lastPathComponent]);
+				BOOL pushLayer = YES;
+				if([self.root.delegate respondsToSelector:@selector(fileBrowser:selectedDirectory:)]) {
+					pushLayer = [self.root.delegate fileBrowser:self.root selectedDirectory:path];
+				}
+				if(pushLayer) {
+					// create a new browser table view and push it on the stack
+					FileBrowserLayer *browserLayer = [[FileBrowserLayer alloc] initWithStyle:self.tableView.style];
+					browserLayer.root = self.root;
+					browserLayer.title = self.title;
+					browserLayer.mode = self.mode;
+					[browserLayer loadDirectory:path];
+					[self.navigationController pushViewController:browserLayer animated:YES];
+				}
 			}
 			else {
-				if(![self.root pathHasAllowedExtension:path]) { // restrict by extension
+				if(self.root.extensions && ![self.root pathHasAllowedExtension:path]) { // restrict by extension
 					[tableView deselectRowAtIndexPath:indexPath animated:NO];
 					return;
 				}
-				DDLogVerbose(@"FileBrowser: selected file %@", path);
+				DDLogVerbose(@"FileBrowser: selected file %@", [path lastPathComponent]);
 				if([self.root.delegate respondsToSelector:@selector(fileBrowser:selectedFile:)]) {
 					[self.root.delegate fileBrowser:self.root selectedFile:path];
 				}
@@ -401,8 +378,8 @@ static NSMutableArray *s_movePaths; //< paths to move
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch(editingStyle) {
 		case UITableViewCellEditingStyleDelete:
-			[self.root deletePath:self.paths[indexPath.row]];
-			[self.paths removeObjectAtIndex:indexPath.row];
+			[self.root deletePath:_paths[indexPath.row]];
+			[_paths removeObjectAtIndex:indexPath.row];
 			[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 			break;
 		default:
@@ -454,7 +431,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 - (void)chooseFolderButtonPressed {
 	DDLogVerbose(@"FileBrowser: choose folder button pressed");
 	if([self.root.delegate respondsToSelector:@selector(fileBrowser:selectedDirectory:)]) {
-		[self.root.delegate fileBrowser:self.root selectedDirectory:self.directory];
+		[self.root.delegate fileBrowser:self.root selectedDirectory:_directory];
 	}
 }
 
@@ -487,17 +464,19 @@ static NSMutableArray *s_movePaths; //< paths to move
 	s_moveRoot = self;
 	s_movePaths = [[NSMutableArray alloc] init];
 	for(NSIndexPath *indexPath in indexPaths) { // save selected paths
-		[s_movePaths addObject:[self.paths objectAtIndex:indexPath.row]];
+		[s_movePaths addObject:[_paths objectAtIndex:indexPath.row]];
 	}
 	FileBrowser *browserLayer = [[FileBrowser alloc] initWithStyle:UITableViewStylePlain];
-	browserLayer.title = @"Move";
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
+	browserLayer.title = [NSString stringWithFormat:@"Moving %u item%@", s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
 	browserLayer.directoriesOnly = YES;
 	browserLayer.mode = FileBrowserModeMove;
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
-	navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
 	navigationController.toolbarHidden = NO;
-	[browserLayer loadDirectory:self.directory relativeTo:[Util documentsPath]]; // load after nav controller is set
-	[self presentViewController:navigationController animated:YES completion:^{
+	navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
+	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;//self.navigationController.modalPresentationStyle;
+	navigationController.modalInPopover = YES;
+	[browserLayer loadDirectory:_directory relativeTo:[Util documentsPath]]; // load after nav controller is set
+	[self.navigationController presentViewController:navigationController animated:YES completion:^{
 		self.mode = FileBrowserModeBrowse; // reset now so it's ready when move is done
 	}];
 }
@@ -513,7 +492,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	// rename paths at the selected indices, one by one
 	NSMutableIndexSet *renamedIndices = [[NSMutableIndexSet alloc] init];
 	for(NSIndexPath *indexPath in indexPaths) {
-		NSString *path = [self.paths objectAtIndex:indexPath.row];
+		NSString *path = [_paths objectAtIndex:indexPath.row];
 		[self.root showRenameDialogForPath:path];
 	}
 }
@@ -529,14 +508,14 @@ static NSMutableArray *s_movePaths; //< paths to move
 	// delete paths at the selected indices
 	NSMutableIndexSet *deletedIndices = [[NSMutableIndexSet alloc] init];
 	for(NSIndexPath *indexPath in indexPaths) {
-		if([self.root deletePath:[self.paths objectAtIndex:indexPath.row]]) {
+		if([self.root deletePath:[_paths objectAtIndex:indexPath.row]]) {
 			[deletedIndices addIndex:indexPath.row];
 		}
 	}
 	
 	// delete from model & view
 	[self.tableView beginUpdates];
-	[self.paths removeObjectsAtIndexes:deletedIndices]; // do this in one go, since indices may be invalidated in loop
+	[_paths removeObjectsAtIndexes:deletedIndices]; // do this in one go, since indices may be invalidated in loop
 	[self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 	[self.tableView endUpdates];
 }

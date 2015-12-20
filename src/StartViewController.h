@@ -15,7 +15,7 @@
 @class WebServer;
 
 // start page view
-@interface StartViewController : NowPlayingTableViewController
+@interface StartViewController : UITableViewController
 
 #pragma mark Connections
 

@@ -25,6 +25,9 @@
 // create/overwrite a file path, does not check existence
 - (BOOL)_createFilePath:(NSString *)path;
 
+// move/overwrite a file path in to a new dir, does not check existence
+- (BOOL)_movePath:(NSString *)path toDirectory:(NSString *)newDir;
+
 @end
 
 @implementation FileBrowser
@@ -49,6 +52,7 @@
 - (void)presentFromViewController:(UIViewController *)controller animated:(BOOL)animated {
 	if(!self.navigationController) {
 		UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self];
+		self.navigationController.modalPresentationStyle = self.modalPresentationStyle;
 	}
 	[controller presentViewController:self.navigationController animated:YES completion:nil];
 }
@@ -334,25 +338,29 @@
 - (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir {
 	NSError *error;
 	NSString *newPath = [newDir stringByAppendingPathComponent:[path lastPathComponent]];
-	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-		if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
-			DDLogError(@"FileBrowser: couldn't move %@ to %@, error: %@", path, newPath, error.localizedDescription);
-			NSString *title = [NSString stringWithFormat:@"Couldn't move %@ to \"%@\"", [path lastPathComponent], newDir];
-			UIAlertView *alertView = [[UIAlertView alloc]
-									  initWithTitle:title
-									  message:error.localizedDescription
-									  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-			[alertView show];
-			return NO;
-		}
-		else {
-			DDLogVerbose(@"FileBrowser: moved %@ to %@", path, newDir);
-		}
-	}
-	else {
+	if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		DDLogWarn(@"FileBrowser: couldn't move %@, path not found", path);
+		return NO;
 	}
-	return YES;
+	if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
+		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Overwrite it?",
+							 [path lastPathComponent],
+							 [[path stringByDeletingLastPathComponent] lastPathComponent]];
+		UIAlertView *alert = [[UIAlertView alloc]
+							  initWithTitle:@"Overwrite?"
+							  message:message
+							  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+		alert.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
+			if(buttonIndex == 1) { // Ok
+				if([self _movePath:path toDirectory:newDir]) {
+					[self.top reloadDirectory];
+				}
+			}
+		};
+		[alert show];
+		return NO;
+	}
+	return [self _movePath:path toDirectory:newDir];
 }
 
 - (BOOL)deletePath:(NSString *)path {
@@ -399,6 +407,35 @@
 	return self.extensions ? [self.extensions containsObject:[path pathExtension]] : NO;
 }
 
+#pragma mark Subclassing
+
+- (UIBarButtonItem *)browsingModeRightBarItemForLayer:(FileBrowserLayer *)layer {
+	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:layer action:@selector(cancelButtonPressed)];
+}
+
+- (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
+	return YES;
+}
+
+- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable {
+	if(isSelectable) {
+		cell.textLabel.textColor = [UIColor blackColor];
+		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+	}
+	else {
+		cell.textLabel.textColor = [UIColor grayColor];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	}
+	if(isDir) {
+		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+		cell.textLabel.text = [path lastPathComponent];
+	}
+	else { // files
+		[cell setAccessoryType:UITableViewCellAccessoryNone];
+		cell.textLabel.text = [path lastPathComponent];
+	}
+}
+
 #pragma mark Overridden Getters/Setters
 
 - (NSString *)directory {
@@ -417,10 +454,7 @@
 
 - (FileBrowser *)top {
 	if(self.navigationController) {
-		if([self.navigationController.topViewController isKindOfClass:[FileBrowser class]]) {
-			return (FileBrowser *)self.navigationController.topViewController;
-		}
-		DDLogWarn(@"FileBrowser: nav controller stack top is not a FileBrowser");
+		return (FileBrowser *)self.navigationController.topViewController;
 	}
 	return self;
 }
@@ -440,6 +474,22 @@
 		DDLogError(@"FileBrowser: couldn't create file %@", path);
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:[NSString stringWithFormat:@"Couldn't create file \"%@\"", [path lastPathComponent]]
+								  message:error.localizedDescription
+								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+		[alertView show];
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL)_movePath:(NSString *)path toDirectory:(NSString *)newDir {
+	NSError *error;
+	NSString *newPath = [newDir stringByAppendingPathComponent:[path lastPathComponent]];
+	if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
+		DDLogError(@"FileBrowser: couldn't move %@ to %@, error: %@", path, newPath, error.localizedDescription);
+		NSString *title = [NSString stringWithFormat:@"Couldn't move %@ to \"%@\"", [path lastPathComponent], newDir];
+		UIAlertView *alertView = [[UIAlertView alloc]
+								  initWithTitle:title
 								  message:error.localizedDescription
 								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 		[alertView show];
