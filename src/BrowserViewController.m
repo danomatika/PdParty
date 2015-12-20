@@ -45,6 +45,7 @@
 
 	self.delegate = self;
 	self.canAddFiles = NO;
+	self.title = self.navigationItem.title; // grab title from storyboard
 	[self loadDirectory:[Util documentsPath]];
 }
 
