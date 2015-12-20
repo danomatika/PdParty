@@ -240,8 +240,8 @@ static PdDispatcher *dispatcher = nil;
             if(width <= 5) {
 				[string setString:(f < 0.0 ? @"-" : @"+")];
             }
-            i = width - 4;
-            for(idecimal=0; idecimal < i; idecimal++) {
+            i = (int)string.length - 4;
+            for(idecimal = 0; idecimal < i; idecimal++) {
                 if([string characterAtIndex:idecimal] == '.') {
 					break;
 				}
@@ -255,10 +255,11 @@ static PdDispatcher *dispatcher = nil;
                 for(i = 0; i < 4; i++, new_exp_index++, old_exp_index++) {
 					[string setCharacter:[string characterAtIndex:old_exp_index] atIndex:new_exp_index];
 				}
+				[string deleteCharactersInRange:NSMakeRange(width, string.length-width)];
             }
         }
         else {
-            for(idecimal = 0; idecimal < string.length; idecimal++) {
+            for(idecimal = 0; idecimal < (int)string.length; idecimal++) {
                 if([string characterAtIndex:idecimal] == '.') {
 					break;
 				}
@@ -266,6 +267,9 @@ static PdDispatcher *dispatcher = nil;
 			if(idecimal > width) {
 				[string setString:(f < 0.0 ? @"-" : @"+")];
             }
+			else {
+				[string deleteCharactersInRange:NSMakeRange(width, string.length-width)];
+			}
         }
     }
 	return string;
