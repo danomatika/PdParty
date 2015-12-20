@@ -461,12 +461,12 @@
 }
 
 - (void)setVolume:(float)volume {
-	_volume = MIN(MAX(volume, 0.0), 1.0); // clamp to 0-1
+	_volume = CLAMP(volume, 0.0, 1.0);
 	[PureData sendVolume:_volume];
 }
 
 - (void)setMicVolume:(float)micVolume {
-	_micVolume = MIN(MAX(micVolume, 0.0), 1.0); // clamp to 0-1
+	_micVolume = CLAMP(micVolume, 0.0, 1.0);
 	[PureData sendMicVolume:_micVolume];
 	[[NSUserDefaults standardUserDefaults] setFloat:_micVolume forKey:@"micVolume"];
 }

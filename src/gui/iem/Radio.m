@@ -134,7 +134,7 @@
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
-	int newVal = (int) MIN(self.maxValue, MAX(self.minValue, f)); // round to int
+	int newVal = (int) CLAMP(f, self.minValue, self.maxValue); // round to int
 	[super setValue:newVal];
 }
 

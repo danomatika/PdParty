@@ -168,7 +168,7 @@
 
 - (void)setValue:(float)value {
 	if(self.minValue != 0 || self.maxValue != 0) {
-		value = MIN(self.maxValue, MAX(value, self.minValue));
+		value = CLAMP(value, self.minValue, self.maxValue);
 	}
 	self.valueLabel.text = [Widget stringFromFloat:value withWidth:self.valueWidth];
 	

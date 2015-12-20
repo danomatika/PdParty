@@ -72,8 +72,8 @@
 		// width, height
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			MIN(MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE),
-			MIN(MAX([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE));
+			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
+			CLAMP([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
 		return YES;

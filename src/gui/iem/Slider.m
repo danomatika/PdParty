@@ -180,10 +180,10 @@
 	double g;
 	
 	if(isReversed) {
-		f = MIN(self.minValue, MAX(self.maxValue, f));
+		f = CLAMP(f, self.maxValue, self.minValue);
     }
     else {
-		f = MIN(self.maxValue, MAX(self.minValue, f));
+		f = CLAMP(f, self.minValue, self.maxValue);
     }
 
 	if(self.log) {
@@ -244,7 +244,7 @@
 		
 		if(!self.steady) {
 			int v = (int)(100.0 * (pos.x / self.gui.scaleX));
-			v = MAX(MIN(v, (100 * CGRectGetWidth(self.originalFrame) - 100)), 0);
+			v = CLAMP(v, 0, (100 * CGRectGetWidth(self.originalFrame) - 100));
 			controlPos = v;
 			[super setValue:v];
 		}
@@ -256,7 +256,7 @@
 		
 		if(!self.steady) {
 			int v = (int)(100.0 * (pos.y / self.gui.scaleX));
-			v = MAX(MIN(v, (100 * CGRectGetHeight(self.originalFrame) - 100)), 0);
+			v = CLAMP(v, 0, (100 * CGRectGetHeight(self.originalFrame) - 100));
 			controlPos = v;
 			[super setValue:v];
 		}
@@ -367,8 +367,8 @@
 		// width, height
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			MIN(MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE),
-			MIN(MAX([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE), IEM_GUI_MAXSIZE));
+			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
+			CLAMP([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
 		[self checkSize];
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
