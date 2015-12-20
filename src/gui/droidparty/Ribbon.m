@@ -13,14 +13,9 @@
 #import "Gui.h"
 
 @interface Ribbon () {
-	BOOL touchDown;
-	double sizeConvFactor; // scaling factor for lin/log value conversion
-	int leftControlPos, rightControlPos;
-	float prevLeftControlPos, prevRightControlPos;
+	UITouch *leftTouch, *rightTouch;
+	float pValue, pValue2;
 }
-- (void)sendValues;
-- (void)checkSize;
-- (BOOL)checkControlsAtPoint:(CGPoint)pos;
 @end
 
 @implementation Ribbon
@@ -44,7 +39,6 @@
 	r.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
-	[r checkSize];
 	
 	r.gui = gui;
 	
@@ -55,104 +49,44 @@
     self = [super initWithFrame:frame];
     if(self) {
 		self.label = nil; // don't need label
-		touchDown = NO;
-		prevLeftControlPos = 0;
-		prevRightControlPos = 0;
+		leftTouch = nil;
+		rightTouch = nil;
     }
     return self;
 }
 
 - (void)drawRect:(CGRect)rect {
-
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
-	
+    CGContextSetLineWidth(context, 1.0);
+
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
 	CGContextFillRect(context, rect);
+	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
 	
 	// border
-	if(touchDown) {
-		CGContextSetLineWidth(context, 2.0);
-	}
-	else {
-		CGContextSetLineWidth(context, 1.0);
-	}
 	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
-	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));
+	CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect)-1, CGRectGetHeight(rect)-1));
 	
 	// control
-	
-	float x = (self.value + 50) * 0.01 * self.gui.scaleX;
-	int controlWidth = 3;
-	// constrain pos at edges
-	if(x < controlWidth) {
-		x = controlWidth;
-	}
-	// width of slider control & pixel padding
-	else if(x > rect.size.width - (controlWidth - 1)) {
-		x = rect.size.width - controlWidth - 1;
-	}
-	CGContextSetLineWidth(context, controlWidth);
-	CGContextMoveToPoint(context, x, round(rect.origin.y));
-	CGContextAddLineToPoint(context, x, round(rect.origin.y+rect.size.height-1));
-	CGContextStrokePath(context);
-
-	
-	
-//	int leftEdge = 3 * self.gui.scaleX, rightEdge = CGRectGetWidth(self.frame) - leftEdge;
-//	CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
-////	CGContextFillRect(context, CGRectMake(
-////		MAX(MIN(round(self.value2 * CGRectGetWidth(self.frame)), rightEdge), leftEdge), 1,
-////		MAX(MIN((round(self.value - self.value2) * CGRectGetWidth(self.frame)), rightEdge), leftEdge), CGRectGetHeight(self.frame) - 1));
-//
-//	CGContextFillRect(context, CGRectMake(
-//		MAX(MIN(round(self.value * CGRectGetWidth(self.frame)), rightEdge), leftEdge), 1,
-//		leftEdge, CGRectGetHeight(self.frame) - 1));
-		
-//	CGContextFillRect(context, CGRectMake(
-//		MAX(MIN(round(self.value2 * CGRectGetWidth(self.frame)), rightEdge), leftEdge), 1,
-//		leftEdge, CGRectGetHeight(self.frame) - 1));
-}
-
-- (void)reshapeForGui:(Gui *)gui {
-
-	// bounds
-	[super reshapeForGui:gui];
-	sizeConvFactor = 1 / (CGRectGetWidth(self.originalFrame) - 1);
-
-	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
-	//CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monspaced font
-	self.label.preferredMaxLayoutWidth = round(CGRectGetWidth(self.frame) * 0.75);
-	[self.label sizeToFit];
-	self.label.center = CGPointMake(round(CGRectGetWidth(self.frame)/2), round(CGRectGetHeight(self.frame)/2));
+	float leftEdge = round(2 * self.gui.scaleX), rightEdge = round(CGRectGetWidth(rect)-1 - leftEdge);
+	float left = CLAMP(round(self.value2 * CGRectGetWidth(rect)-1), leftEdge, rightEdge);
+	float right = CLAMP(round(self.value * CGRectGetWidth(rect)-1), leftEdge, rightEdge);
+	CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
+	CGContextFillRect(context, CGRectMake(left, 0.5, MAX(round(fabsf(right-left)), leftEdge), CGRectGetHeight(rect)-1));
 }
 
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
-		
-	double g;
-	
-	f = MIN(1.0, MAX(0.0, f));
-	g = f / sizeConvFactor;
-
-	[super setValue:(int)(100.0*g + 0.49999)];
-	rightControlPos = self.value;
+	pValue = self.value;
+	[super setValue:CLAMP(f, 0.0, 1.0)];
 }
 
 - (void)setValue2:(float)f {
-
-	double g;
-	
-	f = MIN(1.0, MAX(0.0, f));
-	g = f / sizeConvFactor;
-
-	_value2 = (int)(100.0*g + 0.49999);
-	leftControlPos = self.value2;
-	
+	pValue2 = self.value2;
+	_value2 = CLAMP(f, 0.0, 1.0);
 	[self setNeedsDisplay];
 }
 
@@ -163,198 +97,67 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	//touchDown = YES;
-	
-	UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
-NSLog(@"touch down %f %f", pos.x, pos.y);
-//	if([self checkControlsAtPoint:pos]) {
-//		[self sendList:[NSArray arrayWithObjects:
-//			[NSNumber numberWithFloat:self.value],
-//			[NSNumber numberWithFloat:self.value2], nil]];
-//	}
-	
-	int controlWidth = 10 * self.gui.scaleX;
-	
-//	if(pos.x >= rightControlPos && pos.x <= rightControlPos + controlWidth) {
-	
-//		int v = (int)(100.0 * (pos.x / self.gui.scaleX));
-//		v = MAX(MIN(v, (100 * CGRectGetWidth(self.originalFrame) - 100)), 0);
-//		prevRightPos = v;
-//		[super setValue:v];
-
-		[self sendValues];
-		prevRightControlPos = pos.x;
-//	}
-
-//	if(pos.x >= leftControlPos && pos.x <= leftControlPos + controlWidth) {
-//		[self sendValues];
-//		prevLeftControlPos = pos.x;
-//	}
-	//[self setNeedsDisplay];
+	for(UITouch *touch in touches) {
+		CGPoint pos = [touch locationInView:self];
+		float controlWidth = 3 * self.gui.scaleX;
+		float left = self.value2 * CGRectGetWidth(self.frame);
+		float right = self.value * CGRectGetWidth(self.frame);
+		if(!rightTouch && pos.x >= right - controlWidth && pos.x <= right + controlWidth) {
+			rightTouch = touch;
+		}
+		else if(!leftTouch && pos.x >= left - controlWidth && pos.x <= left + controlWidth) {
+			leftTouch = touch;
+		}
+	}
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
-
-//	if([self checkControlsAtPoint:pos]) {
-//		[self sendList:[NSArray arrayWithObjects:
-//			[NSNumber numberWithFloat:self.value],
-//			[NSNumber numberWithFloat:self.value2], nil]];
-//	}
-
-
-	int controlWidth = 10 * self.gui.scaleX;
-	
-//	if(pos.x >= rightControlPos - controlWidth && pos.x <= rightControlPos) {
-	
-		float delta = (pos.x - prevRightControlPos) / self.gui.scaleX;
-		float old = self.value;
-	
-	
-		int v = 0;
-		rightControlPos += (int)delta;
-		v = rightControlPos;
-		
-		if(v > (100 * CGRectGetWidth(self.originalFrame) - 100)) {
-			v = 100 * CGRectGetWidth(self.originalFrame) - 100;
-			rightControlPos += 50;
-			rightControlPos -= rightControlPos % 100;
-		}
-		if(v < 0) {
-			v = 0;
-			rightControlPos -= 50;
-			rightControlPos -= rightControlPos % 100;
-		}
-		[super setValue:v];
-		
-		// don't resend old values
-		if(old != v) {
-			[self sendValues];
+	BOOL changed = NO;
+	for(UITouch *touch in touches) {
+		CGPoint pos = [touch locationInView:self];
+		if(touch == rightTouch) {
+			float v = CLAMP(pos.x / CGRectGetWidth(self.frame), self.value2, 1.0);
+			if(v != self.value) {
+				self.value = v;
+				changed = YES;
+			}
 		}
 		
-		prevRightControlPos = pos.x;
-	
-	
-	NSLog(@"moved: value is %f", self.value);
-	
-	
-	
-//		int v = (int)(100.0 * (pos.x / self.gui.scaleX));
-//		v = MAX(MIN(v, (100 * CGRectGetWidth(self.originalFrame) - 100)), 0);
-//		prevRightPos = v;
-//		[super setValue:v];
-	
-//		[self sendList:[NSArray arrayWithObjects:
-//			[NSNumber numberWithFloat:self.value],
-//			[NSNumber numberWithFloat:self.value2], nil]];
-//		prevRightPos = pos.x;
-
-
-//	}
-
-//	if(pos.x >= leftControlPos && pos.x <= leftControlPos + controlWidth) {
-//
-//		float delta = (pos.x - prevLeftControlPos) / self.gui.scaleX;
-//		float old = self.value2;
-//	
-//		int v = 0;
-//		leftControlPos += (int)delta;
-//		v = leftControlPos;
-//		
-//		if(v > (100 * CGRectGetWidth(self.originalFrame) - 100)) {
-//			v = 100 * CGRectGetWidth(self.originalFrame) - 100;
-//			leftControlPos += 50;
-//			leftControlPos -= leftControlPos % 100;
-//		}
-//		if(v < 0) {
-//			v = 0;
-//			leftControlPos -= 50;
-//			leftControlPos -= leftControlPos % 100;
-//		}
-//		_value2 = v;
-//		[self setNeedsDisplay];
-//		
-//		// don't resend old values
-//		if(old != v) {
-//			[self sendValues];
-//		}
-//		
-//		prevLeftControlPos = pos.x;
-//	}
+		if(touch == leftTouch) {
+			float v = CLAMP(pos.x / CGRectGetWidth(self.frame), 0.0, self.value);
+			if(v != self.value2) {
+				self.value2 = v;
+				changed = YES;
+			}
+		}
+	}
+	if(changed) {
+		[self sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:self.value],
+		[NSNumber numberWithFloat:self.value2], nil]];
+	}
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	//[self sendBang];
-	touchDown = NO;
-	[self setNeedsDisplay];
+	for(UITouch *touch in touches) {
+		if(touch == leftTouch) {
+			leftTouch = nil;
+		}
+		else if(touch == rightTouch) {
+			rightTouch = nil;
+		}
+	}
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	touchDown = NO;
-	[self setNeedsDisplay];
-}
-
-#pragma mark Private
-
-- (void)sendValues {
-
-	float v1 = self.value;
-	v1 = (double)(v1) * 0.01 * sizeConvFactor;
-    if((v1 < 1.0e-10) && (v1 > -1.0e-10)) {
-        v1 = 0.0;
+	for(UITouch *touch in touches) {
+		if(touch == leftTouch) {
+			leftTouch = nil;
+		}
+		else if(touch == rightTouch) {
+			rightTouch = nil;
+		}
 	}
-	
-	float v2 = self.value2;
-	v2 = (double)(v2) * 0.01 * sizeConvFactor;
-    if((v2 < 1.0e-10) && (v2 > -1.0e-10)) {
-        v2 = 0.0;
-	}
-
-	[self sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:v1],
-		[NSNumber numberWithFloat:v2], nil]];
-}
-
-- (void)checkSize {
-
-	float size = CGRectGetWidth(self.originalFrame);
-
-    if(size < 2) {
-        size = 2;
-		self.originalFrame = CGRectMake(
-			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			size, CGRectGetHeight(self.originalFrame));
-	}
-	
-    if(self.value > (size * 100 - 100)) {
-        self.value = size * 100 - 100;
-    }
-
-	sizeConvFactor = 1 / (double)(size - 1);
-}
-
-- (BOOL)checkControlsAtPoint:(CGPoint)pos {
-	
-	float controlWidth = 10 * self.gui.scaleX;
-	
-	float rightCtlPos = self.value * CGRectGetWidth(self.frame);
-	if(pos.x >= rightCtlPos - controlWidth && pos.x <= rightCtlPos) {
-		touchDown = YES;
-		//self.value = pos.x / CGRectGetWidth(self.frame);
-		
-		return YES;
-	}
-	
-	float leftCtlPos = self.value2 * CGRectGetWidth(self.frame);
-	if(pos.x >= leftCtlPos && pos.x <= leftCtlPos + controlWidth) {
-		touchDown = YES;
-		//self.value2 = pos.x / CGRectGetWidth(self.frame);
-		return YES;
-	}
-	
-	return NO;
 }
 
 @end

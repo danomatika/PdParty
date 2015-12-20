@@ -10,6 +10,8 @@
  */
 #import <Foundation/Foundation.h>
 
+#define CLAMP(val, min, max) MIN(MAX(val, min), max)
+
 @interface Util : NSObject
 
 #pragma mark Device

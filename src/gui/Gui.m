@@ -270,16 +270,14 @@
 						
 						// droidparty objects
 						else if([objType isEqualToString:@"display"]) {
-							// this works but isn't supported in PdPart yet ...
 							[self addDisplay:line];
 						}
 						else if([objType isEqualToString:@"numberbox"]) {
 							[self addNumberbox:line];
 						}
-//						// TODO: not really working yet
-//						else if([objType isEqualToString:@"ribbon"]) {
-//							[self addRibbon:line];
-//						}
+						else if([objType isEqualToString:@"ribbon"]) {
+							[self addRibbon:line];
+						}
 						else if([objType isEqualToString:@"taplist"]) {
 							[self addTaplist:line];
 						}
