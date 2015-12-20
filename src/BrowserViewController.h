@@ -11,12 +11,12 @@
 #import <UIKit/UIKit.h>
 
 #import "NowPlayingTableViewController.h"
-#import "Browser.h"
+#import "PartyBrowser.h"
 
 @class PatchViewController;
 
 // main MasterViewController for browsing the Documents dir
-@interface BrowserViewController : Browser <FileBrowserDelegate>
+@interface BrowserViewController : PartyBrowser <BrowserDelegate>
 
 // strong to make sure to retain the view on iPhone
 @property (strong, nonatomic) PatchViewController *patchViewController;

@@ -13,7 +13,7 @@
 
 @class Gui;
 
-@interface Loadsave : Widget <FileBrowserDelegate>
+@interface Loadsave : Widget <BrowserDelegate>
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *directory;

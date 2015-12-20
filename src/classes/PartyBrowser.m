@@ -8,12 +8,12 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Browser.h"
+#import "PartyBrowser.h"
 
 #import "Log.h"
 #import "AllScenes.h"
 
-@implementation Browser
+@implementation PartyBrowser
 
 // lock orientation
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
@@ -49,7 +49,7 @@
 			else if([RecordingScene isRecording:path]) { // add recordings
 				return YES;
 			}
-			else if([Browser isZipFile:path]) { // add zipfiles
+			else if([PartyBrowser isZipFile:path]) { // add zipfiles
 				return YES;
 			}
 			// remove Finder DS_Store garbage (created over WebDAV) and __MACOSX added to zip files
@@ -111,7 +111,7 @@
 		}
 	}
 	else { // files
-		if([Browser isZipFile:path]) {
+		if([PartyBrowser isZipFile:path]) {
 			cell.imageView.image = [UIImage imageNamed:@"archive"];
 		}
 		else if([RecordingScene isRecording:path]) {

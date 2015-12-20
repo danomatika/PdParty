@@ -8,8 +8,7 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-
-#import "FileBrowser.h"
+#import "Browser.h"
 
 #import "Log.h"
 #import "Util.h"
@@ -17,10 +16,10 @@
 // make life easier here ...
 #import "UIAlertView+Blocks.h"
 
-@interface FileBrowser () {}
+@interface Browser () {}
 
 // top browser layer in the nav controller or self if none
-@property (readonly, nonatomic) FileBrowserLayer *top;
+@property (readonly, nonatomic) BrowserLayer *top;
 
 // create/overwrite a file path, does not check existence
 - (BOOL)_createFilePath:(NSString *)path;
@@ -30,7 +29,7 @@
 
 @end
 
-@implementation FileBrowser
+@implementation Browser
 
 - (void)setup {
 	[super setup];
@@ -66,20 +65,20 @@
 }
 
 - (void)loadDirectory:(NSString *)dirPath relativeTo:(NSString *)basePath {
-	DDLogVerbose(@"FileBrowser: loading directory %@ relative to %@", dirPath, basePath);
+	DDLogVerbose(@"Browser: loading directory %@ relative to %@", dirPath, basePath);
 	NSMutableArray *dirComponents = [NSMutableArray arrayWithArray:[dirPath componentsSeparatedByString:@"/"]];
 	NSMutableArray *baseComponents = [NSMutableArray arrayWithArray:[basePath componentsSeparatedByString:@"/"]];
 	if(baseComponents.count == 0 || dirComponents.count == 0) {
-		DDLogWarn(@"FileBrowser: cannot loadDirectory, basePath and/or dirPath are empty");
+		DDLogWarn(@"Browser: cannot loadDirectory, basePath and/or dirPath are empty");
 		return;
 	}
 	if(baseComponents.count > dirComponents.count) {
-		DDLogWarn(@"FileBrowser: cannot loadDirectory, basePath is longer than dirPath");
+		DDLogWarn(@"Browser: cannot loadDirectory, basePath is longer than dirPath");
 		return;
 	}
 	for(int i = 0; i < baseComponents.count; ++i) {
 		if(![dirComponents[i] isEqualToString:baseComponents[i]]) {
-			DDLogWarn(@"FileBrowser: cannot loadDirectory, dirPath is not a child of basePath");
+			DDLogWarn(@"Browser: cannot loadDirectory, dirPath is not a child of basePath");
 			return;
 		}
 	}
@@ -92,14 +91,14 @@
 		BOOL isDir = NO;
 		NSString *path = [components componentsJoinedByString:@"/"];
 		if(![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-			DDLogWarn(@"FileBrowser: stopped loading, %@ doesn't exist", [path lastPathComponent]);
+			DDLogWarn(@"Browser: stopped loading, %@ doesn't exist", [path lastPathComponent]);
 			return;
 		}
 		if(!isDir) {
-			DDLogWarn(@"FileBrowser: stopped loading, %@ is a file", [path lastPathComponent]);
+			DDLogWarn(@"Browser: stopped loading, %@ is a file", [path lastPathComponent]);
 			return;
 		}
-		DDLogVerbose(@"FileBrowser: now pushing folder %@", [path lastPathComponent]);
+		DDLogVerbose(@"Browser: now pushing folder %@", [path lastPathComponent]);
 		if(i == count) { // load first layer, don't push
 			path = [components componentsJoinedByString:@"/"];
 			[self loadDirectory:path];
@@ -108,7 +107,7 @@
 			if(!self.navigationController) { // make sure there is a nav controller for the layers
 				UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self];
 			}
-			FileBrowserLayer *browserLayer = [[FileBrowser alloc] initWithStyle:UITableViewStylePlain];
+			BrowserLayer *browserLayer = [[Browser alloc] initWithStyle:UITableViewStylePlain];
 			browserLayer.root = self.root;
 			browserLayer.mode = self.mode;
 			browserLayer.title = self.title;
@@ -127,9 +126,9 @@
 #pragma mark Dialogs
 
 - (void)showNewFileDialog {
-	DDLogVerbose(@"FileBrowser: new file dialog");
+	DDLogVerbose(@"Browser: new file dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"FileBrowser: couldn't show new file dialog, currentDir not set (loadDirectory first?)");
+		DDLogWarn(@"Browser: couldn't show new file dialog, currentDir not set (loadDirectory first?)");
 		return;
 	}
 	NSString *title = @"Create new file", *message;
@@ -159,7 +158,7 @@
 				}
 				else {
 					if(![self.root.extensions containsObject:[file pathExtension]]) {
-						DDLogWarn(@"FileBrowser: couldn't create \"%@\", missing one of the required extensions: %@", [file lastPathComponent], [self.root.extensions componentsJoinedByString:@", "]);
+						DDLogWarn(@"Browser: couldn't create \"%@\", missing one of the required extensions: %@", [file lastPathComponent], [self.root.extensions componentsJoinedByString:@", "]);
 						NSString *title = [NSString stringWithFormat:@"Couldn't create \"%@\"", [file lastPathComponent]];
 						NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@", [self.root.extensions componentsJoinedByString:@", ."]];
 						UIAlertView *alertView = [[UIAlertView alloc]
@@ -171,11 +170,11 @@
 					}
 				}
 			}
-			DDLogVerbose(@"FileBrowser: new file: %@", file);
+			DDLogVerbose(@"Browser: new file: %@", file);
 			if([self createFilePath:[self.top.directory stringByAppendingPathComponent:file]]) {
 				[self.top reloadDirectory];
-				if([self.root.delegate respondsToSelector:@selector(fileBrowser:createdFile:)]) {
-					[self.root.delegate fileBrowser:self.root createdFile:file];
+				if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
+					[self.root.delegate browser:self.root createdFile:file];
 				}
 			}
 		}
@@ -184,9 +183,9 @@
 }
 
 - (void)showNewDirectoryDialog {
-	DDLogVerbose(@"FileBrowser: new directory dialog");
+	DDLogVerbose(@"Browser: new directory dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"FileBrowser: couldn't show new dir dialog, currentDir not set (loadDirectory first?)");
+		DDLogWarn(@"Browser: couldn't show new dir dialog, currentDir not set (loadDirectory first?)");
 		return;
 	}
 	UIAlertView *alert = [[UIAlertView alloc]
@@ -197,11 +196,11 @@
 	alert.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
 		if(buttonIndex == 1) { // Create
 			NSString *dir = [alertView textFieldAtIndex:0].text;
-			DDLogVerbose(@"FileBrowser: new dir: %@", dir);
+			DDLogVerbose(@"Browser: new dir: %@", dir);
 			if([self createDirectoryPath:[self.top.directory stringByAppendingPathComponent:dir]]) {
 				[self reloadDirectory];
-				if([self.root.delegate respondsToSelector:@selector(fileBrowser:createdDirectory:)]) {
-					[self.root.delegate fileBrowser:self.root createdDirectory:dir];
+				if([self.root.delegate respondsToSelector:@selector(browser:createdDirectory:)]) {
+					[self.root.delegate browser:self.root createdDirectory:dir];
 				}
 			}
 		}
@@ -210,9 +209,9 @@
 }
 
 - (void)showRenameDialogForPath:(NSString *)path {
-	DDLogVerbose(@"FileBrowser: rename dialog");
+	DDLogVerbose(@"Browser: rename dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"FileBrowser: couldn't show rename dialog, currentDir not set (loadDirectory first?)");
+		DDLogWarn(@"Browser: couldn't show rename dialog, currentDir not set (loadDirectory first?)");
 		return;
 	}
 	BOOL isDir = [Util isDirectory:path];
@@ -239,7 +238,7 @@
 				}
 				else {
 					if(![self.root.extensions containsObject:[newPath pathExtension]]) {
-						DDLogWarn(@"FileBrowser: couldn't rename to \"%@\", missing one of the required extensions: %@", [newPath lastPathComponent], [self.root.extensions componentsJoinedByString:@", "]);
+						DDLogWarn(@"Browser: couldn't rename to \"%@\", missing one of the required extensions: %@", [newPath lastPathComponent], [self.root.extensions componentsJoinedByString:@", "]);
 						NSString *title = [NSString stringWithFormat:@"Couldn't rename to \"%@\"", [newPath lastPathComponent]];
 						NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@", [self.root.extensions componentsJoinedByString:@", ."]];
 						UIAlertView *alertView = [[UIAlertView alloc]
@@ -251,7 +250,7 @@
 					}
 				}
 			}
-			DDLogVerbose(@"FileBrowser: rename %@ to %@", [path lastPathComponent], [newPath lastPathComponent]);
+			DDLogVerbose(@"Browser: rename %@ to %@", [path lastPathComponent], [newPath lastPathComponent]);
 			if([self renamePath:path to:newPath]) {
 				[self reloadDirectory];
 			}
@@ -264,7 +263,7 @@
 
 - (BOOL)createFilePath:(NSString *)path {
 	NSError *error;
-	DDLogVerbose(@"FileBrowser: creating file: %@", [path lastPathComponent]);
+	DDLogVerbose(@"Browser: creating file: %@", [path lastPathComponent]);
 	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Overwrite it?",
 							 [path lastPathComponent],
@@ -286,10 +285,10 @@
 
 - (BOOL)createDirectoryPath:(NSString *)path {
 	NSError *error;
-	DDLogVerbose(@"FileBrowser: creating dir: %@", [path lastPathComponent]);
+	DDLogVerbose(@"Browser: creating dir: %@", [path lastPathComponent]);
 	if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		if(![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:NO attributes:NULL error:&error]) {
-			DDLogError(@"FileBrowser: couldn't create directory %@, error: %@", [path lastPathComponent], error.localizedDescription);
+			DDLogError(@"Browser: couldn't create directory %@, error: %@", [path lastPathComponent], error.localizedDescription);
 			UIAlertView *alertView = [[UIAlertView alloc]
 									  initWithTitle:[NSString stringWithFormat:@"Couldn't create folder \"%@\"", [path lastPathComponent]]
 									  message:error.localizedDescription
@@ -316,7 +315,7 @@
 	NSError *error;
 	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
-			DDLogError(@"FileBrowser: couldn't rename %@ to %@, error: %@", path, newPath, error.localizedDescription);
+			DDLogError(@"Browser: couldn't rename %@ to %@, error: %@", path, newPath, error.localizedDescription);
 			NSString *title = [NSString stringWithFormat:@"Couldn't rename %@ to \"%@\"", [path lastPathComponent], [newPath lastPathComponent]];
 			UIAlertView *alertView = [[UIAlertView alloc]
 									  initWithTitle:title
@@ -326,11 +325,11 @@
 			return NO;
 		}
 		else {
-			DDLogVerbose(@"FileBrowser: renamed %@ to %@", path, newPath);
+			DDLogVerbose(@"Browser: renamed %@ to %@", path, newPath);
 		}
 	}
 	else {
-		DDLogWarn(@"FileBrowser: couldn't rename %@, path not found", path);
+		DDLogWarn(@"Browser: couldn't rename %@, path not found", path);
 	}
 	return YES;
 }
@@ -339,7 +338,7 @@
 	NSError *error;
 	NSString *newPath = [newDir stringByAppendingPathComponent:[path lastPathComponent]];
 	if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-		DDLogWarn(@"FileBrowser: couldn't move %@, path not found", path);
+		DDLogWarn(@"Browser: couldn't move %@, path not found", path);
 		return NO;
 	}
 	if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
@@ -367,7 +366,7 @@
 	NSError *error;
 	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		if(![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) {
-			DDLogError(@"FileBrowser: couldn't delete %@, error: %@", path, error.localizedDescription);
+			DDLogError(@"Browser: couldn't delete %@, error: %@", path, error.localizedDescription);
 			UIAlertView *alertView = [[UIAlertView alloc]
 									  initWithTitle:[NSString stringWithFormat:@"Couldn't delete %@", [path lastPathComponent]]
 									  message:error.localizedDescription
@@ -376,11 +375,11 @@
 			return NO;
 		}
 		else {
-			DDLogVerbose(@"FileBrowser: deleted %@", path);
+			DDLogVerbose(@"Browser: deleted %@", path);
 		}
 	}
 	else {
-		DDLogWarn(@"FileBrowser: couldn't delete %@, path not found", path);
+		DDLogWarn(@"Browser: couldn't delete %@, path not found", path);
 	}
 	return YES;
 }
@@ -409,7 +408,7 @@
 
 #pragma mark Subclassing
 
-- (UIBarButtonItem *)browsingModeRightBarItemForLayer:(FileBrowserLayer *)layer {
+- (UIBarButtonItem *)browsingModeRightBarItemForLayer:(BrowserLayer *)layer {
 	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:layer action:@selector(cancelButtonPressed)];
 }
 
@@ -452,14 +451,14 @@
 	return self.top.paths;
 }
 
-- (FileBrowser *)top {
+- (Browser *)top {
 	if(self.navigationController) {
-		return (FileBrowser *)self.navigationController.topViewController;
+		return (Browser *)self.navigationController.topViewController;
 	}
 	return self;
 }
 
-- (FileBrowser *)root {
+- (Browser *)root {
 	if(!super.root) {
 		return self;
 	}
@@ -471,7 +470,7 @@
 - (BOOL)_createFilePath:(NSString *)path {
 	NSError *error;
 	if(![[NSFileManager defaultManager] createFileAtPath:path contents:nil attributes:NULL]) {
-		DDLogError(@"FileBrowser: couldn't create file %@", path);
+		DDLogError(@"Browser: couldn't create file %@", path);
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:[NSString stringWithFormat:@"Couldn't create file \"%@\"", [path lastPathComponent]]
 								  message:error.localizedDescription
@@ -486,7 +485,7 @@
 	NSError *error;
 	NSString *newPath = [newDir stringByAppendingPathComponent:[path lastPathComponent]];
 	if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
-		DDLogError(@"FileBrowser: couldn't move %@ to %@, error: %@", path, newPath, error.localizedDescription);
+		DDLogError(@"Browser: couldn't move %@ to %@, error: %@", path, newPath, error.localizedDescription);
 		NSString *title = [NSString stringWithFormat:@"Couldn't move %@ to \"%@\"", [path lastPathComponent], newDir];
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:title

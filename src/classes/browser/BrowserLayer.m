@@ -8,9 +8,8 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-
-#import "FileBrowserLayer.h"
-#include "FileBrowser.h"
+#import "BrowserLayer.h"
+#import "Browser.h"
 
 #import "Log.h"
 #import "Util.h"
@@ -18,10 +17,10 @@
 // make life easier here ...
 #import "UIActionSheet+Blocks.h"
 
-static FileBrowserLayer *s_moveRoot; //< browser layer that invoked a move edit
+static BrowserLayer *s_moveRoot; //< browser layer that invoked a move edit
 static NSMutableArray *s_movePaths; //< paths to move
 
-@interface FileBrowserLayer () {
+@interface BrowserLayer () {
 	// for maintaining the scroll pos when navigating back,
 	// from http://make-smart-iphone-apps.blogspot.com/2011/04/how-to-maintain-uitableview-scrolled.html
 	CGPoint scrollPos;
@@ -29,7 +28,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 }
 @end
 
-@implementation FileBrowserLayer
+@implementation BrowserLayer
 
 @dynamic title;
 
@@ -69,7 +68,7 @@ static NSMutableArray *s_movePaths; //< paths to move
     [super viewDidLoad];
     
 	// make sure the cell class is known
-	[self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"FileBrowserCell"];
+	[self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"BrowserCell"];
 	
 	// set size in iPad popup
 	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -124,19 +123,19 @@ static NSMutableArray *s_movePaths; //< paths to move
 
 - (void)loadDirectory:(NSString *)dirPath {
 	NSError *error;
-	DDLogVerbose(@"FileBrowser: loading directory %@", dirPath);
+	DDLogVerbose(@"Browser: loading directory %@", dirPath);
 
 	// search for files in the given path
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:&error];
 	if(!contents) {
-		DDLogError(@"FileBrowser: couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
+		DDLogError(@"Browser: couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
 		return;
 	}
 	
 	// add contents to pathArray as absolute paths
-	DDLogVerbose(@"FileBrowser: found %d paths", (int) contents.count);
+	DDLogVerbose(@"Browser: found %d paths", (int) contents.count);
 	for(NSString *p in contents) {
-		DDLogVerbose(@"FileBrowser: 	%@", p);
+		DDLogVerbose(@"Browser: 	%@", p);
 		NSString *fullPath = [dirPath stringByAppendingPathComponent:p];
 		if([self.root shouldAddPath:fullPath isDir:[Util isDirectory:fullPath]]) {
 			[_paths addObject:fullPath];
@@ -176,18 +175,18 @@ static NSMutableArray *s_movePaths; //< paths to move
 	scrollPos = CGPointZero;
 	scrollPosSet = NO;
 	_paths = [[NSMutableArray alloc] init];
-	_mode = FileBrowserModeBrowse;
+	_mode = BrowserModeBrowse;
 }
 
 #pragma mark Overridden Getters/Setters
 
 // navigationItem is created on demand and used by the nav controller, whether
 // it's currently set or added later on, so this works
-- (void)setMode:(FileBrowserMode)mode {
+- (void)setMode:(BrowserMode)mode {
 	_mode = mode;
 	NSMutableArray *barButtons = [[NSMutableArray alloc] init];
 	switch(mode) {
-		case FileBrowserModeBrowse:
+		case BrowserModeBrowse:
 			if(self.root.canAddFiles || self.root.canAddDirectories) {
 				[barButtons addObject:[[UIBarButtonItem alloc]
 									   initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
@@ -219,7 +218,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 			self.navigationItem.rightBarButtonItem = [self.root browsingModeRightBarItemForLayer:self];
 			[self setEditing:NO animated:YES];
 			break;
-		case FileBrowserModeEdit:
+		case BrowserModeEdit:
 			if(self.root.showMoveButton) {
 				[barButtons addObject:[[UIBarButtonItem alloc]
 									  initWithTitle:@"Move"
@@ -252,7 +251,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 													  action:@selector(doneButtonPressed)];
 			[self setEditing:YES animated:YES];
 			break;
-		case FileBrowserModeMove:
+		case BrowserModeMove:
 			[barButtons addObject:[[UIBarButtonItem alloc]
 								  initWithTitle:@"New Folder"
 								  style:UIBarButtonItemStylePlain
@@ -311,7 +310,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileBrowserCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserCell" forIndexPath:indexPath];
 	BOOL isDir;
 	NSString *path = [_paths objectAtIndex:indexPath.row];
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
@@ -322,7 +321,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 		[self.root styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
 	}
 	else {
-		DDLogWarn(@"FileBrowser: couldn't customize cell, path doesn't exist: %@", path);
+		DDLogWarn(@"Browser: couldn't customize cell, path doesn't exist: %@", path);
 		[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	}
     return cell;
@@ -334,14 +333,14 @@ static NSMutableArray *s_movePaths; //< paths to move
 		BOOL isDir;
 		if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
 			if(isDir) {
-				DDLogVerbose(@"FileBrowser: now selected dir %@", [path lastPathComponent]);
+				DDLogVerbose(@"Browser: now selected dir %@", [path lastPathComponent]);
 				BOOL pushLayer = YES;
-				if([self.root.delegate respondsToSelector:@selector(fileBrowser:selectedDirectory:)]) {
-					pushLayer = [self.root.delegate fileBrowser:self.root selectedDirectory:path];
+				if([self.root.delegate respondsToSelector:@selector(browser:selectedDirectory:)]) {
+					pushLayer = [self.root.delegate browser:self.root selectedDirectory:path];
 				}
 				if(pushLayer) {
 					// create a new browser table view and push it on the stack
-					FileBrowserLayer *browserLayer = [[FileBrowserLayer alloc] initWithStyle:self.tableView.style];
+					BrowserLayer *browserLayer = [[BrowserLayer alloc] initWithStyle:self.tableView.style];
 					browserLayer.root = self.root;
 					browserLayer.title = self.title;
 					browserLayer.mode = self.mode;
@@ -354,9 +353,9 @@ static NSMutableArray *s_movePaths; //< paths to move
 					[tableView deselectRowAtIndexPath:indexPath animated:NO];
 					return;
 				}
-				DDLogVerbose(@"FileBrowser: selected file %@", [path lastPathComponent]);
-				if([self.root.delegate respondsToSelector:@selector(fileBrowser:selectedFile:)]) {
-					[self.root.delegate fileBrowser:self.root selectedFile:path];
+				DDLogVerbose(@"Browser: selected file %@", [path lastPathComponent]);
+				if([self.root.delegate respondsToSelector:@selector(browser:selectedFile:)]) {
+					[self.root.delegate browser:self.root selectedFile:path];
 				}
 				[tableView deselectRowAtIndexPath:indexPath animated:NO];
 			}
@@ -364,7 +363,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 			scrollPosSet = YES;
 		}
 		else {
-			DDLogError(@"FileBrowser: can't select row in table view, file dosen't exist: %@", path);
+			DDLogError(@"Browser: can't select row in table view, file dosen't exist: %@", path);
 			[tableView deselectRowAtIndexPath:indexPath animated:NO];
 		}
 	}
@@ -400,7 +399,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 #pragma mark Browsing UI
 
 - (void)addButtonPressed {
-	DDLogVerbose(@"FileBrowser: add button pressed");
+	DDLogVerbose(@"Browser: add button pressed");
 	UIActionSheet *sheet = [[UIActionSheet alloc]
 							initWithTitle:nil delegate:nil
 							cancelButtonTitle:@"Cancel"
@@ -429,34 +428,34 @@ static NSMutableArray *s_movePaths; //< paths to move
 }
 
 - (void)chooseFolderButtonPressed {
-	DDLogVerbose(@"FileBrowser: choose folder button pressed");
-	if([self.root.delegate respondsToSelector:@selector(fileBrowser:selectedDirectory:)]) {
-		[self.root.delegate fileBrowser:self.root selectedDirectory:_directory];
+	DDLogVerbose(@"Browser: choose folder button pressed");
+	if([self.root.delegate respondsToSelector:@selector(browser:selectedDirectory:)]) {
+		[self.root.delegate browser:self.root selectedDirectory:_directory];
 	}
 }
 
 - (void)editButtonPressed {
-	DDLogVerbose(@"FileBrowser: edit button pressed");
-	self.mode = FileBrowserModeEdit;
+	DDLogVerbose(@"Browser: edit button pressed");
+	self.mode = BrowserModeEdit;
 }
 
 - (void)cancelButtonPressed {
 	[self dismissViewControllerAnimated:YES completion:^{
-		if([self.root.delegate respondsToSelector:@selector(fileBrowserCancel:)]) {
-			[self.root.delegate fileBrowserCancel:self.root];
+		if([self.root.delegate respondsToSelector:@selector(browserCancel:)]) {
+			[self.root.delegate browserCancel:self.root];
 		}
 	}];
 }
 
 - (void)backButtonPressed {
-	DDLogVerbose(@"FileBrowser: back button pressed");
+	DDLogVerbose(@"Browser: back button pressed");
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark Edit UI
 
 - (void)moveButtonPressed {
-	DDLogVerbose(@"FileBrowser: move button pressed");
+	DDLogVerbose(@"Browser: move button pressed");
 	NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
 	if(indexPaths.count < 1) {
 		return;
@@ -466,28 +465,28 @@ static NSMutableArray *s_movePaths; //< paths to move
 	for(NSIndexPath *indexPath in indexPaths) { // save selected paths
 		[s_movePaths addObject:[_paths objectAtIndex:indexPath.row]];
 	}
-	FileBrowser *browserLayer = [[FileBrowser alloc] initWithStyle:UITableViewStylePlain];
+	Browser *browserLayer = [[Browser alloc] initWithStyle:UITableViewStylePlain];
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
 	browserLayer.title = [NSString stringWithFormat:@"Moving %u item%@", s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
 	browserLayer.directoriesOnly = YES;
-	browserLayer.mode = FileBrowserModeMove;
+	browserLayer.mode = BrowserModeMove;
 	navigationController.toolbarHidden = NO;
 	navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
 	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;//self.navigationController.modalPresentationStyle;
 	navigationController.modalInPopover = YES;
 	[browserLayer loadDirectory:_directory relativeTo:[Util documentsPath]]; // load after nav controller is set
 	[self.navigationController presentViewController:navigationController animated:YES completion:^{
-		self.mode = FileBrowserModeBrowse; // reset now so it's ready when move is done
+		self.mode = BrowserModeBrowse; // reset now so it's ready when move is done
 	}];
 }
 
 - (void)renameButtonPressed {
-	DDLogVerbose(@"FileBrowser: rename button pressed");
+	DDLogVerbose(@"Browser: rename button pressed");
 	NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
 	if(indexPaths.count < 1) {
 		return;
 	}
-	self.mode = FileBrowserModeBrowse;
+	self.mode = BrowserModeBrowse;
 	
 	// rename paths at the selected indices, one by one
 	NSMutableIndexSet *renamedIndices = [[NSMutableIndexSet alloc] init];
@@ -498,12 +497,12 @@ static NSMutableArray *s_movePaths; //< paths to move
 }
 
 - (void)deleteButtonPressed {
-	DDLogVerbose(@"FileBrowser: delete button pressed");
+	DDLogVerbose(@"Browser: delete button pressed");
 	NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
 	if(indexPaths.count < 1) {
 		return;
 	}
-	self.mode = FileBrowserModeBrowse;
+	self.mode = BrowserModeBrowse;
 	
 	// delete paths at the selected indices
 	NSMutableIndexSet *deletedIndices = [[NSMutableIndexSet alloc] init];
@@ -521,23 +520,23 @@ static NSMutableArray *s_movePaths; //< paths to move
 }
 
 - (void)doneButtonPressed {
-	DDLogVerbose(@"FileBrowser: done button pressed");
-	if(self.mode == FileBrowserModeMove) {
+	DDLogVerbose(@"Browser: done button pressed");
+	if(self.mode == BrowserModeMove) {
 		[self dismissViewControllerAnimated:YES completion:nil];
 		return;
 	}
-	self.mode = FileBrowserModeBrowse;
+	self.mode = BrowserModeBrowse;
 }
 
 #pragma mark Move UI
 
 - (void)newFolderButtonPressed {
-	DDLogVerbose(@"FileBrowser: new folder button pressed");
+	DDLogVerbose(@"Browser: new folder button pressed");
 	[self.root showNewDirectoryDialog];
 }
 
 - (void)moveHereButtonPressed {
-	DDLogVerbose(@"FileBrowser: move here button pressed");
+	DDLogVerbose(@"Browser: move here button pressed");
 	if(!s_movePaths || s_movePaths.count < 1) {
 		return;
 	}

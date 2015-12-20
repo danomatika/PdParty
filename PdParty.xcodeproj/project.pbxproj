@@ -51,9 +51,9 @@
 		3054E88918958AFE004F55D6 /* z_hooks.c in Sources */ = {isa = PBXBuildFile; fileRef = 3054E88718958AFE004F55D6 /* z_hooks.c */; };
 		30555CEA1C1FAA6C009F4F9B /* UIActionSheet+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CE61C1FAA6C009F4F9B /* UIActionSheet+Blocks.m */; };
 		30555CEB1C1FAA6C009F4F9B /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CE81C1FAA6C009F4F9B /* UIAlertView+Blocks.m */; };
-		30555CF01C24C242009F4F9B /* FileBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CED1C24C242009F4F9B /* FileBrowser.m */; };
-		30555CF11C24C242009F4F9B /* FileBrowserLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CEF1C24C242009F4F9B /* FileBrowserLayer.m */; };
-		30555CF41C25E18E009F4F9B /* Browser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CF31C25E18E009F4F9B /* Browser.m */; };
+		30555CF01C24C242009F4F9B /* Browser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CED1C24C242009F4F9B /* Browser.m */; };
+		30555CF11C24C242009F4F9B /* BrowserLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CEF1C24C242009F4F9B /* BrowserLayer.m */; };
+		30555CF41C25E18E009F4F9B /* PartyBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CF31C25E18E009F4F9B /* PartyBrowser.m */; };
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
@@ -333,12 +333,12 @@
 		30555CE61C1FAA6C009F4F9B /* UIActionSheet+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Blocks.m"; sourceTree = "<group>"; };
 		30555CE71C1FAA6C009F4F9B /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
 		30555CE81C1FAA6C009F4F9B /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
-		30555CEC1C24C242009F4F9B /* FileBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileBrowser.h; sourceTree = "<group>"; };
-		30555CED1C24C242009F4F9B /* FileBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileBrowser.m; sourceTree = "<group>"; };
-		30555CEE1C24C242009F4F9B /* FileBrowserLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileBrowserLayer.h; sourceTree = "<group>"; };
-		30555CEF1C24C242009F4F9B /* FileBrowserLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileBrowserLayer.m; sourceTree = "<group>"; };
-		30555CF21C25E18D009F4F9B /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
-		30555CF31C25E18E009F4F9B /* Browser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
+		30555CEC1C24C242009F4F9B /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
+		30555CED1C24C242009F4F9B /* Browser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
+		30555CEE1C24C242009F4F9B /* BrowserLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserLayer.h; sourceTree = "<group>"; };
+		30555CEF1C24C242009F4F9B /* BrowserLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserLayer.m; sourceTree = "<group>"; };
+		30555CF21C25E18D009F4F9B /* PartyBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartyBrowser.h; sourceTree = "<group>"; };
+		30555CF31C25E18E009F4F9B /* PartyBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartyBrowser.m; sourceTree = "<group>"; };
 		306204711753C90400DEC1C2 /* RjScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RjScene.h; sourceTree = "<group>"; };
 		306204721753C90400DEC1C2 /* RjScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjScene.m; sourceTree = "<group>"; };
 		306204731753C90400DEC1C2 /* PatchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchScene.h; sourceTree = "<group>"; };
@@ -1348,8 +1348,8 @@
 			isa = PBXGroup;
 			children = (
 				30D60AA6198A8E3A003DFA70 /* browser */,
-				30555CF21C25E18D009F4F9B /* Browser.h */,
-				30555CF31C25E18E009F4F9B /* Browser.m */,
+				30555CF21C25E18D009F4F9B /* PartyBrowser.h */,
+				30555CF31C25E18E009F4F9B /* PartyBrowser.m */,
 				30C9BF6216E8457400E5AA5B /* KeyGrabber.h */,
 				30C9BF6316E8457400E5AA5B /* KeyGrabber.m */,
 				30B01DE917E374800052F26F /* Log.h */,
@@ -1369,10 +1369,10 @@
 			isa = PBXGroup;
 			children = (
 				30555CE31C1FAA6C009F4F9B /* blocks */,
-				30555CEC1C24C242009F4F9B /* FileBrowser.h */,
-				30555CED1C24C242009F4F9B /* FileBrowser.m */,
-				30555CEE1C24C242009F4F9B /* FileBrowserLayer.h */,
-				30555CEF1C24C242009F4F9B /* FileBrowserLayer.m */,
+				30555CEC1C24C242009F4F9B /* Browser.h */,
+				30555CED1C24C242009F4F9B /* Browser.m */,
+				30555CEE1C24C242009F4F9B /* BrowserLayer.h */,
+				30555CEF1C24C242009F4F9B /* BrowserLayer.m */,
 			);
 			path = browser;
 			sourceTree = "<group>";
@@ -1678,7 +1678,7 @@
 				308E061E1AD8611800BD1C79 /* d_arithmetic.c in Sources */,
 				3050821B16E198C900895CB2 /* HTTPDynamicFileResponse.m in Sources */,
 				3050821C16E198C900895CB2 /* HTTPFileResponse.m in Sources */,
-				30555CF41C25E18E009F4F9B /* Browser.m in Sources */,
+				30555CF41C25E18E009F4F9B /* PartyBrowser.m in Sources */,
 				3050821D16E198C900895CB2 /* HTTPRedirectResponse.m in Sources */,
 				3050821E16E198C900895CB2 /* WebSocket.m in Sources */,
 				308E06311AD8611800BD1C79 /* g_array.c in Sources */,
@@ -1729,7 +1729,7 @@
 				30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */,
 				30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */,
 				30C77BC216F1BEAC00988EB9 /* OSCDispatcher.m in Sources */,
-				30555CF01C24C242009F4F9B /* FileBrowser.m in Sources */,
+				30555CF01C24C242009F4F9B /* Browser.m in Sources */,
 				308E06641AD8611800BD1C79 /* x_time.c in Sources */,
 				30C77BC316F1BEAC00988EB9 /* OSCPacket.m in Sources */,
 				30C77BE216F1C50000988EB9 /* RegexKitLite.m in Sources */,
@@ -1777,7 +1777,7 @@
 				308E06341AD8611800BD1C79 /* g_editor.c in Sources */,
 				303BD30F17590275000FBEB5 /* RjImage.m in Sources */,
 				303BD31017590275000FBEB5 /* RjText.m in Sources */,
-				30555CF11C24C242009F4F9B /* FileBrowserLayer.m in Sources */,
+				30555CF11C24C242009F4F9B /* BrowserLayer.m in Sources */,
 				308E061F1AD8611800BD1C79 /* d_array.c in Sources */,
 				308E06951AD8614A00BD1C79 /* pdsched.c in Sources */,
 				308E06421AD8611800BD1C79 /* g_traversal.c in Sources */,

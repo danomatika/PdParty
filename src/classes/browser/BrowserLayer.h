@@ -10,25 +10,25 @@
  */
 #import <UIKit/UIKit.h>
 
-@class FileBrowser;
+@class Browser;
 
-/// file browser modes
+/// browser modes
 typedef enum {
-	FileBrowserModeBrowse,
-	FileBrowserModeEdit,
-	FileBrowserModeMove
-} FileBrowserMode;
+	BrowserModeBrowse,
+	BrowserModeEdit,
+	BrowserModeMove
+} BrowserMode;
 
 /// single drill-down file browser layer with basic editing functions: move,
 /// rename, & delete
 ///
 /// note: clears paths & table cells when going out of view to save memory
 ///
-/// do not use directly, use FileBrowser instead
-@interface FileBrowserLayer : UITableViewController
+/// do not use directly, use Browser instead
+@interface BrowserLayer : UITableViewController
 
-/// current browser mode (default: FileBrowserModeBrowse)
-@property (assign, nonatomic) FileBrowserMode mode;
+/// current browser mode (default: BrowserModeBrowse)
+@property (assign, nonatomic) BrowserMode mode;
 
 /// current top layer directory path (default: Documents)
 @property (readonly, nonatomic) NSString *directory;
@@ -40,7 +40,7 @@ typedef enum {
 @property (copy, nonatomic) NSString *title;
 
 // root browser layer or self if a single layer, this must be set to a valid object
-@property (nonatomic) FileBrowser *root;
+@property (nonatomic) Browser *root;
 
 #pragma mark Location
 

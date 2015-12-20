@@ -80,18 +80,18 @@
 
 #pragma mark Browser
 
-- (UIBarButtonItem *)browsingModeRightBarItemForLayer:(FileBrowserLayer *)layer {
+- (UIBarButtonItem *)browsingModeRightBarItemForLayer:(BrowserLayer *)layer {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	return [app nowPlayingButton];
 }
 
-#pragma mark FileBrowserDelegate
+#pragma mark BrowserDelegate
 
-- (void)fileBrowser:(FileBrowser *)browser selectedFile:(NSString *)path {
+- (void)browser:(Browser *)browser selectedFile:(NSString *)path {
 	[self selectFile:path];
 }
 
-- (BOOL)fileBrowser:(FileBrowser *)browser selectedDirectory:(NSString *)path {
+- (BOOL)browser:(Browser *)browser selectedDirectory:(NSString *)path {
 	return ![self selectDirectory:path];
 }
 

@@ -153,14 +153,14 @@
 	return NO;
 }
 
-#pragma mark FileBrowserDelegate
+#pragma mark BrowserDelegate
 
-- (void)fileBrowser:(FileBrowser *)browser selectedFile:(NSString *)file {
+- (void)browser:(Browser *)browser selectedFile:(NSString *)file {
 	[self sendSymbol:file];
 	[browser dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)fileBrowser:(FileBrowser *)browser createdFile:(NSString *)path {
+- (void)browser:(Browser *)browser createdFile:(NSString *)path {
 	[self sendSymbol:path];
 	[browser dismissViewControllerAnimated:YES completion:nil];
 }

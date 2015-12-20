@@ -12,40 +12,40 @@
  *   - http://stackoverflow.com/questions/8683141/drill-down-tableview-in-storyboards
  *   - http://stackoverflow.com/questions/8848857/how-do-i-change-initwithnibname-in-storyboard
  */
-#import "FileBrowserLayer.h"
+#import "BrowserLayer.h"
 
-@class FileBrowser;
+@class Browser;
 
 /// file browser event delegate
-@protocol FileBrowserDelegate <NSObject>
+@protocol BrowserDelegate <NSObject>
 
 /// full file path selected
-- (void)fileBrowser:(FileBrowser *)browser selectedFile:(NSString *)path;
+- (void)browser:(Browser *)browser selectedFile:(NSString *)path;
 
 @optional
 
 /// full directory path selected, return YES to push new layer or NO if handling
 /// path manually
-- (BOOL)fileBrowser:(FileBrowser *)browser selectedDirectory:(NSString *)path;
+- (BOOL)browser:(Browser *)browser selectedDirectory:(NSString *)path;
 
 /// the browser has been canceled and just disappeared
-- (void)fileBrowserCancel:(FileBrowser *)browser;
+- (void)browserCancel:(Browser *)browser;
 
 /// file path has been created
-- (void)fileBrowser:(FileBrowser *)browser createdFile:(NSString *)path;
+- (void)browser:(Browser *)browser createdFile:(NSString *)path;
 
 /// directory path has been created
-- (void)fileBrowser:(FileBrowser *)browser createdDirectory:(NSString *)path;
+- (void)browser:(Browser *)browser createdDirectory:(NSString *)path;
 
 @end
 
 /// drill-down file browser with basic editing functions: move, rename, & delete
-/// pushes multiple layer onto a nav controller automatically
-@interface FileBrowser : FileBrowserLayer
+/// pushes multiple layers onto a nav controller automatically
+@interface Browser : BrowserLayer
 
 /// receive selection events
 /// this value is shared by the root layer to all pushed layers
-@property (assign, nonatomic) id<FileBrowserDelegate> delegate;
+@property (assign, nonatomic) id<BrowserDelegate> delegate;
 
 /// required file extensions (w/out period), leave nil to allow all (default: nil)
 /// if only 1 file extension is set, automatically appends extension in new file
@@ -140,7 +140,7 @@
 
 /// creates the Cancel button in browse mode, override to provide a custom button
 /// uses target:layer action:@selector(cancelButtonPressed)
-- (UIBarButtonItem *)browsingModeRightBarItemForLayer:(FileBrowserLayer *)layer;
+- (UIBarButtonItem *)browsingModeRightBarItemForLayer:(BrowserLayer *)layer;
 
 /// used to determine whether to add a path to the browser, override to filter out
 /// unwanted path names or types

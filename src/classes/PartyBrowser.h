@@ -8,10 +8,10 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "FileBrowser.h"
+#import "Browser.h"
 
 /// drill-down file browser with icons for pd party types
-@interface Browser : FileBrowser
+@interface PartyBrowser : Browser
 
 #pragma mark Utils
 
