@@ -1,4 +1,4 @@
-#N canvas 729 40 480 266 10;
+#N canvas 727 48 480 266 10;
 #X obj 341 79 loadsave store;
 #X obj 21 17 bng 32 250 50 0 doload empty load 0 -5 0 10 -262144 -1
 -1;
@@ -18,6 +18,8 @@
 #X obj 331 157 r store-save;
 #X msg 331 177 write \$1;
 #X msg 148 176 read \$1 \, rewind \, bang;
+#X obj 253 240 print;
+#X obj 253 218 r store-load-detail;
 #X connect 3 0 9 0;
 #X connect 4 0 10 0;
 #X connect 6 0 8 0;
@@ -27,3 +29,4 @@
 #X connect 13 0 14 0;
 #X connect 14 0 6 0;
 #X connect 15 0 6 0;
+#X connect 17 0 16 0;
