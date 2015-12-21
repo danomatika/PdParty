@@ -472,7 +472,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	browserLayer.mode = BrowserModeMove;
 	navigationController.toolbarHidden = NO;
 	navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
-	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;//self.navigationController.modalPresentationStyle;
+	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
 	navigationController.modalInPopover = YES;
 	[browserLayer loadDirectory:_directory relativeTo:[Util documentsPath]]; // load after nav controller is set
 	[self.navigationController presentViewController:navigationController animated:YES completion:^{

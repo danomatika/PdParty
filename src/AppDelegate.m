@@ -20,7 +20,9 @@
 #import "PatchViewController.h"
 #import "BrowserViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () {
+	UINavigationController *webViewNav; // current URL web view navigation controller
+}
 
 // recursively copy a given folder in the resource patches dir to the
 // Documents folder, removes/overwrites any currently existing dirs
@@ -273,6 +275,53 @@
 			DDLogError(@"AppDelegate: can't push now playing, rootViewController is not a UINavigationController");
 		}
 	}
+}
+
+#pragma mark URL
+
+- (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title {
+	if(!url.scheme) { // assume relative file path if no http:, file:, etc
+		if(!self.sceneManager.scene) {
+			DDLogError(@"AppDelegate: can't open relative path url without scene: %@", url.path);
+			return;
+		}
+		url = [NSURL fileURLWithPath:[self.sceneManager.currentPath stringByAppendingPathComponent:url.path]];
+	}
+	UIWebView *webView = [[UIWebView alloc] init];
+	if([url isFileURL]) {
+		NSError *error;
+		if(![url checkResourceIsReachableAndReturnError:&error]) {
+			UIAlertView *alert = [[UIAlertView alloc]
+								  initWithTitle:@"Couldn't launch URL"
+								  message:error.localizedDescription
+								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+			[alert show];
+			return;
+		}
+		NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
+		[webView loadHTMLString:html baseURL:nil];
+	}
+	else { // external url
+		[webView loadRequest:[NSURLRequest requestWithURL:url]];
+	}
+	UIViewController *controller = [[UIViewController alloc] init];
+	controller.view = webView;
+	controller.title = (title ? title : @"URL");
+	controller.modalPresentationStyle = UIModalPresentationPageSheet;
+	controller.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+													  initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+													  target:self
+													  action:@selector(doneButtonPressed:)];
+	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+	nav.navigationBar.barStyle = UIBarStyleBlack;
+	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+	[root presentViewController:nav animated:YES completion:nil];
+	webViewNav = nav;
+}
+
+- (void)doneButtonPressed:(id)sender {
+	[webViewNav dismissViewControllerAnimated:YES completion:nil];
+	webViewNav = nil;
 }
 
 #pragma mark Util

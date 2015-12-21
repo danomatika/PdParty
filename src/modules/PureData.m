@@ -10,6 +10,7 @@
  */
 #import "PureData.h"
 
+#import "AppDelegate.h"
 #import "Log.h"
 #import "Midi.h"
 #import "Osc.h"
@@ -348,6 +349,16 @@
 					[self.recordDelegate remoteRecordingFinished];
 				}
 			}
+		}
+		else if([message isEqualToString:@"openurl"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+			AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+			NSURL *url = [NSURL URLWithString:[arguments objectAtIndex:0]];
+			NSString *title = nil;
+			if([arguments count] > 1) { // build title
+				NSArray *array = [arguments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, arguments.count-1)]];
+				title = [array componentsJoinedByString:@" "];
+			}
+			[app launchWebViewForURL:url withTitle:title];
 		}
 	}
 	else {

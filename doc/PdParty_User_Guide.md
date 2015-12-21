@@ -285,12 +285,11 @@ Running a regular .pd patch (a Patch scene) is the same as running a PdParty sce
 
 PdParty is built using libpd and can be compared to Pd-vanilla with the following externals:
 
-* **mrpeach**: [midifile], [udpsend], [udpreceive], [routeOSC], [packOSC], [unpackOSC], [pipelist]
 * **ggee**: [getdir], [moog~], [stripdir]
 
 It's highly recommended that you use a vanilla-based abstraction library like [rjlib](https://github.com/rjdj/rjlib) for expanded functionality.
 
-When patching for PdParty (as with RjDj & PdDroidParty), it is recommended to disable all external libraries except for mrpeach & ggee if you are using pd-extended. This should help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
+When patching for PdParty (as with RjDj & PdDroidParty), it is recommended to disable all external libraries except for ggee if you are using pd-extended. This should help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
 
 #### [expr], [expr~], & [fexpr~]
 
@@ -412,6 +411,19 @@ You can manually trigger recording via sending messages to the internal #pdparty
   
 _Note: Recording will only work if you are using the rjlib [soundoutput] patch instead of [dac~]._
 
+#### Opening a URL
+
+You can launch a web view with a given url via sending a message to #pdparty:
+
+* **#pdparty openurl _url title1 title2 ..._**
+
+_url_ can be either:
+
+* a full URL path: "http://google.com"
+* a relative local file path: "local.html" or "../html/index.html"
+
+_title_ is an open ended list of arguments that will be appended together and used as the navigation bar title, "URL" is used by default when there are no title arguments
+
 #### OSC
 
 PdParty sends and receives OSC messages internally between the PureData instance and the OSC server:
@@ -456,10 +468,7 @@ TODOs
 * icons and all that jazz
 * full screen / nav bar hiding
 * paging and/or TouchOSC style page buttons
-* add RjDj metadata support (plist, etc)
-* WebDAV is slow when transferring lots of files. zip transfers should be supported …
 * Allow alternate styling for gui elements (i.e. TouchOSC)
-* add support for more advanced PdDroidParty objects [loadsave], [menubang], etc
 
 Happy Patching!
 ===============

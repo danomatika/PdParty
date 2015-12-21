@@ -45,6 +45,11 @@
 /// push patch view on sender.navigationController on iPhone, ignored on iPad
 - (void)nowPlayingPressed:(id)sender;
 
+#pragma mark URL
+
+// launch web view for a url, uses app scene folder for relative path
+- (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title;
+
 #pragma mark Util
 
 // recursively copy dirs and patches in the resource patches dir to the
