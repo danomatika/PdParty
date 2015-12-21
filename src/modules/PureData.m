@@ -350,6 +350,8 @@
 				}
 			}
 		}
+		
+		// open a url
 		else if([message isEqualToString:@"openurl"] && [arguments count] > 0 && [arguments isStringAt:0]) {
 			AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 			NSURL *url = [NSURL URLWithString:[arguments objectAtIndex:0]];
@@ -359,6 +361,13 @@
 				title = [array componentsJoinedByString:@" "];
 			}
 			[app launchWebViewForURL:url withTitle:title];
+		}
+		
+		// vibrate on iPhone
+		else if([message isEqualToString:@"vibrate"]) {
+			if(![Util isDeviceRunningInSimulator]) {
+				AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+			}
 		}
 	}
 	else {

@@ -424,6 +424,14 @@ _url_ can be either:
 
 _title_ is an open ended list of arguments that will be appended together and used as the navigation bar title, "URL" is used by default when there are no title arguments
 
+#### Triggering a Vibration on iPhone
+
+A vibration "tone" cn be triggered by sending the following message to #pdparty:
+
+* **#pdparty vibrate**
+
+_Note: only applicable to iPhone, ignored on iPad & in the Xcode simulator_
+
 #### OSC
 
 PdParty sends and receives OSC messages internally between the PureData instance and the OSC server:
