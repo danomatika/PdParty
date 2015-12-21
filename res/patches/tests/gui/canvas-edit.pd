@@ -1,6 +1,5 @@
 #N canvas 600 191 276 265 10;
 #X obj 147 143 r #osc-in;
-#X obj 147 198 routeOSC /edit;
 #X text 31 84 run tests/edit-osc &;
 #X obj 170 171 print #osc-in;
 #X obj 33 164 r \$0-gui-out;
@@ -9,7 +8,8 @@
 #X obj 52 12 cnv 15 100 60 \$0-gui-out \$0-gui-in a_canvas 20 12 0
 14 -233017 -66577 0;
 #X text 31 100 use the edit subpatch in canvas-help;
-#X connect 0 0 1 0;
-#X connect 0 0 3 0;
-#X connect 1 0 6 0;
-#X connect 4 0 5 0;
+#X obj 147 198 route edit;
+#X connect 0 0 2 0;
+#X connect 0 0 8 0;
+#X connect 3 0 4 0;
+#X connect 8 0 5 0;

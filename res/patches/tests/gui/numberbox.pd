@@ -1,10 +1,10 @@
-#N canvas 576 102 197 222 10;
-#X floatatom 43 84 5 0 0 0 nbox2 nbox2-in -;
-#X floatatom 106 85 5 0 0 1 nbox4 nbox4-in nbox4-out;
-#X floatatom 73 116 5 0 0 3 nbox3 nbox3-in -;
-#X floatatom 57 52 10 0 0 2 nbox1 nbox1-in nbox1-out;
+#N canvas 578 312 197 222 10;
+#X floatatom 43 84 5 0 0 0 nbox2 nbox2-in -, f 5;
+#X floatatom 106 85 5 0 0 1 nbox4 nbox4-in nbox4-out, f 5;
+#X floatatom 73 116 5 0 0 3 nbox3 nbox3-in -, f 5;
+#X floatatom 57 52 10 0 0 2 nbox1 nbox1-in nbox1-out, f 10;
 #X obj 13 8 tgl 15 0 changenum empty change_nbox1 17 0 0 10 -262144
--1 -1 0 1;
+-1 -1 1 1;
 #N canvas 620 372 594 225 guts 0;
 #X obj 283 37 loadbang;
 #X obj 282 137 r nbox1-out;
@@ -44,7 +44,8 @@
 #X connect 16 1 11 0;
 #X connect 17 0 16 0;
 #X connect 18 0 13 0;
-#X restore 69 180 pd guts;
-#X obj 113 116 tgl 15 0 big empty big 17 7 0 10 -262144 -1 -1 1 1;
+#X restore 134 13 pd guts;
+#X obj 113 116 tgl 15 0 big empty big 17 7 0 10 -262144 -1 -1 0 1;
 #X obj 113 131 tgl 15 0 small empty small 17 7 0 10 -262144 -1 -1 0
 1;
+#X floatatom 62 177 0 0 0 2 zero_width nbox1-in -;

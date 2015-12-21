@@ -4,12 +4,12 @@
 #X obj 23 154 r \$0-hsl-out;
 #X obj 137 217 s \$0-hsl-in;
 #X obj 137 133 r #osc-in;
-#X obj 137 188 routeOSC /edit;
 #X text 21 90 use the edit subpatch in slider-help;
 #X text 21 74 run tests/edit-osc &;
 #X obj 160 161 print #osc-in;
 #X obj 23 183 print hsl-out;
-#X connect 1 0 8 0;
-#X connect 3 0 4 0;
-#X connect 3 0 7 0;
-#X connect 4 0 2 0;
+#X obj 137 188 route edit;
+#X connect 1 0 7 0;
+#X connect 3 0 6 0;
+#X connect 3 0 8 0;
+#X connect 8 0 2 0;

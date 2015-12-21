@@ -1,4 +1,4 @@
-#N canvas 256 114 595 378 10;
+#N canvas 479 50 595 378 10;
 #X msg 419 282 disconnect;
 #X obj 288 171 key;
 #X obj 288 197 spigot;
@@ -6,7 +6,7 @@
 -1 0 1;
 #X obj 420 196 r \$0-vsl-out;
 #X obj 400 27 vsl 15 128 0 127 0 0 \$0-vsl-out \$0-vsl-in sends_to_PdParty
-0 -9 0 10 -262144 -1 -1 1500 1;
+0 -9 0 10 -262144 -1 -1 0 1;
 #X obj 68 279 s \$0-bang-in;
 #X obj 459 84 bng 15 250 50 0 \$0-bang-out \$0-bang-in recvs_from_PdParty
 17 7 0 10 -262144 -1 -1;
@@ -19,8 +19,8 @@ on your device \, and hit the bang;
 #X text 10 93 the bang receives from the test running on PdParty &
 the slider sends from here to the slider on PdParty;
 #X obj 121 142 tgl 15 0 empty empty print_all_messages 17 7 0 10 -262144
--1 -1 1 1;
-#X obj 16 141 tgl 15 0 empty empty listen 17 7 0 10 -262144 -1 -1 1
+-1 -1 0 1;
+#X obj 16 141 tgl 15 0 empty empty listen 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 16 249 route pdparty bang;
 #X obj 16 311 route print;
@@ -40,7 +40,7 @@ the slider sends from here to the slider on PdParty;
 #X connect 5 0 1 0;
 #X restore 288 316 pd oscsend;
 #X obj 288 342 tgl 15 0 empty empty connected 17 7 0 10 -262144 -1
--1 1 1;
+-1 0 1;
 #N canvas 0 23 417 316 oscreceive 0;
 #X obj 110 133 oscparse;
 #X obj 110 162 list trim;

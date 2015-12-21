@@ -1,5 +1,5 @@
 #N canvas 729 201 166 195 10;
-#X symbolatom 32 34 10 0 0 1 sym1 sym1-in sym1-out;
+#X symbolatom 32 34 10 0 0 1 sym1 sym1-in sym1-out, f 10;
 #X obj 33 66 tgl 15 0 sym1-change empty sym1_change 17 7 0 10 -262144
 -1 -1 0 1;
 #N canvas 413 345 335 205 guts 0;
@@ -18,5 +18,6 @@
 #X connect 3 0 0 0;
 #X connect 4 0 5 0;
 #X connect 6 0 7 0;
-#X restore 45 102 pd guts;
-#X symbolatom 31 143 15 0 0 0 sym2 sym2-in -;
+#X restore 6 8 pd guts;
+#X symbolatom 33 116 15 0 0 0 sym2 sym2-in -, f 15;
+#X symbolatom 35 164 0 0 0 2 zero-width sym1-in -;

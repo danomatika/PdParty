@@ -2,14 +2,14 @@
 #X obj 49 39 bng 15 250 50 0 \$0-gui-out \$0-gui-in a_bang 17 7 0 10
 -262144 -1 -1;
 #X obj 147 143 r #osc-in;
-#X obj 147 198 routeOSC /edit;
 #X text 31 84 run tests/edit-osc &;
 #X obj 170 171 print #osc-in;
 #X obj 33 164 r \$0-gui-out;
 #X obj 33 193 print gui-out;
 #X obj 147 227 s \$0-gui-in;
 #X text 31 100 use the edit subpatch in bang-help;
-#X connect 1 0 2 0;
-#X connect 1 0 4 0;
-#X connect 2 0 7 0;
-#X connect 5 0 6 0;
+#X obj 147 198 route edit;
+#X connect 1 0 3 0;
+#X connect 1 0 8 0;
+#X connect 4 0 5 0;
+#X connect 8 0 6 0;

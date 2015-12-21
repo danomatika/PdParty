@@ -1,6 +1,6 @@
-#N canvas 291 24 315 442 10;
-#X floatatom 45 16 5 0 0 0 number number-in number-out;
-#X symbolatom 45 46 10 0 0 0 symbol symbol-out -;
+#N canvas 291 24 278 447 10;
+#X floatatom 45 16 5 0 0 0 number number-in number-out, f 5;
+#X symbolatom 45 46 10 0 0 0 symbol symbol-out -, f 10;
 #X text 42 84 comment;
 #X obj 190 16 bng 15 250 50 0 bang-in empty bang 17 7 0 10 -262144
 -1 -1;
