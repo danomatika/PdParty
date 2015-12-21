@@ -41,6 +41,7 @@
 	
 	t.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:9]];	
 	t.originalLabelPos = CGPointMake([[line objectAtIndex:10] floatValue], [[line objectAtIndex:11] floatValue]);
+	t.labelFontStyle = [[line objectAtIndex:12] intValue];
 	t.labelFontSize = [[line objectAtIndex:13] floatValue];
 	
 	t.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:14] intValue]];

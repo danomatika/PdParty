@@ -45,6 +45,7 @@
 	
 	r.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
 	r.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
+	r.labelFontStyle = [[line objectAtIndex:14] intValue];
 	r.labelFontSize = [[line objectAtIndex:15] floatValue];
 	
 	r.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
@@ -111,7 +112,7 @@
 
 - (void)reshapeForGui:(Gui *)gui {
 	
-	float cellSize = round(self.size * gui.scaleX);
+	float cellSize = ceil(self.size * gui.scaleX);
 	
 	// bounds
 	if(self.orientation == WidgetOrientationHorizontal) {
@@ -144,15 +145,9 @@
 }
 
 - (void)setNumCells:(int)numCells {
-	if(numCells < 1) {
-		numCells = 1;
-	}
-	if(numCells > IEM_RADIO_MAX) {
-		numCells = IEM_RADIO_MAX;
-	}
-	_numCells = numCells;
-	self.maxValue = numCells - 1;
-	if(numCells - 1 < self.value) {
+	_numCells = CLAMP(numCells, 1, IEM_RADIO_MAX);
+	self.maxValue = _numCells - 1;
+	if(self.maxValue < self.value) {
 		self.value = self.maxValue;
 	}
 }

@@ -63,6 +63,7 @@
 		self.numForcedLineBreaks = 0;
 		self.label.numberOfLines = 0;
 		self.label.lineBreakMode = NSLineBreakByWordWrapping;
+		self.userInteractionEnabled = NO; // not interactive, so don't accept touch events
 	}
     return self;
 }

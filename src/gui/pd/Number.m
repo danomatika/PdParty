@@ -48,7 +48,9 @@
 		
 	n.labelPos = [[line objectAtIndex:7] integerValue];
 	n.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-
+	
+	n.gui = gui;
+	
 	return n;
 }
 
@@ -68,13 +70,13 @@
 	if(self.minValue != 0 || self.maxValue != 0) {
 		value = CLAMP(value, self.minValue, self.maxValue);
 	}
-	self.valueLabel.text = [Widget stringFromFloat:value withWidth:self.valueWidth];
+	self.valueLabel.text = [Widget stringFromFloat:value withWidth:(self.valueWidth > 0 ? self.valueWidth : INT_MAX)];
 	[super setValue:value];
 }
 
 - (void)setValueWidth:(int)valueWidth {
+	self.valueLabel.text = [Widget stringFromFloat:self.value withWidth:(valueWidth > 0 ? valueWidth : INT_MAX)];
 	[super setValueWidth:valueWidth];
-	self.valueLabel.text = [Widget stringFromFloat:self.value withWidth:self.valueWidth];
 }
 
 - (NSString *)type {

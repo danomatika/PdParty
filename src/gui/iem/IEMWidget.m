@@ -19,6 +19,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
+		self.labelFontStyle = 0;
 		self.labelFontSize = 10;
     }
     return self;
@@ -34,7 +35,7 @@
 }
 
 - (void)reshapeLabelForGui:(Gui *)gui {
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:self.labelFontSize * gui.scaleX];
+	self.label.font = [UIFont fontWithName:[IEMWidget fontNameFromStyle:self.labelFontStyle] size:self.labelFontSize * gui.scaleX];
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
 		round(self.originalLabelPos.x * gui.scaleX),
@@ -44,6 +45,10 @@
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (void)setLabelFontStyle:(int)labelFontStyle {
+	_labelFontStyle = CLAMP(labelFontStyle, 0, 2); // only 3 styles
+}
 
 - (void)setLabelFontSize:(int)labelFontSize {
 	_labelFontSize = MAX(labelFontSize, IEM_FONT_MINSIZE); // clamp to min of 4
@@ -116,8 +121,8 @@
 	}
 	else if([message isEqualToString:@"label_font"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
-		// font id (ignored since there's only 1 font), font size
-		self.labelFontSize = MAX([[arguments objectAtIndex:1] floatValue], 4);
+		self.labelFontStyle = [[arguments objectAtIndex:0] intValue];
+		self.labelFontSize = [[arguments objectAtIndex:1] floatValue];
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
 		return YES;
@@ -138,6 +143,17 @@
 }
 
 #pragma mark Util
+
++ (NSString *)fontNameFromStyle:(int)iemFont {
+	switch(iemFont) {
+		case 1:
+			return @"Helvetica";
+		case 2:
+			return @"Times";
+		default: // 0
+			return GUI_FONT_NAME;
+	}
+}
 
 + (UIColor *)colorFromIEMColor:(int)iemColor {
 	int r, g, b;

@@ -54,6 +54,7 @@
 	
 	n.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
 	n.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
+	n.labelFontStyle = [[line objectAtIndex:16] intValue];
 	n.labelFontSize = [[line objectAtIndex:17] floatValue];
 	
 	n.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
@@ -131,9 +132,11 @@
 - (void)reshapeForGui:(Gui *)gui {
 	
 	// value label
-	self.valueLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
+	self.valueLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:self.labelFontSize * gui.scaleX];
 	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
-	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
+	self.valueLabel.preferredMaxLayoutWidth =
+		(charSize.width * self.valueWidth) +
+		((CGRectGetHeight(self.originalFrame) / 2) + 4) * self.gui.scaleX;
 	[self.valueLabel sizeToFit];
 	CGRect valueLabelFrame = self.valueLabel.frame;
 	if(valueLabelFrame.size.width < self.valueLabel.preferredMaxLayoutWidth) {
@@ -142,18 +145,17 @@
 	}
 	valueLabelFrame.origin = CGPointMake(
 		round((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * gui.scaleX),
-		round((CGRectGetHeight(self.originalFrame) * 0.5 * gui.scaleX) -
+		round(((CGRectGetHeight(self.originalFrame) * 0.5 + 0.5) * gui.scaleX) -
 			  CGRectGetHeight(self.valueLabel.frame) * 0.5));
 	self.valueLabel.frame = valueLabelFrame;
 	
 	// width from value label
-	self.frame = CGRectMake(
+	CGRect frame = CGRectMake(
 		round(self.originalFrame.origin.x * gui.scaleX),
 		round(self.originalFrame.origin.y * gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) +
-			 (CGRectGetHeight(self.valueLabel.frame) * 0.5) +
-			 (charSize.width * 3) + (gui.scaleX)), // space out right edge
+		round(CGRectGetWidth(self.valueLabel.frame) + self.valueLabel.frame.origin.x + (4 * gui.scaleX)),
 		round(CGRectGetHeight(self.originalFrame) * gui.scaleX));
+	self.frame = frame;
 	cornerSize = 4 * gui.scaleX;
 
 	// label
@@ -161,7 +163,7 @@
 }
 
 - (void)sendInitValue {
-	// dosen't appear to actually send on init in pd
+	// doesn't appear to actually send on init in pd
 }
 
 #pragma mark Overridden Getters / Setters
@@ -173,33 +175,21 @@
 	self.valueLabel.text = [Widget stringFromFloat:value withWidth:self.valueWidth];
 	
 	// set red interaction color?
-	if(isControlColorBlack) {
-		if(touchPrevY > 0) { // assume first interaction is not at 0 (where fat fingers can't go)
-			self.valueLabel.textColor = [UIColor redColor];
-			isValueLabelRed = YES;
-		}
-	}
-	else {
-		self.valueLabel.textColor = self.controlColor;
+	if(touchPrevY > 0) { // assume first interaction is not at 0 (where fat fingers can't go)
+		self.valueLabel.textColor = [UIColor redColor];
+		isValueLabelRed = YES;
 	}
 	[super setValue:value];
 }
 
 - (void)setValueWidth:(int)valueWidth {
-	_valueWidth = valueWidth;
-	self.valueLabel.text = [Widget stringFromFloat:self.value withWidth:self.valueWidth];
+	_valueWidth = MAX(valueWidth, 1);
 }
 
 - (void)setControlColor:(UIColor *)controlColor {
-	CGFloat r, g, b, a;
-	[controlColor getRed:&r green:&g blue:&b alpha:&a];
-	if(r == 0.0  && g == 0.0 && b == 0.0 && a == 1.0) {
-		isControlColorBlack = YES;
-	}
-	else {
-		isControlColorBlack = NO;
-	}
 	[super setControlColor:controlColor];
+	self.valueLabel.textColor = self.controlColor;
+	isValueLabelRed = NO;
 }
 
 - (void)setLog:(BOOL)log {
@@ -246,14 +236,11 @@
     CGPoint pos = [touch locationInView:self];
 	int diff = touchPrevY - pos.y;
 	if(diff != 0) {
-	
 		double k2 = 1.0;
 		double v = self.value;
-	
 		if(!isOneFinger) {
 			k2 = 0.01;
 		}
-    
 		if(self.log) {
 			v *= pow(convFactor, -k2 * diff);
 		}
@@ -314,7 +301,7 @@
 
 	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// value width in chars, height
-		self.valueWidth = MAX([[arguments objectAtIndex:0] integerValue], 1);
+		self.valueWidth = [[arguments objectAtIndex:0] integerValue];
 		if([arguments count] > 1 && [arguments isNumberAt:1]) {
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
@@ -351,7 +338,6 @@
 
 // from g_numbox.c
 - (void)checkMinAndMax {
-
     if(self.log) {
         if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
             self.maxValue = 1.0;

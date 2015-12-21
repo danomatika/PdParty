@@ -35,6 +35,7 @@
 	
 	c.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	c.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
+	c.labelFontStyle = [[line objectAtIndex:13] intValue];
 	c.labelFontSize = [[line objectAtIndex:14] floatValue];
 	
 	c.backgroundColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] intValue]];
@@ -60,7 +61,7 @@
 		round(self.originalFrame.origin.x * gui.scaleX),
 		round(self.originalFrame.origin.y * gui.scaleY),
 		round(self.originalFrame.size.width * gui.scaleX),
-		round(self.originalFrame.size.height * gui.scaleY));
+		round(self.originalFrame.size.height * gui.scaleX));
 
 	// label
 	[self reshapeLabelForGui:gui];

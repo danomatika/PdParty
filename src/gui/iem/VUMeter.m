@@ -52,6 +52,7 @@
 	
 	v.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	v.originalLabelPos = CGPointMake([[line objectAtIndex:9] floatValue], [[line objectAtIndex:10] floatValue]);
+	v.labelFontStyle = [[line objectAtIndex:11] intValue];
 	v.labelFontSize = [[line objectAtIndex:12] floatValue];
 
 	v.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:13] integerValue]];
@@ -83,15 +84,14 @@
 - (void)drawRect:(CGRect)rect {
 
 	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospace font
-	int yOffset = (charSize.height / 2);
+	int yOffset = charSize.height / 2;
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	CGContextSetLineWidth(context, 1.0);
 		
 	CGRect meterRect = CGRectMake(
-		0,//floor(-1 * self.gui.scaleX),
-		floor((-2 * self.gui.scaleX) + yOffset),
+		0, floor((-2 * self.gui.scaleX) + yOffset),
 		round((CGRectGetWidth(self.originalFrame)) * self.gui.scaleX),
 		round((CGRectGetHeight(self.originalFrame) + 4) * self.gui.scaleX));
 	
@@ -105,39 +105,41 @@
 	
 	// from g_vumeter.c
     int w4 = CGRectGetWidth(self.originalFrame) / 4,
-        quad1 = w4;
-    int quad3 = CGRectGetWidth(self.originalFrame) - w4,
-        end = CGRectGetWidth(self.originalFrame) + 2;
+        quad1 = ceil(w4 * self.gui.scaleX);
+    int quad3 = floor((CGRectGetWidth(self.originalFrame) - w4) * self.gui.scaleX),
+        end = floor((CGRectGetWidth(self.originalFrame) + 2) * self.gui.scaleX);
     int k1 = ledSize + 1, k2 = IEM_VU_STEPS + 1, k3 = k1 / 2;
     int yyy, i, k4 = -k3;
-
-    for(i = 1; i <= IEM_VU_STEPS; ++i) {
-        yyy = k4 + k1 * (k2 - i);
+	
+	// fat line for overlap since spacing between is not pixel perfect when scaling
+	CGContextSetLineWidth(context, ceil((ledSize + 1.25) * self.gui.scaleX));
+	
+	for(i = 1; i <= IEM_VU_STEPS; ++i) {
+        yyy = round((k4 + k1 * (k2 - i) + yOffset - 2) * self.gui.scaleX);
 		
 		// led bar
 		if(i == peakLed || i <= rmsLed) {
 			UIColor *ledColor = [IEMWidget colorFromIEMColor:iemgui_vu_col[i]];
-			CGContextSetLineWidth(context, floor(ledSize * self.gui.scaleX));
 			CGContextSetStrokeColorWithColor(context, ledColor.CGColor);
 			if(i == peakLed) {
-				CGContextMoveToPoint(context, floor(1 * self.gui.scaleX), round(yyy * self.gui.scaleX) + yOffset);
+				CGContextMoveToPoint(context, 0, yyy);
 				CGContextAddLineToPoint(context,
-					round((CGRectGetWidth(self.originalFrame) - 1) * self.gui.scaleX),
-					round((yyy * self.gui.scaleX)  + yOffset));
+					round((CGRectGetWidth(self.originalFrame) * self.gui.scaleX)),
+					yyy);
 			}
 			else {
-				CGContextMoveToPoint(context, floor(quad1 * self.gui.scaleX), round((yyy * self.gui.scaleX) + yOffset));
-				CGContextAddLineToPoint(context, round(quad3 * self.gui.scaleX), round((yyy * self.gui.scaleX)) + yOffset);
+				CGContextMoveToPoint(context, quad1, yyy);
+				CGContextAddLineToPoint(context, quad3, yyy);
 			}
 			CGContextStrokePath(context);
 		}
 				 
 		// scale
         if(((i + 2) & 3) && self.showScale) {
-			yyy = k1 * (k2 - i);
+			yyy = round((k1 * (k2 - i)) * self.gui.scaleX);
 			NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
 			if(vuString.length > 0) {
-				CGPoint stringPos = CGPointMake(floor(end * self.gui.scaleX), floor(yyy * self.gui.scaleX));
+				CGPoint stringPos = CGPointMake(end, yyy);
 				CGContextSetFillColorWithColor(context, self.label.textColor.CGColor);
 				[vuString drawAtPoint:stringPos withFont:self.label.font];
 			}
@@ -149,7 +151,7 @@
 		int i = IEM_VU_STEPS + 1;
 		yyy = k1 * (k2 - i);
 		NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
-		CGPoint stringPos = CGPointMake(floor(end * self.gui.scaleX), floor(yyy * self.gui.scaleX));
+		CGPoint stringPos = CGPointMake(end, yyy);
 		CGContextSetFillColorWithColor(context, self.label.textColor.CGColor);
 		[vuString drawAtPoint:stringPos withFont:self.label.font];
 	}
@@ -165,16 +167,16 @@
 	if(self.showScale) {
 		self.frame = CGRectMake(
 			round((self.originalFrame.origin.x - 1) * gui.scaleX),
-			round((self.originalFrame.origin.y * gui.scaleY) - (charSize.height / 2)),
-			round(((CGRectGetWidth(self.originalFrame)) * gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
-			round(((CGRectGetHeight(self.originalFrame) + 1) * gui.scaleX) + charSize.height));
+			round(((self.originalFrame.origin.y) * gui.scaleY) - (charSize.height / 2)),
+			round(((CGRectGetWidth(self.originalFrame) + 1) * gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
+			round(((CGRectGetHeight(self.originalFrame) + 2) * gui.scaleX) + charSize.height));
 	}
 	else {
 		self.frame = CGRectMake(
 			round((self.originalFrame.origin.x - 1) * gui.scaleX),
-			round((self.originalFrame.origin.y * gui.scaleY) - (charSize.height / 2)),
-			round((CGRectGetWidth(self.originalFrame) * gui.scaleX) + 1),
-			round((CGRectGetHeight(self.originalFrame) + 1) * gui.scaleX) + charSize.height);
+			round(((self.originalFrame.origin.y) * gui.scaleY) - (charSize.height / 2)),
+			round(((CGRectGetWidth(self.originalFrame) + 1) * gui.scaleX) + 1),
+			round((CGRectGetHeight(self.originalFrame) + 2) * gui.scaleX) + charSize.height);
 	}
 
 	// shift label down slightly
@@ -215,7 +217,7 @@
     }
     i = (int)(100.0 * peakValue + 10000.5);
     _peakValue = 0.01 * (i - 10000);
-	// dosen't call setNeedsDisplay,
+	// doesn't call setNeedsDisplay,
 	// rms & peak values come in pairs so only redisplay once when setting rms
 }
 
@@ -302,13 +304,11 @@
 
 // from g_vumeter.c
 - (void)checkHeight {
-    
 	int n = CGRectGetHeight(self.originalFrame) / IEM_VU_STEPS;
     if(n < IEM_VU_MINSIZE) {
         n = IEM_VU_MINSIZE;
 	}
     ledSize = n-1;
-	
 	CGRect frame = self.originalFrame;
 	frame.size.height = IEM_VU_STEPS * n;
 	self.originalFrame = frame;

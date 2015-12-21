@@ -43,6 +43,8 @@
 	s.labelPos = [[line objectAtIndex:7] integerValue];
 	s.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 
+	s.gui = gui;
+
 	return s;
 }
 
@@ -50,6 +52,9 @@
 
 - (void)setSymbol:(NSString *)symbol {
 	self.valueLabel.text = symbol;
+	if(self.valueWidth == 0) {
+		[self reshapeForGui:self.gui];
+	}
 	[self setNeedsDisplay];
 }
 

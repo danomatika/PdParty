@@ -67,19 +67,24 @@
 	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
 	[self.valueLabel sizeToFit];
 	CGRect valueLabelFrame = self.valueLabel.frame;
-	if(valueLabelFrame.size.width < self.valueLabel.preferredMaxLayoutWidth) {
-		// make sure width matches valueWidth
-		valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
+	if(self.valueWidth > 0) {
+		if(valueLabelFrame.size.width < self.valueLabel.preferredMaxLayoutWidth) {
+			// make sure width matches valueWidth
+			valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
+		}
+	}
+	else if(valueLabelFrame.size.width < charSize.width*3) { // min zero width of 3
+		valueLabelFrame.size.width = charSize.width*3;
 	}
 	valueLabelFrame.origin = CGPointMake(round(gui.scaleX), round(gui.scaleX));
 	self.valueLabel.frame = valueLabelFrame;
 	
-	// bounds from value label size
+	// bounds from value label size, zero width atoms are slightly taller
 	self.frame = CGRectMake(
 		round(self.originalFrame.origin.x * gui.scaleX),
 		round(self.originalFrame.origin.y * gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) + (2 * gui.scaleX)),
-		round(CGRectGetHeight(self.valueLabel.frame) + (2 * gui.scaleX)));
+		round(CGRectGetWidth(self.valueLabel.frame) + (3 * gui.scaleX)),
+		round(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 4 : 2) * gui.scaleX)));
 	cornerSize = 4 * gui.scaleX;
 
 	// label
@@ -112,6 +117,21 @@
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (void)setValue:(float)value {
+	if(self.valueWidth == 0 && self.gui) {
+		[self reshapeForGui:self.gui];
+	}
+	[super setValue:value];
+}
+
+- (void)setValueWidth:(int)valueWidth {
+	_valueWidth = MAX(valueWidth, 0);
+	if(self.valueWidth == 0 && self.gui) {
+		[self reshapeForGui:self.gui];
+		[self setNeedsDisplay];
+	}
+}
 
 - (NSString *)type {
 	return @"AtomWidget";

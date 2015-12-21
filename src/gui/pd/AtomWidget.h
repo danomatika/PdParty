@@ -20,4 +20,6 @@
 @property (assign, nonatomic) int valueWidth; // number of value chars to show
 @property (strong, nonatomic) UILabel *valueLabel; // shows the value
 
+@property (weak, nonatomic) Gui *gui; // gui pointer needed for 0 width reshapes
+
 @end
