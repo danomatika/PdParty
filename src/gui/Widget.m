@@ -251,12 +251,16 @@ static PdDispatcher *dispatcher = nil;
             }
             else {
                 int new_exp_index = width-4, old_exp_index = (int)string.length-4;
-
-                for(i = 0; i < 4; i++, new_exp_index++, old_exp_index++) {
-					[string setCharacter:[string characterAtIndex:old_exp_index] atIndex:new_exp_index];
+				// check index here since original algorithm was designed for a
+				// fixed length string buffer and simply moved the null terminator around,
+				// but we're using a dynamic length Obj-C string
+				if(old_exp_index > -1) {
+					for(i = 0; i < 4; i++, new_exp_index++, old_exp_index++) {
+						[string setCharacter:[string characterAtIndex:old_exp_index] atIndex:new_exp_index];
+					}
+					[string deleteCharactersInRange:NSMakeRange(width, string.length-width)];
 				}
-				[string deleteCharactersInRange:NSMakeRange(width, string.length-width)];
-            }
+			}
         }
         else {
             for(idecimal = 0; idecimal < (int)string.length; idecimal++) {
