@@ -31,8 +31,8 @@
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		
 		self.sendHost = [defaults objectForKey:@"oscSendHost"];
-		self.sendPort = [defaults integerForKey:@"oscSendPort"];
-		self.listenPort = [defaults integerForKey:@"oscListenPort"];
+		self.sendPort = (int)[defaults integerForKey:@"oscSendPort"];
+		self.listenPort = (int)[defaults integerForKey:@"oscListenPort"];
 		
 		// do a bind at the beginning so sending works
 		NSError *error;
@@ -41,10 +41,8 @@
 		}
 		[connection disconnect];
 		
-		self.accelSendingEnabled = [defaults boolForKey:@"accelSendingEnabled"];
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
-		self.locateSendingEnabled = [defaults boolForKey:@"locateSendingEnabled"];
-		self.headingSendingEnabled = [defaults boolForKey:@"headingSendingEnabled"];
+		self.sensorSendingEnabled = [defaults boolForKey:@"sensorSendingEnabled"];
 		self.keySendingEnabled = [defaults boolForKey:@"keySendingEnabled"];
 		self.printSendingEnabled = [defaults boolForKey:@"printSendingEnabled"];
 		
@@ -119,16 +117,6 @@
 	[connection sendPacket:p toHost:self.sendHost port:self.sendPort];
 }
 
-- (void)sendAccel:(float)x y:(float)y z:(float)z {
-	if(!self.isListening || !self.accelSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_ACCEL_ADDR;
-	[message addFloat:x];
-	[message addFloat:y];
-	[message addFloat:z];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
-}
-
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
 	if(!self.isListening || !self.touchSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
@@ -140,11 +128,41 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendAccel:(float)x y:(float)y z:(float)z {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_ACCEL_ADDR;
+	[message addFloat:x];
+	[message addFloat:y];
+	[message addFloat:z];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendGyro:(float)x y:(float)y z:(float)z {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_GYRO_ADDR;
+	[message addFloat:x];
+	[message addFloat:y];
+	[message addFloat:z];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendMagnet:(float)x y:(float)y z:(float)z {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_MAGNET_ADDR;
+	[message addFloat:x];
+	[message addFloat:y];
+	[message addFloat:z];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
 - (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
 	speed:(float)speed course:(float)course
 	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
 	timestamp:(NSString *)timestamp {
-	if(!self.isListening || !self.locateSendingEnabled) return;
+	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_LOCATE_ADDR;
 	[message addFloat:lat];
@@ -159,7 +177,7 @@
 }
 
 - (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp {
-	if(!self.isListening || !self.locateSendingEnabled) return;
+	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
     message.address = OSC_HEADING_ADDR;
 	[message addFloat:degrees];
@@ -201,24 +219,14 @@
 	[[NSUserDefaults standardUserDefaults] setInteger:listenPort forKey:@"oscListenPort"];
 }
 
-- (void)setAccelSendingEnabled:(BOOL)accelSendingEnabled {
-	_accelSendingEnabled = accelSendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:accelSendingEnabled forKey:@"accelSendingEnabled"];
-}
-
 - (void)setTouchSendingEnabled:(BOOL)touchSendingEnabled {
 	_touchSendingEnabled = touchSendingEnabled;
 	[[NSUserDefaults standardUserDefaults] setBool:touchSendingEnabled forKey:@"touchSendingEnabled"];
 }
 
-- (void)setLocateSendingEnabled:(BOOL)locateSendingEnabled {
-	_locateSendingEnabled = locateSendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:locateSendingEnabled forKey:@"locateSendingEnabled"];
-}
-
-- (void)setHeadingSendingEnabled:(BOOL)headingSendingEnabled {
-	_headingSendingEnabled = headingSendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:headingSendingEnabled forKey:@"headingSendingEnabled"];
+- (void)setSensorSendingEnabled:(BOOL)sensorSendingEnabled {
+	_sensorSendingEnabled = sensorSendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:sensorSendingEnabled forKey:@"sensorSendingEnabled"];
 }
 
 - (void)setKeySendingEnabled:(BOOL)keySendingEnabled {

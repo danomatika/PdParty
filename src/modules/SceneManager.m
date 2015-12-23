@@ -15,7 +15,11 @@
 #import "Gui.h"
 #import "AppDelegate.h"
 
-#define ACCEL_UPDATE_HZ	60.0
+// androidy update speed defines
+#define SENSOR_UI_HZ      10.0
+#define SENSOR_NORMAL_HZ  30.0
+#define SENSOR_GAME_HZ    60.0
+#define SENSOR_FASTEST_HZ 100.0
 
 @interface SceneManager () {
 	
@@ -68,7 +72,7 @@
 
 - (void)dealloc {
 	if(self.pureData) {
-		self.pureData.locateDelegate = nil;
+		self.pureData.sensorDelegate = nil;
 	}
 }
 
@@ -109,7 +113,7 @@
 	}
 	self.pureData.audioEnabled = YES;
 	self.pureData.sampleRate = self.scene.sampleRate;
-	self.enableAccelerometer = self.scene.requiresAccel;
+	self.enableAccel = self.scene.requiresAccel;
 	self.pureData.playing = YES;
 	[self.scene open:path];
 	
@@ -141,7 +145,9 @@
 		[PureData sendCloseBang];
 		[self.scene close];
 		self.scene = nil;
-		self.enableAccelerometer = NO;
+		self.enableAccel = NO;
+		self.enableMagnet = NO;
+		self.enableGyro = NO;
 		self.enableLocation = NO;
 		self.enableHeading = NO;
 		hasReshaped = NO;
@@ -202,10 +208,10 @@
 
 - (void)setPureData:(PureData *)pureData {
 	if(_pureData) {
-		_pureData.locateDelegate = nil;
+		_pureData.sensorDelegate = nil;
 	}
 	_pureData = pureData;
-	_pureData.locateDelegate = self;
+	_pureData.sensorDelegate = self;
 }
 
 - (void)setCurrentOrientation:(UIInterfaceOrientation)currentOrientation {
@@ -214,17 +220,17 @@
 	locationManager.headingOrientation = currentOrientation;
 }
 
-- (void)setEnableAccelerometer:(BOOL)enableAccelerometer {
-	if(self.enableAccelerometer == enableAccelerometer) {
+- (void)setEnableAccel:(BOOL)enableAccel {
+	if(self.enableAccel == enableAccel) {
 		return;
 	}
-	_enableAccelerometer = enableAccelerometer;
+	_enableAccel = enableAccel;
 	
 	// start
-	if(enableAccelerometer) {
+	if(enableAccel) {
 		if([motionManager isAccelerometerAvailable]) {
-			NSTimeInterval updateInterval = 1.0/ACCEL_UPDATE_HZ;
-			[motionManager setAccelerometerUpdateInterval:updateInterval];
+			NSTimeInterval interval = 1.0/SENSOR_NORMAL_HZ;
+			[motionManager setAccelerometerUpdateInterval:interval];
 			
 			// accel data callback block
 			[motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue]
@@ -270,16 +276,84 @@
 							break;
 					}
 				}];
-			DDLogVerbose(@"SceneManager: enabled accel");
+			DDLogVerbose(@"SceneManager: accel enabled");
 		}
 		else {
-			DDLogWarn(@"SceneManager: couldn't enable accel, accel not available on this device");
+			DDLogWarn(@"SceneManager: accel not available on this device");
 		}
 	}
 	else { // stop
 		if([motionManager isAccelerometerActive]) {
 			[motionManager stopAccelerometerUpdates];
-			DDLogVerbose(@"SceneManager: disabled accel");
+			DDLogVerbose(@"SceneManager: accel disabled");
+		}
+	}
+}
+
+- (void)setEnableGyro:(BOOL)enableGyro {
+	if(self.enableGyro == enableGyro) {
+		return;
+	}
+	_enableGyro = enableGyro;
+	
+	NSString *msg;
+	
+	// start
+	if(enableGyro) {
+		if([motionManager isGyroAvailable]) {
+			[motionManager setGyroUpdateInterval:1.0/SENSOR_NORMAL_HZ];
+			
+			// gyro data callback block
+			[motionManager startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
+				withHandler:^(CMGyroData *data, NSError *error) {
+//				DDLogVerbose(@"gyro %f %f %f", data.rotationRate.x, data.rotationRate.y, data.rotationRate.z);
+				[PureData sendGyro:data.rotationRate.x y:data.rotationRate.y z:data.rotationRate.z];
+				[self.osc sendGyro:data.rotationRate.x y:data.rotationRate.y z:data.rotationRate.z];
+			}];
+			DDLogVerbose(@"SceneManager: gyro enabled");
+		}
+		else {
+			DDLogWarn(@"SceneManager: gyro not available on this device");
+		}
+	}
+	else { // stop
+		if([motionManager isGyroActive]) {
+			[motionManager stopGyroUpdates];
+			DDLogVerbose(@"SceneManager: gyro disabled");
+		}
+	}
+}
+
+- (void)setEnableMagnet:(BOOL)enableMagnet {
+	if(self.enableMagnet == enableMagnet) {
+		return;
+	}
+	_enableMagnet = enableMagnet;
+	
+	NSString *msg;
+	
+	// start
+	if(enableMagnet) {
+		if([motionManager isMagnetometerAvailable]) {
+			[motionManager setMagnetometerUpdateInterval:1.0/SENSOR_NORMAL_HZ];
+			
+			// gyro data callback block
+			[motionManager startMagnetometerUpdatesToQueue:[NSOperationQueue mainQueue]
+				withHandler:^(CMMagnetometerData *data, NSError *error) {
+//				DDLogVerbose(@"magnet %f %f %f", data.magneticField.x, data.magneticField.y, data.magneticField.z);
+				[PureData sendMagnet:data.magneticField.x y:data.magneticField.y z:data.magneticField.z];
+				[self.osc sendMagnet:data.magneticField.x y:data.magneticField.y z:data.magneticField.z];
+			}];
+			DDLogVerbose(@"SceneManager: magnetometer enabled");
+		}
+		else {
+			DDLogWarn(@"SceneManager: magnetometer not available on this device");
+		}
+	}
+	else { // stop
+		if([motionManager isMagnetometerActive]) {
+			[motionManager stopMagnetometerUpdates];
+			DDLogVerbose(@"SceneManager: magnetometer disabled");
 		}
 	}
 }
@@ -307,7 +381,7 @@
 			[self.pureData sendPrint:@"locate enabled"];
 		}
 		else {
-			[self.pureData sendPrint:@"couldn't enable locate, location services disabled or not available on this device"];
+			[self.pureData sendPrint:@"location services disabled or not available on this device"];
 		}
 	}
 	else { // stop
@@ -339,7 +413,7 @@
 			[self.pureData sendPrint:@"heading enabled"];
 		}
 		else {
-			[self.pureData sendPrint:@"couldn't enable heading, heading not available on this device"];
+			[self.pureData sendPrint:@"heading not available on this device"];
 		}
 	}
 	else { // stop
@@ -359,7 +433,7 @@
 	switch(status) {
 		
 		case kCLAuthorizationStatusRestricted:
-			statusString = @"Restricted";
+			statusString = @"restricted";
 			if([CLLocationManager locationServicesEnabled]) {
 				[locationManager stopUpdatingLocation];
 			}
@@ -369,15 +443,15 @@
 			if([CLLocationManager locationServicesEnabled]) {
 				[locationManager stopUpdatingLocation];
 			}
-			statusString = @"Denied";
+			statusString = @"denied";
 			break;
 		
 		case kCLAuthorizationStatusAuthorized:
-			statusString = @"Authorized";
+			statusString = @"authorized";
 			break;
 		
 		default:
-			statusString = @"Not Determined";
+			statusString = @"not determined";
 			break;
 	}
 	DDLogVerbose(@"SceneManager: location authorization: %@", statusString);
@@ -450,6 +524,108 @@
 
 #pragma mark PdLocationEventDelegate
 
+- (void)startAccelUpdates {
+	if(self.scene.supportsAccel) {
+		self.enableAccel = YES;
+	}
+}
+
+- (void)stopAccelUpdates {
+	if(self.scene.supportsAccel) {
+		self.enableAccel = NO;
+	}
+}
+
+- (void)setAccelSpeed:(NSString *)speed {
+
+	if([speed isEqualToString:@"slow"]) {
+		[motionManager setAccelerometerUpdateInterval:1.0/SENSOR_UI_HZ];
+	}
+	else if([speed isEqualToString:@"normal"]) {
+		[motionManager setAccelerometerUpdateInterval:1.0/SENSOR_NORMAL_HZ];
+	}
+	else if([speed isEqualToString:@"fast"]) {
+		[motionManager setAccelerometerUpdateInterval:1.0/SENSOR_GAME_HZ];
+	}
+	else if([speed isEqualToString:@"fastest"]) {
+		[motionManager setAccelerometerUpdateInterval:1.0/SENSOR_FASTEST_HZ];
+	}
+	else {
+		[self.pureData sendPrint:[NSString stringWithFormat:@"ignoring unknown accelerate speed string: %@", speed]];
+		return;
+	}
+	
+	DDLogVerbose(@"SceneManager: accel speed: %@", speed);
+}
+
+- (void)startGyroUpdates {
+	if(self.scene.supportsGyro) {
+		self.enableGyro = YES;
+	}
+}
+
+- (void)stopGyroUpdates {
+	if(self.scene.supportsGyro) {
+		self.enableGyro = NO;
+	}
+}
+
+- (void)setGyroSpeed:(NSString *)speed {
+
+	if([speed isEqualToString:@"slow"]) {
+		[motionManager setGyroUpdateInterval:1.0/SENSOR_UI_HZ];
+	}
+	else if([speed isEqualToString:@"normal"]) {
+		[motionManager setGyroUpdateInterval:1.0/SENSOR_NORMAL_HZ];
+	}
+	else if([speed isEqualToString:@"fast"]) {
+		[motionManager setGyroUpdateInterval:1.0/SENSOR_GAME_HZ];
+	}
+	else if([speed isEqualToString:@"fastest"]) {
+		[motionManager setGyroUpdateInterval:1.0/SENSOR_FASTEST_HZ];
+	}
+	else {
+		[self.pureData sendPrint:[NSString stringWithFormat:@"ignoring unknown gyro speed string: %@", speed]];
+		return;
+	}
+	
+	DDLogVerbose(@"SceneManager: gyro speed: %@", speed);
+}
+
+- (void)startMagnetUpdates {
+	if(self.scene.supportsMagnet) {
+		self.enableMagnet = YES;
+	}
+}
+
+- (void)stopMagnetUpdates {
+	if(self.scene.supportsMagnet) {
+		self.enableMagnet = NO;
+	}
+}
+
+- (void)setMagnetSpeed:(NSString *)speed {
+
+	if([speed isEqualToString:@"slow"]) {
+		[motionManager setMagnetometerUpdateInterval:1.0/SENSOR_UI_HZ];
+	}
+	else if([speed isEqualToString:@"normal"]) {
+		[motionManager setMagnetometerUpdateInterval:1.0/SENSOR_NORMAL_HZ];
+	}
+	else if([speed isEqualToString:@"fast"]) {
+		[motionManager setMagnetometerUpdateInterval:1.0/SENSOR_GAME_HZ];
+	}
+	else if([speed isEqualToString:@"fastest"]) {
+		[motionManager setMagnetometerUpdateInterval:1.0/SENSOR_FASTEST_HZ];
+	}
+	else {
+		[self.pureData sendPrint:[NSString stringWithFormat:@"ignoring unknown magnet speed string: %@", speed]];
+		return;
+	}
+	
+	DDLogVerbose(@"SceneManager: magnet speed: %@", speed);
+}
+
 - (void)startLocationUpdates {
 	if(self.scene.supportsLocate) {
 		self.enableLocation = YES;
@@ -462,7 +638,7 @@
 	}
 }
 
-- (void)setDesiredAccuracy:(NSString *)accuracy {
+- (void)setLocationAccuracy:(NSString *)accuracy {
 	
 	if([accuracy isEqualToString:@"navigation"]) {
 		locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
@@ -490,7 +666,7 @@
 	DDLogVerbose(@"SceneManager: location accuracy: %@", accuracy);
 }
 
-- (void)setDistanceFilter:(float)distance {
+- (void)setLocationFilter:(float)distance {
 	if(distance > 0 ) {
 		locationManager.distanceFilter = distance;
 		DDLogVerbose(@"SceneManager: location distance filter: +/- %f", distance);

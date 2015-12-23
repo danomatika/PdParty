@@ -1,0 +1,25 @@
+#N canvas 486 252 203 288 10;
+#X obj 21 26 cnv 15 160 160 empty empty accelerate 20 12 0 14 -233017
+-66577 0;
+#X floatatom 43 71 10 0 0 1 x ax -, f 10;
+#X floatatom 44 116 10 0 0 1 y ay -, f 10;
+#X floatatom 44 158 10 0 0 1 z az -, f 10;
+#N canvas 664 235 314 144 accel 0;
+#X obj 40 58 unpack f f f;
+#X obj 74 87 s ay;
+#X obj 109 88 s az;
+#X obj 40 87 s ax;
+#X obj 40 28 r #accelerate;
+#X obj 182 29 r runaccel;
+#X obj 182 86 s #pdparty;
+#X msg 182 59 accelerate \$1;
+#X connect 0 0 3 0;
+#X connect 0 1 1 0;
+#X connect 0 2 2 0;
+#X connect 4 0 0 0;
+#X connect 5 0 7 0;
+#X connect 7 0 6 0;
+#X restore 123 158 pd accel;
+#X obj 140 32 tgl 15 0 runaccel empty run 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 47 4 accelerometer Gs;

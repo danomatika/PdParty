@@ -10,12 +10,14 @@
  */
 #import "CocoaOSC.h"
 
-#define OSC_TOUCH_ADDR	@"/pdparty/touch"
-#define OSC_ACCEL_ADDR	@"/pdparty/accelerate"
-#define OSC_LOCATE_ADDR @"/pdparty/locate"
+#define OSC_TOUCH_ADDR   @"/pdparty/touch"
+#define OSC_ACCEL_ADDR   @"/pdparty/accelerate"
+#define OSC_GYRO_ADDR    @"/pdparty/gyro"
+#define OSC_MAGNET_ADDR  @"/pdparty/magnet"
+#define OSC_LOCATE_ADDR  @"/pdparty/locate"
 #define OSC_HEADING_ADDR @"/pdparty/heading"
-#define OSC_KEY_ADDR	@"/pdparty/key"
-#define OSC_PRINT_ADDR	@"/pdparty/print"
+#define OSC_KEY_ADDR     @"/pdparty/key"
+#define OSC_PRINT_ADDR   @"/pdparty/print"
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
@@ -25,10 +27,8 @@
 @property (nonatomic) int listenPort;
 
 // should the following events be sent automatically? (default: NO)
-@property (assign, nonatomic) BOOL accelSendingEnabled;
 @property (assign, nonatomic) BOOL touchSendingEnabled;
-@property (assign, nonatomic) BOOL locateSendingEnabled;
-@property (assign, nonatomic) BOOL headingSendingEnabled;
+@property (assign, nonatomic) BOOL sensorSendingEnabled; // accel, magnet, gyro, locate, headig (if on)
 @property (assign, nonatomic) BOOL keySendingEnabled;
 @property (assign, nonatomic) BOOL printSendingEnabled;
 
@@ -48,11 +48,17 @@
 // send a raw byte packet to pdParty osc receiver
 - (void)sendPacket:(NSData *)data;
 
+// rj touch event
+- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
+
 // rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;
 
-// rj touch event
-- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
+// pd party gyro event
+- (void)sendGyro:(float)x y:(float)y z:(float)z;
+
+// pd party magnetometer event
+- (void)sendMagnet:(float)x y:(float)y z:(float)z;
 
 // pd party locate event
 - (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt

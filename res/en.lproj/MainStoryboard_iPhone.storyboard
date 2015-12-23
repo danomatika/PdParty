@@ -784,6 +784,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oAe-K6-Whl">
                                                     <rect key="frame" x="241" y="8" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="oscEventTypeChanged:" destination="RNJ-xj-nga" eventType="valueChanged" id="NTs-ic-oWg"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -844,7 +847,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="mqu-wA-e1h">
                                                     <rect key="frame" x="241" y="8" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="oscEventTypeChanged:" destination="RNJ-xj-nga" eventType="valueChanged" id="6JC-6V-69L"/>
+                                                        <action selector="oscEventTypeChanged:" destination="RNJ-xj-nga" eventType="valueChanged" id="MK6-t0-qdB"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -1055,7 +1058,7 @@
                         <outlet property="libFolderButton" destination="ynH-bs-kU9" id="kpd-yZ-8gp"/>
                         <outlet property="lockScreenDisabledSwitch" destination="6WX-TF-JRS" id="Cou-Qi-GN6"/>
                         <outlet property="oscKeyEnabledSwitch" destination="EPa-G6-VbL" id="iAa-R5-HIE"/>
-                        <outlet property="oscPrintEnabledSwitch" destination="mqu-wA-e1h" id="s6p-36-zJf"/>
+                        <outlet property="oscPrintEnabledSwitch" destination="mqu-wA-e1h" id="3OD-3C-uKL"/>
                         <outlet property="oscSensorEnabledSwitch" destination="oAe-K6-Whl" id="Ilg-d6-TfB"/>
                         <outlet property="oscTouchEnabledSwitch" destination="mYj-kk-wpf" id="q81-t0-CBm"/>
                         <outlet property="runInBackgroundSwitch" destination="gHn-YB-nda" id="jow-Lh-tK2"/>

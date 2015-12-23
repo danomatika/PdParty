@@ -1,0 +1,34 @@
+#N canvas 228 23 177 261 10;
+#X obj 62 61 nbx 1 14 -1e+37 1e+37 0 0 empty num-in empty 0 -8 0 10
+-262144 -1 -1 55555 256;
+#X obj 63 88 nbx 2 14 -1e+37 1e+37 0 0 empty num-in empty 0 -8 0 10
+-262144 -1 -1 55555 256;
+#X obj 63 115 nbx 3 14 -1e+37 1e+37 0 0 empty num-in empty 0 -8 0 10
+-262144 -1 -1 55555 256;
+#X obj 63 141 nbx 4 14 -1e+37 1e+37 0 0 empty num-in empty 0 -8 0 10
+-262144 -1 -1 55555 256;
+#X obj 63 169 nbx 5 14 -1e+37 1e+37 0 0 empty num-in empty 0 -8 0 10
+-262144 -1 -1 55555 256;
+#X obj 35 26 hradio 15 1 0 5 radio-out empty empty 0 -8 0 10 -262144
+-1 -1 4;
+#N canvas 408 238 267 209 guts 0;
+#X msg 78 104 22;
+#X msg 46 104 1;
+#X msg 112 104 333;
+#X msg 150 103 4444;
+#X msg 194 105 55555;
+#X obj 74 57 sel 0 1 2 3 4;
+#X obj 74 24 r radio-out;
+#X obj 83 159 s num-in;
+#X connect 0 0 7 0;
+#X connect 1 0 7 0;
+#X connect 2 0 7 0;
+#X connect 3 0 7 0;
+#X connect 4 0 7 0;
+#X connect 5 0 1 0;
+#X connect 5 1 0 0;
+#X connect 5 2 2 0;
+#X connect 5 3 3 0;
+#X connect 5 4 4 0;
+#X connect 6 0 5 0;
+#X restore 61 205 pd guts;

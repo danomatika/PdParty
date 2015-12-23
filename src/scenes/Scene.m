@@ -82,11 +82,23 @@
 	return PARTY_SAMPLERATE;
 }
 
+- (BOOL)requiresTouch {
+	return NO;
+}
+
 - (BOOL)requiresAccel {
 	return NO;
 }
 
-- (BOOL)requiresTouch {
+- (BOOL)supportsAccel {
+	return NO;
+}
+
+- (BOOL)supportsGyro {
+	return NO;
+}
+
+- (BOOL)supportsMagnet {
 	return NO;
 }
 

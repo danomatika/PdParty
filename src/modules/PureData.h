@@ -30,6 +30,8 @@
 #define RJ_TOUCH_XY		@"xy"
 
 // PdParty event receivers
+#define PARTY_MAGNET_R  @"#magnet"
+#define PARTY_GYRO_R    @"#gyro"
 #define PARTY_LOCATE_R	@"#locate"
 #define PARTY_HEADING_R @"#heading"
 
@@ -52,17 +54,29 @@
 @property (weak, nonatomic) Osc *osc; // pointer to osc instance
 @end
 
-// event delegates
-@protocol PdLocateEventDelegate <NSObject>
+// sensor event delegates
+@protocol PdSensorEventDelegate <NSObject>
+
+- (void)startAccelUpdates; // called if accel service is started via a msg
+- (void)stopAccelUpdates; // called if accel service is stopped via a msg
+- (void)setAccelSpeed:(NSString *)speed; // set the accel update speed
+
+- (void)startGyroUpdates; // called if gyro service is started via a msg
+- (void)stopGyroUpdates; // called if gyro service is stopped via a msg
+- (void)setGyroSpeed:(NSString *)speed; // set the gyro update speed
+
+- (void)startMagnetUpdates; // called if magnetometer service is started via a msg
+- (void)stopMagnetUpdates; // called if magnetometer service is stopped via a msg
+- (void)setMagnetSpeed:(NSString *)speed; // set the magnet update speed
 
 - (void)startLocationUpdates; // called if location service is started via a msg
 - (void)stopLocationUpdates;  // called if location service is stopped via a msg
-- (void)setDesiredAccuracy:(NSString *)accuracy; // set the desired accuracy
-- (void)setDistanceFilter:(float)distance;
+- (void)setLocationAccuracy:(NSString *)accuracy; // set the desired location accuracy
+- (void)setLocationFilter:(float)distance; // set the location distance filter
 
 - (void)startHeadingUpdates; // called if heading service is started via a msg
 - (void)stopHeadingUpdates;  // called if heading service is stopped via a msg
-- (void)setHeadingFilter:(float)degrees;
+- (void)setHeadingFilter:(float)degrees; // set the heading filter in degrees
 
 @end
 
@@ -129,8 +143,8 @@
 // receives event when playback is finished
 @property (assign, nonatomic) id<PdRecordEventDelegate> recordDelegate;
 
-// receieves location control events
-@property (assign, nonatomic) id<PdLocateEventDelegate> locateDelegate;
+// receives sensor control events
+@property (assign, nonatomic) id<PdSensorEventDelegate> sensorDelegate;
 
 #pragma mark Send Events
 
@@ -139,6 +153,12 @@
 
 // rj accel event
 + (void)sendAccel:(float)x y:(float)y z:(float)z;
+
+// pd party gyro event
++ (void)sendMagnet:(float)x y:(float)y z:(float)z;
+
+// pd party gyro event
++ (void)sendGyro:(float)x y:(float)y z:(float)z;
 
 // pd party locate event
 + (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt

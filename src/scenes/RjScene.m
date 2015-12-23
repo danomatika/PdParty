@@ -219,6 +219,23 @@
 	return RJ_SAMPLERATE;
 }
 
+// accel is always on
+- (BOOL)requiresAccel {
+	return YES;
+}
+
+- (BOOL)supportsAccel {
+	return NO;
+}
+
+- (BOOL)supportsGyro {
+	return NO;
+}
+
+- (BOOL)supportsMagnet {
+	return NO;
+}
+
 - (BOOL)supportsLocate {
 	return NO;
 }

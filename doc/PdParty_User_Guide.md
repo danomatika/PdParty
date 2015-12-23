@@ -335,6 +335,8 @@ PdParty returns the following events:
   * _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
   * _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
 * **[r #accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
+* **[r #gyro] _x_ _y_ _z_**: 3 axis gyroscope rotation rate in radians/s
+* **[r #magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
 * **[r #locate] _lat_ _lon_ _alt_ _speed_ _course_ _horzAccuracy_ _vertAccuracy_ _timestamp_**
   * _lat_: latitude in degrees
   * _lon_: longitude in degrees
@@ -354,8 +356,23 @@ PdParty returns the following events:
 	Receiving PdParty events
 </p>
   
-_Note: RjDj scenes only receive #touch & #accelerate, PdDroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the cause of RjDj as the RjDj app is no longer available)._
+_Note: RjDj scenes only receive #touch & #accelerate, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the cause of RjDj as the RjDj app is no longer available)._
+
+#### Accelerate, Gyro, & Magnet Control
   
+Reading accelerometer, gyroscope, and/or magnetometer events will affect battery life, so these must be manually started after the scene is loaded by sending messages to the internal #pdparty receiver:
+
+* **#pdparty _sensor_ _value_**: sensor run control
+  * _value_: boolean 0-1 to start/stop the sensor, one of the following strings: accelerate, gyro, & magnet
+* **#pdparty _sensor_ _speed_**: set desired update speed, this setting impacts battery life
+  * _speed_: desired update speed as one of the following strings: 
+    * slow: 10 Hz, user interface orientation speed
+    * normal: 30 Hz (default), normal movement
+    * fast: 60 Hz, suitable for gaming
+    * fastest: 100 Hz, maximum firehose
+
+_Note: #touch & #accelerate events are automatically started for RjDj scenes for backward compatibility._  
+
 #### Locate (GPS) Control
 
 <p align="center">
@@ -430,6 +447,8 @@ A vibration "tone" cn be triggered by sending the following message to #pdparty:
 
 * **#pdparty vibrate**
 
+Vibration is supressed on iOS while the audio session is recording, so you'll have to pause the DSP for vibration to work.
+
 _Note: only applicable to iPhone, ignored on iPad & in the Xcode simulator_
 
 #### OSC
@@ -443,6 +462,8 @@ All of the PdParty events can be streamed over OSC, included Pd prints. The rece
 
 * /pdparty/touch 
 * /pdparty/accelrate
+* /pdparty/gyro
+* /pdparty/magnet
 * /pdparty/locate
 * /pdparty/heading
 * /pdparty/key

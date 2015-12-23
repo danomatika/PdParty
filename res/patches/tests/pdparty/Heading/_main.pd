@@ -2,7 +2,7 @@
 #X obj 11 91 tgl 30 0 runheading empty run 7 15 0 10 -262144 -1 -1
 0 1;
 #X obj 20 477 hsl 320 30 0 45 0 0 filter-out filter-in filter_0_-_15_degrees
-8 15 0 10 -262144 -1 -1 0 1;
+8 15 0 10 -262144 -1 -1 709 1;
 #X text 9 28 so they are off by default;
 #X text 7 375 the speed of location events & overall resource usage
 ;
@@ -13,9 +13,10 @@
 #X text 47 97 turn it on by sending a msg to #pdparty: heading 1;
 #X obj 11 140 cnv 15 340 60 empty empty heading 20 12 0 14 -233017
 -66577 0;
-#X symbolatom 167 145 25 0 0 0 - heading-timestamp -;
-#X floatatom 19 175 10 0 0 1 degrees degrees -;
-#X floatatom 166 175 10 0 0 1 accuracy_(deg) degree-accuracy -;
+#X symbolatom 167 145 25 0 0 0 - heading-timestamp -, f 25;
+#X floatatom 19 175 10 0 0 1 degrees degrees -, f 10;
+#X floatatom 166 175 10 0 0 1 accuracy_(deg) degree-accuracy -, f
+10;
 #N canvas 709 185 472 232 guts 0;
 #X obj 238 86 s #pdparty;
 #X obj 20 22 r #heading;
@@ -137,23 +138,23 @@ color \$1 1 \; east color \$1 1 \; northeast color \$1 1;
 #X restore 302 144 pd guts;
 #X text 7 393 are dependent on the rotational filter value;
 #X text 8 422 rotation filter threshold in degrees (default 1) \,;
-#X obj 158 229 cnv 15 40 40 empty north empty 20 12 0 14 -258699 -166441
+#X obj 158 226 cnv 15 40 40 empty north empty 20 12 0 14 -233017 -166441
 0;
-#X obj 158 310 cnv 15 40 40 empty south empty 20 12 0 14 -233017 -166441
+#X obj 158 312 cnv 15 40 40 empty south empty 20 12 0 14 -233017 -166441
 0;
 #X obj 158 269 cnv 15 40 40 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 198 269 cnv 15 40 40 empty east empty 20 12 0 14 -233017 -166441
+#X obj 201 269 cnv 15 40 40 empty east empty 20 12 0 14 -233017 -166441
 0;
-#X obj 118 269 cnv 15 40 40 empty west empty 20 12 0 14 -233017 -166441
+#X obj 115 269 cnv 15 40 40 empty west empty 20 12 0 14 -233017 -166441
 0;
-#X obj 198 229 cnv 15 40 40 empty northeast empty 20 12 0 14 -233017
+#X obj 201 226 cnv 15 40 40 empty northeast empty 20 12 0 14 -233017
 -166441 0;
-#X obj 198 310 cnv 15 40 40 empty southeast empty 20 12 0 14 -233017
+#X obj 201 312 cnv 15 40 40 empty southeast empty 20 12 0 14 -233017
 -166441 0;
-#X obj 118 310 cnv 15 40 40 empty southwest empty 20 12 0 14 -233017
+#X obj 115 312 cnv 15 40 40 empty southwest empty 20 12 0 14 -233017
 -166441 0;
-#X obj 118 229 cnv 15 40 40 empty northwest empty 20 12 0 14 -233017
+#X obj 115 226 cnv 15 40 40 empty northwest empty 20 12 0 14 -233017
 -166441 0;
 #X text 9 437 events occur when your orientation has changed beyond
 this value \, 0 = no filter;

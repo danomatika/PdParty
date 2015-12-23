@@ -1,4 +1,4 @@
-#N canvas 291 24 278 447 10;
+#N canvas 291 24 269 413 10;
 #X floatatom 45 16 5 0 0 0 number number-in number-out, f 5;
 #X symbolatom 45 46 10 0 0 0 symbol symbol-out -, f 10;
 #X text 42 84 comment;
@@ -10,14 +10,14 @@
 0 -8 0 10 -262144 -1 -1 0 256;
 #X obj 24 125 vsl 15 128 0 127 0 0 vslider-out vslider-in vslider 0
 -9 0 10 -262144 -1 -1 0 1;
-#X obj 30 349 hsl 128 15 0 127 0 0 hslider-out hslider-in hslider -2
+#X obj 30 339 hsl 128 15 0 127 0 0 hslider-out hslider-in hslider -2
 -8 0 10 -262144 -1 -1 0 1;
 #X obj 98 127 vradio 15 1 0 8 vradio-out vradio-in vradio 0 -8 0 10
 -262144 -1 -1 0;
-#X obj 115 399 hradio 15 1 0 8 hradio-out hradio-in hradio 0 -8 0 10
+#X obj 115 383 hradio 15 1 0 8 hradio-out hradio-in hradio 0 -8 0 10
 -262144 -1 -1 0;
 #X obj 190 126 vu 15 120 vu-in vu -1 -8 0 10 -66577 -1 1 0;
-#X obj 150 277 cnv 15 100 60 empty empty canvas 20 12 0 14 -233017
+#X obj 150 267 cnv 15 100 60 empty empty canvas 20 12 0 14 -233017
 -66577 0;
 #N canvas 786 272 341 123 guts 0;
 #X obj 36 21 r hslider-out;

@@ -44,7 +44,7 @@
 	// load widgets from gui
 	if(self.parentView) {
 		if(self.gui.widgets.count > 0) {
-			DDLogVerbose(@"%@: adding %u widgets", self.typeString, self.gui.widgets.count);
+			DDLogVerbose(@"%@: adding %lu widgets", self.typeString, self.gui.widgets.count);
 		}
 		for(Widget *widget in self.gui.widgets) {
 			[widget replaceDollarZerosForGui:self.gui fromPatch:self.patch];
@@ -113,11 +113,19 @@
 	}
 }
 
-- (BOOL)requiresAccel {
+- (BOOL)requiresTouch {
 	return YES;
 }
 
-- (BOOL)requiresTouch {
+- (BOOL)supportsAccel {
+	return YES;
+}
+
+- (BOOL)supportsGyro {
+	return YES;
+}
+
+- (BOOL)supportsMagnet {
 	return YES;
 }
 

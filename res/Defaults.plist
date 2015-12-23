@@ -10,13 +10,9 @@
 	<false/>
 	<key>runsInBackground</key>
 	<false/>
-	<key>accelSendingEnabled</key>
-	<false/>
 	<key>touchSendingEnabled</key>
 	<false/>
-	<key>locateSendingEnabled</key>
-	<false/>
-	<key>headingSendingEnabled</key>
+	<key>sensorSendingEnabled</key>
 	<false/>
 	<key>keySendingEnabled</key>
 	<false/>

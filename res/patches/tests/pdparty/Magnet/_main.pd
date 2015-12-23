@@ -1,0 +1,25 @@
+#N canvas 524 175 186 251 10;
+#X obj 13 36 cnv 15 160 160 empty empty magnet 20 12 0 14 -233017 -66577
+0;
+#X floatatom 35 81 10 0 0 1 x mx -, f 10;
+#X floatatom 36 126 10 0 0 1 y my -, f 10;
+#X floatatom 36 168 10 0 0 1 z mz -, f 10;
+#X obj 129 43 tgl 15 0 runmagnet empty run 17 7 0 10 -262144 -1 -1
+0 1;
+#N canvas 680 212 289 147 magnet 0;
+#X obj 40 58 unpack f f f;
+#X obj 173 88 s #pdparty;
+#X obj 40 87 s mx;
+#X obj 74 87 s my;
+#X obj 40 28 r #magnet;
+#X obj 173 27 r runmagnet;
+#X msg 173 58 magnet \$1;
+#X obj 109 88 s mz;
+#X connect 0 0 2 0;
+#X connect 0 1 3 0;
+#X connect 0 2 7 0;
+#X connect 4 0 0 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;
+#X restore 110 207 pd magnet;
+#X text 14 8 magnetometer microteslas;

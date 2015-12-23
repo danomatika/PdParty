@@ -168,6 +168,22 @@
 		toReceiver:RJ_ACCELERATE_R];
 }
 
++ (void)sendMagnet:(float)x y:(float)y z:(float)z {
+	[PdBase sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:x],
+		[NSNumber numberWithFloat:y],
+		[NSNumber numberWithFloat:z], nil]
+		toReceiver:PARTY_MAGNET_R];
+}
+
++ (void)sendGyro:(float)x y:(float)y z:(float)z {
+	[PdBase sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:x],
+		[NSNumber numberWithFloat:y],
+		[NSNumber numberWithFloat:z], nil]
+		toReceiver:PARTY_GYRO_R];
+}
+
 + (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
 	speed:(float)speed  course:(float)course
 	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
@@ -279,27 +295,90 @@
 	else if([source isEqualToString:PARTY_GLOBAL_S]) {
 		static NSString *sceneName = nil; // received scene name
 	
-		// location service control
-		if([message isEqualToString:@"locate"] && [arguments count] > 0) {
+		// accel control
+		if([message isEqualToString:@"accelerate"] && [arguments count] > 0) {
 			if([arguments isNumberAt:0]) {
-				if(self.locateDelegate) {
+				if(self.sensorDelegate) {
 					if([[arguments objectAtIndex:0] boolValue]) {
-						[self.locateDelegate startLocationUpdates];
+						[self.sensorDelegate startAccelUpdates];
 					}
 					else {
-						[self.locateDelegate stopLocationUpdates];
+						[self.sensorDelegate stopAccelUpdates];
+					}
+				}
+			}
+			else if([arguments isStringAt:0] && [arguments count] > 1) {
+				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+					if(self.sensorDelegate) {
+						[self.sensorDelegate setAccelSpeed:[arguments objectAtIndex:1]];
+					}
+				}
+			}
+		}
+		
+		// gyro control
+		if([message isEqualToString:@"gyro"] && [arguments count] > 0) {
+			if([arguments isNumberAt:0]) {
+				if(self.sensorDelegate) {
+					if([[arguments objectAtIndex:0] boolValue]) {
+						[self.sensorDelegate startGyroUpdates];
+					}
+					else {
+						[self.sensorDelegate stopGyroUpdates];
+					}
+				}
+			}
+			else if([arguments isStringAt:0] && [arguments count] > 1) {
+				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+					if(self.sensorDelegate) {
+						[self.sensorDelegate setGyroSpeed:[arguments objectAtIndex:1]];
+					}
+				}
+			}
+		}
+		
+		// magnetometer control
+		if([message isEqualToString:@"magnet"] && [arguments count] > 0) {
+			if([arguments isNumberAt:0]) {
+				if(self.sensorDelegate) {
+					if([[arguments objectAtIndex:0] boolValue]) {
+						[self.sensorDelegate startMagnetUpdates];
+					}
+					else {
+						[self.sensorDelegate stopMagnetUpdates];
+					}
+				}
+			}
+			else if([arguments isStringAt:0] && [arguments count] > 1) {
+				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+					if(self.sensorDelegate) {
+						[self.sensorDelegate setMagnetSpeed:[arguments objectAtIndex:1]];
+					}
+				}
+			}
+		}
+	
+		// location service control
+		else if([message isEqualToString:@"locate"] && [arguments count] > 0) {
+			if([arguments isNumberAt:0]) {
+				if(self.sensorDelegate) {
+					if([[arguments objectAtIndex:0] boolValue]) {
+						[self.sensorDelegate startLocationUpdates];
+					}
+					else {
+						[self.sensorDelegate stopLocationUpdates];
 					}
 				}
 			}
 			else if([arguments isStringAt:0] && [arguments count] > 1) {
 				if([[arguments objectAtIndex:0] isEqualToString:@"accuracy"] && [arguments isStringAt:1]) {
-					if(self.locateDelegate) {
-						[self.locateDelegate setDesiredAccuracy:[arguments objectAtIndex:1]];
+					if(self.sensorDelegate) {
+						[self.sensorDelegate setLocationAccuracy:[arguments objectAtIndex:1]];
 					}
 				}
 				else if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
-					if(self.locateDelegate) {
-						[self.locateDelegate setDistanceFilter:[[arguments objectAtIndex:1] floatValue]];
+					if(self.sensorDelegate) {
+						[self.sensorDelegate setLocationFilter:[[arguments objectAtIndex:1] floatValue]];
 					}
 				}
 			}
@@ -308,19 +387,19 @@
 		// heading control
 		if([message isEqualToString:@"heading"] && [arguments count] > 0) {
 			if([arguments isNumberAt:0]) {
-				if(self.locateDelegate) {
+				if(self.sensorDelegate) {
 					if([[arguments objectAtIndex:0] boolValue]) {
-						[self.locateDelegate startHeadingUpdates];
+						[self.sensorDelegate startHeadingUpdates];
 					}
 					else {
-						[self.locateDelegate stopHeadingUpdates];
+						[self.sensorDelegate stopHeadingUpdates];
 					}
 				}
 			}
 			else if([arguments isStringAt:0] && [arguments count] > 1) {
 				if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
-					if(self.locateDelegate) {
-						[self.locateDelegate setHeadingFilter:[[arguments objectAtIndex:1] floatValue]];
+					if(self.sensorDelegate) {
+						[self.sensorDelegate setHeadingFilter:[[arguments objectAtIndex:1] floatValue]];
 					}
 				}
 			}
@@ -363,10 +442,10 @@
 			[app launchWebViewForURL:url withTitle:title];
 		}
 		
-		// vibrate on iPhone
+		// vibrate on iPhone ... suppressed while audio session is recording
 		else if([message isEqualToString:@"vibrate"]) {
 			if(![Util isDeviceRunningInSimulator]) {
-				AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+				AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
 			}
 		}
 	}

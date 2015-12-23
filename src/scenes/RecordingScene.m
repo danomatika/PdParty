@@ -138,26 +138,6 @@
 	}
 }
 
-- (BOOL)requiresAccel {
-	return NO;
-}
-
-- (BOOL)requiresTouch {
-	return NO;
-}
-
-- (BOOL)supportsLocate {
-	return NO;
-}
-
-- (BOOL)supportsHeading {
-	return NO;
-}
-
-- (BOOL)requiresKeys {
-	return NO;
-}
-
 - (BOOL)requiresOnscreenControls {
 	return YES;
 }

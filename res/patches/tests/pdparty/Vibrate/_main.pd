@@ -10,3 +10,6 @@
 #X connect 2 0 0 0;
 #X restore 95 213 pd guts;
 #X text 8 35 Message: #pdparty vibrate;
+#X text 14 260 iOS suppresses vibration while the;
+#X text 14 284 audio session is recording \, so;
+#X text 14 307 pause DSP for this to work;

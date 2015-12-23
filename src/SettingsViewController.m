@@ -30,10 +30,8 @@
 	self.lockScreenDisabledSwitch.on = app.isLockScreenDisabled;
 	self.runInBackgroundSwitch.on = app.runsInBackground;
 	
-	self.oscAccelEnabledSwitch.on = app.osc.accelSendingEnabled;
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
-	self.oscLocationEnabledSwitch.on = app.osc.locateSendingEnabled;
-	self.oscHeadingEnabledSwitch.on = app.osc.headingSendingEnabled;
+	self.oscSensorEnabledSwitch.on = app.osc.sensorSendingEnabled;
 	self.oscKeyEnabledSwitch.on = app.osc.keySendingEnabled;
 	self.oscPrintEnabledSwitch.on = app.osc.printSendingEnabled;
 	
@@ -76,17 +74,11 @@
 #pragma mark OSC Event Forwarding
 
 - (IBAction)oscEventTypeChanged:(id)sender {
-	if(sender == self.oscAccelEnabledSwitch) {
-		app.osc.accelSendingEnabled = self.oscAccelEnabledSwitch.isOn;
-	}
-	else if(sender == self.oscTouchEnabledSwitch) {
+	if(sender == self.oscTouchEnabledSwitch) {
 		app.osc.touchSendingEnabled = self.oscTouchEnabledSwitch.isOn;
 	}
-	else if(sender == self.oscLocationEnabledSwitch) {
-		app.osc.locateSendingEnabled = self.oscLocationEnabledSwitch.isOn;
-	}
-	else if(sender == self.oscHeadingEnabledSwitch) {
-		app.osc.headingSendingEnabled = self.oscHeadingEnabledSwitch.isOn;
+	else if(sender == self.oscSensorEnabledSwitch) {
+		app.osc.sensorSendingEnabled = self.oscSensorEnabledSwitch.isOn;
 	}
 	else if(sender == self.oscKeyEnabledSwitch) {
 		app.osc.keySendingEnabled = self.oscKeyEnabledSwitch.isOn;
@@ -110,7 +102,7 @@
 - (IBAction)copyDefaultFolder:(id)sender {
 	if(sender == self.libFolderButton) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-		hud.labelText = @"Copying LIB folder...";
+		hud.labelText = @"Copying lib folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[app copyLibFolder];
 			dispatch_async(dispatch_get_main_queue(), ^{

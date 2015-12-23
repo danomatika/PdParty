@@ -15,7 +15,7 @@
 #import "PureData.h"
 #import "Osc.h"
 
-@interface SceneManager : NSObject <UIAccelerometerDelegate, CLLocationManagerDelegate, PdLocateEventDelegate>
+@interface SceneManager : NSObject <UIAccelerometerDelegate, CLLocationManagerDelegate, PdSensorEventDelegate>
 
 @property (strong, nonatomic) Gui *gui; // pd gui widgets
 @property (strong, nonatomic) Scene* scene; // current scene
@@ -24,11 +24,13 @@
 @property (weak, nonatomic) PureData *pureData;
 @property (weak, nonatomic) Osc *osc;
 
-@property (assign, nonatomic) BOOL enableAccelerometer; // enable receiving accel events?
-@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; // accel orientation based on this
-
+@property (assign, nonatomic) BOOL enableAccel; // enable receiving accel events?
+@property (assign, nonatomic) BOOL enableGyro; // enable receiving gyro events?
+@property (assign, nonatomic) BOOL enableMagnet; // enable receiving magnetometer events?
 @property (assign, nonatomic) BOOL enableLocation; // enable receiving location events?
 @property (assign, nonatomic) BOOL enableHeading; // enable receiving heading events?
+
+@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; // accel orientation based on this
 
 // close the current scene and open a new one, requires full path to current patch
 - (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent;

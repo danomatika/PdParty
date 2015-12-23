@@ -61,7 +61,7 @@
 		round(self.originalFrame.origin.x * gui.scaleX),
 		round(self.originalFrame.origin.y * gui.scaleY),
 		round(self.originalFrame.size.width * gui.scaleX),
-		round(self.originalFrame.size.height * gui.scaleX));
+		round(self.originalFrame.size.height * gui.scaleY));
 
 	// label
 	[self reshapeLabelForGui:gui];
