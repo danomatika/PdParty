@@ -84,7 +84,7 @@
 		round(self.originalFrame.origin.x * gui.scaleX),
 		round(self.originalFrame.origin.y * gui.scaleY),
 		round(CGRectGetWidth(self.valueLabel.frame) + (3 * gui.scaleX)),
-		round(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 4 : 2) * gui.scaleX)));
+		round(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 3 : 2) * gui.scaleX)));
 	cornerSize = 4 * gui.scaleX;
 
 	// label
