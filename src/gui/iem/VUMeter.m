@@ -55,8 +55,8 @@
 	v.labelFontStyle = [[line objectAtIndex:11] intValue];
 	v.labelFontSize = [[line objectAtIndex:12] floatValue];
 
-	v.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:13] integerValue]];
-	v.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:14] integerValue]];
+	v.fillColor = [IEMWidget colorFromIEMColor:(int)[[line objectAtIndex:13] integerValue]];
+	v.label.textColor = [IEMWidget colorFromIEMColor:(int)[[line objectAtIndex:14] integerValue]];
 
 	v.showScale = [[line objectAtIndex:15] boolValue];
 
@@ -111,11 +111,11 @@
     int k1 = ledSize + 1, k2 = IEM_VU_STEPS + 1, k3 = k1 / 2;
     int yyy, i, k4 = -k3;
 	
-	// fat line for overlap since spacing between is not pixel perfect when scaling
-	CGContextSetLineWidth(context, ceil((ledSize + 1.25) * self.gui.scaleX));
-	
 	for(i = 1; i <= IEM_VU_STEPS; ++i) {
         yyy = round((k4 + k1 * (k2 - i) + yOffset - 2) * self.gui.scaleX);
+		
+		// fat line for overlap since spacing between is not pixel perfect when scaling
+		CGContextSetLineWidth(context, ceil((ledSize + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleX));
 		
 		// led bar
 		if(i == peakLed || i <= rmsLed) {
