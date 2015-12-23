@@ -232,6 +232,22 @@
 		DDLogWarn(@"PureData: cannot send OSC message with empty address");
 		return;
 	}
+	// leave this out for now, might want to make it something you'd have to manually enable
+//	if([firstComponent isEqualToString:PARTY_OSC_R]) { // catch incoming control messages
+//		if(list.count > 1) {
+//			if([[list firstObject] isEqualToString:RJ_GLOBAL_S]) {
+//				[s_pureData receiveMessage:[list firstObject]
+//							 withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
+//								fromSource:RJ_GLOBAL_S];
+//			}
+//			else {
+//				[s_pureData receiveMessage:[list firstObject]
+//							 withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
+//								fromSource:PARTY_GLOBAL_S];
+//			}
+//		}
+//		return;
+//	}
 	[PdBase sendMessage:firstComponent withArguments:list toReceiver:PD_OSC_R];
 }
 
@@ -275,14 +291,24 @@
 	if([source isEqualToString:PD_OSC_S]) {
 		[self.osc sendPacket:[self encodeList:list]];
 	}
+	else if(([source isEqualToString:RJ_GLOBAL_S] || [source isEqualToString:PARTY_GLOBAL_S])) { // catch list prepends
+		if(list.count > 0) {
+			[self receiveMessage:[list firstObject]
+				   withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
+					  fromSource:source];
+		}
+	}
 	else {
 		DDLogVerbose(@"PureData: dropped list: %@", list.description);
 	}
 }
 
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
-	if([source isEqualToString:RJ_GLOBAL_S]) {
-		if([message isEqualToString:@"playback"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+	if([source isEqualToString:PD_OSC_S]) {
+		[self.osc sendPacket:[self encodeList:[[NSArray arrayWithObject:message] arrayByAddingObjectsFromArray:arguments]]];
+	}
+	else if([source isEqualToString:RJ_GLOBAL_S]) {
+		if([message isEqualToString:@"playback"] && arguments.count > 0 && [arguments isNumberAt:0]) {
 			if([[arguments objectAtIndex:0] floatValue] < 1) {
 				_playingback = NO;
 				if(self.recordDelegate) {
@@ -296,7 +322,7 @@
 		static NSString *sceneName = nil; // received scene name
 	
 		// accel control
-		if([message isEqualToString:@"accelerate"] && [arguments count] > 0) {
+		if([message isEqualToString:@"accelerate"] && arguments.count > 0) {
 			if([arguments isNumberAt:0]) {
 				if(self.sensorDelegate) {
 					if([[arguments objectAtIndex:0] boolValue]) {
@@ -307,7 +333,7 @@
 					}
 				}
 			}
-			else if([arguments isStringAt:0] && [arguments count] > 1) {
+			else if([arguments isStringAt:0] && arguments.count > 1) {
 				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
 					if(self.sensorDelegate) {
 						[self.sensorDelegate setAccelSpeed:[arguments objectAtIndex:1]];
@@ -317,7 +343,7 @@
 		}
 		
 		// gyro control
-		if([message isEqualToString:@"gyro"] && [arguments count] > 0) {
+		if([message isEqualToString:@"gyro"] && arguments.count > 0) {
 			if([arguments isNumberAt:0]) {
 				if(self.sensorDelegate) {
 					if([[arguments objectAtIndex:0] boolValue]) {
@@ -328,7 +354,7 @@
 					}
 				}
 			}
-			else if([arguments isStringAt:0] && [arguments count] > 1) {
+			else if([arguments isStringAt:0] && arguments.count > 1) {
 				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
 					if(self.sensorDelegate) {
 						[self.sensorDelegate setGyroSpeed:[arguments objectAtIndex:1]];
@@ -338,7 +364,7 @@
 		}
 		
 		// magnetometer control
-		if([message isEqualToString:@"magnet"] && [arguments count] > 0) {
+		if([message isEqualToString:@"magnet"] && arguments.count > 0) {
 			if([arguments isNumberAt:0]) {
 				if(self.sensorDelegate) {
 					if([[arguments objectAtIndex:0] boolValue]) {
@@ -349,7 +375,7 @@
 					}
 				}
 			}
-			else if([arguments isStringAt:0] && [arguments count] > 1) {
+			else if([arguments isStringAt:0] && arguments.count > 1) {
 				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
 					if(self.sensorDelegate) {
 						[self.sensorDelegate setMagnetSpeed:[arguments objectAtIndex:1]];
@@ -359,7 +385,7 @@
 		}
 	
 		// location service control
-		else if([message isEqualToString:@"locate"] && [arguments count] > 0) {
+		else if([message isEqualToString:@"locate"] && arguments.count > 0) {
 			if([arguments isNumberAt:0]) {
 				if(self.sensorDelegate) {
 					if([[arguments objectAtIndex:0] boolValue]) {
@@ -370,7 +396,7 @@
 					}
 				}
 			}
-			else if([arguments isStringAt:0] && [arguments count] > 1) {
+			else if([arguments isStringAt:0] && arguments.count > 1) {
 				if([[arguments objectAtIndex:0] isEqualToString:@"accuracy"] && [arguments isStringAt:1]) {
 					if(self.sensorDelegate) {
 						[self.sensorDelegate setLocationAccuracy:[arguments objectAtIndex:1]];
@@ -385,7 +411,7 @@
 		}
 		
 		// heading control
-		if([message isEqualToString:@"heading"] && [arguments count] > 0) {
+		if([message isEqualToString:@"heading"] && arguments.count > 0) {
 			if([arguments isNumberAt:0]) {
 				if(self.sensorDelegate) {
 					if([[arguments objectAtIndex:0] boolValue]) {
@@ -396,7 +422,7 @@
 					}
 				}
 			}
-			else if([arguments isStringAt:0] && [arguments count] > 1) {
+			else if([arguments isStringAt:0] && arguments.count > 1) {
 				if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
 					if(self.sensorDelegate) {
 						[self.sensorDelegate setHeadingFilter:[[arguments objectAtIndex:1] floatValue]];
@@ -406,12 +432,12 @@
 		}
 	
 		// set the scene name for remote recording
-		else if([message isEqualToString:@"scene"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+		else if([message isEqualToString:@"scene"] && arguments.count > 0 && [arguments isStringAt:0]) {
 			sceneName = [arguments objectAtIndex:0];
 		}
 	
 		// start/stop recording remotely, set scene name first
-		else if([message isEqualToString:@"record"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		else if([message isEqualToString:@"record"] && arguments.count > 0 && [arguments isNumberAt:0]) {
 			if([[arguments objectAtIndex:0] boolValue]) {
 				if(sceneName && [self startedRecordingToRecordDir:[sceneName lastPathComponent] withTimestamp:YES]) {
 					if(self.recordDelegate) {
@@ -431,11 +457,11 @@
 		}
 		
 		// open a url
-		else if([message isEqualToString:@"openurl"] && [arguments count] > 0 && [arguments isStringAt:0]) {
+		else if([message isEqualToString:@"openurl"] && arguments.count > 0 && [arguments isStringAt:0]) {
 			AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 			NSURL *url = [NSURL URLWithString:[arguments objectAtIndex:0]];
 			NSString *title = nil;
-			if([arguments count] > 1) { // build title
+			if(arguments.count > 1) { // build title
 				NSArray *array = [arguments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, arguments.count-1)]];
 				title = [array componentsJoinedByString:@" "];
 			}

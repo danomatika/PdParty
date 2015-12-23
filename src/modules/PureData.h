@@ -40,6 +40,9 @@
 #define RJ_GLOBAL_S		@"rjdj"
 #define PARTY_GLOBAL_S	@"#pdparty"
 
+// incoming OSC address patterns
+#define PARTY_OSC_R     @"pdparty"
+
 // sample rates
 #define PARTY_SAMPLERATE	44100
 #define RJ_SAMPLERATE		22050
