@@ -15,6 +15,8 @@
 
 // path is to scene folder
 
+@property (strong, nonatomic) UIImageView *background;
+
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
 // returns true if a given path is a DroidParty scene dir

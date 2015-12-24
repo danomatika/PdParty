@@ -22,7 +22,28 @@
 - (BOOL)open:(NSString *)path {
 	BOOL ret = [super open:[path stringByAppendingPathComponent:@"droidparty_main.pd"]];
 	self.preferredOrientations = UIInterfaceOrientationMaskLandscape;
+	
+	// load background
+	NSString *backgroundPath = [path stringByAppendingPathComponent:@"background.png"];
+	if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
+		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
+		if(!self.background.image) {
+			DDLogError(@"DroidScene: couldn't load background image");
+		}
+		self.background.contentMode = UIViewContentModeScaleAspectFill;
+		[self.parentView addSubview:self.background];
+	}
 	return ret;
+}
+
+- (void)close {
+	
+	if(self.background) {
+		[self.background removeFromSuperview];
+		self.background = nil;
+	}
+	
+	[super close];
 }
 
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
