@@ -27,12 +27,15 @@
 	NSString *backgroundPath = [path stringByAppendingPathComponent:@"background.png"];
 	if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
 		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
-		if(!self.background.image) {
+		if(self.background.image) {
+			self.background.contentMode = UIViewContentModeScaleAspectFill;
+			[self.parentView addSubview:self.background];
+		}
+		else {
 			DDLogError(@"DroidScene: couldn't load background image");
 		}
-		self.background.contentMode = UIViewContentModeScaleAspectFill;
-		[self.parentView addSubview:self.background];
 	}
+	
 	return ret;
 }
 
