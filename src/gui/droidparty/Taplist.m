@@ -55,6 +55,8 @@
 		self.list = [[NSMutableArray alloc] init];
 		self.label.textAlignment = NSTextAlignmentCenter;
 		self.label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+		self.label.adjustsFontSizeToFitWidth = YES;
+		self.label.numberOfLines = 0;
 		touchDown = NO;
     }
     return self;
@@ -93,8 +95,9 @@
 - (void)reshapeLabel {
 	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
 	self.label.preferredMaxLayoutWidth = round(CGRectGetWidth(self.frame) * 0.75);
-	[self.label sizeToFit];
-	self.label.center = CGPointMake(round(CGRectGetWidth(self.frame)/2), round(CGRectGetHeight(self.frame)/2));
+	self.label.frame = CGRectMake(
+		round(CGRectGetWidth(self.frame) * 0.125), round(CGRectGetHeight(self.frame) * 0.125),
+		round(CGRectGetWidth(self.frame) * 0.75), round(CGRectGetHeight(self.frame) * 0.75));
 }
 
 #pragma mark Overridden Getters / Setters
