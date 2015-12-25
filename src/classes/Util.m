@@ -102,6 +102,50 @@
 	return isDir;
 }
 
++ (BOOL)copyContentsOfFolder:(NSString *)srcFolder toFolder:(NSString *)destFolder error:(NSError *)error {
+
+	// create dest folder if it doesn't exist
+	if(![[NSFileManager defaultManager] fileExistsAtPath:destFolder isDirectory:nil]) {
+		if(![[NSFileManager defaultManager] createDirectoryAtPath:destFolder withIntermediateDirectories:NO attributes:nil error:&error]) {
+			DDLogError(@"Util: couldn't create %@, error: %@", destFolder, error.localizedDescription);
+			return NO;
+		}
+	}
+
+	// copy all items within src into dest, this way we don't lose any other files or folders added by the user
+	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:srcFolder error:&error];
+	if(!contents) {
+		return YES; // no contents to copy
+	}
+	for(NSString *p in contents) {
+		NSString *srcPath = [srcFolder stringByAppendingPathComponent:p];
+		NSString *destPath = [destFolder stringByAppendingPathComponent:p];
+		BOOL isDir = NO;
+		
+		// remove existing files in the dest folder that match those in the src folder
+		if([[NSFileManager defaultManager] fileExistsAtPath:destPath isDirectory:&isDir]) {
+		
+			// remove existing file
+			if(!isDir && ![[NSFileManager defaultManager] removeItemAtPath:destPath error:&error]) {
+				DDLogError(@"Util: couldn't remove %@, error: %@", destPath, error.localizedDescription);
+				return NO;
+			}
+		}
+		
+		[[NSFileManager defaultManager] fileExistsAtPath:destPath isDirectory:&isDir];
+		if(isDir) { // copy folder recursively
+			[Util copyContentsOfFolder:srcPath toFolder:destPath error:error];
+		}
+		else { // copy file
+			if(![[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:destPath error:&error]) {
+				DDLogError(@"Util: couldn't copy %@ to %@, error: %@", srcPath, destPath, error.localizedDescription);
+				return NO;
+			}
+		}
+	}
+	return YES;
+}
+
 #pragma mark Conversion
 
 // from:
