@@ -26,7 +26,7 @@
 
 // recursively copy a given folder in the resource patches dir to the
 // Documents folder, removes/overwrites any currently existing dirs
-- (void)copyResourcePatchFolderToDocuments:(NSString *)folderPath;
+- (BOOL)copyResourcePatchFolderToDocuments:(NSString *)folderPath error:(NSError *)error;
 
 @end
 
@@ -69,6 +69,7 @@
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:YES];
 		hud.labelText = @"Setting up for the first time...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
 			[self copyLibFolder];
 			[self copySamplesFolder];
 			[self copyTestsFolder];
@@ -327,15 +328,38 @@
 #pragma mark Util
 
 - (void)copyLibFolder {
-	[self copyResourcePatchFolderToDocuments:@"lib"];
+	NSError *error;
+	if(![self copyResourcePatchFolderToDocuments:@"lib" error:error]) {
+		UIAlertView *alertView = [[UIAlertView alloc]
+								  initWithTitle:@"Couldn't lib samples folder"
+								  message:error.localizedDescription
+								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+		[alertView show];
+	}
 }
 
 - (void)copySamplesFolder {
-	[self copyResourcePatchFolderToDocuments:@"samples"];
+	NSError *error;
+	UIAlertView *alertView;
+	if(![self copyResourcePatchFolderToDocuments:@"samples" error:error]) {
+		UIAlertView *alertView = [[UIAlertView alloc]
+								  initWithTitle:@"Couldn't copy samples folder"
+								  message:error.localizedDescription
+								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+		[alertView show];
+	}
 }
 
 - (void)copyTestsFolder {
-	[self copyResourcePatchFolderToDocuments:@"tests"];
+	NSError *error;
+	UIAlertView *alertView;
+	if(![self copyResourcePatchFolderToDocuments:@"tests" error:error]) {
+		UIAlertView *alertView = [[UIAlertView alloc]
+								  initWithTitle:@"Couldn't copy tests folder"
+								  message:error.localizedDescription
+								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+		[alertView show];
+	}
 }
 
 #pragma mark Overridden Getters / Setters
@@ -353,9 +377,7 @@
 
 #pragma mark Private
 
-- (void)copyResourcePatchFolderToDocuments:(NSString *)folderPath {
-	
-	NSError *error;
+- (BOOL)copyResourcePatchFolderToDocuments:(NSString *)folderPath error:(NSError *)error {
 	
 	DDLogVerbose(@"AppDelegate: copying %@ to Documents", folderPath);
 	
@@ -364,6 +386,7 @@
 	if(![[NSFileManager defaultManager] fileExistsAtPath:destPath]) {
 		if(![[NSFileManager defaultManager] createDirectoryAtPath:destPath withIntermediateDirectories:NO attributes:NULL error:&error]) {
 			DDLogError(@"AppDelegate: couldn't create %@, error: %@", destPath, error.localizedDescription);
+			return NO;
 		}
 	}
 	
@@ -374,7 +397,7 @@
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:srcPath error:&error];
 	if(!contents) {
 		DDLogError(@"AppDelegate: couldn't read contents of path %@, error: %@", srcPath, error.localizedDescription);
-		return;
+		return NO;
 	}
 	for(NSString *p in contents) {
 		NSString *path = [srcPath stringByAppendingPathComponent:p];
@@ -384,14 +407,17 @@
 		if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
 			if(![[NSFileManager defaultManager] removeItemAtPath:newPath error:&error]) {
 				DDLogError(@"AppDelegate: couldn't remove %@, error: %@", newPath, error.localizedDescription);
+				return NO;
 			}
 		}
 
 		// copy subitem
 		if(![[NSFileManager defaultManager] copyItemAtPath:path toPath:newPath error:&error]) {
 			DDLogError(@"AppDelegate: couldn't copy %@ to %@, error: %@", path, newPath, error.localizedDescription);
+			return NO;
 		}
 	}
+	return YES;
 }
 
 @end
