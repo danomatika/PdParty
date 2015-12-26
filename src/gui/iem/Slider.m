@@ -256,7 +256,7 @@
 	else if(self.orientation == WidgetOrientationVertical) {
 		
 		if(!self.steady) {
-			int v = (int)(100.0 * (pos.y / self.gui.scaleX));
+			int v = (int)(100.0 * ((CGRectGetHeight(self.frame)-pos.y) / self.gui.scaleX));
 			v = CLAMP(v, 0, (100 * CGRectGetHeight(self.originalFrame) - 100));
 			controlPos = v;
 			[super setValue:v];
