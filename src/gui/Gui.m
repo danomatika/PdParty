@@ -35,6 +35,7 @@
 #import "Touch.h"
 #import "Wordbutton.h"
 #import "Loadsave.h"
+#import "Knob.h"
 
 @interface Gui ()
 
@@ -197,6 +198,14 @@
 	}
 }
 
+- (void)addKnob:(NSArray *)atomLine {
+	Knob *k = [Knob knobFromAtomLine:atomLine withGui:self];
+	if(k) {
+		[self.widgets addObject:k];
+		DDLogVerbose(@"Gui: added %@", k.type);
+	}
+}
+
 - (void)addWidgetsFromAtomLines:(NSArray *)lines {
 	int level = 0;
 	
@@ -289,6 +298,9 @@
 						}
 						else if([objType isEqualToString:@"loadsave"]) {
 							[self addLoadsave:line];
+						}
+						else if([objType isEqualToString:@"mknob"]) {
+							[self addKnob:line];
 						}
 						
 						// print warnings on objects that aren't completely compatible

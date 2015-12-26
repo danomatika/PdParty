@@ -10,7 +10,9 @@
  */
 #import <Foundation/Foundation.h>
 
-#define CLAMP(val, min, max) MIN(MAX(val, min), max)
+#define CLAMP(val, min, max) MIN(MAX(val, min), max) // clamp between a min & max
+#define RADIANS(degrees) ((degrees)*(M_PI/180)) // degrees to radians
+#define DEGREES(radians) ((radians)*(180/M_PI)) // radians to degrees
 
 @interface Util : NSObject
 

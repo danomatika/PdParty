@@ -41,17 +41,28 @@
 // add a widget using a given atom line (array of NSStrings)
 
 // pd
+- (void)addNumber:(NSArray *)atomLine;
+- (void)addSymbol:(NSArray *)atomLine;
 - (void)addComment:(NSArray *)atomLine;
-- (void)addNumberbox:(NSArray *)atomLine;
 
 // iem
 - (void)addBang:(NSArray *)atomLine;
 - (void)addToggle:(NSArray *)atomLine;
 - (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
 - (void)addRadio:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
-- (void)addCanvas:(NSArray *)atomLine;
 - (void)addNumberbox2:(NSArray *)atomLine;
 - (void)addVUMeter:(NSArray *)atomLine;
+- (void)addCanvas:(NSArray *)atomLine;
+
+// droidparty
+- (void)addDisplay:(NSArray *)atomLine;
+- (void)addNumberbox:(NSArray *)atomLine;
+- (void)addRibbon:(NSArray *)atomLine;
+- (void)addTaplist:(NSArray *)atomLine;
+- (void)addTouch:(NSArray *)atomLine;
+- (void)addWordbutton:(NSArray *)atomLine;
+- (void)addLoadsave:(NSArray *)atomLine;
+- (void)addKnob:(NSArray *)atomLine;
 
 // add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray *)lines;
