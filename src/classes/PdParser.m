@@ -60,6 +60,7 @@
 											encoding:NSUTF8StringEncoding];
 }
 
+// icu regex doc: http://userguide.icu-project.org/strings/regexp
 + (NSArray *)getAtomLines:(NSString *)patchText {
 	
 	NSMutableArray *atomLines = [[NSMutableArray alloc] init];
@@ -75,7 +76,7 @@
 		NSString *line = [patchText substringWithRange:NSMakeRange(lineMatch.range.location, lineMatch.range.length-2)];
 
 		
-		// replace whitespace chars with a space, break line into atoms delimited by spaces
+		// replace whitespace chars with a space
 		NSRegularExpression *atomRegexp = [NSRegularExpression regularExpressionWithPattern:@"\t|\r\n?|\n"
 																					options:NSRegularExpressionCaseInsensitive
 																					  error:NULL];
@@ -83,6 +84,35 @@
 															  options:NSMatchingWithTransparentBounds
 																range:NSMakeRange(0, line.length)
 														 withTemplate:@" "];
+		
+		// catch Pd 0.46+ variable width length info appended with a comma at the end of float & symbol atoms
+		//
+		// example:
+		//
+		//     #X symbolatom 138 49 10 0 0 0 - - send-ame, f 10;
+		//     #X floatatom 137 84 5 0 0 0 - - send-name, f 5;
+		//
+		// The ", f 10" & ", f5" are supplemental so the following regex catches the ", " and appends a space in front so the comma
+		// will become a separate string when parsed. This way, we can catch this supplemental informatino at the end of an atom line
+		// with arbitrary length by looking for a "," in the returned atom line array:
+		//
+		// array: "#X" "symbolatom" "138" "49" "10" "0" "0" "0" "-" "-" "send-name" "," "f" "10"
+		// array: "#X" "floatatom"  "137" "84"  "5" "0" "0" "0" "-" "-" "send-name" "," "f" "5"
+		//                                                          atom end ^       ^ info start
+		//
+		// note: the regex will *not* match escaped commas aka "\," so the following will not be broken:
+		//
+		// #X text 207 218 hello \, world \, foo & bar \,;
+		//
+		NSRegularExpression *commaRegexp = [NSRegularExpression regularExpressionWithPattern:@"(?<!\\\\),\\s"
+																					options:NSRegularExpressionCaseInsensitive
+																					  error:NULL];
+		atom = [commaRegexp stringByReplacingMatchesInString:atom
+													 options:NSMatchingWithTransparentBounds
+													   range:NSMakeRange(0, line.length)
+												withTemplate:@" , "]; // add preceding space
+		
+		// break line into strings delimited by spaces
 		[atomLines addObject:[atom componentsSeparatedByString:@" "]];
 	}
 	

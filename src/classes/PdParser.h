@@ -24,6 +24,15 @@
 + (NSString *)readPatch:(NSString *)patch;
 
 /// parse a given pd patch text into an array of atom lines
+///
+/// note: Pd 0.46+ includes variable width obj infomation appended at the end of
+/// atom lines as ", f #" with # being the width
+///
+/// example: #X floatatom 137 84 5 0 0 0 - - send-name, f 5;
+///
+/// this section is separated from the preceding atom infomation with an
+/// unescaped comma: ","
+///
 + (NSArray *)getAtomLines:(NSString *)patchText;
 
 @end
