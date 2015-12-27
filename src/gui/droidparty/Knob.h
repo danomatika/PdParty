@@ -12,7 +12,9 @@
 
 @class Gui;
 
-// TODO: lin/log not implemented (they aren't in DroidParty either)
+// [mknob] implementation from moonlib
+//
+// TODO: lin/log not implemented (they aren't in the DroidParty Knob either)
 @interface Knob : IEMWidget
 
 @property (assign, nonatomic) float mouse;

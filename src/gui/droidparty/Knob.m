@@ -20,6 +20,7 @@
 	float value0; // value of initial touch
 	float angle0; // angle of inital touch
 }
+@property (nonatomic) float controlValue; // normalized value, clockwise 0 -1
 @end
 
 @implementation Knob
@@ -75,6 +76,7 @@
     if(self) {
 		self.log = NO;
 		self.steady = YES;
+		self.controlValue = 0;
 		touch0 = nil;
 		pos0 = CGPointZero;
 		value0 = 0;
@@ -87,10 +89,10 @@
 
 	float angle; // clockwise, 0 degrees = down
 	if(self.mouse >= 0) {
-		angle = self.value * 270 + 45;
+		angle = self.controlValue * 270 + 45;
 	}
 	else {
-		angle = self.value * 360;
+		angle = self.controlValue * 360;
 	}
 
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -127,16 +129,18 @@
 	CGPathRelease(path);
 }
 
-- (void)sendValue {
-	[super sendFloat:((self.maxValue-self.minValue) * self.value + self.minValue)];
-}
-
 #pragma mark Overridden Getters / Setters
 
-//- (void)setValue:(float)f {
-//	f = CLAMP(f, self.minValue, self.maxValue);
-//	[super setValue:(f - self.minValue) / (self.maxValue-self.minValue)]; // normalize to 0-1
-//}
+- (void)setValue:(float)f {
+	f = CLAMP(f, self.minValue, self.maxValue);
+	_controlValue = (f - self.minValue) / (self.maxValue-self.minValue); // normalize to 0-1
+	[super setValue:f];
+}
+
+- (void)setControlValue:(float)f {
+	_controlValue = f;
+	[super setValue:((self.maxValue-self.minValue) * f + self.minValue)]; // denormalize
+}
 
 - (NSString *)type {
 	return @"Knob";
@@ -151,16 +155,16 @@
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	touch0 = touch;
-	value0 = self.value;
+	value0 = self.controlValue;
 	pos0.x = pos.x;
 	pos0.y = pos.y;
 	if(self.mouse <= 0) {
 		angle0 = [self circularValForX:pos.x andY:pos.y];
 		if(!self.steady) {
-			self.value = [self boundsForAngle:(angle0)];
+			self.controlValue = [self boundsForAngle:(angle0)];
 		}
 	}
-	[self sendValue];
+	[self sendFloat:self.value];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -174,12 +178,12 @@
 			else {
 				d = dx;
 			}
-			self.value = CLAMP(value0 + d/self.mouse, 0, 1);
+			self.controlValue = CLAMP(value0 + d/self.mouse, 0, 1);
 		}
 		else { // angular
 			float angle = [self circularValForX:pos.x andY:pos.y];
 			if(!self.steady) {
-				self.value = [self boundsForAngle:(angle)];
+				self.controlValue = [self boundsForAngle:(angle)];
 			}
 			else {
 				float dangle = [self fract:(angle - angle0)];
@@ -190,16 +194,16 @@
 					dangle += 1;
 				}
 				if(self.mouse == 0) {
-					self.value = CLAMP(value0 + dangle, 0, 1);
+					self.controlValue = CLAMP(value0 + dangle, 0, 1);
 				}
 				else {
-					self.value = [self fract:(value0 + dangle)];
+					self.controlValue = [self fract:(value0 + dangle)];
 				}
 				angle0 = angle;
 			}
 		}
-		[self sendValue];
-		value0 = self.value;
+		[self sendFloat:self.value];
+		value0 = self.controlValue;
 		pos0.x = pos.x;
 		pos0.y = pos.y;
 	}
@@ -220,12 +224,12 @@
 #pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {
-	[self sendValue];
+	[self sendFloat:self.value];
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.value = received;
-	[self sendValue];
+	[self sendFloat:self.value];
 }
 
 - (void)receiveSetFloat:(float)received {
@@ -306,12 +310,12 @@
 
 // returns cartesian x position for polar point with frame center as the origin
 - (float)circleX:(float)radius angle:(float)angle {
-	return CGRectGetWidth(self.frame)/2 + CGRectGetWidth(self.frame)/2*radius*cos(RADIANS(angle+90));
+	return CGRectGetWidth(self.frame)/2 + ((CGRectGetWidth(self.frame)/2)-1)*radius*cos(RADIANS(angle+90));
 }
 
 // returns cartesian y position for polar point with frame center as the origin
 - (float)circleY:(float)radius angle:(float)angle {
-	return CGRectGetHeight(self.frame)/2 + CGRectGetHeight(self.frame)/2*radius*sin(RADIANS(angle+90));
+	return CGRectGetHeight(self.frame)/2 + ((CGRectGetHeight(self.frame)/2)-1)*radius*sin(RADIANS(angle+90));
 }
 
 // returns the fractional part of a given number
