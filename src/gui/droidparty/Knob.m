@@ -67,6 +67,8 @@
 	k.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] intValue]];
 	k.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] intValue]];
 	
+	k.gui = gui;
+	
 	k.value = [[line objectAtIndex:21] floatValue];
 	
 	if([line count] > 21 && [line isNumberAt:22]) {
@@ -288,8 +290,8 @@
 		// size, mouse
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			CLAMP([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE, MKNOB_MINSIZE),
-			CLAMP([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE, MKNOB_MINSIZE));
+			MAX([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE),
+			MAX([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE));
 		self.mouse = [[arguments objectAtIndex:1] floatValue];
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
