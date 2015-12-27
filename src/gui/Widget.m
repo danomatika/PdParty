@@ -195,8 +195,10 @@
 }
 
 - (void)setReceiveName:(NSString *)name {
-	if(name && ![name isEqualToString:@""]) {
+	if(self.receiveName && ![name isEqualToString:@""]) {
 		[dispatcher removeListener:self forSource:self.receiveName]; // remove old name
+	}
+	if(name && ![name isEqualToString:@""]) {
 		_receiveName = name;
 		[dispatcher addListener:self forSource:self.receiveName]; // add new one		
 	}

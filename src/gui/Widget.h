@@ -51,7 +51,7 @@ typedef enum {
 
 @property (assign, nonatomic) float minValue;
 @property (assign, nonatomic) float maxValue;
-@property (assign, nonatomic) float value;
+@property (assign, nonatomic) float value; // base value, Widget is redrawn when set
 @property (assign, nonatomic) BOOL inits; // sends value when initing?
 
 @property (strong) NSString *sendName;
