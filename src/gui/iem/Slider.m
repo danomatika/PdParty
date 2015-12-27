@@ -205,18 +205,11 @@
 		[self checkMinAndMax];
 	}
 	else {
-		
 		float size = CGRectGetWidth(self.originalFrame);
 		if(self.orientation == WidgetOrientationVertical) {
 			size = CGRectGetHeight(self.originalFrame);
 		}
-		
-		if(self.log) {
-			sizeConvFactor = log(self.maxValue / self.minValue) / (double)(size - 1);
-		}
-		else {
-			sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
-		}	
+		sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
 	}
 }
 
@@ -354,7 +347,7 @@
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.value = received;
-	[self sendFloat:self.value];
+	[super sendFloat:received]; // Pd 0.46+ doesn't clip incoming values
 }
 
 - (void)receiveSetFloat:(float)received {
