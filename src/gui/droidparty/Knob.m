@@ -12,9 +12,13 @@
 
 #import "Gui.h"
 #include "z_libpd.h"
-#include "g_all_guis.h" // iem gui
+
+// from moonlib mknob.c
+#define MKNOB_MINSIZE 12
 
 @interface Knob () {
+	BOOL isReversed; // is the min value > max value?
+	double convFactor; // scaling factor for lin/log value conversion
 	UITouch *touch0; // initial touch pointer, nil if none
 	CGPoint pos0; // position of initial touch
 	float value0; // value of initial touch
@@ -51,6 +55,7 @@
 	k.maxValue = [[line objectAtIndex:8] floatValue];
 	k.log = [[line objectAtIndex:9] boolValue];
 	k.inits = [[line objectAtIndex:10] boolValue];
+	[k checkMinAndMax];
 	
 	k.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
 	k.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue],
@@ -74,9 +79,12 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
+		self.mouse = 100;
 		self.log = NO;
 		self.steady = YES;
 		self.controlValue = 0;
+		isReversed = NO;
+		convFactor = 0;
 		touch0 = nil;
 		pos0 = CGPointZero;
 		value0 = 0;
@@ -132,14 +140,51 @@
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
-	f = CLAMP(f, self.minValue, self.maxValue);
-	_controlValue = (f - self.minValue) / (self.maxValue-self.minValue); // normalize to 0-1
+	double g;
+	
+	if(isReversed) {
+		f = CLAMP(f, self.maxValue, self.minValue);
+    }
+    else {
+		f = CLAMP(f, self.minValue, self.maxValue);
+    }
 	[super setValue:f];
+
+	if(self.log) { // normalize
+        g = log(f / self.minValue) / convFactor;
+	}
+    else {
+        g = (f - self.minValue) / convFactor;
+    }
+	_controlValue = g;
 }
 
 - (void)setControlValue:(float)f {
 	_controlValue = f;
-	[super setValue:((self.maxValue-self.minValue) * f + self.minValue)]; // denormalize
+
+	if(self.log) { // denormalize
+        f = self.minValue * exp(convFactor * (double)(f));
+    }
+	else {
+        f = (double)(f) * convFactor + self.minValue;
+	}
+	
+    if((f < 1.0e-10) && (f > -1.0e-10)) {
+        f = 0.0;
+	}
+	[super setValue:f];
+}
+
+- (void)setLog:(BOOL)l {
+	if(_log == l) return;
+	_log = l;
+	
+	if(self.log) {
+		[self checkMinAndMax];
+	}
+	else {
+		convFactor = (self.maxValue - self.minValue);
+	}
 }
 
 - (NSString *)type {
@@ -243,8 +288,8 @@
 		// size, mouse
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
-			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
+			CLAMP([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE, MKNOB_MINSIZE),
+			CLAMP([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE, MKNOB_MINSIZE));
 		self.mouse = [[arguments objectAtIndex:1] floatValue];
 		[self reshapeForGui:self.gui];
 		[self setNeedsDisplay];
@@ -259,6 +304,7 @@
 		// low, high
 		self.minValue = [[arguments objectAtIndex:0] floatValue];
 		self.maxValue = [[arguments objectAtIndex:1] floatValue];
+		[self checkMinAndMax];
 		return YES;
 	}
 	else if([message isEqualToString:@"lin"]) {
@@ -321,6 +367,39 @@
 // returns the fractional part of a given number
 - (float)fract:(float)f {
 	return f - floor(f);
+}
+
+// adapted from g_hslider.c & g_vslider.c
+- (void)checkMinAndMax {
+	if(self.log) {
+        if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
+			self.maxValue = 1.0;
+		}
+        if(self.maxValue > 0.0) {
+            if(self.minValue <= 0.0) {
+                self.minValue = 0.01 * self.maxValue;
+			}
+        }
+        else {
+            if(self.minValue > 0.0) {
+                self.maxValue = 0.01 * self.minValue;
+			}
+        }
+    }
+	
+	if(self.minValue > self.maxValue) {
+        isReversed = YES;
+	}
+    else {
+        isReversed = NO;
+	}
+	
+	if(self.log) {
+		convFactor = log(self.maxValue / self.minValue);
+    }
+	else {
+        convFactor = (self.maxValue - self.minValue);
+	}
 }
 
 @end

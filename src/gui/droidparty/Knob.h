@@ -12,13 +12,16 @@
 
 @class Gui;
 
-// [mknob] implementation from moonlib
-//
-// TODO: lin/log not implemented (they aren't in the DroidParty Knob either)
+// moonlib [mknob] implementation
 @interface Knob : IEMWidget
 
+// mouse excursion (default: 100)
+// >0: vert/horz sensitivity, higher numbers are less sensitive
+//  0: angular rotation with min/max stops
+// -1: full angular rotation without stops
 @property (assign, nonatomic) float mouse;
-@property (assign, nonatomic) BOOL log; // linear or logarithmic scale? TODO
+
+@property (assign, nonatomic) BOOL log; // linear or logarithmic scale?
 @property (assign, nonatomic) BOOL steady; // steady on click?
 
 + (id)knobFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
