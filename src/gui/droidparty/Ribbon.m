@@ -48,6 +48,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
+		self.multipleTouchEnabled = YES;
 		self.label = nil; // don't need label
 		leftTouch = nil;
 		rightTouch = nil;
