@@ -82,9 +82,6 @@
 
 #pragma Utils
 
-// send init values for non-built in objects
-- (void)sendInitValues;
-
 // replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch;
 
