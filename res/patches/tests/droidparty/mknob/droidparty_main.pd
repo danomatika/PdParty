@@ -1,0 +1,21 @@
+#N canvas 131 114 424 251 10;
+#X obj 341 125 osc~ 440;
+#X obj 341 166 *~;
+#X obj 341 187 dac~;
+#X obj 356 146 r volume;
+#X obj 343 46 loadbang;
+#X msg 343 67 \; pd dsp 1;
+#X obj 223 200 import moonlib;
+#X obj 32 27 mknob 50 200 0 1 0 0 volume empty vertical/horizontal
+-2 -6 0 8 -262144 -1 -1 0 1;
+#X obj 29 106 mknob 50 0 0 1 0 0 volume empty angular -2 -6 0 8 -262144
+-1 -1 0 1;
+#X obj 29 186 mknob 50 -1 0 1 0 0 volume empty full-angular -2 -6 0
+8 -262144 -1 -1 0 1;
+#X obj 220 62 mknob 100 -1 0 1 0 0 empty empty image -2 -6 0 8 -262144
+-1 -1 0 1;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 0 2 1;
+#X connect 3 0 1 1;
+#X connect 4 0 5 0;

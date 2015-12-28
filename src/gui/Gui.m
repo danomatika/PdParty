@@ -21,7 +21,7 @@
 // iem
 #import "Bang.h"
 #import "Toggle.h"
-#import "Numberbox2.h"
+#import "Number2.h"
 #import "Slider.h"
 #import "Radio.h"
 #import "VUMeter.h"
@@ -102,8 +102,8 @@
 	}
 }
 
-- (void)addNumberbox2:(NSArray *)atomLine {
-	Numberbox2 *n = [Numberbox2 numberbox2FromAtomLine:atomLine withGui:self];
+- (void)addNumber2:(NSArray *)atomLine {
+	Number2 *n = [Number2 number2FromAtomLine:atomLine withGui:self];
 	if(n) {
 		[self.widgets addObject:n];
 		DDLogVerbose(@"Gui: added %@", n.type);
@@ -256,7 +256,7 @@
 							[self addToggle:line];
 						}
 						else if([objType isEqualToString:@"nbx"]) {
-							[self addNumberbox2:line];
+							[self addNumber2:line];
 						}
 						else if([objType isEqualToString:@"hsl"]) {
 							[self addSlider:line withOrientation:WidgetOrientationHorizontal];
@@ -316,6 +316,22 @@
 
 - (void)addWidgetsFromPatch:(NSString *)patch {
 	[self addWidgetsFromAtomLines:[PdParser getAtomLines:[PdParser readPatch:patch]]];
+}
+
+- (void)initWidgetsFromPatch:(PdFile *)patch {
+	for(Widget *widget in self.widgets) {
+		[widget replaceDollarZerosForGui:self fromPatch:patch];
+	}
+}
+
+- (void)initWidgetsFromPatch:(PdFile *)patch andAddToView:(UIView *)view {
+	for(Widget *widget in self.widgets) {
+		[widget replaceDollarZerosForGui:self fromPatch:patch];
+		[view addSubview:widget];
+		if(widget.inits) {
+			[widget sendInitValue];
+		}
+	}
 }
 
 - (void)reshapeWidgets {

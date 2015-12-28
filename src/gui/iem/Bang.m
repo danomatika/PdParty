@@ -63,10 +63,6 @@
 	
 	b.gui = gui;
 	
-	if(b.inits) {
-		[b receiveBangFromSource:@""];
-	}
-	
 	return b;
 }
 
@@ -118,7 +114,6 @@
 - (void)sendInitValue {
 	if(self.inits) {
 		[self bang];
-		[self sendBang];
 	}
 }
 

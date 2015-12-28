@@ -69,11 +69,10 @@
 	
 	k.gui = gui;
 	
-	k.value = [[line objectAtIndex:21] floatValue];
-	
-	if([line count] > 21 && [line isNumberAt:22]) {
-		k.steady = ![[line objectAtIndex:22] boolValue];
+	if(k.inits) { // convert saved int to float
+		[k initValue:[[line objectAtIndex:21] intValue]];
 	}
+	k.steady = [[line objectAtIndex:22] boolValue];
 	
 	return k;
 }
@@ -84,7 +83,7 @@
 		self.mouse = 100;
 		self.log = NO;
 		self.steady = YES;
-		self.controlValue = 0;
+		_controlValue = 0;
 		isReversed = NO;
 		convFactor = 0;
 		touch0 = nil;
@@ -123,20 +122,25 @@
 	CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
 	CGMutablePathRef path = CGPathCreateMutable();
 	CGPathMoveToPoint(path, NULL,
-						 [self circleX:littlerad angle:(angle-90)],
-						 [self circleY:littlerad angle:(angle-90)]);
+						 round([self circleX:littlerad angle:(angle-90)]),
+						 round([self circleY:littlerad angle:(angle-90)]));
 	CGPathAddLineToPoint(path, NULL,
-						 [self circleX:littlerad angle:(angle+90)],
-						 [self circleY:littlerad angle:(angle+90)]);
+						 round([self circleX:littlerad angle:(angle+90)]),
+						 round([self circleY:littlerad angle:(angle+90)]));
 	CGPathAddLineToPoint(path, NULL,
-						 [self circleX:0.9 angle:angle],
-						 [self circleY:0.9 angle:angle]);
+						 round([self circleX:0.9 angle:angle]),
+						 round([self circleY:0.9 angle:angle]));
 	CGPathAddLineToPoint(path, NULL,
-						 [self circleX:littlerad angle:(angle-90)],
-						 [self circleY:littlerad angle:(angle-90)]);
+						 round([self circleX:littlerad angle:(angle-90)]),
+						 round([self circleY:littlerad angle:(angle-90)]));
 	CGContextAddPath(context, path);
 	CGContextDrawPath(context, kCGPathFillStroke);
 	CGPathRelease(path);
+}
+
+// mknob is a dummy in PdParty, so make sure we went the init value manually
+- (void)sendInitValue {
+	[self sendFloat:self.value];
 }
 
 #pragma mark Overridden Getters / Setters
@@ -325,6 +329,70 @@
 
 #pragma mark Private
 
+// convert & set saved int init value to float,
+// adapted from mknob.c mknob_check_wh()
+- (void)initValue:(int)val {
+
+	int H;
+	int w = CGRectGetWidth(self.originalFrame);
+    H = self.mouse;
+    if(H < 0) {
+		H = 360;
+	}
+    if(H == 0) {
+		H = 270;
+	}
+
+	double sizeConvFactor, g;
+	int size = CGRectGetWidth(self.originalFrame);
+	if(self.log) {
+		sizeConvFactor = log(self.maxValue/self.minValue) / (H-1);
+		g = self.minValue*exp((convFactor/size)*(double)(val)*0.01);
+	}
+	else {
+		sizeConvFactor = (self.maxValue - self.minValue) / (H-1);
+		g = (double)(val)*0.01*(sizeConvFactor + self.minValue);
+	}
+	if((g < 1.0e-10) && (g > -1.0e-10)) {
+		g = 0.0;
+	}
+	
+	self.value = g;
+}
+
+// adapted from g_hslider.c & g_vslider.c
+- (void)checkMinAndMax {
+	if(self.log) {
+        if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
+			self.maxValue = 1.0;
+		}
+        if(self.maxValue > 0.0) {
+            if(self.minValue <= 0.0) {
+                self.minValue = 0.01 * self.maxValue;
+			}
+        }
+        else {
+            if(self.minValue > 0.0) {
+                self.maxValue = 0.01 * self.minValue;
+			}
+        }
+    }
+	
+	if(self.minValue > self.maxValue) {
+        isReversed = YES;
+	}
+    else {
+        isReversed = NO;
+	}
+	
+	if(self.log) {
+		convFactor = log(self.maxValue / self.minValue);
+    }
+	else {
+        convFactor = (self.maxValue - self.minValue);
+	}
+}
+
 // returns normalized angle clockwise along the circle ala
 // 0.0: bottom
 // 0.5: top
@@ -369,39 +437,6 @@
 // returns the fractional part of a given number
 - (float)fract:(float)f {
 	return f - floor(f);
-}
-
-// adapted from g_hslider.c & g_vslider.c
-- (void)checkMinAndMax {
-	if(self.log) {
-        if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
-			self.maxValue = 1.0;
-		}
-        if(self.maxValue > 0.0) {
-            if(self.minValue <= 0.0) {
-                self.minValue = 0.01 * self.maxValue;
-			}
-        }
-        else {
-            if(self.minValue > 0.0) {
-                self.maxValue = 0.01 * self.minValue;
-			}
-        }
-    }
-	
-	if(self.minValue > self.maxValue) {
-        isReversed = YES;
-	}
-    else {
-        isReversed = NO;
-	}
-	
-	if(self.log) {
-		convFactor = log(self.maxValue / self.minValue);
-    }
-	else {
-        convFactor = (self.maxValue - self.minValue);
-	}
 }
 
 @end

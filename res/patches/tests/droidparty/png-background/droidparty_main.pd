@@ -1,0 +1,5 @@
+#N canvas 582 111 480 266 10;
+#X text 17 9 about png background :;
+#X text 22 43 if there is no background.svg \, then background.png
+;
+#X text 21 58 (if exists) is used.;

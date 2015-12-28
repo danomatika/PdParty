@@ -226,7 +226,7 @@
 		30E89D4016EC46CF005B40C4 /* Number.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3416EC46CF005B40C4 /* Number.m */; };
 		30E89D4116EC46CF005B40C4 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D3616EC46CF005B40C4 /* Symbol.m */; };
 		30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4316EC4748005B40C4 /* IEMWidget.m */; };
-		30E89D4716ECEDF2005B40C4 /* Numberbox2.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4616ECEDF0005B40C4 /* Numberbox2.m */; };
+		30E89D4716ECEDF2005B40C4 /* Number2.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4616ECEDF0005B40C4 /* Number2.m */; };
 		30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4916EDB459005B40C4 /* VUMeter.m */; };
 		30F3E79517C5491100117305 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 30F3E79417C5491100117305 /* images */; };
 		30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3E79617CAA1BB00117305 /* QuartzCore.framework */; };
@@ -587,8 +587,8 @@
 		30E89D3616EC46CF005B40C4 /* Symbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbol.m; sourceTree = "<group>"; };
 		30E89D4216EC4748005B40C4 /* IEMWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEMWidget.h; sourceTree = "<group>"; };
 		30E89D4316EC4748005B40C4 /* IEMWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IEMWidget.m; sourceTree = "<group>"; };
-		30E89D4516ECEDEF005B40C4 /* Numberbox2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Numberbox2.h; sourceTree = "<group>"; };
-		30E89D4616ECEDF0005B40C4 /* Numberbox2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Numberbox2.m; sourceTree = "<group>"; };
+		30E89D4516ECEDEF005B40C4 /* Number2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Number2.h; sourceTree = "<group>"; };
+		30E89D4616ECEDF0005B40C4 /* Number2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Number2.m; sourceTree = "<group>"; };
 		30E89D4816EDB457005B40C4 /* VUMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUMeter.h; sourceTree = "<group>"; };
 		30E89D4916EDB459005B40C4 /* VUMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUMeter.m; sourceTree = "<group>"; };
 		30F3E79417C5491100117305 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
@@ -1440,8 +1440,8 @@
 				30E89D2316EC46CE005B40C4 /* Canvas.m */,
 				30E89D4216EC4748005B40C4 /* IEMWidget.h */,
 				30E89D4316EC4748005B40C4 /* IEMWidget.m */,
-				30E89D4516ECEDEF005B40C4 /* Numberbox2.h */,
-				30E89D4616ECEDF0005B40C4 /* Numberbox2.m */,
+				30E89D4516ECEDEF005B40C4 /* Number2.h */,
+				30E89D4616ECEDF0005B40C4 /* Number2.m */,
 				30E89D2816EC46CE005B40C4 /* Radio.h */,
 				30E89D2916EC46CE005B40C4 /* Radio.m */,
 				30E89D2A16EC46CE005B40C4 /* Slider.h */,
@@ -1727,7 +1727,7 @@
 				3094B44D18C97CCF00AFE178 /* zip.c in Sources */,
 				30E89D4116EC46CF005B40C4 /* Symbol.m in Sources */,
 				30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */,
-				30E89D4716ECEDF2005B40C4 /* Numberbox2.m in Sources */,
+				30E89D4716ECEDF2005B40C4 /* Number2.m in Sources */,
 				30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */,
 				308E06481AD8611800BD1C79 /* m_class.c in Sources */,
 				30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */,

@@ -44,12 +44,9 @@
 	// load widgets from gui
 	if(self.parentView) {
 		if(self.gui.widgets.count > 0) {
-			DDLogVerbose(@"%@: adding %lu widgets", self.typeString, self.gui.widgets.count);
+			DDLogVerbose(@"%@: adding %u widgets", self.typeString, self.gui.widgets.count);
 		}
-		for(Widget *widget in self.gui.widgets) {
-			[widget replaceDollarZerosForGui:self.gui fromPatch:self.patch];
-			[self.parentView addSubview:widget];
-		}
+		[self.gui initWidgetsFromPatch:self.patch andAddToView:self.parentView];
 	}
 	
 	return YES;

@@ -1,0 +1,48 @@
+#N canvas 0 22 299 432 10;
+#X obj 42 36 mknob 50 200 0 127 0 0 knob1-out knob1-in 1_vertical/horizontal
+-2 -6 0 8 -262144 -1 -1 14259 1;
+#X obj 41 141 mknob 50 0 0 127 0 0 knob2-out knob2-in 2_angular -2
+-6 0 8 -262144 -1 -1 146 1;
+#X obj 38 252 mknob 50 -1 0 127 0 0 knob3-out knob3-in 3_full_angular
+-2 -6 0 8 -262144 -1 -1 17399 1;
+#X floatatom 162 70 5 0 0 0 - knob1-out -, f 5;
+#X floatatom 162 41 5 0 0 0 - - knob1-in, f 5;
+#X obj 213 41 tgl 15 1 steady1-out empty steady 17 7 0 10 -262144 -1
+-1 1 1;
+#X floatatom 161 168 5 0 0 0 - knob2-out -, f 5;
+#X floatatom 161 139 5 0 0 0 - - knob2-in, f 5;
+#X obj 212 139 tgl 15 1 steady2-out empty steady 17 7 0 10 -262144
+-1 -1 1 1;
+#X floatatom 161 285 5 0 0 0 - knob3-out -, f 5;
+#X floatatom 161 256 5 0 0 0 - - knob3-in, f 5;
+#X obj 212 255 tgl 15 1 steady3-out empty steady 17 7 0 10 -262144
+-1 -1 1 1;
+#N canvas 0 22 373 296 guts 0;
+#X obj 41 19 r steady1-out;
+#X msg 41 57 \; knob1-in steady \$1;
+#X obj 41 195 r steady3-out;
+#X obj 41 111 r steady2-out;
+#X obj 205 194 r set1-out;
+#X msg 205 233 \; knob1-in set 100;
+#X msg 41 149 \; knob2-in steady \$1;
+#X msg 41 233 \; knob3-in steady \$1;
+#X obj 197 17 r minmax2-out;
+#X obj 197 48 sel 0 1;
+#X msg 197 87 \; knob2-in range 0 127;
+#X msg 216 117 \; knob2-in range 127 0;
+#X connect 0 0 1 0;
+#X connect 2 0 7 0;
+#X connect 3 0 6 0;
+#X connect 4 0 5 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 9 1 11 0;
+#X restore 219 356 pd guts;
+#X obj 215 71 bng 15 250 50 0 set1-out empty set 17 7 0 10 -262144
+-1 -1;
+#X obj 40 352 mknob 50 200 1.27 127 1 0 knob4-out knob4-in 4_log -2
+-6 0 8 -262144 -1 -1 19900 1;
+#X floatatom 160 386 5 0 0 0 - knob4-out -, f 5;
+#X floatatom 160 357 5 0 0 0 - - knob4-in, f 5;
+#X obj 162 196 tgl 15 0 minmax2-out empty rev_min/max 17 7 0 10 -262144
+-1 -1 0 1;

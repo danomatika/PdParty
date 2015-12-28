@@ -48,10 +48,12 @@
 	t.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
 	t.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
 	
-	t.nonZeroValue = [[line objectAtIndex:18] floatValue];
-	t.value = [[line objectAtIndex:17] floatValue];
-
 	t.gui = gui;
+	
+	t.nonZeroValue = [[line objectAtIndex:18] floatValue];
+	if(t.inits) {
+		t.value = [[line objectAtIndex:17] floatValue];
+	}
 	
 	return t;
 }
@@ -128,8 +130,8 @@
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
-	if(f != self.nonZeroValue) { // remember new enabled value
-		self.nonZeroValue = f;
+	if(f != 0) {
+		f = self.nonZeroValue;
 	}
 	[super setValue:f];
 }
@@ -160,7 +162,7 @@
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.value = received;
-	[self sendFloat:self.value];
+	[self sendFloat:received]; // Pd 0.46+ doesn't clip incoming values
 }
 
 - (void)receiveSetFloat:(float)received {

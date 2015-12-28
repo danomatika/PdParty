@@ -18,10 +18,13 @@
 	BOOL isReversed; // is the min value > max value?
 	double sizeConvFactor; // scaling factor for lin/log value conversion
 	int centerValue; // for detecting when to draw thicker control
-	int controlPos;
-	BOOL isOneFinger;
-	float prevPos;
+	int controlPos; // control movement calc
+	BOOL isOneFinger; // one finger or two?
+	float prevPos; // prev pos for delta calc
 }
+
+// slider int value, related to pos
+@property (readonly, nonatomic) int controlValue;
 
 - (void)checkSize;
 - (void)checkMinAndMax;
@@ -70,18 +73,10 @@
 
 	s.gui = gui;
 	
-	if(orientation == WidgetOrientationHorizontal) {
-		s.value = ([[line objectAtIndex:21] floatValue] * 0.01 * (s.maxValue - s.minValue)) /
-			[[line objectAtIndex:5] floatValue];
+	if(s.inits) {
+		s.controlValue = [[line objectAtIndex:21] intValue];
 	}
-	else {
-		s.value = ([[line objectAtIndex:21] floatValue] * 0.01 * (s.maxValue - s.minValue)) /
-			([[line objectAtIndex:6] floatValue] - 1 + s.minValue);
-	}
-	
-	if([line count] > 21 && [line isNumberAt:22]) {
-		s.steady = [[line objectAtIndex:22] boolValue];
-	}
+	s.steady = [[line objectAtIndex:22] boolValue];
 	
 	return s;
 }
@@ -89,6 +84,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
+		self.multipleTouchEnabled = YES;
 		self.log = NO;
 		self.orientation = WidgetOrientationHorizontal;
 		self.steady = YES;
@@ -119,7 +115,7 @@
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	CGContextSetShouldAntialias(context, NO); // no fuzzy straight lines
 	if(self.orientation == WidgetOrientationHorizontal) {
-		float x = (self.value + 50) * 0.01 * self.gui.scaleX;
+		float x = (self.controlValue + 50) * 0.01 * self.gui.scaleX;
 		int controlWidth = 3;
 		// constrain pos at edges
 		if(x < controlWidth) {
@@ -129,7 +125,7 @@
 		else if(x > rect.size.width - (controlWidth - 1)) {
 			x = rect.size.width - controlWidth - 1;
 		}
-		else if (self.value == centerValue) {
+		else if (self.controlValue == centerValue) {
 			controlWidth = 7; // thick line in middle
 		}
 		CGContextSetLineWidth(context, controlWidth);
@@ -138,7 +134,7 @@
 		CGContextStrokePath(context);
 	}
 	else { // vertical
-		float y = CGRectGetHeight(rect) - ((self.value + 50) * 0.01 * self.gui.scaleX);
+		float y = CGRectGetHeight(rect) - ((self.controlValue + 50) * 0.01 * self.gui.scaleX);
 		int controlWidth = 3;
 		// constrain pos at edges
 		if(y < controlWidth) {
@@ -148,7 +144,7 @@
 		else if(y > rect.size.height - (controlWidth - 1)) {
 			y = rect.size.height - controlWidth - 1;
 		}
-		else if(self.value == centerValue) {
+		else if(self.controlValue == centerValue) {
 			controlWidth = 7; // thick line in middle
 		}
 		CGContextSetLineWidth(context, controlWidth);
@@ -158,43 +154,44 @@
 	}
 }
 
-- (void)sendFloat:(float)f {
-
-	if(self.log) {
-        f = self.minValue * exp(sizeConvFactor * (double)(f) * 0.01);
-    }
-	else {
-        f = (double)(f) * 0.01 * sizeConvFactor + self.minValue;
-	}
-	
-    if((f < 1.0e-10) && (f > -1.0e-10)) {
-        f = 0.0;
-	}
-	
-	[super sendFloat:f];
-}
-
 #pragma mark Overridden Getters / Setters
 
-- (void)setValue:(float)f {
-		
+- (void)setValue:(float)value{
 	double g;
-	
 	if(isReversed) {
-		f = CLAMP(f, self.maxValue, self.minValue);
+		value = CLAMP(value, self.maxValue, self.minValue);
     }
     else {
-		f = CLAMP(f, self.minValue, self.maxValue);
+		value = CLAMP(value, self.minValue, self.maxValue);
     }
+	[super setValue:value];
 
-	if(self.log) {
-        g = log(f / self.minValue) / sizeConvFactor;
+	if(self.log) { // float to pos
+        g = log(value / self.minValue) / sizeConvFactor;
 	}
     else {
-        g = (f - self.minValue) / sizeConvFactor;
+        g = (value - self.minValue) / sizeConvFactor;
     }
-	[super setValue:(int)(100.0*g + 0.49999)];
-	controlPos = self.value;
+	_controlValue = (int)(100.0*g + 0.49999);
+	controlPos = _controlValue;
+}
+
+- (void)setControlValue:(int)controlValue {
+	_controlValue = controlValue;
+	controlPos = controlValue;
+	
+	double g;
+	if(self.log) { // pos to float
+        g = self.minValue * exp(sizeConvFactor * (double)(controlValue) * 0.01);
+    }
+	else {
+        g = (double)(controlValue) * 0.01 * sizeConvFactor + self.minValue;
+	}
+	
+    if((g < 1.0e-10) && (g > -1.0e-10)) {
+        g = 0.0;
+	}
+	[super setValue:g];
 }
 
 - (void)setLog:(BOOL)l {
@@ -239,8 +236,7 @@
 		if(!self.steady) {
 			int v = (int)(100.0 * (pos.x / self.gui.scaleX));
 			v = CLAMP(v, 0, (100 * CGRectGetWidth(self.originalFrame) - 100));
-			controlPos = v;
-			[super setValue:v];
+			self.controlValue = v;
 		}
 		
 		[self sendFloat:self.value];
@@ -251,8 +247,7 @@
 		if(!self.steady) {
 			int v = (int)(100.0 * ((CGRectGetHeight(self.frame)-pos.y) / self.gui.scaleX));
 			v = CLAMP(v, 0, (100 * CGRectGetHeight(self.originalFrame) - 100));
-			controlPos = v;
-			[super setValue:v];
+			self.controlValue = v;
 		}
 		
 		[self sendFloat:self.value];
@@ -267,7 +262,7 @@
 	
 	if(self.orientation == WidgetOrientationHorizontal) {
 		float delta = (pos.x - prevPos) / self.gui.scaleX;
-		float old = self.value;
+		float old = self.controlValue;
 	
 		int v = 0;
 		if(!isOneFinger) {
@@ -288,18 +283,18 @@
 			controlPos -= 50;
 			controlPos -= controlPos % 100;
 		}
-		[super setValue:v];
+		self.controlValue = v;
 		
 		// don't resend old values
 		if(old != v) {
-			[self sendFloat:v];
+			[self sendFloat:self.value];
 		}
 		
 		prevPos = pos.x;
 	}
 	else if(self.orientation == WidgetOrientationVertical) {
 		float delta = (pos.y - prevPos) / self.gui.scaleX;
-		float old = self.value;
+		float old = self.controlValue;
 	
 		int v = 0;
 		if(!isOneFinger) {
@@ -320,11 +315,12 @@
 			controlPos -= 50;
 			controlPos -= controlPos % 100;
 		}
-		[super setValue:v];
+		self.controlValue = v;
+		controlPos = v;
 		
 		// don't resend old values
 		if(old != v) {
-			[self sendFloat:v];
+			[self sendFloat:self.value];
 		}
 		
 		prevPos = pos.y;
@@ -419,8 +415,8 @@
 	}
 	
 	centerValue = (size-1) * 50;
-    if(self.value > (size * 100 - 100)) {
-        self.value = size * 100 - 100;
+    if(self.controlValue > (size * 100 - 100)) {
+        self.controlValue = size * 100 - 100;
     }
     if(self.log) {
 		sizeConvFactor = log(self.maxValue / self.minValue) / (double)(size - 1);

@@ -54,6 +54,10 @@
 
 	r.gui = gui;
 	
+	if(r.inits) {
+		r.value = [[line objectAtIndex:19] intValue];
+	}
+	
 	return r;
 }
 
@@ -181,7 +185,7 @@
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.value = received;
-	[self sendFloat:self.value];
+	[super sendFloat:received]; // Pd 0.46+ doesn't clip incoming values
 }
 
 - (void)receiveSetFloat:(float)received {

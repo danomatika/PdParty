@@ -50,7 +50,7 @@
 - (void)addToggle:(NSArray *)atomLine;
 - (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
 - (void)addRadio:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
-- (void)addNumberbox2:(NSArray *)atomLine;
+- (void)addNumber2:(NSArray *)atomLine;
 - (void)addVUMeter:(NSArray *)atomLine;
 - (void)addCanvas:(NSArray *)atomLine;
 
@@ -70,10 +70,19 @@
 // add widgets from a pd patch
 - (void)addWidgetsFromPatch:(NSString *)patch;
 
+// init widgets with patch $0 value
+- (void)initWidgetsFromPatch:(PdFile *)patch;
+
+// init widgets with patch $0 value and add them as subviews to view
+- (void)initWidgetsFromPatch:(PdFile *)patch andAddToView:(UIView *)view;
+
 // reposition/resize widgets based on scale amounts & font size
 - (void)reshapeWidgets;
 
 #pragma Utils
+
+// send init values for non-built in objects
+- (void)sendInitValues;
 
 // replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch;

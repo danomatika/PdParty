@@ -1,0 +1,14 @@
+#N canvas 235 330 213 308 10;
+#X obj 66 123 mknob 50 200 0 127 0 0 knob-out knob-in knob -2 -6 0
+8 -191407 -260097 -159808 0 0;
+#X floatatom 72 229 5 0 0 0 - knob-out -, f 5;
+#X floatatom 70 44 5 0 0 0 - - knob-in, f 5;
+#N canvas 0 22 213 202 guts 0;
+#X obj 21 27 r #osc-in;
+#X obj 44 55 print #osc-in;
+#X obj 21 82 route edit;
+#X obj 21 111 s knob-in;
+#X connect 0 0 1 0;
+#X connect 0 0 2 0;
+#X connect 2 0 3 0;
+#X restore 139 269 pd guts;

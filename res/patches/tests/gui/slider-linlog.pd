@@ -1,29 +1,29 @@
 #N canvas 310 116 209 247 10;
 #X obj 18 25 hsl 128 15 0 127 0 0 nbx1-in empty hsl1 -2 -8 0 10 -262144
--1 -1 8400 0;
-#X obj 19 82 hsl 128 15 0.01 127 0 0 nbx2-in hsl2-in hsl2 -2 -8 0 10
--262144 -1 -1 2000 1;
-#X obj 28 142 tgl 15 0 \$0-log empty log 17 7 0 10 -262144 -1 -1 0
+-1 -1 6000 1;
+#X obj 19 82 hsl 128 15 1.27 127 1 0 nbx2-in hsl2-in hsl2 -2 -8 0 10
+-262144 -1 -1 10632 1;
+#X obj 28 142 tgl 15 1 \$0-log empty log 17 7 0 10 -262144 -1 -1 1
 1;
-#N canvas 162 175 419 150 guts 0;
-#X obj -155 16 r \$0-log;
-#X obj -155 54 sel 0;
-#X msg -165 95 \; hsl2-in lin;
-#X msg -74 95 \; hsl2-in log;
-#X obj 9 17 r nbx2-out;
-#X obj 9 51 print nbx2-out;
-#X obj 126 66 r \$0-steady;
-#X msg 126 96 \; hsl2-in steady \$1;
+#N canvas 162 175 464 149 guts 0;
+#X obj 23 20 r \$0-log;
+#X obj 23 58 sel 0;
+#X msg 13 99 \; hsl2-in lin;
+#X msg 104 99 \; hsl2-in log;
+#X obj 187 21 r nbx2-out;
+#X obj 187 55 print nbx2-out;
+#X obj 317 42 r \$0-steady;
+#X msg 317 72 \; hsl2-in steady \$1;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 1 1 3 0;
 #X connect 4 0 5 0;
 #X connect 6 0 7 0;
 #X restore 57 192 pd guts;
-#X floatatom 65 51 5 0 0 0 - nbx1-in hsl2-in;
-#X floatatom 66 109 5 0 0 0 - nbx2-in nbx2-out;
+#X floatatom 65 51 5 0 0 0 - nbx1-in hsl2-in, f 5;
+#X floatatom 66 109 5 0 0 0 - nbx2-in nbx2-out, f 5;
 #X obj 87 142 tgl 15 1 \$0-steady empty steady 17 7 0 10 -262144 -1
 -1 1 1;
-#X obj 171 27 vsl 15 128 1.27 127 0 0 vsl1-out hsl2-in vsl 0 -9 0 10
--262144 -1 -1 10800 1;
-#X floatatom 159 190 5 0 0 0 - vsl1-out -;
+#X obj 171 27 vsl 15 128 1.27 127 1 0 vsl1-out hsl2-in vsl 0 -9 0 10
+-262144 -1 -1 8500 1;
+#X floatatom 159 190 5 0 0 0 - vsl1-out -, f 5;

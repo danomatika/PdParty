@@ -242,7 +242,7 @@
 #pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {
-// no sendName
+	// no sendName
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {

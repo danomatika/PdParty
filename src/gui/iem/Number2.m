@@ -8,11 +8,11 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "Numberbox2.h"
+#import "Number2.h"
 
 #import "Gui.h"
 
-@interface Numberbox2 () {
+@interface Number2 () {
 	double convFactor; // scaling factor for lin/log value conversion
 	int cornerSize; // bent corner pixel size
 	int touchPrevY;
@@ -23,16 +23,16 @@
 - (void)checkMinAndMax;
 @end
 
-@implementation Numberbox2
+@implementation Number2
 
-+ (id)numberbox2FromAtomLine:(NSArray *)line withGui:(Gui *)gui {
++ (id)number2FromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
-	if(line.count < 11) { // sanity check
-		DDLogWarn(@"Numberbox2: cannot create, atom line length < 11");
+	if(line.count < 23) { // sanity check
+		DDLogWarn(@"Numberbox2: cannot create, atom line length < 23");
 		return nil;
 	}
 
-	Numberbox2 *n = [[Numberbox2 alloc] initWithFrame:CGRectZero];
+	Number2 *n = [[Number2 alloc] initWithFrame:CGRectZero];
 
 	n.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
 	n.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
@@ -61,7 +61,12 @@
 	n.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
 	n.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
 	
-	n.value = [[line objectAtIndex:21] floatValue];
+	if(n.inits) {
+		n.value = [[line objectAtIndex:21] floatValue];
+	}
+	else {
+		n.value = 0; // set label
+	}
 	if([line count] > 22 && [line isNumberAt:22]) {
 		n.logHeight = [[line objectAtIndex:22] floatValue];
 	}
@@ -214,7 +219,7 @@
 }
 
 - (NSString *)type {
-	return @"Numberbox2";
+	return @"Number2";
 }
 
 #pragma mark Touches
