@@ -19,7 +19,7 @@
 + (id)loadsaveFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
 
 	if(line.count < 6) { // sanity check
-		DDLogWarn(@"Loadsave: cannot create, atom line length < 7");
+		DDLogWarn(@"Loadsave: cannot create, atom line length < 6");
 		return nil;
 	}
 
@@ -41,8 +41,7 @@
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
-		self.label.textAlignment = NSTextAlignmentCenter;
-		self.label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+		self.label = nil; // no label
     }
     return self;
 }

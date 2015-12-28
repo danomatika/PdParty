@@ -183,6 +183,7 @@
 		30ABE41616B5D5DD00464926 /* PdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE32F16B5D15400464926 /* PdBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
 		30ACA10D16D1866000B50B73 /* patches in Resources */ = {isa = PBXBuildFile; fileRef = 30ACA10C16D1866000B50B73 /* patches */; };
+		30AF87761C30E62C009D5C94 /* Menubang.m in Sources */ = {isa = PBXBuildFile; fileRef = 30AF87751C30E62C009D5C94 /* Menubang.m */; };
 		30B01DEB17E374800052F26F /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B01DEA17E374800052F26F /* Log.m */; };
 		30B01DEE17E3C2170052F26F /* UIPopoverController+iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B01DED17E3C2170052F26F /* UIPopoverController+iPhone.m */; };
 		30B4520C176290300040FFBC /* SceneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B4520B176290300040FFBC /* SceneManager.m */; };
@@ -510,6 +511,8 @@
 		30ABE41316B5D58600464926 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		30ACA10C16D1866000B50B73 /* patches */ = {isa = PBXFileReference; lastKnownFileType = folder; path = patches; sourceTree = "<group>"; };
+		30AF87741C30E62C009D5C94 /* Menubang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menubang.h; sourceTree = "<group>"; };
+		30AF87751C30E62C009D5C94 /* Menubang.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menubang.m; sourceTree = "<group>"; };
 		30B01DE917E374800052F26F /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		30B01DEA17E374800052F26F /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Log.m; sourceTree = "<group>"; };
 		30B01DEC17E3C2170052F26F /* UIPopoverController+iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+iPhone.h"; sourceTree = "<group>"; };
@@ -1474,6 +1477,8 @@
 			children = (
 				30DCC109196CCCD700B887C5 /* Loadsave.h */,
 				30DCC10A196CCCD700B887C5 /* Loadsave.m */,
+				30AF87741C30E62C009D5C94 /* Menubang.h */,
+				30AF87751C30E62C009D5C94 /* Menubang.m */,
 				30F5283217D93741004736A6 /* Display.h */,
 				30F5283317D93742004736A6 /* Display.m */,
 				30BEF10F1C2BAB5C0026C5DB /* Knob.h */,
@@ -1727,6 +1732,7 @@
 				3094B44D18C97CCF00AFE178 /* zip.c in Sources */,
 				30E89D4116EC46CF005B40C4 /* Symbol.m in Sources */,
 				30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */,
+				30AF87761C30E62C009D5C94 /* Menubang.m in Sources */,
 				30E89D4716ECEDF2005B40C4 /* Number2.m in Sources */,
 				30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */,
 				308E06481AD8611800BD1C79 /* m_class.c in Sources */,

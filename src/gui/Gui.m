@@ -36,6 +36,7 @@
 #import "Wordbutton.h"
 #import "Loadsave.h"
 #import "Knob.h"
+#import "Menubang.h"
 
 @interface Gui ()
 
@@ -206,6 +207,14 @@
 	}
 }
 
+- (void)addMenubang:(NSArray *)atomLine {
+	Menubang *m = [Menubang menubangFromAtomLine:atomLine withGui:self];
+	if(m) {
+		[self.widgets addObject:m];
+		DDLogVerbose(@"Gui: added %@", m.type);
+	}
+}
+
 - (void)addWidgetsFromAtomLines:(NSArray *)lines {
 	int level = 0;
 	
@@ -301,6 +310,9 @@
 						}
 						else if([objType isEqualToString:@"mknob"]) {
 							[self addKnob:line];
+						}
+						else if([objType isEqualToString:@"menubang"]) {
+							[self addMenubang:line];
 						}
 						
 						// print warnings on objects that aren't completely compatible

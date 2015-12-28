@@ -63,6 +63,7 @@
 - (void)addWordbutton:(NSArray *)atomLine;
 - (void)addLoadsave:(NSArray *)atomLine;
 - (void)addKnob:(NSArray *)atomLine;
+- (void)addMenubang:(NSArray *)atomLine;
 
 // add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray *)lines;
