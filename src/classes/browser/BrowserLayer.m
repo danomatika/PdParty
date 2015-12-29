@@ -397,11 +397,12 @@ static NSMutableArray *s_movePaths; //< paths to move
 
 #pragma mark Browsing UI
 
+// https://ajnaware.wordpress.com/2011/02/26/dynamically-adding-uiactionsheet-buttons
 - (void)addButtonPressed {
 	DDLogVerbose(@"Browser: add button pressed");
 	UIActionSheet *sheet = [[UIActionSheet alloc]
 							initWithTitle:nil delegate:nil
-							cancelButtonTitle:@"Cancel"
+							cancelButtonTitle:nil
 							destructiveButtonTitle:nil
 							otherButtonTitles:nil];
 	if(self.root.canAddFiles) {
@@ -410,7 +411,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	if(self.root.canAddDirectories) {
 		[sheet addButtonWithTitle:@"New Folder"];
 	}
-	[sheet setCancelButtonIndex:0]; // make sure Cancel is on bottom
+	[sheet setCancelButtonIndex:[sheet addButtonWithTitle:@"Cancel"]]; // make sure Cancel is on bottom
 	sheet.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
 		NSString *button = [actionSheet buttonTitleAtIndex:buttonIndex];
 		if([button isEqualToString:@"New File"]) {
