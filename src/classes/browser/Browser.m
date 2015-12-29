@@ -198,7 +198,7 @@
 			NSString *dir = [alertView textFieldAtIndex:0].text;
 			DDLogVerbose(@"Browser: new dir: %@", dir);
 			if([self createDirectoryPath:[self.top.directory stringByAppendingPathComponent:dir]]) {
-				[self reloadDirectory];
+				[self.top reloadDirectory];
 				if([self.root.delegate respondsToSelector:@selector(browser:createdDirectory:)]) {
 					[self.root.delegate browser:self.root createdDirectory:dir];
 				}
@@ -252,7 +252,7 @@
 			}
 			DDLogVerbose(@"Browser: rename %@ to %@", [path lastPathComponent], [newPath lastPathComponent]);
 			if([self renamePath:path to:newPath]) {
-				[self reloadDirectory];
+				[self.top reloadDirectory];
 			}
 		}
 	};
