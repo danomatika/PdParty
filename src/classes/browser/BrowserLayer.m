@@ -253,8 +253,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 			break;
 		case BrowserModeMove:
 			[barButtons addObject:[[UIBarButtonItem alloc]
-								  initWithTitle:@"New Folder"
-								  style:UIBarButtonItemStylePlain
+								  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
 								  target:self
 								  action:@selector(newFolderButtonPressed)]];
 			[barButtons addObject:[[UIBarButtonItem alloc]
@@ -411,6 +410,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	if(self.root.canAddDirectories) {
 		[sheet addButtonWithTitle:@"New Folder"];
 	}
+	[sheet setCancelButtonIndex:0]; // make sure Cancel is on bottom
 	sheet.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
 		NSString *button = [actionSheet buttonTitleAtIndex:buttonIndex];
 		if([button isEqualToString:@"New File"]) {
