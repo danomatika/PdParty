@@ -112,7 +112,7 @@
     int yyy, i, k4 = -k3;
 	
 	for(i = 1; i <= IEM_VU_STEPS; ++i) {
-        yyy = round((k4 + k1 * (k2 - i)) * self.gui.scaleX) + yOffset;
+        yyy = round(((k4 + k1 * (k2 - i)) * self.gui.scaleX) + yOffset);
 		
 		// fat line for overlap since spacing between is not pixel perfect when scaling
 		CGContextSetLineWidth(context, ceil((ledSize + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleX));
