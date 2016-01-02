@@ -18,7 +18,6 @@
 @interface PatchViewController () {
 	NSMutableDictionary *activeTouches; // for persistent ids
 	KeyGrabberView *grabber; // for keyboard events
-	NSArray *controlsConstraints; // auto layout constraints for the controls view
 }
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -59,13 +58,8 @@
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	app.patchViewController = self;
 	
-	// setup controls view
-	int controlsHeight = 192;
-	if(![Util isDeviceATablet]) {
-		controlsHeight = 96;
-	}
-	self.controlsView = [[ControlsView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), controlsHeight)];
-	self.controlsView.translatesAutoresizingMaskIntoConstraints = NO;
+	// set up controls view
+	self.controlsView = [[ControlsView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), [ControlsView baseHeight])];
 	self.controlsView.sceneManager = app.sceneManager;
 
 	// start keygrabber
@@ -384,17 +378,7 @@
 			[self.view addSubview:self.controlsView];
 	
 			// auto layout constraints
-			if(controlsConstraints) {
-				[self.view removeConstraints:controlsConstraints];
-			}
-			controlsConstraints = [NSArray arrayWithObjects:
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-												toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-												toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-												toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil];
-			[self.view addConstraints:controlsConstraints];
+			[self.controlsView alignToSuperviewBottom];
 		}
 		self.controlsView.height = CGRectGetHeight(self.view.bounds) - self.sceneManager.scene.contentHeight;
 	}
@@ -428,7 +412,7 @@
 			
 			// smaller controls in iPad popover
 			if([Util isDeviceATablet]) {
-				[self.controlsView halfDefaultSize];
+				[self.controlsView halfSize];
 			}
 				
 			// create popover
@@ -437,19 +421,7 @@
 			self.controlsPopover.backgroundColor = self.controlsView.backgroundColor;
 		
 			// auto layout constraints
-			if(controlsConstraints) {
-				[self.view removeConstraints:controlsConstraints];
-			}
-			controlsConstraints = [NSArray arrayWithObjects:
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-												toItem:self.controlsPopover.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-												toItem:self.controlsPopover.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
-												toItem:self.controlsPopover.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0],
-				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-												toItem:self.controlsPopover.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil];
-			[self.controlsPopover.view addConstraints:controlsConstraints];
+			[self.controlsView alignToSuperview];
 		}
 	}
 	[self.controlsView setNeedsUpdateConstraints];

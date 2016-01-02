@@ -28,8 +28,6 @@
 @property (strong, nonatomic) UIBarButtonItem *rightButton;
 @property (strong, nonatomic) UISlider *levelSlider;
 
-- (void)controlChanged:(id)sender;
-
 // update the controls based on the current PureData settings
 - (void)updateControls;
 
@@ -45,8 +43,24 @@
 @property (readonly, nonatomic) float defaultSpacing;
 @property (readonly, nonatomic) float defaultToolbarHeight;
 
+// base default height per the device w/ tablet 2x larger than phone
++ (float)baseHeight;
++ (float)baseSpacing;
++ (float)baseToolbarHeight;
+
 // sets overall sizing
-- (void)halfDefaultSize;
+- (void)halfSize;
 - (void)defaultSize;
+
+#pragma Layout
+
+/// align edges to superview
+- (void)alignToSuperview;
+
+/// align edges to superview sides & bottom
+- (void)alignToSuperviewBottom;
+
+/// align edges to superview sides & top
+- (void)alignToSuperviewTop;
 
 @end

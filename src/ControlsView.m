@@ -33,16 +33,11 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(self) {
-
-		self.defaultHeight = 192;
-		self.defaultSpacing = 84;
-		self.defaultToolbarHeight = 88;
-		if(![Util isDeviceATablet]) {
-			self.defaultHeight = 96;
-			self.defaultSpacing = 42;
-			self.defaultToolbarHeight = 44;
-		}
-		//self.userInteractionEnabled = YES; // set this since slider is a subview
+		self.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		self.defaultHeight = [ControlsView baseHeight];
+		self.defaultSpacing = [ControlsView baseSpacing];
+		self.defaultToolbarHeight = [ControlsView baseToolbarHeight];
 		
 		self.backgroundColor = [UIColor blackColor];
 
@@ -77,7 +72,7 @@
 		
 		// auto layout constraints
 		
-		// lock overall height to given size
+		// keep overall height from getting too small
 		heightConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual
 									toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.defaultHeight];
 		
@@ -105,8 +100,6 @@
 			
 			// slider
 			sliderLeadingConstraint, sliderTrailingConstraint, sliderCenterYConstraint, nil]];
-								
-		[self setNeedsUpdateConstraints];
 	}
     return self;
 }
@@ -243,8 +236,20 @@
 
 #pragma mark Sizing
 
-- (void)halfDefaultSize {
-	self.height = 96; // not quite half of default
++ (float)baseHeight {
+	return [Util isDeviceATablet] ? 192 : 96;
+}
+
++ (float)baseSpacing {
+	return [Util isDeviceATablet] ? 84 : 42;
+}
+
++ (float)baseToolbarHeight {
+	return [Util isDeviceATablet] ? 88 : 44;
+}
+
+- (void)halfSize {
+	self.height = 96;
 	self.spacing = self.defaultSpacing/2;
 	self.toolbarHeight = self.defaultToolbarHeight/2;
 	if(showsMicIcon) {
@@ -267,6 +272,41 @@
 		[self levelIconTo:@"speaker"];
 	}
 	[self setNeedsUpdateConstraints];
+}
+
+#pragma Layout
+
+- (void)alignToSuperview {
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|"
+																 options:0
+																 metrics:nil
+																   views:@{@"self" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[self]|"
+																 options:0
+																 metrics:nil
+																   views:@{@"self" : self}]];
+}
+
+- (void)alignToSuperviewBottom {
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|"
+																 options:0
+																 metrics:nil
+																   views:@{@"self" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]|"
+																 options:0
+																 metrics:nil
+																   views:@{@"self" : self}]];
+}
+
+- (void)alignToSuperviewTop {
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|"
+																 options:0
+																 metrics:nil
+																   views:@{@"self" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[self]"
+																 options:0
+																 metrics:nil
+																   views:@{@"self" : self}]];
 }
 
 #pragma mark Overridden Getters / Setters
@@ -296,8 +336,8 @@
 	sliderTrailingConstraint.constant = -spacing;
 	
 	// assume tool bar fixed width spaces are first and last
-	[[self.toolbar.items objectAtIndex:0] setWidth:spacing];
-	[[self.toolbar.items objectAtIndex:self.toolbar.items.count-1] setWidth:spacing];
+	[[self.toolbar.items firstObject] setWidth:spacing];
+	[[self.toolbar.items lastObject] setWidth:spacing];
 }
 
 - (float)spacing {
