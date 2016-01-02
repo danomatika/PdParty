@@ -33,6 +33,16 @@
 
 #pragma mark Subclassing
 
+// disable swipe back gesture on iPhone as it interferes with patch view gestures
+- (void)setup {
+	[super setup];
+	if(![Util isDeviceATablet]) {
+		if([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+			self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+		}
+	}
+}
+
 - (Browser *)newBrowser {
 	return [[PartyBrowser alloc] initWithStyle:self.tableView.style];
 }
