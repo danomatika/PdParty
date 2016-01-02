@@ -101,7 +101,7 @@
 
 - (IBAction)copyDefaultFolder:(id)sender {
 	if(sender == self.libFolderButton) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:app.window.rootViewController.view animated:YES];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"Copying lib folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
@@ -112,7 +112,7 @@
 		});
 	}
 	else if(sender == self.samplesFolderButton) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:app.window.rootViewController.view animated:YES];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"Copying samples folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
@@ -123,7 +123,7 @@
 		});
 	}
 	else if(sender == self.testsFolderButton) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:app.window.rootViewController.view animated:YES];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"Copying tests folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
