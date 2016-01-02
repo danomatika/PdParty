@@ -78,7 +78,7 @@
 		// auto layout constraints
 		
 		// lock overall height to given size
-		heightConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+		heightConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual
 									toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.defaultHeight];
 		
 		// lock toolbar height to given size

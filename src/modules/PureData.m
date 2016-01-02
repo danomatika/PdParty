@@ -603,13 +603,20 @@
 
 #pragma mark Private
 
-// encode a libpd list into raw byte data
+// encode a libpd list of numbers into raw byte data
 - (NSData *)encodeList:(NSArray *)list {
 	NSMutableData *data = [NSMutableData data];
-	for(NSNumber *i in list) {
-		unsigned char byte[1];
-		byte[0] = [i charValue];
-		[data appendBytes:byte length:1];
+	for(NSObject *o in list) {
+		if([o isKindOfClass:[NSNumber class]]) {
+			unsigned char byte[1];
+			byte[0] = [(NSNumber *)o charValue];
+			[data appendBytes:byte length:1];
+		}
+		else {
+			DDLogWarn(@"PureData: cannot encode non-numeric list argument: %@", o);
+			data = nil;
+			break;
+		}
 	}
 	return data;
 }

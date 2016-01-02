@@ -13,7 +13,7 @@
 #import "Log.h"
 #import "Util.h"
 #import "AppDelegate.h"
-#import "UIPopoverController+iPhone.h"
+#import "Popover.h"
 
 @interface PatchViewController () {
 	NSMutableDictionary *activeTouches; // for persistent ids
@@ -22,7 +22,7 @@
 }
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
-@property (strong, nonatomic) UIPopoverController *controlsPopover;
+@property (strong, nonatomic) Popover *controlsPopover;
 
 // check the current orientation against the scene's prefferred orientations &
 // manually rotate the view if needed
@@ -123,26 +123,6 @@
 	return UIInterfaceOrientationMaskAll;
 }
 
-// only called if this is a modal view (when forcing device rotation)
-//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-//	if(self.sceneManager.scene) {
-//		int currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-//		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
-//			if(currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-//				return UIInterfaceOrientationPortraitUpsideDown;
-//			}
-//			return UIInterfaceOrientationPortrait;
-//		}
-//		else {
-//			if(currentOrientation == UIInterfaceOrientationLandscapeLeft) {
-//				return UIInterfaceOrientationLandscapeLeft;
-//			}
-//			return UIInterfaceOrientationLandscapeRight;
-//		}
-//	}
-//	return UIInterfaceOrientationPortrait;
-//}
-
 - (void)viewWillDisappear:(BOOL)animated {
 
 	// clean up popover or there will be an exception when navigating away while
@@ -188,23 +168,19 @@
 #pragma mark UI
 
 - (void)controlsNavButtonPressed:(id)sender {
-	if(sender == self.navigationItem.rightBarButtonItem) {
-		if(!self.controlsPopover.popoverVisible) {
-			[self.controlsPopover presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
-										 permittedArrowDirections:UIPopoverArrowDirectionUp
-														 animated:YES];
-		}
-		else {
-			[self.controlsPopover dismissPopoverAnimated:YES];
-		}
+	if(!self.controlsPopover.popoverVisible) {
+		[self.controlsPopover presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
+									 permittedArrowDirections:UIPopoverArrowDirectionUp
+													 animated:YES];
+	}
+	else {
+		[self.controlsPopover dismissPopoverAnimated:YES];
 	}
 }
 
 - (void)infoNavButtonPressed:(id)sender {
-	if(sender == self.navigationItem.rightBarButtonItem) {
-		// cause transition to info view
-		[self performSegueWithIdentifier:@"showInfo" sender:self];
-	}
+	// cause transition to info view
+	[self performSegueWithIdentifier:@"showInfo" sender:self];
 }
 
 #pragma mark Overridden Getters / Setters
@@ -290,13 +266,14 @@
 
 #pragma mark UISplitViewControllerDelegate
 
+// iOS 6 & 7
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController {
 
 	if([Util isDeviceATablet]) {
 		barButtonItem.title = nil;
 		barButtonItem.image = [UIImage imageNamed:@"browser"];
 		if(!barButtonItem.image) { // fallback
-			barButtonItem.title = NSLocalizedString(@"Patches", @"Patches");
+			barButtonItem.title = @"Patches";
 		}
 	}
     
@@ -447,6 +424,7 @@
 			if(!self.navigationItem.rightBarButtonItem.image) { // fallback
 				self.navigationItem.rightBarButtonItem.title = @"Controls";
 			}
+			self.navigationItem.rightBarButtonItem.enabled = (BOOL)self.sceneManager.scene;
 			
 			// smaller controls in iPad popover
 			if([Util isDeviceATablet]) {
@@ -454,10 +432,9 @@
 			}
 				
 			// create popover
-			UIViewController *controlsViewController = [[UIViewController alloc] init];
-			[controlsViewController.view addSubview:self.controlsView];
-			self.controlsPopover = [[UIPopoverController alloc] initWithContentViewController:controlsViewController];
-			self.controlsPopover.popoverContentSize = CGSizeMake(320, self.controlsView.height);
+			self.controlsPopover = [[Popover alloc] initWithContentView:self.controlsView andSourceController:self];
+			self.controlsPopover.contentSize = CGSizeMake(320, self.controlsView.height);
+			self.controlsPopover.backgroundColor = self.controlsView.backgroundColor;
 		
 			// auto layout constraints
 			if(controlsConstraints) {
@@ -465,14 +442,14 @@
 			}
 			controlsConstraints = [NSArray arrayWithObjects:
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-												toItem:controlsViewController.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
+												toItem:self.controlsPopover.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-												toItem:controlsViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
+												toItem:self.controlsPopover.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
-												toItem:controlsViewController.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0],
+												toItem:self.controlsPopover.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0],
 				[NSLayoutConstraint constraintWithItem:self.controlsView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-												toItem:controlsViewController.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil];
-			[controlsViewController.view addConstraints:controlsConstraints];
+												toItem:self.controlsPopover.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0], nil];
+			[self.controlsPopover.view addConstraints:controlsConstraints];
 		}
 	}
 	[self.controlsView setNeedsUpdateConstraints];

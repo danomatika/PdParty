@@ -185,9 +185,9 @@
 		30ACA10D16D1866000B50B73 /* patches in Resources */ = {isa = PBXBuildFile; fileRef = 30ACA10C16D1866000B50B73 /* patches */; };
 		30AF87761C30E62C009D5C94 /* Menubang.m in Sources */ = {isa = PBXBuildFile; fileRef = 30AF87751C30E62C009D5C94 /* Menubang.m */; };
 		30B01DEB17E374800052F26F /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B01DEA17E374800052F26F /* Log.m */; };
-		30B01DEE17E3C2170052F26F /* UIPopoverController+iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B01DED17E3C2170052F26F /* UIPopoverController+iPhone.m */; };
 		30B4520C176290300040FFBC /* SceneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B4520B176290300040FFBC /* SceneManager.m */; };
 		30BEF1111C2BAB5C0026C5DB /* Knob.m in Sources */ = {isa = PBXBuildFile; fileRef = 30BEF1101C2BAB5C0026C5DB /* Knob.m */; };
+		30C38D551C35B7F400A273BE /* Popover.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D541C35B7F400A273BE /* Popover.m */; };
 		30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB316F1ADFB00988EB9 /* Osc.m */; };
 		30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -515,12 +515,12 @@
 		30AF87751C30E62C009D5C94 /* Menubang.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menubang.m; sourceTree = "<group>"; };
 		30B01DE917E374800052F26F /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		30B01DEA17E374800052F26F /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Log.m; sourceTree = "<group>"; };
-		30B01DEC17E3C2170052F26F /* UIPopoverController+iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+iPhone.h"; sourceTree = "<group>"; };
-		30B01DED17E3C2170052F26F /* UIPopoverController+iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPopoverController+iPhone.m"; sourceTree = "<group>"; };
 		30B4520A176290300040FFBC /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
 		30B4520B176290300040FFBC /* SceneManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneManager.m; sourceTree = "<group>"; };
 		30BEF10F1C2BAB5C0026C5DB /* Knob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Knob.h; sourceTree = "<group>"; };
 		30BEF1101C2BAB5C0026C5DB /* Knob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Knob.m; sourceTree = "<group>"; };
+		30C38D531C35B7F400A273BE /* Popover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Popover.h; sourceTree = "<group>"; };
+		30C38D541C35B7F400A273BE /* Popover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Popover.m; sourceTree = "<group>"; };
 		30C77BB216F1ADFB00988EB9 /* Osc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Osc.h; sourceTree = "<group>"; };
 		30C77BB316F1ADFB00988EB9 /* Osc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Osc.m; sourceTree = "<group>"; };
 		30C77BB616F1BEAC00988EB9 /* CocoaOSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaOSC.h; sourceTree = "<group>"; };
@@ -1362,8 +1362,8 @@
 				30B01DEA17E374800052F26F /* Log.m */,
 				30E89D1C16EC4535005B40C4 /* PdParser.h */,
 				30E89D1D16EC4535005B40C4 /* PdParser.m */,
-				30B01DEC17E3C2170052F26F /* UIPopoverController+iPhone.h */,
-				30B01DED17E3C2170052F26F /* UIPopoverController+iPhone.m */,
+				30C38D531C35B7F400A273BE /* Popover.h */,
+				30C38D541C35B7F400A273BE /* Popover.m */,
 				30C9BF6516E8460700E5AA5B /* Util.h */,
 				30C9BF6616E8460700E5AA5B /* Util.m */,
 			);
@@ -1651,6 +1651,7 @@
 				30ABE40B16B5D15400464926 /* PGMidi.mm in Sources */,
 				30ABE40C16B5D15400464926 /* PGMidiAllSources.mm in Sources */,
 				30ABE40D16B5D15400464926 /* PGMidiFind.mm in Sources */,
+				30C38D551C35B7F400A273BE /* Popover.m in Sources */,
 				30A319F416B61FF700C7729B /* Gui.m in Sources */,
 				3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */,
 				308E065B1AD8611800BD1C79 /* x_connective.c in Sources */,
@@ -1820,7 +1821,6 @@
 				308E064A1AD8611800BD1C79 /* m_glob.c in Sources */,
 				30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */,
 				30B01DEB17E374800052F26F /* Log.m in Sources */,
-				30B01DEE17E3C2170052F26F /* UIPopoverController+iPhone.m in Sources */,
 				308E06901AD8614A00BD1C79 /* fiddle~.c in Sources */,
 				308E06431AD8611800BD1C79 /* g_vdial.c in Sources */,
 				30DBD04E1C196B0500ABE9E1 /* midifile.c in Sources */,
