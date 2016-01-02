@@ -258,22 +258,22 @@
 	// this should always be set on iPad since it's the detail view,
 	// so this code should only be called on iPhone
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	if(!app.patchViewController) {
-		
-		// create a new patch view and push it on the stack
+	PatchViewController *patchView = app.patchViewController;
+	if(!patchView) {
+		// create a new patch view and push it on the stack, this occurs on low mem devices
 		UIStoryboard *board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
-		PatchViewController *patchView = (PatchViewController *)[board instantiateViewControllerWithIdentifier:@"PatchViewController"];
+		patchView = (PatchViewController *)[board instantiateViewControllerWithIdentifier:@"PatchViewController"];
 		if(!patchView) {
 			DDLogError(@"AppDelegate: couldn't create patch view");
 			return;
 		}
-		UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-		if([root isKindOfClass:[UINavigationController class]]) {
-			[(UINavigationController *)root pushViewController:(UIViewController *)patchView animated:YES];
-		}
-		else {
-			DDLogError(@"AppDelegate: can't push now playing, rootViewController is not a UINavigationController");
-		}
+	}
+	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+	if([root isKindOfClass:[UINavigationController class]]) {
+		[(UINavigationController *)root pushViewController:(UIViewController *)patchView animated:YES];
+	}
+	else {
+		DDLogError(@"AppDelegate: can't push now playing, rootViewController is not a UINavigationController");
 	}
 }
 
