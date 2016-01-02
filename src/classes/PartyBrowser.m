@@ -30,7 +30,22 @@
 
 #pragma mark Subclassing
 
-- (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
+- (Browser *)newBrowser {
+	return [[PartyBrowser alloc] initWithStyle:self.tableView.style];
+}
+
+#pragma mark BrowserDataDelegate
+
+- (BOOL)browser:(Browser *)browser shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
+	
+	// keep Documents/Inbox from paths array since we don't have permission to delete it,
+	// this is where the system copies files when using the "Open With ..." mechanism
+	if(isDir && self.isRootLayer) { // root is Documents folder
+		if([[path lastPathComponent] isEqualToString:@"Inbox"]) {
+			return NO;
+		}
+	}
+	
 	if(isDir) {
 		return YES;
 	}
@@ -69,8 +84,20 @@
 	return NO;
 }
 
-- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable {
-	[super styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
+// make sure we can't navigate into known scene folder types
+- (BOOL)browser:(Browser *)browser isPathSelectable:(NSString *)path isDir:(BOOL)isDir {
+	if(browser.mode == BrowserModeMove) {
+		if([RjScene isRjDjDirectory:path] ||
+		   [DroidScene isDroidPartyDirectory:path] ||
+		   [PartyScene isPdPartyDirectory:path]) {
+			return NO;
+		}
+	}
+	return YES;
+}
+
+- (void)browser:(Browser *)browser styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable {
+	[super browser:self styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
 	cell.detailTextLabel.text = @"";
 	if(isDir) {
 		cell.accessoryType = UITableViewCellAccessoryNone;

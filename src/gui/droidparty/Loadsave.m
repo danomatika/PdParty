@@ -82,7 +82,7 @@
 		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
 		
 		// launch browser
-		Browser *browser = [[Browser alloc] initWithStyle:UITableViewStylePlain];
+		PartyBrowser *browser = [[PartyBrowser alloc] initWithStyle:UITableViewStylePlain];
 		browser.delegate = self;
 		browser.extensions = self.extension ? @[self.extension] : nil;
 		browser.directoriesOnly = YES;

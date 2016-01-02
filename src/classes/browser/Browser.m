@@ -33,6 +33,7 @@
 
 - (void)setup {
 	[super setup];
+	self.dataDelegate = self;
 	self.directoriesOnly = NO;
 	self.showEditButton = YES;
 	self.showMoveButton = YES;
@@ -49,11 +50,12 @@
 }
 
 - (void)presentFromViewController:(UIViewController *)controller animated:(BOOL)animated {
-	if(!self.navigationController) {
-		UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self];
-		self.navigationController.modalPresentationStyle = self.modalPresentationStyle;
+	UINavigationController *navigationController = self.navigationController;
+	if(!navigationController) {
+		navigationController = [[UINavigationController alloc] initWithRootViewController:self];
+		navigationController.modalPresentationStyle = self.modalPresentationStyle;
 	}
-	[controller presentViewController:self.navigationController animated:YES completion:nil];
+	[controller presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark Location
@@ -412,11 +414,24 @@
 	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:layer action:@selector(cancelButtonPressed)];
 }
 
-- (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
+- (Browser *)newBrowser {
+	return [[Browser alloc] initWithStyle:self.tableView.style];
+}
+
+#pragma mark BrowserDataDelegate
+
+- (BOOL)browser:(Browser *)browser shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
 	return YES;
 }
 
-- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable {
+- (BOOL)browser:(Browser *)browser isPathSelectable:(NSString *)path isDir:(BOOL)isDir {
+	return YES;
+}
+
+- (void)browser:(Browser *)browser styleCell:(UITableViewCell *)cell
+		                             forPath:(NSString *)path
+		                               isDir:(BOOL)isDir
+                                isSelectable:(BOOL)isSelectable {
 	if(isSelectable) {
 		cell.textLabel.textColor = [UIColor blackColor];
 		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -449,6 +464,10 @@
 		return super.paths;
 	}
 	return self.top.paths;
+}
+
+- (BOOL)isRootLayer {
+	return self.top == self;
 }
 
 - (Browser *)top {

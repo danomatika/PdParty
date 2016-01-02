@@ -25,6 +25,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	// from http://make-smart-iphone-apps.blogspot.com/2011/04/how-to-maintain-uitableview-scrolled.html
 	CGPoint scrollPos;
 	BOOL scrollPosSet;
+	NSMutableSet *nonSelectableRows;
 }
 @end
 
@@ -137,7 +138,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	for(NSString *p in contents) {
 		DDLogVerbose(@"Browser: 	%@", p);
 		NSString *fullPath = [dirPath stringByAppendingPathComponent:p];
-		if([self.root shouldAddPath:fullPath isDir:[Util isDirectory:fullPath]]) {
+		if([self.root.dataDelegate browser:self.root shouldAddPath:fullPath isDir:[Util isDirectory:fullPath]]) {
 			[_paths addObject:fullPath];
 		}
 	}
@@ -153,17 +154,20 @@ static NSMutableArray *s_movePaths; //< paths to move
 
 - (void)reloadDirectory {
 	[_paths removeAllObjects];
+	nonSelectableRows = nil;
 	[self loadDirectory:_directory];
 	[self.tableView reloadData];
 }
 
 - (void)unloadDirectory {
 	[_paths removeAllObjects];
+	nonSelectableRows = nil;
 	[self.tableView reloadData];
 }
 
 - (void)clearDirectory {
 	[_paths removeAllObjects];
+	nonSelectableRows = nil;
 	[self.tableView reloadData];
 	_directory = nil;
 	self.navigationItem.backBarButtonItem = nil;
@@ -174,6 +178,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 - (void)setup {
 	scrollPos = CGPointZero;
 	scrollPosSet = NO;
+	nonSelectableRows = nil;
 	_paths = [[NSMutableArray alloc] init];
 	_mode = BrowserModeBrowse;
 }
@@ -314,10 +319,28 @@ static NSMutableArray *s_movePaths; //< paths to move
 	NSString *path = [_paths objectAtIndex:indexPath.row];
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
 		BOOL isSelectable = YES;
-		if(!isDir && self.root.extensions) { // restrict by extension using grey color
-			isSelectable = [self.root pathHasAllowedExtension:path];
+		if(isDir) {
+			isSelectable = [self.root.dataDelegate browser:self.root isPathSelectable:path isDir:isDir];
 		}
-		[self.root styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
+		else { // files
+			if(self.root.mode == BrowserModeMove) { // restrict to dirs when moving
+				isSelectable = NO;
+			}
+			else {
+				if(self.root.extensions) { // restrict by extension using grey color
+					isSelectable = [self.root pathHasAllowedExtension:path];
+				}
+				isSelectable = isSelectable && [self.root.dataDelegate browser:self.root isPathSelectable:path isDir:isDir];
+			}
+		}
+		if(!isSelectable) { // save set of non selectable rows
+			if(!nonSelectableRows) {
+				nonSelectableRows = [[NSMutableSet alloc] init];
+			}
+			[nonSelectableRows addObject:[NSNumber numberWithInteger:indexPath.row]];
+		}
+		
+		[self.root.dataDelegate browser:self.root styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
 	}
 	else {
 		DDLogWarn(@"Browser: couldn't customize cell, path doesn't exist: %@", path);
@@ -331,6 +354,10 @@ static NSMutableArray *s_movePaths; //< paths to move
 		NSString *path = [_paths objectAtIndex:indexPath.row];
 		BOOL isDir;
 		if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+			if([nonSelectableRows containsObject:[NSNumber numberWithInteger:indexPath.row]]) {
+				[tableView deselectRowAtIndexPath:indexPath animated:NO];
+				return;
+			}
 			if(isDir) {
 				DDLogVerbose(@"Browser: now selected dir %@", [path lastPathComponent]);
 				BOOL pushLayer = YES;
@@ -348,10 +375,6 @@ static NSMutableArray *s_movePaths; //< paths to move
 				}
 			}
 			else {
-				if(self.root.extensions && ![self.root pathHasAllowedExtension:path]) { // restrict by extension
-					[tableView deselectRowAtIndexPath:indexPath animated:NO];
-					return;
-				}
 				DDLogVerbose(@"Browser: selected file %@", [path lastPathComponent]);
 				if([self.root.delegate respondsToSelector:@selector(browser:selectedFile:)]) {
 					[self.root.delegate browser:self.root selectedFile:path];
@@ -466,7 +489,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	for(NSIndexPath *indexPath in indexPaths) { // save selected paths
 		[s_movePaths addObject:[_paths objectAtIndex:indexPath.row]];
 	}
-	Browser *browserLayer = [[Browser alloc] initWithStyle:UITableViewStylePlain];
+	Browser *browserLayer = [self.root newBrowser]; // use subclass
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
 	browserLayer.title = [NSString stringWithFormat:@"Moving %u item%@", s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
 	browserLayer.directoriesOnly = YES;

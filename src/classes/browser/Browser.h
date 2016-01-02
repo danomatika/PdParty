@@ -39,13 +39,42 @@
 
 @end
 
+/// file browser data delegate
+@protocol BrowserDataDelegate <NSObject>
+
+/// used to determine whether to add a path to the browser, override to filter out
+/// unwanted path names or types
+- (BOOL)browser:(Browser *)browser shouldAddPath:(NSString *)path isDir:(BOOL)isDir;
+
+/// used to determine whether a given path is selectable in the browser, override
+// disable selection for certain types of paths
+- (BOOL)browser:(Browser *)browser isPathSelectable:(NSString *)path isDir:(BOOL)isDir;
+
+/// stylizes default table view cell for a given path
+///
+/// sets cell text to lastpath component, grey text for non selectable cells,
+/// and disclosure indicator for directories
+///
+/// override to customize cell with file icons, etc for certain paths
+- (void)browser:(Browser *)browser styleCell:(UITableViewCell *)cell
+		                             forPath:(NSString *)path
+		                               isDir:(BOOL)isDir
+                                isSelectable:(BOOL)isSelectable;
+
+@end
+
 /// drill-down file browser with basic editing functions: move, rename, & delete
 /// pushes multiple layers onto a nav controller automatically
-@interface Browser : BrowserLayer
+@interface Browser : BrowserLayer <BrowserDataDelegate>
 
 /// receive selection events
 /// this value is shared by the root layer to all pushed layers
 @property (assign, nonatomic) id<BrowserDelegate> delegate;
+
+/// choose paths & stylize cells
+/// this value is shared by the root layer to all pushed layers
+/// should not be nil
+@property (assign, nonatomic) id<BrowserDataDelegate> dataDelegate;
 
 /// required file extensions (w/out period), leave nil to allow all (default: nil)
 /// if only 1 file extension is set, automatically appends extension in new file
@@ -72,6 +101,10 @@
 /// can add dirs from plus button Add Sheet? (default: YES)
 @property (assign, nonatomic) BOOL canAddDirectories;
 
+// returns YES if the current layer is at the root directory
+/// aka topViewController == self
+@property (readonly, nonatomic) BOOL isRootLayer;
+
 #pragma mark Present
 
 /// presents the browser in a navigation controller from the current key window,
@@ -89,7 +122,6 @@
 
 /// change to and load a new current dir which is a child of a given base dir,
 /// pushes layers from basePath to dirPath & creates nav controller if not set
-/// use root & top properties to access root & top browser layers
 - (void)loadDirectory:(NSString *)dirPath relativeTo:(NSString *)basePath;
 
 /// clear current directory and paths
@@ -142,16 +174,8 @@
 /// uses target:layer action:@selector(cancelButtonPressed)
 - (UIBarButtonItem *)browsingModeRightBarItemForLayer:(BrowserLayer *)layer;
 
-/// used to determine whether to add a path to the browser, override to filter out
-/// unwanted path names or types
-- (BOOL)shouldAddPath:(NSString *)path isDir:(BOOL)isDir;
-
-/// stylizes default table view cell for a given path
-///
-/// sets cell text to lastpath component, grey text for non selectable cells,
-/// and disclosure indicator for directories
-///
-/// override to customize cell with file icons, etc for certain paths
-- (void)styleCell:(UITableViewCell *)cell forPath:(NSString *)path isDir:(BOOL)isDir isSelectable:(BOOL)isSelectable;
+/// creates a new Browser with the current table view style,
+/// used in BrowserLayer to create Move browser
+- (Browser *)newBrowser;
 
 @end

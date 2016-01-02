@@ -172,9 +172,8 @@
 			[alert show];
 			return NO;
 		}
-		[[NSFileManager defaultManager]removeItemAtURL:url error:&error]; // remove original file
+		[[NSFileManager defaultManager] removeItemAtURL:url error:&error]; // remove original file
 
-//		[self.browserViewController tryOpeningPath:newPath];
 		DDLogVerbose(@"AppDelegate: copied %@ to Documents", filename);
 		UIAlertView *alert = [[UIAlertView alloc]
                                       initWithTitle: @"Copy Succeeded"
