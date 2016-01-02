@@ -423,32 +423,44 @@ static NSMutableArray *s_movePaths; //< paths to move
 // https://ajnaware.wordpress.com/2011/02/26/dynamically-adding-uiactionsheet-buttons
 - (void)addButtonPressed {
 	DDLogVerbose(@"Browser: add button pressed");
-	UIActionSheet *sheet = [[UIActionSheet alloc]
-							initWithTitle:nil delegate:nil
-							cancelButtonTitle:nil
-							destructiveButtonTitle:nil
-							otherButtonTitles:nil];
-	if(self.root.canAddFiles) {
-		[sheet addButtonWithTitle:@"New File"];
-	}
-	if(self.root.canAddDirectories) {
-		[sheet addButtonWithTitle:@"New Folder"];
-	}
-	[sheet setCancelButtonIndex:[sheet addButtonWithTitle:@"Cancel"]]; // make sure Cancel is on bottom
-	sheet.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-		NSString *button = [actionSheet buttonTitleAtIndex:buttonIndex];
-		if([button isEqualToString:@"New File"]) {
-			if(self.root.canAddFiles) {
-				[self.root showNewFileDialog];
-			}
+	// show action sheet
+	if(self.root.canAddFiles && self.root.canAddDirectories) {
+		UIActionSheet *sheet = [[UIActionSheet alloc]
+								initWithTitle:nil delegate:nil
+								cancelButtonTitle:nil
+								destructiveButtonTitle:nil
+								otherButtonTitles:nil];
+		if(self.root.canAddFiles) {
+			[sheet addButtonWithTitle:@"New File"];
 		}
-		else if([button isEqualToString:@"New Folder"]) {
-			if(self.root.canAddDirectories) {
-				[self.root showNewDirectoryDialog];
-			}
+		if(self.root.canAddDirectories) {
+			[sheet addButtonWithTitle:@"New Folder"];
 		}
-	};
-	[sheet showFromToolbar:self.navigationController.toolbar];
+		// make sure Cancel is on bottom
+		[sheet setCancelButtonIndex:[sheet addButtonWithTitle:@"Cancel"]];
+		sheet.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+			NSString *button = [actionSheet buttonTitleAtIndex:buttonIndex];
+			if([button isEqualToString:@"New File"]) {
+				if(self.root.canAddFiles) {
+					[self.root showNewFileDialog];
+				}
+			}
+			else if([button isEqualToString:@"New Folder"]) {
+				if(self.root.canAddDirectories) {
+					[self.root showNewDirectoryDialog];
+				}
+			}
+		};
+		[sheet showFromToolbar:self.navigationController.toolbar];
+	}
+	else { // show dialog directly, no action sheet
+		if(self.root.canAddFiles) {
+			[self.root showNewFileDialog];
+		}
+		else if(self.root.canAddDirectories) {
+			[self.root showNewDirectoryDialog];
+		}
+	}
 }
 
 - (void)chooseFolderButtonPressed {
