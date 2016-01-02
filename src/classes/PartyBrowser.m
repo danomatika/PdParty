@@ -15,8 +15,11 @@
 
 @implementation PartyBrowser
 
-// lock orientation
+// lock orientation on iPhone
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	if([Util isDeviceATablet]) {
+		return UIInterfaceOrientationMaskAll;
+	}
 	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 

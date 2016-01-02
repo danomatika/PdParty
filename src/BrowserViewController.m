@@ -49,11 +49,6 @@
 	[self loadDirectory:[Util documentsPath]];
 }
 
-// lock orientation
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	if([[segue identifier] isEqualToString:@"runScene"]) { // load the selected patch
 		// iPhone opens here

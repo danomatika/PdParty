@@ -117,6 +117,10 @@ static NSMutableArray *s_movePaths; //< paths to move
 	[self unloadDirectory];
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	return [self.root supportedInterfaceOrientations];
+}
+
 #pragma mark Location
 
 // file access error codes:
