@@ -154,8 +154,8 @@
 
 #pragma mark BrowserDelegate
 
-- (void)browser:(Browser *)browser selectedFile:(NSString *)file {
-	[self sendSymbol:file];
+- (void)browser:(Browser *)browser selectedFile:(NSString *)path {
+	[self sendSymbol:path];
 	[browser dismissViewControllerAnimated:YES completion:nil];
 }
 

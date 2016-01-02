@@ -127,10 +127,14 @@
 
 #pragma mark Dialogs
 
+// using UIAlertView didDimissBlock instead of tapBlock as dialogs would
+// *sometimes* disappear and leave app in non-interactive state:
+// http://stackoverflow.com/questions/6611380/uialertview-and-uiactionview-disappear-app-left-in-inconsistent-state
+
 - (void)showNewFileDialog {
 	DDLogVerbose(@"Browser: new file dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"Browser: couldn't show new file dialog, currentDir not set (loadDirectory first?)");
+		DDLogWarn(@"Browser: couldn't show new file dialog, directory not set (loadDirectory first?)");
 		return;
 	}
 	NSString *title = @"Create new file", *message;
@@ -151,9 +155,12 @@
 							  message:message
 							  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
 	alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-	alertView.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
+	alertView.didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
 		if(buttonIndex == 1) { // Create
 			NSString *file = [alertView textFieldAtIndex:0].text;
+			if([file isEqualToString:@""]) {
+				return;
+			}
 			if(self.root.extensions) {
 				if(self.root.extensions.count == 1) {
 					file = [[alertView textFieldAtIndex:0].text stringByAppendingPathExtension:[self.root.extensions objectAtIndex:0]];
@@ -173,7 +180,8 @@
 				}
 			}
 			DDLogVerbose(@"Browser: new file: %@", file);
-			if([self createFilePath:[self.top.directory stringByAppendingPathComponent:file]]) {
+			file = [self.top.directory stringByAppendingPathComponent:file];
+			if([self createFilePath:file]) {
 				[self.top reloadDirectory];
 				if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
 					[self.root.delegate browser:self.root createdFile:file];
@@ -187,7 +195,7 @@
 - (void)showNewDirectoryDialog {
 	DDLogVerbose(@"Browser: new directory dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"Browser: couldn't show new dir dialog, currentDir not set (loadDirectory first?)");
+		DDLogWarn(@"Browser: couldn't show new dir dialog, directory not set (loadDirectory first?)");
 		return;
 	}
 	UIAlertView *alert = [[UIAlertView alloc]
@@ -195,11 +203,15 @@
 						  message:nil
 						  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
 	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-	alert.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
+	alert.didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
 		if(buttonIndex == 1) { // Create
 			NSString *dir = [alertView textFieldAtIndex:0].text;
+			if([dir isEqualToString:@""]) {
+				return;
+			}
 			DDLogVerbose(@"Browser: new dir: %@", dir);
-			if([self createDirectoryPath:[self.top.directory stringByAppendingPathComponent:dir]]) {
+			dir = [self.top.directory stringByAppendingPathComponent:dir];
+			if([self createDirectoryPath:dir]) {
 				[self.top reloadDirectory];
 				if([self.root.delegate respondsToSelector:@selector(browser:createdDirectory:)]) {
 					[self.root.delegate browser:self.root createdDirectory:dir];
@@ -213,7 +225,7 @@
 - (void)showRenameDialogForPath:(NSString *)path {
 	DDLogVerbose(@"Browser: rename dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"Browser: couldn't show rename dialog, currentDir not set (loadDirectory first?)");
+		DDLogWarn(@"Browser: couldn't show rename dialog, directory not set (loadDirectory first?)");
 		return;
 	}
 	BOOL isDir = [Util isDirectory:path];
@@ -231,7 +243,7 @@
 	}
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Done", nil];
 	alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-	alertView.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
+	alertView.didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
 		if(buttonIndex == 1) { // Done
 			NSString *newPath = [self.top.directory stringByAppendingPathComponent:[alertView textFieldAtIndex:0].text];
 			if(!isDir) {
@@ -276,7 +288,13 @@
 							  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
 		alert.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
 			if(buttonIndex == 1) { // Ok
-				[self _createFilePath:path];
+				[[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+				if([self _createFilePath:path]) {
+					[self.top reloadDirectory];
+					if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
+						[self.root.delegate browser:self.root createdFile:path];
+					}
+				}
 			}
 		};
 		[alert show];
