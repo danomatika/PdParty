@@ -31,6 +31,9 @@
 @property (strong, nonatomic) Osc *osc;
 @property (strong, nonatomic) SceneManager *sceneManager;
 
+/// returns whether the patch view is currently visible
+@property (readonly, nonatomic) BOOL isPatchViewVisible;
+
 #pragma mark App Behavior
 
 @property (assign, getter=isLockScreenDisabled, nonatomic) BOOL lockScreenDisabled;

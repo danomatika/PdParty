@@ -81,6 +81,12 @@
 		self.sendName = [self.name stringByAppendingFormat:@"-%@", message];
 		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
 		
+		AppDelegate *app = [[UIApplication sharedApplication] delegate];
+		if(!app.isPatchViewVisible) {
+			DDLogWarn(@"Loadsave %@: cannot open dialog when patch view is not visible", self.receiveName);
+			return YES;
+		}
+		
 		// launch browser
 		PartyBrowser *browser = [[PartyBrowser alloc] initWithStyle:UITableViewStylePlain];
 		browser.delegate = self;
@@ -107,7 +113,6 @@
 				browser.title = @"Save file";
 			}
 		}
-		AppDelegate *app = [[UIApplication sharedApplication] delegate];
 		if(self.directory) {
 			NSString *path = [app.sceneManager.currentPath stringByAppendingPathComponent:self.directory];
 			if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {

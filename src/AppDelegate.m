@@ -363,6 +363,10 @@
 
 #pragma mark Overridden Getters / Setters
 
+- (BOOL)isPatchViewVisible {
+	return self.patchViewController && self.patchViewController.isViewLoaded && self.patchViewController.view.window;
+}
+
 - (void)setLockScreenDisabled:(BOOL)lockScreenDisabled {
 	_lockScreenDisabled = lockScreenDisabled;
 	[[UIApplication sharedApplication] setIdleTimerDisabled:lockScreenDisabled];
