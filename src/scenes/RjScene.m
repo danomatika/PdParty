@@ -363,7 +363,6 @@
 // from pd-for-android ScenePlayer
 + (void)removeRjAbstractionDuplicates:(NSString *)directory {
 
-	// recursively copy contents of patches resource folder to Documents
 	NSArray *contents = [[NSFileManager defaultManager] subpathsAtPath:directory];
 	if(!contents) {
 		return;

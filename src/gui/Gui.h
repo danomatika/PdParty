@@ -80,6 +80,9 @@
 // reposition/resize widgets based on scale amounts & font size
 - (void)reshapeWidgets;
 
+// remove all widgets
+- (void)removeAllWidgets;
+
 #pragma Utils
 
 // replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id

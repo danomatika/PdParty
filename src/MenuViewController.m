@@ -10,6 +10,7 @@
  */
 #import "MenuViewController.h"
 
+#import "Menubang.h"
 #import "Log.h"
 #import "Util.h"
 
@@ -18,6 +19,7 @@
 
 @interface MenuViewController () {
 	BOOL scrolls; // YES if there are enough buttons for the menu to scroll
+	NSMapTable *menubangButtons; // menubangs via button id keys
 }
 @end
 
@@ -26,6 +28,7 @@
 - (id)init {
 	self = [super initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
 	if(self) {
+		menubangButtons = [[NSMapTable alloc] init];
 	}
 	return self;
 }
@@ -47,6 +50,10 @@
 	
 	// dark popups on iOS 6 & light popups otherwise
 	self.lightBackground = [Util deviceOSVersion] >= 7.0;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[menubangButtons removeAllObjects];
 }
 
 #pragma Layout
@@ -91,7 +98,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-	return 6;
+	return 2 + [Menubang menubangCount];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -142,6 +149,8 @@
 	[button setTitleColor:normalColor forState:UIControlStateNormal];
 	[button setTitleColor:selectedColor forState:UIControlEventTouchDown];
 	
+	button.showsTouchWhenHighlighted = YES;
+	
 	switch(indexPath.row) {
 		case 0:
 			[button setTitle:@"Restart Scene" forState:UIControlStateNormal];
@@ -151,16 +160,25 @@
 			[button setTitle:@"Show Log" forState:UIControlStateNormal];
 			[button addTarget:self action:@selector(showLogPressed:) forControlEvents:UIControlEventTouchUpInside];
 			break;
-		default:
-			[button setImage:[Util image:[UIImage imageNamed:@"record"] withTint:normalColor]  forState:UIControlStateNormal];
-			[button setImage:[Util image:[UIImage imageNamed:@"record"] withTint:selectedColor] forState:UIControlEventTouchDown];
-			[button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+		default: {
+			Menubang *m = [[Menubang menubangs] objectAtIndex:indexPath.row-2];
+			[menubangButtons setObject:m forKey:button]; // store button used for menubang
+			if(m.imagePath) {
+				UIImage *image = [UIImage imageWithContentsOfFile:m.imagePath];
+				if(image) {
+					[button setImage:[Util image:image withTint:normalColor]  forState:UIControlStateNormal];
+					[button setImage:[Util image:image withTint:selectedColor] forState:UIControlEventTouchDown];
+					[button addTarget:self action:@selector(menubangPressed:) forControlEvents:UIControlEventTouchUpInside];
+					break;
+				}
+			}
+			[button setTitle:[m.name stringByReplacingOccurrencesOfString:@"_" withString:@" "] forState:UIControlStateNormal];
+			[button addTarget:self action:@selector(menubangPressed:) forControlEvents:UIControlEventTouchUpInside];
 			break;
+		}
 	}
-
 	[cell.contentView addSubview:button];
 
-	NSLog(@"Cell %u", indexPath.row);
 	return cell;
 }
 
@@ -183,18 +201,21 @@
 #pragma mark UI
 
 - (void)restartPressed:(id)sender {
-	UIButton *button = (UIButton *)sender;
 	DDLogVerbose(@"Menu: restart button pressed");
 }
 
 - (void)showLogPressed:(id)sender {
-	UIButton *button = (UIButton *)sender;
 	DDLogVerbose(@"Menu: show log button pressed");
 }
 
-- (void)buttonPressed:(id)sender {
-	UIButton *button = (UIButton *)sender;
-	DDLogVerbose(@"Menu: %@ button pressed", [button currentTitle]);
+- (void)menubangPressed:(id)sender {
+	Menubang *m = [menubangButtons objectForKey:sender];
+	if(!m) {
+		DDLogWarn(@"Menu: menubang button pressed, but menubang not found %@", sender);
+		return;
+	}
+	DDLogVerbose(@"Menu: menubang %@ button pressed", m.name);
+	[m sendBang];
 }
 
 #pragma mark Overridden Getters/Setters

@@ -21,7 +21,12 @@
 
 + (id)menubangFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
-// currently loaded menu bangs
+#pragma mark Static Access
+
+/// currently loaded menu bangs
 + (NSArray *)menubangs;
+
+/// number of currently loaded menu bangs
++ (int)menubangCount;
 
 @end

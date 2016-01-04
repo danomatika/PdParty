@@ -353,6 +353,10 @@
 	}
 }
 
+- (void)removeAllWidgets {
+	[self.widgets removeAllObjects];
+}
+
 #pragma mark Overridden Getters & Setters
 
 - (void)setParentViewSize:(CGSize)parentViewSize {

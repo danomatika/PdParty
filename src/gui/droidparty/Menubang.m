@@ -29,27 +29,16 @@ static NSMutableArray *s_menubangs;
 
 	m.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
 	m.sendName = [NSString stringWithFormat:@"menubang-%@", m.name];
-	if(![m hasValidSendName]) {
+	if(!m.name || [m.name isEqualToString:@""]) {
 		// drop something we can't interact with
-		DDLogVerbose(@"Menubang: dropping, send name is empty");
+		DDLogVerbose(@"Menubang: dropping, name is empty");
 		return nil;
 	}
 	
 	m.originalFrame = CGRectZero; // doesn't draw anything
-	
-	// image path
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	m.imagePath = [app.sceneManager.scene.patch.baseName stringByAppendingPathComponent:m.sendName];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:m.imagePath]) {
-		DDLogVerbose(@"Menubang: no image found: %@", m.sendName);
-		m.imagePath = nil;
-	}
+	m.inits = YES;
 	
 	return m;
-}
-
-+ (NSArray *)menubangs {
-	return s_menubangs;
 }
 
 - (id)initWithFrame:(CGRect)frame {    
@@ -57,8 +46,8 @@ static NSMutableArray *s_menubangs;
     if(self) {
 		if(!s_menubangs) {
 			s_menubangs = [[NSMutableArray alloc] init];
-			[s_menubangs addObject:self];
 		}
+		[s_menubangs addObject:self];
 		self.label = nil; // no label
     }
     return self;
@@ -81,12 +70,32 @@ static NSMutableArray *s_menubangs;
 	// doesn't draw anything
 }
 
+// abusing this as we don't need to send an init value but *do* need access to
+// the patch file path after it's been loaded
+- (void)sendInitValue {
+	// image path
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	self.imagePath = [NSString stringWithFormat:@"%@/%@.png", app.sceneManager.scene.patch.pathName, self.sendName];
+	if(![[NSFileManager defaultManager] fileExistsAtPath:self.imagePath]) {
+		DDLogVerbose(@"Menubang %@: no image found at %@", self.name, self.imagePath);
+		self.imagePath = nil;
+	}
+}
+
+#pragma mark Static Access
+
++ (NSArray *)menubangs {
+	return s_menubangs;
+}
+
++ (int)menubangCount {
+	return s_menubangs ? s_menubangs.count : 0;
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)type {
 	return @"Menubang";
 }
-
-#pragma mark WidgetListener
 
 @end

@@ -38,6 +38,7 @@
 	self.patch = [PdFile openFileNamed:fileName path:dirPath];
 	if(!self.patch) {
 		DDLogError(@"%@: couldn't open %@ %@", self.typeString, fileName, dirPath);
+		[self.gui removeAllWidgets];
 		return NO;
 	}
 	
