@@ -141,6 +141,10 @@
 	[self sendValues];
 }
 
+- (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
+	// swallow symbols
+}
+
 #pragma mark Private
 
 - (void)sendValues {
