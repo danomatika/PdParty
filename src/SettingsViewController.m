@@ -100,8 +100,12 @@
 #pragma mark Default Folders
 
 - (IBAction)copyDefaultFolder:(id)sender {
+	UIView *root = app.window.rootViewController.view;
+	if([Util isDeviceATablet]) {
+		root = self.view; // present over this view on iPad to make sure hud is not presented under detail view
+	}
 	if(sender == self.libFolderButton) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:root animated:YES];
 		hud.labelText = @"Copying lib folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
@@ -112,7 +116,7 @@
 		});
 	}
 	else if(sender == self.samplesFolderButton) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:root animated:YES];
 		hud.labelText = @"Copying samples folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
@@ -123,7 +127,7 @@
 		});
 	}
 	else if(sender == self.testsFolderButton) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:root animated:YES];
 		hud.labelText = @"Copying tests folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
