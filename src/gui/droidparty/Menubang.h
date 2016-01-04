@@ -17,6 +17,8 @@
 
 @property (strong, nonatomic) NSString *name;
 
+@property (strong, nonatomic) NSString *imagePath;
+
 + (id)menubangFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 // currently loaded menu bangs

@@ -28,14 +28,22 @@ static NSMutableArray *s_menubangs;
 	Menubang *m = [[Menubang alloc] initWithFrame:CGRectZero];
 
 	m.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
-	m.receiveName = m.name;
-	if(![m hasValidReceiveName]) {
+	m.sendName = [NSString stringWithFormat:@"menubang-%@", m.name];
+	if(![m hasValidSendName]) {
 		// drop something we can't interact with
-		DDLogVerbose(@"Menubang: dropping, receive name is empty");
+		DDLogVerbose(@"Menubang: dropping, send name is empty");
 		return nil;
 	}
 	
 	m.originalFrame = CGRectZero; // doesn't draw anything
+	
+	// image path
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	m.imagePath = [app.sceneManager.scene.patch.baseName stringByAppendingPathComponent:m.sendName];
+	if(![[NSFileManager defaultManager] fileExistsAtPath:m.imagePath]) {
+		DDLogVerbose(@"Menubang: no image found: %@", m.sendName);
+		m.imagePath = nil;
+	}
 	
 	return m;
 }
