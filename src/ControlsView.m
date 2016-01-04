@@ -236,6 +236,15 @@
 
 #pragma mark Sizing
 
++ (float)baseWidth {
+	if([Util isDeviceATablet]) {
+		return 320;
+	}
+	else { // smaller popups on iPhone
+		return ([Util deviceOSVersion] >= 8.0) ? 300 : 280;
+	}
+}
+
 + (float)baseHeight {
 	return [Util isDeviceATablet] ? 192 : 96;
 }
@@ -277,36 +286,36 @@
 #pragma Layout
 
 - (void)alignToSuperview {
-	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|"
-																 options:0
-																 metrics:nil
-																   views:@{@"self" : self}]];
-	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[self]|"
-																 options:0
-																 metrics:nil
-																   views:@{@"self" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
+																		   options:0
+																		   metrics:nil
+																			 views:@{@"view" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
+																		   options:0
+																		   metrics:nil
+																			 views:@{@"view" : self}]];
 }
 
 - (void)alignToSuperviewBottom {
-	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|"
-																 options:0
-																 metrics:nil
-																   views:@{@"self" : self}]];
-	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]|"
-																 options:0
-																 metrics:nil
-																   views:@{@"self" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
+																		   options:0
+																		   metrics:nil
+																			 views:@{@"view" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]|"
+																		   options:0
+																		   metrics:nil
+																			 views:@{@"view" : self}]];
 }
 
 - (void)alignToSuperviewTop {
-	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|"
-																 options:0
-																 metrics:nil
-																   views:@{@"self" : self}]];
-	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[self]"
-																 options:0
-																 metrics:nil
-																   views:@{@"self" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
+																		   options:0
+																		   metrics:nil
+																			 views:@{@"view" : self}]];
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]"
+																		   options:0
+																		   metrics:nil
+																			 views:@{@"view" : self}]];
 }
 
 #pragma mark Overridden Getters / Setters

@@ -61,6 +61,9 @@
 	// set up controls view
 	self.controlsView = [[ControlsView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), [ControlsView baseHeight])];
 	self.controlsView.sceneManager = app.sceneManager;
+	
+	// set up menu buttons
+	self.menuViewController = [[MenuViewController alloc] init];
 
 	// start keygrabber
 	grabber = [[KeyGrabberView alloc] init];
@@ -408,20 +411,36 @@
 			if(!self.navigationItem.rightBarButtonItem.image) { // fallback
 				self.navigationItem.rightBarButtonItem.title = @"Controls";
 			}
-			self.navigationItem.rightBarButtonItem.enabled = (BOOL)self.sceneManager.scene;
+			self.navigationItem.rightBarButtonItem.enabled = YES;
 			
 			// smaller controls in iPad popover
 			if([Util isDeviceATablet]) {
 				[self.controlsView halfSize];
 			}
 				
-			// create popover
-			self.controlsPopover = [[Popover alloc] initWithContentView:self.controlsView andSourceController:self];
-			self.controlsPopover.contentSize = CGSizeMake(320, self.controlsView.height);
+			// create popover with controls & menu
+			int width = [ControlsView baseWidth];
+			UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, self.controlsView.height + self.menuViewController.height)];
+			view.autoresizesSubviews = YES;
+			view.translatesAutoresizingMaskIntoConstraints = NO;
+			[view addSubview:self.controlsView];
+			[view addSubview:self.menuViewController.view];
+			self.controlsPopover = [[Popover alloc] initWithContentView:view andSourceController:self];
 			self.controlsPopover.backgroundColor = self.controlsView.backgroundColor;
-		
-			// auto layout constraints
-			[self.controlsView alignToSuperview];
+			
+			self.menuViewController.view.backgroundColor = self.controlsView.backgroundColor;
+			self.menuViewController.view.frame = CGRectMake(0, self.controlsView.height, width, self.menuViewController.height);
+			
+			[self.controlsView alignToSuperviewTop];
+			[self.menuViewController alignToSuperviewBottom];
+			[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
+																				options:0
+																				metrics:nil
+																				  views:@{@"view" : view}]];
+			[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
+																				options:0
+																				metrics:nil
+																				  views:@{@"view" : view}]];
 		}
 	}
 	[self.controlsView setNeedsUpdateConstraints];

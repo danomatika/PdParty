@@ -188,6 +188,7 @@
 		30B4520C176290300040FFBC /* SceneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B4520B176290300040FFBC /* SceneManager.m */; };
 		30BEF1111C2BAB5C0026C5DB /* Knob.m in Sources */ = {isa = PBXBuildFile; fileRef = 30BEF1101C2BAB5C0026C5DB /* Knob.m */; };
 		30C38D551C35B7F400A273BE /* Popover.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D541C35B7F400A273BE /* Popover.m */; };
+		30C38D811C3868DB00A273BE /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D801C3868DB00A273BE /* MenuViewController.m */; };
 		30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB316F1ADFB00988EB9 /* Osc.m */; };
 		30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -521,6 +522,8 @@
 		30BEF1101C2BAB5C0026C5DB /* Knob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Knob.m; sourceTree = "<group>"; };
 		30C38D531C35B7F400A273BE /* Popover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Popover.h; sourceTree = "<group>"; };
 		30C38D541C35B7F400A273BE /* Popover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Popover.m; sourceTree = "<group>"; };
+		30C38D7F1C3868DB00A273BE /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = src/MenuViewController.h; sourceTree = "<group>"; };
+		30C38D801C3868DB00A273BE /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = src/MenuViewController.m; sourceTree = "<group>"; };
 		30C77BB216F1ADFB00988EB9 /* Osc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Osc.h; sourceTree = "<group>"; };
 		30C77BB316F1ADFB00988EB9 /* Osc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Osc.m; sourceTree = "<group>"; };
 		30C77BB616F1BEAC00988EB9 /* CocoaOSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaOSC.h; sourceTree = "<group>"; };
@@ -1152,6 +1155,8 @@
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
 				3094B45518CBD20A00AFE178 /* InfoViewController.h */,
 				3094B45618CBD20A00AFE178 /* InfoViewController.m */,
+				30C38D7F1C3868DB00A273BE /* MenuViewController.h */,
+				30C38D801C3868DB00A273BE /* MenuViewController.m */,
 				30960AFA16F5952300FAF2E7 /* OscViewController.h */,
 				30960AFB16F5952400FAF2E7 /* OscViewController.m */,
 				30ABE2EA16B5D0FB00464926 /* PatchViewController.h */,
@@ -1725,6 +1730,7 @@
 				308E06601AD8611800BD1C79 /* x_misc.c in Sources */,
 				30E89D3B16EC46CF005B40C4 /* Radio.m in Sources */,
 				308E06591AD8611800BD1C79 /* x_arithmetic.c in Sources */,
+				30C38D811C3868DB00A273BE /* MenuViewController.m in Sources */,
 				30E89D3C16EC46CF005B40C4 /* Slider.m in Sources */,
 				30E89D3D16EC46CF005B40C4 /* Toggle.m in Sources */,
 				30E89D3E16EC46CF005B40C4 /* AtomWidget.m in Sources */,

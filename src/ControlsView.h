@@ -43,7 +43,8 @@
 @property (readonly, nonatomic) float defaultSpacing;
 @property (readonly, nonatomic) float defaultToolbarHeight;
 
-// base default height per the device w/ tablet 2x larger than phone
+// base sizing per the device w/ tablet 2x larger than phone
++ (float)baseWidth;
 + (float)baseHeight;
 + (float)baseSpacing;
 + (float)baseToolbarHeight;

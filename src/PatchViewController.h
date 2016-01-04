@@ -12,6 +12,7 @@
 
 #import "SceneManager.h"
 #import "ControlsView.h"
+#import "MenuViewController.h"
 #import "KeyGrabber.h"
 
 // DetailViewController for patches/scenes 
@@ -20,8 +21,11 @@
 // force a rotation of the view in degrees
 @property (assign, nonatomic) int rotation;
 
-// on screen audio controls
+// on screen/popup audio controls
 @property (strong, nonatomic) ControlsView *controlsView;
+
+// popup grid of menu buttons
+@property (strong, nonatomic) MenuViewController *menuViewController;
 
 #pragma mark Scene Management
 
