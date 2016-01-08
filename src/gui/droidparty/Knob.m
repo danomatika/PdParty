@@ -138,7 +138,7 @@
 	CGPathRelease(path);
 }
 
-// mknob is a dummy in PdParty, so make sure we went the init value manually
+// mknob is a dummy in PdParty, so make sure we send the init value manually
 - (void)sendInitValue {
 	[self sendFloat:self.value];
 }

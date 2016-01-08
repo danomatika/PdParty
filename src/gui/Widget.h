@@ -54,7 +54,13 @@ typedef enum {
 @property (assign, nonatomic) float value; // base value, Widget is redrawn when set
 @property (assign, nonatomic) BOOL inits; // sends value when initing?
 
-@property (strong) NSString *sendName;
+@property (strong, nonatomic) NSString *sendName;
+
+// setting this also adds the widget as a listener for pd messages,
+// setting to nil removes the widget listener which is important
+// as the Widget may not dealloc and you'll get a memory leak since
+// the pointer is still being held by the pd dispatcher
+// note: this is set to nil in the cleanup: method
 @property (strong, nonatomic) NSString *receiveName;
 
 @property (strong, nonatomic) UILabel *label;
@@ -62,12 +68,29 @@ typedef enum {
 // get the widget type as a string, overridden by other widgets
 @property (readonly, nonatomic) NSString *type;
 
+// setup any special resources, should be called after widget has been added to
+// a parent view *and* the patch has been loaded by libpd
+//
+// if set, init values are sent when calling this
+//
+// widgets can laod patch folder resources hre, for instance
+- (void)setup;
+
 // replace $0 in atom strings (send, receive, label)
 // call this *after* the patch has been loaded or $0 = 0
 - (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile *)patch;
 
 // reshape based on gui bounds & scale changes
 - (void)reshapeForGui:(Gui *)gui;
+
+// cleanup any special resources, should be called before widget will be deleted
+//
+// clears receiver name from pd dispatcher when called
+//
+// this is required as some widgets *may* be stored in container objects
+// and need to be removed otherwise they may not be dealloc automatically
+//
+- (void)cleanup;
 
 #pragma mark Sending
 

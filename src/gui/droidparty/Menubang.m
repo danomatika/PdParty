@@ -44,16 +44,27 @@ static NSMutableArray *s_menubangs;
 - (id)initWithFrame:(CGRect)frame {    
     self = [super initWithFrame:frame];
     if(self) {
-		if(!s_menubangs) {
-			s_menubangs = [[NSMutableArray alloc] init];
-		}
-		[s_menubangs addObject:self];
 		self.label = nil; // no label
     }
     return self;
 }
 
-- (void)dealloc {
+- (void)setup {
+	if(!s_menubangs) {
+		s_menubangs = [[NSMutableArray alloc] init];
+	}
+	[s_menubangs addObject:self];
+
+	// access the patch file path after its been loaded to get the correct image path
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	self.imagePath = [NSString stringWithFormat:@"%@/%@.png", app.sceneManager.scene.patch.pathName, self.sendName];
+	if(![[NSFileManager defaultManager] fileExistsAtPath:self.imagePath]) {
+		DDLogVerbose(@"Menubang %@: no image found at %@", self.name, self.imagePath);
+		self.imagePath = nil;
+	}
+}
+
+- (void)cleanup {
 	if(s_menubangs) {
 		[s_menubangs removeObject:self];
 		if(s_menubangs.count == 0) {
@@ -70,18 +81,6 @@ static NSMutableArray *s_menubangs;
 	// doesn't draw anything
 }
 
-// abusing this as we don't need to send an init value but *do* need access to
-// the patch file path after it's been loaded
-- (void)sendInitValue {
-	// image path
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	self.imagePath = [NSString stringWithFormat:@"%@/%@.png", app.sceneManager.scene.patch.pathName, self.sendName];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:self.imagePath]) {
-		DDLogVerbose(@"Menubang %@: no image found at %@", self.name, self.imagePath);
-		self.imagePath = nil;
-	}
-}
-
 #pragma mark Static Access
 
 + (NSArray *)menubangs {
@@ -89,7 +88,7 @@ static NSMutableArray *s_menubangs;
 }
 
 + (int)menubangCount {
-	return s_menubangs ? s_menubangs.count : 0;
+	return s_menubangs ? (int) s_menubangs.count : 0;
 }
 
 #pragma mark Overridden Getters / Setters

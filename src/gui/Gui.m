@@ -340,9 +340,7 @@
 	for(Widget *widget in self.widgets) {
 		[widget replaceDollarZerosForGui:self fromPatch:patch];
 		[view addSubview:widget];
-		if(widget.inits) {
-			[widget sendInitValue];
-		}
+		[widget setup];
 	}
 }
 
@@ -360,6 +358,9 @@
 }
 
 - (void)removeAllWidgets {
+	for(Widget *widget in self.widgets) {
+		[widget cleanup];
+	}
 	[self.widgets removeAllObjects];
 }
 

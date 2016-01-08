@@ -75,6 +75,12 @@
     return self;
 }
 
+- (void)dealloc {
+	// clear timer in case it's active
+	[flashTimer invalidate];
+	flashTimer = nil;
+}
+
 - (void)drawRect:(CGRect)rect {
 
     CGContextRef context = UIGraphicsGetCurrentContext();

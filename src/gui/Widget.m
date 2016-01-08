@@ -45,8 +45,12 @@
 }
 
 - (void)dealloc {
-	if([self hasValidReceiveName]) {
-		[dispatcher removeListener:self forSource:self.receiveName];
+	[self cleanup]; // just in case
+}
+
+- (void)setup {
+	if(self.inits) {
+		[self sendInitValue];
 	}
 }
 
@@ -63,6 +67,10 @@
 		round(self.originalFrame.origin.y * gui.scaleY),
 		round(self.originalFrame.size.width * gui.scaleX),
 		round(self.originalFrame.size.height * gui.scaleX));
+}
+
+- (void)cleanup {
+	self.receiveName = nil; // make sure widget is removed from pd dispatcher
 }
 
 #pragma mark WidgetListener
@@ -191,12 +199,15 @@
 }
 
 - (void)setReceiveName:(NSString *)name {
-	if(self.receiveName && ![name isEqualToString:@""]) {
+	if([_receiveName isEqualToString:name]) {
+		return;
+	}
+	if([self hasValidReceiveName]) {
 		[dispatcher removeListener:self forSource:self.receiveName]; // remove old name
 	}
+	_receiveName = name;
 	if(name && ![name isEqualToString:@""]) {
-		_receiveName = name;
-		[dispatcher addListener:self forSource:self.receiveName]; // add new one		
+		[dispatcher addListener:self forSource:self.receiveName]; // add new one
 	}
 }
 
