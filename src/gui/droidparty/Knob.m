@@ -334,7 +334,6 @@
 - (void)initValue:(int)val {
 
 	int H;
-	int w = CGRectGetWidth(self.originalFrame);
     H = self.mouse;
     if(H < 0) {
 		H = 360;
@@ -347,7 +346,7 @@
 	int size = CGRectGetWidth(self.originalFrame);
 	if(self.log) {
 		sizeConvFactor = log(self.maxValue/self.minValue) / (H-1);
-		g = self.minValue*exp((convFactor/size)*(double)(val)*0.01);
+		g = self.minValue*exp((sizeConvFactor/size)*(double)(val)*0.01);
 	}
 	else {
 		sizeConvFactor = (self.maxValue - self.minValue) / (H-1);
