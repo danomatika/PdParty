@@ -529,7 +529,6 @@ static NSMutableArray *s_movePaths; //< paths to move
 	self.mode = BrowserModeBrowse;
 	
 	// rename paths at the selected indices, one by one
-	NSMutableIndexSet *renamedIndices = [[NSMutableIndexSet alloc] init];
 	for(NSIndexPath *indexPath in indexPaths) {
 		NSString *path = [_paths objectAtIndex:indexPath.row];
 		[self.root showRenameDialogForPath:path];

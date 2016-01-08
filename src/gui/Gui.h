@@ -80,7 +80,10 @@
 // reposition/resize widgets based on scale amounts & font size
 - (void)reshapeWidgets;
 
-// remove all widgets
+// remove all widgets from their super view, does not delete
+- (void)removeWidgetsFromSuperview;
+
+// remove all widgets, deletes
 - (void)removeAllWidgets;
 
 #pragma Utils

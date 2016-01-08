@@ -353,6 +353,12 @@
 	}
 }
 
+- (void)removeWidgetsFromSuperview {
+	for(Widget *widget in self.widgets) {
+		[widget removeFromSuperview];
+	}
+}
+
 - (void)removeAllWidgets {
 	[self.widgets removeAllObjects];
 }
@@ -374,10 +380,6 @@
 							   withString:[[NSNumber numberWithInt:patch.dollarZero] stringValue]
 								  options:NSCaseInsensitiveSearch
 									range:NSMakeRange(0, newString.length)];
-//	[newString replaceOccurrencesOfString:@"$0"
-//							   withString:[[NSNumber numberWithInt:patch.dollarZero] stringValue]
-//								  options:NSCaseInsensitiveSearch
-//									range:NSMakeRange(0, newString.length)];
 	return newString;
 }
 

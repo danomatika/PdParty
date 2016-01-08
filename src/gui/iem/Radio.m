@@ -88,7 +88,7 @@
 	for(int i = 0; i < self.numCells; ++i) {
 	
 		// bounds
-		CGRect cellRect;
+		CGRect cellRect = CGRectZero;;
 		if(self.orientation == WidgetOrientationHorizontal) {
 			cellRect = CGRectMake(i*cellSize, 0, cellSize, cellSize - 1);
 		}

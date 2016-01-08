@@ -88,7 +88,7 @@ typedef enum {
 
 #pragma mark Static Dispatcher
 
-// static receieve dispatcher
+// static recieve dispatcher
 + (PdDispatcher *) dispatcher;
 + (void)setDispatcher:(PdDispatcher *)d;
 

@@ -52,7 +52,13 @@
 	self.lightBackground = [Util deviceOSVersion] >= 7.0;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.collectionView reloadData];
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
 	[menubangButtons removeAllObjects];
 }
 

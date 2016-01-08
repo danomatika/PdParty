@@ -151,7 +151,7 @@
 		message = @"(include extension aka \"file.txt\")";
 	}
 	UIAlertView *alertView = [[UIAlertView alloc]
-							  initWithTitle:@"Create new file"
+							  initWithTitle:title
 							  message:message
 							  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
 	alertView.alertViewStyle = UIAlertViewStylePlainTextInput;

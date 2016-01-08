@@ -57,10 +57,8 @@
 	if(self.patch && [self.patch isValid]) {
 		[self.patch closeFile];
 		if(self.gui) {
-			for(Widget *widget in self.gui.widgets) {
-				[widget removeFromSuperview];
-			}
-			[self.gui.widgets removeAllObjects];
+			[self.gui removeWidgetsFromSuperview];
+			[self.gui removeAllWidgets];
 			self.gui = nil;
 			self.parentView = nil;
 		}
@@ -103,6 +101,7 @@
 			
 			// add widgets to new parent view
 			if(self.gui) {
+				[self.gui removeWidgetsFromSuperview];
 				for(Widget *widget in self.gui.widgets) {
 					[self.parentView addSubview:widget];
 				}

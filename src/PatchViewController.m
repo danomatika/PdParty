@@ -45,6 +45,7 @@
 }
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
 
 	// do not extend under nav bar on iOS 7
 	if([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
@@ -121,6 +122,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
 
 	// clean up popover or there will be an exception when navigating away while
 	// popover is still displayed on iPhone

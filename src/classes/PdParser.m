@@ -93,7 +93,7 @@
 		//     #X floatatom 137 84 5 0 0 0 - - send-name, f 5;
 		//
 		// The ", f 10" & ", f5" are supplemental so the following regex catches the ", " and appends a space in front so the comma
-		// will become a separate string when parsed. This way, we can catch this supplemental informatino at the end of an atom line
+		// will become a separate string when parsed. This way, we can catch this supplemental information at the end of an atom line
 		// with arbitrary length by looking for a "," in the returned atom line array:
 		//
 		// array: "#X" "symbolatom" "138" "49" "10" "0" "0" "0" "-" "-" "send-name" "," "f" "10"
