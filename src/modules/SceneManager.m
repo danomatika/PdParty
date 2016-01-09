@@ -134,6 +134,7 @@
 	DDLogVerbose(@"SceneManager: reloading %@", self.scene.name);
 	SceneType type = self.scene.type;
 	UIView *parent = self.scene.parentView;
+	[self closeScene];
 	return [self openScene:self.currentPath withType:type forParent:parent allowReload:YES];
 }
 
@@ -216,7 +217,7 @@
 
 - (void)setCurrentOrientation:(UIInterfaceOrientation)currentOrientation {
 	_currentOrientation = currentOrientation;
-	// TODO: currently dosen't handle faceup / facde down UIDeviceOrientations
+	// TODO: currently dosen't handle faceup / facedown UIDeviceOrientations
 	locationManager.headingOrientation = currentOrientation;
 }
 

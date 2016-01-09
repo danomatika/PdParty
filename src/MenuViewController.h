@@ -10,8 +10,14 @@
  */
 #import <UIKit/UIKit.h>
 
+@class Popover;
+
 /// grid of menu buttons, some generated from MenuBang objects
+/// adds rounded rect background if number of buttons exceeds available width
+/// to indicate menu horizontal scroll
 @interface MenuViewController : UICollectionViewController
+
+@property (weak, nonatomic) Popover *popover; //< containing popover
 
 @property (assign, nonatomic) int cellSize; //< width & height for a single cell
 

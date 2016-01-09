@@ -430,6 +430,7 @@
 			self.controlsPopover = [[Popover alloc] initWithContentView:view andSourceController:self];
 			self.controlsPopover.backgroundColor = self.controlsView.backgroundColor;
 			
+			self.menuViewController.popover = self.controlsPopover;
 			self.menuViewController.view.backgroundColor = self.controlsView.backgroundColor;
 			self.menuViewController.view.frame = CGRectMake(0, self.controlsView.height, width, self.menuViewController.height);
 			

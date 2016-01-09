@@ -10,9 +10,11 @@
  */
 #import "MenuViewController.h"
 
+#import "AppDelegate.h"
 #import "Menubang.h"
 #import "Log.h"
 #import "Util.h"
+#import "Popover.h"
 
 #define CELL_SIZE 60
 #define PADDING   10
@@ -208,10 +210,14 @@
 
 - (void)restartPressed:(id)sender {
 	DDLogVerbose(@"Menu: restart button pressed");
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	[app.sceneManager reloadScene];
+	[self.popover dismissPopoverAnimated:YES];
 }
 
 - (void)showLogPressed:(id)sender {
 	DDLogVerbose(@"Menu: show log button pressed");
+	[self.popover dismissPopoverAnimated:YES];
 }
 
 - (void)menubangPressed:(id)sender {
@@ -222,6 +228,7 @@
 	}
 	DDLogVerbose(@"Menu: menubang %@ button pressed", m.name);
 	[m sendBang];
+	[self.popover dismissPopoverAnimated:YES];
 }
 
 #pragma mark Overridden Getters/Setters
