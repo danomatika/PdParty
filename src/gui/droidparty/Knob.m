@@ -118,21 +118,20 @@
 	
 	// control
 	float littlerad = 0.1f;
+	float length = [Util isDeviceATablet] ? 0.9 : 0.85; // slightly smaller on iPhone
+	float startX = [self circleX:littlerad angle:(angle-90)];
+	float startY = [self circleY:littlerad angle:(angle-90)];
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
 	CGMutablePathRef path = CGPathCreateMutable();
-	CGPathMoveToPoint(path, NULL,
-						 round([self circleX:littlerad angle:(angle-90)]),
-						 round([self circleY:littlerad angle:(angle-90)]));
+	CGPathMoveToPoint(path, NULL, startX, startY);
 	CGPathAddLineToPoint(path, NULL,
-						 round([self circleX:littlerad angle:(angle+90)]),
-						 round([self circleY:littlerad angle:(angle+90)]));
+						 ([self circleX:littlerad angle:(angle+90)]),
+						 ([self circleY:littlerad angle:(angle+90)]));
 	CGPathAddLineToPoint(path, NULL,
-						 round([self circleX:0.9 angle:angle]),
-						 round([self circleY:0.9 angle:angle]));
-	CGPathAddLineToPoint(path, NULL,
-						 round([self circleX:littlerad angle:(angle-90)]),
-						 round([self circleY:littlerad angle:(angle-90)]));
+						 ([self circleX:length angle:angle]),
+						 ([self circleY:length angle:angle]));
+	CGPathAddLineToPoint(path, NULL, startX, startY);
 	CGContextAddPath(context, path);
 	CGContextDrawPath(context, kCGPathFillStroke);
 	CGPathRelease(path);
@@ -425,12 +424,12 @@
 
 // returns cartesian x position for polar point with frame center as the origin
 - (float)circleX:(float)radius angle:(float)angle {
-	return CGRectGetWidth(self.frame)/2 + ((CGRectGetWidth(self.frame)/2)-1)*radius*cos(RADIANS(angle+90));
+	return CGRectGetWidth(self.frame)/2 + (CGRectGetWidth(self.frame)/2)*radius*cos(RADIANS(angle+90)) - 1;
 }
 
 // returns cartesian y position for polar point with frame center as the origin
 - (float)circleY:(float)radius angle:(float)angle {
-	return CGRectGetHeight(self.frame)/2 + ((CGRectGetHeight(self.frame)/2)-1)*radius*sin(RADIANS(angle+90));
+	return CGRectGetHeight(self.frame)/2 + (CGRectGetHeight(self.frame)/2)*radius*sin(RADIANS(angle+90)) - 1;
 }
 
 // returns the fractional part of a given number
