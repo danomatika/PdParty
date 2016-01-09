@@ -370,13 +370,11 @@
 	if(lightBackground) {
 		self.backgroundColor = [UIColor whiteColor];
 		self.toolbar.barTintColor = [UIColor whiteColor];
-		[self levelIconTo:currentLevelIcon]; // reload
 		
 	}
 	else {
 		self.backgroundColor = [UIColor blackColor];
 		self.toolbar.barTintColor = [UIColor blackColor];
-		[self levelIconTo:currentLevelIcon]; // reload
 	}
 }
 
