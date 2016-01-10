@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UISwitch *lockScreenDisabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *runInBackgroundSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *enableConsoleSwitch;
 
 - (IBAction)behaviorChanged:(id)sender;
 

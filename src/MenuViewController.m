@@ -15,6 +15,7 @@
 #import "Log.h"
 #import "Util.h"
 #import "Popover.h"
+#import "ConsoleViewController.h"
 
 #define CELL_SIZE 60
 #define PADDING   10
@@ -106,7 +107,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-	return 2 + [Menubang menubangCount];
+	return 1  + (int)([Log textViewLogger] != nil) + [Menubang menubangCount];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -165,9 +166,11 @@
 			[button addTarget:self action:@selector(restartPressed:) forControlEvents:UIControlEventTouchUpInside];
 			break;
 		case 1:
-			[button setTitle:@"Show Log" forState:UIControlStateNormal];
-			[button addTarget:self action:@selector(showLogPressed:) forControlEvents:UIControlEventTouchUpInside];
-			break;
+			if([Log textViewLoggerEnabled]) {
+				[button setTitle:@"Show Console" forState:UIControlStateNormal];
+				[button addTarget:self action:@selector(showConsolePressed:) forControlEvents:UIControlEventTouchUpInside];
+				break;
+			}
 		default: {
 			Menubang *m = [[Menubang menubangs] objectAtIndex:indexPath.row-2];
 			[menubangButtons setObject:m forKey:button]; // store button used for menubang
@@ -215,9 +218,16 @@
 	[self.popover dismissPopoverAnimated:YES];
 }
 
-- (void)showLogPressed:(id)sender {
-	DDLogVerbose(@"Menu: show log button pressed");
+- (void)showConsolePressed:(id)sender {
+	DDLogVerbose(@"Menu: show console button pressed");
 	[self.popover dismissPopoverAnimated:YES];
+	ConsoleViewController *consoleView = [[ConsoleViewController alloc] init];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:consoleView];
+	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+	navigationController.modalInPopover = YES;
+//	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+//	[root  presentViewController:navigationController animated:YES completion:nil];
+	[self.popover.sourceController.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)menubangPressed:(id)sender {

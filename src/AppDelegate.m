@@ -35,8 +35,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 	
-	//[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarStyleDefault];
-	
 	// light status bar text on iOS 7
 	if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -56,10 +54,7 @@
 		[[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"]]];
 	
 	// init logger
-	[DDLog addLogger:[DDTTYLogger sharedInstance]];
-	[DDLog addLogger:[[DDFileLogger alloc] init]];
-	ddLogLevel = (int)[defaults integerForKey:@"logLevel"];
-	DDLogInfo(@"Log level: %d", ddLogLevel);
+	[Log setup];
 	
 	DDLogInfo(@"App resolution: %d %d", (int)[Util appWidth], (int)[Util appHeight]);
 	

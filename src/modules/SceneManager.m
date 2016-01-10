@@ -14,6 +14,7 @@
 #import "Log.h"
 #import "Gui.h"
 #import "AppDelegate.h"
+#import "TextViewLogger.h"
 
 // androidy update speed defines
 #define SENSOR_UI_HZ      10.0
@@ -90,6 +91,9 @@
 	// close open scene
 	[self closeScene];
 	
+	// clear last scene's console
+	[[Log textViewLogger] clear];
+	
 	// open new scene
 	switch(type) {
 		case SceneTypePatch:
@@ -115,7 +119,9 @@
 	self.pureData.sampleRate = self.scene.sampleRate;
 	self.enableAccel = self.scene.requiresAccel;
 	self.pureData.playing = YES;
-	[self.scene open:path];
+	if([self.scene open:path]) {
+		DDLogInfo(@"SceneManager: opened %@", self.scene.name);
+	}
 	
 	// turn up volume & turn on transport, update gui
 	[self.pureData sendCurrentPlayValues];

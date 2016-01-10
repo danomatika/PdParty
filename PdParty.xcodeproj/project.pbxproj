@@ -10,6 +10,8 @@
 		300507B217C29CE700D1563C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300507B117C29CE600D1563C /* SettingsViewController.m */; };
 		300507B417C2C11700D1563C /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 300507B317C2C11700D1563C /* Defaults.plist */; };
 		300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300EC0451833D74F00219F48 /* CoreLocation.framework */; };
+		3028626A1C40CEBA00A176C6 /* ConsoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862691C40CEBA00A176C6 /* ConsoleViewController.m */; };
+		3028626D1C40D06C00A176C6 /* TextViewLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3028626C1C40D06C00A176C6 /* TextViewLogger.m */; };
 		302E896017E668340004B935 /* MidiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302E895F17E668320004B935 /* MidiViewController.m */; };
 		303BD3001756A119000FBEB5 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD2FF1756A119000FBEB5 /* Scene.m */; };
 		303BD30417570070000FBEB5 /* DroidScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD30317570070000FBEB5 /* DroidScene.m */; };
@@ -253,6 +255,10 @@
 		300507B117C29CE600D1563C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = src/SettingsViewController.m; sourceTree = "<group>"; };
 		300507B317C2C11700D1563C /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
 		300EC0451833D74F00219F48 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		302862681C40CEBA00A176C6 /* ConsoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleViewController.h; path = src/ConsoleViewController.h; sourceTree = "<group>"; };
+		302862691C40CEBA00A176C6 /* ConsoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConsoleViewController.m; path = src/ConsoleViewController.m; sourceTree = "<group>"; };
+		3028626B1C40D06C00A176C6 /* TextViewLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewLogger.h; sourceTree = "<group>"; };
+		3028626C1C40D06C00A176C6 /* TextViewLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewLogger.m; sourceTree = "<group>"; };
 		302E895E17E668300004B935 /* MidiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MidiViewController.h; path = src/MidiViewController.h; sourceTree = "<group>"; };
 		302E895F17E668320004B935 /* MidiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MidiViewController.m; path = src/MidiViewController.m; sourceTree = "<group>"; };
 		303BD2FE17569FE2000FBEB5 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
@@ -1155,6 +1161,8 @@
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
 				3094B45518CBD20A00AFE178 /* InfoViewController.h */,
 				3094B45618CBD20A00AFE178 /* InfoViewController.m */,
+				302862681C40CEBA00A176C6 /* ConsoleViewController.h */,
+				302862691C40CEBA00A176C6 /* ConsoleViewController.m */,
 				30C38D7F1C3868DB00A273BE /* MenuViewController.h */,
 				30C38D801C3868DB00A273BE /* MenuViewController.m */,
 				30960AFA16F5952300FAF2E7 /* OscViewController.h */,
@@ -1369,6 +1377,8 @@
 				30E89D1D16EC4535005B40C4 /* PdParser.m */,
 				30C38D531C35B7F400A273BE /* Popover.h */,
 				30C38D541C35B7F400A273BE /* Popover.m */,
+				3028626B1C40D06C00A176C6 /* TextViewLogger.h */,
+				3028626C1C40D06C00A176C6 /* TextViewLogger.m */,
 				30C9BF6516E8460700E5AA5B /* Util.h */,
 				30C9BF6616E8460700E5AA5B /* Util.m */,
 			);
@@ -1780,9 +1790,11 @@
 				30DBD0621C196B0500ABE9E1 /* rj_senergy~.c in Sources */,
 				30DBD0631C196B0500ABE9E1 /* rj_zcr~.c in Sources */,
 				308E06521AD8611800BD1C79 /* s_inter.c in Sources */,
+				3028626D1C40D06C00A176C6 /* TextViewLogger.m in Sources */,
 				30DBD05F1C196B0500ABE9E1 /* rj_accum.c in Sources */,
 				308E06351AD8611800BD1C79 /* g_graph.c in Sources */,
 				306204741753C90400DEC1C2 /* RjScene.m in Sources */,
+				3028626A1C40CEBA00A176C6 /* ConsoleViewController.m in Sources */,
 				308E06911AD8614A00BD1C79 /* loop~.c in Sources */,
 				306204781753E3D200DEC1C2 /* PatchScene.m in Sources */,
 				303BD3001756A119000FBEB5 /* Scene.m in Sources */,
@@ -1950,7 +1962,6 @@
 					"-DHAVE_UNISTD_H",
 					"-DUSEAPI_DUMMY",
 					"-DLIBPD_EXTRA",
-					"-DDEBUG_PDPARTY",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.danomatika.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";

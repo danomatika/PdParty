@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Dan Wilcox <danomatika@gmail.com>
+ * Copyright (c) 2015 Dan Wilcox <danomatika@gmail.com>
  *
  * BSD Simplified License.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
@@ -19,3 +19,49 @@
 // off, error, warn, info, verbose
 //  0     1     3      7      15
 extern int ddLogLevel;
+
+@class TextViewLogger;
+
+/// logging static methods
+///
+/// log using Lumberjack DDLog macros in place of NSLog:
+///
+/// DDLogError("an error ocurred");
+/// DDLogWarn("something didn't happen right at %@", "some place");
+/// DDLogInfo("1 + 1 = %d", 1+1);
+/// DDLogVerbose("let me tell you the sotyr of my life: %@", bioString);
+///
+@interface Log : NSObject
+
+/// setup normal Lumberjack console logger, sets log level from NSUserDefaults if "logLevel" key exists
+///
+/// Note: log level is VERBOSE when building in debug mode for testing and DEBUG is defined
+///
++ (void)setup;
+
+#pragma Log Levels
+
+/// set the current log level:
+/// LOG_LEVEL_OFF, LOG_LEVEL_ERROR, LOG_LEVEL_WARN, LOG_LEVEL_INFO, LOG_LEVEL_VERBOSE
+// updates the defaults "logLevel" value
++ (void)setLogLevel:(int)logLevel;
+
+/// get the current log level
++ (int)logLevel;
+
+/// get the default log level if the "logLevel" key exists in the current NSUserDefaults,
+/// returns 0 if not found
++ (int)defaultLogLevel;
+
+#pragma mark TextViewLogger
+
+/// get global text view logger instance
++ (TextViewLogger *)textViewLogger;
+
+/// enable the text view logger, updates the defaults "logTextView" value
++ (void)enableTextViewLogger:(BOOL)enable;
+
+/// returns whether the text view logger is enabled or not
++ (BOOL)textViewLoggerEnabled;
+
+@end

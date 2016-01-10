@@ -29,6 +29,7 @@
 	
 	self.lockScreenDisabledSwitch.on = app.isLockScreenDisabled;
 	self.runInBackgroundSwitch.on = app.runsInBackground;
+	self.enableConsoleSwitch.on = [Log textViewLoggerEnabled];
 	
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
 	self.oscSensorEnabledSwitch.on = app.osc.sensorSendingEnabled;
@@ -68,6 +69,9 @@
 	}
 	else if(sender == self.runInBackgroundSwitch) {
 		app.runsInBackground = self.runInBackgroundSwitch.isOn;
+	}
+	else if(sender == self.enableConsoleSwitch) {
+		[Log enableTextViewLogger:self.enableConsoleSwitch.isOn];
 	}
 }
 

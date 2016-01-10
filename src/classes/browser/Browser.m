@@ -55,7 +55,7 @@
 		navigationController = [[UINavigationController alloc] initWithRootViewController:self];
 		navigationController.modalPresentationStyle = self.modalPresentationStyle;
 	}
-	[controller presentViewController:navigationController animated:YES completion:nil];
+	[controller presentViewController:navigationController animated:animated completion:nil];
 }
 
 #pragma mark Location

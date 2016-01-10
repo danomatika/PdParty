@@ -175,7 +175,7 @@
 }
 
 - (void)midiOutputConnectionEvent {
-	// relaod outputs section
+	// reload outputs section
 	NSRange range = NSMakeRange(2, 1);
 	NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];                                     
 	[self.tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
