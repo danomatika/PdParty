@@ -58,7 +58,7 @@
 - (void)addCanvas:(NSArray *)atomLine;
 
 // add a widget using the object type name, returns true if type handled
-// subclass this to add additional type creation & don't forget to call super
+// subclass this to add additional type creation & don't forget to call super	
 - (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine;
 
 // add widgets from an array of atom lines
