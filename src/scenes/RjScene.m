@@ -14,6 +14,9 @@
 #import "RjImage.h"
 #import "RjText.h"
 
+// TODO: decide on this
+//#define IPAD_LANDSCAPE
+
 @interface RjScene () {
 	NSDictionary *info;
 	NSMutableDictionary *widgets;
@@ -38,8 +41,8 @@
 - (id)init {
 	self = [super init];
     if(self) {
-		self.scale = 1.0f;
 		widgets = [[NSMutableDictionary alloc] init];
+		self.scale = 1.0f;
     }
     return self;
 }
@@ -53,13 +56,17 @@
 	
 	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {
 		
-		// allow all orientations on iPad
-		if([Util isDeviceATablet]) {
-			self.preferredOrientations = UIInterfaceOrientationMaskAll;
-		}
-		else { // lock to portrait on iPhone
-			self.preferredOrientations = UIInterfaceOrientationMaskPortrait;
-		}
+		#ifdef IPAD_LANDSCAPE
+			// allow all orientations on iPad
+			if([Util isDeviceATablet]) {
+				self.preferredOrientations = UIInterfaceOrientationMaskAll;
+			}
+			else { // lock to portrait on iPhone
+				self.preferredOrientations = UIInterfaceOrientationMaskPortrait;
+			}
+		#else
+			self.preferredOrientations = UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+		#endif
 		
 		// load background
 		NSString *backgroundPath = [path stringByAppendingPathComponent:@"image.jpg"];
