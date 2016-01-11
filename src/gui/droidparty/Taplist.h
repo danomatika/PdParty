@@ -16,6 +16,9 @@
 
 @property (strong, nonatomic) NSMutableArray *list;
 
+// set list receive name, essentially self.receiveName + "-list"
+@property (readonly, strong, nonatomic) NSString *listReceiveName;
+
 + (id)taplistFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 - (void)reshapeLabel;

@@ -11,10 +11,12 @@
 #import "Taplist.h"
 
 #import "Gui.h"
+#import "PdDispatcher.h"
 
 @interface Taplist () {
 	BOOL touchDown;
 }
+@property (readwrite, strong, nonatomic) NSString *listReceiveName;
 - (void)sendValues;
 @end
 
@@ -105,6 +107,16 @@
 		round(CGRectGetWidth(self.frame) * 0.75), round(CGRectGetHeight(self.frame) * 0.75));
 }
 
+- (void)setup {
+	self.listReceiveName = [self.receiveName stringByAppendingString:@"-list"];
+	[[Widget dispatcher] addListener:self forSource:self.listReceiveName];
+}
+
+- (void)cleanup {
+	[[Widget dispatcher] removeListener:self forSource:self.listReceiveName];
+	self.listReceiveName = nil;
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)value {
@@ -125,7 +137,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	touchDown = YES;
-	self.value = (int)(self.value + 1) % [self.list count]; // go to the next item in our list
+	self.value = (int)(self.value + 1) % self.list.count; // go to the next item in our list
 	[self sendValues];
 }
 
@@ -141,19 +153,49 @@
 
 #pragma mark WidgetListener
 
-- (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	self.value = (int)received % [self.list count];
+- (void)receiveBangFromSource:(NSString *)source {
 	[self sendValues];
 }
 
-- (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	// swallow symbols
+- (void)receiveFloat:(float)received fromSource:(NSString *)source {
+	self.value = (int)received % self.list.count;
+	[self sendValues];
+}
+
+- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
+	if([source isEqualToString:self.listReceiveName]) {
+		[self.list removeAllObjects];
+		[self.list addObjectsFromArray:list];
+		self.value = 0;
+		[self sendValues];
+	}
+	else {
+		[super receiveList:list fromSource:source];
+	}
+}
+
+// catch incoming lists which aren't prepended with "list"
+- (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
+	if([source isEqualToString:self.listReceiveName]) {
+		[self.list removeAllObjects];
+		[self.list addObject:message];
+		[self.list addObjectsFromArray:arguments];
+		self.value = 0;
+		[self sendValues];
+	}
+	else {
+		[super receiveMessage:message withArguments:arguments fromSource:source];
+	}
+}
+
+- (void)receiveSetFloat:(float)received {
+	self.value = (int)received % self.list.count;
 }
 
 #pragma mark Private
 
 - (void)sendValues {
-	if(self.value < [self.list count]) {
+	if(self.value < self.list.count) {
 		[self sendSymbol:[self.list objectAtIndex:(int)self.value]];
 	}
 	[PdBase sendFloat:self.value toReceiver:[self.sendName stringByAppendingString:@"/idx"]];

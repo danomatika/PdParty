@@ -144,6 +144,11 @@
 
 #pragma mark WidgetListener
 
+- (void)receiveFloat:(float)received fromSource:(NSString *)source {
+	self.value = received;
+	[self setNeedsDisplay];
+}
+
 - (void)receiveSetFloat:(float)received {
 	self.value = received;
 }

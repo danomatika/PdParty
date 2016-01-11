@@ -160,13 +160,25 @@
 #pragma mark BrowserDelegate
 
 - (void)browser:(Browser *)browser selectedFile:(NSString *)path {
-	[self sendSymbol:path];
+	[self sendPath:path];
 	[browser dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)browser:(Browser *)browser createdFile:(NSString *)path {
-	[self sendSymbol:path];
+	[self sendPath:path];
 	[browser dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark Private
+
+- (void)sendPath:(NSString *)path {
+	[self sendSymbol:path];
+	NSArray *detail = @[ // ext file dir
+		[path pathExtension],
+		[[path lastPathComponent] stringByDeletingPathExtension],
+		[path stringByDeletingLastPathComponent]
+	];
+	[PdBase sendList:detail toReceiver:[self.sendName stringByAppendingString:@"-detail"]];
 }
 
 @end

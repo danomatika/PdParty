@@ -111,8 +111,8 @@
 			else if([[list objectAtIndex:0] isEqualToString:@"bang"]) { // got a bang!
 				[self receiveBangFromSource:source];
 			}
-			else {
-				DDLogVerbose(@"%@: dropped list", self.type);
+			else { // pass symbol through, setting the value
+				[self receiveSymbol:[list objectAtIndex:0] fromSource:source];
 			}
 		}
 	}

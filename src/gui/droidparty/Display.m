@@ -92,6 +92,10 @@
 
 #pragma mark WidgetListener
 
+- (void)receiveBangFromSource:(NSString *)source {
+	// swallows bangs
+}
+
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.label.text = [[NSNumber numberWithFloat:received] stringValue];
 	[self reshapeForGui:self.gui];

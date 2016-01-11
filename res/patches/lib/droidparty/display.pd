@@ -1,9 +1,9 @@
-#N canvas 276 155 803 579 10;
+#N canvas 298 73 805 629 10;
 #X obj 422 434 loadbang;
 #X msg 422 456 bang;
 #X obj 422 478 pack \$0 \$1 \$2;
 #X obj 657 9 namecanvas pd-\$0-self;
-#X obj 1 1 cnv 15 16 16 empty \$0-display ? 20 12 0 14 -233017 -66577
+#X obj 1 1 cnv 15 16 16 empty \$0-display 2  20 12 0 14 -233017 -66577
 0;
 #X msg 422 501 \; pd-\$1-self donecanvasdialog 1 1 2 0 0 1 1 \$2 \$3
 0 0 1 1 1 \; pd-\$1-self dirty 0 \;;
@@ -12,19 +12,19 @@
 #X obj 50 295 list split 1;
 #X obj 133 295 t l;
 #X obj 50 360 makefilename %c;
-#X msg 50 439 \$1\$2;
-#X obj 50 416 pack s s;
-#X msg 112 393 symbol;
-#X msg 50 382 \$1;
-#X obj 116 432 symbol;
-#X obj 17 483 symbol;
-#X obj 50 461 symbol;
+#X msg 50 484 \$1\$2;
+#X obj 50 461 pack s s;
+#X msg 95 385 symbol;
+#X msg 50 385 \$1;
+#X obj 116 477 symbol;
+#X obj 17 528 symbol;
+#X obj 50 506 symbol;
 #X obj 31 263 t b a b;
-#X obj 17 505 list prepend label;
-#X obj 17 527 list trim;
+#X obj 17 550 list prepend label;
+#X obj 17 572 list trim;
 #X obj 50 317 sel 32;
 #X msg 50 339 32;
-#X obj 17 547 s \$0-display;
+#X obj 17 592 s \$0-display;
 #X obj 52 170 list split 1;
 #X obj 10 170 list;
 #X obj 10 150 until;
@@ -37,6 +37,9 @@
 #X text 145 338 <- join list on " ";
 #X msg 46 56 display text here;
 #X obj 10 78 route set;
+#X obj 50 410 route float;
+#X obj 50 435 makefilename %d;
+#X text 126 411 convert float to symbol;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 5 0;
@@ -49,7 +52,7 @@
 #X connect 11 0 17 0;
 #X connect 12 0 11 0;
 #X connect 13 0 12 1;
-#X connect 14 0 12 0;
+#X connect 14 0 36 0;
 #X connect 15 0 12 1;
 #X connect 16 0 19 0;
 #X connect 17 0 16 1;
@@ -79,4 +82,7 @@
 #X connect 34 0 30 0;
 #X connect 35 0 30 0;
 #X connect 35 1 30 0;
-#X coords 0 0 1 1 192 32 2 0 0;
+#X connect 36 0 37 0;
+#X connect 36 1 12 0;
+#X connect 37 0 12 0;
+#X coords 0 0 1 1 150 50 2 0 0;
