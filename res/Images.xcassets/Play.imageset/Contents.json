@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "play-50-1.png",
+      "filename" : "play-48.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "play-100.png",
+      "filename" : "play-96.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "play-128.png",
+      "filename" : "play-144.png",
       "scale" : "3x"
     }
   ],

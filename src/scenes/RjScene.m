@@ -75,7 +75,11 @@
 			backgroundPath = [[Util bundlePath] stringByAppendingPathComponent:@"images/rjdj_default.jpg"];
 		}
 		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
-		if(!self.background.image) {
+		if(self.background.image) { // don't smooth when scaling
+			self.background.layer.magnificationFilter = kCAFilterNearest;
+			self.background.layer.shouldRasterize = YES;
+		}
+		else {
 			DDLogError(@"RjScene: couldn't load background image");
 		}
 		self.background.contentMode = UIViewContentModeScaleAspectFill;

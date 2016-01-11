@@ -1,15 +1,13 @@
 {
   "images" : [
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "pdParty-29.png",
+      "size" : "29x29",
       "scale" : "1x"
     },
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "pdParty-29-2x.png",
+      "size" : "29x29",
       "scale" : "2x"
     },
     {
@@ -18,9 +16,8 @@
       "scale" : "3x"
     },
     {
-      "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "pdParty-40-2x-1.png",
+      "size" : "40x40",
       "scale" : "2x"
     },
     {
@@ -29,21 +26,18 @@
       "scale" : "3x"
     },
     {
-      "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "pdParty-57.png",
+      "size" : "57x57",
       "scale" : "1x"
     },
     {
-      "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "pdParty-57-2x.png",
+      "size" : "57x57",
       "scale" : "2x"
     },
     {
+      "idiom" : "iphone",
       "size" : "60x60",
-      "idiom" : "iphone",
-      "filename" : "pdParty-60-2x.png",
       "scale" : "2x"
     },
     {
@@ -52,63 +46,53 @@
       "scale" : "3x"
     },
     {
+      "idiom" : "ipad",
       "size" : "29x29",
-      "idiom" : "ipad",
-      "filename" : "pdParty-29-1.png",
       "scale" : "1x"
     },
     {
+      "idiom" : "ipad",
       "size" : "29x29",
-      "idiom" : "ipad",
-      "filename" : "pdParty-29-2x-1.png",
       "scale" : "2x"
     },
     {
+      "idiom" : "ipad",
       "size" : "40x40",
-      "idiom" : "ipad",
-      "filename" : "pdParty-40-1.png",
       "scale" : "1x"
     },
     {
+      "idiom" : "ipad",
       "size" : "40x40",
-      "idiom" : "ipad",
-      "filename" : "pdParty-40-2x.png",
       "scale" : "2x"
     },
     {
+      "idiom" : "ipad",
       "size" : "50x50",
-      "idiom" : "ipad",
-      "filename" : "pdParty-50.png",
       "scale" : "1x"
     },
     {
+      "idiom" : "ipad",
       "size" : "50x50",
-      "idiom" : "ipad",
-      "filename" : "pdParty-50-2x.png",
       "scale" : "2x"
     },
     {
-      "size" : "72x72",
       "idiom" : "ipad",
-      "filename" : "pdParty-72.png",
+      "size" : "72x72",
       "scale" : "1x"
     },
     {
-      "size" : "72x72",
       "idiom" : "ipad",
-      "filename" : "pdParty-72-2x.png",
+      "size" : "72x72",
       "scale" : "2x"
     },
     {
-      "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "pdParty-76.png",
+      "size" : "76x76",
       "scale" : "1x"
     },
     {
-      "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "pdParty-76-2x.png",
+      "size" : "76x76",
       "scale" : "2x"
     },
     {
