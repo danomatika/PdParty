@@ -71,7 +71,7 @@
 			}
 		}
 		else {
-			if([[file pathExtension] isEqualToString:@"pd"]) { // add patch
+			if([PatchScene isPatchFile:path]) { // add patch
 				return YES;
 			}
 			else if([RecordingScene isRecording:path]) { // add recordings
@@ -156,6 +156,9 @@
 		}
 		else if([RecordingScene isRecording:path]) {
 			cell.imageView.image = [UIImage imageNamed:@"audioFile"];
+		}
+		else if([PatchScene isPatchFile:path]) {
+			cell.imageView.image = [UIImage imageNamed:@"patch"];
 		}
 		else {
 			cell.imageView.image = [UIImage imageNamed:@"file"];

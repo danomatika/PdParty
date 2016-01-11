@@ -162,12 +162,16 @@
 	
 	switch(indexPath.row) {
 		case 0:
-			[button setTitle:@"Restart Scene" forState:UIControlStateNormal];
+			[button setImage:[Util image:[UIImage imageNamed:@"reload"] withTint:normalColor]  forState:UIControlStateNormal];
+			[button setImage:[Util image:[UIImage imageNamed:@"reload"] withTint:selectedColor] forState:UIControlEventTouchDown];
+			//[button setTitle:@"Restart Scene" forState:UIControlStateNormal];
 			[button addTarget:self action:@selector(restartPressed:) forControlEvents:UIControlEventTouchUpInside];
 			break;
 		case 1:
 			if([Log textViewLoggerEnabled]) {
-				[button setTitle:@"Show Console" forState:UIControlStateNormal];
+				//[button setTitle:@"Show Console" forState:UIControlStateNormal];
+				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:normalColor]  forState:UIControlStateNormal];
+				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:selectedColor] forState:UIControlEventTouchDown];
 				[button addTarget:self action:@selector(showConsolePressed:) forControlEvents:UIControlEventTouchUpInside];
 				break;
 			}
@@ -225,8 +229,6 @@
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:consoleView];
 	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
 	navigationController.modalInPopover = YES;
-//	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-//	[root  presentViewController:navigationController animated:YES completion:nil];
 	[self.popover.sourceController.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 

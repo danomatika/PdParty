@@ -79,6 +79,10 @@
 	return YES;
 }
 
++ (BOOL)isPatchFile:(NSString *)fullpath {
+	return [[fullpath pathExtension] isEqualToString:@"pd"];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
