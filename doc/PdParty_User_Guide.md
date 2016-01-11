@@ -293,7 +293,7 @@ When patching for PdParty (as with RjDj & PdDroidParty), it is recommended to di
 
 #### [expr], [expr~], & [fexpr~]
 
-[expr], [expr~], & [fexpr~] are included with PdParty. They are under the LGPL license which is compatible with the Apple App Store licensing requirements as long as the PdParty source is open (which it is). I'm making a note of this, as it may not be the case with other closed source libpd based apps.
+[expr], [expr~], & [fexpr~] are included with PdParty. They are under the BSD license which is compatible with the Apple App Store licensing requirements as long as the PdParty source is open (which it is). I'm making a note of this, as it may not be the case with other closed source libpd based apps.
 
 #### Key events
 
@@ -314,7 +314,29 @@ All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to
 
 ### PdDroidParty Compatibility
 
-PdParty currently supports the following PdDroidParty abstractions: [numberbox], [wordbutton], [taplist], & [touch]. More advanced abstractions ([loadsave], [menubang], etc) may be added in the future. Custom fonts & SVG widgets/styling are planned, but not an immediate priority.
+PdParty currently supports:
+
+* PdDroidParty abstractions:
+  * loadsave
+  * menubang: buttons are added to the controls popup menu
+  * display
+  * droidsystem:
+    * receive messages: sensors, openurl, & vibrate\* 
+    * send messages: accel, gyro, & magnet
+  * knob: implementation of the moonlib external [mknob]
+  * numberbox
+  * ribbon
+  * taplist
+  * touch
+  * wordbutton
+* scene folder background.png loading
+* scene foldder font.ttf & font-antialiased.ttf loading
+
+<small>\* doesn't do much as audio has to be off for vibrate to happen on iOS</small>
+
+SVG widget styling support are planned, but not an immediate priority as there is no built-in svg handling on iOS and there doesn't seem to be a standout 3rd party SVG library.
+
+[droidnetclient] & [droidnetreceive] are deprecated in PdDroidParty and therefore not supported. Use [netsend] & [netreceive] instead.
 
 ### RjDj Compatibility
 
@@ -356,7 +378,7 @@ PdParty returns the following events:
 	Receiving PdParty events
 </p>
   
-_Note: RjDj scenes only receive #touch & #accelerate, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the cause of RjDj as the RjDj app is no longer available)._
+_Note: RjDj scenes only receive #touch & #accelerate, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the case of RjDj as the RjDj app is no longer available)._
 
 #### Accelerate, Gyro, & Magnet Control
   
