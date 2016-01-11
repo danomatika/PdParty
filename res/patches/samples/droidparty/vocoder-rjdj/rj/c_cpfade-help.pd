@@ -1,0 +1,55 @@
+#N canvas 49 28 901 522 10;
+#X text 584 66 signal 2;
+#X floatatom 628 134 5 0 0 0 - - -;
+#X obj 631 111 hsl 128 15 0 1 0 0 empty empty crossfader_0-1 -2 -8
+1 10 -262144 -1 -1 0 1;
+#X obj 502 363 *~ 0.5;
+#X text 544 37 signal 1;
+#X obj 542 85 osc~ 800;
+#X obj 502 56 osc~ 400;
+#X obj 621 325 vu 15 120 empty empty -1 -8 0 8 -66577 -1 1 0;
+#X obj 620 276 env~;
+#X obj 620 301 - 100;
+#X obj 669 253 c_xfade;
+#X obj 503 407 soundoutput;
+#X obj 670 325 vu 15 120 empty empty -1 -8 0 8 -66577 -1 1 0;
+#X obj 669 276 env~;
+#X obj 669 301 - 100;
+#X text 576 233 arg1: 0-1;
+#X obj 502 213 c_cpfade 0.5;
+#N canvas 368 107 702 587 REFERENCE 0;
+#X text 114 121 Name: c_cpfade;
+#X text 114 140 Summary: constant power crossfade;
+#X text 115 178 Argument 0: left-right fade amount (default 0: all
+left);
+#X text 115 197 Inlet 0: left audio signal;
+#X text 115 216 Inlet 1: right audio signal;
+#X text 115 295 Outlet 0: resulting signal of fading left and right
+in-signals;
+#X text 115 327 Description: Crossfades two signals according to a
+sine-based transfer function so that the loudness of the result is
+constant.;
+#X text 117 391 The normal c_xfade has a little "hole in middle" \,
+but it's cheaper than c_cpfade.;
+#X text 115 235 Inlet 2: left-right crossfade amount in a range 0...1
+\, where 0 is all left \, 1 is all right.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 18 39 pd REFERENCE;
+#X text 18 16 c_cpfade - constant power crossfade;
+#X text 737 257 "hole in middle";
+#X connect 1 0 10 2;
+#X connect 1 0 16 2;
+#X connect 2 0 1 0;
+#X connect 3 0 11 0;
+#X connect 3 0 11 1;
+#X connect 5 0 10 1;
+#X connect 5 0 16 1;
+#X connect 6 0 10 0;
+#X connect 6 0 16 0;
+#X connect 8 0 9 0;
+#X connect 9 0 7 0;
+#X connect 10 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 12 0;
+#X connect 16 0 3 0;
+#X connect 16 0 8 0;

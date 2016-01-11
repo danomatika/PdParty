@@ -1,0 +1,401 @@
+#N struct 1113-symarray float x array symbols 1113-sym;
+#N struct 1113-sym symbol name float on;
+#N canvas 34 60 877 510 10;
+#X declare -path .;
+#X declare -path .;
+#N canvas 0 12 1081 586 detailed_help 0;
+#X obj 719 26 declare -path .;
+#X obj 21 291 soundoutput;
+#X msg 177 132 save;
+#X msg 643 31 mod2a \$1;
+#X floatatom 643 9 5 0 0 0 - - -;
+#X obj 575 9 r \$0-GUI;
+#X obj 21 132 m_majorscale 50;
+#X obj 21 78 metro 500;
+#X obj 21 54 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+;
+#X obj 21 211 pack;
+#N canvas 0 58 1013 367 midi-control 0;
+#X obj 37 214 m_symbolarray;
+#X obj 21 110 ctlin;
+#X obj 21 186 / 127;
+#X obj 125 65 loadbang;
+#X obj 21 297 s \$0-GUI;
+#X text 124 31 add your midi controller mappings here. Format: <ctl-num>
+<method name>;
+#X floatatom 47 144 5 0 0 0 - - -;
+#X floatatom 88 145 5 0 0 0 - - -;
+#X obj 21 260 list prepend;
+#X text 119 259 swap;
+#X msg 558 66 env1a \, env1d \, env1r \, env1s \, env2a \, env2d \,
+env2r \, env2s \, env3a \, env3d \, env3r \, env3s \, mod1a \, mod1b
+\, mod1c \, mod1d \, mod2a \, mod2b \, mod2c \, mod2d \, mod3a \, mod3b
+\, mod3c \, mod3d \, osc1a \, osc1b \, osc1c \, osc1d \, osc2a \, osc2b
+\, osc2c \, osc2d \, osc3a \, osc3b \, osc3c \, osc3d \,;
+#X msg 201 222 dump;
+#X symbolatom 37 241 10 0 0 0 - - -;
+#X obj 201 276 print;
+#X obj 201 244 u_dumpfile controls.txt cr;
+#X text 552 32 Control Template - These are the methods \, that s_czz_synth
+accepts. They all expect values in a range of 0-1.;
+#X text 241 220 You can also keep your settings in a file.;
+#X obj 201 336 declare -path .;
+#X text 317 339 let me find "controls.txt" here.;
+#X msg 125 91 74 osc1a \, 71 osc1b \, 81 osc1c;
+#X connect 0 0 8 1;
+#X connect 0 0 12 0;
+#X connect 1 0 6 0;
+#X connect 1 0 2 0;
+#X connect 1 1 7 0;
+#X connect 1 1 0 0;
+#X connect 2 0 8 0;
+#X connect 3 0 19 0;
+#X connect 8 0 4 0;
+#X connect 11 0 14 0;
+#X connect 14 0 0 1;
+#X connect 14 0 13 0;
+#X connect 19 0 0 1;
+#X restore 356 103 pd midi-control;
+#X obj 27 174 notein;
+#X text 346 84 Set controllers here:;
+#X obj 135 273 u_cocollect;
+#X obj 177 193 t a b;
+#X obj 177 59 bng 64 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1;
+#X obj 135 480 s \$0-GUI;
+#X obj 152 300 loadbang;
+#X obj 114 242 r \$0-control;
+#X obj 575 528 s \$0-control;
+#X symbolatom 350 271 20 0 0 0 - - -;
+#X obj 445 250 s \$0-GUI;
+#X obj 350 200 nbx 3 20 0 256 0 0 empty empty empty 0 -8 0 16 -260097
+-262144 -1 4 256;
+#X obj 350 177 pgmin 1;
+#X obj 21 154 makenote 127 300;
+#X floatatom 112 62 5 0 0 0 - - -;
+#X obj 21 243 s_cwc \$0-TAG;
+#X msg 135 319 name dinosaur \, mod3d 0 \, mod3c 0 \, mod3b 0.661417
+\, mod3a 0.551181 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.456693 \,
+mod2a 0.984252 \, mod1d 0 \, mod1c 0.338583 \, mod1b 0.0314961 \, mod1a
+0.267717 \, osc3d 0 \, osc3c 0 \, osc3b 1 \, osc3a 0.354331 \, osc2d
+0.0708661 \, osc2c 0.133858 \, osc2b 0.488189 \, osc2a 0.76378 \, osc1d
+0.645669 \, osc1c 0.401575 \, osc1b 0.409449 \, osc1a 0 \, env3r 0.0170079
+\, env3s 0 \, env3d 0.015748 \, env3a 0.0793701 \, env2r 0.00220472
+\, env2s 0 \, env2d 0 \, env2a 0.11811 \, env1r 0.0011811 \, env1s
+0 \, env1d 0.00787402 \, env1a 0.125984 \,;
+#X obj 575 58 g_synthcontrol;
+#N canvas 0 0 1021 604 cwc_presets 0;
+#X obj 91 26 inlet;
+#X obj 117 559 outlet name;
+#X obj 117 536 symbol;
+#X obj 200 558 outlet parms;
+#X obj 136 466 route name;
+#X obj 513 73 loadbang;
+#X text 508 19 set up the interface to be human readable and show which
+controls are actually used;
+#X text 510 49 Requires modified [g-hsl];
+#X msg 510 102 env1a color 128 \, env1a label OSC1-ATTACK \, env1d
+color 128 \, env1d label OSC1-DECAY \, env1r color 128 \, env1r label
+OSC1-REL \, env1s color 128 \, env1s label OSC1-SUS \, env2a color
+128 \, env2a label OSC2-ATTACK \, env2d color 128 \, env2d label OSC2-DECAY
+\, env2r color 128 \, env2r label OSC2-REL \, env2s color 128 \, env2s
+label OSC2-SUS \, env3a color 128 \, env3a label OSC3-ATTACK \, env3d
+color 128 \, env3d label OSC3-DECAY \, env3r color 128 \, env3r label
+OSC3-REL \, env3s color 128 \, env3s label OSC3-SUS \, mod1a color
+128 \, mod1a label LFO-FREQ \, mod1b color 128 \, mod1b label VIB-AMT
+\, mod1c color 128 \, mod1c label VIB-ONSET \, mod1d color 128 \, mod1d
+label LFO-FM \, mod2a color 128 \, mod2a label HIGHPASS \, mod2b color
+128 \, mod2b label VOLUME \, mod2c color 128 \, mod2c label SLIDE \,
+mod2d color 2 \, mod3a color 128 \, mod3a label MIX-HARMONICS \, mod3b
+color 128 \, mod3b label MIX-SWEEP \, mod3c color 128 \, mod3c lable
+MIX-SAW \, mod3d color 128 \, mod3d label MIX-VIBSW \, osc1a color
+128 \, osc1a label OSC1-BW \, osc1b color 128 \, osc1b label OSC1-FILTER
+\, osc1c color 128 \, osc1c label OSC1-FM \, osc1d color 2 \, osc1d
+label _ \, osc2a color 128 \, osc2a label MIX-H1 \, osc2b color 128
+\, osc2b label MIX-H2 osc2c color 128 \, osc2c label MIX-H3 \, osc2d
+color 128 \, osc2d label MIX-H4 \, osc3a color 128 \, osc3a label OCT-MAIN
+\, osc3b color 128 \, osc3b label OCT-HARMS \, osc3c color 2 \, osc3d
+color 2 \,;
+#X msg -30 203 name basic \, mod3d 0.181102 \, mod3c 0.267717 \, mod3b
+0.102362 \, mod3a 0.102362 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.874016
+\, mod2a 0.0393701 \, mod1d 0 \, mod1c 0 \, mod1b 0 \, mod1a 0 \, osc3d
+0 \, osc3c 0 \, osc3b 0.480315 \, osc3a 0.682913 \, osc2d 0.212598
+\, osc2c 0.582677 \, osc2b 1 \, osc2a 0.0472441 \, osc1d 0.645669 \,
+osc1c 0.543307 \, osc1b 0.0866142 \, osc1a 0.606299 \, env3r 0.0177165
+\, env3s 0.354331 \, env3d 0.0551181 \, env3a 0.000629921 \, env2r
+0.015748 \, env2s 0.0787402 \, env2d 0.0866142 \, env2a 0.000393701
+\, env1r 0.00944882 \, env1s 0.0472441 \, env1d 0.0708661 \, env1a
+0.00023622 \,;
+#X msg -8 191 name slowresweep \, mod3d 0 \, mod3c 0 \, mod3b 1 \,
+mod3a 0 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.874016 \, mod2a 0.0393701
+\, mod1d 0 \, mod1c 0 \, mod1b 0 \, mod1a 0 \, osc3d 0 \, osc3c 0 \,
+osc3b 0 \, osc3a 0.682913 \, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a
+0 \, osc1d 0.645669 \, osc1c 0 \, osc1b 0.80315 \, osc1a 0.535433 \,
+env3r 0.456693 \, env3s 0.448819 \, env3d 0.440945 \, env3a 0.307087
+\, env2r 0.283465 \, env2s 0.11811 \, env2d 0.165354 \, env2a 0.433071
+\, env1r 0.0645669 \, env1s 0.0866142 \, env1d 0.480315 \, env1a 0.244331
+\,;
+#X msg 15 177 name reedysweep \, mod3d 0 \, mod3c 0 \, mod3b 1 \, mod3a
+0 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.874016 \, mod2a 0.0393701
+\, mod1d 0 \, mod1c 0.0393701 \, mod1b 0.0629921 \, mod1a 0.385827
+\, osc3d 0 \, osc3c 0 \, osc3b 0 \, osc3a 0.682913 \, osc2d 0.0866142
+\, osc2c 0.393701 \, osc2b 0.559055 \, osc2a 0.417323 \, osc1d 0.645669
+\, osc1c 0.771654 \, osc1b 1 \, osc1a 0.716535 \, env3r 0.0472441 \,
+env3s 0.448819 \, env3d 0.440945 \, env3a 0.307087 \, env2r 0.0393701
+\, env2s 0.11811 \, env2d 0.165354 \, env2a 0.433071 \, env1r 0.0173228
+\, env1s 0.0866142 \, env1d 0.480315 \, env1a 0.260079 \,;
+#X msg 23 160 name flumpbass \, mod3d 0.0472441 \, mod3c 0.0944882
+\, mod3b 1 \, mod3a 0 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.771654
+\, mod2a 0.023622 \, mod1d 0 \, mod1c 0.0393701 \, mod1b 0.0629921
+\, mod1a 0.385827 \, osc3d 0 \, osc3c 0 \, osc3b 0 \, osc3a 0.407323
+\, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a 0.629921 \, osc1d 0.645669
+\, osc1c 0.897638 \, osc1b 1 \, osc1a 0.370079 \, env3r 0.0472441 \,
+env3s 0.448819 \, env3d 0.0472441 \, env3a 0.0314961 \, env2r 0.0393701
+\, env2s 0.11811 \, env2d 0.165354 \, env2a 0.433071 \, env1r 0.0173228
+\, env1s 0.0866142 \, env1d 0.23622 \, env1a 0.00023622 \,;
+#X msg 45 147 name squarepeg \, mod3d 0.0472441 \, mod3c 0.0944882
+\, mod3b 1 \, mod3a 0 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.771654
+\, mod2a 0.023622 \, mod1d 0.0787402 \, mod1c 0.133858 \, mod1b 0.0551181
+\, mod1a 0.322835 \, osc3d 0 \, osc3c 0 \, osc3b 0.314961 \, osc3a
+0.407323 \, osc2d 0 \, osc2c 0 \, osc2b 0.724409 \, osc2a 0.629921
+\, osc1d 0.645669 \, osc1c 0.952756 \, osc1b 0 \, osc1a 0.952756 \,
+env3r 0.110236 \, env3s 0.818898 \, env3d 0.0314961 \, env3a 0.015748
+\, env2r 0.0393701 \, env2s 0.80315 \, env2d 0.165354 \, env2a 0.0314961
+\, env1r 0.0173228 \, env1s 0.92126 \, env1d 0.23622 \, env1a 0.00023622
+\,;
+#X msg 63 134 name reversor \, mod3d 0.551181 \, mod3c 0.338583 \,
+mod3b 0.472441 \, mod3a 0.834646 \, mod2d 0.409449 \, mod2c 0 \, mod2b
+0.944882 \, mod2a 0.141732 \, mod1d 0.0787402 \, mod1c 0.133858 \,
+mod1b 0.023622 \, mod1a 0.307087 \, osc3d 0 \, osc3c 0 \, osc3b 0.173228
+\, osc3a 0.446693 \, osc2d 0 \, osc2c 0.141732 \, osc2b 0 \, osc2a
+0.811024 \, osc1d 0.645669 \, osc1c 0.015748 \, osc1b 0.401575 \, osc1a
+0.952756 \, env3r 0.00787402 \, env3s 0.543307 \, env3d 0.0472441 \,
+env3a 0.307087 \, env2r 0.00787402 \, env2s 0.015748 \, env2d 0.165354
+\, env2a 0.015748 \, env1r 0.00944882 \, env1s 0.700787 \, env1d 0.023622
+\, env1a 0.0019685 \,;
+#X msg 81 123 name cheesyorgan \, mod3d 0 \, mod3c 0 \, mod3b 0.181102
+\, mod3a 1 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.338583 \, mod2a
+0.133858 \, mod1d 0.0787402 \, mod1c 0.23622 \, mod1b 0.393701 \, mod1a
+0.307087 \, osc3d 0 \, osc3c 0 \, osc3b 0.346457 \, osc3a 0.919134
+\, osc2d 0.417323 \, osc2c 0.283465 \, osc2b 0.543307 \, osc2a 0.590551
+\, osc1d 0.645669 \, osc1c 0.511811 \, osc1b 0.401575 \, osc1a 0.952756
+\, env3r 0.000629921 \, env3s 0 \, env3d 0.00787402 \, env3a 0 \, env2r
+0.000472441 \, env2s 0.685039 \, env2d 0.165354 \, env2a 0.000314961
+\, env1r 0.00944882 \, env1s 0 \, env1d 0.00787402 \, env1a 0.0019685
+\,;
+#X msg 98 116 name seaside-organ \, mod3d 0 \, mod3c 0 \, mod3b 0.732283
+\, mod3a 1 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.338583 \, mod2a
+0.133858 \, mod1d 0.133858 \, mod1c 0 \, mod1b 0.393701 \, mod1a 0.417323
+\, osc3d 0 \, osc3c 0 \, osc3b 0.346457 \, osc3a 0.919134 \, osc2d
+0 \, osc2c 0.669291 \, osc2b 0 \, osc2a 0.330709 \, osc1d 0.645669
+\, osc1c 0.401575 \, osc1b 0 \, osc1a 0.952756 \, env3r 0.000629921
+\, env3s 0 \, env3d 0.00787402 \, env3a 0 \, env2r 0.000472441 \, env2s
+0.685039 \, env2d 0.165354 \, env2a 0.000314961 \, env1r 0.00944882
+\, env1s 0.976378 \, env1d 0.00787402 \, env1a 0.0019685 \,;
+#X msg -30 271 name pulser \, mod3d 0 \, mod3c 0 \, mod3b 0.724409
+\, mod3a 0 \, mod2d 0.409449 \, mod2c 0.00125984 \, mod2b 0.551181
+\, mod2a 0.590551 \, mod1d 0.220472 \, mod1c 0 \, mod1b 0 \, mod1a
+0.417323 \, osc3d 0 \, osc3c 0 \, osc3b 0.283465 \, osc3a 0.360079
+\, osc2d 0.448819 \, osc2c 0.385827 \, osc2b 0.322835 \, osc2a 0.267717
+\, osc1d 0.645669 \, osc1c 0.779528 \, osc1b 0.472441 \, osc1a 0 \,
+env3r 0.000787402 \, env3s 0.669291 \, env3d 0.023622 \, env3a 0 \,
+env2r 0.0011811 \, env2s 0.685039 \, env2d 0.0393701 \, env2a 0.000314961
+\, env1r 0.000787402 \, env1s 0.976378 \, env1d 0.00787402 \, env1a
+0.000708661 \,;
+#X msg -9 266 name cellosynth \, mod3d 0.92126 \, mod3c 0.740157 \,
+mod3b 0.795276 \, mod3a 0.582677 \, mod2d 0.409449 \, mod2c 0 \, mod2b
+0.181102 \, mod2a 0.307087 \, mod1d 0.0866142 \, mod1c 0.937008 \,
+mod1b 0.015748 \, mod1a 0.322835 \, osc3d 0 \, osc3c 0 \, osc3b 0.677165
+\, osc3a 0.407323 \, osc2d 0.023622 \, osc2c 0.19685 \, osc2b 0.0314961
+\, osc2a 0.724409 \, osc1d 0.645669 \, osc1c 0.755906 \, osc1b 1 \,
+osc1a 0.543307 \, env3r 0.00181102 \, env3s 0.755906 \, env3d 0.0472441
+\, env3a 0.0629921 \, env2r 0.00212598 \, env2s 0.771654 \, env2d 0.165354
+\, env2a 0.433071 \, env1r 0.0023622 \, env1s 0.606299 \, env1d 0.0708661
+\, env1a 0.149843 \,;
+#X msg 102 271 name secondslide \, mod3d 0.173228 \, mod3c 0.393701
+\, mod3b 0.779528 \, mod3a 0.0787402 \, mod2d 0.409449 \, mod2c 0.015748
+\, mod2b 0.716535 \, mod2a 0.393701 \, mod1d 0 \, mod1c 1 \, mod1b
+0 \, mod1a 0.244094 \, osc3d 0 \, osc3c 0 \, osc3b 0.653543 \, osc3a
+0.360079 \, osc2d 0.00787402 \, osc2c 0.0472441 \, osc2b 0.700787 \,
+osc2a 0 \, osc1d 0.645669 \, osc1c 0.92126 \, osc1b 0.0866142 \, osc1a
+0 \, env3r 0.00181102 \, env3s 0.866142 \, env3d 0.0472441 \, env3a
+0.0708661 \, env2r 0.00212598 \, env2s 0.897638 \, env2d 0.0787402
+\, env2a 0.0629921 \, env1r 0.0023622 \, env1s 1 \, env1d 0.00149606
+\, env1a 0.000314961 \,;
+#X msg 121 275 name leader \, mod3d 0.125984 \, mod3c 0 \, mod3b 1
+\, mod3a 0 \, mod2d 0.409449 \, mod2c 0.0393701 \, mod2b 0.779528 \,
+mod2a 0.590551 \, mod1d 0.023622 \, mod1c 1 \, mod1b 0 \, mod1a 0.346457
+\, osc3d 0 \, osc3c 0 \, osc3b 0.653543 \, osc3a 0.549055 \, osc2d
+0.00787402 \, osc2c 0 \, osc2b 0 \, osc2a 0 \, osc1d 0.645669 \, osc1c
+0 \, osc1b 0.645669 \, osc1a 1 \, env3r 0.00181102 \, env3s 1 \, env3d
+0 \, env3a 0.000866142 \, env2r 0.00212598 \, env2s 0 \, env2d 0 \,
+env2a 0.0011811 \, env1r 0.0023622 \, env1s 1 \, env1d 0 \, env1a 0.00181102
+\,;
+#X msg 134 273 name walkingbass \, mod3d 0 \, mod3c 0.102362 \, mod3b
+0.771654 \, mod3a 0 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.889764
+\, mod2a 0.0314961 \, mod1d 0 \, mod1c 0.0944882 \, mod1b 0.220472
+\, mod1a 0.354331 \, osc3d 0 \, osc3c 0 \, osc3b 0 \, osc3a 0.360079
+\, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a 0.968504 \, osc1d 0.645669
+\, osc1c 0 \, osc1b 0.385827 \, osc1a 1 \, env3r 0.000944882 \, env3s
+0.0708661 \, env3d 0.0393701 \, env3a 0.00787402 \, env2r 0.00787402
+\, env2s 0.204724 \, env2d 0.173228 \, env2a 0.00905512 \, env1r 0.00149606
+\, env1s 0.858268 \, env1d 0.346457 \, env1a 0.00181102 \,;
+#X msg 119 222 name singingsines \, mod3d 0 \, mod3c 0 \, mod3b 0.15748
+\, mod3a 0.92126 \, mod2d 0.409449 \, mod2c 0.0314961 \, mod2b 0.889764
+\, mod2a 0.00787402 \, mod1d 0 \, mod1c 0.377953 \, mod1b 0.503937
+\, mod1a 0.362205 \, osc3d 0 \, osc3c 0 \, osc3b 0.0944882 \, osc3a
+0.779528 \, osc2d 0.299213 \, osc2c 0.023622 \, osc2b 0 \, osc2a 0.637795
+\, osc1d 0.645669 \, osc1c 0 \, osc1b 0 \, osc1a 0 \, env3r 0.00125984
+\, env3s 0.874016 \, env3d 0.0393701 \, env3a 0.00787402 \, env2r 0.00220472
+\, env2s 0.204724 \, env2d 0.173228 \, env2a 0.00905512 \, env1r 0.00220472
+\, env1s 0.929134 \, env1d 0.614173 \, env1a 0.00181102 \,;
+#X msg 160 244 name happy \, mod3d 0 \, mod3c 0 \, mod3b 0.0787402
+\, mod3a 0.448819 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.889764 \,
+mod2a 0 \, mod1d 0 \, mod1c 0.338583 \, mod1b 0 \, mod1a 0.362205 \,
+osc3d 0 \, osc3c 0 \, osc3b 0.448819 \, osc3a 0.811024 \, osc2d 0.267717
+\, osc2c 0.220472 \, osc2b 0.401575 \, osc2a 0.629921 \, osc1d 0.645669
+\, osc1c 0.637795 \, osc1b 0.755906 \, osc1a 0 \, env3r 0.00125984
+\, env3s 0 \, env3d 0.0393701 \, env3a 0.000629921 \, env2r 0.0258268
+\, env2s 0 \, env2d 0.0314961 \, env2a 0.000629921 \, env1r 0.0258268
+\, env1s 0 \, env1d 0.15748 \, env1a 0.00015748 \,;
+#X msg 166 210 name synpluck \, mod3d 0 \, mod3c 0.0787402 \, mod3b
+0.448819 \, mod3a 0.125984 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.456693
+\, mod2a 0.834646 \, mod1d 0 \, mod1c 0.338583 \, mod1b 0 \, mod1a
+0.362205 \, osc3d 0 \, osc3c 0 \, osc3b 0.11811 \, osc3a 0.795276 \,
+osc2d 0.724409 \, osc2c 0.425197 \, osc2b 0.125984 \, osc2a 0.0314961
+\, osc1d 0.645669 \, osc1c 0.527559 \, osc1b 0.480315 \, osc1a 0.433071
+\, env3r 0.00125984 \, env3s 0 \, env3d 0.0393701 \, env3a 0.000629921
+\, env2r 0.0100787 \, env2s 0 \, env2d 0.015748 \, env2a 0.000629921
+\, env1r 0.00905512 \, env1s 0 \, env1d 0.0314961 \, env1a 0.00015748
+\,;
+#X msg 147 212 name accordian \, mod3d 0 \, mod3c 0 \, mod3b 0.80315
+\, mod3a 0 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.456693 \, mod2a
+0.834646 \, mod1d 0 \, mod1c 0.338583 \, mod1b 0.0314961 \, mod1a 0.362205
+\, osc3d 0 \, osc3c 0 \, osc3b 0.11811 \, osc3a 0.795276 \, osc2d 0
+\, osc2c 0.480315 \, osc2b 0.637795 \, osc2a 0.622047 \, osc1d 0.645669
+\, osc1c 1 \, osc1b 0.724409 \, osc1a 0.92126 \, env3r 0.174488 \,
+env3s 0.023622 \, env3d 0.0787402 \, env3a 0.063622 \, env2r 0.136063
+\, env2s 0.0708661 \, env2d 0.015748 \, env2a 0.0787402 \, env1r 0.00905512
+\, env1s 0.0393701 \, env1d 0.267717 \, env1a 0.023622 \,;
+#X msg 135 292 name dinosaur \, mod3d 0 \, mod3c 0 \, mod3b 0.661417
+\, mod3a 0.551181 \, mod2d 0.409449 \, mod2c 0 \, mod2b 0.456693 \,
+mod2a 0.984252 \, mod1d 0 \, mod1c 0.338583 \, mod1b 0.0314961 \, mod1a
+0.267717 \, osc3d 0 \, osc3c 0 \, osc3b 1 \, osc3a 0.354331 \, osc2d
+0.0708661 \, osc2c 0.133858 \, osc2b 0.488189 \, osc2a 0.76378 \, osc1d
+0.645669 \, osc1c 0.401575 \, osc1b 0.409449 \, osc1a 0 \, env3r 0.0170079
+\, env3s 0 \, env3d 0.015748 \, env3a 0.0793701 \, env2r 0.00220472
+\, env2s 0 \, env2d 0 \, env2a 0.11811 \, env1r 0.0011811 \, env1s
+0 \, env1d 0.00787402 \, env1a 0.125984 \,;
+#X obj 90 53 sel 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17;
+#X connect 0 0 27 0;
+#X connect 2 0 1 0;
+#X connect 4 0 2 0;
+#X connect 4 1 3 0;
+#X connect 5 0 8 0;
+#X connect 8 0 3 0;
+#X connect 9 0 4 0;
+#X connect 10 0 4 0;
+#X connect 11 0 4 0;
+#X connect 12 0 4 0;
+#X connect 13 0 4 0;
+#X connect 14 0 4 0;
+#X connect 15 0 4 0;
+#X connect 16 0 4 0;
+#X connect 17 0 4 0;
+#X connect 18 0 4 0;
+#X connect 19 0 4 0;
+#X connect 20 0 4 0;
+#X connect 21 0 4 0;
+#X connect 22 0 4 0;
+#X connect 23 0 4 0;
+#X connect 24 0 4 0;
+#X connect 25 0 4 0;
+#X connect 26 0 4 0;
+#X connect 27 0 9 0;
+#X connect 27 1 10 0;
+#X connect 27 2 11 0;
+#X connect 27 3 12 0;
+#X connect 27 4 13 0;
+#X connect 27 5 14 0;
+#X connect 27 6 15 0;
+#X connect 27 7 16 0;
+#X connect 27 8 17 0;
+#X connect 27 9 18 0;
+#X connect 27 10 19 0;
+#X connect 27 11 20 0;
+#X connect 27 12 21 0;
+#X connect 27 13 22 0;
+#X connect 27 14 23 0;
+#X connect 27 15 24 0;
+#X connect 27 16 25 0;
+#X connect 27 17 26 0;
+#X restore 350 228 pd cwc_presets;
+#X obj 299 151 hradio 15 1 0 18 empty empty empty 0 -8 0 10 -262144
+-1 -1 4;
+#X obj 21 105 random 10;
+#X connect 2 0 14 0;
+#X connect 4 0 3 0;
+#X connect 5 0 28 0;
+#X connect 6 0 24 0;
+#X connect 7 0 31 0;
+#X connect 8 0 7 0;
+#X connect 9 0 26 0;
+#X connect 11 0 9 0;
+#X connect 11 1 9 1;
+#X connect 13 0 27 0;
+#X connect 14 0 26 1;
+#X connect 14 1 13 1;
+#X connect 15 0 2 0;
+#X connect 17 0 27 0;
+#X connect 18 0 26 1;
+#X connect 22 0 29 0;
+#X connect 23 0 22 0;
+#X connect 24 0 9 0;
+#X connect 24 1 9 1;
+#X connect 25 0 31 1;
+#X connect 26 0 1 0;
+#X connect 26 0 1 1;
+#X connect 26 1 13 0;
+#X connect 27 0 16 0;
+#X connect 28 0 19 0;
+#X connect 29 0 20 0;
+#X connect 29 1 21 0;
+#X connect 30 0 22 0;
+#X connect 31 0 6 0;
+#X restore 565 253 pd detailed_help;
+#N canvas 197 0 827 684 REFERENCE 0;
+#X text 114 174 Argument 0: name for state saving (required);
+#X text 114 214 Inlet 0: pitch/velocity pairs.;
+#X text 114 357 Outlet 0: synth audio signal.;
+#X text 114 374 Outlet 1: will report internal settings when receiving
+"save" message to second inlet.;
+#X text 114 234 Inlet 1: control inlet to set parameters. See example
+help for details. Possible message are (in alphabetical order): env1a
+\, env1d \, env1r \, env1s \, env2a \, env2d \, env2r \, env2s \, env3a
+\, env3d \, env3r \, env3s \, mod1a \, mod1b \, mod1c \, mod1d \, mod2a
+\, mod2b \, mod2c \, mod2d \, mod3a \, mod3b \, mod3c \, mod3d \, osc1a
+\, osc1b \, osc1c \, osc1d \, osc2a \, osc2b \, osc2c \, osc2d \, osc3a
+\, osc3b \, osc3c \, osc3d. They all accept a float in the range 0-1
+;
+#X text 114 121 Name: s_cwc;
+#X text 113 140 Summary: a synth with 4 harmonic oscillator modulating
+a waveshaper and FM stage \, quite flexible.;
+#X text 122 529 Tags: synthesizer \, waveshape \, FM;
+#X text 112 411 Description: s_cwc is a four harmonic oscillator feeding
+a waveshaper and FM stage. A range of digital textures and sweeps can
+be made. ajf2010.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 4 48 pd REFERENCE;
+#X text 498 230 Please see inside for help and an example.;
+#X text 658 97 control inlet;
+#X text 657 143 preset outlet;
+#X text 7 14 s_cwc - a harmonic waveshaper;
+#X obj 575 167 soundoutput;
+#X obj 575 87 pack;
+#X obj 575 50 notein;
+#X obj 575 119 s_cwc \$0-TAG;
+#X connect 7 0 9 0;
+#X connect 8 0 7 0;
+#X connect 8 1 7 1;
+#X connect 9 0 6 0;
+#X connect 9 0 6 1;

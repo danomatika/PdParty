@@ -1,0 +1,44 @@
+#N canvas 151 38 806 431 10;
+#X obj 86 293 bng 15 250 50 0 empty empty end_of_list 17 7 1 10 -262144
+-1 -1;
+#X msg 86 171 1 2 3 4 5;
+#X msg 35 133 bang;
+#X floatatom 35 263 5 0 0 0 - - -;
+#X text 149 172 list to serialize;
+#X obj 138 231 spigot;
+#X obj 171 211 tgl 15 0 empty empty loop 17 7 1 10 -262144 -1 -1 0
+1;
+#X obj 35 231 u_listser;
+#X obj 35 293 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 69 134 Output the next element of the list;
+#N canvas 26 291 495 391 REFERENCE 0;
+#X text 24 31 Name: u_listser;
+#X text 24 111 Inlet 0: "bang" - Outputs next element of list.;
+#X text 24 131 Inlet 1: <list> - List to serialize.;
+#X text 24 171 Outlet 0: Current element in serialised list.;
+#X text 24 51 Summary: Serialise a list on demand.;
+#X text 24 191 Outlet 1: Bang to signify end of list.;
+#X text 22 217 Description: Serialise a list on demand. (same as [list-dripslow]
+from the [list]-abs collection).;
+#X text 23 261 See also: [u_list drip] [u_listequal] [u_listfilter]
+[u_listloop] [u_listmap] [u_listnth] [u_listrandom] [u_listreduce]
+;
+#X text 22 331 Tags: Message \, Lists;
+#X coords 0 -1 1 1 450 350 1 10 10;
+#X restore -454 58 pd REFERENCE;
+#X obj -454 28 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 9 61 Example:;
+#X text 17 407 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj -451 30 u_listser;
+#X text -330 31 - Serialize a list on demand.;
+#X connect 1 0 7 1;
+#X connect 2 0 7 0;
+#X connect 3 0 8 0;
+#X connect 5 0 1 0;
+#X connect 6 0 5 1;
+#X connect 7 0 3 0;
+#X connect 7 1 0 0;
+#X connect 7 1 5 0;

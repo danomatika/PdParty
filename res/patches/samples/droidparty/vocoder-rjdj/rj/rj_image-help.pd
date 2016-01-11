@@ -1,0 +1,97 @@
+#N canvas 19 60 1038 513 10;
+#N canvas 38 329 489 477 REFERENCE 0;
+#X text 24 31 Name: rj_image;
+#X text 24 61 Summary: place and control images on a device;
+#X text 24 101 Argument 0: <symbol> File name (required);
+#X text 24 274 Description: rj_image displays an image while a scene
+is running in the iPhone. It allows either jpg or png to be used. Sending
+a visible message to the right inlet will show (1) or hide (0) the
+image. A move message will place the center of the image on the screen
+at the coordinates given.;
+#X text 24 434 Tags: Message \, Visuals;
+#X text 24 384 See also: [rj_text];
+#X text 24 147 Inlet 0: Control messages -;
+#X text 34 187 move <float \, float> - x \, y coordinates of image
+center;
+#X text 34 167 visible <boolean> - '1' displays image \, '0' hides
+it;
+#X text 34 227 alpha <float> - transparency value from 0 to 1;
+#X text 34 207 scale <float \, float> - transform image in x and y
+directions;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 51 Example:;
+#X text 695 480 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X text 79 21 - displays images;
+#X obj 8 20 rj_image;
+#X msg 716 257 alpha \$1;
+#X obj 478 338 rj_image path/to/image.png;
+#X msg 826 257 visible \$1;
+#X obj 826 197 tgl 15 0 empty empty image_visible_(1_or_0) 17 7 0 10
+-262144 -1 -1 0 1;
+#X msg 478 257 move \$1 \$2;
+#X obj 478 227 pack f f;
+#X floatatom 478 107 5 0 0 1 x_position - -;
+#X obj 478 197 f;
+#X floatatom 496 137 5 0 0 1 y_position - -;
+#X obj 496 167 t b f;
+#X obj 608 227 pack f f;
+#X floatatom 608 107 5 0 0 1 x_scale - -;
+#X obj 608 197 f;
+#X floatatom 626 137 5 0 0 1 y_scale - -;
+#X obj 626 167 t b f;
+#X msg 608 257 scale \$1 \$2;
+#X floatatom 716 167 5 0 0 1 alpha_(0-1) - -;
+#X text 661 331 Don't forget to set 'visible' to 1 if you intend on
+using 'alpha' to fade images in/out.;
+#N canvas 0 22 575 456 TOUCH 0;
+#X obj 193 170 list split 1;
+#X obj 95 395 rj_image moving_image.png;
+#X obj 95 170 list split 1;
+#X msg 227 231 move \$1 \$2;
+#X msg 95 323 visible \$1;
+#X obj 25 170 loadbang;
+#X msg 25 260 0;
+#X obj 95 70 route down xy up;
+#X obj 157 100 list split 1;
+#X obj 157 130 sel 1;
+#X text 201 132 Hides the image when untouched;
+#X text 167 324 Shows the image when touched;
+#X text 299 231 Moves the image according to touch xy;
+#X obj 95 40 r_#touch;
+#X connect 0 0 4 0;
+#X connect 0 1 3 0;
+#X connect 2 0 4 0;
+#X connect 2 1 3 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 6 0;
+#X connect 6 0 4 0;
+#X connect 7 0 2 0;
+#X connect 7 1 0 0;
+#X connect 7 2 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 6 0;
+#X connect 13 0 7 0;
+#X restore 665 411 pd TOUCH EXAMPLE;
+#X connect 6 0 7 0;
+#X connect 8 0 7 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 10 0;
+#X connect 12 0 13 0;
+#X connect 13 0 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 13 0;
+#X connect 15 1 11 1;
+#X connect 16 0 21 0;
+#X connect 17 0 18 0;
+#X connect 18 0 16 0;
+#X connect 19 0 20 0;
+#X connect 20 0 18 0;
+#X connect 20 1 16 1;
+#X connect 21 0 7 0;
+#X connect 22 0 6 0;

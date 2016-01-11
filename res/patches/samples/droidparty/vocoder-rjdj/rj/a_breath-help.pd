@@ -1,0 +1,27 @@
+#N canvas 130 140 904 500 10;
+#N canvas 377 58 582 570 REFERENCE 0;
+#X text 24 91 Argument 0:;
+#X text 24 124 Inlet 0:;
+#X text 24 144 Inlet 1:;
+#X text 24 164 Outlet 0:;
+#X text 24 184 Outlet 1:;
+#X text 24 434 Tags:;
+#X text 24 334 See also:;
+#X text 24 31 Name: a_breath;
+#X text 24 51 Summary: breath controller that analyses the mic input
+volume;
+#X text 24 234 Description: breath controller that analyses the mic
+input volume;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 37 pd REFERENCE;
+#X obj 5 7 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 40 Example:;
+#X text 576 475 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 552 44 soundinput;
+#X obj 563 385 soundoutput;
+#X obj 8 9 a_breath;
+#X text 89 10 - breath controller that analyses the mic input volume
+;
+#X obj 571 253 a_breath;

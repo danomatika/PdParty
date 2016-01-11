@@ -1,0 +1,58 @@
+#N canvas 33 40 812 519 10;
+#N canvas 397 140 536 444 demux 0;
+#X obj 109 67 inlet~;
+#X obj 177 66 inlet~;
+#X obj 258 66 inlet;
+#X obj 107 373 outlet~;
+#X obj 108 309 *~ 1;
+#X obj 178 314 *~ 0;
+#X msg 258 122 1 0;
+#X msg 291 151 0 1;
+#X obj 258 90 select 0 1;
+#X obj 258 275 unpack 0 0;
+#X connect 0 0 4 0;
+#X connect 1 0 5 0;
+#X connect 2 0 8 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 6 0 9 0;
+#X connect 7 0 9 0;
+#X connect 8 0 6 0;
+#X connect 8 1 7 0;
+#X connect 9 0 4 1;
+#X connect 9 1 5 1;
+#X restore 588 266 pd demux;
+#X obj 633 246 hradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 610 206 noise~;
+#X obj 588 146 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 588 316 soundoutput;
+#X obj 588 166 s_pinknoise;
+#N canvas 240 39 582 570 REFERENCE 0;
+#X text 24 31 Name: [s_pinknoise];
+#X text 24 61 Summary: Pinkish noise source. Realised by filtering
+white noise with a rbj-filter from music--dsp.;
+#X text 24 224 Description: Realised by filtering white noise with
+a rbj-filter from music--dsp \, this module generates a pinkish noise
+signal.;
+#X text 24 434 Tags: Audio \, Noise;
+#X text 24 344 See also: [s_noish] [s_noiz] [s_phasor];
+#X text 24 174 Outlet 0: Audio output signal.;
+#X text 24 121 Inlet 0: <integer> - Can be switched on or off by sending
+1 or 0;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 15 58 pd REFERENCE;
+#X obj 15 28 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 478 61 Example:;
+#X text 484 491 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 18 30 s_pinknoise;
+#X text 119 31 - pinkish noise source;
+#X connect 0 0 4 0;
+#X connect 0 0 4 1;
+#X connect 1 0 0 2;
+#X connect 2 0 0 1;
+#X connect 3 0 5 0;
+#X connect 5 0 0 0;

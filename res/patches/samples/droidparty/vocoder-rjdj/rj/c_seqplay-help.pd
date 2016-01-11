@@ -1,0 +1,122 @@
+#N canvas 136 79 945 613 10;
+#X obj 472 197 c_seqplay;
+#X obj 471 393 soundoutput;
+#X obj 471 344 *~ 0.2;
+#X obj 472 312 u_makepoly 12 1 s_rhodey;
+#X obj 472 100 openpanel;
+#X obj 472 63 bng 24 250 50 0 empty empty load_seq_text_file 28 7 1
+10 -4034 -1 -1;
+#X obj 472 142 symbol;
+#X msg 483 121 bang;
+#X text 465 439 Also see:;
+#X obj 542 437 qlist;
+#X floatatom 502 225 5 0 0 0 - - -;
+#X obj 558 225 bng 15 250 50 0 empty empty done 17 7 1 10 -262144 -1
+-1;
+#X text 10 21 c_seqplay - play midi files converted to textformat with
+[seq];
+#X msg 670 147 rewind;
+#X msg 669 172 next;
+#X msg 671 91 bang;
+#X msg 671 117 tempo 1;
+#X text 715 92 sequence automatically;
+#X text 728 117 set relative tempo;
+#X text 724 152 go to beginning (and stop);
+#X text 712 172 single-step forward;
+#X msg 667 227 clear;
+#X text 722 226 empty the qlist;
+#X msg 669 198 next 1;
+#X msg 671 66 print;
+#X text 719 65 print contents to Pd window;
+#N canvas 0 0 741 424 parse 0;
+#X obj 130 152 list trim;
+#X obj 130 178 route noteon noteoff;
+#X obj 90 122 list split 1;
+#X text 189 120 split off channel. Alternatively use [route <channelnum>]
+;
+#X obj 198 208 print NOTEOFF;
+#X msg 149 209 \$1 0;
+#X obj 90 93 inlet;
+#X obj 130 255 outlet;
+#X connect 0 0 1 0;
+#X connect 1 0 7 0;
+#X connect 1 1 4 0;
+#X connect 1 1 5 0;
+#X connect 2 1 0 0;
+#X connect 5 0 7 0;
+#X connect 6 0 2 0;
+#X restore 472 285 pd parse;
+#X msg 472 165 open \$1;
+#X obj 538 163 r \$0-commands;
+#X obj 613 261 s \$0-commands;
+#X text 19 509 possible commands (use this for copy/paste):;
+#N canvas 0 0 738 408 seq-conversion 0;
+#X obj 394 248 import cyclone;
+#X obj 79 275 seq;
+#X msg 183 199 read \$1 \, rewind;
+#X msg 79 199 write \$1.txt;
+#X obj 79 113 openpanel;
+#X obj 79 76 bng 24 250 50 0 empty empty load_seq_midi_file 28 7 1
+10 -4034 -1 -1;
+#X obj 79 155 t a a;
+#X symbolatom 88 136 64 0 0 0 - - -;
+#X text 389 274 [seq] is part of Cyclone in Pd-extendend;
+#X text 55 26 Here's how you can convert a midi file to a seq-textfile
+usable in c_seqplay:;
+#X text 55 314 Explanation: [seq] saves as textfile \, if you use a
+"write"-file ending in ".txt".;
+#X connect 2 0 1 0;
+#X connect 3 0 1 0;
+#X connect 4 0 6 0;
+#X connect 4 0 7 0;
+#X connect 5 0 4 0;
+#X connect 6 0 3 0;
+#X connect 6 1 2 0;
+#X restore 475 478 pd seq-conversion;
+#X obj 18 528 route noteon noteoff polypressure cc pgm pitchwheel;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 114 140 Summary: play midi files converted to textformat with
+[seq];
+#X text 114 121 Name: c_seqplay;
+#X text 114 300 Outlet 2: bang at end;
+#X text 114 255 Outlet 1: gets a list of leading numbers for the next
+message \, for you to use in designing your own sequencer. See [qlist]
+help.;
+#X text 114 159 Argument 0: seq-file to load at startup (optional)
+;
+#X text 114 319 Description: The [seq] object in Max/MSP and the Cyclone
+library for Pd (*not* part of RjDj!) can be used to convert midi files
+to a textfile. [c_seqplay] can be used to play back these textfiles.
+Internally [qlist] is used \, you can control the internal [qlist]
+object through the first inlet. noteon noteoff polypressure cc pgm
+pitchwheel;
+#X text 114 210 Outlet 0: list: midi channel (zero based) \, command
+\, data. Commands start with one of the following symbols: noteon noteoff
+polypressure cc pgm pitchwheel;
+#X text 114 178 Inlet 0: message commands: open <file> \, bang \, print
+\, tempo <factor> \, rewind \, next \, next 1 \, clear;
+#X text 122 529 Tags: midi \, sequencing \, messages;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 10 56 pd REFERENCE;
+#X text 726 196 single-step forward;
+#X text 725 209 SUPRESSING MESSAGE-SENDING;
+#X connect 0 0 26 0;
+#X connect 0 1 10 0;
+#X connect 0 2 11 0;
+#X connect 2 0 1 0;
+#X connect 2 0 1 1;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 27 0;
+#X connect 7 0 6 0;
+#X connect 13 0 29 0;
+#X connect 14 0 29 0;
+#X connect 15 0 29 0;
+#X connect 16 0 29 0;
+#X connect 21 0 29 0;
+#X connect 23 0 29 0;
+#X connect 24 0 29 0;
+#X connect 26 0 3 0;
+#X connect 27 0 0 0;
+#X connect 28 0 0 0;

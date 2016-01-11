@@ -1,0 +1,69 @@
+#N canvas 56 36 1213 552 10;
+#X floatatom 532 281 5 0 0 0 Input - -;
+#X msg 676 304 dump;
+#X floatatom 532 420 5 0 0 0 Output - -;
+#X obj 535 452 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 606 394 unpack 0 0;
+#X floatatom 606 420 5 0 0 0 - - -;
+#X floatatom 673 420 5 0 0 0 - - -;
+#X msg 626 134 reset;
+#X obj 606 104 tgl 15 0 empty empty Autoscaling: 17 7 0 12 -262144
+-1 -1 0 1;
+#X text 710 103 switch input range detection on/off;
+#X obj 532 341 m_autoscale;
+#X msg 656 234 input 0 100;
+#X msg 656 264 input 0 100 \, 0;
+#X msg 646 194 output 0 127 4;
+#X msg 646 164 output 0 100;
+#N canvas 30 58 1200 757 REFERENCE 0;
+#X text 114 121 Name: m_autoscale;
+#X text 114 141 Summary: Scale a range of numbers to another range.
+The input range is dynamically chosen from the minimum and maximum
+input values.;
+#X text 114 191 Argument 0: output-low (float) <default = 0>;
+#X text 114 211 Argument 1: output-high (float) <default = 1>;
+#X text 114 254 Inlet 0: Number ranger to scale;
+#X text 114 294 Outlet 0: Scaled number range;
+#X text 112 529 Tags: message;
+#X text 114 274 Inlet 1: various message - see example;
+#X text 114 314 Outlet 1: current input range (e.g. 0 1) if a 'dump'
+message is sent to Inlet 1;
+#X text 114 364 Description: m_autoscale dynamically maps an incoming
+input range to a set output range. The lowest value inputted will become
+the lowest value in the output range \, likewise for the highest value.
+Switching off 'autoscaling' will stop the inputs bounds changing.;
+#X text 114 454 See also:;
+#X text 114 231 Argument 2: mapping curve (float) <default = linear>
+;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 9 21 m_autoscale - scale a range of numbers to another range
+;
+#X text 480 48 Example:;
+#X obj 100 401 m_scale;
+#X text 681 394 Input range;
+#X text 672 134 Resets input range to tiny rsp. huge;
+#X text 746 164 Sets output range;
+#X text 753 195 Sets output range and mapping.;
+#X text 753 235 Sets input range;
+#X text 770 264 Sets input range and switch off autoscaling in one
+message.;
+#X text 716 305 Dumps current input range to 2nd outlet;
+#X text 841 532 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X connect 0 0 10 0;
+#X connect 1 0 10 1;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 4 1 6 0;
+#X connect 7 0 10 1;
+#X connect 8 0 10 1;
+#X connect 10 0 2 0;
+#X connect 10 1 4 0;
+#X connect 11 0 10 1;
+#X connect 12 0 10 1;
+#X connect 13 0 10 1;
+#X connect 14 0 10 1;

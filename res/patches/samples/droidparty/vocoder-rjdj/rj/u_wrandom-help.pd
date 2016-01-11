@@ -1,0 +1,98 @@
+#N canvas 89 22 1049 512 10;
+#X msg 500 112 bang;
+#X floatatom 500 372 5 0 0 1 Random_Number - -;
+#X msg 510 142 seed 12123;
+#X floatatom 551 342 5 0 0 1 length - -;
+#X msg 609 191 3 8 0 2 3 5 1 4 7 2;
+#X msg 551 191 1 0 0 1;
+#X obj 500 292 u_wrandom;
+#N canvas 72 298 582 570 REFERENCE 0;
+#X text 24 31 Name: u_wrandom;
+#X text 24 374 See also: [c_urn];
+#X text 24 434 Tags: Message;
+#X text 24 61 Summary: Use a list as a probability table for weighted
+random numbers.;
+#X text 24 111 Inlet 0: Connected to [random] internally. "bang" to
+make random choice \, "seed X" to seed.;
+#X text 24 154 Inlet 1: List of random weights. The weigths are used
+as probabilities for their positions (zero-based).;
+#X text 24 199 Outlet 0: Random number.;
+#X text 24 232 Outlet 1: Size of probability table (for convenience).
+;
+#X text 24 284 Description: Use a list as a probability table for weighted
+random numbers - (Clone of [list-wrandom]). The length of the list
+of random weights determines how many different random numbers are
+generated. Weights can be set per value to change the probability.
+;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 38 pd REFERENCE;
+#X obj 5 8 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 41 Example:;
+#X text 609 474 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 8 10 u_wrandom;
+#X text 129 11 - generate weighted random numbers;
+#X obj 551 222 t a;
+#N canvas 262 240 530 406 MARKOV-EXAMPLE 0;
+#X text 32 19 Simple markov chain;
+#X obj 77 172 select 0 1 2;
+#X obj 77 150 f;
+#X obj 93 127 r \$0-state;
+#X obj 77 279 s \$0-state;
+#X obj 170 279 s \$0-state;
+#X obj 263 277 s \$0-state;
+#X obj 163 328 hradio 32 1 0 3 empty \$0-state state 0 -8 1 10 -262144
+-1 -1 0;
+#X obj 239 98 loadbang;
+#X obj 77 97 bng 24 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 91 242 5 0 0 0 - - -;
+#X obj 91 259 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 185 240 5 0 0 0 - - -;
+#X obj 185 257 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 277 239 5 0 0 0 - - -;
+#X obj 277 256 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 37 74 metro 200;
+#X obj 37 55 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 77 208 u_wrandom;
+#X obj 170 208 u_wrandom;
+#X obj 263 208 u_wrandom;
+#X msg 239 125 0 10 20 70 \, 1 80 10 10 \, 2 50 25 25;
+#X obj 239 159 route 0 1 2;
+#X connect 1 0 18 0;
+#X connect 1 1 19 0;
+#X connect 1 2 20 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 1;
+#X connect 8 0 21 0;
+#X connect 9 0 2 0;
+#X connect 10 0 11 0;
+#X connect 12 0 13 0;
+#X connect 14 0 15 0;
+#X connect 16 0 2 0;
+#X connect 17 0 16 0;
+#X connect 18 0 4 0;
+#X connect 18 0 10 0;
+#X connect 19 0 5 0;
+#X connect 19 0 12 0;
+#X connect 20 0 6 0;
+#X connect 20 0 14 0;
+#X connect 21 0 22 0;
+#X connect 22 0 18 1;
+#X connect 22 1 19 1;
+#X connect 22 2 20 1;
+#X restore 688 341 pd MARKOV-EXAMPLE;
+#X text 584 217 List of random weights. For example '1 0 0 1' will
+output '0' or '3' with an even probability.;
+#X connect 0 0 6 0;
+#X connect 2 0 6 0;
+#X connect 4 0 13 0;
+#X connect 5 0 13 0;
+#X connect 6 0 1 0;
+#X connect 6 1 3 0;
+#X connect 13 0 6 1;

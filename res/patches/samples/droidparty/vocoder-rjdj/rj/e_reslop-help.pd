@@ -1,0 +1,69 @@
+#N canvas 36 85 867 541 10;
+#X obj 513 157 vline~;
+#X obj 531 219 noise~;
+#X obj 513 241 *~;
+#X obj 513 424 soundoutput;
+#X obj 721 151 vsl 15 100 0 100 0 0 empty empty q_(peakiness) 0 -9
+1 10 -262144 -1 -1 0 1;
+#X obj 513 84 bng 24 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1;
+#X msg 513 122 0.8 10 \, 0 20 10;
+#X floatatom 721 288 5 0 0 0 - - -;
+#X obj 643 122 vsl 15 128 0 100 0 0 empty empty lowpass_frequency 0
+-9 1 10 -262144 -1 -1 0 1;
+#X obj 643 263 mtof;
+#X floatatom 643 289 8 0 0 0 - - -;
+#X obj 772 239 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 769 287 5 0 0 0 - - -;
+#X msg 769 315 dry \$1;
+#X obj 513 367 e_reslop mylop 2000;
+#X msg 643 314 freq \$1;
+#X msg 721 314 q \$1;
+#N canvas 0 201 827 710 REFERENCE 0;
+#X text 114 424 See also:;
+#X text 114 121 Name: e_reslop;
+#X text 114 141 Summary: Resonant lowpass filter.;
+#X text 114 181 Argument 0: <symbol> Unique id - must be different
+to any other instances of the object.;
+#X text 114 211 Argument 1: <float> Default frequency;
+#X text 114 244 Inlet 0: Audio input signal;
+#X text 114 314 Outlet 0: Audio output signal;
+#X text 114 264 Inlet 1: Control messages - 'freq <float>' Cut-off
+frequency \, 'q <float>' Q \, 'dry <float>' Dry/Wet mix (dry = 0).
+;
+#X text 114 354 Description: A resonant lowpass filter with variable
+cut-off frequency \, q and mix level.;
+#X obj 185 424 e_lop2;
+#X obj 235 424 e_lop4;
+#X obj 285 424 e_resonzq;
+#X text 114 524 Tags: Audio \, Filter;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 51 Example:;
+#X text 498 511 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X text 79 21 - resonant lowpass filter;
+#X obj 8 20 e_reslop;
+#X obj 90 373 e_lop2;
+#X obj 150 373 e_lop4;
+#X obj 210 373 e_resonzq;
+#X connect 0 0 2 0;
+#X connect 1 0 2 1;
+#X connect 2 0 14 0;
+#X connect 4 0 7 0;
+#X connect 5 0 6 0;
+#X connect 6 0 0 0;
+#X connect 7 0 16 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 15 0;
+#X connect 11 0 12 0;
+#X connect 12 0 13 0;
+#X connect 13 0 14 1;
+#X connect 14 0 3 0;
+#X connect 14 0 3 1;
+#X connect 15 0 14 1;
+#X connect 16 0 14 1;

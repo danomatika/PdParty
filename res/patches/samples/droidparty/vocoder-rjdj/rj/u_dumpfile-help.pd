@@ -1,0 +1,88 @@
+#N canvas 463 24 637 776 10;
+#X text 60 31 u_dumpfile - read and dump a textfile;
+#X text 68 68 [u_dumpfile] is a slightly enhanced clone of [textfile]
+that additionally supports dumping a file to its outlet \, optionally
+numbered.;
+#X obj 95 390 r \$0-textfile;
+#X text 68 116 Also see:;
+#X obj 145 123 textfile;
+#X msg 81 256 dump;
+#X msg 98 300 numdump;
+#X text 122 255 dump file to left outlet;
+#X obj 138 444 bng 15 250 50 0 empty empty done 17 7 1 10 -262144 -1
+-1;
+#X obj 71 509 u_cocollect;
+#X msg 71 534;
+#X msg 145 478 clear;
+#X obj 70 193 loadbang;
+#N canvas 622 266 585 513 textfile-methods 0;
+#X msg 112 66 rewind;
+#X text 275 224 read a file;
+#X text 331 253 write one;
+#X msg 114 227 read textfile.txt;
+#X text 195 67 go to beginning;
+#X msg 112 93 bang;
+#X text 195 92 output one line as a list;
+#X msg 114 255 write /tmp/textfile.txt;
+#X msg 114 282 write /tmp/textfile2.txt cr;
+#X text 123 303 write a file \, terminating lines only with carriage
+return (omitting semicolons.) You can read files this way too \, in
+which case carriage returns are mapped to semicolons.;
+#X msg 113 351 read textfile.txt cr;
+#X msg 112 121 clear;
+#X text 267 122 empty the object;
+#X text 267 150 add a message;
+#X msg 112 201 set 2 4 6 8;
+#X text 270 202 clear and then add one message;
+#X msg 112 148 add cis boom bah;
+#X msg 112 175 add2 bang;
+#X text 264 175 add an unterminated message;
+#X msg 112 378 print;
+#X text 83 30 [u_dumpfile] supports all [textfile] operations:;
+#X obj 51 403 outlet;
+#X connect 0 0 21 0;
+#X connect 3 0 21 0;
+#X connect 5 0 21 0;
+#X connect 7 0 21 0;
+#X connect 8 0 21 0;
+#X connect 10 0 21 0;
+#X connect 11 0 21 0;
+#X connect 14 0 21 0;
+#X connect 16 0 21 0;
+#X connect 17 0 21 0;
+#X connect 19 0 21 0;
+#X restore 230 392 pd textfile-methods;
+#X obj 230 417 s \$0-textfile;
+#X text 223 366 [u_dumpfile] supports all [textfile] operations:;
+#X text 160 300 dump file to left outlet \, numbering each line \,
+starting from 0;
+#X msg 70 218 read m.txt cr;
+#X text 70 148 Argument 1: default textfile to load \, optional.;
+#X msg 230 462 dump;
+#X msg 271 462 numdump;
+#X obj 230 512 print DF;
+#X obj 71 420 u_dumpfile;
+#X obj 230 487 u_dumpfile s.txt cr;
+#X text 70 169 Argument 2: "cr" to use carriage returns for line endings
+;
+#X msg 88 278 dump 200;
+#X text 156 278 deferred dump with a delay of <x> msec between lines.
+;
+#X msg 102 333 numdump 500;
+#X text 386 489 args: <filename> <cr>;
+#X text 188 333 deferred and numbered dump;
+#X connect 2 0 22 0;
+#X connect 5 0 22 0;
+#X connect 6 0 22 0;
+#X connect 9 0 10 0;
+#X connect 11 0 9 1;
+#X connect 12 0 17 0;
+#X connect 13 0 14 0;
+#X connect 17 0 22 0;
+#X connect 19 0 23 0;
+#X connect 20 0 23 0;
+#X connect 22 0 9 0;
+#X connect 22 1 8 0;
+#X connect 23 0 21 0;
+#X connect 25 0 22 0;
+#X connect 27 0 22 0;

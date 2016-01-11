@@ -1,0 +1,27 @@
+s_blsaw - bandlimited saw wave
+s_blsquare - bandlimited square wave with PWM
+s_buzz - buzz harmonics generator
+s_chip - grungy and grainy console and cheap synth sounds
+s_cwc - synth with 4 harmonic oscillator modulating a waveshaper and FM stage
+s_czz - dual square wave synthesizer
+s_drumelectro - electronic drums
+s_ejun - juno like instrument
+s_fmoscil - simple 2-operator FM
+s_fm4 - simple 4-operator FM unfinished!
+s_fplaytable - fast sample player for tables
+s_fplaytable2 - fast sample player for tables (stereo)
+s_guitar - karplus strong guitar
+s_hstr - string synthesiser
+s_looper - sample player with builtin sample loader 
+s_loopsmooth - loop table parts with overlapped chunks
+s_noish - sample and hold noise
+s_noiz - multiband noise synth with modulation
+s_pinknoise - pinkish noise source
+s_playolap - play overlapped chunks of a table
+s_playtable - sample player for tables with resampling
+s_playtable2 - sample player for tables with resampling (stereo)
+s_rhodey - FM emulation of rhodes e-piano
+s_spad - slow synth pads
+s_osc - multi-waveform oscillator: sine saw square triangle
+s_vphasor - phasor~ clone with sample accurate phase setting
+s_wsb - type B waveshaper

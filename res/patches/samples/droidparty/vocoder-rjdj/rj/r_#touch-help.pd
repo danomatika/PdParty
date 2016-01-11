@@ -1,0 +1,58 @@
+#N canvas 130 140 973 515 10;
+#N canvas 377 58 582 570 REFERENCE 0;
+#X text 24 51 Summary:;
+#X text 24 91 Argument 0:;
+#X text 24 124 Inlet 0:;
+#X text 24 144 Inlet 1:;
+#X text 24 164 Outlet 0:;
+#X text 24 184 Outlet 1:;
+#X text 24 434 Tags:;
+#X text 24 334 See also:;
+#X text 24 31 Name: r_#touch;
+#X text 24 234 Description: Receives touch data from iDevice;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X obj 8 20 r_#touch;
+#X text 129 21 - receives touch screen data;
+#X text 562 28 <- Receives touch data from iDevice;
+#X obj 487 79 route xy up down;
+#X obj 487 349 unpack f f f;
+#X floatatom 487 439 5 0 0 1 touch_no - -;
+#X floatatom 521 409 5 0 0 1 x_coord - -;
+#X floatatom 556 379 5 0 0 1 y_coord - -;
+#X obj 518 229 unpack f f f;
+#X floatatom 518 319 5 0 0 1 touch_no - -;
+#X floatatom 552 289 5 0 0 1 x_coord - -;
+#X floatatom 587 259 5 0 0 1 y_coord - -;
+#X obj 549 110 unpack f f f;
+#X floatatom 549 200 5 0 0 1 touch_no - -;
+#X floatatom 583 170 5 0 0 1 x_coord - -;
+#X floatatom 618 140 5 0 0 1 y_coord - -;
+#X text 750 160 the finger touches the screen;
+#X text 601 79 <- Various messages are sent depending on the interaction
+;
+#X text 751 279 the finger leaves the screen;
+#X text 556 213 ------------------------------------------------------------
+;
+#X text 520 332 ------------------------------------------------------------
+;
+#X text 748 394 'xy' events are sent as;
+#X text 748 264 'up' events are sent as;
+#X text 747 145 'down' events are sent as;
+#X text 751 409 the finger moves around;
+#X obj 487 28 r_#touch;
+#X connect 5 0 6 0;
+#X connect 5 1 10 0;
+#X connect 5 2 14 0;
+#X connect 6 0 7 0;
+#X connect 6 1 8 0;
+#X connect 6 2 9 0;
+#X connect 10 0 11 0;
+#X connect 10 1 12 0;
+#X connect 10 2 13 0;
+#X connect 14 0 15 0;
+#X connect 14 1 16 0;
+#X connect 14 2 17 0;
+#X connect 27 0 5 0;

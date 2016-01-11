@@ -1,0 +1,46 @@
+#N canvas 458 362 598 427 10;
+#X obj 137 59 inlet~;
+#X obj 136 370 outlet~;
+#X obj 203 57 inlet;
+#X obj 425 55 inlet;
+#X obj 289 55 loadbang;
+#X obj 203 299 u_lowpassq;
+#X obj 425 139 f \$2;
+#X obj 203 140 f \$1;
+#X obj 289 77 t b b;
+#X obj 136 334 e_beequad;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 322 19 pd LICENSE-GPL;
+#X obj 284 186 samplerate~;
+#X obj 284 207 / 2;
+#X obj 284 164 loadbang;
+#X text 220 255 Filter cut-off not allowed pased nyquist;
+#X obj 203 231 clip 1 11025;
+#X connect 0 0 9 0;
+#X connect 2 0 7 0;
+#X connect 3 0 6 0;
+#X connect 4 0 8 0;
+#X connect 5 0 9 1;
+#X connect 6 0 5 1;
+#X connect 7 0 15 0;
+#X connect 8 0 7 0;
+#X connect 8 1 6 0;
+#X connect 9 0 1 0;
+#X connect 11 0 12 0;
+#X connect 12 0 15 2;
+#X connect 13 0 11 0;
+#X connect 15 0 5 0;

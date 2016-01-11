@@ -1,0 +1,247 @@
+#N struct 1113-symarray float x array symbols 1113-sym;
+#N struct 1113-sym symbol name float on;
+#N canvas 34 60 877 510 10;
+#X declare -path .;
+#X declare -path .;
+#N canvas 215 95 1081 586 detailed_help 0;
+#X obj 719 26 declare -path .;
+#X obj 20 321 soundoutput;
+#X msg 186 132 save;
+#X obj 575 9 r \$0-GUI;
+#X obj 21 132 m_majorscale 50;
+#X obj 21 78 metro 500;
+#X obj 21 54 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+;
+#X obj 21 211 pack;
+#N canvas 0 58 1013 367 midi-control 0;
+#X obj 37 214 m_symbolarray;
+#X obj 21 110 ctlin;
+#X obj 21 186 / 127;
+#X obj 125 65 loadbang;
+#X obj 21 297 s \$0-GUI;
+#X text 124 31 add your midi controller mappings here. Format: <ctl-num>
+<method name>;
+#X floatatom 47 144 5 0 0 0 - - -;
+#X floatatom 88 145 5 0 0 0 - - -;
+#X obj 21 260 list prepend;
+#X text 119 259 swap;
+#X msg 558 66 env1a \, env1d \, env1r \, env1s \, env2a \, env2d \,
+env2r \, env2s \, env3a \, env3d \, env3r \, env3s \, mod1a \, mod1b
+\, mod1c \, mod1d \, mod2a \, mod2b \, mod2c \, mod2d \, mod3a \, mod3b
+\, mod3c \, mod3d \, osc1a \, osc1b \, osc1c \, osc1d \, osc2a \, osc2b
+\, osc2c \, osc2d \, osc3a \, osc3b \, osc3c \, osc3d \,;
+#X msg 201 222 dump;
+#X symbolatom 37 241 10 0 0 0 - - -;
+#X obj 201 276 print;
+#X obj 201 244 u_dumpfile controls.txt cr;
+#X text 552 32 Control Template - These are the methods \, that s_czz_synth
+accepts. They all expect values in a range of 0-1.;
+#X text 241 220 You can also keep your settings in a file.;
+#X obj 201 336 declare -path .;
+#X text 317 339 let me find "controls.txt" here.;
+#X msg 125 91 74 osc1a \, 71 osc1b \, 81 osc1c;
+#X connect 0 0 8 1;
+#X connect 0 0 12 0;
+#X connect 1 0 6 0;
+#X connect 1 0 2 0;
+#X connect 1 1 7 0;
+#X connect 1 1 0 0;
+#X connect 2 0 8 0;
+#X connect 3 0 19 0;
+#X connect 8 0 4 0;
+#X connect 11 0 14 0;
+#X connect 14 0 0 1;
+#X connect 14 0 13 0;
+#X connect 19 0 0 1;
+#X restore 356 103 pd midi-control;
+#X obj 27 174 notein;
+#X text 346 84 Set controllers here:;
+#X obj 144 272 u_cocollect;
+#X obj 186 193 t a b;
+#X obj 186 59 bng 64 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1;
+#X obj 144 505 s \$0-GUI;
+#X obj 119 241 r \$0-control;
+#X obj 575 528 s \$0-control;
+#X symbolatom 350 271 20 0 0 0 - - -;
+#X obj 452 248 s \$0-GUI;
+#X obj 350 200 nbx 3 20 0 256 0 0 empty empty empty 0 -8 0 16 -260097
+-262144 -1 4 256;
+#X obj 350 177 pgmin 1;
+#X obj 21 154 makenote 127 300;
+#X floatatom 112 62 5 0 0 0 - - -;
+#X obj 307 157 hradio 15 1 0 5 empty empty empty 0 -8 0 10 -262144
+-1 -1 4;
+#X msg 144 317 mod3d 0 \, mod3c 0 \, mod3b 0.520079 \, mod3a 0 \, mod2d
+0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \, mod1c 0.284409 \,
+mod1b 0.103622 \, mod1a 0.724882 \, osc3d 0 \, osc3c 0 \, osc3b 0 \,
+osc3a 0 \, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a 1 \, osc1d 0.646142
+\, osc1c 0.974882 \, osc1b 0.244094 \, osc1a 0.228346 \, env3r 0 \,
+env3s 0 \, env3d 0 \, env3a 0 \, env2r 0.0244882 \, env2s 0.992992
+\, env2d 0.0708661 \, env2a 0.00787402 \, env1r 0.00952756 \, env1s
+0.889764 \, env1d 0.111024 \, env1a 0.0173228 \,;
+#X obj 575 56 g_synthcontrol;
+#N canvas 0 0 1152 704 spad_presets 0;
+#X obj 91 26 inlet;
+#X obj 134 647 outlet name;
+#X obj 118 611 symbol;
+#X obj 217 646 outlet parms;
+#X obj 151 566 route name;
+#X obj 589 225 loadbang;
+#X text 584 171 set up the interface to be human readable and show
+which controls are actually used;
+#X text 586 201 Requires modified [g-hsl];
+#X obj 90 52 sel 0 1 2 3 4 5 6 7 8 9 10 11 12;
+#X msg 584 255 env1a color 128 \, env1a label AMP-ATTACK \, env1d color
+128 \, env1d label AMP-DECAY \, env1r color 128 \, env1r label AMP-REL
+\, env1s color 128 \, env1s label AMP-SUS \, env2a color 128 \, env2a
+label FLT-ATTACK \, env2d color 128 \, env2d label FLT-DECAY \, env2r
+color 128 \, env2r label FLT-REL \, env2s color 128 \, env2s label
+FLT-SUS \, env3a color 2 \, env3a label _ \, env3d color 2 \, env3d
+label _ \, env3r color 2 \, env3r label _ \, env3s color 2 \, env3s
+label _ \, mod1a color 128 \, mod1a label LFO-FREQ \, mod1b color 128
+\, mod1b label VIB-AMT \, mod1c color 128 \, mod1c label VIB-ONSET
+\, mod1d color 128 \, mod1d label SLIDE \, mod2a color 2 \, mod2a label
+_ \, mod2b color 2 \, mod2b label _ \, mod2c color 2 \, mod2c label
+_ \, mod2d color 2 \, mod2d label _ \, mod3a color 2 \, mod3a label
+_ \, mod3b color 128 \, mod3b label VOLUME \, mod3c color 2 \, mod3c
+label _ \, mod3d color 2 \, mod3d label _ \, osc1a color 128 \, osc1a
+label DETUNE-FREQ \, osc1b color 128 \, osc1b label RES \, osc1c color
+128 \, osc1c label CUT \, osc1d color 128 \, osc1d label FLT-ENV \,
+osc2a color 128 \, osc2a label COARSE \, osc2b color 2 \, osc2b label
+_ \, osc2c color 2 \, osc2c label _ \, osc2d color 2 \, osc2d label
+_ \, osc3a color 2 \, osc3a label _ \, osc3b color 2 \, osc3b label
+_ \, osc3c color 2 \, osc3c label _ \, osc3d color 2 \, osc3d label
+_;
+#X msg 91 285 mod3d 0 \, mod3c 0 \, mod3b 0.173622 \, mod3a 0 \, mod2d
+0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.867795 \, mod1c 0.465512
+\, mod1b 0.08 \, mod1a 0.000472441 \, osc3d 0 \, osc3c 0 \, osc3b 0
+\, osc3a 0 \, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a 0.496063 \, osc1d
+0.000472441 \, osc1c 0.998504 \, osc1b 0.975118 \, osc1a 0.991339 \,
+env3r 0 \, env3s 0 \, env3d 0 \, env3a 0 \, env2r 0.0559843 \, env2s
+0.0796063 \, env2d 0.0872441 \, env2a 0.197402 \, env1r 0.0410236 \,
+env1s 0.904567 \, env1d 0.0874016 \, env1a 0.000314961 \,;
+#X msg 98 282 name floppybass \, mod3d 0 \, mod3c 0 \, mod3b 0.520079
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.867795
+\, mod1c 0.465512 \, mod1b 0.08 \, mod1a 0.000472441 \, osc3d 0 \,
+osc3c 0 \, osc3b 0 \, osc3a 0 \, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a
+0.181102 \, osc1d 0.54378 \, osc1c 0.83315 \, osc1b 0.353071 \, osc1a
+0 \, env3r 0 \, env3s 0 \, env3d 0 \, env3a 0 \, env2r 0.0559843 \,
+env2s 0.0796063 \, env2d 0.11874 \, env2a 0.0320472 \, env1r 0.0410236
+\, env1s 0 \, env1d 0.189764 \, env1a 0.000314961 \,;
+#X msg 110 265 name sweeppad \, mod3d 0 \, mod3c 0 \, mod3b 0.520079
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.867795
+\, mod1c 0.465512 \, mod1b 0.08 \, mod1a 0.000472441 \, osc3d 0 \,
+osc3c 0 \, osc3b 0 \, osc3a 0 \, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a
+0.472441 \, osc1d 0.54378 \, osc1c 0.83315 \, osc1b 0.668032 \, osc1a
+0.0866142 \, env3r 0 \, env3s 0 \, env3d 0 \, env3a 0 \, env2r 0.0717323
+\, env2s 0.174094 \, env2d 0.378583 \, env2a 0.378504 \, env1r 0.11189
+\, env1s 0.929134 \, env1d 0.205512 \, env1a 0.488504 \,;
+#X msg 107 261 name acid \, mod3d 0 \, mod3c 0 \, mod3b 0.520079 \,
+mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.883543
+\, mod1c 0.465512 \, mod1b 0.08 \, mod1a 0.000472441 \, osc3d 0 \,
+osc3c 0 \, osc3b 0 \, osc3a 0 \, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a
+0.779528 \, osc1d 0.921732 \, osc1c 0.470945 \, osc1b 0.99874 \, osc1a
+0.0866142 \, env3r 0 \, env3s 0 \, env3d 0 \, env3a 0 \, env2r 0.0323622
+\, env2s 0.0481102 \, env2d 0.0708661 \, env2a 0.000472441 \, env1r
+0.0410236 \, env1s 0.322835 \, env1d 0.111024 \, env1a 0.0015748 \,
+;
+#X msg 128 264 name stringypad \, mod3d 0 \, mod3c 0 \, mod3b 0.520079
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \,
+mod1c 0.465512 \, mod1b 0.166614 \, mod1a 0.654016 \, osc3d 0 \, osc3c
+0 \, osc3b 0 \, osc3a 0 \, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a 0.779528
+\, osc1d 0.669764 \, osc1c 0.596929 \, osc1b 0.699528 \, osc1a 0.228346
+\, env3r 0 \, env3s 0 \, env3d 0 \, env3a 0 \, env2r 0.0323622 \, env2s
+0.567795 \, env2d 0.0708661 \, env2a 0.630394 \, env1r 0.0410236 \,
+env1s 0.322835 \, env1d 0.111024 \, env1a 0.080315 \,;
+#X msg 139 269 name solo \, mod3d 0 \, mod3c 0 \, mod3b 0.520079 \,
+mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \, mod1c
+0.284409 \, mod1b 0.103622 \, mod1a 0.724882 \, osc3d 0 \, osc3c 0
+\, osc3b 0 \, osc3a 0 \, osc2d 0 \, osc2c 0 \, osc2b 0 \, osc2a 1 \,
+osc1d 0.646142 \, osc1c 0.974882 \, osc1b 0.244094 \, osc1a 0.228346
+\, env3r 0 \, env3s 0 \, env3d 0 \, env3a 0 \, env2r 0.0244882 \, env2s
+0.992992 \, env2d 0.0708661 \, env2a 0.00787402 \, env1r 0.00952756
+\, env1s 0.889764 \, env1d 0.111024 \, env1a 0.0173228 \,;
+#X connect 0 0 8 0;
+#X connect 2 0 1 0;
+#X connect 4 0 2 0;
+#X connect 4 1 3 0;
+#X connect 5 0 9 0;
+#X connect 8 0 10 0;
+#X connect 8 1 11 0;
+#X connect 8 2 12 0;
+#X connect 8 3 13 0;
+#X connect 8 4 14 0;
+#X connect 8 5 15 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 4 0;
+#X connect 12 0 4 0;
+#X connect 13 0 4 0;
+#X connect 14 0 4 0;
+#X connect 15 0 4 0;
+#X restore 350 227 pd spad_presets;
+#X obj 21 105 random 10;
+#X obj 21 241 s_spad \$0-TAG;
+#X connect 2 0 12 0;
+#X connect 3 0 25 0;
+#X connect 4 0 21 0;
+#X connect 5 0 27 0;
+#X connect 6 0 5 0;
+#X connect 7 0 28 0;
+#X connect 9 0 7 0;
+#X connect 9 1 7 1;
+#X connect 11 0 24 0;
+#X connect 12 0 28 1;
+#X connect 12 1 11 1;
+#X connect 13 0 2 0;
+#X connect 15 0 28 1;
+#X connect 19 0 26 0;
+#X connect 20 0 19 0;
+#X connect 21 0 7 0;
+#X connect 21 1 7 1;
+#X connect 22 0 27 1;
+#X connect 23 0 19 0;
+#X connect 24 0 14 0;
+#X connect 25 0 16 0;
+#X connect 26 0 17 0;
+#X connect 26 1 18 0;
+#X connect 27 0 4 0;
+#X connect 28 0 1 0;
+#X connect 28 0 1 1;
+#X connect 28 1 11 0;
+#X restore 565 253 pd detailed_help;
+#N canvas 175 0 827 680 REFERENCE 0;
+#X text 114 174 Argument 0: name for state saving (required);
+#X text 114 214 Inlet 0: pitch/velocity pairs.;
+#X text 114 357 Outlet 0: synth audio signal.;
+#X text 114 374 Outlet 1: will report internal settings when receiving
+"save" message to second inlet.;
+#X text 114 234 Inlet 1: control inlet to set parameters. See example
+help for details. Possible message are (in alphabetical order): env1a
+\, env1d \, env1r \, env1s \, env2a \, env2d \, env2r \, env2s \, env3a
+\, env3d \, env3r \, env3s \, mod1a \, mod1b \, mod1c \, mod1d \, mod2a
+\, mod2b \, mod2c \, mod2d \, mod3a \, mod3b \, mod3c \, mod3d \, osc1a
+\, osc1b \, osc1c \, osc1d \, osc2a \, osc2b \, osc2c \, osc2d \, osc3a
+\, osc3b \, osc3c \, osc3d. They all accept a float in the range 0-1
+;
+#X text 114 121 Name: s_spad;
+#X text 113 140 Summary: slow synth pads;
+#X text 121 529 Tags: synthesizer \, pad \, slow movement;
+#X text 113 411 Description: A polynomial wave generator suitable for
+dense slow synth pads without too much CPU;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 4 48 pd REFERENCE;
+#X text 498 230 Please see inside for help and an example.;
+#X text 658 97 control inlet;
+#X text 657 143 preset outlet;
+#X text 7 14 s_spad efficient slow synthpad generator;
+#X obj 568 169 soundoutput;
+#X obj 569 89 pack;
+#X obj 569 52 notein;
+#X obj 569 119 s_spad \$0-TAG;
+#X connect 7 0 9 0;
+#X connect 8 0 7 0;
+#X connect 8 1 7 1;
+#X connect 9 0 6 0;
+#X connect 9 0 6 1;

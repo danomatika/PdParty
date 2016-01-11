@@ -1,0 +1,30 @@
+#N canvas 130 140 804 514 10;
+#N canvas 377 58 582 570 REFERENCE 0;
+#X text 24 51 Summary:;
+#X text 24 91 Argument 0:;
+#X text 24 124 Inlet 0:;
+#X text 24 144 Inlet 1:;
+#X text 24 164 Outlet 0:;
+#X text 24 184 Outlet 1:;
+#X text 24 434 Tags:;
+#X text 24 334 See also:;
+#X text 24 31 Name: r_#accelerate;
+#X text 24 234 Description: Receives accelerometer data from iDevice
+;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 480 483 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 8 20 r_#accelerate;
+#X text 129 21 - receives accelerometer data;
+#X obj 576 176 r_#accelerate;
+#X obj 576 206 unpack f f f;
+#X floatatom 576 296 5 0 0 1 x_axis - -;
+#X floatatom 610 266 5 0 0 1 y_xis - -;
+#X floatatom 645 236 5 0 0 1 z_axis - -;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 6 1 8 0;
+#X connect 6 2 9 0;

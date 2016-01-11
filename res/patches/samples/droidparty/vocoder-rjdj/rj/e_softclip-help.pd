@@ -1,0 +1,58 @@
+#N canvas 20 40 865 529 10;
+#X obj 492 143 mtof;
+#X floatatom 492 122 5 0 0 0 - - -;
+#X obj 492 314 soundoutput;
+#X obj 530 195 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 492 194 *~ 0;
+#N canvas 33 299 582 570 REFERENCE 0;
+#X text 24 334 See also:;
+#X text 24 31 Name: e_softclip;
+#X text 24 51 Summary: clips signals;
+#X text 24 91 Argument 0: <symbol> Unique id - make sure this is different
+to any other instances.;
+#X text 24 124 Inlet 0: Audio input signal;
+#X text 24 144 Inlet 1: Control messages:;
+#X text 34 164 dry <float>: Dry/Wet mix (0-1).;
+#X text 34 178 drive <float>: additional amplification (0-1).;
+#X text 24 214 Outlet 0: Audio output signal;
+#X text 24 434 Tags: Audio \, Distortion;
+#X text 24 254 Description: Clips incoming signal with a tanh-based
+waveshaper.;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 51 Example:;
+#X text 489 501 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 8 20 e_softclip;
+#X text 89 21 - clips signals;
+#X obj 492 175 osc~ 440;
+#X obj 615 201 g_hsl drive 0 1;
+#X obj 615 161 g_hsl dry 0 1;
+#X obj 615 130 r \$0-GUI;
+#X msg 783 165 dry \$1;
+#X text 658 108 GUI;
+#X text 782 108 No GUI;
+#X msg 783 205 drive \$1;
+#X text 683 287 Default:;
+#X obj 689 305 loadbang;
+#X obj 492 246 e_softclip \$0-dist;
+#X msg 689 326 dry 0 \, drive 0;
+#X obj 689 347 s \$0-GUI;
+#X obj 91 371 e_bitcrusher;
+#X obj 186 371 e_apdist;
+#X obj 253 371 e_alias;
+#X connect 0 0 11 0;
+#X connect 1 0 0 0;
+#X connect 3 0 4 1;
+#X connect 4 0 21 0;
+#X connect 11 0 4 0;
+#X connect 12 0 21 1;
+#X connect 13 0 12 0;
+#X connect 14 0 13 0;
+#X connect 20 0 22 0;
+#X connect 21 0 2 0;
+#X connect 21 0 2 1;
+#X connect 22 0 23 0;

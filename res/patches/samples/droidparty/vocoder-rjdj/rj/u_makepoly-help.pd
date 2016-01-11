@@ -1,0 +1,75 @@
+#N canvas 43 28 902 517 10;
+#X obj 503 194 pack 0 0;
+#X obj 503 94 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 503 410 soundoutput;
+#X obj 701 169 hsl 128 15 0 1 0 0 empty empty tone_(0...1) 20 7 1 10
+-262144 -1 -1 0 1;
+#X msg 698 190 tone \$1;
+#X obj 503 159 makenote 80 1000;
+#X floatatom 727 228 5 0 0 0 - - -;
+#X msg 727 249 vib-freq \$1;
+#X obj 503 375 *~ 0.25;
+#N canvas 7 371 582 570 REFERENCE 0;
+#X text 24 31 Name: [u_makepoly];
+#X text 24 434 Tags: Audio;
+#X text 24 344 Description: creates a polyphonic version of midi-controlled
+instruments. The creation arguments set the max number of polphony
+and can switch voice stealing on.;
+#X text 24 266 Outlet 0: Main audio signal output. If the instrument
+is stereo this outlet becomes the left channel.;
+#X text 24 301 Outlet 1: Right audio signal output. This is unused
+if a mono instrument is being used.;
+#X text 24 81 Argument 0: <integer> - Max Polyphony.;
+#X text 24 51 Summary: make midi-like instruments polyphonic.;
+#X text 24 121 Argument 2: <symbol> - Instrument name.;
+#X text 24 101 Argument 1: <bool> - Voice stealing (0/1).;
+#X text 24 141 Argument 3: <symbol> - Unique Name.;
+#X text 24 204 Inlet 0: <float float> - Midi note number and velocity.
+;
+#X text 24 224 Inlet 1: <various> - Control inlet \, messages depend
+on the instrument used.;
+#X text 24 397 See also: [u_makepoly] [u_robinpoly] [u_robinpolymono]
+;
+#X text 24 161 Argument 4..7: <various> - Up to four more arguments
+can be passed through to the object in use.;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 15 58 pd REFERENCE;
+#X obj 15 28 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 478 61 Example:;
+#X text 572 485 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 18 30 u_makepoly;
+#X text 139 31 - make midi-like instruments polyphonic;
+#N canvas 0 22 236 241 PLAY 0;
+#X msg 54 119 40 \, 44 \, 56 \, 60;
+#X msg 87 141 40 \, 46 \, 58 \, 62;
+#X obj 54 69 random 2;
+#X obj 54 96 select 0 1;
+#X obj 54 47 metro 500;
+#X obj 54 23 inlet;
+#X obj 54 177 outlet;
+#X connect 0 0 6 0;
+#X connect 1 0 6 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 3 1 1 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X restore 503 123 pd PLAY;
+#X obj 503 286 u_makepoly 8 1 s_rhodey \$0-MYINST;
+#X text 535 310 Note: [s_rhodey] is a mono instrument so the second
+outlet is not used.;
+#X connect 0 0 16 0;
+#X connect 1 0 15 0;
+#X connect 3 0 4 0;
+#X connect 4 0 16 1;
+#X connect 5 0 0 0;
+#X connect 5 1 0 1;
+#X connect 6 0 7 0;
+#X connect 7 0 16 1;
+#X connect 8 0 2 0;
+#X connect 8 0 2 1;
+#X connect 15 0 5 0;
+#X connect 16 0 8 0;

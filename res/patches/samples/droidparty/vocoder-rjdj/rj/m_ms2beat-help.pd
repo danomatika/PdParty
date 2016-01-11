@@ -1,0 +1,33 @@
+#N canvas 230 149 908 515 10;
+#X obj 594 345 m_bpm2ms;
+#X floatatom 539 243 5 0 0 0 - - -;
+#X floatatom 539 298 5 0 0 0 - - -;
+#X text 518 346 also see:;
+#X floatatom 627 239 5 0 0 0 bpm - -;
+#X msg 627 200 180;
+#X msg 665 200 120;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 114 234 Inlet 1: bpm;
+#X text 114 174 Argument 0: bpm (optional);
+#X text 122 529 Tags: conversions \, bpm \, beat \, durations \, pulse
+\, metro;
+#X text 114 120 Name: m_ms2beat;
+#X text 114 141 Summary: convert durations in milliseconds to beats
+;
+#X text 114 194 Inlet 0: duration in milliseconds;
+#X text 114 280 Outlet 0: duration in beats;
+#X text 112 301 Description: m_ms2beats calculates how many beats a
+duration in milliseconds lasts. For this it needs to know the tempo
+of the reference pulse which is specified as beats per minute (bpm)
+either with an argument or through the second inlet.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 15 30 pd REFERENCE;
+#X obj 539 269 m_ms2beat 120;
+#X text 13 11 m_ms2beat - convert durations in milliseconds to beats
+;
+#X obj 668 345 m_beat2ms;
+#X connect 1 0 8 0;
+#X connect 4 0 8 1;
+#X connect 5 0 4 0;
+#X connect 6 0 4 0;
+#X connect 8 0 2 0;

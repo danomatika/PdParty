@@ -1,0 +1,32 @@
+#N canvas 188 141 767 516 10;
+#X obj 496 102 noise~;
+#X obj 496 232 soundoutput;
+#X obj 562 119 mtof;
+#X floatatom 562 98 5 0 0 2 pitch - -;
+#X floatatom 611 99 5 0 0 2 Q - -;
+#X obj 495 199 *~ 0.2;
+#X obj 496 157 e_lop2 1000 2;
+#X text 606 155 args: <freq> <Q>;
+#N canvas 123 90 709 698 REFERENCE 0;
+#X text 114 214 Inlet 0: audio signal to distort;
+#X text 114 141 Summary: 2-pole resonant lowpass filter with Q inlet
+;
+#X text 114 121 Name: e_lop2;
+#X text 114 234 Inlet 1: cutoff frequency in Hz;
+#X text 114 174 Argument 0: cutoff frequency in Hz;
+#X text 113 250 Inlet 2: Q;
+#X text 114 194 Argument 1: Q;
+#X text 115 268 Outlet 0: filtered audio signal.;
+#X text 112 301 Description: Lowpass filter with two poles and Q inlet
+for resonance.;
+#X text 122 529 Tags: filter \, lowpass \, resonance \, pole;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 9 40 pd REFERENCE;
+#X text 7 14 e_lop2 - 2-pole resonant lowpass filter with Q inlet;
+#X connect 0 0 6 0;
+#X connect 2 0 6 1;
+#X connect 3 0 2 0;
+#X connect 4 0 6 2;
+#X connect 5 0 1 0;
+#X connect 5 0 1 1;
+#X connect 6 0 5 0;

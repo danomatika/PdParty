@@ -1,0 +1,104 @@
+#N canvas 217 84 942 532 10;
+#X msg 674 107 a b c d e;
+#X floatatom 610 105 5 0 0 0 - - -;
+#X obj 527 59 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 595 142 u_listloop;
+#X floatatom 662 166 5 0 0 0 - - -;
+#N canvas 0 0 450 300 show 0;
+#X obj 41 39 inlet;
+#X obj 186 36 inlet;
+#X obj 41 124 outlet;
+#X msg 186 76 set;
+#X obj 41 59 list prepend set;
+#X obj 41 83 list trim;
+#X connect 0 0 4 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 5 0 2 0;
+#X restore 595 194 pd show;
+#X msg 662 67 10 20 30 40;
+#X text 22 19 u_listloop - loop items in a list;
+#X obj 527 80 metro 500;
+#X msg 595 60 set 3;
+#X msg 603 80 bang;
+#X msg 595 216;
+#N canvas 557 0 827 710 REFERENCE 0;
+#X text 114 121 Name: u_listloop;
+#X text 114 145 Summary: loop items in a list;
+#X text 114 169 Inlet 0: bang: display next item. float: display item
+at index modulo list-length and set loop position. set <float>: set
+loop position without output;
+#X text 114 215 Inlet 1: the list to loop;
+#X text 114 238 Outlet 0: the next item in the loop;
+#X text 114 262 Outlet 1: current loop position (zero-based);
+#X text 113 294 Description: u_listloop will output the elements in
+a list one by one every time \, it receives a bang and wrap around
+once it has reached the end of a list. Set the position to start with
+a "set <num>" message \, or set the position and output the element
+at that position with a float number. The second outlet will report
+the current loop position.;
+#X text 122 529 Tags: list \, loop \, arpeggio \, arpeggiator;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 23 41 pd REFERENCE;
+#N canvas 0 0 722 622 arpeggio 0;
+#X obj 105 300 m_majorscale 40;
+#X obj 105 329 mtof;
+#X floatatom 186 164 5 0 0 1 bang-period - -;
+#X obj 105 394 s_osc myosc square;
+#X obj 105 168 /;
+#X obj 105 130 unpack 0 0;
+#X obj 105 271 u_listloop;
+#X msg 122 241 set 0;
+#X obj 105 493 soundoutput;
+#X msg 250 82 1000 50;
+#X obj 200 423 c_adsrj myadsr;
+#X obj 105 350 makenote 40 30;
+#X obj 106 433 *~;
+#X obj 353 376 loadbang;
+#X msg 105 80 2000 250;
+#X msg 179 80 2000 100;
+#X msg 353 400 A 10 \, D 20 \, S 70 \, R 300;
+#X text 111 47 duration \, period;
+#X msg 195 270 0 2 4 6 8 10 12;
+#X msg 327 82 1000 25;
+#X obj 105 192 c_bangx;
+#X connect 0 0 1 0;
+#X connect 1 0 11 0;
+#X connect 2 0 20 1;
+#X connect 3 0 12 0;
+#X connect 4 0 20 0;
+#X connect 5 0 4 0;
+#X connect 5 1 2 0;
+#X connect 5 1 4 1;
+#X connect 5 1 18 0;
+#X connect 5 1 7 0;
+#X connect 6 0 0 0;
+#X connect 7 0 6 0;
+#X connect 9 0 5 0;
+#X connect 10 0 12 1;
+#X connect 11 0 3 0;
+#X connect 11 1 10 0;
+#X connect 12 0 8 0;
+#X connect 12 0 8 1;
+#X connect 13 0 16 0;
+#X connect 14 0 5 0;
+#X connect 15 0 5 0;
+#X connect 16 0 10 1;
+#X connect 18 0 6 1;
+#X connect 19 0 5 0;
+#X connect 20 0 6 0;
+#X restore 619 312 pd arpeggio;
+#X text 486 276 Here's an example how to use u_listloop as an arpeggiator
+;
+#X connect 0 0 3 1;
+#X connect 1 0 3 0;
+#X connect 2 0 8 0;
+#X connect 3 0 5 0;
+#X connect 3 1 4 0;
+#X connect 5 0 11 0;
+#X connect 6 0 3 1;
+#X connect 8 0 3 0;
+#X connect 9 0 3 0;
+#X connect 10 0 3 0;

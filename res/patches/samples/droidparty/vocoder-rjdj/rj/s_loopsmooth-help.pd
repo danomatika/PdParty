@@ -1,0 +1,107 @@
+#N canvas 195 231 957 464 10;
+#X msg 687 221 help;
+#X obj 483 307 soundoutput;
+#X obj 482 171 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 619 80 g_nbx dur;
+#X obj 619 47 g_nbx loopstart;
+#X obj 634 331 bng 15 250 50 0 empty empty End_of_loop 17 7 1 10 -262144
+-1 -1;
+#X obj 619 361 t b b;
+#X obj 619 382 timer;
+#X floatatom 619 406 5 0 0 0 - - -;
+#X text 576 27 loopstart and duration are in msec;
+#X obj 619 114 g_nbx chunk-size;
+#X msg 502 173 start;
+#X msg 502 199 stop;
+#N canvas 0 0 457 346 loadsample 0;
+#X floatatom 252 177 8 0 0 3 dur_in_smps - -;
+#X floatatom 205 144 8 0 0 3 dur_in_ms - -;
+#X symbolatom 174 177 10 0 0 3 table_name - -;
+#X obj 174 107 unpack s f f f;
+#X floatatom 269 145 6 0 0 3 samplerate - -;
+#X obj 40 118 list;
+#X msg 40 142 table \$1 \, sr \$4;
+#X msg 264 43 sr 44100;
+#X msg 337 44 info;
+#X obj 174 78 u_samplebank \$0-mytable;
+#X obj 40 246 outlet;
+#X obj 174 13 inlet;
+#X msg 174 43 open \, info;
+#X connect 3 0 2 0;
+#X connect 3 1 1 0;
+#X connect 3 2 0 0;
+#X connect 3 3 4 0;
+#X connect 5 0 6 0;
+#X connect 6 0 10 0;
+#X connect 7 0 9 0;
+#X connect 8 0 9 0;
+#X connect 9 0 3 0;
+#X connect 9 0 5 0;
+#X connect 11 0 12 0;
+#X connect 12 0 9 0;
+#X restore 687 268 pd loadsample;
+#X obj 619 143 g_nbx transposition;
+#X obj 501 238 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 482 273 s_loopsmooth mytable;
+#X obj 619 304 spigot;
+#X obj 671 305 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 695 85 min. duration: 10 ms;
+#N canvas 285 142 696 470 REFERENCE 0;
+#X text 110 159 Outlet 0: output signal;
+#X text 109 318 All parameter changes are "sample-and-held" \, so you
+won't get clicks when scratching around in the sample \, but a side
+effect is a latency of duration "chunk-size".;
+#X text 110 83 Argument 0: name \, required;
+#X text 110 41 Name: s_loopsmooth;
+#X text 110 62 Summary: loop table parts with overlapped chunks;
+#X text 110 104 Inlet 0: 0/1/bang/start/stop;
+#X text 109 206 Description: s_loopsmooth internally uses s_playolap
+to play parts of a table as loops. You can smoothly change the loop
+duration and the starting point. Loop duration has a lower border of
+10 msec. Transposition in semitones can be issued with the "transposition"
+message. Each chunk is enveloped with a half cosine wave and 50% out
+of phase from the other. Use "sr" messages to specify the samplerate
+of the soundfile you want to use.;
+#X text 114 375 Also see: s_playolap;
+#X text 110 125 Inlet 1: messages: loopstart \, dur \, transposition
+<seminotes> \, chunk-size <ms> \, table <sym> \, sr <float>;
+#X text 110 178 Outlet 1: bang at end of loop (can be used to stop
+looping);
+#X coords 0 -1 1 1 450 400 1 100 20;
+#X restore 17 39 pd REFERENCE;
+#X text 10 11 s_loopsmooth - loop table parts with overlapped chunks
+;
+#X obj 687 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 630 171 sr 22050;
+#X msg 699 171 sr 44100;
+#X text 763 170 file samplerate;
+#X obj 762 235 s RJLIB;
+#X msg 762 214 sf-samplerate 44100;
+#X text 708 194 Set soundfile samplerate globally:;
+#X connect 0 0 16 1;
+#X connect 2 0 16 0;
+#X connect 3 0 10 0;
+#X connect 4 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 1 7 1;
+#X connect 7 0 8 0;
+#X connect 10 0 14 0;
+#X connect 11 0 16 0;
+#X connect 12 0 16 0;
+#X connect 13 0 16 1;
+#X connect 14 0 16 1;
+#X connect 15 0 16 0;
+#X connect 16 0 1 0;
+#X connect 16 0 1 1;
+#X connect 16 1 17 0;
+#X connect 17 0 5 0;
+#X connect 17 0 6 0;
+#X connect 18 0 17 1;
+#X connect 22 0 13 0;
+#X connect 23 0 16 1;
+#X connect 24 0 16 1;
+#X connect 27 0 26 0;

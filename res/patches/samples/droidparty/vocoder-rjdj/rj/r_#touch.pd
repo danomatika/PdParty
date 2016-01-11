@@ -1,0 +1,4 @@
+#N canvas 130 140 166 233 10;
+#X obj 45 80 r #touch;
+#X obj 45 142 outlet;
+#X connect 0 0 1 0;

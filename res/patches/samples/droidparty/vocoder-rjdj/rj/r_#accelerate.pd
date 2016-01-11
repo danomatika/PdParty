@@ -1,0 +1,4 @@
+#N canvas 130 140 200 230 10;
+#X obj 51 72 r #accelerate;
+#X obj 51 134 outlet;
+#X connect 0 0 1 0;

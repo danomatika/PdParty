@@ -1,0 +1,57 @@
+#N canvas 371 286 578 491 10;
+#X obj 105 205 hsl 80 15 0 1 0 0 \$0-out \$0-in \$1_\$2-\$3 10 8 1
+10 -262144 -86277 -1 4623 1;
+#X obj 102 254 m_scale 0 1 \$2 \$3;
+#X obj 102 101 m_scale \$2 \$3 0 1;
+#X obj 70 22 inlet;
+#X obj 102 77 route \$1;
+#X obj 102 56 list trim;
+#X msg 102 124 set \$1;
+#X obj 70 360 outlet;
+#X obj 102 302 list prepend \$1;
+#X obj 102 322 list trim;
+#X obj 102 148 s \$0-in;
+#X obj 102 233 r \$0-out;
+#X msg 291 175 set \$1;
+#X msg 292 274 set \$1;
+#X obj 189 205 nbx 4 14 -1e+37 1e+37 0 0 \$0-out-num \$0-in-num empty
+0 -8 0 10 -262144 -86277 -1 0.58519 256;
+#X obj 292 252 m_scale 0 1 \$2 \$3;
+#X obj 291 156 m_scale \$2 \$3 0 1;
+#X obj 115 278 r \$0-out-num;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 362 59 pd LICENSE-GPL;
+#X obj 165 77 s \$0-in-num;
+#X connect 0 0 15 0;
+#X connect 1 0 8 0;
+#X connect 2 0 6 0;
+#X connect 3 0 5 0;
+#X connect 3 0 7 0;
+#X connect 4 0 2 0;
+#X connect 4 0 19 0;
+#X connect 5 0 4 0;
+#X connect 6 0 10 0;
+#X connect 8 0 9 0;
+#X connect 9 0 7 0;
+#X connect 11 0 1 0;
+#X connect 12 0 0 0;
+#X connect 13 0 14 0;
+#X connect 14 0 16 0;
+#X connect 15 0 13 0;
+#X connect 16 0 12 0;
+#X connect 17 0 8 0;
+#X coords 0 -1 1 1 137 25 2 100 200;

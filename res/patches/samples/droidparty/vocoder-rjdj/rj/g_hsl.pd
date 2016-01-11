@@ -1,0 +1,41 @@
+#N canvas 371 286 578 491 10;
+#X obj 105 205 hsl 128 15 0 1 0 0 \$0-out \$0-in \$1_\$2-\$3 20 8 1
+10 -262144 -86277 -1 0 1;
+#X obj 102 254 m_scale 0 1 \$2 \$3;
+#X obj 102 131 m_scale \$2 \$3 0 1;
+#X obj 70 22 inlet;
+#X obj 102 107 route \$1;
+#X obj 102 86 list trim;
+#X msg 102 154 set \$1;
+#X obj 70 340 outlet;
+#X obj 102 282 list prepend \$1;
+#X obj 102 302 list trim;
+#X obj 102 178 s \$0-in;
+#X obj 102 233 r \$0-out;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 362 59 pd LICENSE-GPL;
+#X connect 1 0 8 0;
+#X connect 2 0 6 0;
+#X connect 3 0 5 0;
+#X connect 3 0 7 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 10 0;
+#X connect 8 0 9 0;
+#X connect 9 0 7 0;
+#X connect 11 0 1 0;
+#X coords 0 -1 1 1 137 25 2 100 200;

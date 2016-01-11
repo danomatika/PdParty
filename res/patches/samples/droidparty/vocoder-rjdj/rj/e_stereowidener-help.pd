@@ -1,0 +1,64 @@
+#N canvas 146 73 825 508 10;
+#X obj 530 321 soundoutput;
+#N canvas 264 314 827 710 REFERENCE 0;
+#X text 114 120 Name: e_stereowidener;
+#X text 114 151 Summary: widens the sound field of a stereo signal
+;
+#X text 112 341 Description: widen stereo signals further. Setting
+width to 0 sums the signal to mono \, a width of 1 gives maximum stereo
+width. Important: this effect will NOT work on mono signals. If you
+want to use a mono signal try delaying one input by a few ms.;
+#X text 112 431 See also:;
+#X text 112 521 Tags: Audio \, Imaging;
+#X text 114 255 Inlet 2: 'width <float>' Default = 0 \, 0-1.;
+#X text 114 214 Inlet 0: Audio input signal left;
+#X text 114 234 Inlet 1: Audio input signal right;
+#X text 114 290 Outlet 0: Audio output signal left;
+#X text 114 310 Outlet 1: Audio output signal right;
+#X text 114 181 Argument 0: (Optional) Set width amount;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 6 43 pd REFERENCE;
+#X obj 530 95 soundinput;
+#X msg 641 222 width \$1;
+#X obj 644 177 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 81 374 e_pan;
+#X obj 131 374 e_circlepan;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 129 21 - widens the spread of a stereo signal;
+#X text 466 46 Example:;
+#X text 485 476 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 8 20 e_stereowidener;
+#X floatatom 656 203 5 0 0 0 - - -;
+#X obj 530 262 e_stereowidener 0.5;
+#N canvas 0 22 539 266 stereo-delay 0;
+#X obj 114 138 *~ 0.6;
+#X obj 50 198 delwrite~ \$0-wide1 400;
+#X obj 114 108 delread~ \$0-wide1 400;
+#X obj 50 51 inlet~;
+#X obj 203 198 outlet~;
+#X obj 335 138 *~ 0.6;
+#X obj 271 51 inlet~;
+#X obj 424 198 outlet~;
+#X obj 335 108 delread~ \$0-wide1 300;
+#X obj 271 198 delwrite~ \$0-wide1 300;
+#X connect 0 0 1 0;
+#X connect 0 0 4 0;
+#X connect 2 0 0 0;
+#X connect 3 0 1 0;
+#X connect 5 0 7 0;
+#X connect 5 0 9 0;
+#X connect 6 0 9 0;
+#X connect 8 0 5 0;
+#X restore 530 177 pd stereo-delay;
+#X connect 2 0 14 0;
+#X connect 2 1 14 1;
+#X connect 3 0 13 2;
+#X connect 4 0 3 0;
+#X connect 4 0 12 0;
+#X connect 13 0 0 0;
+#X connect 13 1 0 1;
+#X connect 14 0 13 0;
+#X connect 14 1 13 1;

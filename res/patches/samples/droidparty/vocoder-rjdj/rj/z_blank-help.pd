@@ -1,0 +1,24 @@
+#N canvas 1336 24 936 608 10;
+#N canvas 377 58 582 570 REFERENCE 0;
+#X text 24 51 Summary:;
+#X text 24 91 Argument 0:;
+#X text 24 124 Inlet 0:;
+#X text 24 144 Inlet 1:;
+#X text 24 164 Outlet 0:;
+#X text 24 184 Outlet 1:;
+#X text 24 434 Tags:;
+#X text 24 334 See also:;
+#X text 24 31 Name: Template Help Patch;
+#X text 24 234 Description: Use this as a template for writing other
+help patches.;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 51 Example:;
+#X text 566 585 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X text 129 21 - summary;
+#X obj 8 20 dac~;
+#X obj 552 55 soundinput;
+#X obj 563 446 soundoutput;

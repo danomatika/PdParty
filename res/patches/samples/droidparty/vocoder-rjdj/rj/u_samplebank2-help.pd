@@ -1,0 +1,63 @@
+#N canvas 104 169 987 530 10;
+#X declare -path ./;
+#X floatatom 570 373 8 0 0 1 duration_in_samples - -;
+#X floatatom 543 393 8 0 0 1 duration_in_ms - -;
+#X msg 516 106 info;
+#X msg 526 136 open;
+#X msg 556 196 sr 44100 \, info;
+#X msg 556 226 sr 22050 \, info;
+#X symbolatom 516 413 12 0 0 1 table_name - -;
+#X msg 546 166 open file_not_found.wav;
+#X obj 516 330 unpack s f f f;
+#X floatatom 597 353 6 0 0 1 samplerate - -;
+#N canvas 120 378 934 511 REFERENCE 0;
+#X text 24 31 Name: u_samplebank2;
+#X text 22 431 Tags: Audio \, Playback;
+#X text 23 396 See also: [u_samplebank] [u_multisamplebank] [s_playtable]
+;
+#X text 23 57 Summary: Utility patch to load sample stereo files into
+Pd tables.;
+#X text 23 97 Argument 0: <symbol> Table name - Must be unique.;
+#X text 23 117 Argument 1: <path> Soundfile directory (optional).;
+#X text 23 268 Description: Utility patch to load sample stereo files
+into Pd tables. Also calculates duration in milliseconds. Available
+in mono as [u_samplebank] as well. Left channel will be in table "ARGUMENT-1"
+\, right channel is in table "ARGUMENT-2". Play back the sample via
+[s_playtable].;
+#X text 24 242 Outlet 0: output list if "info" message is sent to Inlet
+0;
+#X text 23 342 You can add paths to search for soundfiles using "declare".
+Just add [declare -path PATHNAME] to your _main.pd patch.;
+#X text 23 147 Inlet 0: <message> "open" - load a sample with opendialog.
+<message> "open filename.wav" - load a sample by path. <message> "open
+filename.wav" - load a sample by path. <message> "info" - output list
+containing: table name \, duration in ms \, duration in samples \,
+samplerate. <message> "sr SAMPLERATE" - change the samplerate (also
+possible via global RJLIB receiver with "sf-samplerate");
+#X coords 0 -1 1 1 450 450 1 0 0;
+#X restore 15 52 pd REFERENCE;
+#X obj 15 28 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X obj 18 30 u_samplebank2;
+#X text 502 56 Example:;
+#X text 550 496 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X text 129 31 - loads stereo audio files into Pd tables.;
+#X obj 516 290 u_samplebank2 \$0-sample ../samples/file_not_found.wav
+;
+#X obj 676 70 declare -path ./;
+#X text 615 40 Don't forget to declare the path ".";
+#X obj 733 194 s RJLIB;
+#X msg 733 163 sf-samplerate 44100;
+#X text 726 139 Set soundfile samplerate globally:;
+#X connect 2 0 16 0;
+#X connect 3 0 16 0;
+#X connect 4 0 16 0;
+#X connect 5 0 16 0;
+#X connect 7 0 16 0;
+#X connect 8 0 6 0;
+#X connect 8 1 1 0;
+#X connect 8 2 0 0;
+#X connect 8 3 9 0;
+#X connect 16 0 8 0;
+#X connect 20 0 19 0;

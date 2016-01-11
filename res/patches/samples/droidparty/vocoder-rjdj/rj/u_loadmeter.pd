@@ -1,0 +1,34 @@
+#N canvas 0 0 511 388 10;
+#X obj 296 156 cputime;
+#X obj 296 100 metro 1000;
+#X obj 296 128 t b b;
+#X obj 296 216 * 0.1;
+#X obj 296 185 int;
+#X text 356 62 <-- on/off;
+#X text 229 272 CPU load in percent;
+#X obj 296 16 inlet;
+#X obj 296 241 outlet;
+#X text 423 259 by Miller S. Puckette;
+#X floatatom 201 103 5 0 0 0 - - -;
+#X obj 184 103 tgl 14 0 \$0-on \$0-on empty 17 7 0 10 -262144 -1 -1
+0 1;
+#X obj 296 65 r \$0-on;
+#X obj 296 39 s \$0-on;
+#N canvas 228 198 627 317 LICENSE-BSD 0;
+#X text 121 56 This software is copyrighted by Miller Puckette \, Reality
+Jockey Ltd. and others. The terms (the "Standard Improved BSD License")
+apply to all files associated with the software unless explicitly disclaimed
+in individual files.;
+#X text 123 148 See the file LICENSE.txt for the full license text.
+;
+#X restore 393 20 pd LICENSE-BSD;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 2 1 0 1;
+#X connect 3 0 8 0;
+#X connect 3 0 10 0;
+#X connect 4 0 3 0;
+#X connect 7 0 13 0;
+#X connect 12 0 1 0;
+#X coords 0 -1 1 1 140 20 1 100 100;

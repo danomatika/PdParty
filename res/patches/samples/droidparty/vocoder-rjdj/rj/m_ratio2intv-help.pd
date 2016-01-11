@@ -1,0 +1,26 @@
+#N canvas 236 203 885 545 10;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 122 529 Tags: pitch \, conversion \,;
+#X text 114 121 Name: m_ratio2intv;
+#X text 114 141 Summary: Convert a ratio into a pitch interval.;
+#X text 112 170 Inlet 0: ratio as a float;
+#X text 112 198 Outlet 0: rpitch interval as float;
+#X text 115 262 Description: Convert a frequency ratio into a pitch
+interval. Pitches are in "midi pitch" units: 1 equals a half tone step.
+For example to convert a frequency ratio of 2 (one octave up) would
+result in a pitch interval of 12 have tones (one octave). Based on
+an object from Karl-Heinz Essls "RTC-lib".;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X floatatom 536 133 5 0 0 1 ratio - -;
+#X floatatom 536 199 5 0 0 1 interval - -;
+#X floatatom 536 277 5 0 0 0 - - -;
+#X text 636 254 opposite conversion;
+#X obj 536 162 m_ratio2intv;
+#X obj 536 254 m_intv2ratio;
+#X text 6 14 m_ratio2intv - Convert a ratio into a pitch interval.
+;
+#X connect 1 0 5 0;
+#X connect 2 0 6 0;
+#X connect 5 0 2 0;
+#X connect 6 0 3 0;

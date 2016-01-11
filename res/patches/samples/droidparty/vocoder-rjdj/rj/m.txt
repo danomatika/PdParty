@@ -1,0 +1,22 @@
+m_accel_magnitude - calulate acceleration magnitude
+m_accel_pitch - calulate device pitch from accelerometer
+m_accel_roll - calulate device roll from accelerometer
+m_accel_status - detect accelerometer (de)activity
+m_autoscale - scale numbers with a dynamically detected input range
+m_beat2ms - convert beats to durations in milliseconds
+m_bpm2ms - convert between BPM frequency and periods in milliseconds
+m_chorddict - converts chord symbols to intervals
+m_intv2ratio - Convert a pitch interval into a ratio
+m_keyfollow - apply keyboard following to filter frequencies
+m_majorscale - map numbers to a major scale
+m_markovanal - analyses a stream of number pairs
+m_minorscale - map numbers to minor scales
+m_ms2beat - convert durations in milliseconds to beats
+m_ms2sm - convert duration in milliseconds to duration in samples
+m_ratio2intv - Convert a ratio into a pitch interval 
+m_scale - scale ranges
+m_sm2ms - convert duration in samples to duration in milliseconds 
+m_speedlimit - impose upper limit on message speed
+m_symbolarray - map numbers to symbols
+m_thresholds - detect threshold crossings
+m_touch2grid - map x y coordinates to a lower resolution grid

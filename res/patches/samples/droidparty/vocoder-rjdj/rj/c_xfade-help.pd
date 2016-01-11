@@ -1,0 +1,43 @@
+#N canvas 89 104 979 529 10;
+#X obj 597 95 hsl 128 15 0 1 0 0 empty empty 0-1 -2 -8 1 10 -262144
+-1 -1 0 1;
+#X obj 594 146 pack 0 10;
+#X obj 515 76 osc~ 440;
+#X obj 538 126 noise~;
+#X obj 516 268 soundoutput;
+#X floatatom 594 124 5 0 0 0 - - -;
+#X obj 516 207 c_xfade;
+#X obj 760 90 hsl 128 15 0 1 0 0 empty empty 0-1 -2 -8 1 10 -262144
+-1 -1 0 1;
+#X floatatom 757 118 5 0 0 0 - - -;
+#X obj 757 147 pack 0 200 500;
+#X text 728 181 third number is predelay;
+#N canvas 368 107 702 587 REFERENCE 0;
+#X text 115 178 Argument 0: left-right fade amount (default 0: all
+left);
+#X text 115 197 Inlet 0: left audio signal;
+#X text 115 216 Inlet 1: right audio signal;
+#X text 116 306 Outlet 0: resulting signal of fading left and right
+in-signals;
+#X text 114 140 Summary: linear crossfade;
+#X text 117 352 Description: Crossfades two signals according to a
+linear transfer function. Signals "in the middle" have a little less
+power than signals all left or right.;
+#X text 114 121 Name: c_xfade;
+#X text 115 235 Inlet 2: left-right crossfade amount in a range 0...1
+\, where 0 is all left \, 1 is all right. A list of two or three numbers
+in last inlet can be used to set interpolation time and delay - internally
+this is connected to [vline~];
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 18 39 pd REFERENCE;
+#X text 18 16 c_xfade - linear crossfade;
+#X connect 0 0 5 0;
+#X connect 1 0 6 2;
+#X connect 2 0 6 0;
+#X connect 3 0 6 1;
+#X connect 5 0 1 0;
+#X connect 6 0 4 0;
+#X connect 6 0 4 1;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 6 2;

@@ -1,0 +1,23 @@
+#N canvas 130 140 546 467 10;
+#X obj 41 89 t b;
+#X obj 41 59 metro 50;
+#X obj 41 29 loadbang;
+#X obj 41 119 rj_compass;
+#X text 115 121 This external is only instantiated on an iDevice;
+#X text 144 164 Send from 'get_sensor.pd' patch. This ensures that
+development and testing can be carried out on the desktop.;
+#X obj 71 169 r #compass;
+#X obj 41 249 sel -1;
+#X obj 74 276 outlet;
+#X msg 41 306 No compass detected;
+#X obj 41 209 change -100;
+#X obj 41 336 print r_#compass Error;
+#X connect 0 0 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 10 0;
+#X connect 6 0 10 0;
+#X connect 7 0 9 0;
+#X connect 7 1 8 0;
+#X connect 9 0 11 0;
+#X connect 10 0 7 0;

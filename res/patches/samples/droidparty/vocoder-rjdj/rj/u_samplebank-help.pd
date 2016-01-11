@@ -1,0 +1,80 @@
+#N canvas 113 88 1001 524 10;
+#X declare -path ./;
+#N canvas 369 257 911 646 REFERENCE 0;
+#X text 24 31 Name: u_samplebank2;
+#X text 22 433 Tags: Audio \, Playback;
+#X text 23 97 Argument 0: <symbol> Table name - Must be unique.;
+#X text 23 117 Argument 1: <path> Soundfile directory (optional).;
+#X text 24 240 Outlet 0: output list if "info" message is sent to Inlet
+0;
+#X text 23 57 Summary: Utility patch to load mono stereo files into
+Pd tables.;
+#X text 23 268 Description: Utility patch to load sample stereo files
+into Pd tables. Also calculates duration in milliseconds. Available
+in stereo as [u_samplebank2] as well. Play back the sample via [s_playtable].
+;
+#X text 23 396 See also: [u_samplebank2] [u_multisamplebank] [s_playtable]
+[s_playtable2];
+#X text 23 342 You can add paths to search for soundfiles using "declare".
+Just add [declare -path PATHNAME] to your _main.pd patch.;
+#X text 23 141 Inlet 0: <message> "open" - load a sample with opendialog.
+<message> "open filename.wav" - load a sample by path. <message> "open
+filename.wav" - load a sample by path. <message> "info" - output list
+containing: table name \, duration in ms \, duration in samples \,
+samplerate. <message> "sr SAMPLERATE" - change the samplerate (also
+possible via global RJLIB receiver with "sf-samplerate");
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 18 45 pd REFERENCE;
+#X obj 18 20 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X obj 21 22 u_samplebank;
+#X text 142 23 - to load samplefiles into Pd tables;
+#X text 480 47 Example:;
+#X text 552 490 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#N canvas 0 22 469 282 HOW 0;
+#X obj 152 165 s_playtable;
+#X obj 152 207 soundoutput;
+#X msg 152 91 bang;
+#X text 35 28 [s_playtable] can be used to play tables in the samplebank.
+;
+#X msg 152 134 \$1-sample;
+#X msg 219 135 sr 44100;
+#X msg 275 134 sr 22050;
+#X obj 152 113 f \$0;
+#X connect 0 0 1 0;
+#X connect 0 0 1 1;
+#X connect 2 0 7 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 1;
+#X connect 6 0 0 1;
+#X connect 7 0 4 0;
+#X restore 693 433 pd HOW TO PLAYBACK SAMPLE;
+#X floatatom 570 358 8 0 0 1 duration_in_samples - -;
+#X floatatom 543 378 8 0 0 1 duration_in_ms - -;
+#X msg 516 91 info;
+#X msg 526 121 open;
+#X msg 556 181 sr 44100 \, info;
+#X msg 556 211 sr 22050 \, info;
+#X symbolatom 516 398 12 0 0 1 table_name - -;
+#X msg 546 151 open file_not_found.wav;
+#X obj 516 315 unpack s f f f;
+#X floatatom 597 338 6 0 0 1 samplerate - -;
+#X obj 676 70 declare -path ./;
+#X text 615 40 Don't forget to declare the path ".";
+#X obj 516 275 u_samplebank \$0-sample ../samples/file_not_found.wav
+;
+#X obj 733 194 s RJLIB;
+#X msg 733 163 sf-samplerate 44100;
+#X text 726 139 Set soundfile samplerate globally:;
+#X connect 9 0 19 0;
+#X connect 10 0 19 0;
+#X connect 11 0 19 0;
+#X connect 12 0 19 0;
+#X connect 14 0 19 0;
+#X connect 15 0 13 0;
+#X connect 15 1 8 0;
+#X connect 15 2 7 0;
+#X connect 15 3 16 0;
+#X connect 19 0 15 0;
+#X connect 21 0 20 0;

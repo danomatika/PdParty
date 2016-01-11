@@ -1,0 +1,89 @@
+#N struct 2296-symarray float x array symbols 2296-sym;
+#N struct 2296-sym symbol name float on;
+#N struct 2298-symarray float x array symbols 2298-sym;
+#N struct 2298-sym symbol name float on;
+#N struct 2300-symarray float x array symbols 2300-sym;
+#N struct 2300-sym symbol name float on;
+#N canvas 0 22 1056 617 10;
+#X floatatom 723 79 5 0 0 0 - - -;
+#X symbolatom 715 134 10 0 0 0 - - -;
+#X symbolatom 506 419 10 0 0 0 - - -;
+#X obj 506 446 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 525 323 reset;
+#X msg 530 194 notfound.wav 2 \, otherfile 3;
+#X obj 715 155 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 507 163 list append 0;
+#X obj 582 138 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 507 109 openpanel;
+#X msg 507 88 bang;
+#X msg 683 321 dump;
+#X obj 683 424 print;
+#X obj 507 228 list prepend open;
+#X obj 507 251 list trim;
+#X msg 715 54 open filenname.wav 12 \, open filenname.wav 200;
+#X msg 520 303 delete 2;
+#X msg 597 322 size \$1;
+#X floatatom 597 302 5 0 0 0 - - -;
+#N canvas 698 74 582 570 REFERENCE 0;
+#X text 24 124 Inlet 0:;
+#X text 23 463 See also:;
+#X text 24 91 Argument 0: <table prefix \, will be the internal \$0
+if null>;
+#X text 82 154 float: look up the table name stored at index <float>
+;
+#X text 81 173 reset: delete all tables.;
+#X text 80 122 open <filename> <index>: open a file and load it into
+a table called "prefix-index". Index must be a number.;
+#X text 80 222 size <index>: report size of table at <index> in samples
+to 2nd outlet. Will be 0 for a non-existing table \, 1 for an existing
+table without data and greater for an actually loaded sample.;
+#X text 28 286 Inlet 1:;
+#X text 82 286 Internally connected to an [m_symbolarray] that maps
+indices to table names.;
+#X text 24 31 Name: u_multisamplebank2;
+#X text 24 51 Summary: used to load many stereo files into tables.
+;
+#X text 25 340 Description: [u_multisamplebank2] can be used to load
+many stereo files into tables. The tables will be dynamically created
+and filled. They get automatic names that are constructed from the
+first argument and an index number supplied by you. If no first argument
+was supplied \, the internal \$0 variable is used as a prefix. You
+can lookup the names of the available tables by an index number.;
+#X text 81 194 delete <index>: resizes table <index> to 1 and remove
+it from the index-lookup. Saves a bit of memory.;
+#X text 82 463 [u_multisamplebank] [m_symbolarray] [u_samplebank2]
+[s_playtable2] [s_fplaytable2];
+#X text 22 536 Tags: Audio \, Playback;
+#X coords 0 -1 1 1 450 550 1 10 10;
+#X restore 15 43 pd REFERENCE;
+#X obj 15 13 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 139 16 - samplebank for many stereo files;
+#X text 497 42 Example:;
+#X text 672 576 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 21 15 u_multisamplebank2;
+#X obj 506 383 u_multisamplebank2 \$0-filename;
+#X obj 715 108 u_multisamplebank2 \$0-filename2;
+#X connect 0 0 26 0;
+#X connect 1 0 6 0;
+#X connect 2 0 3 0;
+#X connect 4 0 25 0;
+#X connect 5 0 13 0;
+#X connect 7 0 13 0;
+#X connect 8 0 7 1;
+#X connect 9 0 7 0;
+#X connect 10 0 9 0;
+#X connect 11 0 25 1;
+#X connect 13 0 14 0;
+#X connect 14 0 25 0;
+#X connect 15 0 26 0;
+#X connect 16 0 25 0;
+#X connect 17 0 25 0;
+#X connect 18 0 17 0;
+#X connect 25 0 2 0;
+#X connect 25 1 12 0;
+#X connect 26 0 1 0;

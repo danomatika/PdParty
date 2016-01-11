@@ -1,0 +1,41 @@
+#N canvas 134 22 1110 643 10;
+#X msg 635 197 items a b c d e;
+#X obj 500 220 u_spinner letters;
+#X symbolatom 500 246 10 0 0 0 - - -;
+#X floatatom 500 198 5 0 0 0 - - -;
+#X text 757 170 how many steps to count before activating the next
+item;
+#X text 758 194 list of items to choose;
+#X floatatom 616 246 5 0 0 0 - - -;
+#X obj 503 146 hsl 200 15 0 200 0 0 empty empty 0-200 -2 -8 1 10 -262144
+-1 -1 0 1;
+#X msg 616 171 resolution 20;
+#N canvas -2 86 582 570 REFERENCE 0;
+#X text 24 91 Argument 0:;
+#X text 24 124 Inlet 0:;
+#X text 24 434 Tags:;
+#X text 24 334 See also:;
+#X text 24 234 Description: Use this as a template for writing other
+help patches.;
+#X text 24 31 Name: u_spinner;
+#X text 24 51 Summary: select items from a list by a scaled index -
+Useful for building "spinner" GUIs;
+#X text 24 144 Inlet 1: how many steps to count before activating the
+next item - list of items to choose;
+#X text 24 184 Outlet 0: Selected item;
+#X text 24 204 Outlet 1: (Inlet 0) div (resolution);
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 25 68 pd REFERENCE;
+#X obj 25 38 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 488 71 Example:;
+#X text 586 605 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 28 40 u_spinner;
+#X text 149 41 - select items from a list by a scaled index;
+#X connect 0 0 1 1;
+#X connect 1 0 2 0;
+#X connect 1 1 6 0;
+#X connect 3 0 1 0;
+#X connect 7 0 3 0;
+#X connect 8 0 1 1;

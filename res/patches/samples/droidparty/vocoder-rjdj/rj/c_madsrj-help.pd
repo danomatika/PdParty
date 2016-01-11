@@ -1,0 +1,75 @@
+#N canvas 0 0 1077 538 10;
+#X obj 491 156 t a b;
+#X msg 491 134 80;
+#X obj 491 199 makenote 100 400;
+#X floatatom 545 175 5 0 0 2 velocity - -;
+#X floatatom 753 142 5 0 0 1 A - -;
+#X floatatom 817 142 5 0 0 1 D - -;
+#X floatatom 879 142 5 0 0 1 S(%) - -;
+#X floatatom 951 142 5 0 0 1 R - -;
+#X msg 753 161 A \$1;
+#X msg 817 161 D \$1;
+#X msg 879 162 S \$1;
+#X msg 951 162 R \$1;
+#X floatatom 557 240 5 0 0 0 - - -;
+#X text 784 270 Remote control;
+#X obj 787 387 s RJ_SCENE_LOAD;
+#X obj 787 364 list trim;
+#X msg 787 296 A 50 \, D 80 \, S 70 \, R 300;
+#X text 665 472 Also see;
+#X obj 600 275 c_madsrj myadsr;
+#X obj 735 470 c_madsr 1 20 30 90 300;
+#X obj 787 340 list prepend c_madsrj-myadsr;
+#X obj 600 346 line;
+#X obj 603 377 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#N canvas 605 93 654 612 REFERENCE 0;
+#X text 115 200 Argument 1: attack time (msec);
+#X text 115 222 Argument 2: decay time (msec);
+#X text 115 244 Argument 3: sustain level in percent!;
+#X text 115 266 Argument 4: release time (msec);
+#X text 115 178 Argument 0: nametag (for state saving);
+#X text 115 288 Inlet 0: trigger float. Positive triggers start attack
+and decay from the current level. Zero triggers release \, negative
+triggers cause a jump to zero before attacking. Trigger input is also
+used to set the peak level. It's taken to be a number specifiying midi
+velocity (0-127) that internally is converted to a range of 0-1;
+#X text 115 375 Inlet 1: messages to set attack (A) \, decay (D) \,
+sustain (S) and release (R) as with arguments. State-savable.;
+#X text 114 121 Name: c_madsrj;
+#X text 114 143 Summary: ADSR message envelope with GUI and state saving
+;
+#X text 115 410 Outlet 0: timed <target \, delay> pairs for [line]
+;
+#X text 115 432 Description: This is a variation on the c_madsr ADSR
+envelope which has a GUI included and is rj-save enabled. It is designed
+to be used with an [line] object.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 10 44 pd REFERENCE;
+#X text 9 10 c_madsrj - ADSR envelope for messages with GUI and state
+saving;
+#X msg 475 428;
+#X msg 563 401 reset;
+#X obj 475 401 u_cocollect;
+#X connect 0 0 2 0;
+#X connect 0 1 27 1;
+#X connect 1 0 0 0;
+#X connect 2 1 12 0;
+#X connect 2 1 18 0;
+#X connect 3 0 2 1;
+#X connect 4 0 8 0;
+#X connect 5 0 9 0;
+#X connect 6 0 10 0;
+#X connect 7 0 11 0;
+#X connect 8 0 18 1;
+#X connect 9 0 18 1;
+#X connect 10 0 18 1;
+#X connect 11 0 18 1;
+#X connect 15 0 14 0;
+#X connect 16 0 20 0;
+#X connect 18 0 21 0;
+#X connect 18 0 27 0;
+#X connect 20 0 15 0;
+#X connect 21 0 22 0;
+#X connect 26 0 27 1;
+#X connect 27 0 25 0;

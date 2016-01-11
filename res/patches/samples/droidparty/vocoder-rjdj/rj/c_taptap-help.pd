@@ -1,0 +1,85 @@
+#N canvas 183 167 1033 540 10;
+#X msg 665 427 0 \, 1 \, 3 \, 5 \, 8 \, 11 \, 13 \, 14 \, 15 \,;
+#X msg 664 218 dump;
+#X msg 666 268 flip;
+#X obj 485 106 metro 200;
+#X obj 485 131 f 0;
+#X obj 519 132 + 1;
+#X obj 485 86 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 559 59 bng 64 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 485 476 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 664 189 clear;
+#X msg 666 291 flip 20 \, dump;
+#X obj 665 397 loadbang;
+#X text 747 397 How to store;
+#X text 705 216 sent pattern to right outlet;
+#X text 724 188 clear internal storage.;
+#X msg 664 246 clear \, dump;
+#X text 763 245 clear and dump;
+#X text 773 295 flip tick 20 *now*. And dump;
+#X obj 559 155 t b b;
+#X obj 591 180 spigot;
+#X obj 630 159 tgl 15 0 empty empty immediate_dump? 17 7 0 10 -262144
+-1 -1 0 1;
+#X floatatom 495 184 5 0 0 0 - - -;
+#X msg 665 338 set 10 \, dump;
+#X msg 665 360 unset 10 \, dump;
+#X text 773 337 set a single value;
+#X text 775 359 unset a single value;
+#X floatatom 665 319 5 0 0 0 - - -;
+#X text 772 318 set a single value;
+#X obj 485 159 mod 16;
+#X obj 485 430 c_taptap 16;
+#N canvas 83 115 670 703 REFERENCE 0;
+#X text 114 121 Name: c_taptap;
+#X text 114 141 Summary: tap on/off patterns;
+#X text 114 174 Argument 0: max length of pattern (default: 100);
+#X text 113 193 Inlet 0: current position in pattern;
+#X text 110 227 Inlet 1: bang: store 1 at current position. float:
+store 1 a position specified by float. flip <float>: toggle flag between
+0 and 1 at the float-position or the current position \, if no float
+was supplied. set <float>: store 1 a position specified by float. unset
+<float>: store 0 a position specified by float. dump: output current
+pattern in a format that can be stored in a comma-separated message
+box.;
+#X text 113 341 Outlet 0: bang \, if current position holds a 1;
+#X text 114 358 Outlet 1: current pattern in a format to be stored
+in a comma-separated message box.;
+#X text 117 395 Description: c_taptap can be used to store 0/1 patterns.
+It's similar to a series of numbered toggles. You can set each toggle
+through the various messages to its second inlet. The first inlet will
+send a bang if the pattern holds a 1 at the position coming in to the
+first inlet.;
+#X text 122 529 Tags: sequencer \, pattern \, toggle \, tempo \, table
+\, storage;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 11 57 pd REFERENCE;
+#X text 13 23 c_taptap - tap on/off patterns;
+#X text 719 268 flip current tick from 0 to 1 or opposite.;
+#X connect 0 0 29 1;
+#X connect 1 0 29 1;
+#X connect 2 0 29 1;
+#X connect 3 0 4 0;
+#X connect 4 0 28 0;
+#X connect 5 0 4 1;
+#X connect 6 0 3 0;
+#X connect 7 0 18 0;
+#X connect 9 0 29 1;
+#X connect 10 0 29 1;
+#X connect 11 0 0 0;
+#X connect 15 0 29 1;
+#X connect 18 0 29 1;
+#X connect 18 1 19 0;
+#X connect 19 0 1 0;
+#X connect 20 0 19 1;
+#X connect 22 0 29 1;
+#X connect 23 0 29 1;
+#X connect 26 0 29 1;
+#X connect 28 0 5 0;
+#X connect 28 0 21 0;
+#X connect 28 0 29 0;
+#X connect 29 0 8 0;
+#X connect 29 1 0 0;

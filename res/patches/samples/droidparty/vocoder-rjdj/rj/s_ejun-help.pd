@@ -1,0 +1,292 @@
+#N struct 1113-symarray float x array symbols 1113-sym;
+#N struct 1113-sym symbol name float on;
+#N canvas 34 60 877 510 10;
+#X declare -path .;
+#X declare -path .;
+#N canvas 0 22 1081 586 detailed_help 0;
+#X obj 719 26 declare -path .;
+#X obj 21 291 soundoutput;
+#X msg 177 132 save;
+#X obj 575 9 r \$0-GUI;
+#X obj 21 132 m_majorscale 50;
+#X obj 21 78 metro 500;
+#X obj 21 54 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+;
+#X obj 21 211 pack;
+#N canvas 0 58 1013 367 midi-control 0;
+#X obj 37 214 m_symbolarray;
+#X obj 21 110 ctlin;
+#X obj 21 186 / 127;
+#X obj 125 65 loadbang;
+#X obj 21 297 s \$0-GUI;
+#X text 124 31 add your midi controller mappings here. Format: <ctl-num>
+<method name>;
+#X floatatom 47 144 5 0 0 0 - - -;
+#X floatatom 88 145 5 0 0 0 - - -;
+#X obj 21 260 list prepend;
+#X text 119 259 swap;
+#X msg 558 66 env1a \, env1d \, env1r \, env1s \, env2a \, env2d \,
+env2r \, env2s \, env3a \, env3d \, env3r \, env3s \, mod1a \, mod1b
+\, mod1c \, mod1d \, mod2a \, mod2b \, mod2c \, mod2d \, mod3a \, mod3b
+\, mod3c \, mod3d \, osc1a \, osc1b \, osc1c \, osc1d \, osc2a \, osc2b
+\, osc2c \, osc2d \, osc3a \, osc3b \, osc3c \, osc3d \,;
+#X msg 201 222 dump;
+#X symbolatom 37 241 10 0 0 0 - - -;
+#X obj 201 276 print;
+#X obj 201 244 u_dumpfile controls.txt cr;
+#X text 552 32 Control Template - These are the methods \, that s_czz_synth
+accepts. They all expect values in a range of 0-1.;
+#X text 241 220 You can also keep your settings in a file.;
+#X obj 201 336 declare -path .;
+#X text 317 339 let me find "controls.txt" here.;
+#X msg 125 91 74 osc1a \, 71 osc1b \, 81 osc1c;
+#X connect 0 0 8 1;
+#X connect 0 0 12 0;
+#X connect 1 0 6 0;
+#X connect 1 0 2 0;
+#X connect 1 1 7 0;
+#X connect 1 1 0 0;
+#X connect 2 0 8 0;
+#X connect 3 0 19 0;
+#X connect 8 0 4 0;
+#X connect 11 0 14 0;
+#X connect 14 0 0 1;
+#X connect 14 0 13 0;
+#X connect 19 0 0 1;
+#X restore 356 103 pd midi-control;
+#X obj 27 174 notein;
+#X text 346 84 Set controllers here:;
+#X obj 135 272 u_cocollect;
+#X obj 177 193 t a b;
+#X obj 177 59 bng 64 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1;
+#X obj 135 505 s \$0-GUI;
+#X obj 152 300 loadbang;
+#X obj 129 243 r \$0-control;
+#X obj 575 528 s \$0-control;
+#X symbolatom 350 271 20 0 0 0 - - -;
+#X obj 452 250 s \$0-GUI;
+#X obj 350 200 nbx 3 20 0 256 0 0 empty empty empty 0 -8 0 16 -260097
+-262144 -1 5 256;
+#X obj 350 177 pgmin 1;
+#X obj 21 154 makenote 127 300;
+#X floatatom 112 62 5 0 0 0 - - -;
+#X msg 135 319 name orchy \, mod3d 0.00787402 \, mod3c 0.015748 \,
+mod3b 0.401575 \, mod3a 0.015748 \, mod2d 0.740157 \, mod2c 0.015748
+\, mod2b 0.0314961 \, mod2a 0.0393701 \, mod1d 0 \, mod1c 0.102362
+\, mod1b 0.322835 \, mod1a 0.496063 \, osc3d 0.023622 \, osc3c 0.00787402
+\, osc3b 0.015748 \, osc3a 0.238189 \, osc2d 0 \, osc2c 0 \, osc2b
+0.0866142 \, osc2a 0.747717 \, osc1d 0.574803 \, osc1c 0.181102 \,
+osc1b 0.80315 \, osc1a 0.913386 \, env3r 0.110236 \, env3s 0.0314961
+\, env3d 0.606299 \, env3a 0.307087 \, env2r 0.322835 \, env2s 0.692913
+\, env2d 0.278189 \, env2a 0.173228 \, env1r 0.0356693 \, env1s 0.472441
+\, env1d 0.23622 \, env1a 0.133858 \,;
+#X obj 575 55 g_synthcontrol;
+#N canvas 0 0 1108 693 ejun_presets 0;
+#X obj 91 26 inlet;
+#X obj 83 653 outlet name;
+#X obj 83 630 symbol;
+#X obj 166 652 outlet parms;
+#X obj 83 582 route name;
+#X obj 675 75 loadbang;
+#X text 670 21 set up the interface to be human readable and show which
+controls are actually used;
+#X text 672 51 Requires modified [g-hsl];
+#X obj 90 52 sel 0 1 2 3 4 5 6 7 8 9 10;
+#X msg 671 104 env1a color 128 \, env1a label AMP-ATTACK \, env1d color
+128 \, env1d label AMP-DECAY \, env1r color 128 \, env1r label AMP-REL
+\, env1s color 128 \, env1s label AMP-SUS \, env2a color 128 \, env2a
+label FILT-ATTACK \, env2d color 128 \, env2d label FILT-DECAY \, env2r
+color 128 \, env2r label FILT-REL \, env2s color 128 \, env2s label
+FILT-SUS \, env3a color 128 \, env3a label MOD-ATTACK \, env3d color
+128 \, env3d label MOD-DECAY \, env3r color 128 \, env3r label MOD-REL
+\, env3s color 128 \, env3s label MOD-SUS \, mod1a color 128 \, mod1a
+label LFO-FREQ \, mod1b color 128 \, mod1b label VIB-AMT \, mod1c color
+128 \, mod1c label VIB-ONSET \, mod1d color 128 \, mod1d label LFO-PWM
+\, mod2a color 128 \, mod2a label CUTOFF \, mod2b color 128 \, mod2b
+label RESON \, mod2c color 128 \, mod2c label ENVAMT \, mod2d color
+128 \, mod2d label PWM-ENV-LFO \, mod3a color 128 \, mod3a label HIGHPASS
+\, mod3b color 128 \, mod3b label VOLUME \, mod3c color 2 \, mod3c
+label _ \, mod3d color 2 \, mod3d label _ \, osc1a color 128 \, osc1a
+label OSC1-COARSE \, osc1b color 128 \, osc1b label MIX12 \, osc1c
+color 2 \, osc1c label _ \, osc1d color 2 \, osc1d label _ \, osc2a
+color 128 \, osc2a label OSC2-COARSE \, osc2b color 128 \, osc2b label
+MIX23 osc2c color 128 \, osc2c label DETENV \, osc2d color 128 \, osc2d
+label PWNENV \, osc3a color 128 \, osc3a label OSC3-FREQ \, osc3b color
+2 \, osc3b label _ \, osc3c color 2 \, osc3c label _ \, osc3d color
+2 \, osc3d label _;
+#X msg 73 125 name raveybrass \, mod3d 0.00787402 \, mod3c 0.015748
+\, mod3b 0.23622 \, mod3a 0.0393701 \, mod2d 0.102362 \, mod2c 0.19685
+\, mod2b 0.0130709 \, mod2a 0.0393701 \, mod1d 0.173228 \, mod1c 0
+\, mod1b 0 \, mod1a 0.566929 \, osc3d 0.023622 \, osc3c 0.00787402
+\, osc3b 0.015748 \, osc3a 0.425354 \, osc2d 0.362205 \, osc2c 0.0866142
+\, osc2b 0.503937 \, osc2a 0.247008 \, osc1d 0.574803 \, osc1c 0.181102
+\, osc1b 0.464567 \, osc1a 0 \, env3r 0 \, env3s 0 \, env3d 0.0393701
+\, env3a 0 \, env2r 0.00787402 \, env2s 0.0629921 \, env2d 0.015748
+\, env2a 0.023622 \, env1r 0.00417323 \, env1s 0.401575 \, env1d 0.0708661
+\, env1a 0.012126 \,;
+#X msg 92 134 name shortbass \, mod3d 0.00787402 \, mod3c 0.015748
+\, mod3b 0.220472 \, mod3a 0.0124409 \, mod2d 0.102362 \, mod2c 0.181102
+\, mod2b 0.107559 \, mod2a 0.00787402 \, mod1d 0.173228 \, mod1c 0
+\, mod1b 0 \, mod1a 0.566929 \, osc3d 0.023622 \, osc3c 0.00787402
+\, osc3b 0.015748 \, osc3a 0 \, osc2d 0.362205 \, osc2c 0.204724 \,
+osc2b 0.409449 \, osc2a 0.247008 \, osc1d 0.574803 \, osc1c 0.181102
+\, osc1b 0 \, osc1a 0 \, env3r 0.00787402 \, env3s 0 \, env3d 0.023622
+\, env3a 0.000629921 \, env2r 0.00787402 \, env2s 0.0472441 \, env2d
+0.0340945 \, env2a 0.00787402 \, env1r 0.00417323 \, env1s 0.401575
+\, env1d 0.0708661 \, env1a 0.000708661 \,;
+#X msg 117 158 name pwmchorus \, mod3d 0.00787402 \, mod3c 0.015748
+\, mod3b 0.11811 \, mod3a 0.0124409 \, mod2d 0 \, mod2c 0 \, mod2b
+0.107559 \, mod2a 0.377953 \, mod1d 0.472441 \, mod1c 0 \, mod1b 0
+\, mod1a 0.480315 \, osc3d 0.023622 \, osc3c 0.00787402 \, osc3b 0.015748
+\, osc3a 0.425197 \, osc2d 0.362205 \, osc2c 0 \, osc2b 0.440945 \,
+osc2a 0.239134 \, osc1d 0.574803 \, osc1c 0.181102 \, osc1b 1 \, osc1a
+0 \, env3r 0.00787402 \, env3s 0.409449 \, env3d 0.0314961 \, env3a
+0.000629921 \, env2r 0.00787402 \, env2s 0.023622 \, env2d 0.0262205
+\, env2a 0 \, env1r 0.0011811 \, env1s 0.858268 \, env1d 0 \, env1a
+0.00173228 \,;
+#X msg 137 174 name screamerpad \, mod3d 0.00787402 \, mod3c 0.015748
+\, mod3b 0.141732 \, mod3a 0.11811 \, mod2d 0.291339 \, mod2c 0 \,
+mod2b 0.0314961 \, mod2a 0.322835 \, mod1d 0.0944882 \, mod1c 0.19685
+\, mod1b 0.606299 \, mod1a 0.622047 \, osc3d 0.023622 \, osc3c 0.00787402
+\, osc3b 0.015748 \, osc3a 0.669291 \, osc2d 0.401575 \, osc2c 0.102362
+\, osc2b 0.330709 \, osc2a 0.501102 \, osc1d 0.574803 \, osc1c 0.181102
+\, osc1b 0.401575 \, osc1a 1 \, env3r 0.00787402 \, env3s 0.409449
+\, env3d 0.110236 \, env3a 0.000629921 \, env2r 0.00787402 \, env2s
+0.023622 \, env2d 0.0262205 \, env2a 0 \, env1r 0.0011811 \, env1s
+0.858268 \, env1d 0 \, env1a 0.00173228 \,;
+#X msg 157 184 name moogybass \, mod3d 0.00787402 \, mod3c 0.015748
+\, mod3b 0.606299 \, mod3a 0.00456693 \, mod2d 0.811024 \, mod2c 0.181102
+\, mod2b 0.54063 \, mod2a 0.0314961 \, mod1d 0.0787402 \, mod1c 0 \,
+mod1b 0 \, mod1a 0.566929 \, osc3d 0.023622 \, osc3c 0.00787402 \,
+osc3b 0.015748 \, osc3a 0.00102362 \, osc2d 0.669291 \, osc2c 0.425197
+\, osc2b 0.409449 \, osc2a 0.239134 \, osc1d 0.574803 \, osc1c 0.181102
+\, osc1b 0 \, osc1a 0 \, env3r 0.00787402 \, env3s 0 \, env3d 0.0393701
+\, env3a 0 \, env2r 0.00787402 \, env2s 0.0472441 \, env2d 0.0498425
+\, env2a 0.00787402 \, env1r 0.00417323 \, env1s 0.401575 \, env1d
+0.354331 \, env1a 0.000708661 \,;
+#X msg 170 195 name drybass \, mod3d 0.00787402 \, mod3c 0.015748 \,
+mod3b 0.377953 \, mod3a 0.00787402 \, mod2d 0.370079 \, mod2c 0.181102
+\, mod2b 0 \, mod2a 0.00787402 \, mod1d 0.0551181 \, mod1c 0 \, mod1b
+0 \, mod1a 0.566929 \, osc3d 0.023622 \, osc3c 0.00787402 \, osc3b
+0.015748 \, osc3a 0.166378 \, osc2d 0.023622 \, osc2c 0.0472441 \,
+osc2b 0.551181 \, osc2a 0.396614 \, osc1d 0.574803 \, osc1c 0.181102
+\, osc1b 0.322835 \, osc1a 0 \, env3r 0 \, env3s 0.0314961 \, env3d
+0.606299 \, env3a 0 \, env2r 0.00787402 \, env2s 0.0472441 \, env2d
+0.0498425 \, env2a 0 \, env1r 0.00417323 \, env1s 0 \, env1d 0.125984
+\, env1a 0 \,;
+#X msg 179 200 name dullstring \, mod3d 0.00787402 \, mod3c 0.015748
+\, mod3b 0.401575 \, mod3a 0.015748 \, mod2d 0.740157 \, mod2c 0.015748
+\, mod2b 0.0314961 \, mod2a 0.0393701 \, mod1d 0.0787402 \, mod1c 0.110236
+\, mod1b 0.322835 \, mod1a 0.448819 \, osc3d 0.023622 \, osc3c 0.00787402
+\, osc3b 0.015748 \, osc3a 0.167323 \, osc2d 0.0314961 \, osc2c 0 \,
+osc2b 0.645669 \, osc2a 0.750945 \, osc1d 0.574803 \, osc1c 0.181102
+\, osc1b 0.0314961 \, osc1a 0.472441 \, env3r 0.110236 \, env3s 0.0314961
+\, env3d 0.606299 \, env3a 0.307087 \, env2r 0.322835 \, env2s 0.377953
+\, env2d 0.419921 \, env2a 0.543307 \, env1r 0.0356693 \, env1s 0.472441
+\, env1d 0.307087 \, env1a 0.338583 \,;
+#X msg 193 219 name orchy \, mod3d 0.00787402 \, mod3c 0.015748 \,
+mod3b 0.401575 \, mod3a 0.015748 \, mod2d 0.740157 \, mod2c 0.015748
+\, mod2b 0.0314961 \, mod2a 0.0393701 \, mod1d 0 \, mod1c 0.102362
+\, mod1b 0.322835 \, mod1a 0.496063 \, osc3d 0.023622 \, osc3c 0.00787402
+\, osc3b 0.015748 \, osc3a 0.238189 \, osc2d 0 \, osc2c 0 \, osc2b
+0.0866142 \, osc2a 0.747717 \, osc1d 0.574803 \, osc1c 0.181102 \,
+osc1b 0.80315 \, osc1a 0.913386 \, env3r 0.110236 \, env3s 0.0314961
+\, env3d 0.606299 \, env3a 0.307087 \, env2r 0.322835 \, env2s 0.692913
+\, env2d 0.278189 \, env2a 0.173228 \, env1r 0.0356693 \, env1s 0.472441
+\, env1d 0.23622 \, env1a 0.133858 \,;
+#X connect 0 0 8 0;
+#X connect 2 0 1 0;
+#X connect 4 0 2 0;
+#X connect 4 1 3 0;
+#X connect 5 0 9 0;
+#X connect 8 0 10 0;
+#X connect 8 1 11 0;
+#X connect 8 2 12 0;
+#X connect 8 3 13 0;
+#X connect 8 4 14 0;
+#X connect 8 5 15 0;
+#X connect 8 6 16 0;
+#X connect 8 7 17 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 4 0;
+#X connect 12 0 4 0;
+#X connect 13 0 4 0;
+#X connect 14 0 4 0;
+#X connect 15 0 4 0;
+#X connect 16 0 4 0;
+#X connect 17 0 4 0;
+#X restore 350 229 pd ejun_presets;
+#X obj 349 154 hradio 15 1 0 10 empty empty empty 0 -8 0 10 -262144
+-1 -1 5;
+#X obj 21 104 random 10;
+#X obj 21 243 s_ejun \$0-TAG;
+#X connect 2 0 12 0;
+#X connect 3 0 25 0;
+#X connect 4 0 22 0;
+#X connect 5 0 28 0;
+#X connect 6 0 5 0;
+#X connect 7 0 29 0;
+#X connect 9 0 7 0;
+#X connect 9 1 7 1;
+#X connect 11 0 24 0;
+#X connect 12 0 29 1;
+#X connect 12 1 11 1;
+#X connect 13 0 2 0;
+#X connect 15 0 24 0;
+#X connect 16 0 29 1;
+#X connect 20 0 26 0;
+#X connect 21 0 20 0;
+#X connect 22 0 7 0;
+#X connect 22 1 7 1;
+#X connect 23 0 28 1;
+#X connect 24 0 14 0;
+#X connect 25 0 17 0;
+#X connect 26 0 18 0;
+#X connect 26 1 19 0;
+#X connect 27 0 20 0;
+#X connect 28 0 4 0;
+#X connect 29 0 1 0;
+#X connect 29 0 1 1;
+#X connect 29 1 11 0;
+#X restore 565 253 pd detailed_help;
+#N canvas 175 22 827 680 REFERENCE 0;
+#X text 114 174 Argument 0: name for state saving (required);
+#X text 114 214 Inlet 0: pitch/velocity pairs.;
+#X text 114 357 Outlet 0: synth audio signal.;
+#X text 114 374 Outlet 1: will report internal settings when receiving
+"save" message to second inlet.;
+#X text 114 234 Inlet 1: control inlet to set parameters. See example
+help for details. Possible message are (in alphabetical order): env1a
+\, env1d \, env1r \, env1s \, env2a \, env2d \, env2r \, env2s \, env3a
+\, env3d \, env3r \, env3s \, mod1a \, mod1b \, mod1c \, mod1d \, mod2a
+\, mod2b \, mod2c \, mod2d \, mod3a \, mod3b \, mod3c \, mod3d \, osc1a
+\, osc1b \, osc1c \, osc1d \, osc2a \, osc2b \, osc2c \, osc2d \, osc3a
+\, osc3b \, osc3c \, osc3d. They all accept a float in the range 0-1
+;
+#X text 114 121 Name: s_ejun;
+#X text 113 140 Summary: a juno like instrument;
+#X text 112 411 Description: s_ejun is a juno or jupiter style instrument
+with two oscillators \, the first switchable between pwm and saw \,
+and a second detunable saw aocillator. The filter is 9dB oct with a
+highpass output stage. No chorus inside \, use an external chorus like
+[e_chorus] or [e_chorusr] in the rj library for proper juno sounds.
+ajf 2010;
+#X text 122 529 Tags: synthesizer \, juno \, jupiter \, analogue \,
+rave \, bass;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 4 48 pd REFERENCE;
+#X text 498 230 Please see inside for help and an example.;
+#X text 658 97 control inlet;
+#X text 657 143 preset outlet;
+#X text 7 14 s_ejun - a juno/jupiter type analogue sound;
+#X obj 570 166 soundoutput;
+#X obj 570 86 pack;
+#X obj 570 49 notein;
+#X obj 570 118 s_ejun \$0-TAG;
+#X connect 7 0 9 0;
+#X connect 8 0 7 0;
+#X connect 8 1 7 1;
+#X connect 9 0 6 0;
+#X connect 9 0 6 1;

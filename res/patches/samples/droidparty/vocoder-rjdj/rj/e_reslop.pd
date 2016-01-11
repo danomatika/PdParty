@@ -1,0 +1,60 @@
+#N canvas 276 29 687 508 10;
+#X obj 117 40 inlet~;
+#X obj 94 470 outlet~;
+#X obj 424 72 inlet;
+#X obj 94 448 c_xfade;
+#X msg 140 348 \$1 10;
+#X obj 140 327 r \$0-dry;
+#X obj 424 141 u_dispatch \$0 dry;
+#X obj 424 97 u_dispatch \$0 freq;
+#X obj 300 39 r \$0-freq;
+#X obj 209 167 vcf~ 10;
+#X obj 255 254 * 1;
+#X obj 255 194 * 1;
+#X obj 255 314 * 1;
+#X obj 475 72 u_loader e_reslop-\$1 \$0;
+#X obj 424 118 u_dispatch \$0 q;
+#X obj 255 136 r \$0-q;
+#X obj 209 224 lop~ \$2;
+#X obj 209 284 lop~ \$2;
+#X obj 209 344 lop~ \$2;
+#X obj 232 110 sig~ \$2;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 444 35 pd LICENSE-GPL;
+#X obj 300 60 t f f f f;
+#X connect 0 0 3 1;
+#X connect 0 0 9 0;
+#X connect 2 0 7 0;
+#X connect 3 0 1 0;
+#X connect 4 0 3 2;
+#X connect 5 0 4 0;
+#X connect 7 0 14 0;
+#X connect 8 0 21 0;
+#X connect 9 0 16 0;
+#X connect 10 0 17 1;
+#X connect 11 0 16 1;
+#X connect 12 0 18 1;
+#X connect 14 0 6 0;
+#X connect 15 0 9 2;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 3 0;
+#X connect 19 0 9 1;
+#X connect 21 0 19 0;
+#X connect 21 1 11 0;
+#X connect 21 2 10 0;
+#X connect 21 3 12 0;

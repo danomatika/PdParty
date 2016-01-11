@@ -1,0 +1,29 @@
+#N canvas 132 46 774 557 10;
+#N canvas 377 58 827 710 REFERENCE 0;
+#X text 114 121 Name: u_show;
+#X text 114 141 Summary: show messages in a message box;
+#X text 114 234 Inlet 1: anything here will clear the message box.
+;
+#X text 114 214 Inlet 0: any "printable" message to show;
+#X text 114 267 Outlet 0: "set" + input;
+#X text 112 301 Description: u_show will format incoming messages to
+be shown in a message box connected to its outlet. Internally it will
+prepend a "set" to the message and "trim" it. The second outlet can
+be used to generate an empty "set" message to clear the message box.
+;
+#X text 122 529 Tags: debugging \, messages \, lists;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X obj 496 253 u_show;
+#X msg 496 275;
+#X obj 496 178 u_listrandom 10 10;
+#X msg 496 149 bang;
+#X msg 535 220 clear;
+#X msg 587 220 bang;
+#X text 629 222 anything to clear;
+#X text 7 14 u_show - show messages in a message box;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X connect 4 0 3 0;
+#X connect 5 0 1 1;
+#X connect 6 0 1 1;

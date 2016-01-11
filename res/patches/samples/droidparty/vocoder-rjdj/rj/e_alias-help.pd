@@ -1,0 +1,41 @@
+#N canvas 301 163 803 533 10;
+#X obj 522 171 osc~ 220;
+#X obj 522 201 *~ 0.5;
+#X floatatom 621 168 5 0 0 0 - - -;
+#X obj 522 271 soundoutput;
+#X msg 621 188 alias \$1;
+#X msg 683 187 dry \$1;
+#X floatatom 683 167 5 0 0 1 dry_wet - -;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 114 121 Name: e_alias;
+#X text 114 151 Summary: distort by reducing the sample rate to generate
+aliasing;
+#X text 114 529 Tags: Audio \, Distortion \, Effect;
+#X text 114 430 See also: [e_bitcrusher] [e_apdist];
+#X text 114 371 Description: Distorts any audio signal by reducing
+the sample rate to generate aliasing.;
+#X text 114 214 Argument 1: Aliasing factor (optional).;
+#X text 114 194 Argument 0: Name for state saving (required).;
+#X text 113 254 Inlet 0: Audio input signal to distort.;
+#X text 114 327 Outlet 0: Distorted audio output signal.;
+#X text 113 274 Inlet 1: alias <factor>: set aliasing \, dry <amount>:
+regulates dry/wet mix \, default 0 which is fully wet.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 9 48 pd REFERENCE;
+#X obj 9 23 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 82 24 - distort by reducing the sample rate to generate aliasing
+;
+#X obj 14 25 e_alias;
+#X text 468 46 Example:;
+#X text 479 508 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 522 231 e_alias \$0-name 4;
+#X connect 0 0 1 0;
+#X connect 1 0 13 0;
+#X connect 2 0 4 0;
+#X connect 4 0 13 1;
+#X connect 5 0 13 1;
+#X connect 6 0 5 0;
+#X connect 13 0 3 0;
+#X connect 13 0 3 1;

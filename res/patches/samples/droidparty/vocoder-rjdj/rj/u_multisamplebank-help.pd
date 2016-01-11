@@ -1,0 +1,85 @@
+#N struct 2317-symarray float x array symbols 2317-sym;
+#N struct 2317-sym symbol name float on;
+#N struct 2319-symarray float x array symbols 2319-sym;
+#N struct 2319-sym symbol name float on;
+#N struct 2321-symarray float x array symbols 2321-sym;
+#N struct 2321-sym symbol name float on;
+#N canvas 0 22 1088 616 10;
+#X symbolatom 748 149 10 0 0 0 - - -;
+#X symbolatom 533 445 10 0 0 0 - - -;
+#X obj 533 472 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 556 349 reset;
+#X msg 553 224 notfound.wav 2 \, otherfile 3;
+#X obj 748 179 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 533 179 list append 0;
+#X obj 608 149 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 533 145 openpanel;
+#X msg 533 114 bang;
+#X msg 692 372 dump;
+#X obj 692 439 print;
+#X obj 533 254 list prepend open;
+#X obj 533 277 list trim;
+#X msg 748 89 open filenname.wav 12 \, open filenname.wav 200;
+#X msg 546 319 delete 2;
+#X msg 623 339 size \$1;
+#X floatatom 623 319 5 0 0 0 - - -;
+#N canvas 0 53 582 570 REFERENCE 0;
+#X text 24 124 Inlet 0:;
+#X text 24 91 Argument 0: <table prefix \, will be the internal \$0
+if null>;
+#X text 29 356 Description: [u_multisamplebank] can be used to load
+many mono files into tables. The tables will be dynamically created
+and filled. They get automatic names that are constructed from the
+first argument and an index number supplied by you. If no first argument
+was supplied \, the internal \$0 variable is used as a prefix. You
+can lookup the names of the available tables by an index number.;
+#X text 80 158 float: look up the table name stored at index <float>
+;
+#X text 80 180 reset: delete all tables.;
+#X text 79 122 open <filename> <index>: open a file and load it into
+a table called "prefix-index". Index must be a number.;
+#X text 80 236 size <index>: report size of table at <index> in samples
+to 2nd outlet. Will be 0 for a non-existing table \, 1 for an existing
+table without data and greater for an actually loaded sample.;
+#X text 28 306 Inlet 1:;
+#X text 82 306 Internally connected to an [m_symbolarray] that maps
+indices to table names.;
+#X text 24 31 Name: u_multisamplebank;
+#X text 23 60 Summary: Used to load many mono files into tables.;
+#X text 80 201 delete <index>: resizes table <index> to 1 and remove
+it from the index-lookup. Saves a bit of memory.;
+#X text 29 464 See also: [m_multisamplebank2] [u_samplebank] [s_playtable]
+[s_fplaytable] [m_symbolarray];
+#X text 22 536 Tags: Audio \, Playback;
+#X coords 0 -1 1 1 450 550 1 10 10;
+#X restore 12 43 pd REFERENCE;
+#X obj 12 13 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X obj 15 15 u_multisamplebank;
+#X text 136 16 - samplebank for many mono files;
+#X text 469 43 Example:;
+#X text 712 575 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 533 399 u_multisamplebank \$0-sample;
+#X obj 748 119 u_multisamplebank $-sample2;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
+#X connect 3 0 24 0;
+#X connect 4 0 12 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 1;
+#X connect 8 0 6 0;
+#X connect 9 0 8 0;
+#X connect 10 0 24 1;
+#X connect 12 0 13 0;
+#X connect 13 0 24 0;
+#X connect 14 0 25 0;
+#X connect 15 0 24 0;
+#X connect 16 0 24 0;
+#X connect 17 0 16 0;
+#X connect 24 0 1 0;
+#X connect 24 1 11 0;
+#X connect 25 0 0 0;

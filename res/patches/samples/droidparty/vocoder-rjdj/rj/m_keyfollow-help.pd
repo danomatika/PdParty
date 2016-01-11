@@ -1,0 +1,72 @@
+#N canvas 144 59 843 723 10;
+#X obj 234 414 sig~ 0;
+#X obj 234 389 mtof;
+#X floatatom 234 369 5 0 0 0 - - -;
+#X obj 234 570 e_beequad;
+#X obj 235 651 soundoutput;
+#X obj 376 446 mtof;
+#X floatatom 376 429 5 0 0 2 filter_freq - -;
+#X obj 294 547 u_lowpassq 500 3;
+#X obj 235 602 *~ 0.3;
+#X floatatom 173 419 5 0 0 0 - - -;
+#X floatatom 458 466 5 0 500 2 key_follow% - -;
+#X floatatom 376 517 5 0 0 0 - - -;
+#X floatatom 400 468 5 0 0 0 - - -;
+#X obj 233 438 s_osc \$0 square;
+#X msg 335 385 pwmdepth 10 \, pwmfreq 2;
+#X obj 335 363 loadbang;
+#X text 211 137 2) key freq;
+#X text 211 118 1) filter freq;
+#X text 210 157 3) key following percent;
+#X obj 481 173 mtof;
+#X floatatom 481 156 5 0 0 2 filter_freq - -;
+#X floatatom 656 189 5 0 500 2 key_follow% - -;
+#X floatatom 481 274 5 0 0 0 - - -;
+#X floatatom 481 196 5 0 0 0 - - -;
+#X obj 573 172 mtof;
+#X floatatom 573 155 5 0 0 2 key_freq - -;
+#X floatatom 573 195 5 0 0 0 - - -;
+#X text 157 333 Here's a full example:;
+#X obj 491 293 hsl 128 15 0 40000 0 0 empty empty empty -2 -8 0 10
+-262144 -1 -1 4070 1;
+#X obj 491 217 hsl 128 15 0 40000 0 0 empty empty empty -2 -8 0 10
+-262144 -1 -1 4470 1;
+#X text 134 90 Inlets (all hot):;
+#X text 62 26 m_keyfollow;
+#X text 134 47 m_keyfollow applies keyboard following to filter frequency
+like the "KEY FOLLOW" knob in many analogue synths does.;
+#X text 55 194 If key_follow% is 0 \, then the output is the filter_freq
+without changes.;
+#X text 55 234 key_follow is% > 0.01 \, then the output is the filter_freq
+mapped over a power curve that crosses middle C (261 Hz) and is bent
+according to the key_follow value;
+#X obj 376 485 m_keyfollow;
+#X obj 481 242 m_keyfollow;
+#X connect 0 0 13 0;
+#X connect 1 0 0 0;
+#X connect 1 0 9 0;
+#X connect 1 0 35 1;
+#X connect 2 0 1 0;
+#X connect 3 0 8 0;
+#X connect 5 0 12 0;
+#X connect 5 0 35 0;
+#X connect 6 0 5 0;
+#X connect 7 0 3 1;
+#X connect 8 0 4 0;
+#X connect 8 0 4 1;
+#X connect 10 0 35 2;
+#X connect 13 0 3 0;
+#X connect 14 0 13 1;
+#X connect 15 0 14 0;
+#X connect 19 0 23 0;
+#X connect 20 0 19 0;
+#X connect 21 0 36 2;
+#X connect 22 0 28 0;
+#X connect 23 0 29 0;
+#X connect 23 0 36 0;
+#X connect 24 0 26 0;
+#X connect 25 0 24 0;
+#X connect 26 0 36 1;
+#X connect 35 0 7 0;
+#X connect 35 0 11 0;
+#X connect 36 0 22 0;

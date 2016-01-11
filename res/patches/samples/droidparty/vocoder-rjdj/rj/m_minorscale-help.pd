@@ -1,0 +1,76 @@
+#N canvas 176 201 991 518 10;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 114 121 Name: m_minorscale;
+#X text 114 141 Summary: map numbers to minor scales;
+#X text 114 164 Argument 0: base note;
+#X text 114 224 Inlet 0: scale steps;
+#X text 114 244 Inlet 1: float: set base note. mode natural/harmonic/melodic:
+choose minor scale type. auto 0/1: turn on auto mode where descending
+melodies are played with natural minor and ascending melodies with
+the scale selected the last "mode" command.;
+#X text 114 317 Outlet 0: midi pitches of the respective minor scale.
+;
+#X text 117 341 Description: m_minorscale lets you play one of three
+minor scales by sending scale steps. The base note of the scale can
+be set with an argument or with the second inlet. Minor scales come
+in three tastes: natural is just the diatonic major scale shifted 3
+steps down ("aeolian") \, harmonic minor is the same with a raised
+7th step and melodic minor additionally has the 6th scale step raised.
+Often the alternate minor types are only used for ascending melodies.
+You can turn on or off a special automatic mode with "auto 0/1" which
+will then compare the current step with the previous step and select
+the natural minor scale for descending intervals \, and the mode set
+with "mode" before for ascending intervals.;
+#X text 122 529 Tags: composition \, harmony \, melody \, minor scale
+\, pitch;
+#X text 115 183 Argument 1: minor scale type (optional \, default:
+natural);
+#X text 113 199 Argument 2: 0/1 for auto mode (optional \, default
+off);
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X text 7 14 m_minorscale - map numbers to minor scales;
+#X obj 577 250 pack 0 0;
+#X floatatom 518 221 5 0 0 3 pitch - -;
+#X obj 543 382 soundoutput;
+#X floatatom 679 201 5 0 0 0 - - -;
+#X floatatom 628 203 5 0 0 0 - - -;
+#X msg 789 170 auto \$1;
+#X msg 792 80 mode harmonic;
+#X msg 791 57 mode natural;
+#X msg 794 105 mode melodic;
+#X obj 789 148 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X floatatom 679 39 5 0 0 2 base_note - -;
+#X floatatom 577 46 5 0 0 2 scale_step - -;
+#X obj 489 119 random 12;
+#X obj 489 72 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 577 324 u_makepoly 4 1 s_rhodey mypiano;
+#X obj 489 96 metro 250;
+#X obj 577 227 makenote 70 500;
+#X msg 788 35 mode \$1;
+#X obj 788 16 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144 -1
+-1 2;
+#X obj 577 153 m_minorscale 60 2 1;
+#X connect 2 0 16 0;
+#X connect 5 0 18 2;
+#X connect 6 0 18 1;
+#X connect 7 0 21 1;
+#X connect 8 0 21 1;
+#X connect 9 0 21 1;
+#X connect 10 0 21 1;
+#X connect 11 0 7 0;
+#X connect 12 0 21 1;
+#X connect 13 0 21 0;
+#X connect 14 0 21 0;
+#X connect 15 0 17 0;
+#X connect 16 0 4 0;
+#X connect 16 0 4 1;
+#X connect 17 0 14 0;
+#X connect 18 0 2 0;
+#X connect 18 1 2 1;
+#X connect 19 0 21 1;
+#X connect 20 0 19 0;
+#X connect 21 0 3 0;
+#X connect 21 0 18 0;

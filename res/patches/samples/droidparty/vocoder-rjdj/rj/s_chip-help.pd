@@ -1,0 +1,355 @@
+#N struct 1113-symarray float x array symbols 1113-sym;
+#N struct 1113-sym symbol name float on;
+#N canvas 34 60 877 510 10;
+#X declare -path .;
+#X declare -path .;
+#N canvas 219 25 1041 569 detailed_help 0;
+#X obj 719 26 declare -path .;
+#X obj 19 297 soundoutput;
+#X msg 186 132 save;
+#X msg 643 31 mod2a \$1;
+#X floatatom 643 9 5 0 0 0 - - -;
+#X obj 575 9 r \$0-GUI;
+#X obj 20 132 m_majorscale 50;
+#X obj 20 78 metro 500;
+#X obj 20 54 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 20 211 pack;
+#N canvas 0 58 1013 367 midi-control 0;
+#X obj 37 214 m_symbolarray;
+#X obj 21 110 ctlin;
+#X obj 21 186 / 127;
+#X obj 125 65 loadbang;
+#X obj 21 297 s \$0-GUI;
+#X text 124 31 add your midi controller mappings here. Format: <ctl-num>
+<method name>;
+#X floatatom 47 144 5 0 0 0 - - -;
+#X floatatom 88 145 5 0 0 0 - - -;
+#X obj 21 260 list prepend;
+#X text 119 259 swap;
+#X msg 558 66 env1a \, env1d \, env1r \, env1s \, env2a \, env2d \,
+env2r \, env2s \, env3a \, env3d \, env3r \, env3s \, mod1a \, mod1b
+\, mod1c \, mod1d \, mod2a \, mod2b \, mod2c \, mod2d \, mod3a \, mod3b
+\, mod3c \, mod3d \, osc1a \, osc1b \, osc1c \, osc1d \, osc2a \, osc2b
+\, osc2c \, osc2d \, osc3a \, osc3b \, osc3c \, osc3d \,;
+#X msg 201 222 dump;
+#X symbolatom 37 241 10 0 0 0 - - -;
+#X obj 201 276 print;
+#X obj 201 244 u_dumpfile controls.txt cr;
+#X text 552 32 Control Template - These are the methods \, that s_czz_synth
+accepts. They all expect values in a range of 0-1.;
+#X text 241 220 You can also keep your settings in a file.;
+#X obj 201 336 declare -path .;
+#X text 317 339 let me find "controls.txt" here.;
+#X msg 125 91 74 osc1a \, 71 osc1b \, 81 osc1c;
+#X connect 0 0 8 1;
+#X connect 0 0 12 0;
+#X connect 1 0 6 0;
+#X connect 1 0 2 0;
+#X connect 1 1 7 0;
+#X connect 1 1 0 0;
+#X connect 2 0 8 0;
+#X connect 3 0 19 0;
+#X connect 8 0 4 0;
+#X connect 11 0 14 0;
+#X connect 14 0 0 1;
+#X connect 14 0 13 0;
+#X connect 19 0 0 1;
+#X restore 356 103 pd midi-control;
+#X obj 26 174 notein;
+#X text 346 84 Set controllers here:;
+#X obj 144 272 u_cocollect;
+#X obj 186 233 t a b;
+#X obj 186 59 bng 64 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1;
+#X obj 144 505 s \$0-GUI;
+#X obj 108 206 r \$0-control;
+#X obj 575 528 s \$0-control;
+#X symbolatom 350 271 20 0 0 0 - - -;
+#X obj 452 251 s \$0-GUI;
+#X obj 350 200 nbx 3 20 0 256 0 0 empty empty empty 0 -8 0 16 -260097
+-262144 -1 11 256;
+#X obj 350 177 pgmin 1;
+#X obj 20 154 makenote 127 300;
+#X obj 307 157 hradio 15 1 0 15 empty empty empty 0 -8 0 10 -262144
+-1 -1 11;
+#X msg 144 316 name fatbass \, mod3d 0 \, mod3c 0 \, mod3b 0.34685
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \,
+mod1c 0.0629921 \, mod1b 0.732283 \, mod1a 0.76378 \, osc3d 0 \, osc3c
+0 \, osc3b 0.692913 \, osc3a 0.606299 \, osc2d 0.283465 \, osc2c 0.566929
+\, osc2b 0.283465 \, osc2a 0.0472441 \, osc1d 0.409449 \, osc1c 0.527559
+\, osc1b 0.653543 \, osc1a 0.0314961 \, env3r 0.0314961 \, env3s 1
+\, env3d 1 \, env3a 0.023937 \, env2r 0.023622 \, env2s 1 \, env2d
+1 \, env2a 0 \, env1r 0.0331496 \, env1s 0 \, env1d 0.0637795 \, env1a
+0.000708661 \,;
+#X obj 575 60 g_synthcontrol;
+#N canvas 0 0 1086 675 chip_presets 0;
+#X obj 91 26 inlet;
+#X obj 151 615 outlet name;
+#X obj 151 590 symbol;
+#X obj 217 646 outlet parms;
+#X obj 151 566 route name;
+#X obj 606 195 loadbang;
+#X text 603 141 set up the interface to be human readable and show
+which controls are actually used;
+#X text 605 171 Requires modified [g-hsl];
+#X msg -14 264 name portsaw \, mod3c 1 \, mod3b 0.929528 \, mod2a 0
+\, mod1d 0.125984 \, mod1c 0 \, mod1b 0.716535 \, mod1a 0.84252 \,
+osc3a 0.661417 \, osc2d 0 \, osc2c 0.188976 \, osc2b 0.622047 \, osc2a
+1 \, osc1d 1 \, osc1c 0.155984 \, osc1b 0.503937 \, osc1a 1 \, env3r
+0 \, env3s 0 \, env3d 0 \, env3a 0 \, env2r 0.0166142 \, env2s 0.889764
+\, env2d 0 \, env2a 0 \, env1r 0.0331496 \, env1s 0.826772 \, env1d
+0.10315 \, env1a 0 \,;
+#X msg 606 233 env1a color 128 \, env1a label AMP-ATTACK \, env1d color
+128 \, env1d label AMP-DECAY \, env1r color 128 \, env1r label AMP-REL
+\, env1s color 128 \, env1s label AMP-SUS \, env2a color 128 \, env2a
+label OSC1-ATTACK \, env2d color 128 \, env2d label OSC1-DECAY \, env2r
+color 128 \, env2r label OSC1-REL \, env2s color 128 \, env2s label
+OSC1-SUS \, env3a color 128 \, env3a label OSC2-ATTACK \, env3d color
+128 \, env3d label OSC2-DECAY \, env3r color 128 \, env3r label OSC2-REL
+\, env3s color 128 \, env3s label OSC2-SUS \, mod1a color 128 \, mod1a
+label LFO-FREQ1 \, mod1b color 128 \, mod1b label LFO-FREQ2 \, mod1c
+color 128 \, mod1c label VIB-AMNT \, mod1d color 128 \, mod1d label
+VIB-ONSET \, mod2a color 2 \, mod2a label _ \, mod2b color 2 \, mod2b
+label _ \, mod2c color 2 \, mod2c label _ \, mod2d color 2 \, mod2d
+label _ \, mod3a color 2 \, mod3a label _ \, mod3b color 128 \, mod3b
+label VOLUME \, mod3c color 128 \, mod3c label PORTAMENTO \, mod3d
+color 2 \, mod3d label _ \, osc1a color 128 \, osc1a label OSC1-BRIGHT
+\, osc1b color 128 \, osc1b label OSC1-WAVE \, osc1c color 128 \, osc1c
+label OSC1-CLIP \, osc1d color 128 \, osc1d label OSC1-ENV \, osc2a
+color 128 \, osc2a label OSC2-BRIGHT \, osc2b color 128 \, osc2b label
+OSC2-WAVE \, osc2c color 128 \, osc2c label OSC2-CLIP \, osc2d color
+128 \, osc2d label OSC2-ENV \, osc3a color 128 \, osc3a label OCTAVE
+\, osc3b color 128 \, osc3b label OSC2-OCT \, osc3c color 2 \, osc3c
+label _ \, osc3d color 2 \, osc3d label _;
+#X msg 3 258 name dualbass \, mod3d 0 \, mod3c 0 \, mod3b 0.480709
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.125984
+\, mod1c 0 \, mod1b 0.716535 \, mod1a 0.84252 \, osc3d 0 \, osc3c 0
+\, osc3b 0.23622 \, osc3a 0.417323 \, osc2d 0.700787 \, osc2c 0.188976
+\, osc2b 0.622047 \, osc2a 1 \, osc1d 1 \, osc1c 0.155984 \, osc1b
+0.503937 \, osc1a 1 \, env3r 0.0393701 \, env3s 0.645669 \, env3d 0
+\, env3a 0 \, env2r 0.0166142 \, env2s 0.889764 \, env2d 0 \, env2a
+0 \, env1r 0.0331496 \, env1s 0.826772 \, env1d 0.10315 \, env1a 0
+\,;
+#X msg 17 258 name reedy1 \, mod3d 0 \, mod3c 0 \, mod3b 0.583071 \,
+mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.228346
+\, mod1c 0.015748 \, mod1b 0.614173 \, mod1a 0.732283 \, osc3d 0 \,
+osc3c 0 \, osc3b 0.472441 \, osc3a 0.755906 \, osc2d 0.826772 \, osc2c
+0.0472441 \, osc2b 0.401575 \, osc2a 0.023622 \, osc1d 0.779528 \,
+osc1c 0.045748 \, osc1b 0.574803 \, osc1a 0.015748 \, env3r 0.0393701
+\, env3s 0.645669 \, env3d 0.19685 \, env3a 0.0629921 \, env2r 0.0166142
+\, env2s 0.889764 \, env2d 0.110236 \, env2a 0 \, env1r 0.0331496 \,
+env1s 0.826772 \, env1d 0.10315 \, env1a 0 \,;
+#X msg 26 257 name pure \, mod3d 0 \, mod3c 0 \, mod3b 0.291732 \,
+mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.244094
+\, mod1c 0.401575 \, mod1b 0.614173 \, mod1a 0.629921 \, osc3d 0 \,
+osc3c 0 \, osc3b 0.472441 \, osc3a 0.755906 \, osc2d 0 \, osc2c 0.0472441
+\, osc2b 0.401575 \, osc2a 0.023622 \, osc1d 0.779528 \, osc1c 0.203228
+\, osc1b 1 \, osc1a 0.015748 \, env3r 0.0393701 \, env3s 0.645669 \,
+env3d 0.19685 \, env3a 0.0629921 \, env2r 0.0244882 \, env2s 0.897638
+\, env2d 0.110236 \, env2a 0 \, env1r 0.0331496 \, env1s 0.826772 \,
+env1d 0.10315 \, env1a 0.000472441 \,;
+#X msg 37 256 name voicier \, mod3d 0 \, mod3c 0 \, mod3b 0.291732
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.244094
+\, mod1c 0.401575 \, mod1b 0.582677 \, mod1a 0.629921 \, osc3d 0 \,
+osc3c 0 \, osc3b 0.472441 \, osc3a 1 \, osc2d 0.740157 \, osc2c 0.204724
+\, osc2b 1 \, osc2a 0.496063 \, osc1d 0.677165 \, osc1c 0.203228 \,
+osc1b 1 \, osc1a 0.527559 \, env3r 0.0393701 \, env3s 0.645669 \, env3d
+0.19685 \, env3a 0.0629921 \, env2r 0.0244882 \, env2s 0.897638 \,
+env2d 0.110236 \, env2a 0.0393701 \, env1r 0.0331496 \, env1s 0.826772
+\, env1d 0.10315 \, env1a 0.000472441 \,;
+#X msg 49 255 name stringy \, mod3d 0 \, mod3c 0 \, mod3b 0.197244
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.244094
+\, mod1c 0.188976 \, mod1b 0.582677 \, mod1a 0.590551 \, osc3d 0 \,
+osc3c 0 \, osc3b 0.472441 \, osc3a 1 \, osc2d 0.574803 \, osc2c 0.204724
+\, osc2b 0.992126 \, osc2a 0.496063 \, osc1d 0.755906 \, osc1c 0.203228
+\, osc1b 0.976378 \, osc1a 0.527559 \, env3r 0.0393701 \, env3s 0.645669
+\, env3d 0.19685 \, env3a 0.0629921 \, env2r 0.0244882 \, env2s 0.897638
+\, env2d 0.110236 \, env2a 0.23622 \, env1r 0.0331496 \, env1s 0.826772
+\, env1d 0.10315 \, env1a 0.0398425 \,;
+#X msg 64 253 name stringy2 \, mod3d 0 \, mod3c 0 \, mod3b 0.197244
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.220472
+\, mod1c 0.00787402 \, mod1b 0.582677 \, mod1a 0.590551 \, osc3d 0
+\, osc3c 0 \, osc3b 0.472441 \, osc3a 0.866142 \, osc2d 0.527559 \,
+osc2c 0.409449 \, osc2b 0.771654 \, osc2a 0.015748 \, osc1d 0.889764
+\, osc1c 0.0929921 \, osc1b 0.897638 \, osc1a 0 \, env3r 0.0393701
+\, env3s 0.244094 \, env3d 0.0708661 \, env3a 0.0708661 \, env2r 0.0244882
+\, env2s 0.307087 \, env2d 0.0787402 \, env2a 0.212598 \, env1r 0.0174016
+\, env1s 0.425197 \, env1d 0.0559055 \, env1a 0.0555906 \,;
+#X msg 82 254 name detrum \, mod3d 0 \, mod3c 0 \, mod3b 0.197244 \,
+mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \, mod1c
+0.23622 \, mod1b 0.023622 \, mod1a 0 \, osc3d 0 \, osc3c 0 \, osc3b
+0.472441 \, osc3a 1 \, osc2d 0.291339 \, osc2c 0.826772 \, osc2b 0.669291
+\, osc2a 0.015748 \, osc1d 0.677165 \, osc1c 0.982756 \, osc1b 0.527559
+\, osc1a 0 \, env3r 0.015748 \, env3s 0.244094 \, env3d 0.0708661 \,
+env3a 0.125984 \, env2r 0.00874016 \, env2s 0.0314961 \, env2d 0.0787402
+\, env2a 0.0472441 \, env1r 0.0174016 \, env1s 0.385827 \, env1d 0.0559055
+\, env1a 0.0555906 \,;
+#X msg 91 252 name brassens \, mod3d 0 \, mod3c 0 \, mod3b 0.197244
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \,
+mod1c 0.023622 \, mod1b 0.811024 \, mod1a 0.015748 \, osc3d 0 \, osc3c
+0 \, osc3b 0.76378 \, osc3a 0.204724 \, osc2d 0.677165 \, osc2c 0.826772
+\, osc2b 0.299213 \, osc2a 0.015748 \, osc1d 0.677165 \, osc1c 0.982756
+\, osc1b 0.15748 \, osc1a 0 \, env3r 0.015748 \, env3s 0.244094 \,
+env3d 0.0708661 \, env3a 0.125984 \, env2r 0.00874016 \, env2s 0.0314961
+\, env2d 0.0787402 \, env2a 0.0314961 \, env1r 0.0174016 \, env1s 0.385827
+\, env1d 0.0559055 \, env1a 0.0398425 \,;
+#X msg 104 254 name piano \, mod3d 0 \, mod3c 0 \, mod3b 0.197244 \,
+mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \, mod1c
+0.0102362 \, mod1b 0.000551181 \, mod1a 0.000629921 \, osc3d 0 \, osc3c
+0 \, osc3b 0.598425 \, osc3a 0.543307 \, osc2d 0.834646 \, osc2c 0.393701
+\, osc2b 0.299213 \, osc2a 0.015748 \, osc1d 0.559055 \, osc1c 0.818898
+\, osc1b 0.622047 \, osc1a 1 \, env3r 0.0787402 \, env3s 0.88189 \,
+env3d 0.0551181 \, env3a 0 \, env2r 0.386693 \, env2s 0.543307 \, env2d
+0.0472441 \, env2a 0 \, env1r 0.26937 \, env1s 0.133858 \, env1d 0.0952756
+\, env1a 0.00110236 \,;
+#X msg 117 255 name organ1 \, mod3d 0 \, mod3c 0 \, mod3b 0.827165
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \,
+mod1c 0.0417323 \, mod1b 0.969055 \, mod1a 0.929764 \, osc3d 0 \, osc3c
+0 \, osc3b 1 \, osc3a 0.543307 \, osc2d 0.283465 \, osc2c 0.125984
+\, osc2b 0.511811 \, osc2a 0.00787402 \, osc1d 0.629921 \, osc1c 0.0629921
+\, osc1b 0.645669 \, osc1a 0 \, env3r 0.0314961 \, env3s 0.88189 \,
+env3d 0.0551181 \, env3a 0 \, env2r 0.0559843 \, env2s 0.503937 \,
+env2d 0.00787402 \, env2a 0 \, env1r 0.0252756 \, env1s 1 \, env1d
+0.0244094 \, env1a 0.00110236 \,;
+#X msg 140 255 name organ2 \, mod3d 0 \, mod3c 0 \, mod3b 0.173622
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \,
+mod1c 0.159843 \, mod1b 0.929685 \, mod1a 0.890394 \, osc3d 0 \, osc3c
+0 \, osc3b 0.692913 \, osc3a 0.826772 \, osc2d 0.299213 \, osc2c 0.448819
+\, osc2b 0.228346 \, osc2a 0.00787402 \, osc1d 0.629921 \, osc1c 0.0629921
+\, osc1b 0.472441 \, osc1a 0 \, env3r 0.0314961 \, env3s 0.614173 \,
+env3d 0.00787402 \, env3a 0 \, env2r 0.0559843 \, env2s 0.503937 \,
+env2d 0.00787402 \, env2a 0 \, env1r 0.0252756 \, env1s 1 \, env1d
+0.0244094 \, env1a 0.00110236 \,;
+#X msg 150 255 name oboe \, mod3d 0 \, mod3c 0 \, mod3b 0.583071 \,
+mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.464567
+\, mod1c 0.0629921 \, mod1b 0.574803 \, mod1a 0.637795 \, osc3d 0 \,
+osc3c 0 \, osc3b 0.692913 \, osc3a 0.826772 \, osc2d 0.19685 \, osc2c
+0.110236 \, osc2b 0.866142 \, osc2a 0.0708661 \, osc1d 0.433071 \,
+osc1c 0.0629921 \, osc1b 0.834646 \, osc1a 1 \, env3r 0.141732 \, env3s
+0.535433 \, env3d 0.354331 \, env3a 0.000314961 \, env2r 0.441811 \,
+env2s 0.503937 \, env2d 0.338583 \, env2a 0.700787 \, env1r 0.0331496
+\, env1s 1 \, env1d 0.0244094 \, env1a 0.0798425 \,;
+#X msg 158 256 name seq1 \, mod3d 0 \, mod3c 0 \, mod3b 0.583071 \,
+mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0.464567
+\, mod1c 0.0629921 \, mod1b 0.574803 \, mod1a 0.637795 \, osc3d 0 \,
+osc3c 0 \, osc3b 0.692913 \, osc3a 0.606299 \, osc2d 0.283465 \, osc2c
+0.11811 \, osc2b 0.377953 \, osc2a 0.0472441 \, osc1d 0.409449 \, osc1c
+0.102362 \, osc1b 0.653543 \, osc1a 0.0314961 \, env3r 0.0314961 \,
+env3s 1 \, env3d 1 \, env3a 0.023937 \, env2r 0.023622 \, env2s 1 \,
+env2d 1 \, env2a 0 \, env1r 0.0331496 \, env1s 0 \, env1d 0.0401575
+\, env1a 0 \,;
+#X obj 91 52 sel 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14;
+#X msg 162 259 name fatbass \, mod3d 0 \, mod3c 0 \, mod3b 0.34685
+\, mod3a 0 \, mod2d 0 \, mod2c 0 \, mod2b 0 \, mod2a 0 \, mod1d 0 \,
+mod1c 0.0629921 \, mod1b 0.732283 \, mod1a 0.76378 \, osc3d 0 \, osc3c
+0 \, osc3b 0.692913 \, osc3a 0.606299 \, osc2d 0.283465 \, osc2c 0.566929
+\, osc2b 0.283465 \, osc2a 0.0472441 \, osc1d 0.409449 \, osc1c 0.527559
+\, osc1b 0.653543 \, osc1a 0.0314961 \, env3r 0.0314961 \, env3s 1
+\, env3d 1 \, env3a 0.023937 \, env2r 0.023622 \, env2s 1 \, env2d
+1 \, env2a 0 \, env1r 0.0331496 \, env1s 0 \, env1d 0.0637795 \, env1a
+0.000708661 \,;
+#X connect 0 0 23 0;
+#X connect 2 0 1 0;
+#X connect 4 0 2 0;
+#X connect 4 1 3 0;
+#X connect 5 0 9 0;
+#X connect 8 0 4 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 4 0;
+#X connect 12 0 4 0;
+#X connect 13 0 4 0;
+#X connect 14 0 4 0;
+#X connect 15 0 4 0;
+#X connect 16 0 4 0;
+#X connect 17 0 4 0;
+#X connect 18 0 4 0;
+#X connect 19 0 4 0;
+#X connect 20 0 4 0;
+#X connect 21 0 4 0;
+#X connect 22 0 4 0;
+#X connect 23 0 8 0;
+#X connect 23 1 10 0;
+#X connect 23 2 11 0;
+#X connect 23 3 12 0;
+#X connect 23 4 13 0;
+#X connect 23 5 14 0;
+#X connect 23 6 15 0;
+#X connect 23 7 16 0;
+#X connect 23 8 17 0;
+#X connect 23 9 18 0;
+#X connect 23 10 19 0;
+#X connect 23 11 20 0;
+#X connect 23 12 21 0;
+#X connect 23 13 22 0;
+#X connect 23 14 24 0;
+#X connect 24 0 4 0;
+#X restore 350 230 pd chip_presets;
+#X obj 20 105 random 12;
+#X obj 20 241 s_chip \$0-TAG;
+#X connect 2 0 14 0;
+#X connect 4 0 3 0;
+#X connect 5 0 26 0;
+#X connect 6 0 23 0;
+#X connect 7 0 28 0;
+#X connect 8 0 7 0;
+#X connect 9 0 29 0;
+#X connect 11 0 9 0;
+#X connect 11 1 9 1;
+#X connect 13 0 25 0;
+#X connect 14 0 29 1;
+#X connect 14 1 13 1;
+#X connect 15 0 2 0;
+#X connect 17 0 29 1;
+#X connect 21 0 27 0;
+#X connect 22 0 21 0;
+#X connect 23 0 9 0;
+#X connect 23 1 9 1;
+#X connect 24 0 21 0;
+#X connect 25 0 16 0;
+#X connect 26 0 18 0;
+#X connect 27 0 19 0;
+#X connect 27 1 20 0;
+#X connect 28 0 6 0;
+#X connect 29 0 1 0;
+#X connect 29 0 1 1;
+#X connect 29 1 13 0;
+#X restore 565 253 pd detailed_help;
+#N canvas 175 0 827 680 REFERENCE 0;
+#X text 114 174 Argument 0: name for state saving (required);
+#X text 114 214 Inlet 0: pitch/velocity pairs.;
+#X text 114 357 Outlet 0: synth audio signal.;
+#X text 114 374 Outlet 1: will report internal settings when receiving
+"save" message to second inlet.;
+#X text 114 234 Inlet 1: control inlet to set parameters. See example
+help for details. Possible message are (in alphabetical order): env1a
+\, env1d \, env1r \, env1s \, env2a \, env2d \, env2r \, env2s \, env3a
+\, env3d \, env3r \, env3s \, mod1a \, mod1b \, mod1c \, mod1d \, mod2a
+\, mod2b \, mod2c \, mod2d \, mod3a \, mod3b \, mod3c \, mod3d \, osc1a
+\, osc1b \, osc1c \, osc1d \, osc2a \, osc2b \, osc2c \, osc2d \, osc3a
+\, osc3b \, osc3c \, osc3d. They all accept a float in the range 0-1
+;
+#X text 114 121 Name: chip;
+#X text 113 140 Summary: grungy and grainy console and cheap synth
+sounds;
+#X text 113 411 Description: Based on a scanned \, filtered and decimated
+binary table \, a development of an idea by Matt (Hardoff). This synth
+is dedicated to the wisdom of La Roux manager "8 bit" Aaron. ajf2010
+;
+#X text 121 529 Tags: Glitch \, 8-bit \, old game music;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 4 48 pd REFERENCE;
+#X text 498 230 Please see inside for help and an example.;
+#X text 658 97 control inlet;
+#X text 657 143 preset outlet;
+#X text 7 14 s_chip is an 8 bit chip tune/Casio style source;
+#X obj 569 166 soundoutput;
+#X obj 570 89 pack;
+#X obj 570 52 notein;
+#X obj 570 119 s_chip \$0-TAG;
+#X connect 7 0 9 0;
+#X connect 8 0 7 0;
+#X connect 8 1 7 1;
+#X connect 9 0 6 0;
+#X connect 9 0 6 1;

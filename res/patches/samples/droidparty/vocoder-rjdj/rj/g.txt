@@ -1,0 +1,18 @@
+g_channelstrip - mixer strip with GUI
+4
+g_hradio - tagged horizontal radio button GUI
+g_hsl - tagged horizontal slider GUI
+g_hsl4 - four tagged horizontal sliders
+1
+g_nbx - tagged number box GUI
+g_nhsl - tagged horizontal slider with number box
+g_showimage - show an image on the touchscreen
+g_showtext - show a list as text on the touchscreen
+g_symbol - tagged symbol GUI for text input
+g_pattern32 - graphical 32 step pattern editor
+2
+g_tgl - tagged toggle GUI
+g_vol - graphical volume control (dB)
+1
+g_vol2 - graphical stereo volume control (dB)
+1

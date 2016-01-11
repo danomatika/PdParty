@@ -1,0 +1,3 @@
+#N canvas 77 42 629 362 10;
+#X obj 13 12 inlet;
+#X text 31 57 dummy [rj_image];

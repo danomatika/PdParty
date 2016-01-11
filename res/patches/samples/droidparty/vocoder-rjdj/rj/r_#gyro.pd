@@ -1,0 +1,6 @@
+#N canvas 130 140 369 188 10;
+#X obj 133 66 r #gyro;
+#X obj 133 128 outlet;
+#X text 12 18 If nothing is outputted then the device does not have
+a gyroscope;
+#X connect 0 0 1 0;

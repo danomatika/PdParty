@@ -1,0 +1,103 @@
+#N canvas 149 190 1029 659 10;
+#X obj 105 207 hsl 128 15 0 1 0 0 \$0-out1 \$0-in1 \$1-a_\$2-\$3 20
+8 1 10 -262144 -86277 -1 0 1;
+#X obj 295 36 inlet;
+#X obj 327 106 route \$1;
+#X obj 327 85 list trim;
+#X msg 327 207 set \$1;
+#X obj 295 533 outlet;
+#X msg 466 206 set \$1;
+#X msg 595 204 set \$1;
+#X msg 736 204 set \$1;
+#X obj 327 231 s \$0-in1;
+#X obj 466 230 s \$0-in2;
+#X obj 595 228 s \$0-in3;
+#X obj 736 228 s \$0-in4;
+#X obj 327 276 r \$0-out1;
+#X obj 474 275 r \$0-out2;
+#X obj 603 273 r \$0-out3;
+#X obj 744 273 r \$0-out4;
+#X obj 327 129 unpack 0 0 0 0;
+#X obj 327 184 m_scale \$2 \$3 0 1;
+#X obj 466 183 m_scale \$2 \$3 0 1;
+#X obj 595 181 m_scale \$2 \$3 0 1;
+#X obj 736 181 m_scale \$2 \$3 0 1;
+#X obj 327 297 m_scale 0 1 \$2 \$3;
+#X obj 474 296 m_scale 0 1 \$2 \$3;
+#X obj 603 294 m_scale 0 1 \$2 \$3;
+#X obj 744 294 m_scale 0 1 \$2 \$3;
+#X obj 105 222 hsl 128 15 0 1 0 0 \$0-out2 \$0-in2 \$1-b_\$2-\$3 20
+8 1 10 -262144 -86277 -1 0 1;
+#X obj 105 237 hsl 128 15 0 1 0 0 \$0-out3 \$0-in3 \$1-c_\$2-\$3 20
+8 1 10 -262144 -86277 -1 0 1;
+#X obj 105 252 hsl 128 15 0 1 0 0 \$0-out4 \$0-in4 \$1-d_\$2-\$3 20
+8 1 10 -262144 -86277 -1 0 1;
+#X obj 327 483 list prepend \$1;
+#X obj 327 504 list trim;
+#X obj 503 399 pack 0 0 0 0;
+#X obj 327 455 list;
+#X obj 327 322 t b a;
+#X obj 474 317 t b b a;
+#X obj 603 315 t b b a;
+#X obj 743 316 t b b a;
+#X text 633 400 Show me a less ugly way to do this ..;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 702 49 pd LICENSE-GPL;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 17 0;
+#X connect 3 0 2 0;
+#X connect 4 0 9 0;
+#X connect 6 0 10 0;
+#X connect 7 0 11 0;
+#X connect 8 0 12 0;
+#X connect 13 0 22 0;
+#X connect 14 0 23 0;
+#X connect 15 0 24 0;
+#X connect 16 0 25 0;
+#X connect 17 0 18 0;
+#X connect 17 0 31 0;
+#X connect 17 1 19 0;
+#X connect 17 1 31 1;
+#X connect 17 2 20 0;
+#X connect 17 2 31 2;
+#X connect 17 3 21 0;
+#X connect 17 3 31 3;
+#X connect 18 0 4 0;
+#X connect 19 0 6 0;
+#X connect 20 0 7 0;
+#X connect 21 0 8 0;
+#X connect 22 0 33 0;
+#X connect 23 0 34 0;
+#X connect 24 0 35 0;
+#X connect 25 0 36 0;
+#X connect 29 0 30 0;
+#X connect 30 0 5 0;
+#X connect 31 0 32 1;
+#X connect 32 0 29 0;
+#X connect 33 0 32 0;
+#X connect 33 1 31 0;
+#X connect 34 0 32 0;
+#X connect 34 1 31 0;
+#X connect 34 2 31 1;
+#X connect 35 0 32 0;
+#X connect 35 1 31 0;
+#X connect 35 2 31 2;
+#X connect 36 0 32 0;
+#X connect 36 1 31 0;
+#X connect 36 2 31 3;
+#X coords 0 -1 1 1 137 75 2 100 200;

@@ -1,0 +1,26 @@
+c_adsr - ADSR envelope generator
+c_adsrj - ADSR envelope generator with GUI and preset
+1
+c_bangx - bang x times with constant delay and stop
+c_bus - create a named audio bus (mono)
+c_cpfade - constant power crossfader
+c_drunk - output random numbers bound to a range (random walk)
+c_ead - exponential attack/decay envelope
+c_frand - random float number between two limits
+c_frombus - receive audio from a named audio bus (mono)
+c_lfo - message rate LFO with various waveforms
+c_madsr - ADSR envelope generator for messages
+c_madsrj - ADSR envelope generator for messages with GUI and preset
+1
+c_markov - 1st order markov chain
+c_mfade3 - wrapped crossfader between three inputs
+c_mphasor - message phasor for LFO generation
+c_multimetro - multi-period metro with builtin counter
+c_multipass - passes messages with probability lookup
+c_pass - passes messages randomly
+c_patternchange - transform melodic patterns
+c_seqplay - play midi files converted to textformat with [seq]
+c_taptap - tap on/off patterns
+c_tobus - send to a named audio bus (mono)
+c_urn - Unique Random Number generator
+c_xfade - linear crossfader

@@ -1,0 +1,53 @@
+#N canvas 4 22 814 522 10;
+#N canvas 435 477 293 176 show 0;
+#X obj 77 36 inlet;
+#X obj 77 109 outlet;
+#X obj 77 60 list prepend set;
+#X obj 77 85 list trim;
+#X connect 0 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X restore 574 324 pd show;
+#X msg 574 147 bang;
+#X msg 619 147 seed 123;
+#X floatatom 620 216 5 0 0 2 range - -;
+#X floatatom 667 217 5 0 0 2 length - -;
+#X msg 583 300 bang;
+#N canvas 110 354 582 570 REFERENCE 0;
+#X text 24 31 Name: [u_listrandom];
+#X text 24 264 Description: generates a list of pseudorandom integers
+from 0 to N-1 \, where N is the first creation argument. The second
+creation argument specifies the length of the list (minimum and default
+length is 1). A seed-message is used to seed the random number generator.
+;
+#X text 24 434 Tags: random numbers;
+#X text 24 91 Argument 0: <integer> - Range from 0 to n-1.;
+#X text 24 51 Summary: makes a list of random numbers.;
+#X text 24 234 Outlet 0: List of random numbers;
+#X text 24 111 Argument 0: <integer> - Length (amount of random numbers
+in outputted list).;
+#X text 24 184 Inlet 1: Range control inlet;
+#X text 24 154 Inlet 0: <message> 'bang' - outputs list \, 'seed <integer>'
+- sets the seed of the random.;
+#X text 24 204 Inlet 2: Length control inlet;
+#X text 24 364 See also: [u_list drip] [u_listequal] [u_listfilter]
+[u_listloop] [u_listmap] [u_listnth] [u_listrandom] [u_listreduce]
+[u_listser];
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 15 58 pd REFERENCE;
+#X obj 15 28 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 478 61 Example:;
+#X text 484 492 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 18 30 u_listrandom;
+#X msg 574 344;
+#X text 139 31 - makes a list of random numbers;
+#X obj 574 258 u_listrandom 5 2;
+#X connect 0 0 11 0;
+#X connect 1 0 13 0;
+#X connect 2 0 13 0;
+#X connect 3 0 13 1;
+#X connect 4 0 13 2;
+#X connect 5 0 0 0;
+#X connect 13 0 0 0;

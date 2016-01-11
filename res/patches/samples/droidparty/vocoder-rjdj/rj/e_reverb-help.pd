@@ -1,0 +1,83 @@
+#N canvas 4 22 1051 534 10;
+#X obj 480 151 osc~ 220;
+#X obj 480 233 *~;
+#X obj 480 277 e_reverb rev1;
+#X obj 545 201 vline~;
+#X msg 545 176 1 5 \, 0 100 5;
+#X obj 480 333 soundoutput;
+#X obj 545 151 metro 500;
+#X obj 545 126 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X floatatom 480 129 5 0 0 0 - - -;
+#X msg 787 388 amp 80 \, hall 80 \, freq 6000 \, damp 60;
+#X text 786 349 Defaults:;
+#N canvas 0 276 827 710 REFERENCE 0;
+#X text 114 474 See also:;
+#X text 114 121 Name: e_reverb;
+#X text 114 141 Summary: simple and cheap reverb module;
+#X text 114 171 Argument 0: <symbol> Unique id - make sure this is
+different to all other instances.;
+#X text 114 214 Inlet 0: Audio input signal;
+#X text 114 524 Tags: Audio \, Reverb;
+#X text 114 384 Outlet 1: Audio output signal right.;
+#X text 114 364 Outlet 0: Audio output signal left.;
+#X text 114 234 Inlet 1: Following control messages:;
+#X text 136 272 amp <float>: output level \, dB \, 0-100;
+#X text 129 288 hall <float>: liveness \, 0-100 \, usually between
+85 and 100;
+#X text 129 305 freq <float>: crossover frequency in Hz. (3000 default)
+;
+#X text 130 322 damp <float>: high frequency damping \, 0-100;
+#X text 136 257 dry <float>: dry/wet mix \, 0-1;
+#X text 114 424 Description: a simple and cheap reverb object - Miller's
+rev2 \, wrapped for rjlib. Useful for making lightweight scenes.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 51 Example:;
+#X text 678 510 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X text 79 21 - simple reverb effect;
+#X obj 8 20 e_reverb;
+#X obj 91 422 e_platereverb;
+#X obj 791 314 s \$0-CTL;
+#X text 824 71 GUI;
+#X text 958 72 No-GUI;
+#X obj 791 119 g_hsl dry 0 1;
+#X msg 959 124 dry \$1;
+#X obj 791 159 g_hsl amp 0 100;
+#X obj 791 199 g_hsl hall 0 100;
+#X obj 791 239 g_hsl freq 20 22050;
+#X obj 791 279 g_hsl damp 0 100;
+#X text 715 165 Amplitude;
+#X text 714 205 Room Size;
+#X text 665 244 Filter Frequency;
+#X text 728 286 Damping;
+#X obj 568 257 r \$0-CTL;
+#X msg 959 164 amp \$1;
+#X msg 959 204 hall \$1;
+#X msg 959 244 freq \$1;
+#X msg 959 284 damp \$1;
+#X obj 787 409 s \$0-GUI;
+#X obj 791 93 r \$0-GUI;
+#X obj 787 367 loadbang;
+#X text 702 126 Dry/Wet Mix;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 5 0;
+#X connect 2 1 5 1;
+#X connect 3 0 1 1;
+#X connect 4 0 3 0;
+#X connect 6 0 4 0;
+#X connect 7 0 6 0;
+#X connect 8 0 0 0;
+#X connect 9 0 36 0;
+#X connect 21 0 23 0;
+#X connect 23 0 24 0;
+#X connect 24 0 25 0;
+#X connect 25 0 26 0;
+#X connect 26 0 18 0;
+#X connect 31 0 2 1;
+#X connect 37 0 21 0;
+#X connect 38 0 9 0;

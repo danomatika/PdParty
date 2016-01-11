@@ -1,0 +1,319 @@
+#N struct 1167-symarray float x array symbols 1167-sym;
+#N struct 1167-sym symbol name float on;
+#N canvas 241 1 896 414 10;
+#N canvas 0 0 544 507 \$0-tables 0;
+#X restore 573 34 pd \$0-tables;
+#X msg 131 104 maj;
+#X msg 168 105 -;
+#X msg 203 106 -7;
+#X obj 317 254 m_symbolarray;
+#X floatatom 328 220 5 0 0 0 - - -;
+#N canvas 0 0 877 652 unpack0s 0;
+#X obj 100 130 list split 1;
+#X obj 140 190 outlet;
+#X obj 100 221 outlet;
+#X obj 100 100 inlet;
+#N canvas 0 0 450 300 ch2sym 0;
+#X obj 96 100 route symbol float;
+#X obj 157 128 makefilename %d;
+#X obj 96 189 outlet;
+#X obj 96 161 list;
+#X obj 96 58 inlet;
+#X connect 0 0 3 0;
+#X connect 0 1 1 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X restore 140 161 pd ch2sym;
+#X connect 0 0 2 0;
+#X connect 0 1 4 0;
+#X connect 3 0 0 0;
+#X connect 4 0 1 0;
+#X restore 405 204 pd unpack0s;
+#X obj 405 232 list;
+#N canvas 0 0 918 592 make-tables 0;
+#X obj 57 64 list split 2;
+#X obj 165 172 * 25;
+#X obj 165 222 pack 0 s;
+#X msg 165 254 obj 100 \$1 table \$2 12;
+#X obj 165 300 s pd-\$0-tables;
+#X obj 133 357 list prepend 0;
+#X obj 59 484 send;
+#N canvas 0 0 877 652 unpack0s 0;
+#X obj 100 130 list split 1;
+#X obj 140 190 outlet;
+#X obj 100 221 outlet;
+#X obj 100 100 inlet;
+#N canvas 0 0 450 300 ch2sym 0;
+#X obj 96 100 route symbol float;
+#X obj 157 128 makefilename %d;
+#X obj 96 189 outlet;
+#X obj 96 161 list;
+#X obj 96 58 inlet;
+#X connect 0 0 3 0;
+#X connect 0 1 1 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X restore 140 161 pd ch2sym;
+#X connect 0 0 2 0;
+#X connect 0 1 4 0;
+#X connect 3 0 0 0;
+#X connect 4 0 1 0;
+#X restore 165 137 pd unpack0s;
+#X obj 239 163 makefilename \$0-%s;
+#X msg 385 269 clear;
+#X obj 57 91 t b b a;
+#X msg 86 413 const 0;
+#X obj 133 333 u_listmap;
+#X obj 59 385 list append;
+#X obj 57 36 inlet;
+#X obj 385 43 inlet;
+#X obj 239 185 t a a;
+#X text 464 116 creates a table for each chord named \$0-<chordname>
+and fills it from the list of 3 character intervals;
+#N canvas 420 460 626 372 3char2float 0;
+#X obj 128 299 outlet;
+#X obj 47 31 inlet;
+#X obj 128 110 m_majorscale;
+#X obj 47 63 select - b #;
+#X obj 128 244 + 0;
+#X msg 177 272 0;
+#X obj 128 272 t a b;
+#X msg 146 210 -1;
+#X obj 128 87 - 1;
+#X text 166 89 m_majorscale is zero based;
+#X msg 182 210 1;
+#X connect 1 0 3 0;
+#X connect 2 0 4 0;
+#X connect 3 1 7 0;
+#X connect 3 2 10 0;
+#X connect 3 3 8 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 1;
+#X connect 6 0 0 0;
+#X connect 6 1 5 0;
+#X connect 7 0 4 1;
+#X connect 8 0 2 0;
+#X connect 10 0 4 1;
+#X restore 206 333 pd 3char2float;
+#X connect 0 0 10 0;
+#X connect 0 1 12 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 5 0 13 1;
+#X connect 7 0 1 0;
+#X connect 7 1 8 0;
+#X connect 8 0 16 0;
+#X connect 9 0 4 0;
+#X connect 10 0 13 0;
+#X connect 10 1 11 0;
+#X connect 10 2 7 0;
+#X connect 11 0 6 0;
+#X connect 12 0 5 0;
+#X connect 12 1 18 0;
+#X connect 13 0 6 0;
+#X connect 14 0 0 0;
+#X connect 15 0 9 0;
+#X connect 16 0 2 1;
+#X connect 16 1 6 1;
+#X connect 18 0 12 1;
+#X restore 437 160 pd make-tables;
+#N canvas 0 0 1233 659 3-char-chords 0;
+#X obj 177 40 inlet;
+#X obj 177 73 u_cocollect;
+#X obj 144 605 outlet;
+#X text 283 47 lots of chords here:;
+#X obj 106 38 inlet;
+#X obj 106 61 bang;
+#X obj 490 72 u_dumpfile;
+#X obj 491 26 openpanel;
+#X obj 474 27 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 574 48 numdump;
+#X msg 491 46 read \$1 cr;
+#X msg 144 110 0 m2 - b 2 \, 1 M2 - 2 \, 2 m3 - b 3 \, 3 M3 - 3 \,
+4 P4 - 4 \, 5 T - b 5 \, 6 P5 - 5 \, 7 m6 - b 6 \, 8 M6 - 6 \, 9 m7
+- b 7 \, 10 M7 - 7 \, 11 maj - - 3 - - 5 \, 12 majinv1 - b 3 - b 6
+\, 13 majinv2 - - 4 - - 6 \, 14 - - b 3 - - 5 \, 15 -inv1 - - 3 - -
+6 \, 16 -inv2 - - 4 - b 6 \, 17 o - b 3 - b 5 \, 18 oinv1 - b 3 - -
+6 \, 19 oinv2 - b 5 - - 6 \, 20 + - # 3 - # 5 \, 21 sus4 - - 4 - -
+5 \, 22 sus2 - - 2 - - 5 \, 23 susinv2 - b 4 - # 6 \, 24 maj7 - - 3
+- - 5 - - 7 \, 25 maj7inv1 - b 3 - - 5 - b 6 \, 26 maj7inv2 - - 3 -
+- 4 - - 6 \, 27 maj7inv3 - b 2 - - 4 - b 6 \, 28 7 - - 3 - - 5 - b
+7 \, 29 7inv1 - b 3 - b 5 - b 6 \, 30 7inv2 - b 3 - - 4 - - 6 \, 31
+7inv3 - - 2 - b 5 - - 6 \, 32 -7 - b 3 - - 5 - b 7 \, 33 -7inv1 - -
+3 - - 5 - - 6 \, 34 -7inv2 - b 3 - - 4 - b 6 \, 35 -7inv3 - - 2 - -
+4 - - 6 \, 36 7b5 - - 3 - b 5 - b 7 \, 37 7b5inv1 - - 2 - b 5 - b 6
+\, 38 o7 - b 3 - b 5 - - 6 \, 39 +7 - - 3 - b 6 - b 7 \, 40 +7inv1
+- - 3 - b 5 - b 6 \, 41 +7inv2 - - 2 - - 3 - b 6 \, 42 +7inv3 - - 2
+- b 5 - b 7 \, 43 sus7 - - 4 - - 5 - b 7 \, 44 sus7inv1 - - 2 - - 4
+- - 5 \, 45 sus7inv2 - b 3 - - 4 - b 7 \, 46 sus7inv3 - - 2 - - 5 -
+- 6 \, 47 6 - - 3 - - 5 - - 6 \, 48 6inv1 - b 3 - - 4 - b 6 \, 49 6inv2
+- - 2 - - 4 - - 6 \, 50 6inv3 - b 3 - - 5 - b 7 \, 51 -6 - b 3 - -
+5 - - 6 \, 52 maj9 - - 3 - - 5 - - 7 - - 9 \, 53 9 - - 3 - - 5 - b
+7 - - 9 \, 54 -9 - b 3 - - 5 - b 7 - - 9 \, 55 9b5 - - 3 - b 5 - b
+7 - - 9 \, 56 +9 - - 3 - # 5 - b 7 - - 9 \, 57 sus9 - - 4 - - 5 - b
+7 - - 9 \, 58 6/9 - - 3 - - 5 - - 6 - - 9 \, 59 -6/9 - b 3 - - 5 -
+- 6 - - 9 \, 60 7b9 - - 3 - - 5 - b 7 - b 9 \, 61 7#9 - - 3 - - 5 -
+b 7 - # 9 \, 62 7b5#9 - - 3 - b 5 - b 7 - # 9 \, 63 maj9+ - - 3 - #
+5 - - 7 - - 9 \, 64 -maj9 - b 3 - - 5 - - 7 - - 9 \, 65 11 - - 5 -
+b 7 - - 9 - 11 \, 66 -11 - b 3 - - 5 - b 7 - - 9 - 11 \, 67 maj9#11
+- - 3 - - 5 - - 7 - - 9 # 11 \, 68 9#11 - - 3 - - 5 - b 7 - - 9 # 11
+\, 69 13 - - 3 - b 7 - - 9 - 13 \, 70 -13 - b 3 - - 5 - b 7 - - 9 -
+11 - 13 \, 71 11/13 - - 5 - b 7 - - 9 - 11 - 13 \, 72 maj13 - - 3 -
+- 5 - - 7 - - 9 - 13 \, 73 maj13#11 - - 3 - - 5 - - 7 - - 9 - # 11
+- 13 \, 74 13#11 - - 3 - - 5 - b 7 - - 9 - # 11 - 13 \, 75 -13#11 -
+b 3 - - 5 - b 7 - - 9 - # 11 - 13 \, 76 13#11#9 - - 3 - - 5 - - 7 -
+# 9 - # 11 - 13 \, 77 majadd9 - - 3 - - 5 - - 9 \, 78 -add9 - b 3 -
+- 5 - - 9 \,;
+#X text 619 170 Chord names based on the "Dictionary of Intervals and
+Chords" by Benjamin K. Shisler online at: http://www.geocities.com/SoHo/Studios/9783/ci1.html
+(good ol' geocities.com ...);
+#X text 616 243 These names were used because they are all at least
+one character long and don't contain spaces nor special characters.
+;
+#X connect 0 0 1 0;
+#X connect 1 0 11 0;
+#X connect 4 0 5 0;
+#X connect 5 0 11 0;
+#X connect 6 0 1 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 0;
+#X connect 9 0 6 0;
+#X connect 10 0 6 0;
+#X connect 11 0 2 0;
+#X restore 405 117 pd 3-char-chords;
+#X obj 405 93 t b b;
+#X msg 420 66 bang;
+#X obj 405 137 t a a;
+#N canvas 0 0 778 546 lookup 0;
+#X obj 113 214 f 0;
+#X obj 146 214 + 1;
+#X obj 113 272 select 0;
+#X obj 113 177 until;
+#X obj 113 242 tabread;
+#X msg 113 150 12;
+#X msg 219 211 set \$1;
+#X obj 219 187 makefilename \$0-%s;
+#N canvas 0 0 450 300 ch2sym 0;
+#X obj 96 100 route symbol float;
+#X obj 157 128 makefilename %d;
+#X obj 96 189 outlet;
+#X obj 96 161 list;
+#X obj 96 58 inlet;
+#X connect 0 0 3 0;
+#X connect 0 1 1 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X restore 219 163 pd ch2sym;
+#X obj 113 82 list;
+#X obj 113 107 t b b a;
+#X msg 160 177 0;
+#X obj 113 52 inlet;
+#X text 164 51 chordname;
+#X obj 166 296 outlet;
+#X text 223 299 intervals serialized \, without tonic;
+#X connect 0 0 1 0;
+#X connect 0 0 4 0;
+#X connect 1 0 0 1;
+#X connect 2 0 3 1;
+#X connect 2 1 14 0;
+#X connect 3 0 0 0;
+#X connect 4 0 2 0;
+#X connect 5 0 3 0;
+#X connect 6 0 4 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 0;
+#X connect 9 0 10 0;
+#X connect 10 0 5 0;
+#X connect 10 1 11 0;
+#X connect 10 2 8 0;
+#X connect 11 0 0 1;
+#X connect 12 0 9 0;
+#X restore 92 315 pd lookup;
+#X obj 92 57 inlet;
+#X obj 92 344 outlet;
+#X text 423 254 The symarray acts as a cache and for dumping;
+#X obj 405 39 loadbang;
+#X obj 217 47 inlet;
+#X obj 405 303 outlet;
+#X msg 267 100 dump;
+#N canvas 0 0 434 339 stuff 0;
+#N canvas 0 0 450 300 ch2sym 0;
+#X obj 96 100 route symbol float;
+#X obj 157 128 makefilename %d;
+#X obj 96 189 outlet;
+#X obj 96 161 list;
+#X obj 96 58 inlet;
+#X connect 0 0 3 0;
+#X connect 0 1 1 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X restore 80 43 pd ch2sym;
+#N canvas 420 460 626 372 3-char-code 0;
+#X obj 128 299 outlet;
+#X obj 47 31 inlet;
+#X obj 128 110 m_majorscale;
+#X obj 47 63 select - b #;
+#X obj 128 244 + 0;
+#X msg 177 272 0;
+#X obj 128 272 t a b;
+#X msg 146 210 -1;
+#X obj 128 87 - 1;
+#X text 166 89 m_majorscale is zero based;
+#X msg 182 210 1;
+#X connect 1 0 3 0;
+#X connect 2 0 4 0;
+#X connect 3 1 7 0;
+#X connect 3 2 10 0;
+#X connect 3 3 8 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 1;
+#X connect 6 0 0 0;
+#X connect 6 1 5 0;
+#X connect 7 0 4 1;
+#X connect 8 0 2 0;
+#X connect 10 0 4 1;
+#X restore 63 218 pd 3-char-code;
+#X msg 63 152 - b 3 - - 5 - b 7 - - 9;
+#X obj 63 186 u_listdrip;
+#X obj 69 252 print;
+#X connect 1 0 4 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X restore 689 33 pd stuff;
+#X obj 217 74 route float dump print;
+#X msg 317 99 print;
+#X obj 405 183 list split 2;
+#X msg 532 138 clear;
+#X connect 1 0 13 0;
+#X connect 2 0 13 0;
+#X connect 3 0 13 0;
+#X connect 4 0 13 0;
+#X connect 4 0 19 0;
+#X connect 4 1 19 0;
+#X connect 5 0 4 0;
+#X connect 6 0 7 0;
+#X connect 6 1 7 1;
+#X connect 7 0 4 1;
+#X connect 9 0 12 0;
+#X connect 10 0 9 0;
+#X connect 10 1 8 1;
+#X connect 11 0 10 0;
+#X connect 12 0 24 0;
+#X connect 12 1 8 0;
+#X connect 13 0 15 0;
+#X connect 14 0 13 0;
+#X connect 17 0 10 0;
+#X connect 18 0 22 0;
+#X connect 20 0 4 0;
+#X connect 22 0 4 0;
+#X connect 22 1 20 0;
+#X connect 22 2 23 0;
+#X connect 23 0 4 0;
+#X connect 24 0 6 0;
+#X connect 25 0 8 1;

@@ -1,0 +1,237 @@
+#N canvas 61 77 1142 556 10;
+#X declare -path .;
+#N canvas 52 356 659 624 REFERENCE 0;
+#X text 114 161 Argument 0: name for state saving (required);
+#X text 114 121 Name: e_graindelread;
+#X text 114 141 Summary: granular delay reader;
+#X text 114 201 Inlet 0: dummy \, unused;
+#X text 114 221 Inlet 1: save: save current settings to last outlet.
+grain-rate <f>: frequency of grains. vol <f>: grain volume. vol-r <f>:
+percentage of random volume variation. delay <f>: delay time. delay-r
+<f>: percentage of random delay variation. size <f>: grain size in
+ms. size-r <f>: percentage of random grain size variation. pan-r <f>:
+percentage of random panning variation. bw <f>: bandwidth of grains.
+phase <f>: phase of grain generating phasor (0...1). phase-rand: randomize
+phase of phasor.;
+#X text 114 345 Outlet 0: granulated and delayed audio signal;
+#X text 111 528 Tags: delay \, granular \, grains \, microsound \,
+delwrite \, delread;
+#X text 111 378 Description: e_graindelread reads from a delayline
+as created by Pd's [delwrite~] object. There has to be exactly one
+[delwrite~] available that has the same name as the second argument
+of [e_graindelread] specifies. You can create many [e_graindelreads]
+reading from the same delayline \, though. The object delays and granulates
+the delay line data with grains shaped from a raised cosine curve.
+The width of the cosine peaks can be set with the "bw" parameter. As
+the object has many parameters \, a way to "save" the settings to the
+last outlet is built in. Use [u_cocollect] to store them into a message
+box for example.;
+#X text 114 181 Argument 1: name or delay line to read from (required)
+;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 6 41 pd REFERENCE;
+#X text 6 20 e_graindelread - granular delay reader;
+#X obj 894 99 s \$0-GRAIN;
+#X obj 894 53 r \$0-SET-GRAIN;
+#N canvas 621 160 518 421 e_graindelread-GUI 0;
+#N canvas 0 0 586 607 GUI 0;
+#X obj 124 128 g_hsl pan-r 0 1;
+#X obj 124 159 g_hsl vol 0 1;
+#X obj 124 225 g_nbx delay;
+#X obj 194 225 g_nbx delay-r;
+#X obj 124 260 g_nbx size;
+#X obj 194 260 g_nbx size-r;
+#X obj 124 295 g_nbx bw;
+#X obj 194 295 g_nbx grain-rate;
+#X obj 124 190 g_hsl vol-r 0 1;
+#X obj 124 68 inlet;
+#X obj 194 369 outlet;
+#X msg 124 405 phase-rand bang;
+#X obj 124 326 bng 15 250 50 0 empty empty phase-rand 17 7 1 10 -262144
+-1 -1;
+#X text 267 132 random panning width;
+#X text 267 162 base volume;
+#X text 268 193 random volume width;
+#X text 270 230 delay \, random delay variation;
+#X text 272 266 grain size and its variation;
+#X text 272 326 randomize the phase;
+#X connect 0 0 1 0;
+#X connect 1 0 8 0;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 2 0;
+#X connect 9 0 0 0;
+#X connect 11 0 10 0;
+#X connect 12 0 11 0;
+#X coords 0 -1 1 1 380 250 1 100 100;
+#X restore 30 56 pd GUI;
+#X obj 30 31 inlet;
+#X obj 30 313 outlet;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X restore 894 76 pd e_graindelread-GUI;
+#X obj 567 181 e_graindelread TAG \$0-delay;
+#X obj 500 83 delwrite~ \$0-delay 2000;
+#N canvas 0 0 793 336 song 0;
+#X floatatom 163 194 5 0 0 0 - - -;
+#X floatatom 155 106 5 0 0 0 - - -;
+#X obj 155 250 pack 0 0;
+#X obj 155 171 m_majorscale 60;
+#X obj 155 271 u_makepoly 8 1 s_rhodey \$0-piano;
+#X obj 155 220 makenote 20 1000;
+#X obj 212 104 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#N canvas 359 223 592 507 play-a-little-song-for-me 0;
+#X msg 133 301 0 \, 2 \, 3 \, 5 \, 8 \, 9;
+#X msg 100 326 0 \, 2 \, 4 \, 6 \, 8;
+#X obj 238 223 random 7;
+#X obj 139 237 ==;
+#X obj 100 237 f;
+#X obj 100 266 select 0 1;
+#X obj 100 390 outlet;
+#X obj 206 52 inlet;
+#X obj 272 55 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 330 244 f;
+#X obj 364 244 + 1;
+#X obj 329 411 outlet;
+#X msg 329 384 60;
+#X msg 365 384 58;
+#X obj 330 363 select 0 1;
+#X obj 330 221 b;
+#X obj 330 336 f;
+#X obj 363 336 ==;
+#X floatatom 396 273 5 0 0 0 - - -;
+#X obj 203 171 t b b b;
+#X obj 330 305 select 0;
+#X obj 330 274 mod 16;
+#X obj 329 37 loadbang;
+#X msg 329 59 220 180;
+#X obj 206 149 select 0 2 4 5;
+#X obj 206 86 c_multimetro 6 200;
+#X connect 0 0 6 0;
+#X connect 1 0 6 0;
+#X connect 2 0 6 0;
+#X connect 3 0 4 1;
+#X connect 4 0 3 0;
+#X connect 4 0 5 0;
+#X connect 5 0 1 0;
+#X connect 5 1 0 0;
+#X connect 7 0 25 0;
+#X connect 8 0 25 0;
+#X connect 9 0 18 0;
+#X connect 9 0 21 0;
+#X connect 10 0 9 1;
+#X connect 12 0 11 0;
+#X connect 13 0 11 0;
+#X connect 14 0 12 0;
+#X connect 14 1 13 0;
+#X connect 15 0 9 0;
+#X connect 16 0 14 0;
+#X connect 16 0 17 0;
+#X connect 17 0 16 1;
+#X connect 19 0 4 0;
+#X connect 19 1 2 0;
+#X connect 19 2 15 0;
+#X connect 20 0 16 0;
+#X connect 21 0 10 0;
+#X connect 21 0 20 0;
+#X connect 22 0 23 0;
+#X connect 23 0 25 2;
+#X connect 24 0 19 0;
+#X connect 24 1 2 0;
+#X connect 24 2 2 0;
+#X connect 24 3 2 0;
+#X connect 25 0 24 0;
+#X restore 212 122 pd play-a-little-song-for-me;
+#X floatatom 257 152 5 0 0 0 - - -;
+#X obj 155 309 outlet~;
+#X obj 212 64 inlet;
+#X obj 470 93 switch~;
+#X obj 490 49 loadbang;
+#X msg 490 70 0;
+#X connect 1 0 3 0;
+#X connect 2 0 4 0;
+#X connect 3 0 0 0;
+#X connect 3 0 5 0;
+#X connect 4 0 9 0;
+#X connect 4 1 9 0;
+#X connect 5 0 2 0;
+#X connect 5 1 2 1;
+#X connect 6 0 7 0;
+#X connect 6 0 11 0;
+#X connect 7 0 3 0;
+#X connect 7 1 8 0;
+#X connect 8 0 3 1;
+#X connect 10 0 6 0;
+#X connect 12 0 13 0;
+#X connect 13 0 11 0;
+#X restore 479 53 pd song;
+#X obj 479 32 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X msg 764 105 help;
+#X msg 795 135 save;
+#X obj 795 158 t a b;
+#X obj 753 207 u_cocollect;
+#X msg 683 260 pan-r 0.787402 \, delay-r 400 \, delay 500 \, size-r
+0 \, size 100 \, vol-r 0.133858 \, vol 0.409449 \, bw 1 \, phase 0.4819
+\, grain-rate 30 \,;
+#X obj 683 309 s \$0-SET-GRAIN;
+#X text 553 155 Args: <NAME> <delayline>;
+#X obj 753 83 r \$0-GRAIN;
+#X obj 566 288 soundoutput;
+#N canvas 0 0 450 300 vol 0;
+#X floatatom 133 114 5 0 100 0 - - -;
+#X obj 133 136 dbtorms;
+#X obj 63 181 *~;
+#X obj 133 187 line~;
+#X obj 133 164 pack 0 10;
+#X obj 63 214 outlet~;
+#X obj 64 153 inlet~;
+#X connect 0 0 1 0;
+#X connect 1 0 4 0;
+#X connect 2 0 5 0;
+#X connect 3 0 2 1;
+#X connect 4 0 3 0;
+#X connect 6 0 2 0;
+#X coords 0 -1 1 1 75 30 1 100 100;
+#X restore 479 216 pd vol;
+#X obj 809 437 r \$0-GRAIN;
+#X obj 518 485 soundoutput;
+#X obj 518 462 u_makepoly 4 1 e_graindelread TAG \$0-delay;
+#X obj 6 497 declare -path .;
+#X text 508 373 e_graindelread is designed to be used with u_makepoly
+as well!;
+#X obj 683 207 loadbang;
+#X text 508 406 Just create it like this and use the right inlet to
+set any parameters. The left inlet is unused here \, it's a dummy.
+;
+#X obj 6 520 u_loadmeter;
+#X text 509 31 There must be a matching delwrite~ in your patch;
+#X text 839 138 saving;
+#X text 880 31 Slider controls inside:;
+#X connect 3 0 4 0;
+#X connect 4 0 2 0;
+#X connect 5 0 17 0;
+#X connect 5 1 17 1;
+#X connect 5 2 12 0;
+#X connect 7 0 6 0;
+#X connect 7 0 18 0;
+#X connect 8 0 7 0;
+#X connect 9 0 5 1;
+#X connect 10 0 11 0;
+#X connect 11 0 5 1;
+#X connect 11 1 12 1;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 16 0 5 1;
+#X connect 18 0 17 0;
+#X connect 18 0 17 1;
+#X connect 19 0 21 1;
+#X connect 21 0 20 0;
+#X connect 21 1 20 1;
+#X connect 24 0 13 0;

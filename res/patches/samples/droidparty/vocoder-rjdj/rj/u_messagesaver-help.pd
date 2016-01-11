@@ -1,0 +1,177 @@
+#N canvas 0 0 989 558 10;
+#N canvas 111 80 827 710 REFERENCE 0;
+#X text 114 121 Name: u_messagesaver;
+#X text 114 141 Summary: collect presets into message boxes;
+#X text 113 170 Argument 0: name of abstration to save (required);
+#X text 114 194 Argument 1: tag of object to save (required=;
+#X text 114 214 Inlet 0: bang to save;
+#X text 114 234 Outlet 0: settings of abstraction with tag formatted
+to set a message box.;
+#X text 112 301 Description: u_messagesaver can be used to collect
+the settings of most rj-objects into a message box. To use it to save
+an object tagged with e.g. "TAG" create a [u_messagesaver] with the
+name of the abstraction to save and the "TAG" as first and second argument
+\, and connect a message box to its outlet. Then just send a bang to
+the u_messagesaver's inlet to have it set the message box content to
+the latest settings. If there is more than one object tagged with the
+same tag \, settings will occur duplicated as many times.;
+#X text 113 443 [u_messagesaver] will only save objects that use the
+[u_dispatch] / [u_loader] mechanism provided in the rj library.;
+#X text 115 529 Tags: preset \, settings \, saving \, sssad;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X text 7 14 u_messagesaver - collect presets into message boxes;
+#N canvas 0 0 997 612 FM4-example 0;
+#X msg 108 129 bang;
+#X obj 108 157 u_messagesaver s_fm4 MYTAG;
+#X obj 121 319 r \$0-fm4;
+#X msg 108 180 index4 0 0.755906 0.283465 0.929134 \, index3 0.330709
+0 1.00787 0.692913 \, index2 0 0 0 0 \, index1 0 0 0.0314961 0.0944882
+\,;
+#X msg 533 163 set;
+#X obj 34 319 s_fm4 MYTAG;
+#N canvas 310 14 696 722 GUI 0;
+#X obj 121 136 g_nbx ratio1;
+#X obj 121 232 g_nbx D1;
+#X obj 121 262 g_nbx S1;
+#X obj 121 292 g_nbx R1;
+#X obj 121 202 g_nbx A1;
+#X obj 201 136 g_nbx ratio2;
+#X obj 201 232 g_nbx D2;
+#X obj 201 262 g_nbx S2;
+#X obj 201 292 g_nbx R2;
+#X obj 201 202 g_nbx A2;
+#X obj 121 326 g_nbx ratio3;
+#X obj 121 418 g_nbx D3;
+#X obj 121 448 g_nbx S3;
+#X obj 121 478 g_nbx R3;
+#X obj 121 388 g_nbx A3;
+#X obj 201 326 g_nbx ratio4;
+#X obj 201 418 g_nbx D4;
+#X obj 201 448 g_nbx S4;
+#X obj 201 478 g_nbx R4;
+#X obj 201 388 g_nbx A4;
+#X obj 277 457 outlet;
+#X obj 121 115 inlet;
+#X obj 277 372 g_hsl4 index4 0 2;
+#X obj 277 136 g_hsl4 index1 0 2;
+#X obj 277 215 g_hsl4 index2 0 2;
+#X obj 277 294 g_hsl4 index3 0 2;
+#X obj 121 168 g_nbx vol1;
+#X obj 201 168 g_nbx vol2;
+#X obj 121 360 g_nbx vol3;
+#X obj 201 360 g_nbx vol4;
+#X text 119 314 ---------------------;
+#X connect 0 0 26 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 10 0;
+#X connect 4 0 1 0;
+#X connect 5 0 27 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 15 0;
+#X connect 9 0 6 0;
+#X connect 10 0 28 0;
+#X connect 11 0 12 0;
+#X connect 12 0 13 0;
+#X connect 13 0 5 0;
+#X connect 14 0 11 0;
+#X connect 15 0 29 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 23 0;
+#X connect 19 0 16 0;
+#X connect 21 0 0 0;
+#X connect 22 0 20 0;
+#X connect 23 0 24 0;
+#X connect 24 0 25 0;
+#X connect 25 0 22 0;
+#X connect 26 0 4 0;
+#X connect 27 0 9 0;
+#X connect 28 0 14 0;
+#X connect 29 0 19 0;
+#X coords 0 -1 1 1 350 420 1 100 100;
+#X restore 569 51 pd GUI;
+#X obj 569 31 r \$0-GUI;
+#X obj 569 476 s \$0-fm4;
+#X text 181 133 <abs_name> <TAG>;
+#X text 25 348 <abs_name> <TAG>;
+#X obj 37 247 s \$0-GUI;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 2 0 5 1;
+#X connect 3 0 5 1;
+#X connect 3 0 11 0;
+#X connect 4 0 3 0;
+#X connect 6 0 8 0;
+#X connect 7 0 6 0;
+#X restore 486 444 pd FM4-example;
+#X obj 589 106 s_osc MYOSCILLATOR;
+#N canvas 0 0 738 528 waveform 0;
+#X obj 275 362 outlet;
+#X obj 109 56 inlet;
+#X obj 109 118 nbx 7 14 0 3 0 0 empty empty empty 0 -8 0 10 -262144
+-1 -1 1 256;
+#X obj 105 116 cnv 15 75 15 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X symbolatom 107 118 10 0 0 0 - - -;
+#X obj 213 144 select 0 1 2 3;
+#X obj 107 297 list;
+#X msg 361 198 1 0 0 0;
+#X msg 361 222 0 1 0 0;
+#X msg 362 243 0 0 1 0;
+#X msg 361 267 0 0 0 1;
+#X msg 181 254 tri;
+#X msg 181 232 square;
+#X msg 180 212 saw;
+#X msg 180 193 sine;
+#X msg 275 337 switch \$1 \$2 \$3 \$4;
+#X connect 1 0 2 0;
+#X connect 2 0 5 0;
+#X connect 5 0 14 0;
+#X connect 5 0 7 0;
+#X connect 5 1 13 0;
+#X connect 5 1 8 0;
+#X connect 5 2 12 0;
+#X connect 5 2 9 0;
+#X connect 5 3 11 0;
+#X connect 5 3 10 0;
+#X connect 6 0 4 0;
+#X connect 7 0 15 0;
+#X connect 8 0 15 0;
+#X connect 9 0 15 0;
+#X connect 10 0 15 0;
+#X connect 11 0 6 0;
+#X connect 12 0 6 0;
+#X connect 13 0 6 0;
+#X connect 14 0 6 0;
+#X connect 15 0 0 0;
+#X coords 0 -1 1 1 85 35 1 100 100;
+#X restore 712 63 pd waveform;
+#X obj 712 39 hradio 15 1 0 4 empty empty empty 0 -8 0 10 -262144 -1
+-1 1;
+#X text 710 18 Select waveforms:;
+#X obj 484 169 u_messagesaver s_osc MYOSCILLATOR;
+#X msg 484 145 bang;
+#X text 477 105 To save this:;
+#X text 530 146 just create this:;
+#X msg 620 362 switch 0 0 0 1 \, tri 1 \, square 0 \, saw 0 \, sine
+0 \,;
+#X msg 620 304 bang;
+#X obj 483 394 s_osc MYOSCILLATOR_2;
+#X obj 620 328 u_messagesaver s_osc MYOSCILLATOR_2;
+#X text 478 259 Then for example "loadbang" the message box into the
+second inlet of the [s_osc]:;
+#X obj 539 331 loadbang;
+#X text 480 419 See this for a more complex example:;
+#X msg 484 203 switch 0 1 0 0 \, tri 0 \, square 0 \, saw 1 \, sine
+0 \,;
+#X connect 4 0 3 1;
+#X connect 5 0 4 0;
+#X connect 7 0 18 0;
+#X connect 8 0 7 0;
+#X connect 11 0 13 1;
+#X connect 12 0 14 0;
+#X connect 14 0 11 0;
+#X connect 16 0 11 0;

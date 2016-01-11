@@ -1,0 +1,155 @@
+#N struct 1006-symarray float x array symbols 1006-sym;
+#N struct 1006-sym symbol name float on;
+#N struct 1010-symarray float x array symbols 1010-sym;
+#N struct 1010-sym symbol name float on;
+#N struct 1012-symarray float x array symbols 1012-sym;
+#N struct 1012-sym symbol name float on;
+#N canvas 22 42 1079 562 10;
+#X declare -path .;
+#X msg 516 99 open <directory>;
+#X msg 536 129 open <directory> <alternate_mapping.txt>;
+#X msg 556 159 print;
+#X msg 576 189 dump;
+#X floatatom 616 268 5 0 0 1 Lookup - -;
+#X symbolatom 516 398 10 0 0 0 - - -;
+#X obj 516 338 u_samplekit <optional_prefix>;
+#X obj 687 398 print;
+#X msg 596 238 size \$1;
+#X floatatom 596 219 5 0 0 0 - - -;
+#N canvas 23 22 633 747 REFERENCE 0;
+#X text 24 31 Name: u_samplekit;
+#X text 24 61 Summary: load a directory of samples;
+#X text 24 486 Tags: Audio \, Playback;
+#X text 24 134 Inlet 0: Various control messages - see Example.;
+#X text 24 91 Argument 0: <symbol> - Optional prefix to the table names.
+Otherwise reverts to '\$0'.;
+#X text 24 204 Outlet 1: Upon recieving a 'dump' message to Inlet 0
+\, this outlet will dump the current mapping to the second outlet as
+lists of '<index> <table>'.;
+#X text 24 264 Description: [u_samplekit] loads a directory of samples
+(a "kit") into numbered tables prefixed with "\$0-" or the first argument.
+The samplekit must have a text file mapping sample names to numbers.
+The default name of this file is "index.txt" \, but you can overwrite
+the name inside the "open" message. The index-file has one line for
+each sample to load consisting of: <filename> <index number>. For example
+- bassdrum.wav 36 (Don't use spaces in the filenames).;
+#X text 24 164 Outlet 0: <float> - Table lookup output if a number
+is sent to Inlet 0;
+#X text 24 420 See also: [u_samplekit2] [s_playtable] [u_multisamplebank]
+[m_symbolarray];
+#X coords 0 -1 1 1 450 500 1 10 10;
+#X restore 7 38 pd REFERENCE;
+#X obj 7 8 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 470 41 Example:;
+#X text 754 533 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 10 10 u_samplekit;
+#X text 131 11 - load a directory of samples;
+#N canvas 322 156 651 327 HINTS 0;
+#N canvas 0 22 772 685 gmkit 0;
+#N canvas 0 22 588 406 list2symbol 0;
+#X msg 326 212 set %s;
+#X obj 234 260 t a;
+#X obj 117 268 makefilename %s;
+#X obj 95 78 t b a b;
+#X obj 95 299 symbol;
+#X msg 141 38 a b c d 1 2;
+#X obj 117 174 route symbol float;
+#X obj 117 202 symbol;
+#X obj 95 37 inlet;
+#X obj 95 329 outlet;
+#X obj 394 208 makefilename 1%s%%s;
+#X msg 394 244 set set \, adddollsym \$1;
+#X msg 234 281 set \$1 %s;
+#X obj 178 203 makefilename %g;
+#X obj 117 139 u_listdrip;
+#X obj 394 181 symbol;
+#X text 286 36 list-l2s;
+#X msg 394 128 32;
+#X obj 394 156 makefilename %c;
+#X obj 394 103 loadbang;
+#X text 432 130 SPACE char.;
+#X connect 0 0 2 0;
+#X connect 1 0 12 0;
+#X connect 2 0 1 0;
+#X connect 2 0 4 1;
+#X connect 3 0 4 0;
+#X connect 3 1 14 0;
+#X connect 3 2 0 0;
+#X connect 4 0 9 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 1 13 0;
+#X connect 7 0 2 0;
+#X connect 8 0 3 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 12 0 2 0;
+#X connect 13 0 2 0;
+#X connect 14 0 6 0;
+#X connect 15 0 10 0;
+#X connect 17 0 18 0;
+#X connect 18 0 15 0;
+#X connect 19 0 17 0;
+#X restore 285 342 pd list2symbol;
+#X obj 232 318 list split 1;
+#X obj 232 367 pack 0 s;
+#X floatatom 104 419 5 0 0 0 - - -;
+#X symbolatom 144 419 25 0 0 0 - - -;
+#X msg 232 125 35 Acoustic Bass Drum \, 36 Bass Drum 1 \, 37 Side Stick
+\, 38 Acoustic Snare \, 39 Hand Clap \, 40 Electric Snare \, 41 Low
+Floor Tom \, 42 Closed Hi-Hat \, 43 High Floor Tom \, 44 Pedal Hi-Hat
+\, 45 Low Tom \, 46 Open Hi-Hat \, 47 Low-Mid Tom \, 48 Hi-Mid Tom
+\, 49 Crash Cymbal 1 \, 50 High Tom \, 51 Ride Cymbal 1 \, 52 Chinese
+Cymbal \, 53 Ride Bell \, 54 Tambourine \, 55 Splash Cymbal \, 56 Cowbell
+\, 57 Crash Symbol 2 \, 58 Vibraslap \, 59 Ride Cymbal 2 \, 60 (middle
+C) Hi Bongo \, 61 Low Bongo \, 62 Mute Hi Conga \, 63 Open Hi Conga
+\, 64 Low Conga \, 65 High Timbale \, 66 Low Timbale \, 67 High Agogo
+\, 68 Low Agogo \, 69 Cabasa \, 70 Maracas \, 71 Short Whistle \, 72
+Long Whistle \, 73 Short Guiro \, 74 Long Guiro \, 75 Claves \, 76
+Hi Wood Block \, 77 Low Wood Block \, 78 Mute Cuica \, 79 Open Cuica
+\, 80 Mute Triangle \, 81 Open Triangle \, 82 Shaker \,;
+#X obj 232 100 loadbang;
+#X obj 144 394 m_symbolarray;
+#X obj 84 453 outlet;
+#X obj 84 343 inlet;
+#X msg 104 376 set \$1;
+#X connect 0 0 2 1;
+#X connect 1 0 2 0;
+#X connect 1 1 0 0;
+#X connect 2 0 7 1;
+#X connect 3 0 7 0;
+#X connect 3 0 8 0;
+#X connect 5 0 1 0;
+#X connect 6 0 5 0;
+#X connect 7 0 4 0;
+#X connect 9 0 10 0;
+#X connect 9 0 8 0;
+#X connect 9 0 7 0;
+#X connect 10 0 3 0;
+#X coords 0 -1 1 1 255 40 1 100 400;
+#X restore 113 85 pd gmkit;
+#X text 103 43 When loading drum samples this way \, it may be useful
+to follow the GM drum standard:;
+#X obj 107 180 declare -path .;
+#X text 100 145 Generally you should also use a declaration like this
+in _main.pd to be able to use relative directory names:;
+#X restore 870 331 pd HINTS;
+#X text 789 130 Open samplekit and use custom mapping textfile.;
+#X text 623 99 Open samplekits using 'default.txt' as mapping file.
+;
+#X text 650 223 Size <index>: report size of table at <index> in samples
+to 2nd outlet.;
+#X text 617 185 Dump the current mapping to the second outlet as lists
+of "<index> <table>";
+#X text 597 158 Print the current mapping.;
+#X connect 0 0 6 0;
+#X connect 1 0 6 0;
+#X connect 2 0 6 0;
+#X connect 3 0 6 0;
+#X connect 4 0 6 0;
+#X connect 6 0 5 0;
+#X connect 6 1 7 0;
+#X connect 8 0 6 0;
+#X connect 9 0 8 0;

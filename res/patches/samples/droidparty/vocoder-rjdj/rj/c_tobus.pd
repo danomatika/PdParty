@@ -1,0 +1,13 @@
+#N canvas 403 285 454 328 10;
+#X obj 111 47 inlet~;
+#X obj 112 166 throw~ \$1;
+#X obj 185 45 inlet;
+#X obj 185 96 list;
+#X msg 185 118 set \$1;
+#X obj 185 70 route set;
+#X connect 0 0 1 0;
+#X connect 2 0 5 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X connect 5 0 3 0;
+#X connect 5 1 3 0;

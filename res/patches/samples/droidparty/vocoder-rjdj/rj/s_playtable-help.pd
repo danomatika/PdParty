@@ -1,0 +1,77 @@
+#N canvas 289 87 888 636 10;
+#X obj 692 502 openpanel;
+#X obj 691 577 table play-samp;
+#X msg 692 523 read -resize \$1 play-samp;
+#X obj 692 549 soundfiler;
+#X obj 692 475 bng 20 250 50 0 empty empty open-sample 0 -6 1 10 -262144
+-1 -1;
+#X obj 122 584 soundoutput;
+#X msg 158 209 play-samp 0.5 2;
+#X text 356 235 original gain \, original pitch \, start at 500 ms
+;
+#X msg 171 261 play-samp 1 1 500 250;
+#X msg 167 238 play-samp 1 1 500;
+#X msg 178 355 bang;
+#X text 220 355 repeat last instruction;
+#X obj 240 564 spigot;
+#X obj 295 565 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 240 592 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 177 319 play-samp 0.8 -1 8000 8000;
+#X text 175 295 attenuated \, reversed \, starting at 8000ms \, playing
+for 8000ms;
+#X text 117 111 <table name> <gain> <transposition> <start location
+(ms)> <duration (ms)> <looping 0/1>;
+#X text 301 180 original gain \, original pitch \, start at 0 \, play
+for 8000ms;
+#X text 237 544 last outlet: bang at end of duration;
+#X text 355 259 original gain \, original pitch \, start at 500 ms
+\, play for 250ms;
+#X msg 122 158 play-samp;
+#X text 96 26 s_playtable;
+#X msg 271 420 sr 44100;
+#X msg 196 419 sr 22050;
+#X text 194 399 adjust file samplerate (Hz \, default 22050);
+#X text 116 56 Low level \, but flexible table-sample player;
+#X text 117 82 s_playtable is controlled through messages composed
+of:;
+#X text 303 203 attenuated \, transposed up an octave.Transposition
+is doen by resampling;
+#X msg 142 183 play-samp 1 1 0 8000;
+#X text 203 158 play all with original gain and original pitch;
+#X obj 122 523 s_playtable;
+#X msg 220 521 stop;
+#X text 266 524 stop playing;
+#X floatatom 270 454 5 0 0 0 - - -;
+#X msg 270 492 fade \$1 \$2;
+#X text 336 471 fade in & out time (default is 0 ms \, 2 ms);
+#X floatatom 323 453 5 0 0 0 - - -;
+#X obj 270 472 pack 0 2;
+#X obj 508 430 s RJLIB;
+#X msg 508 399 sf-samplerate 44100;
+#X text 501 375 Set soundfile samplerate globally:;
+#X connect 0 0 2 0;
+#X connect 2 0 3 0;
+#X connect 4 0 0 0;
+#X connect 6 0 31 0;
+#X connect 8 0 31 0;
+#X connect 9 0 31 0;
+#X connect 10 0 31 0;
+#X connect 12 0 14 0;
+#X connect 12 0 31 0;
+#X connect 13 0 12 1;
+#X connect 15 0 31 0;
+#X connect 21 0 31 0;
+#X connect 23 0 31 1;
+#X connect 24 0 31 1;
+#X connect 29 0 31 0;
+#X connect 31 0 5 0;
+#X connect 31 0 5 1;
+#X connect 31 1 12 0;
+#X connect 32 0 31 1;
+#X connect 34 0 38 0;
+#X connect 35 0 31 1;
+#X connect 37 0 38 1;
+#X connect 38 0 35 0;
+#X connect 40 0 39 0;

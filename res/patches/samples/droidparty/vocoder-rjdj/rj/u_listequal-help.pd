@@ -1,0 +1,26 @@
+#N canvas 354 285 581 508 10;
+#X text 49 22 u_listequal - compare two number lists;
+#X text 77 53 u_listequal checks if two lists containing only numbers
+are the same. If both are equal \, a 1 is send to the outlet \, else
+a 0;
+#X text 79 374 u_listequal does not work with lists containing symbols!
+;
+#X obj 115 232 u_listequal;
+#X msg 189 207 1 2 3 4 5;
+#X obj 115 259 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 115 313 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 189 183 loadbang;
+#X msg 115 127 1 2 3 4 5;
+#X msg 123 152 0 1 2 3 4;
+#X msg 128 176 1 2 3;
+#X text 77 396 Check [list-compare] from the [list]-abs collection
+if you need to compare symbols.;
+#X connect 3 0 5 0;
+#X connect 4 0 3 1;
+#X connect 5 0 6 0;
+#X connect 7 0 4 0;
+#X connect 8 0 3 0;
+#X connect 9 0 3 0;
+#X connect 10 0 3 0;

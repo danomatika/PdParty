@@ -1,0 +1,86 @@
+#N canvas 62 69 999 506 10;
+#X msg 787 130 open;
+#X floatatom 865 264 8 0 0 3 dur_in_smps - -;
+#X floatatom 818 231 8 0 0 3 dur_in_ms - -;
+#X symbolatom 787 264 10 0 0 3 table_name - -;
+#X obj 787 194 unpack s f f f;
+#X floatatom 882 232 6 0 0 3 samplerate - -;
+#X obj 494 257 soundoutput;
+#X obj 653 205 list;
+#X obj 632 28 g_nbx chunk-size;
+#X obj 632 55 g_nbx transposition;
+#X obj 496 147 pack 0 10;
+#X floatatom 496 81 5 0 0 2 read-position - -;
+#X obj 496 113 * 44.1;
+#X obj 496 169 vline~;
+#X msg 654 176 help;
+#X msg 651 115 sr 22050;
+#X msg 651 95 sr 44100;
+#N canvas 254 157 696 470 REFERENCE 0;
+#X text 110 41 Name: s_playolap;
+#X text 110 62 Summary: play overlapped chunks of a table;
+#X text 110 159 Outlet 0: output signal;
+#X text 110 104 Inlet 0: signal to set read-position in samples;
+#X text 110 125 Inlet 1: messages: transposition <seminotes> \, chunk-size
+<ms> \, table <sym> \, sr <float>;
+#X text 110 180 Description: s_playolap plays two alternating \, overlapped
+chunks of a table \, that have a size specified with the "chunk-size"
+inlet1-message and is transposed by halftones set with the "transposition"
+message. Each chunk is enveloped with a half cosine wave and 50% out
+of phase from the other. The signal coming into the first inlet sets
+the read position in the table. Use "sr" messages to specify the samplerate
+of the soundfile you want to use.;
+#X text 110 292 All parameter changes are "sample-and-held" \, so you
+won't get clicks when scratching around in the sample \, but a side
+effect is a latency of duration "chunk-size".;
+#X text 110 83 Argument 0: name \, required;
+#X coords 0 -1 1 1 450 350 1 100 20;
+#X restore 17 39 pd REFERENCE;
+#X text 14 12 s_playolap - play overlapped chunks of a table;
+#X msg 653 229 table \$1 \, sr \$4;
+#X msg 648 149 table mytable;
+#X text 724 94 set samplerate of file;
+#X text 748 65 semitones;
+#X text 743 33 default: 5 ms;
+#X obj 653 259 print;
+#X obj 734 296 list;
+#X msg 734 327 0 \, \$3 \$2;
+#X obj 734 273 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 495 204 s_playolap MYSAMPLER;
+#X text 614 348 go to 0 \, then to last sample over duration.;
+#X msg 833 130 sr 44100;
+#X msg 906 131 info;
+#X obj 787 165 u_samplebank \$0-mytable;
+#X obj 626 451 s RJLIB;
+#X msg 626 420 sf-samplerate 44100;
+#X text 619 396 Set soundfile samplerate globally:;
+#X connect 0 0 32 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 4 2 1 0;
+#X connect 4 3 5 0;
+#X connect 7 0 19 0;
+#X connect 8 0 9 0;
+#X connect 9 0 28 1;
+#X connect 10 0 13 0;
+#X connect 11 0 12 0;
+#X connect 12 0 10 0;
+#X connect 13 0 28 0;
+#X connect 14 0 28 1;
+#X connect 15 0 28 1;
+#X connect 16 0 28 1;
+#X connect 19 0 24 0;
+#X connect 19 0 28 1;
+#X connect 20 0 28 1;
+#X connect 25 0 26 0;
+#X connect 26 0 13 0;
+#X connect 27 0 25 0;
+#X connect 28 0 6 0;
+#X connect 28 0 6 1;
+#X connect 30 0 32 0;
+#X connect 31 0 32 0;
+#X connect 32 0 4 0;
+#X connect 32 0 7 0;
+#X connect 32 0 25 1;
+#X connect 34 0 33 0;

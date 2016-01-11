@@ -1,0 +1,31 @@
+#N canvas 81 87 801 504 10;
+#X msg 643 250 gain \$1;
+#X floatatom 643 230 5 0 0 1 Gain - -;
+#N canvas 43 244 582 570 REFERENCE 0;
+#X text 24 334 See also:;
+#X text 24 124 Inlet 1: Gain (Default gain is 1);
+#X text 24 164 Outlet 0: floating point number whose maximum is 1 and
+the minimum limits to zero.;
+#X text 24 31 Name: u_sigm;
+#X text 24 51 Summary: Generates a sigmoid function.;
+#X text 24 434 Tags: Message;
+#X text 24 94 Inlet 0: X axis;
+#X text 24 234 Description: Generates a sigmoid function \, useful
+for non-linear scales for compressors/limiters.;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 38 pd REFERENCE;
+#X obj 5 8 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 41 Example:;
+#X text 479 474 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X text 129 11 - summary;
+#X obj 8 10 u_sigm;
+#X obj 538 280 u_sigm \$0-function;
+#X obj 541 180 hsl 128 15 -6 6 0 0 empty empty X_Value_(-6_to_6) -2
+-8 0 10 -262144 -1 -1 0 1;
+#X floatatom 538 312 5 0 0 0 - - -;
+#X connect 0 0 8 1;
+#X connect 1 0 0 0;
+#X connect 8 0 10 0;
+#X connect 9 0 8 0;

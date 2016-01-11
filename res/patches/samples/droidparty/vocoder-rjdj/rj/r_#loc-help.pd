@@ -1,0 +1,36 @@
+#N canvas 130 140 978 526 10;
+#N canvas 377 58 582 570 REFERENCE 0;
+#X text 24 51 Summary:;
+#X text 24 91 Argument 0:;
+#X text 24 124 Inlet 0:;
+#X text 24 144 Inlet 1:;
+#X text 24 164 Outlet 0:;
+#X text 24 184 Outlet 1:;
+#X text 24 434 Tags:;
+#X text 24 334 See also:;
+#X text 24 31 Name: r_#loc;
+#X text 24 234 Description: Receives location data from iDevice;
+#X coords 0 -1 1 1 450 450 1 10 10;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X obj 8 20 r_#loc;
+#X text 129 21 - receives location informaton;
+#X obj 522 295 unpack f f f;
+#X floatatom 522 385 5 0 0 1 longitude - -;
+#X obj 522 245 spigot 0;
+#X obj 567 225 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X floatatom 556 355 5 0 0 1 latitude - -;
+#X floatatom 591 325 5 0 0 1 accuracy - -;
+#X obj 522 194 r_#loc;
+#X text 549 82 The GPS output provides location based information (longitude
+and latitude). The accuracy of the data is shown by a third value that
+represents the radius (in meters) of a circle that the device is in.
+;
+#X connect 4 0 5 0;
+#X connect 4 1 8 0;
+#X connect 4 2 9 0;
+#X connect 6 0 4 0;
+#X connect 7 0 6 1;
+#X connect 10 0 6 0;

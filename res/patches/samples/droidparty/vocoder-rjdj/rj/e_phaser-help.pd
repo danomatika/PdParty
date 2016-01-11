@@ -1,0 +1,89 @@
+#N canvas 338 59 835 557 10;
+#N canvas 0 22 660 424 chord 0;
+#X obj 92 97 -~ 0.5;
+#X obj 92 146 clip~ -0.5 0.5;
+#X obj 92 169 cos~;
+#X obj 91 252 hip~ 5;
+#X obj 91 315 outlet~;
+#X obj 92 122 *~ 3;
+#X obj 92 74 phasor~ 220;
+#X obj 221 97 -~ 0.5;
+#X obj 221 146 clip~ -0.5 0.5;
+#X obj 221 169 cos~;
+#X obj 221 122 *~ 3;
+#X obj 356 100 -~ 0.5;
+#X obj 356 149 clip~ -0.5 0.5;
+#X obj 356 172 cos~;
+#X obj 356 125 *~ 3;
+#X obj 221 74 phasor~ 251;
+#X obj 356 77 phasor~ 281;
+#X text 147 32 test sound for phaser;
+#X obj 91 285 *~ 0.2;
+#X msg 430 26 0;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 18 0;
+#X connect 5 0 1 0;
+#X connect 6 0 0 0;
+#X connect 7 0 10 0;
+#X connect 8 0 9 0;
+#X connect 9 0 3 0;
+#X connect 10 0 8 0;
+#X connect 11 0 14 0;
+#X connect 12 0 13 0;
+#X connect 13 0 3 0;
+#X connect 14 0 12 0;
+#X connect 15 0 7 0;
+#X connect 16 0 11 0;
+#X connect 18 0 4 0;
+#X connect 19 0 16 1;
+#X connect 19 0 15 1;
+#X connect 19 0 6 1;
+#X restore 537 135 pd chord;
+#X obj 537 352 soundoutput;
+#X msg 618 179 freq \$1;
+#X obj 621 137 hsl 128 15 0 1 0 0 empty empty Frequency -2 -8 1 10
+-262144 -1 -1 0 1;
+#X obj 641 229 hsl 128 15 0 1 0 0 empty empty Depth -2 -8 1 10 -262144
+-1 -1 11800 1;
+#X msg 638 271 depth \$1;
+#X obj 537 302 e_phaser ph0;
+#N canvas -20 193 827 710 REFERENCE 0;
+#X text 116 395 See also:;
+#X text 120 529 Tags: Audio;
+#X text 114 121 Name: e_phaser;
+#X text 114 141 Summary: Applies a phaser effect;
+#X text 114 181 Argument 0: Unique name (has to be different to other
+instances of e_phaser);
+#X text 114 214 Inlet 0: Incoming audio signal;
+#X text 114 284 Outlet 0: Effected audio signal;
+#X text 114 234 Inlet 1: 'freq <float (0 - 1)>' sets the modulation
+frequency. 'depth <float (0 - 1)>' sets the amount of effect applied
+to the dry signal (dry - 0 \, wet - 1).;
+#X text 114 314 Description: e_phaser filters the incoming signal by
+creating a series of peaks and troughs in the frequency spectrum. The
+position of the peaks and troughs is modulated to over time \, creating
+a sweeping effect.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X obj 5 18 cnv 15 450 20 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 468 51 Example:;
+#X text 465 532 RjDj Library (https://github.com/rjdj/rjlib) - 2011
+;
+#X obj 8 20 e_phaser;
+#X text 89 21 - phaser audio effect;
+#X floatatom 618 157 5 0 0 0 - - -;
+#X floatatom 638 249 5 0 0 0 - - -;
+#X obj 96 343 e_pitchshift;
+#X obj 196 343 e_freqshift;
+#X connect 0 0 6 0;
+#X connect 2 0 6 1;
+#X connect 3 0 13 0;
+#X connect 4 0 14 0;
+#X connect 5 0 6 1;
+#X connect 6 0 1 0;
+#X connect 6 0 1 1;
+#X connect 13 0 2 0;
+#X connect 14 0 5 0;

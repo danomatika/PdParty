@@ -1,0 +1,84 @@
+#N struct 1006-symarray float x array symbols 1006-sym;
+#N struct 1006-sym symbol name float on;
+#N canvas 386 225 742 477 10;
+#X obj 191 214 u_dumpfile;
+#X obj 191 251 list prepend;
+#X text 58 253 prepend directory;
+#X msg 191 286 open \$1/\$2 \$3;
+#X obj 191 44 inlet;
+#X msg 429 163 reset;
+#X obj 191 117 t a a b;
+#X msg 191 192 read \$1/\$2 cr \, dump;
+#X obj 272 165 list split 1;
+#X msg 519 163 print;
+#X obj 335 356 outlet;
+#X obj 191 356 outlet;
+#N canvas 317 289 450 300 pad 0;
+#X obj 113 25 inlet;
+#X obj 113 246 outlet;
+#X obj 113 79 t a a;
+#X obj 187 104 list length;
+#X obj 187 132 < 2;
+#X obj 187 152 select 0 1;
+#X msg 220 182 index.txt;
+#X obj 113 205 list append;
+#X msg 164 44 one;
+#X msg 167 24 one two;
+#X msg 206 42 1 2 3;
+#X text 204 209 append "index.txt" if too short;
+#X connect 0 0 2 0;
+#X connect 2 0 7 0;
+#X connect 2 1 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 7 1;
+#X connect 5 1 6 0;
+#X connect 6 0 7 1;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 2 0;
+#X connect 10 0 2 0;
+#X restore 191 95 pd pad;
+#X msg 576 160 dump;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 522 59 pd LICENSE-GPL;
+#X obj 191 326 u_multisamplebank2 \$1;
+#X msg 624 181 size \$1;
+#X obj 624 161 f;
+#X obj 191 72 route open float print dump size;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 3 0 15 0;
+#X connect 4 0 18 0;
+#X connect 5 0 15 0;
+#X connect 6 0 7 0;
+#X connect 6 1 8 0;
+#X connect 6 2 5 0;
+#X connect 7 0 0 0;
+#X connect 8 0 1 1;
+#X connect 9 0 0 0;
+#X connect 12 0 6 0;
+#X connect 13 0 15 1;
+#X connect 15 0 11 0;
+#X connect 15 1 10 0;
+#X connect 16 0 15 0;
+#X connect 17 0 16 0;
+#X connect 18 0 12 0;
+#X connect 18 1 15 1;
+#X connect 18 2 9 0;
+#X connect 18 3 13 0;
+#X connect 18 4 17 0;
