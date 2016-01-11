@@ -1,0 +1,38 @@
+#N canvas 0 22 322 184 10;
+#X obj 35 64 display 150 50 words;
+#X obj 35 25 hradio 15 1 0 3 new-words empty words 0 -8 0 10 -262144
+-1 -1 0;
+#N canvas 467 71 492 314 guts 0;
+#X obj 62 220 s words;
+#X msg 188 136 2;
+#X msg 25 133 hello;
+#X msg 71 136 list hello world;
+#X obj 25 34 r new-words;
+#X obj 25 65 sel 0 1 2;
+#X obj 236 66 sel 0 1 2;
+#X obj 236 35 r set-new-words;
+#X msg 282 137 list foo bar;
+#X obj 273 248 list trim;
+#X obj 273 221 list prepend set;
+#X obj 273 276 s words;
+#X msg 236 134 foo;
+#X msg 399 137 list k 1 ff;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 5 0;
+#X connect 5 0 2 0;
+#X connect 5 1 3 0;
+#X connect 5 2 1 0;
+#X connect 6 0 12 0;
+#X connect 6 1 8 0;
+#X connect 6 2 13 0;
+#X connect 7 0 6 0;
+#X connect 8 0 10 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 0;
+#X connect 12 0 10 0;
+#X connect 13 0 10 0;
+#X restore 220 24 pd guts;
+#X obj 106 25 hradio 15 1 0 3 set-new-words empty set_words 0 -8 0
+10 -262144 -1 -1 0;

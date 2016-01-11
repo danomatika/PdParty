@@ -1,0 +1,11 @@
+#N canvas 140 209 450 300 10;
+#X obj 11 27 ctlin;
+#X obj 24 52 == \$1;
+#X obj 11 79 spigot;
+#X obj 11 133 s \$2;
+#X obj 11 105 expr ($f1 / 127) * (\$4 - \$3) + \$3;
+#X connect 0 0 2 0;
+#X connect 0 1 1 0;
+#X connect 1 0 2 1;
+#X connect 2 0 4 0;
+#X connect 4 0 3 0;

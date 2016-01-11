@@ -1,4 +1,5 @@
 #N canvas 131 114 424 251 10;
+#X declare -lib moonlib;
 #X obj 341 125 osc~ 440;
 #X obj 341 166 *~;
 #X obj 341 187 dac~;

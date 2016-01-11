@@ -1,4 +1,1 @@
-#N canvas 504 137 450 300 10;
-#X obj 53 18 inlet;
-#X obj 50 181 outlet;
-#X text 93 40 mknob dummy;
+#N canvas 10 59 440 300 10;

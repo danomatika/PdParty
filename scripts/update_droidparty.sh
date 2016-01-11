@@ -13,11 +13,12 @@ git clone git://github.com/chr15m/PdDroidParty.git
 # setup dest dir
 mkdir -p $destDir
 mkdir -p $destDir/lib/droidparty
+mkdir -p $destDir/samples/droidparty
 
 # copy patches
 cp -Rv PdDroidParty/droidparty-tests/* $destDir/tests/droidparty
-cp -Rv PdDroidParty/droidparty-abstractions/* $destDir/lib/droidparty
-#cp -Rv PdDroidParty/droidparty-demos $destDir
+cp -Rv PdDroidParty/bundled-abstractions/* $destDir/lib/droidparty
+cp -Rv PdDroidParty/droidparty-demos/* $destDir/samples/droidparty
 
 # cleanup
 rm -rf PdDroidParty

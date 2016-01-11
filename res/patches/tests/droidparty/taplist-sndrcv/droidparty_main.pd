@@ -1,0 +1,35 @@
+#N canvas 219 400 318 149 10;
+#X obj 92 95 taplist 100 16 n note A B C D;
+#X floatatom 231 60 5 0 0 0 index note/idx -, f 5;
+#X symbolatom 231 33 10 0 0 0 current note -, f 10;
+#X obj 23 29 bng 15 250 50 0 index empty index_2 17 7 0 10 -262144
+-1 -1;
+#X obj 24 53 bng 15 250 50 0 set-index empty set_index_1 17 7 0 10
+-262144 -1 -1;
+#N canvas 503 123 377 229 guts 0;
+#X obj 36 94 s n;
+#X msg 72 57 set 1;
+#X obj 25 27 r index;
+#X obj 99 30 r set-index;
+#X obj 281 151 s n-list;
+#X msg 281 116 Q W E R;
+#X obj 230 63 sel 0;
+#X obj 230 33 r list;
+#X obj 29 154 r n-list;
+#X obj 29 179 print;
+#X msg 257 89 list A B C D;
+#X msg 25 60 2;
+#X connect 1 0 0 0;
+#X connect 2 0 11 0;
+#X connect 3 0 1 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 6 1 10 0;
+#X connect 7 0 6 0;
+#X connect 8 0 9 0;
+#X connect 10 0 4 0;
+#X connect 11 0 0 0;
+#X restore 230 95 pd guts;
+#X obj 23 96 hradio 15 1 0 2 list empty list 0 -8 0 10 -262144 -1 -1
+1;
+#X msg 114 30 \; n bang;
