@@ -12,7 +12,7 @@
 
 #import <CoreMotion/CoreMotion.h>
 #import "Log.h"
-#import "Gui.h"
+#import "PartyGui.h"
 #import "AppDelegate.h"
 #import "TextViewLogger.h"
 
@@ -65,7 +65,7 @@
 		self.pureData = app.pureData;
 		
 		// create gui
-		self.gui = [[Gui alloc] init];
+		self.gui = [[PartyGui alloc] init];
 	}
 		
 	return self;

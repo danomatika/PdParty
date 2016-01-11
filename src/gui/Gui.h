@@ -22,6 +22,7 @@
 
 @class PdFile;
 
+// Widget array wrapper, loads Widgets from atom line string arrays
 @interface Gui : NSObject
 
 @property (strong, nonatomic) NSMutableArray *widgets;	// widget array
@@ -37,6 +38,8 @@
 // scale amount between view bounds and original patch size, calculated when bounds is set
 @property (assign, readonly, nonatomic) float scaleX;
 @property (assign, readonly, nonatomic) float scaleY;
+
+#pragma mark Add Widgets
 
 // add a widget using a given atom line (array of NSStrings)
 
@@ -54,22 +57,17 @@
 - (void)addVUMeter:(NSArray *)atomLine;
 - (void)addCanvas:(NSArray *)atomLine;
 
-// droidparty
-- (void)addDisplay:(NSArray *)atomLine;
-- (void)addNumberbox:(NSArray *)atomLine;
-- (void)addRibbon:(NSArray *)atomLine;
-- (void)addTaplist:(NSArray *)atomLine;
-- (void)addTouch:(NSArray *)atomLine;
-- (void)addWordbutton:(NSArray *)atomLine;
-- (void)addLoadsave:(NSArray *)atomLine;
-- (void)addKnob:(NSArray *)atomLine;
-- (void)addMenubang:(NSArray *)atomLine;
+// add a widget using the object type name, returns true if type handled
+// subclass this to add additional type creation & don't forget to call super
+- (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine;
 
 // add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray *)lines;
 
 // add widgets from a pd patch
 - (void)addWidgetsFromPatch:(NSString *)patch;
+
+#pragma mark Manipulate Widgets
 
 // init widgets with patch $0 value
 - (void)initWidgetsFromPatch:(PdFile *)patch;
@@ -86,7 +84,7 @@
 // remove all widgets, deletes
 - (void)removeAllWidgets;
 
-#pragma Utils
+#pragma mark Utils
 
 // replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch;

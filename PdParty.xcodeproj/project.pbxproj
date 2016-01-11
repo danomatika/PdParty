@@ -12,6 +12,7 @@
 		300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300EC0451833D74F00219F48 /* CoreLocation.framework */; };
 		3028626A1C40CEBA00A176C6 /* ConsoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862691C40CEBA00A176C6 /* ConsoleViewController.m */; };
 		3028626D1C40D06C00A176C6 /* TextViewLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3028626C1C40D06C00A176C6 /* TextViewLogger.m */; };
+		302862711C4325B000A176C6 /* PartyGui.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862701C4325B000A176C6 /* PartyGui.m */; };
 		302E896017E668340004B935 /* MidiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302E895F17E668320004B935 /* MidiViewController.m */; };
 		303BD3001756A119000FBEB5 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD2FF1756A119000FBEB5 /* Scene.m */; };
 		303BD30417570070000FBEB5 /* DroidScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD30317570070000FBEB5 /* DroidScene.m */; };
@@ -259,6 +260,8 @@
 		302862691C40CEBA00A176C6 /* ConsoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConsoleViewController.m; path = src/ConsoleViewController.m; sourceTree = "<group>"; };
 		3028626B1C40D06C00A176C6 /* TextViewLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewLogger.h; sourceTree = "<group>"; };
 		3028626C1C40D06C00A176C6 /* TextViewLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewLogger.m; sourceTree = "<group>"; };
+		3028626F1C4325B000A176C6 /* PartyGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartyGui.h; sourceTree = "<group>"; };
+		302862701C4325B000A176C6 /* PartyGui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartyGui.m; sourceTree = "<group>"; };
 		302E895E17E668300004B935 /* MidiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MidiViewController.h; path = src/MidiViewController.h; sourceTree = "<group>"; };
 		302E895F17E668320004B935 /* MidiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MidiViewController.m; path = src/MidiViewController.m; sourceTree = "<group>"; };
 		303BD2FE17569FE2000FBEB5 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
@@ -1091,6 +1094,8 @@
 				30F5282217D7B3DB004736A6 /* droidparty */,
 				30A319EB16B61FF700C7729B /* Gui.h */,
 				30A319EA16B61FF700C7729B /* Gui.m */,
+				3028626F1C4325B000A176C6 /* PartyGui.h */,
+				302862701C4325B000A176C6 /* PartyGui.m */,
 				30E89D1F16EC46CE005B40C4 /* iem */,
 				30E89D2E16EC46CE005B40C4 /* pd */,
 				30A319F116B61FF700C7729B /* Widget.h */,
@@ -1784,6 +1789,7 @@
 				308E068D1AD8614A00BD1C79 /* vexp.c in Sources */,
 				308E068A1AD8614A00BD1C79 /* choice.c in Sources */,
 				308E06541AD8611800BD1C79 /* s_main.c in Sources */,
+				302862711C4325B000A176C6 /* PartyGui.m in Sources */,
 				3094B44E18C97CCF00AFE178 /* ZipArchive.mm in Sources */,
 				308E06491AD8611800BD1C79 /* m_conf.c in Sources */,
 				308E06281AD8611800BD1C79 /* d_filter.c in Sources */,

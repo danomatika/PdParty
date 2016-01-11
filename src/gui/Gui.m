@@ -27,17 +27,6 @@
 #import "VUMeter.h"
 #import "Canvas.h"
 
-// droidparty
-#import "Display.h"
-#import "Numberbox.h"
-#import "Ribbon.h"
-#import "Taplist.h"
-#import "Touch.h"
-#import "Wordbutton.h"
-#import "Loadsave.h"
-#import "Knob.h"
-#import "Menubang.h"
-
 @interface Gui ()
 
 @property (assign, readwrite) int patchWidth;
@@ -62,6 +51,8 @@
     }
     return self;
 }
+
+#pragma mark Add Widgets
 
 - (void)addNumber:(NSArray *)atomLine {
 	Number *n = [Number numberFromAtomLine:atomLine withGui:self];
@@ -143,76 +134,45 @@
 	}
 }
 
-- (void)addDisplay:(NSArray *)atomLine {
-	Display *d = [Display displayFromAtomLine:atomLine withGui:self];
-	if(d) {
-		[self.widgets addObject:d];
-		DDLogVerbose(@"Gui: added %@", d.type);
+// iem gui objects
+- (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine {
+	if([type isEqualToString:@"bng"]) {
+		[self addBang:atomLine];
+		return YES;
 	}
-}
-
-- (void)addNumberbox:(NSArray *)atomLine {
-	Numberbox *n = [Numberbox numberboxFromAtomLine:atomLine withGui:self];
-	if(n) {
-		[self.widgets addObject:n];
-		DDLogVerbose(@"Gui: added %@", n.type);
+	else if([type isEqualToString:@"tgl"]) {
+		[self addToggle:atomLine];
+		return YES;
 	}
-}
-
-- (void)addRibbon:(NSArray *)atomLine {
-	Ribbon *r = [Ribbon ribbonFromAtomLine:atomLine withGui:self];
-	if(r) {
-		[self.widgets addObject:r];
-		DDLogVerbose(@"Gui: added %@", r.type);
+	else if([type isEqualToString:@"nbx"]) {
+		[self addNumber2:atomLine];
+		return YES;
 	}
-}
-
-- (void)addTaplist:(NSArray *)atomLine {
-	Taplist *t = [Taplist taplistFromAtomLine:atomLine withGui:self];
-	if(t) {
-		[self.widgets addObject:t];
-		DDLogVerbose(@"Gui: added %@", t.type);
+	else if([type isEqualToString:@"hsl"]) {
+		[self addSlider:atomLine withOrientation:WidgetOrientationHorizontal];
+		return YES;
 	}
-}
-
-- (void)addTouch:(NSArray *)atomLine {
-	Touch *t = [Touch touchFromAtomLine:atomLine withGui:self];
-	if(t) {
-		[self.widgets addObject:t];
-		DDLogVerbose(@"Gui: added %@", t.type);
+	else if([type isEqualToString:@"vsl"]) {
+		[self addSlider:atomLine withOrientation:WidgetOrientationVertical];
+		return YES;
 	}
-}
-
-- (void)addWordbutton:(NSArray *)atomLine {
-	Wordbutton *w = [Wordbutton wordbuttonFromAtomLine:atomLine withGui:self];
-	if(w) {
-		[self.widgets addObject:w];
-		DDLogVerbose(@"Gui: added %@", w.type);
+	else if([type isEqualToString:@"hradio"]) {
+		[self addRadio:atomLine withOrientation:WidgetOrientationHorizontal];
+		return YES;
 	}
-}
-
-- (void)addLoadsave:(NSArray *)atomLine {
-	Loadsave *l = [Loadsave loadsaveFromAtomLine:atomLine withGui:self];
-	if(l) {
-		[self.widgets addObject:l];
-		DDLogVerbose(@"Gui: added %@", l.type);
+	else if([type isEqualToString:@"vradio"]) {
+		[self addRadio:atomLine withOrientation:WidgetOrientationVertical];
+		return YES;
 	}
-}
-
-- (void)addKnob:(NSArray *)atomLine {
-	Knob *k = [Knob knobFromAtomLine:atomLine withGui:self];
-	if(k) {
-		[self.widgets addObject:k];
-		DDLogVerbose(@"Gui: added %@", k.type);
+	else if([type isEqualToString:@"vu"]) {
+		[self addVUMeter:atomLine];
+		return YES;
 	}
-}
-
-- (void)addMenubang:(NSArray *)atomLine {
-	Menubang *m = [Menubang menubangFromAtomLine:atomLine withGui:self];
-	if(m) {
-		[self.widgets addObject:m];
-		DDLogVerbose(@"Gui: added %@", m.type);
+	else if([type isEqualToString:@"cnv"]) {
+		[self addCanvas:atomLine];
+		return YES;
 	}
+	return NO;
 }
 
 - (void)addWidgetsFromAtomLines:(NSArray *)lines {
@@ -256,67 +216,9 @@
 					}
 					else if([lineType isEqualToString:@"obj"] && line.count >= 5) {
 						NSString *objType = [line objectAtIndex:4];
-						
-						// iem gui objects
-						if([objType isEqualToString:@"bng"]) {
-							[self addBang:line];
-						}
-						else if([objType isEqualToString:@"tgl"]) {
-							[self addToggle:line];
-						}
-						else if([objType isEqualToString:@"nbx"]) {
-							[self addNumber2:line];
-						}
-						else if([objType isEqualToString:@"hsl"]) {
-							[self addSlider:line withOrientation:WidgetOrientationHorizontal];
-						}
-						else if([objType isEqualToString:@"vsl"]) {
-							[self addSlider:line withOrientation:WidgetOrientationVertical];
-						}
-						else if([objType isEqualToString:@"hradio"]) {
-							[self addRadio:line withOrientation:WidgetOrientationHorizontal];
-						}
-						else if([objType isEqualToString:@"vradio"]) {
-							[self addRadio:line withOrientation:WidgetOrientationVertical];
-						}
-						else if([objType isEqualToString:@"vu"]) {
-							[self addVUMeter:line];
-						}
-						else if([objType isEqualToString:@"cnv"]) {
-							[self addCanvas:line];
-						}
-						
-						// droidparty objects
-						else if([objType isEqualToString:@"display"]) {
-							[self addDisplay:line];
-						}
-						else if([objType isEqualToString:@"numberbox"]) {
-							[self addNumberbox:line];
-						}
-						else if([objType isEqualToString:@"ribbon"]) {
-							[self addRibbon:line];
-						}
-						else if([objType isEqualToString:@"taplist"]) {
-							[self addTaplist:line];
-						}
-						else if([objType isEqualToString:@"touch"]) {
-							[self addTouch:line];
-						}
-						else if([objType isEqualToString:@"wordbutton"]) {
-							[self addWordbutton:line];
-						}
-						else if([objType isEqualToString:@"loadsave"]) {
-							[self addLoadsave:line];
-						}
-						else if([objType isEqualToString:@"mknob"]) {
-							[self addKnob:line];
-						}
-						else if([objType isEqualToString:@"menubang"]) {
-							[self addMenubang:line];
-						}
-						
+						BOOL added = [self addObjectType:objType fromAtomLine:line];
 						// print warnings on objects that aren't completely compatible
-						else if([objType isEqualToString:@"keyup"] || [objType isEqualToString:@"keyname"]) {
+						if(!added && ([objType isEqualToString:@"keyup"] || [objType isEqualToString:@"keyname"])) {
 							DDLogWarn(@"Gui: [keyup] & [keyname] can create, but won't return any events");
 						}
 					}
@@ -329,6 +231,8 @@
 - (void)addWidgetsFromPatch:(NSString *)patch {
 	[self addWidgetsFromAtomLines:[PdParser getAtomLines:[PdParser readPatch:patch]]];
 }
+
+#pragma mark Manipulate Widgets
 
 - (void)initWidgetsFromPatch:(PdFile *)patch {
 	for(Widget *widget in self.widgets) {
@@ -364,15 +268,7 @@
 	[self.widgets removeAllObjects];
 }
 
-#pragma mark Overridden Getters & Setters
-
-- (void)setParentViewSize:(CGSize)parentViewSize {
-	_parentViewSize = parentViewSize;
-	self.scaleX = self.parentViewSize.width / self.patchWidth;
-	self.scaleY = self.parentViewSize.height / self.patchHeight;
-}
-
-#pragma Utils
+#pragma mark Utils
 
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch {
 	if(!string || !patch) {return string;}
@@ -389,6 +285,14 @@
 		return @"";
 	}
 	return atom;
+}
+
+#pragma mark Overridden Getters & Setters
+
+- (void)setParentViewSize:(CGSize)parentViewSize {
+	_parentViewSize = parentViewSize;
+	self.scaleX = self.parentViewSize.width / self.patchWidth;
+	self.scaleY = self.parentViewSize.height / self.patchHeight;
 }
 
 @end
