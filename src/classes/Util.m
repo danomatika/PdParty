@@ -11,6 +11,7 @@
 #import "Util.h"
 
 #import "Log.h"
+#import <CoreText/CoreText.h>
 
 @implementation Util
 
@@ -176,6 +177,62 @@
 	UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	return result;
+}
+
+#pragma mark Fonts
+
+//+ (NSArray *)familForFont:(NSString *)fontPath {
+//	NSURL *url = [[NSURL alloc] initFileURLWithPath:fontPath];
+//	NSArray *descriptors = (__bridge_transfer NSArray *)CTFontManagerCreateFontDescriptorsFromURL((__bridge CFURLRef)url);
+//	return descriptors;
+//}
+//+ (BOOL)registerFont:(NSString *)fontPath {
+//	NSURL *url = [[NSURL alloc] initFileURLWithPath:fontPath];
+//	CFErrorRef error;
+//	if(!CTFontManagerRegisterFontsForURL((__bridge CFURLRef)url, kCTFontManagerScopeProcess, &error)) {
+//		CFStringRef errorDescription = CFErrorCopyDescription(error);
+//		DDLogError(@"Util: Failed to register font: %@", errorDescription);
+//		CFRelease(errorDescription);
+//		return NO;
+//	}
+//	return YES;
+//}
+
++ (NSString *)registerFont:(NSString *)fontPath {
+//	NSURL *url = [[NSURL alloc] initFileURLWithPath:fontPath];
+//	CFErrorRef error;
+//	if(!CTFontManagerRegisterFontsForURL((__bridge url, kCTFontManagerScopeProcess, &error)) {
+//		CFStringRef errorDescription = CFErrorCopyDescription(error);
+//		DDLogError(@"Util: Failed to load font: %@", errorDescription);
+//		CFRelease(errorDescription);
+//	}
+	
+	NSString *name = nil;
+	NSData *inData = [NSData dataWithContentsOfFile:fontPath];
+	CFErrorRef error;
+	CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)inData);
+	CGFontRef font = CGFontCreateWithDataProvider(provider);
+	if(!CTFontManagerRegisterGraphicsFont(font, &error)) {
+		CFStringRef errorDescription = CFErrorCopyDescription(error);
+		DDLogError(@"Util: Failed to load font: %@", errorDescription);
+		CFRelease(errorDescription);
+	}
+	else {
+		name = CFBridgingRelease(CGFontCopyFullName(font));
+	}
+	CFRelease(font);
+	CFRelease(provider);
+	return name;
+}
+
++ (void)unregisterFont:(NSString *)fontPath {
+	NSURL *url = [[NSURL alloc] initFileURLWithPath:fontPath];
+	CFErrorRef error;
+	if(!CTFontManagerUnregisterFontsForURL((__bridge CFURLRef)url, kCTFontManagerScopeProcess, &error)) {
+		CFStringRef errorDescription = CFErrorCopyDescription(error);
+		DDLogError(@"Util: Failed to unregister font: %@", errorDescription);
+		CFRelease(errorDescription);
+	}
 }
 
 @end

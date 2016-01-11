@@ -35,7 +35,7 @@
 }
 
 - (void)reshapeLabelForGui:(Gui *)gui {
-	self.label.font = [UIFont fontWithName:[IEMWidget fontNameFromStyle:self.labelFontStyle] size:self.labelFontSize * gui.scaleX];
+	self.label.font = [UIFont fontWithName:[self fontNameFromStyle:self.labelFontStyle] size:self.labelFontSize * gui.scaleX];
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
 		round(self.originalLabelPos.x * gui.scaleX),
@@ -144,14 +144,14 @@
 
 #pragma mark Util
 
-+ (NSString *)fontNameFromStyle:(int)iemFont {
+- (NSString *)fontNameFromStyle:(int)iemFont {
 	switch(iemFont) {
 		case 1:
 			return @"Helvetica";
 		case 2:
 			return @"Times";
 		default: // 0
-			return GUI_FONT_NAME;
+			return self.gui.fontName;
 	}
 }
 

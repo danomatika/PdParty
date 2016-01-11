@@ -62,7 +62,7 @@
 - (void)reshapeForGui:(Gui *)gui {
 	
 	// value label
-	self.valueLabel.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
+	self.valueLabel.font = [UIFont fontWithName:gui.fontName size:gui.fontSize * gui.scaleX];
 	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
 	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
 	[self.valueLabel sizeToFit];
@@ -88,7 +88,7 @@
 	cornerSize = 4 * gui.scaleX;
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
+	self.label.font = [UIFont fontWithName:gui.fontName size:gui.fontSize * gui.scaleX];
 	[self.label sizeToFit];
 		
 	// set the label pos from the LRUD setting

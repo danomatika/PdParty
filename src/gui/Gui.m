@@ -45,6 +45,7 @@
 	self = [super init];
     if(self) {
 		self.widgets = [[NSMutableArray alloc] init];
+		self.fontName = GUI_FONT_NAME;
 		self.fontSize = 10;
 		self.scaleX = 1.0;
 		self.scaleY = 1.0;

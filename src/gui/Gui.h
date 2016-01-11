@@ -32,6 +32,9 @@
 @property (assign, readonly, nonatomic) int patchWidth;
 @property (assign, readonly, nonatomic) int patchHeight;
 
+// base font name, default is GUI_FONT_NAME
+@property (strong, nonatomic) NSString *fontName;
+
 // font size loaded from patch
 @property (assign, readonly, nonatomic) int fontSize;
 

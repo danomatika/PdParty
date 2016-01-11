@@ -24,10 +24,10 @@
 #pragma mark Util
 
 // return the font name from a given font style:
-// 0: default gui font
+// 0: current gui font
 // 1: Helvetica
 // 2: Times
-+ (NSString *)fontNameFromStyle:(int)iemFont;
+- (NSString *)fontNameFromStyle:(int)iemFont;
 
 // convert an IEM color to a UIColor
 + (UIColor *)colorFromIEMColor:(int)iemColor;

@@ -59,6 +59,7 @@
 		if(self.gui) {
 			[self.gui removeWidgetsFromSuperview];
 			[self.gui removeAllWidgets];
+			self.gui.fontName = GUI_FONT_NAME; // reset to default font
 			self.gui = nil;
 			self.parentView = nil;
 		}

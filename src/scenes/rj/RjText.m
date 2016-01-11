@@ -37,7 +37,7 @@
 - (void)reshape {
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:self.fontSize * self.parentScene.scale];
+	self.label.font = [UIFont fontWithName:self.parentScene.gui.fontName size:self.fontSize * self.parentScene.scale];
 	[self.label sizeToFit];
 	
 	// bounds based on computed label size

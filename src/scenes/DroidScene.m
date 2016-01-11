@@ -36,16 +36,31 @@
 		}
 	}
 	
+	// load font
+	NSString *fontPath = [path stringByAppendingPathComponent:@"font.ttf"];
+	if([[NSFileManager defaultManager] fileExistsAtPath:fontPath]) {
+		NSString *fontName = [Util registerFont:fontPath];
+		if(fontName) {
+			self.fontPath = fontPath;
+			self.gui.fontName = fontName;
+		}
+		else {
+			DDLogError(@"DroidScene: couldn't load font");
+		}
+	}
+	
 	return ret;
 }
 
 - (void)close {
-	
 	if(self.background) {
 		[self.background removeFromSuperview];
 		self.background = nil;
 	}
-	
+	if(self.fontPath) {
+		[Util unregisterFont:self.fontPath];
+		self.fontPath = nil;
+	}
 	[super close];
 }
 

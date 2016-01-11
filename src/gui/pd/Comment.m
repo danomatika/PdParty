@@ -71,7 +71,7 @@
 - (void)reshapeForGui:(Gui *)gui {
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:gui.fontSize * gui.scaleX];
+	self.label.font = [UIFont fontWithName:gui.fontName size:gui.fontSize * gui.scaleX];
 	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monspaced font
 	self.label.preferredMaxLayoutWidth = charSize.width * (GUI_LINE_WRAP - 1);
 	CGSize maxLabelSize;

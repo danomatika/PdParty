@@ -71,6 +71,18 @@
 // returns a tinted copy of a given image
 + (UIImage *)image:(UIImage *)image withTint:(UIColor *)tint;
 
+#pragma mark Fonts
+
+//// get an array of UIFontDescriptors (aka font names, etc) for a font file
+//+ (NSArray *)descriptorsForFont:(NSString *)fontPath;
+
+// register font file with the CoreText font manager,
+// returns font family name on success or nil on failure
++ (NSString *)registerFont:(NSString *)fontPath;
+
+// unregister font file with the CoreText font manager
++ (void)unregisterFont:(NSString *)fontPath;
+
 @end
 
 #pragma mark Array Category

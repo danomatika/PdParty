@@ -15,6 +15,10 @@
 
 // path is to scene folder
 
+// loaded custom font, if one
+@property (strong, nonatomic) NSString *fontPath;
+
+// loaded background image, if one
 @property (strong, nonatomic) UIImageView *background;
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;

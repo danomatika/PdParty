@@ -77,7 +77,7 @@
 	[super reshapeForGui:gui];
 
 	// label
-	self.label.font = [UIFont fontWithName:GUI_FONT_NAME size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
+	self.label.font = [UIFont fontWithName:gui.fontName size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
 	self.label.preferredMaxLayoutWidth = round(CGRectGetWidth(self.frame) * 0.75);
 	self.label.frame = CGRectMake(
 		round(CGRectGetWidth(self.frame) * 0.125), round(CGRectGetHeight(self.frame) * 0.125),
