@@ -3,7 +3,7 @@ PdParty
 
 Pure Data patches for iOS
 
-Copyright (c) [Dan Wilcox](danomatika.com) 2011-14
+Copyright (c) [Dan Wilcox](danomatika.com) 2011-15
 
 BSD Simplified License.
 
@@ -31,22 +31,22 @@ Head on over to the [User Guide](https://github.com/danomatika/PdParty/blob/mast
 This project uses:
 
 * [libpd](https://github.com/libpd/libpd): audio engine
+* pd externals:
+  * ggee: getdir, moog~, stripdir
+  * mrpeach: midifile
+  * rj: rj_accum, rj_barkflux_accum~, rj_centroid~, rj_senergy~, rj_zcr~
 * [PGMidi](https://github.com/petegoodliffe/PGMidi): midi i/o
 * [CocoaOSC](https://github.com/danieldickison/CocoaOSC): Open Sound Control i/o
 * [CocoaHTTPServer](https://github.com/robbiehanson/CocoaHTTPServer): WebDAV server
 * [ZipArchive](https://code.google.com/p/ziparchive): support for decompressing zip archives
+* [MBProgressHUD](https://github.com/jdg/MBProgressHUD): progress spinner overlay
 * [UIAlertView+Blocks](https://github.com/ryanmaxwell/UIAlertView-Blocks)
 * [UIActionSheet+Blocks](https://github.com/ryanmaxwell/UIActionSheet-Blocks)
 
 ### 3rd Party Resources
 
 * [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/index.php?title=Main_Page): font
-* [Icons8](http://icons8.com): iOS7 icons
-
-### 3rd Party Services
-
-* [Testflight](http://www.testflightapp.com): alpha/beta testing distribution
-* [Crashlytics](http://crashlytics.com): automated crash reporting 
+* [Icons8](http://icons8.com): iOS7+ icons
 
 INSTALLATION & BUILDING
 -----------------------
