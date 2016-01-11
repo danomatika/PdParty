@@ -45,7 +45,7 @@
 	self = [super init];
     if(self) {
 		self.widgets = [[NSMutableArray alloc] init];
-		self.fontName = GUI_FONT_NAME;
+		self.fontName = nil; // sets default font
 		self.fontSize = 10;
 		self.scaleX = 1.0;
 		self.scaleY = 1.0;
@@ -217,7 +217,10 @@
 					}
 					else if([lineType isEqualToString:@"obj"] && line.count >= 5) {
 						NSString *objType = [line objectAtIndex:4];
+						
+						// look for additional built in objects
 						BOOL added = [self addObjectType:objType fromAtomLine:line];
+						
 						// print warnings on objects that aren't completely compatible
 						if(!added && ([objType isEqualToString:@"keyup"] || [objType isEqualToString:@"keyname"])) {
 							DDLogWarn(@"Gui: [keyup] & [keyname] can create, but won't return any events");
@@ -294,6 +297,10 @@
 	_parentViewSize = parentViewSize;
 	self.scaleX = self.parentViewSize.width / self.patchWidth;
 	self.scaleY = self.parentViewSize.height / self.patchHeight;
+}
+
+- (void)setFontName:(NSString *)fontName {
+	_fontName = fontName == nil ? GUI_FONT_NAME : fontName;
 }
 
 @end
