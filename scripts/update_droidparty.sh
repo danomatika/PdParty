@@ -10,6 +10,9 @@ cd $WD
 # get latest source
 git clone git://github.com/chr15m/PdDroidParty.git
 
+# remove things we don't want to overwrite
+rm -f PdDroidParty/bundled-abstractions/droidsystem.pd
+
 # setup dest dir
 mkdir -p $destDir
 mkdir -p $destDir/lib/droidparty
