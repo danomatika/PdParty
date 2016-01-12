@@ -192,4 +192,10 @@
 + (void)sendMicVolume:(float)micVolume;
 + (void)sendVolume:(float)volume;
 
+#pragma mark Find
+
+/// returns true if an object of a given name current exists in a patch
+/// or it's subpatches/abstraction instances, this is using the Pd Find guts
++ (BOOL)objectExists:(NSString *)name inPatch:(PdFile *)patch;
+
 @end

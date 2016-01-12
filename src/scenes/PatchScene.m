@@ -10,6 +10,11 @@
  */
 #include "PatchScene.h"
 
+@interface PatchScene () {
+	BOOL soundoutputFound;
+}
+@end
+
 @implementation PatchScene
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui {
@@ -41,6 +46,10 @@
 		[self.gui removeAllWidgets];
 		return NO;
 	}
+	
+	// check for [soundoutput] which is used for recording
+	soundoutputFound = [PureData objectExists:@"soundoutput" inPatch:self.patch];
+	DDLogVerbose(@"%@: soundoutput found: %@", self.typeString, (soundoutputFound ? @"yes" : @"no"));
 	
 	// load widgets from gui
 	if(self.parentView) {
@@ -87,6 +96,10 @@
 
 - (NSString *)name {
 	return [self.patch.baseName stringByDeletingPathExtension];
+}
+
+- (BOOL)records {
+	return soundoutputFound;
 }
 
 - (SceneType)type {

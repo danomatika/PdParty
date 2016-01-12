@@ -53,6 +53,9 @@
 	return @"EmptyScene";
 }
 
+- (BOOL)records {
+	return NO;
+}
 
 - (BOOL)hasInfo {
 	return NO;

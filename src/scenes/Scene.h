@@ -34,6 +34,7 @@ typedef enum {
 
 @property (strong, nonatomic) PdFile *patch;
 @property (readonly, nonatomic) NSString *name; // scene name
+@property (readonly, nonatomic) BOOL records; // can this scene record? has a [soundoutput] object
 
 // rjdj style  scene info, probabaly loaded from a file, etc
 @property (readonly, nonatomic) BOOL hasInfo; // returns YES if the current info is good
