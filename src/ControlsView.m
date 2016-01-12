@@ -14,7 +14,6 @@
 #import "Util.h"
 
 @interface ControlsView () {
-	BOOL showsMicIcon;
 	NSString *currentLevelIcon;
 
 	NSLayoutConstraint *heightConstraint;
@@ -26,6 +25,7 @@
 @property (readwrite, nonatomic) float defaultHeight;
 @property (readwrite, nonatomic) float defaultSpacing;
 @property (readwrite, nonatomic) float defaultToolbarHeight;
+@property (nonatomic) BOOL showsMicIcon;
 @end
 
 @implementation ControlsView
@@ -59,12 +59,10 @@
 		self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
 		[self addSubview:self.toolbar];
 		
-		showsMicIcon = YES;
-		
 		self.levelSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), self.defaultHeight)];
-		self.levelSlider.minimumValueImage = [UIImage imageNamed:@"microphone"];
 		[self.levelSlider addTarget:self action:@selector(controlChanged:) forControlEvents:UIControlEventValueChanged];
 		self.levelSlider.translatesAutoresizingMaskIntoConstraints = NO;
+		self.showsMicIcon = YES;
 		
 		[self addSubview:self.levelSlider];
 		
@@ -199,13 +197,7 @@
 		
 		// use slider as recording playback volume slider
 		self.levelSlider.value = self.sceneManager.pureData.volume;
-		if(self.height == self.defaultHeight) { // full size
-			[self levelIconTo:@"speaker"];
-		}
-		else { // half size
-			[self levelIconTo:@"speaker-small"];
-		}
-		showsMicIcon = NO;
+		self.showsMicIcon = NO;
 	}
 	else {
 		
@@ -215,7 +207,8 @@
 		else {
 			[self leftButtonToPlay];
 		}
-	
+		
+		self.rightButton.enabled = self.sceneManager.scene.records;
 		if(self.sceneManager.pureData.isRecording) {
 			[self rightButtonToStopRecord];
 		}
@@ -224,13 +217,7 @@
 		}
 		
 		self.levelSlider.value = self.sceneManager.pureData.micVolume;
-		if(self.height == self.defaultHeight) { // full size
-			[self levelIconTo:@"microphone"];
-		}
-		else { // half size
-			[self levelIconTo:@"microphone-small"];
-		}
-		showsMicIcon = YES;
+		self.showsMicIcon = YES;
 	}
 }
 
@@ -261,12 +248,6 @@
 	self.height = 96;
 	self.spacing = self.defaultSpacing/2;
 	self.toolbarHeight = self.defaultToolbarHeight/2;
-	if(showsMicIcon) {
-		[self levelIconTo:@"microphone-small"];
-	}
-	else {
-		[self levelIconTo:@"speaker-small"];
-	}
 	[self setNeedsUpdateConstraints];
 }
 
@@ -274,12 +255,6 @@
 	self.height = self.defaultHeight;
 	self.spacing = self.defaultSpacing;
 	self.toolbarHeight = self.defaultToolbarHeight;
-	if(showsMicIcon) {
-		[self levelIconTo:@"microphone"];
-	}
-	else {
-		[self levelIconTo:@"speaker"];
-	}
 	[self setNeedsUpdateConstraints];
 }
 
@@ -378,6 +353,18 @@
 	}
 }
 
+- (void)setShowsMicIcon:(BOOL)showsMicIcon {
+	if(_showsMicIcon == showsMicIcon) {
+		return;
+	}
+	if(showsMicIcon) {
+		[self levelIconTo:@"microphone"];
+	}
+	else {
+		[self levelIconTo:@"speaker"];
+	}
+}
+
 #pragma mark PdRecordEventDelegate
 
 // outside events need to update the gui
@@ -424,7 +411,7 @@
 }
 
 - (void)rightButtonToStopRecord {
-	self.rightButton.image = [UIImage imageNamed:@"record-filled"];
+	self.rightButton.image = [UIImage imageNamed:@"record_filled"];
 	if(!self.rightButton.image) {
 		self.rightButton.title = @"Stop";
 	}
