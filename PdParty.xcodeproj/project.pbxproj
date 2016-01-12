@@ -234,6 +234,7 @@
 		30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4316EC4748005B40C4 /* IEMWidget.m */; };
 		30E89D4716ECEDF2005B40C4 /* Number2.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4616ECEDF0005B40C4 /* Number2.m */; };
 		30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E89D4916EDB459005B40C4 /* VUMeter.m */; };
+		30E92A841C44A44900C75380 /* about in Resources */ = {isa = PBXBuildFile; fileRef = 30E92A831C44A44900C75380 /* about */; };
 		30F3E79517C5491100117305 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 30F3E79417C5491100117305 /* images */; };
 		30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F3E79617CAA1BB00117305 /* QuartzCore.framework */; };
 		30F5282517D7B3DD004736A6 /* Wordbutton.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5282417D7B3DC004736A6 /* Wordbutton.m */; };
@@ -608,6 +609,7 @@
 		30E89D4616ECEDF0005B40C4 /* Number2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Number2.m; sourceTree = "<group>"; };
 		30E89D4816EDB457005B40C4 /* VUMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUMeter.h; sourceTree = "<group>"; };
 		30E89D4916EDB459005B40C4 /* VUMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUMeter.m; sourceTree = "<group>"; };
+		30E92A831C44A44900C75380 /* about */ = {isa = PBXFileReference; lastKnownFileType = folder; path = about; sourceTree = "<group>"; };
 		30F3E79417C5491100117305 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		30F3E79617CAA1BB00117305 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		30F5282017D3BD24004736A6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = libs/Crashlytics.framework; sourceTree = "<group>"; };
@@ -1206,6 +1208,7 @@
 			isa = PBXGroup;
 			children = (
 				300507B317C2C11700D1563C /* Defaults.plist */,
+				30E92A831C44A44900C75380 /* about */,
 				30ACA10C16D1866000B50B73 /* patches */,
 				30F3E79417C5491100117305 /* images */,
 				3088883C16BF062700781682 /* fonts */,
@@ -1613,6 +1616,7 @@
 				30ACA10D16D1866000B50B73 /* patches in Resources */,
 				3083BD4C17F2867400EDF587 /* README.mdown in Resources */,
 				300507B417C2C11700D1563C /* Defaults.plist in Resources */,
+				30E92A841C44A44900C75380 /* about in Resources */,
 				30F3E79517C5491100117305 /* images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

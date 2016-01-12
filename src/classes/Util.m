@@ -92,6 +92,10 @@
 	return [[NSBundle mainBundle] bundlePath];
 }
 
++ (NSString *)resourcePath {
+	return [[NSBundle mainBundle] resourcePath];
+}
+
 + (NSString *)documentsPath {
 	NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	return [searchPaths objectAtIndex:0];

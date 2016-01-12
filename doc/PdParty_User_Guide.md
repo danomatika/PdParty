@@ -1,7 +1,7 @@
-PdParty 0.4.5-alpha
+PdParty 0.5.0-beta
 ===================
 
-Copyright (c) [Dan Wilcox](danomatika.com) 2011-13
+Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
 
 BSD Simplified License.
 

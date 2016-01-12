@@ -54,6 +54,9 @@
 // full path to the app bundle directory
 + (NSString *)bundlePath;
 
+// full path to the Resources directory
++ (NSString *)resourcePath;
+
 // full path to the Documents directory
 + (NSString *)documentsPath;
 

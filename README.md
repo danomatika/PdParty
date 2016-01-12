@@ -1,9 +1,7 @@
 PdParty
 =======
 
-Pure Data patches for iOS
-
-Copyright (c) [Dan Wilcox](danomatika.com) 2011-15
+Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
 
 BSD Simplified License.
 
@@ -15,7 +13,7 @@ See https://github.com/danomatika/PdParty for documentation
 DESCRIPTION
 -----------
 
-Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS with native GUIs emulated, inspired by Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/PdDroidParty/) and the (now defunct) original RjDj app.
+Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS with native GUIs emulated. Inspired by Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/PdDroidParty/) and the (now defunct) original RjDj app.
 
 <p align="center">
 	<img src="http://droidparty.net/PdDroidParty.png"/><br/>
@@ -32,9 +30,9 @@ This project uses:
 
 * [libpd](https://github.com/libpd/libpd): audio engine
 * pd externals:
-  * ggee: getdir, moog~, stripdir
-  * mrpeach: midifile
-  * rj: rj_accum, rj_barkflux_accum~, rj_centroid~, rj_senergy~, rj_zcr~
+  * _ggee_: getdir, moog~, stripdir
+  * _mrpeach_: midifile
+  * _rjlib_: rj_accum, rj_barkflux_accum~, rj_centroid~, rj_senergy~, rj_zcr~
 * [PGMidi](https://github.com/petegoodliffe/PGMidi): midi i/o
 * [CocoaOSC](https://github.com/danieldickison/CocoaOSC): Open Sound Control i/o
 * [CocoaHTTPServer](https://github.com/robbiehanson/CocoaHTTPServer): WebDAV server
@@ -45,7 +43,7 @@ This project uses:
 
 ### 3rd Party Resources
 
-* [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/index.php?title=Main_Page): font
+* [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/Main_Page): font
 * [Icons8](http://icons8.com): iOS7+ icons
 
 INSTALLATION & BUILDING

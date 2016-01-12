@@ -35,6 +35,21 @@
 	self.serverPortLabel.enabled = YES;
 	self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
 	self.serverPortTextField.enabled = YES;
+	
+	if([Util deviceOSVersion] >= 7.0) {
+		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+												 initWithImage:[UIImage imageNamed:@"info"]
+												 style:UIBarButtonItemStylePlain
+												 target:self
+												 action:@selector(infoPressed:)];
+	}
+	else { // light button on iOS 6
+		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+												 initWithImage:[Util image:[UIImage imageNamed:@"info"] withTint:[UIColor whiteColor]]
+												 style:UIBarButtonItemStylePlain
+												 target:self
+												 action:@selector(infoPressed:)];
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -121,6 +136,14 @@
 - (void)updateServerInfo:(NSTimer *)theTimer {
 	// reloading the table view loads the footer text
 	[self.tableView reloadData];
+}
+
+#pragma mark UI
+
+- (void)infoPressed:(id)sender {
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	NSURL *url = [NSURL fileURLWithPath:[[Util resourcePath] stringByAppendingPathComponent:@"/about/about.html"]];
+	[app launchWebViewForURL:url withTitle:@"About"];
 }
 
 #pragma mark UITableViewController
