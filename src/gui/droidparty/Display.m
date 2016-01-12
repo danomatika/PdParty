@@ -109,40 +109,28 @@
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	NSMutableString *text = [[NSMutableString alloc] init];
-	for(int i = 0; i < [list count]; ++i) {
-		
-		if(i > 0) {
-			[text appendString:@" "];
-		}
-		
-		if([list isStringAt:i]) {
-			[text appendString:[list objectAtIndex:i]];
-		}
-		else if([list isNumberAt:i]) {
-			[text appendString:[[list objectAtIndex:i] stringValue]];
-		}
-	}
-	self.label.text = text;
+	self.label.text = [list componentsJoinedByString:@" "];
 	[self reshapeForGui:self.gui];
 	[self setNeedsDisplay];
 }
 
+- (void)receiveSetFloat:(float)received {
+	[self receiveFloat:received fromSource:self.receiveName];
+}
+
+- (void)receiveSetSymbol:(NSString *)symbol {
+	[self receiveSymbol:symbol fromSource:self.receiveName];
+}
+
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	// assume all messages are a list to display as a string
-	NSMutableString *text = [NSMutableString stringWithString:message];
-	for(int i = 0; i < [arguments count]; ++i) {
-		[text appendString:@" "];
-		if([arguments isStringAt:i]) {
-			[text appendString:[arguments objectAtIndex:i]];
-		}
-		else if([arguments isNumberAt:i]) {
-			[text appendString:[[arguments objectAtIndex:i] stringValue]];
-		}
+	if([message isEqualToString:@"set"]) {
+		[self receiveList:arguments fromSource:self.receiveName];
 	}
-	self.label.text = text;
-	[self reshapeForGui:self.gui];
-	[self setNeedsDisplay];
+	else {
+		NSArray *list = [[NSArray arrayWithObject:message] arrayByAddingObjectsFromArray:arguments];
+		[self receiveList:list fromSource:self.receiveName];
+	}
 	return YES;
 }
 
