@@ -45,7 +45,7 @@
             </objects>
             <point key="canvasLocation" x="-163" y="125"/>
         </scene>
-        <!--Patch Browser-->
+        <!--Browser-->
         <scene sceneID="6ir-dd-5Jc">
             <objects>
                 <tableViewController storyboardIdentifier="BrowserViewController" clearsSelectionOnViewWillAppear="NO" id="mmW-bC-nhe" customClass="BrowserViewController" sceneMemberID="viewController">
@@ -83,7 +83,7 @@
                             <outlet property="delegate" destination="mmW-bC-nhe" id="oft-z3-oZW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Patch Browser" id="nVB-rk-HNA"/>
+                    <navigationItem key="navigationItem" title="Browser" id="nVB-rk-HNA"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RYN-SE-WyY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -170,13 +170,13 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Activated via controls menu button" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="slc-6v-5bV">
                                                     <rect key="frame" x="30" y="22" width="181" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="Enable Console" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l6t-Xs-WH0">
                                                     <rect key="frame" x="30" y="6" width="119" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
