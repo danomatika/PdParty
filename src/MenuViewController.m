@@ -176,7 +176,8 @@
 				break;
 			}
 		default: {
-			Menubang *m = [[Menubang menubangs] objectAtIndex:indexPath.row-2];
+			NSInteger *row = indexPath.row - ([Log textViewLoggerEnabled] ? 2 : 1);
+			Menubang *m = [[Menubang menubangs] objectAtIndex:row];
 			[menubangButtons setObject:m forKey:button]; // store button used for menubang
 			if(m.imagePath) {
 				UIImage *image = [UIImage imageWithContentsOfFile:m.imagePath];
