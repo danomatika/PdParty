@@ -47,7 +47,7 @@
 																				options:0
 																				metrics:nil
 																				  views:@{@"view" : self.textView}]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[view]-|"
+	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
 																				options:0
 																				metrics:nil
 																				  views:@{@"view" : self.textView}]];
