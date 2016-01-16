@@ -21,6 +21,7 @@
 		303BD30F17590275000FBEB5 /* RjImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD30A17590274000FBEB5 /* RjImage.m */; };
 		303BD31017590275000FBEB5 /* RjText.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD30C17590275000FBEB5 /* RjText.m */; };
 		303BD3151759928D000FBEB5 /* RjWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 303BD3141759928D000FBEB5 /* RjWidget.m */; };
+		303CBBF01C497330000384FF /* Sensors.m in Sources */ = {isa = PBXBuildFile; fileRef = 303CBBEF1C497330000384FF /* Sensors.m */; };
 		3050820F16E198C900895CB2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CA16E198C900895CB2 /* DDData.m */; };
 		3050821016E198C900895CB2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CC16E198C900895CB2 /* DDNumber.m */; };
 		3050821116E198C900895CB2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 305081CE16E198C900895CB2 /* DDRange.m */; };
@@ -280,6 +281,8 @@
 		303BD30C17590275000FBEB5 /* RjText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjText.m; sourceTree = "<group>"; };
 		303BD30D17590275000FBEB5 /* RjWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RjWidget.h; sourceTree = "<group>"; };
 		303BD3141759928D000FBEB5 /* RjWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjWidget.m; sourceTree = "<group>"; };
+		303CBBEE1C497330000384FF /* Sensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sensors.h; sourceTree = "<group>"; };
+		303CBBEF1C497330000384FF /* Sensors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sensors.m; sourceTree = "<group>"; };
 		305081C916E198C900895CB2 /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
 		305081CA16E198C900895CB2 /* DDData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDData.m; sourceTree = "<group>"; };
 		305081CB16E198C900895CB2 /* DDNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNumber.h; sourceTree = "<group>"; };
@@ -1368,6 +1371,8 @@
 				30C9BF5B16E8456B00E5AA5B /* PureData.m */,
 				30B4520A176290300040FFBC /* SceneManager.h */,
 				30B4520B176290300040FFBC /* SceneManager.m */,
+				303CBBEE1C497330000384FF /* Sensors.h */,
+				303CBBEF1C497330000384FF /* Sensors.m */,
 				30C9BF5C16E8456B00E5AA5B /* WebServer.h */,
 				30C9BF5D16E8456B00E5AA5B /* WebServer.m */,
 			);
@@ -1711,6 +1716,7 @@
 				3050821516E198C900895CB2 /* HTTPServer.m in Sources */,
 				3050821616E198C900895CB2 /* MultipartFormDataParser.m in Sources */,
 				3050821716E198C900895CB2 /* MultipartMessageHeader.m in Sources */,
+				303CBBF01C497330000384FF /* Sensors.m in Sources */,
 				3050821816E198C900895CB2 /* MultipartMessageHeaderField.m in Sources */,
 				3050821916E198C900895CB2 /* HTTPAsyncFileResponse.m in Sources */,
 				3050821A16E198C900895CB2 /* HTTPDataResponse.m in Sources */,

@@ -9,26 +9,21 @@
  *
  */
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
 
 #import "AllScenes.h"
+#import "Sensors.h"
 #import "PureData.h"
 #import "Osc.h"
 
-@interface SceneManager : NSObject <UIAccelerometerDelegate, CLLocationManagerDelegate, PdSensorEventDelegate>
+@interface SceneManager : NSObject
 
 @property (strong, nonatomic) Gui *gui; // pd gui widgets
 @property (strong, nonatomic) Scene* scene; // current scene
 @property (strong, readonly, nonatomic) NSString* currentPath; // the current given path
 
+@property (strong, nonatomic) Sensors *sensors; //< internal sensor manager
 @property (weak, nonatomic) PureData *pureData;
 @property (weak, nonatomic) Osc *osc;
-
-@property (assign, nonatomic) BOOL enableAccel; // enable receiving accel events?
-@property (assign, nonatomic) BOOL enableGyro; // enable receiving gyro events?
-@property (assign, nonatomic) BOOL enableMagnet; // enable receiving magnetometer events?
-@property (assign, nonatomic) BOOL enableLocation; // enable receiving location events?
-@property (assign, nonatomic) BOOL enableHeading; // enable receiving heading events?
 
 @property (assign, nonatomic) UIInterfaceOrientation currentOrientation; // accel orientation based on this
 
