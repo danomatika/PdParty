@@ -47,6 +47,14 @@
 	return NO;
 }
 
+- (BOOL)requiresSensor:(SensorType)sensor {
+	return NO;
+}
+
+- (BOOL)supportsSensor:(SensorType)sensor {
+	return NO;
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
@@ -54,6 +62,10 @@
 }
 
 - (BOOL)records {
+	return NO;
+}
+
+- (BOOL)micControl {
 	return NO;
 }
 
@@ -86,30 +98,6 @@
 }
 
 - (BOOL)requiresTouch {
-	return NO;
-}
-
-- (BOOL)requiresAccel {
-	return NO;
-}
-
-- (BOOL)supportsAccel {
-	return NO;
-}
-
-- (BOOL)supportsGyro {
-	return NO;
-}
-
-- (BOOL)supportsMagnet {
-	return NO;
-}
-
-- (BOOL)supportsLocate {
-	return NO;
-}
-
-- (BOOL)supportsHeading {
 	return NO;
 }
 

@@ -11,9 +11,8 @@
 #import "PatchScene.h"
 
 // PdParty scene (folder with _main.pd)
-@interface PartyScene : PatchScene
-
 // path is to scene folder
+@interface PartyScene : PatchScene
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 

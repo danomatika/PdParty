@@ -99,10 +99,10 @@ The default layout is:
 
 * **libs**: global abstractions, see the "Libs Folder" section in Patching for PdParty below.
 * **recordings**: any recordings made using the Scene View on screen controls end up here, recordings are named using the patch/scene name appended with a timestamp (this will change to something better in the future)
-* **samples**: PdParty example patches and scenes
+* **samples**: example patches and scenes
 * **tests**: internal tests
 
-Feel free to delete samples and tests. **Do not delete the libs folder** as the abstractions inside are required. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions.
+Feel free to delete samples and tests. **Do not delete the libs folder** as the abstractions inside are required. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions. If the libs folder is not ofund, PdParty falls back to including it's internal backup copy.
 
 These default folders can be restored on the Settings screen.
 
@@ -222,7 +222,7 @@ Naturally, you can download the PdParty source and open the test patches & examp
 
 *Largely borrowed from [PdDroidParty](http://droidparty.net/)*
 
-1. Create a new Pd patch that will contain your GUI objects like sliders, toggles, numberboxes etc. Place your main patch logic inside a subpatch and use the [soundinput] & [soundoutput] [rjlib objects](https://github.com/rjdj/rjlib/tree/master/pd) in place of [adc~] and [dac] \(these are required for the on screen volume and recording controls\).
+1. Create a new Pd patch that will contain your GUI objects like sliders, toggles, numberboxes etc. Place your main patch logic inside a subpatch and use the [soundinput] & [soundoutput] [rjlib objects](https://github.com/rjdj/rjlib/tree/master/pd) in place of [adc~] and [dac] \(these are required for the input volume and recording controls\).
 
 2. PdParty will scale GUI objects to fit the screen of the device. Your patch should have the rough dimensions of a phone/tablet in landscape mode (e.g. 3:2 aspect ratio or e.g. 480x320 should usually work well). If it's not exact it doesn't matter - the GUI elements will be scaled.
 
@@ -264,19 +264,31 @@ PdParty also supports running "scenes" which are basically folders with a specif
 
 * RjDj scenes:
   * a folder that ends in *.rj that contains a _main.pd
-  * an optional background Image.jpg which must have a square aspect ratio
-  * requires only #accelerate & #touch events
+  * locked to portrait
+  * an optional background image name "Image.jpg" which must have a square aspect ratio, this is also used for the Browser icon
+  * an optional info xml file named "Info.plist" with the following string keys:
+    * _author_
+    * _description_
+    * _name_
+    * _category_
+  * requires #accelerate & #touch events
   * \#touch positions are normalized from 0-320
+  * optional sensors accessed by abstractions: [rj_gyro], [rj_loc], [rj_compass], & [rj_time]
   * 20500 samplerate
 * PdDroidParty scenes
   * a folder that contains a droidparty_main.pd
   * locked to landscape
-  * does not require any events (#accelerate, #touch, or [key])
+  * an optional background image named "background.png" which should have a landscape aspect ratio
+  * an optional font named
+  * does not require the following events (#accelerate, #touch, or [key])
+  * sensors are accessed by the [droidsystem] abstraction
   * 44100 samplerate
 * PdParty scenes
   * a folder that contains a _main.pd
   * requires all event types
   * \#touch positions are normalized from 0-1
+  * sensors are accessed via receivers: \#gyro, \#loc, \#compass, \#magnet, & \#time
+  * sensors are enabled & udpated via control messages to \#pdparty
   * 44100 samplerate
   
 Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene.
@@ -317,18 +329,18 @@ All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to
 PdParty currently supports:
 
 * PdDroidParty abstractions:
-  * loadsave
-  * menubang: buttons are added to the controls popup menu
-  * display
-  * droidsystem:
-    * receive messages: sensors, openurl, & vibrate\* 
+  * _[loadsave]_
+  * _[menubang]_: buttons are added to the controls popup menu
+  * _[display]_
+  * _[droidsystem]_:
+    * receive messages: sensors, & openurl (vibrate\* is ignored) 
     * send messages: accel, gyro, & magnet
-  * knob: implementation of the moonlib external [mknob]
-  * numberbox
-  * ribbon
-  * taplist
-  * touch
-  * wordbutton
+  * _[knob]_: implementation of the moonlib external [mknob]
+  * _[numberbox]_
+  * _[ribbon]_
+  * _[taplist]_
+  * _[touch]_
+  * _[wordbutton]_
 * scene folder background.png loading
 * scene foldder font.ttf & font-antialiased.ttf loading
 
@@ -340,7 +352,34 @@ SVG widget styling support are planned, but not an immediate priority as there i
 
 ### RjDj Compatibility
 
-PdParty supports RjDj-style scene directories, backgrounds, and the [rj_image] and [rj_text] objects. The rj externals ([rj_accum], [rj_barkflux_accum~], [rj_centroid~], [rj_senergy~], & [rj_zcr~]) are also included. Currently, scene paging and metadata are not supported.
+PdParty currently supports:
+
+* RjDj abstractions/objects:
+  * _[rj_image]_: implemented internally
+  * _[rj_text]_: implemented internally
+  * _[rj_gyro]_
+  * _[rj_loc]_
+  * _[rj_compass]_
+  * _[rj_time]_
+* RjDj externals:
+  * _[rj_accum]_
+  * _[rj_barkflux_accum~]_
+  * _[rj_centroid~]_
+  * _[rj_senergy~]_
+  * _[rj_zcr~]_
+* scene background Image.jpg
+* scene Info.plist
+
+Currently, scene paging and metadata are not supported.
+
+Testing has been done using the original RjDj composer pack as well as various RjDj scenes including:
+
+* _Eargasm_ by Damian Stewart
+* _bouncy_ by Georg Bosch
+* _Atsuke_ by Frank Barknecht
+* _CanOfBeats_ by Chris McCormick
+
+Also, thanks to Joe White for providing a copy of the RjDj get_sensors.pd by Roman Haefeli, et al. which provided an overview of the extended rj sensor objects.
 
 ### Events
 
@@ -351,64 +390,76 @@ PdParty supports RjDj-style scene directories, backgrounds, and the [rj_image] a
 
 PdParty returns the following events:
 
-* **[r #touch] _eventType_ _id_ _x_ _y_**: multitouch event
+* **[r \#touch] _eventType_ _id_ _x_ _y_**: multitouch event
   * _eventType_: symbol "down", "xy" (move), or "up"
   * _id_: persistent touch id
   * _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
   * _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
-* **[r #accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
-* **[r #gyro] _x_ _y_ _z_**: 3 axis gyroscope rotation rate in radians/s
-* **[r #magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
-* **[r #locate] _lat_ _lon_ _alt_ _speed_ _course_ _horzAccuracy_ _vertAccuracy_ _timestamp_**
+* **[r \#accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
+* **[r \#gyro] _x_ _y_ _z_**: 3 axis gyroscope rotation rate in radians/s
+* **[r \#loc] _lat_ _lon_ _accuracy_**
   * _lat_: latitude in degrees
   * _lon_: longitude in degrees
-  * _alt_: altitude from sea level in meters, + above & - below
-  * _speed_: average speed in meters per second (not guaranteed to be accurate), invalid if negative
-  * _course_: direction of travel in degrees -> 0 N, 90 S, 180 S, 270 E, invalid if negative
-  * _horzAccuracy_: horizontal accuracy (+/-) of the lat & lon in meters
-  * _vertAccuracy_: vertical accuracy (+/-) of the alt in meters
-  * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
-* **[r #heading] _degrees_ _accuracy_ _timestamp_**: orientation toward magnetic north with the top of UI at 0 degrees
-  * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E 
-  * _accuracy_: +/- accuracy deviation of the heading value in degrees, a negative vale is invalid (device is not calibrated, etc)
-  * _timestamp_: timestamp string, format yyyy-MM-dd HH:mm:ss zzz (ex: 2013-11-13 17:13:17 EST)
+  * _accuracy_: lat & lon accuracy (+/-) in meters
+* **[r \#compass] _degrees_**: orientation toward magnetic north with the top of UI at 0 degrees
+  * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E
+* **[r \#time] timestamp event
+  * _year_: year
+  * _month_: month
+  * _day_month_: day of the month
+  * _day_week_: day of the week
+  * _day_year_: day of the year
+  * _tz_: deviation from GMT, ex. "-700" is US MT which is 7 hours behind GMT
+  * _hour_: hour (in 24 hour format)
+  * _min_: minute
+  * _sec_: second
+  * _msec_: millisecond
+* **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
   
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/receiving_events_patch.png"/><br/>
 	Receiving PdParty events
 </p>
   
-_Note: RjDj scenes only receive #touch & #accelerate, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility (although it could be argued in the case of RjDj as the RjDj app is no longer available)._
+_Note: RjDj scenes only receive #touch & #accelerate by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj_gyro], [rj_loc], etc abstractions._
 
 #### Accelerate, Gyro, & Magnet Control
   
 Reading accelerometer, gyroscope, and/or magnetometer events will affect battery life, so these must be manually started after the scene is loaded by sending messages to the internal #pdparty receiver:
 
-* **#pdparty _sensor_ _value_**: sensor run control
-  * _value_: boolean 0-1 to start/stop the sensor, one of the following strings: accelerate, gyro, & magnet
-* **#pdparty _sensor_ _speed_**: set desired update speed, this setting impacts battery life
+* **\#pdparty _sensor_ _value_**: sensor run control
+  * _sensor_: accelerate, gyro, or magnet
+  * _value_: boolean 0-1 to start/stop the sensor
+* **\#pdparty _sensor_ updates _value_**: sensor automatic update control
+  * _value_: boolean to start/stop automatic updates (default on)
+* **\#pdparty _sensor_**: request the current sensor values if automatic updates is disabled
+* **\#pdparty _sensor_ _speed_**: set desired update speed, this setting impacts battery life
+  * _sensor_: accelerate, gyro, or magnet
   * _speed_: desired update speed as one of the following strings: 
     * slow: 10 Hz, user interface orientation speed
-    * normal: 30 Hz (default), normal movement
+    * normal: 30 Hz, normal movement (default)
     * fast: 60 Hz, suitable for gaming
     * fastest: 100 Hz, maximum firehose
 
-_Note: #touch & #accelerate events are automatically started for RjDj scenes for backward compatibility._  
+_Note: \#touch & \#accelerate events are automatically started for RjDj scenes for backward compatibility._  
 
-#### Locate (GPS) Control
+#### Loc (GPS) Control
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_locate_scene_iPhone.png"/><br/>
-	Locate test PdParty scene
+	Loc test PdParty scene
 </p>
 
-Locate events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFI only, cell tower + GPS chip, etc).
+Loc events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFI only, cell tower + GPS chip, etc).
 
 Since running the GPS location service will affect battery life in most cases, it must be manually started and configured after the scene is loaded by sending messages to the internal #pdparty receiver:
   
-* **#pdparty locate _value_**: location service run control
+* **\#pdparty loc _value_**: location service run control
   * _value_: boolean to start/stop the location service
-* **#pdparty locate accuracy _type_**: set desired accuracy, this setting impacts battery life
+* **\#pdparty loc updates _value_**: location automatic update control
+  * _value_: boolean to start/stop automatic updates (default on)
+* **\#pdparty loc**: request the current location if automatic updates is disabled
+* **\#pdparty loc accuracy _type_**: set desired accuracy, this setting impacts battery life
   * _type_: desired accuracy as one of the following strings: 
     * navigation: highest possible accuracy using additional sensors at all times, intended to be used only while the device is plugged in 
     * best: highest accuracy on battery (default)
@@ -416,45 +467,48 @@ Since running the GPS location service will affect battery life in most cases, i
     * 100m: accurate to within 100 meters
     * 1km: accurate to the nearest kilometer
     * 3km: accurate to the nearest 3 kilometers
-* **#pdparty locate filter _distance_**: set the distance filter for locate events
+* **\#pdparty loc filter _distance_**: set the distance filter for locate events
   * _distance_: the minimum distance in meters of horizontal movement required before a locate event is generated (default 0), a value of 0 indicates no filtering, negative values are clipped to 0
 
 It usually takes a few seconds to fix your position after enabling the location services.
 
-_Note: Locate events are only available in PdParty & Patch scene types. Events work best on devices with multiple location sensors (phone) and may not work on some devices at all._
+_Note: Loc events are available in PdParty & Patch scene types by default, while the presence of an [rj_loc] object enables them in RjDj scenes. These events work best on devices with multiple location sensors (iPhone) and may not work on some devices at all (iPad)._
 
-#### Heading (Compass) Control
+#### Compass Control
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_heading_scene_iPhone.png"/><br/>
-	Heading test PdParty scene
+	Compass test PdParty scene
 </p>
 
-A heading event is simply the compass orientation toward magnetic north with the top of the current UI orientation being at 0 degrees.
+A compass event is simply the orientation toward magnetic north with the top of the current UI orientation being at 0 degrees.
 
-Like locate events, the tracking the heading requires extra resources so it must be manual started by the scene after it is loaded by sending messages to the internal #pdparty receiver:
+Like location events, the tracking the compass requires extra resources so it must be manual started by the scene after it is loaded by sending messages to the internal \#pdparty receiver:
 
-* **#pdparty heading _value_**: heading service run control
-* **#pdparty heading filter _degrees_**: the minimum amount of change in degrees required before a heading event is generated (default 1), a value of 0 indicates no filtering, negative values are clipped to 0
+* **\#pdparty compass _value_**: compass service run control
+* **\#pdparty compass updates _value_**: compass automatic update control
+  * _value_: boolean to start/stop automatic updates (default on)
+* **\#pdparty compass**: request the current compass heading if automatic updates is disabled
+* **\#pdparty compass filter _degrees_**: the minimum amount of change in degrees required before a compass event is generated (default 1), a value of 0 indicates no filtering, negative values are clipped to 0
 
-_Note: Heading events are only available in PdParty & Patch scene types. Events work best on devices with a digital compass (phones) and may not work on some devices at all._
+_Note: Compass events are only available in PdParty & Patch scene types by default, while the presence of an [rj_compass] object enables them in RjDj scenes. Events work best on devices with a digital compass (phones) and may not work on some devices at all._
 
 #### Recording
 
-You can manually trigger recording via sending messages to the internal #pdparty receiver in your patches:
+You can manually trigger recording via sending messages to the internal \#pdparty receiver in your patches:
 
-* **#pdparty record _name_**: set the scene/file name for recording 
+* **\#pdparty record _name_**: set the scene/file name for recording 
   * _name_: timestamp is appended & file is saved to the recordings dir
-* **#pdparty record _value_**: recording control, also connected to the GUI 
+* **\#pdparty record _value_**: recording control, also connected to the GUI 
   * _value_: boolean to start/stop recording
   
 _Note: Recording will only work if you are using the rjlib [soundoutput] patch instead of [dac~]._
 
 #### Opening a URL
 
-You can launch a web view with a given url via sending a message to #pdparty:
+You can launch a web view with a given url via sending a message to \#pdparty:
 
-* **#pdparty openurl _url title1 title2 ..._**
+* **\#pdparty openurl _url title1 title2 ..._**
 
 _url_ can be either:
 
@@ -463,44 +517,35 @@ _url_ can be either:
 
 _title_ is an open ended list of arguments that will be appended together and used as the navigation bar title, "URL" is used by default when there are no title arguments
 
-#### Triggering a Vibration on iPhone
-
-A vibration "tone" cn be triggered by sending the following message to #pdparty:
-
-* **#pdparty vibrate**
-
-Vibration is supressed on iOS while the audio session is recording, so you'll have to pause the DSP for vibration to work.
-
-_Note: only applicable to iPhone, ignored on iPad & in the Xcode simulator_
-
 #### OSC
 
 PdParty sends and receives OSC messages internally between the PureData instance and the OSC server:
  
-* **[r #osc-in]**: incoming OSC messages
-* **[s #osc-out]**: outgoing OSC messages
+* **[r \#osc-in]**: incoming OSC messages
+* **[s \#osc-out]**: outgoing OSC messages
 
 All of the PdParty events can be streamed over OSC, included Pd prints. The receive addresses are as follows:
 
 * /pdparty/touch 
 * /pdparty/accelrate
 * /pdparty/gyro
+* /pdparty/loc
+* /pdparty/compass
 * /pdparty/magnet
-* /pdparty/locate
-* /pdparty/heading
+* /pdparty/time
 * /pdparty/key
 * /pdparty/print
 
-_Note: The argument number and types are equivalent with their receive counterparts, i.e. /pdparty/touch receives the same data as [r #touch]._
+_Note: The argument number and types are equivalent with their receive counterparts, i.e. /pdparty/touch receives the same data as [r \#touch]._
 
-See tests/osc-event-receiver.pd in the PdParty source repository for an event receiver you can use while patching & debugging on your computer:
+See `tests/osc-event-receiver.pd` in the PdParty source repository for an event receiver you can use while patching & debugging on your computer:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/osc_patch.png"/><br/>
 	osc-event-receiver.pd test patch
 </p>
 
-Also, try the tests/osc-test.pd test patch on your computer with the tests/pdparty/Osc scene on the device for a simple example on two-way communication:
+Also, try the `tests/osc-test.pd` test patch on your computer with the tests/pdparty/Osc scene on the device for a simple example on two-way communication:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_osc_scene_iPhone.png"/><br/>
@@ -516,10 +561,9 @@ Also, this is where the default PdParty libraries are copied when the app is fir
 TODOs
 -----
 
-* icons and all that jazz
 * full screen / nav bar hiding
 * paging and/or TouchOSC style page buttons
-* Allow alternate styling for gui elements (i.e. TouchOSC)
+* allow alternate styling for gui elements (i.e. PdDroidParty & TouchOSC)
 
 Happy Patching!
 ===============

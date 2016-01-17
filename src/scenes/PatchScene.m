@@ -10,8 +10,15 @@
  */
 #include "PatchScene.h"
 
+#import "AppDelegate.h"
+
+// TODO: decide on these, maybe check for [r #transport] & [r #micvolume] instead
+//#define CHECK_SOUNDINPUT
+#define CHECK_SOUNDOUTPUT
+
 @interface PatchScene () {
 	BOOL soundoutputFound;
+	BOOL soundinputFound;
 }
 @end
 
@@ -47,9 +54,21 @@
 		return NO;
 	}
 	
+	// check for [soundinput] which is used for mic control
+	#ifdef CHECK_SOUNDINPUT
+		soundinputFound = [PureData objectExists:@"soundinput" inPatch:self.patch];
+		DDLogVerbose(@"%@: soundinput found: %@", self.typeString, (soundinputFound ? @"yes" : @"no"));
+	#else
+		soundinputFound = YES;
+	#endif
+	
 	// check for [soundoutput] which is used for recording
-	soundoutputFound = [PureData objectExists:@"soundoutput" inPatch:self.patch];
-	DDLogVerbose(@"%@: soundoutput found: %@", self.typeString, (soundoutputFound ? @"yes" : @"no"));
+	#ifdef CHECK_SOUNDOUTPUT
+		soundoutputFound = [PureData objectExists:@"soundoutput" inPatch:self.patch];
+		DDLogVerbose(@"%@: soundoutput found: %@", self.typeString, (soundoutputFound ? @"yes" : @"no"));
+	#else
+		soundoutputFound = YES:
+	#endif
 	
 	// load widgets from gui
 	if(self.parentView) {
@@ -92,6 +111,14 @@
 	return [[fullpath pathExtension] isEqualToString:@"pd"];
 }
 
+- (BOOL)requiresSensor:(SensorType)sensor {
+	return NO;
+}
+
+- (BOOL)supportsSensor:(SensorType)sensor {
+	return YES;
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
@@ -100,6 +127,10 @@
 
 - (BOOL)records {
 	return soundoutputFound;
+}
+
+- (BOOL)micControl {
+	return soundinputFound;
 }
 
 - (SceneType)type {
@@ -129,26 +160,6 @@
 }
 
 - (BOOL)requiresTouch {
-	return YES;
-}
-
-- (BOOL)supportsAccel {
-	return YES;
-}
-
-- (BOOL)supportsGyro {
-	return YES;
-}
-
-- (BOOL)supportsMagnet {
-	return YES;
-}
-
-- (BOOL)supportsLocate {
-	return YES;
-}
-
-- (BOOL)supportsHeading {
 	return YES;
 }
 

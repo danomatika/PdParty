@@ -14,6 +14,7 @@
 #import "Log.h"
 #import "Midi.h"
 #import "Osc.h"
+#import "Sensors.h"
 #import "PdAudioController.h"
 #import "Externals.h"
 #import "Util.h"
@@ -172,6 +173,28 @@
 		toReceiver:RJ_ACCELERATE_R];
 }
 
++ (void)sendGyro:(float)x y:(float)y z:(float)z {
+	[PdBase sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:x],
+		[NSNumber numberWithFloat:y],
+		[NSNumber numberWithFloat:z], nil]
+		toReceiver:RJ_GYRO_R];
+}
+
++ (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy {
+	[PdBase sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:lat], [NSNumber numberWithFloat:lon], [NSNumber numberWithFloat:accuracy],
+		nil] toReceiver:RJ_LOCATION_R];
+}
+
++ (void)sendCompass:(float)degrees {
+	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:degrees], nil] toReceiver:RJ_COMPASS_R];
+}
+
++ (void)sendTime:(NSArray *)time {
+	[PdBase sendList:time toReceiver:RJ_TIME_R];
+}
+
 + (void)sendMagnet:(float)x y:(float)y z:(float)z {
 	[PdBase sendList:[NSArray arrayWithObjects:
 		[NSNumber numberWithFloat:x],
@@ -180,39 +203,14 @@
 		toReceiver:PARTY_MAGNET_R];
 }
 
-+ (void)sendGyro:(float)x y:(float)y z:(float)z {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:x],
-		[NSNumber numberWithFloat:y],
-		[NSNumber numberWithFloat:z], nil]
-		toReceiver:PARTY_GYRO_R];
-}
-
-+ (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
-	speed:(float)speed  course:(float)course
-	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
-	timestamp:(NSString *)timestamp {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:lat], [NSNumber numberWithFloat:lon], [NSNumber numberWithFloat:alt],
-		[NSNumber numberWithFloat:speed], [NSNumber numberWithFloat:course],
-		[NSNumber numberWithFloat:horzAccuracy], [NSNumber numberWithFloat:vertAccuracy],
-		timestamp, nil] toReceiver:PARTY_LOCATE_R];
-}
-
-+ (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:degrees],
-		[NSNumber numberWithFloat:accuracy],
-		timestamp, nil] toReceiver:PARTY_HEADING_R];
-}
-
 + (void)sendKey:(int)key {
 	[PdBase sendFloat:key toReceiver:PD_KEY_R];
 }
 
-- (void)sendPrint:(NSString *)print {
++ (void)sendPrint:(NSString *)print {
+	AppDelegate *app = [[UIApplication sharedApplication] delegate];
 	DDLogInfo(@"Pd: %@", print);
-	[self.osc sendPrint:print];
+	[app.osc sendPrint:print];
 }
 
 // mimic [oscparse] by separating address components,
@@ -233,26 +231,27 @@
 	}
 	[list addObjectsFromArray:arguments];
 	if(!firstComponent) {
-		DDLogWarn(@"PureData: cannot send OSC message with empty address");
+		DDLogWarn(@"PureData: dropping OSC message with empty address");
 		return;
 	}
-	// leave this out for now, might want to make it something you'd have to manually enable
-//	if([firstComponent isEqualToString:PARTY_OSC_R]) { // catch incoming control messages
-//		if(list.count > 1) {
-//			if([[list firstObject] isEqualToString:RJ_GLOBAL_S]) {
-//				[s_pureData receiveMessage:[list firstObject]
-//							 withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
-//								fromSource:RJ_GLOBAL_S];
-//			}
-//			else {
-//				[s_pureData receiveMessage:[list firstObject]
-//							 withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
-//								fromSource:PARTY_GLOBAL_S];
-//			}
-//		}
-//		return;
-//	}
-	[PdBase sendMessage:firstComponent withArguments:list toReceiver:PD_OSC_R];
+	if([firstComponent isEqualToString:PARTY_OSC_R]) { // catch incoming control messages
+		if(list.count > 0) {
+			if(([[list firstObject] isEqualToString:RJ_GLOBAL_S])) { // forward rj messages
+				[PdBase sendMessage:[list firstObject]
+							 withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
+								toReceiver:[list firstObject]];
+			}
+			else { // process pdparty messages
+				AppDelegate *app = [[UIApplication sharedApplication] delegate];
+				[app.pureData receiveMessage:[list firstObject]
+							   withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
+								  fromSource:PARTY_GLOBAL_S];
+			}
+		}
+	}
+	else { // forward everything else
+		[PdBase sendMessage:firstComponent withArguments:list toReceiver:PD_OSC_R];
+	}
 }
 
 + (void)sendCloseBang {
@@ -327,109 +326,105 @@
 	
 		// accel control
 		if([message isEqualToString:@"accelerate"] && arguments.count > 0) {
-			if([arguments isNumberAt:0]) {
-				if(self.sensorDelegate) {
-					if([[arguments objectAtIndex:0] boolValue]) {
-						[self.sensorDelegate startAccelUpdates];
-					}
-					else {
-						[self.sensorDelegate stopAccelUpdates];
-					}
+			if([arguments isNumberAt:0]) { // float: start/stop
+				if(self.sensorDelegate && [self.sensorDelegate supportsAccel]) {
+					self.sensors.accelEnabled = [[arguments objectAtIndex:0] boolValue];
 				}
 			}
 			else if([arguments isStringAt:0] && arguments.count > 1) {
 				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
-					if(self.sensorDelegate) {
-						[self.sensorDelegate setAccelSpeed:[arguments objectAtIndex:1]];
-					}
+					self.sensors.accelSpeed = [arguments objectAtIndex:1];
 				}
 			}
 		}
 		
 		// gyro control
-		if([message isEqualToString:@"gyro"] && arguments.count > 0) {
-			if([arguments isNumberAt:0]) {
-				if(self.sensorDelegate) {
-					if([[arguments objectAtIndex:0] boolValue]) {
-						[self.sensorDelegate startGyroUpdates];
-					}
-					else {
-						[self.sensorDelegate stopGyroUpdates];
+		if([message isEqualToString:@"gyro"]) {
+			if(arguments.count == 0) {
+				[self.sensors sendGyro];
+			}
+			else {
+				if([arguments isNumberAt:0]) { // float: start/stop
+					if(self.sensorDelegate && [self.sensorDelegate supportsGyro]) {
+						self.sensors.gyroEnabled = [[arguments objectAtIndex:0] boolValue];
 					}
 				}
-			}
-			else if([arguments isStringAt:0] && arguments.count > 1) {
-				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
-					if(self.sensorDelegate) {
-						[self.sensorDelegate setGyroSpeed:[arguments objectAtIndex:1]];
+				else if([arguments isStringAt:0] && arguments.count > 1) {
+					if([[arguments objectAtIndex:0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.gyroAutoUpdates = [[arguments objectAtIndex:1] boolValue];
 					}
-				}
-			}
-		}
-		
-		// magnetometer control
-		if([message isEqualToString:@"magnet"] && arguments.count > 0) {
-			if([arguments isNumberAt:0]) {
-				if(self.sensorDelegate) {
-					if([[arguments objectAtIndex:0] boolValue]) {
-						[self.sensorDelegate startMagnetUpdates];
-					}
-					else {
-						[self.sensorDelegate stopMagnetUpdates];
-					}
-				}
-			}
-			else if([arguments isStringAt:0] && arguments.count > 1) {
-				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
-					if(self.sensorDelegate) {
-						[self.sensorDelegate setMagnetSpeed:[arguments objectAtIndex:1]];
+					else if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+						self.sensors.gyroSpeed = [arguments objectAtIndex:1];
 					}
 				}
 			}
 		}
 	
 		// location service control
-		else if([message isEqualToString:@"locate"] && arguments.count > 0) {
-			if([arguments isNumberAt:0]) {
-				if(self.sensorDelegate) {
-					if([[arguments objectAtIndex:0] boolValue]) {
-						[self.sensorDelegate startLocationUpdates];
-					}
-					else {
-						[self.sensorDelegate stopLocationUpdates];
-					}
-				}
+		else if([message isEqualToString:@"loc"]) {
+			if(arguments.count == 0) {
+				[self.sensors sendLocation];
 			}
-			else if([arguments isStringAt:0] && arguments.count > 1) {
-				if([[arguments objectAtIndex:0] isEqualToString:@"accuracy"] && [arguments isStringAt:1]) {
-					if(self.sensorDelegate) {
-						[self.sensorDelegate setLocationAccuracy:[arguments objectAtIndex:1]];
+			else {
+				if([arguments isNumberAt:0]) { // float: start/stop
+					if(self.sensorDelegate && [self.sensorDelegate supportsLocation]) {
+						self.sensors.locationEnabled = [[arguments objectAtIndex:0] boolValue];
 					}
 				}
-				else if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
-					if(self.sensorDelegate) {
-						[self.sensorDelegate setLocationFilter:[[arguments objectAtIndex:1] floatValue]];
+				else if([arguments isStringAt:0] && arguments.count > 1) {
+					if([[arguments objectAtIndex:0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.locationAutoUpdates = [[arguments objectAtIndex:1] boolValue];
+					}
+					else if([[arguments objectAtIndex:0] isEqualToString:@"accuracy"] && [arguments isStringAt:1]) {
+						self.sensors.locationAccuracy =
+						[arguments objectAtIndex:1];
+					}
+					else if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
+						self.sensors.locationFilter = [[arguments objectAtIndex:1] floatValue];
 					}
 				}
 			}
 		}
 		
-		// heading control
-		if([message isEqualToString:@"heading"] && arguments.count > 0) {
-			if([arguments isNumberAt:0]) {
-				if(self.sensorDelegate) {
-					if([[arguments objectAtIndex:0] boolValue]) {
-						[self.sensorDelegate startHeadingUpdates];
+		// compass control
+		if([message isEqualToString:@"compass"]) {
+			if(arguments.count == 0) {
+				[self.sensors sendCompass];
+			}
+			else {
+				if([arguments isNumberAt:0]) { // float: start/stop
+					if(self.sensorDelegate && [self.sensorDelegate supportsCompass]) {
+						self.sensors.compassEnabled = [[arguments objectAtIndex:0] boolValue];
 					}
-					else {
-						[self.sensorDelegate stopHeadingUpdates];
+				}
+				else if([arguments isStringAt:0] && arguments.count > 1) {
+					if([[arguments objectAtIndex:0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.compassAutoUpdates = [[arguments objectAtIndex:1] boolValue];
+					}
+					else if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
+						self.sensors.compassFilter = [[arguments objectAtIndex:1] floatValue];
 					}
 				}
 			}
-			else if([arguments isStringAt:0] && arguments.count > 1) {
-				if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
-					if(self.sensorDelegate) {
-						[self.sensorDelegate setHeadingFilter:[[arguments objectAtIndex:1] floatValue]];
+		}
+		
+		// magnetometer control
+		if([message isEqualToString:@"magnet"]) {
+			if(arguments.count == 0) {
+				[self.sensors sendMagnet];
+			}
+			else {
+				if([arguments isNumberAt:0]) { // float: start/stop
+					if(self.sensorDelegate && [self.sensorDelegate supportsMagnet]) {
+						self.sensors.magnetEnabled = [[arguments objectAtIndex:0] boolValue];
+					}
+				}
+				else if([arguments isStringAt:0] && arguments.count > 1) {
+					if([[arguments objectAtIndex:0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.magnetAutoUpdates = [[arguments objectAtIndex:1] boolValue];
+					}
+					else if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+						self.sensors.magnetSpeed = [arguments objectAtIndex:1];
 					}
 				}
 			}
@@ -472,11 +467,11 @@
 			[app launchWebViewForURL:url withTitle:title];
 		}
 		
-		// vibrate on iPhone ... suppressed while audio session is recording
-		else if([message isEqualToString:@"vibrate"]) {
-			if(![Util isDeviceRunningInSimulator]) {
-				AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-			}
+		// send a timestamp
+		else if([message isEqualToString:@"time"]) {
+			NSArray *time = [PureData timestamp];
+			[PureData sendTime:time];
+			[self.osc sendTime:time];
 		}
 	}
 	else {
@@ -689,6 +684,27 @@ static int canvas_dofind(t_canvas *x, int *myindexp) {
 	BOOL found = canvas_dofind(canvas, &myindex);
 	binbuf_clear(canvas_findbuf);
 	return found;
+}
+
+#pragma mark Util
+
+static NSDateFormatter *s_timeFormatter = nil;
+static NSNumberFormatter *s_numFormatter = nil;
+
+// http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns
++ (NSArray *)timestamp {
+	if(!s_timeFormatter) {
+		s_timeFormatter = [[NSDateFormatter alloc] init];
+		s_timeFormatter.dateFormat = @"yyyy MM dd FF DD Z HH mm ss A";
+		s_numFormatter = [[NSNumberFormatter alloc] init];
+		s_numFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+	}
+	NSMutableArray *time = [NSMutableArray arrayWithArray:[[s_timeFormatter stringFromDate:[NSDate date]] componentsSeparatedByString:@" "]];
+	for(int i = 0; i < time.count; ++i) {
+		NSNumber *n = [s_numFormatter numberFromString:time[i]];
+		time[i] = n;
+	}
+	return time;
 }
 
 #pragma mark Private

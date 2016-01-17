@@ -1,25 +1,64 @@
-#N canvas 486 252 203 288 10;
-#X obj 21 26 cnv 15 160 160 empty empty accelerate 20 12 0 14 -233017
+#N canvas 146 133 362 530 10;
+#X obj 8 98 cnv 15 340 80 empty empty accelerate 20 12 0 14 -233017
 -66577 0;
-#X floatatom 43 71 10 0 0 1 x ax -, f 10;
-#X floatatom 44 116 10 0 0 1 y ay -, f 10;
-#X floatatom 44 158 10 0 0 1 z az -, f 10;
-#N canvas 664 235 314 144 accel 0;
+#X floatatom 30 143 10 0 0 1 x ax -, f 10;
+#X floatatom 133 143 10 0 0 1 y ay -, f 10;
+#X floatatom 238 143 10 0 0 1 z az -, f 10;
+#X text 8 7 accelerometer Gs;
+#N canvas 342 138 472 254 guts 0;
 #X obj 40 58 unpack f f f;
 #X obj 74 87 s ay;
-#X obj 109 88 s az;
+#X obj 109 87 s az;
 #X obj 40 87 s ax;
 #X obj 40 28 r #accelerate;
-#X obj 182 29 r runaccel;
-#X obj 182 86 s #pdparty;
-#X msg 182 59 accelerate \$1;
+#X obj 39 164 loadbang;
+#N canvas 651 529 253 199 type 0;
+#X obj 16 9 inlet;
+#X obj 16 133 symbol;
+#X obj 16 167 outlet;
+#X msg 16 84 fastest;
+#X msg 83 84 fast;
+#X msg 132 83 normal;
+#X msg 191 83 slow;
+#X obj 16 38 sel 0 1 2 3;
+#X connect 0 0 7 0;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 7 3 6 0;
+#X restore 297 59 pd type;
+#X obj 297 27 r speed-out;
+#X obj 173 27 r runaccel;
+#X msg 173 58 accelerate \$1;
+#X msg 297 89 accelerate speed \$1;
+#X obj 173 123 s #pdparty;
+#X msg 39 196 \; speed-in set 1;
 #X connect 0 0 3 0;
 #X connect 0 1 1 0;
 #X connect 0 2 2 0;
 #X connect 4 0 0 0;
-#X connect 5 0 7 0;
+#X connect 5 0 12 0;
+#X connect 6 0 10 0;
 #X connect 7 0 6 0;
-#X restore 123 158 pd accel;
-#X obj 140 32 tgl 15 0 runaccel empty run 17 7 0 10 -262144 -1 -1 0
+#X connect 8 0 9 0;
+#X connect 9 0 11 0;
+#X connect 10 0 11 0;
+#X restore 299 103 pd guts;
+#X obj 10 39 tgl 30 0 runaccel empty run 7 15 0 10 -262144 -1 -1 0
 1;
-#X text 47 4 accelerometer Gs;
+#X obj 58 320 hradio 54 1 0 4 speed-out speed-in empty 0 -8 0 10 -262144
+-1 -1 1;
+#X text 59 382 fastest;
+#X text 174 382 normal;
+#X text 126 382 fast;
+#X text 235 382 slow;
+#X text 38 272 are dependent on the desired update speed;
+#X text 17 295 speed (default "normal") \, "fastest" is *intensive*
+;
+#X text 48 47 turn on by sending a msg to #pdparty: accelerate 1;
+#X text 38 256 the speed of events & overall resource usage;

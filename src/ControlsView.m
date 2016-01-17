@@ -62,6 +62,8 @@
 		self.levelSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), self.defaultHeight)];
 		[self.levelSlider addTarget:self action:@selector(controlChanged:) forControlEvents:UIControlEventValueChanged];
 		self.levelSlider.translatesAutoresizingMaskIntoConstraints = NO;
+		self.levelSlider.minimumValue = 0.0;
+		self.levelSlider.maximumValue = 1.0;
 		self.showsMicIcon = YES;
 		
 		[self addSubview:self.levelSlider];
@@ -209,6 +211,7 @@
 		}
 		
 		self.rightButton.enabled = self.sceneManager.scene.records;
+		self.levelSlider.enabled = self.sceneManager.scene.micControl;
 		if(self.sceneManager.pureData.isRecording) {
 			[self rightButtonToStopRecord];
 		}

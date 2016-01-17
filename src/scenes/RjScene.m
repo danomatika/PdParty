@@ -20,6 +20,9 @@
 @interface RjScene () {
 	NSDictionary *info;
 	NSMutableDictionary *widgets;
+	BOOL requiresGyro;
+	BOOL requiresLocation;
+	BOOL requiresCompass;
 }
 
 @property (assign, readwrite, nonatomic) float scale;
@@ -90,12 +93,17 @@
 		if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
 			info = [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
 			if(!info) {
-				DDLogWarn(@"RjScene: couldn't load Info.plist");
+				DDLogError(@"RjScene: couldn't load Info.plist");
 			}
 		}
 		else {
 			DDLogWarn(@"RjScene: no Info.plist");
 		}
+		
+		// check sensor requirements
+		requiresGyro = [PureData objectExists:@"rj_gyro" inPatch:self.patch];
+		requiresLocation = [PureData objectExists:@"rj_loc" inPatch:self.patch];
+		requiresCompass = [PureData objectExists:@"rj_compass" inPatch:self.patch];
 		
 		return YES;
 	}
@@ -155,6 +163,25 @@
 	pos->x = (int) (p.x/CGRectGetWidth(self.background.frame) * 320);
 	pos->y = (int) (p.y/CGRectGetHeight(self.background.frame) * 320);
 	return YES;
+}
+
+- (BOOL)requiresSensor:(SensorType)sensor {
+	switch(sensor) {
+		case SensorTypeAccel:
+			return YES;
+		case SensorTypeGyro:
+			return requiresGyro;
+		case SensorTypeLocation:
+			return requiresLocation;
+		case SensorTypeCompass:
+			return requiresCompass;
+		default:
+			return [super requiresSensor:sensor];
+	}
+}
+
+- (BOOL)supportsSensor:(SensorType)sensor {
+	return NO;
 }
 
 #pragma mark Overridden Getters / Setters
@@ -228,31 +255,6 @@
 
 - (int)sampleRate {
 	return RJ_SAMPLERATE;
-}
-
-// accel is always on
-- (BOOL)requiresAccel {
-	return YES;
-}
-
-- (BOOL)supportsAccel {
-	return NO;
-}
-
-- (BOOL)supportsGyro {
-	return NO;
-}
-
-- (BOOL)supportsMagnet {
-	return NO;
-}
-
-- (BOOL)supportsLocate {
-	return NO;
-}
-
-- (BOOL)supportsHeading {
-	return NO;
 }
 
 - (BOOL)requiresKeys {
@@ -337,8 +339,8 @@
 			else if([widget isKindOfClass:[RjText class]]) {
 				RjText *text = (RjText *) widget;
 				if([cmd isEqualToString:@"text"]) {
-					if(list.count < 3 || ![list isStringAt:2]) return;
-					text.text = [list objectAtIndex:2];
+					if(list.count < 3) return;
+					text.text = [[list subarrayWithRange:NSMakeRange(2, list.count-2)] componentsJoinedByString:@" "];
 				}
 				else if([cmd isEqualToString:@"size"]) {
 					if(list.count < 3 || ![list isNumberAt:2]) return;
@@ -348,8 +350,8 @@
 		}
 	}
 	else {
-		if(list.count < 3 || ![list isStringAt:2]) return;
-		NSString *arg = [list objectAtIndex:2];
+		if(list.count < 3) return;
+		NSString *arg = [[list subarrayWithRange:NSMakeRange(2, list.count-2)] componentsJoinedByString:@" "];
 		if([cmd isEqualToString:@"load"]) {
 			widget = [RjImage imageWithFile:[self.patch.pathName stringByAppendingPathComponent:arg] andParent:self];
 			if(!widget) return;
@@ -383,13 +385,14 @@
 	NSError *error;
 	for(NSString *path in contents) {
 		NSString *file = [path lastPathComponent];
-		if([file isEqualToString:@"rj_image.pd"] || [file isEqualToString:@"rj_text.pd"] ||
+		if([file isEqualToString:@"rj_image.pd"] || [file isEqualToString:@"rj_text.pd"] || [file isEqualToString:@"rj_time.pd"] ||
+		   [file isEqualToString:@"rj_compass.pd"] || [file isEqualToString:@"rj_loc.pd"] || [file isEqualToString:@"rj_gyro.pd"] ||
 		   [file isEqualToString:@"soundinput.pd"] || [file isEqualToString:@"soundoutput.pd"]) {
 			if(![[NSFileManager defaultManager] removeItemAtPath:[directory stringByAppendingPathComponent:path] error:&error]) {
-				DDLogError(@"RJScene: couldn't remove %@, error: %@", path, error.localizedDescription);
+				DDLogError(@"RjScene: couldn't remove %@, error: %@", path, error.localizedDescription);
 			}
 			else {
-				DDLogVerbose(@"RJScene: removed %@", file);
+				DDLogVerbose(@"RjScene: removed %@", file);
 			}
 		}
 	}

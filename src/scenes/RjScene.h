@@ -10,10 +10,9 @@
  */
 #import "PatchScene.h"
 
-// an RjDj scene (folder with .rj ext & _main.pd)
-@interface RjScene : PatchScene <PdListener>
-
+// an RjDj scene (folder with .rj ext & _main.pd), portrait only
 // path is to scene folder
+@interface RjScene : PatchScene <PdListener>
 
 @property (weak, nonatomic) PdDispatcher *dispatcher;
 

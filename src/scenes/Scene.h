@@ -12,7 +12,6 @@
 
 #import "PureData.h"
 #import "Gui.h"
-
 #import "Log.h"
 #import "Util.h"
 
@@ -26,6 +25,15 @@ typedef enum {
 	SceneTypeRecording // dummy scene for recording playback (.wav file)
 } SceneType;
 
+// sensor type for querying scene info
+typedef enum {
+	SensorTypeAccel,
+	SensorTypeGyro,
+	SensorTypeLocation,
+	SensorTypeCompass,
+	SensorTypeMagnet
+} SensorType;
+
 // base empty scene
 @interface Scene : NSObject
 
@@ -35,6 +43,7 @@ typedef enum {
 @property (strong, nonatomic) PdFile *patch;
 @property (readonly, nonatomic) NSString *name; // scene name
 @property (readonly, nonatomic) BOOL records; // can this scene record? has a [soundoutput] object
+@property (readonly, nonatomic) BOOL micControl; // does this scene have mic control? has a [soundinput] object
 
 // rjdj style  scene info, probabaly loaded from a file, etc
 @property (readonly, nonatomic) BOOL hasInfo; // returns YES if the current info is good
@@ -46,16 +55,22 @@ typedef enum {
 @property (weak, nonatomic) UIView *parentView; // parent UIView
 @property (weak, nonatomic) Gui *gui;			// PD gui (optional, leave nil if not used)
 
-// scene type settings
-@property (readonly, nonatomic) int sampleRate; // desired scene sample rate (default PARTY_SAMPLERATE)
+// desired scene sample rate (default PARTY_SAMPLERATE)
+@property (readonly, nonatomic) int sampleRate;
+
 @property (readonly, nonatomic) BOOL requiresTouch; // does the scene require touch events? (default NO)
-@property (readonly, nonatomic) BOOL requiresAccel; // does the scene require accel events? (default NO)
-@property (readonly, nonatomic) BOOL supportsAccel; // does the scene support accel events? (default NO)
-@property (readonly, nonatomic) BOOL supportsMagnet; // does the scene support magnet events? (default NO)
-@property (readonly, nonatomic) BOOL supportsGyro; // does the scene support gyro events? (default NO)
-@property (readonly, nonatomic) BOOL supportsLocate; // does the scene support locate events? (default NO)
-@property (readonly, nonatomic) BOOL supportsHeading; // does the scene support heading events? (default NO)
+//@property (readonly, nonatomic) BOOL requiresAccel; // does the scene require accel events? (default NO)
+//@property (readonly, nonatomic) BOOL requiresGyro; // does the scene support gyro events? (default NO)
+//@property (readonly, nonatomic) BOOL requiresLocation; // does the scene support location events? (default NO)
+//@property (readonly, nonatomic) BOOL requiresCompass; // does the scene support compass events? (default NO)
+//@property (readonly, nonatomic) BOOL requiresMagnet; // does the scene support magnet events? (default NO)
 @property (readonly, nonatomic) BOOL requiresKeys; // does the scene require key events? (default NO)
+//
+//@property (readonly, nonatomic) BOOL supportsAccel; // does the scene support accel events? (default NO)
+//@property (readonly, nonatomic) BOOL supportsGyro; // does the scene support gyro events? (default NO)
+//@property (readonly, nonatomic) BOOL supportsLocation; // does the scene support location events? (default NO)
+//@property (readonly, nonatomic) BOOL supportsCompass; // does the scene support compass events? (default NO)
+//@property (readonly, nonatomic) BOOL supportsMagnet; // does the scene support magnet events? (default NO)
 
 // preferred orientations, all by default
 @property (assign, nonatomic) UIInterfaceOrientationMask preferredOrientations;
@@ -67,12 +82,21 @@ typedef enum {
 - (BOOL)open:(NSString *)path; // expects full path
 - (void)close;
 
+// start any sensors needed by the scene
+- (void)startSensorUpdates;
+
 // reshape to fit current parent view size
 - (void)reshape;
 
 // attempts to scale a touch within the parent view,
 // returns NO if touch not within current scene or scene doesn't require touch events
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos;
+
+// returns YES if a sensor is required & should be started when opened (default: NO)
+- (BOOL)requiresSensor:(SensorType)sensor;
+
+// returns YES if a sensor is supported & can be started after opening (default: NO)
+- (BOOL)supportsSensor:(SensorType)sensor;
 
 #pragma mark Util
 

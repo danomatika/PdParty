@@ -11,9 +11,8 @@
 #import "PatchScene.h"
 
 // DroidParty scene (folder with droidparty_main.pd), landscape only
-@interface DroidScene : PatchScene
-
 // path is to scene folder
+@interface DroidScene : PatchScene
 
 // loaded custom font, if one
 @property (strong, nonatomic) NSString *fontPath;

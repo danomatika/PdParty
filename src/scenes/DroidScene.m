@@ -61,6 +61,19 @@
 	return NO;
 }
 
+- (BOOL)requiresSensor:(SensorType)sensor {
+	return NO;
+}
+
+- (BOOL)supportsSensor:(SensorType)sensor {
+	switch(sensor) {
+		case SensorTypeLocation: case SensorTypeCompass:
+			return NO;
+		default:
+			return YES;
+	}
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
@@ -76,14 +89,6 @@
 }
 
 - (BOOL)requiresTouch {
-	return NO;
-}
-
-- (BOOL)supportsLocate {
-	return NO;
-}
-
-- (BOOL)supportsHeading {
 	return NO;
 }
 

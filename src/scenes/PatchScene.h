@@ -11,9 +11,8 @@
 #import "Scene.h"
 
 // basic pd patch
-@interface PatchScene : Scene
-
 // path is to patch file, requires all event types
+@interface PatchScene : Scene
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 

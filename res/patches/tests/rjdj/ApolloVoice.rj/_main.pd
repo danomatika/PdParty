@@ -7,7 +7,6 @@
 or later. See the file LICENSE.txt for the full text.;
 #X text 79 84 (c) 2010 Dan Wilcox danomatika.com;
 #X restore 258 86 pd LICENSE;
-#X obj 28 104 soundoutput;
 #X obj 258 27 declare -path .;
 #N canvas 0 22 448 215 more_paths 0;
 #X text 27 19 You can add more paths here as well \, like the path
@@ -92,6 +91,7 @@ by the astronauts.;
 #X text 22 23 ApolloVoice RjDj Scene - _main.pd;
 #X obj 28 76 *~ 3;
 #X text 70 76 louder;
-#X connect 5 0 7 0;
-#X connect 7 0 1 1;
-#X connect 7 0 1 0;
+#X obj 28 104 soundoutput;
+#X connect 4 0 6 0;
+#X connect 6 0 8 1;
+#X connect 6 0 8 0;

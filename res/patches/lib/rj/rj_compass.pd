@@ -1,0 +1,10 @@
+#N canvas 548 98 287 184 10;
+#X obj 18 18 inlet;
+#X text 112 52 request 1 compass update;
+#X obj 18 123 r #compass;
+#X obj 18 155 outlet;
+#X obj 18 88 s #pdparty;
+#X msg 18 53 compass;
+#X connect 0 0 5 0;
+#X connect 2 0 3 0;
+#X connect 5 0 4 0;

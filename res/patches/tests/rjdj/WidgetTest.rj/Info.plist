@@ -7,7 +7,7 @@
         <key>author</key>
 		<string>Dan Wilcox</string>
 		<key>description</key>
-        <string>A simple test for [rj_image] & [rj_text]</string>
+        <string>A simple test for [rj_image] and [rj_text]</string>
 		<key>name</key>
 		<string>WidgetTest</string>
 		<key>category</key>

@@ -148,6 +148,29 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_LOCATION_ADDR;
+	[message addFloat:lat];
+	[message addFloat:lon];
+	[message addFloat:accuracy];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendCompass:(float)degrees {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+    message.address = OSC_COMPASS_ADDR;
+	[message addFloat:degrees];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendTime:(NSArray *)time {
+	if(!self.isListening) return;
+	[self sendMessage:OSC_TIME_ADDR withArguments:time];
+}
+
 - (void)sendMagnet:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
@@ -155,34 +178,6 @@
 	[message addFloat:x];
 	[message addFloat:y];
 	[message addFloat:z];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
-}
-
-- (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
-	speed:(float)speed course:(float)course
-	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
-	timestamp:(NSString *)timestamp {
-	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_LOCATE_ADDR;
-	[message addFloat:lat];
-	[message addFloat:lon];
-	[message addFloat:alt];
-	[message addFloat:speed];
-	[message addFloat:course];
-	[message addFloat:horzAccuracy];
-	[message addFloat:vertAccuracy];
-	[message addString:timestamp];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
-}
-
-- (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp {
-	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_HEADING_ADDR;
-	[message addFloat:degrees];
-	[message addFloat:accuracy];
-	[message addString:timestamp];
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 

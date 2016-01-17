@@ -15,7 +15,7 @@
 #import "PureData.h"
 #import "Osc.h"
 
-@interface SceneManager : NSObject
+@interface SceneManager : NSObject <PdSensorSupportDelegate>
 
 @property (strong, nonatomic) Gui *gui; // pd gui widgets
 @property (strong, nonatomic) Scene* scene; // current scene

@@ -1,25 +1,83 @@
-#N canvas 524 175 186 251 10;
-#X obj 13 36 cnv 15 160 160 empty empty gyro 20 12 0 14 -233017 -66577
+#N canvas 184 171 364 527 10;
+#X obj 10 98 cnv 15 340 80 empty empty gyro 20 12 0 14 -233017 -66577
 0;
-#X floatatom 35 81 10 0 0 1 x gx -, f 10;
-#X floatatom 36 126 10 0 0 1 y gy -, f 10;
-#X floatatom 36 168 10 0 0 1 z gz -, f 10;
-#N canvas 680 212 289 147 gyro 0;
+#X floatatom 27 139 10 0 0 1 x gx -, f 10;
+#X floatatom 139 139 10 0 0 1 y gy -, f 10;
+#X floatatom 248 139 10 0 0 1 z gz -, f 10;
+#X obj 10 39 tgl 30 0 rungyro empty run 7 15 0 10 -262144 -1 -1 0 1
+;
+#X obj 18 236 tgl 30 0 updates updates-in updates 32 15 0 10 -262144
+-1 -1 1 1;
+#X obj 235 235 bng 30 250 50 0 update empty update 32 15 0 10 -262144
+-1 -1;
+#X text 48 47 turn on by sending a msg to #pdparty: gyro 1;
+#X obj 58 403 hradio 54 1 0 4 speed-out speed-in empty 0 -8 0 10 -262144
+-1 -1 1;
+#X text 59 465 fastest;
+#X text 174 465 normal;
+#X text 126 465 fast;
+#X text 235 465 slow;
+#X text 13 339 the speed of gyroscope events & overall resource usage
+;
+#X text 13 355 are dependent on the desired update speed;
+#X text 17 378 speed (default "normal") \, "fastest" is *intensive*
+;
+#N canvas 889 334 468 259 guts 0;
 #X obj 40 58 unpack f f f;
 #X obj 40 28 r #gyro;
 #X obj 40 87 s gx;
 #X obj 74 87 s gy;
 #X obj 109 88 s gz;
-#X obj 173 88 s #pdparty;
 #X obj 173 27 r rungyro;
 #X msg 173 58 gyro \$1;
+#X obj 266 97 s #pdparty;
+#X obj 382 28 r update;
+#X obj 39 164 loadbang;
+#X obj 266 222 s #pdparty;
+#N canvas 651 529 253 199 type 0;
+#X obj 16 9 inlet;
+#X obj 16 133 symbol;
+#X obj 16 167 outlet;
+#X msg 16 84 fastest;
+#X msg 83 84 fast;
+#X msg 132 83 normal;
+#X msg 191 83 slow;
+#X obj 16 38 sel 0 1 2 3;
+#X connect 0 0 7 0;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 7 3 6 0;
+#X restore 266 163 pd type;
+#X obj 266 131 r speed-out;
+#X msg 266 193 gyro speed \$1;
+#X obj 266 28 r updates;
+#X msg 266 59 gyro updates \$1;
+#X msg 39 196 \; updates-in set 1 \; speed-in set 1;
+#X msg 382 60 gyro;
 #X connect 0 0 2 0;
 #X connect 0 1 3 0;
 #X connect 0 2 4 0;
 #X connect 1 0 0 0;
+#X connect 5 0 6 0;
 #X connect 6 0 7 0;
-#X connect 7 0 5 0;
-#X restore 120 173 pd gyro;
-#X obj 129 43 tgl 15 0 rungyro empty run 17 7 0 10 -262144 -1 -1 0
-1;
-#X text 5 7 gyroscope rotation radians/s;
+#X connect 8 0 17 0;
+#X connect 9 0 16 0;
+#X connect 11 0 13 0;
+#X connect 12 0 11 0;
+#X connect 13 0 10 0;
+#X connect 14 0 15 0;
+#X connect 15 0 7 0;
+#X connect 17 0 7 0;
+#X restore 301 103 pd guts;
+#X text 7 7 gyroscope rotation radians/s;
+#X text 9 213 enable auto updates to receive event stream (default:
+on);
+#X text 10 300 auto update changes only take effect on gyro restart
+;
+#X text 10 278 send manual update when auto updates is disabled;

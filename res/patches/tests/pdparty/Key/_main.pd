@@ -1,7 +1,7 @@
 #N canvas 505 114 416 234 10;
 #X obj 39 72 cnv 15 340 60 empty empty [key] 20 12 0 14 -233017 -66577
 0;
-#X floatatom 49 101 5 0 0 1 - key -, f 5;
+#X floatatom 63 103 5 0 0 1 - key -, f 5;
 #X text 158 75 try a usb/bluetooth keyboard;
 #X obj 122 96 bng 30 250 50 0 empty q q 13 15 0 10 -262144 -1 -1;
 #X obj 164 96 bng 30 250 50 0 empty w w 13 15 0 10 -262144 -1 -1;

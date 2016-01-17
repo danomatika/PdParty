@@ -13,9 +13,8 @@
 @class PureData;
 
 // Recording scene (wav file playback)
-@interface RecordingScene : Scene
-
 // path is to .wav file
+@interface RecordingScene : Scene
 
 @property (weak, nonatomic) PureData *pureData;
 
@@ -24,6 +23,7 @@
 
 + (id)sceneWithParent:(UIView *)parent andPureData:(PureData *)pureData;
 
+// restart playback at the beginning
 - (void)restartPlayback;
 
 // returns true if a given path is a recording file aka .wav

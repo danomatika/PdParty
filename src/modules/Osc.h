@@ -10,14 +10,15 @@
  */
 #import "CocoaOSC.h"
 
-#define OSC_TOUCH_ADDR   @"/pdparty/touch"
-#define OSC_ACCEL_ADDR   @"/pdparty/accelerate"
-#define OSC_GYRO_ADDR    @"/pdparty/gyro"
-#define OSC_MAGNET_ADDR  @"/pdparty/magnet"
-#define OSC_LOCATE_ADDR  @"/pdparty/locate"
-#define OSC_HEADING_ADDR @"/pdparty/heading"
-#define OSC_KEY_ADDR     @"/pdparty/key"
-#define OSC_PRINT_ADDR   @"/pdparty/print"
+#define OSC_TOUCH_ADDR     @"/pdparty/touch"
+#define OSC_ACCEL_ADDR     @"/pdparty/accelerate"
+#define OSC_GYRO_ADDR      @"/pdparty/gyro"
+#define OSC_LOCATION_ADDR  @"/pdparty/loc"
+#define OSC_COMPASS_ADDR   @"/pdparty/compass"
+#define OSC_TIME_ADDR      @"/pdparty/time"
+#define OSC_MAGNET_ADDR    @"/pdparty/magnet"
+#define OSC_KEY_ADDR       @"/pdparty/key"
+#define OSC_PRINT_ADDR     @"/pdparty/print"
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
@@ -28,7 +29,7 @@
 
 // should the following events be sent automatically? (default: NO)
 @property (assign, nonatomic) BOOL touchSendingEnabled;
-@property (assign, nonatomic) BOOL sensorSendingEnabled; // accel, magnet, gyro, locate, headig (if on)
+@property (assign, nonatomic) BOOL sensorSendingEnabled; // accel, gyro, location, compass, magnet
 @property (assign, nonatomic) BOOL keySendingEnabled;
 @property (assign, nonatomic) BOOL printSendingEnabled;
 
@@ -54,20 +55,20 @@
 // rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;
 
-// pd party gyro event
+// rj gyro event
 - (void)sendGyro:(float)x y:(float)y z:(float)z;
 
-// pd party magnetometer event
+// rj location event
+- (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy;
+
+// rj compass event
+- (void)sendCompass:(float)degrees;
+
+// rj time event
+- (void)sendTime:(NSArray *)time;
+
+// droid party magnetometer event
 - (void)sendMagnet:(float)x y:(float)y z:(float)z;
-
-// pd party locate event
-- (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
-	speed:(float)speed  course:(float)course
-	horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
-	timestamp:(NSString *)timestamp;
-
-// pd party heading event
-- (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp;
 
 // pd key event
 - (void)sendKey:(int)key;

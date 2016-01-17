@@ -1,25 +1,82 @@
-#N canvas 524 175 186 251 10;
-#X obj 13 36 cnv 15 160 160 empty empty magnet 20 12 0 14 -233017 -66577
+#N canvas 537 167 364 529 10;
+#X obj 10 98 cnv 15 340 80 empty empty magnet 20 12 0 14 -233017 -66577
 0;
-#X floatatom 35 81 10 0 0 1 x mx -, f 10;
-#X floatatom 36 126 10 0 0 1 y my -, f 10;
-#X floatatom 36 168 10 0 0 1 z mz -, f 10;
-#X obj 129 43 tgl 15 0 runmagnet empty run 17 7 0 10 -262144 -1 -1
-0 1;
-#N canvas 680 212 289 147 magnet 0;
+#X floatatom 32 143 10 0 0 1 x mx -, f 10;
+#X floatatom 145 143 10 0 0 1 y my -, f 10;
+#X floatatom 253 142 10 0 0 1 z mz -, f 10;
+#X text 7 8 magnetometer microteslas;
+#N canvas 179 183 468 267 guts 0;
 #X obj 40 58 unpack f f f;
-#X obj 173 88 s #pdparty;
 #X obj 40 87 s mx;
 #X obj 74 87 s my;
 #X obj 40 28 r #magnet;
+#X obj 109 88 s mz;
+#X obj 39 164 loadbang;
+#X obj 266 97 s #pdparty;
+#X obj 382 28 r update;
+#X obj 266 222 s #pdparty;
+#N canvas 651 529 253 199 type 0;
+#X obj 16 9 inlet;
+#X obj 16 133 symbol;
+#X obj 16 167 outlet;
+#X msg 16 84 fastest;
+#X msg 83 84 fast;
+#X msg 132 83 normal;
+#X msg 191 83 slow;
+#X obj 16 38 sel 0 1 2 3;
+#X connect 0 0 7 0;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 7 3 6 0;
+#X restore 266 163 pd type;
+#X obj 266 131 r speed-out;
 #X obj 173 27 r runmagnet;
 #X msg 173 58 magnet \$1;
-#X obj 109 88 s mz;
-#X connect 0 0 2 0;
-#X connect 0 1 3 0;
-#X connect 0 2 7 0;
-#X connect 4 0 0 0;
-#X connect 5 0 6 0;
-#X connect 6 0 1 0;
-#X restore 110 207 pd magnet;
-#X text 14 8 magnetometer microteslas;
+#X msg 266 193 magnet speed \$1;
+#X obj 266 28 r updates;
+#X msg 266 59 magnet updates \$1;
+#X msg 39 196 \; updates-in set 1 \; speed-in set 1;
+#X msg 382 60 magnet;
+#X connect 0 0 1 0;
+#X connect 0 1 2 0;
+#X connect 0 2 4 0;
+#X connect 3 0 0 0;
+#X connect 5 0 16 0;
+#X connect 7 0 17 0;
+#X connect 9 0 13 0;
+#X connect 10 0 9 0;
+#X connect 11 0 12 0;
+#X connect 12 0 6 0;
+#X connect 13 0 8 0;
+#X connect 14 0 15 0;
+#X connect 15 0 6 0;
+#X connect 17 0 6 0;
+#X restore 289 103 pd guts;
+#X obj 10 39 tgl 30 0 runmagnet empty run 7 15 0 10 -262144 -1 -1 0
+1;
+#X obj 18 236 tgl 30 0 updates updates-in updates 32 15 0 10 -262144
+-1 -1 1 1;
+#X obj 235 235 bng 30 250 50 0 update empty update 32 15 0 10 -262144
+-1 -1;
+#X obj 58 403 hradio 54 1 0 4 speed-out speed-in empty 0 -8 0 10 -262144
+-1 -1 1;
+#X text 59 465 fastest;
+#X text 174 465 normal;
+#X text 126 465 fast;
+#X text 235 465 slow;
+#X text 38 355 are dependent on the desired update speed;
+#X text 17 378 speed (default "normal") \, "fastest" is *intensive*
+;
+#X text 9 213 enable auto updates to receive event stream (default:
+on);
+#X text 48 47 turn on by sending a msg to #pdparty: magnet 1;
+#X text 10 300 auto update changes only take effect on gyro restart
+;
+#X text 38 339 the speed of events & overall resource usage;
+#X text 10 278 send manual update when auto updates is disabled;

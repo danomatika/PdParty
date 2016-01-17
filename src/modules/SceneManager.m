@@ -42,10 +42,12 @@
 		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 		self.osc = app.osc;
 		self.pureData = app.pureData;
+		self.pureData.sensorDelegate = self;
 		
 		// create sensor manager
 		self.sensors = [[Sensors alloc] init];
-		self.sensors.sceneManager = self;
+		self.sensors.osc = app.osc;
+		self.pureData.sensors = self.sensors;
 		
 		// create gui
 		self.gui = [[PartyGui alloc] init];
@@ -100,9 +102,9 @@
 	}
 	self.pureData.audioEnabled = YES;
 	self.pureData.sampleRate = self.scene.sampleRate;
-	self.sensors.enableAccel = self.scene.requiresAccel;
 	self.pureData.playing = YES;
 	if([self.scene open:path]) {
+		[self startRequiredSensors];
 		DDLogInfo(@"SceneManager: opened %@", self.scene.name);
 	}
 	
@@ -135,11 +137,7 @@
 		[PureData sendCloseBang];
 		[self.scene close];
 		self.scene = nil;
-		self.sensors.enableAccel = NO;
-		self.sensors.enableMagnet = NO;
-		self.sensors.enableGyro = NO;
-		self.sensors.enableLocation = NO;
-		self.sensors.enableHeading = NO;
+		[self stopSensors];
 		hasReshaped = NO;
 	}
 }
@@ -192,6 +190,28 @@
 	}
 }
 
+#pragma mark PdSensorSupportDelegate
+
+- (BOOL)supportsAccel {
+	return [self.scene supportsSensor:SensorTypeAccel];
+}
+
+- (BOOL)supportsGyro {
+	return [self.scene supportsSensor:SensorTypeGyro];
+}
+
+- (BOOL)supportsLocation {
+	return [self.scene supportsSensor:SensorTypeLocation];
+}
+
+- (BOOL)supportsCompass {
+	return [self.scene supportsSensor:SensorTypeCompass];
+}
+
+- (BOOL)supportsMagnet {
+	return [self.scene supportsSensor:SensorTypeMagnet];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setPureData:(PureData *)pureData {
@@ -199,7 +219,7 @@
 		_pureData.sensorDelegate = nil;
 	}
 	_pureData = pureData;
-	_pureData.sensorDelegate = self.sensors;
+	_pureData.sensorDelegate = self;
 }
 
 - (void)setCurrentOrientation:(UIInterfaceOrientation)currentOrientation {
@@ -208,6 +228,41 @@
 
 - (UIInterfaceOrientation)currentOrientation {
 	return self.sensors.currentOrientation;
+}
+
+#pragma mark Private
+
+// most required sensors are manually polled
+- (void)startRequiredSensors {
+	if([self.scene requiresSensor:SensorTypeAccel]) {
+		self.sensors.accelEnabled = YES;
+	}
+	if([self.scene requiresSensor:SensorTypeGyro]) {
+		self.sensors.gyroAutoUpdates = NO;
+		self.sensors.gyroEnabled = YES;
+	}
+	if([self.scene requiresSensor:SensorTypeLocation]) {
+		self.sensors.locationAutoUpdates = NO;
+		self.sensors.locationEnabled = YES;
+	}
+	if([self.scene requiresSensor:SensorTypeCompass]) {
+		self.sensors.compassAutoUpdates = NO;
+		self.sensors.compassEnabled = YES;
+	}
+	if([self.scene requiresSensor:SensorTypeMagnet]) {
+		self.sensors.magnetAutoUpdates = NO;
+		self.sensors.magnetEnabled = YES;
+	}
+}
+
+// disable all & reset to defaults
+- (void)stopSensors {
+	self.sensors.accelEnabled = NO;
+	self.sensors.gyroEnabled = NO;
+	self.sensors.locationEnabled = NO;
+	self.sensors.compassEnabled = NO;
+	self.sensors.magnetEnabled = NO;
+	[self.sensors reset];
 }
 
 @end

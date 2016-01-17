@@ -19,10 +19,14 @@
 
 // RjDj event receivers
 #define RJ_TRANSPORT_R	@"#transport"
-#define RJ_ACCELERATE_R	@"#accelerate"
 #define RJ_VOLUME_R		@"#volume"
 #define RJ_MICVOLUME_R	@"#micvolume"
 #define RJ_TOUCH_R		@"#touch"
+#define RJ_ACCELERATE_R	@"#accelerate"
+#define RJ_GYRO_R       @"#gyro"
+#define RJ_LOCATION_R   @"#loc"
+#define RJ_COMPASS_R    @"#compass"
+#define RJ_TIME_R       @"#time"
 
 // touch event types
 #define RJ_TOUCH_UP		@"up"
@@ -31,13 +35,10 @@
 
 // PdParty event receivers
 #define PARTY_MAGNET_R  @"#magnet"
-#define PARTY_GYRO_R    @"#gyro"
-#define PARTY_LOCATE_R	@"#locate"
-#define PARTY_HEADING_R @"#heading"
 
 // incoming event sends
 #define PD_OSC_S		@"#osc-out"
-#define RJ_GLOBAL_S		@"rjdj"
+#define RJ_GLOBAL_S     @"rjdj"
 #define PARTY_GLOBAL_S	@"#pdparty"
 
 // incoming OSC address patterns
@@ -51,36 +52,21 @@
 
 @class Midi;
 @class Osc;
+@class Sensors;
 
 // custom dispatcher to grab print events
 @interface PureDataDispatcher : PdDispatcher
 @property (weak, nonatomic) Osc *osc; // pointer to osc instance
 @end
 
-// sensor event delegates
-@protocol PdSensorEventDelegate <NSObject>
-
-- (void)startAccelUpdates; // called if accel service is started via a msg
-- (void)stopAccelUpdates; // called if accel service is stopped via a msg
-- (void)setAccelSpeed:(NSString *)speed; // set the accel update speed
-
-- (void)startGyroUpdates; // called if gyro service is started via a msg
-- (void)stopGyroUpdates; // called if gyro service is stopped via a msg
-- (void)setGyroSpeed:(NSString *)speed; // set the gyro update speed
-
-- (void)startMagnetUpdates; // called if magnetometer service is started via a msg
-- (void)stopMagnetUpdates; // called if magnetometer service is stopped via a msg
-- (void)setMagnetSpeed:(NSString *)speed; // set the magnet update speed
-
-- (void)startLocationUpdates; // called if location service is started via a msg
-- (void)stopLocationUpdates;  // called if location service is stopped via a msg
-- (void)setLocationAccuracy:(NSString *)accuracy; // set the desired location accuracy
-- (void)setLocationFilter:(float)distance; // set the location distance filter
-
-- (void)startHeadingUpdates; // called if heading service is started via a msg
-- (void)stopHeadingUpdates;  // called if heading service is stopped via a msg
-- (void)setHeadingFilter:(float)degrees; // set the heading filter in degrees
-
+// sensor delegate used to query whether a sensor is supported & can be started
+// via a #pdparty message
+@protocol PdSensorSupportDelegate <NSObject>
+- (BOOL)supportsAccel;
+- (BOOL)supportsGyro;
+- (BOOL)supportsLocation;
+- (BOOL)supportsCompass;
+- (BOOL)supportsMagnet;
 @end
 
 @protocol PdRecordEventDelegate <NSObject>
@@ -94,6 +80,7 @@
 @property (strong, nonatomic) PureDataDispatcher *dispatcher; // message dispatcher
 @property (weak, nonatomic) Midi *midi; // pointer to midi instance
 @property (weak, nonatomic) Osc *osc; // pointer to osc instance
+@property (weak, nonatomic) Sensors *sensors; // pointer to sensor manager instance
 
 // enabled / disable PD audio processing
 @property (getter=isAudioEnabled) BOOL audioEnabled;
@@ -146,8 +133,8 @@
 // receives event when playback is finished
 @property (assign, nonatomic) id<PdRecordEventDelegate> recordDelegate;
 
-// receives sensor control events
-@property (assign, nonatomic) id<PdSensorEventDelegate> sensorDelegate;
+// required for sensor control support queries
+@property (assign, nonatomic) id<PdSensorSupportDelegate> sensorDelegate;
 
 #pragma mark Send Events
 
@@ -157,26 +144,26 @@
 // rj accel event
 + (void)sendAccel:(float)x y:(float)y z:(float)z;
 
-// pd party gyro event
-+ (void)sendMagnet:(float)x y:(float)y z:(float)z;
-
-// pd party gyro event
+// rj gyro event
 + (void)sendGyro:(float)x y:(float)y z:(float)z;
 
-// pd party locate event
-+ (void)sendLocate:(float)lat lon:(float)lon alt:(float)alt
-	  speed:(float)speed course:(float)course
-	  horzAccuracy:(float)horzAccuracy vertAccuracy:(float)vertAccuracy
-	  timestamp:(NSString *)timestamp;
+// rj location event
++ (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy;
 
-// pd party heading event
-+ (void)sendHeading:(float)degrees accuracy:(float)accuracy timestamp:(NSString *)timestamp;
+// rj compass event
++ (void)sendCompass:(float)degrees;
+
+// rj time event
++ (void)sendTime:(NSArray *)time;
+
+// droid party gyro event
++ (void)sendMagnet:(float)x y:(float)y z:(float)z;
 
 // pd key event
 + (void)sendKey:(int)key;
 
 // pd print event
-- (void)sendPrint:(NSString *)print;
++ (void)sendPrint:(NSString *)print;
 
 // osc message
 + (void)sendOscMessage:(NSString *)address withArguments:(NSArray *)arguments;
@@ -197,5 +184,13 @@
 /// returns true if an object of a given name current exists in a patch
 /// or it's subpatches/abstraction instances, this is using the Pd Find guts
 + (BOOL)objectExists:(NSString *)name inPatch:(PdFile *)patch;
+
+#pragma mark Util
+
+// generates an rj timestamp array:
+// year, month, day of the month, day of the week, day of the year,
+// time zone, hour, minute, second, millisecond
+// all values are float
++ (NSArray *)timestamp;
 
 @end

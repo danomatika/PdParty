@@ -1,35 +1,18 @@
-#N canvas 518 260 364 526 10;
-#X obj 11 91 tgl 30 0 runheading empty run 7 15 0 10 -262144 -1 -1
+#N canvas 899 217 365 530 10;
+#X obj 11 56 tgl 30 0 runcompass empty run 7 15 0 10 -262144 -1 -1
 0 1;
-#X obj 20 477 hsl 320 30 0 45 0 0 filter-out filter-in filter_0_-_15_degrees
+#X obj 20 482 hsl 320 30 0 45 0 0 filter-out filter-in filter_0_-_15_degrees
 8 15 0 10 -262144 -1 -1 709 1;
-#X text 9 28 so they are off by default;
-#X text 7 375 the speed of location events & overall resource usage
+#X text 9 29 your device should have a magnetometer for best results
 ;
-#X text 8 7 heading (aka compass) events require extra battery & cpu
-\,;
-#X text 9 57 your device should have a magnetometer for best results
-;
-#X text 47 97 turn it on by sending a msg to #pdparty: heading 1;
-#X obj 11 140 cnv 15 340 60 empty empty heading 20 12 0 14 -233017
--66577 0;
-#X symbolatom 167 145 25 0 0 0 - heading-timestamp -, f 25;
-#X floatatom 19 175 10 0 0 1 degrees degrees -, f 10;
-#X floatatom 166 175 10 0 0 1 accuracy_(deg) degree-accuracy -, f
-10;
-#N canvas 709 185 472 232 guts 0;
-#X obj 238 86 s #pdparty;
-#X obj 20 22 r #heading;
-#X obj 20 55 unpack f f s;
-#X obj 54 120 s degree-accuracy;
-#X obj 20 184 s degrees;
-#X obj 89 86 s heading-timestamp;
-#X msg 238 58 heading \$1;
-#X obj 238 24 r runheading;
-#X obj 344 27 loadbang;
+#X obj 11 99 cnv 15 340 60 empty empty compass 20 12 0 14 -233017 -66577
+0;
+#X floatatom 147 125 10 0 0 1 degrees degrees -, f 10;
+#N canvas 427 190 495 238 guts 0;
+#X obj 20 87 s degrees;
+#X obj 21 135 loadbang;
 #X obj 238 133 r filter-out;
 #X obj 238 201 s #pdparty;
-#X msg 238 168 heading filter \$1;
 #N canvas 772 52 429 486 degrees 0;
 #X obj 25 18 inlet;
 #X obj 25 450 outlet;
@@ -123,38 +106,60 @@ color \$1 1 \; east color \$1 1 \; northeast color \$1 1;
 #X connect 18 0 10 0;
 #X connect 18 1 13 0;
 #X connect 19 0 17 0;
-#X restore 20 154 pd degrees to cnv;
-#X msg 344 62 \; filter-in set 1;
-#X connect 1 0 2 0;
-#X connect 2 0 12 0;
-#X connect 2 1 3 0;
-#X connect 2 2 5 0;
-#X connect 6 0 0 0;
-#X connect 7 0 6 0;
-#X connect 8 0 13 0;
-#X connect 9 0 11 0;
-#X connect 11 0 10 0;
-#X connect 12 0 4 0;
-#X restore 302 144 pd guts;
-#X text 7 393 are dependent on the rotational filter value;
-#X text 8 422 rotation filter threshold in degrees (default 1) \,;
-#X obj 158 226 cnv 15 40 40 empty north empty 20 12 0 14 -233017 -166441
+#X restore 20 57 pd degrees to cnv;
+#X msg 238 168 compass filter \$1;
+#X obj 20 22 r #compass;
+#X obj 266 95 s #pdparty;
+#X obj 398 25 r update;
+#X obj 173 25 r runcompass;
+#X msg 173 56 compass \$1;
+#X obj 266 26 r updates;
+#X msg 266 57 compass updates \$1;
+#X msg 21 170 \; updates-in set 1 \; filter-in set 1;
+#X msg 398 57 compass;
+#X connect 1 0 13 0;
+#X connect 2 0 5 0;
+#X connect 4 0 0 0;
+#X connect 5 0 3 0;
+#X connect 6 0 4 0;
+#X connect 8 0 14 0;
+#X connect 9 0 10 0;
+#X connect 10 0 7 0;
+#X connect 11 0 12 0;
+#X connect 12 0 7 0;
+#X connect 14 0 7 0;
+#X restore 302 103 pd guts;
+#X text 12 413 are dependent on the rotational filter value;
+#X text 11 439 rotation filter threshold in degrees (default 1) \,
+;
+#X obj 158 169 cnv 15 40 40 empty north empty 20 12 0 14 -233017 -166441
 0;
-#X obj 158 312 cnv 15 40 40 empty south empty 20 12 0 14 -233017 -166441
+#X obj 158 255 cnv 15 40 40 empty south empty 20 12 0 14 -233017 -166441
 0;
-#X obj 158 269 cnv 15 40 40 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 158 212 cnv 15 40 40 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 201 269 cnv 15 40 40 empty east empty 20 12 0 14 -233017 -166441
+#X obj 201 212 cnv 15 40 40 empty east empty 20 12 0 14 -233017 -166441
 0;
-#X obj 115 269 cnv 15 40 40 empty west empty 20 12 0 14 -233017 -166441
+#X obj 115 212 cnv 15 40 40 empty west empty 20 12 0 14 -233017 -166441
 0;
-#X obj 201 226 cnv 15 40 40 empty northeast empty 20 12 0 14 -233017
+#X obj 201 169 cnv 15 40 40 empty northeast empty 20 12 0 14 -233017
 -166441 0;
-#X obj 201 312 cnv 15 40 40 empty southeast empty 20 12 0 14 -233017
+#X obj 201 255 cnv 15 40 40 empty southeast empty 20 12 0 14 -233017
 -166441 0;
-#X obj 115 312 cnv 15 40 40 empty southwest empty 20 12 0 14 -233017
+#X obj 115 255 cnv 15 40 40 empty southwest empty 20 12 0 14 -233017
 -166441 0;
-#X obj 115 226 cnv 15 40 40 empty northwest empty 20 12 0 14 -233017
+#X obj 115 169 cnv 15 40 40 empty northwest empty 20 12 0 14 -233017
 -166441 0;
-#X text 9 437 events occur when your orientation has changed beyond
-this value \, 0 = no filter;
+#X obj 22 324 tgl 30 0 updates updates-in updates 32 15 0 10 -262144
+-1 -1 1 1;
+#X obj 239 323 bng 30 250 50 0 update empty update 32 15 0 10 -262144
+-1 -1;
+#X text 12 454 events occur when orientation changs beyond this value
+;
+#X text 8 7 compass heading degrees;
+#X text 11 301 enable auto updates to receive event stream (default:
+on);
+#X text 47 62 turn it on by sending a msg to #pdparty: compass 1;
+#X text 12 395 the speed of compass events & overall resource usage
+;
+#X text 12 366 send manual update when auto updates is disabled;
