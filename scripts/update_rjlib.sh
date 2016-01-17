@@ -9,7 +9,7 @@ DESTDIR=../res/patches/lib
 cd $WD
 
 # get latest source
-git clone git://github.com/rjdj/rjlib.git rjlib
+git clone git://github.com/danomatika/rjlib.git rjlib
 
 # copy input/output patches
 mkdir -p $DESTDIR/rj
