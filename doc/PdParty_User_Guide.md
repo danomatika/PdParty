@@ -265,7 +265,8 @@ PdParty also supports running "scenes" which are basically folders with a specif
 * RjDj scenes:
   * a folder that ends in *.rj that contains a _main.pd
   * locked to portrait
-  * an optional background image name "Image.jpg" which must have a square aspect ratio, this is also used for the Browser icon
+  * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
+  * an optional browser icon named "thumb.jpg" and a min size of 55x55
   * an optional info xml file named "Info.plist" with the following string keys:
     * _author_
     * _description_
@@ -367,7 +368,8 @@ PdParty currently supports:
   * [rj_centroid~]
   * [rj_senergy~]
   * [rj_zcr~]
-* scene background Image.jpg
+* scene background image.jpg
+* scene browser icon thumb.jpg
 * scene Info.plist
 
 Currently, scene paging and metadata are not supported.
