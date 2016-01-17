@@ -1,0 +1,63 @@
+#N canvas 418 39 377 267 10;
+#X declare -path .;
+#X declare -path ../pd;
+#X declare -path ../../pd;
+#N canvas 592 236 588 274 LICENSE 0;
+#X text 57 36 Released under the GNU General Public License ver. 3
+or later. See the file LICENSE.txt for the full text.;
+#X text 79 84 (c) 2010 Dan Wilcox danomatika.com;
+#X restore 258 86 pd LICENSE;
+#X obj 30 68 soundinput;
+#X obj 30 207 soundoutput;
+#X text 27 23 RjDj Scene Template - _main.pd;
+#X obj 258 27 declare -path .;
+#N canvas 0 22 448 215 more_paths 0;
+#X text 27 19 You can add more paths here as well \, like the path
+to soundoutput.pd on your computer etc.;
+#X obj 36 57 declare -path ../pd;
+#X obj 35 79 declare -path ../../pd;
+#X restore 258 55 pd more_paths;
+#X text 74 131 louder please;
+#N canvas 134 29 368 294 booooooommmerranganganging 0;
+#X obj 40 261 outlet~;
+#X obj 40 26 inlet~;
+#X obj 55 202 +~;
+#X obj 53 61 delwrite~ delay 5000;
+#X obj 94 227 delwrite~ echo 5000;
+#X text 187 102 a delay line with an echo;
+#X text 197 133 283 ms .. very important;
+#X obj 40 231 +~;
+#X obj 40 88 *~ 0.1;
+#X obj 70 173 *~ 0.015;
+#X text 203 158 rjdj latency is 23 ms ...;
+#X text 212 184 so delay is 260 ms;
+#X obj 70 148 delread~ echo 260;
+#X obj 55 115 delread~ delay 260;
+#X connect 1 0 3 0;
+#X connect 1 0 8 0;
+#X connect 2 0 4 0;
+#X connect 2 0 7 1;
+#X connect 7 0 0 0;
+#X connect 8 0 7 0;
+#X connect 9 0 2 1;
+#X connect 12 0 9 0;
+#X connect 13 0 2 0;
+#X restore 30 167 pd booooooommmerranganganging;
+#N canvas 60 103 405 235 info 0;
+#X text 19 23 A simple version of "Boomerang" by Richard Serra and
+Nancy Holt for Pure Data.;
+#X text 17 128 See http://www.youtube.com/watch?v=m5S3_dmj8BU and http://danomatika.com/?p=387
+;
+#X text 18 62 Wear closed headphones and make sure both the microphone
+input and sound output are loud enough. You should hear your own voice
+"bommeranging" back which will confuse your brain and cause your speech
+and comprehension to slow down.;
+#X text 16 176 Serra \, Holt 1974;
+#X text 15 195 This version for PD by Luke Loeffler & Dan Wilcox 2010
+;
+#X restore 257 123 pd info;
+#X obj 30 132 *~ 3;
+#X connect 1 0 9 0;
+#X connect 7 0 2 0;
+#X connect 7 0 2 1;
+#X connect 9 0 7 0;
