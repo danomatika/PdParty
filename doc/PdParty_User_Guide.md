@@ -329,18 +329,18 @@ All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to
 PdParty currently supports:
 
 * PdDroidParty abstractions:
-  * _[loadsave]_
-  * _[menubang]_: buttons are added to the controls popup menu
-  * _[display]_
-  * _[droidsystem]_:
+  * [loadsave]
+  * [menubang]: buttons are added to the controls popup menu
+  * [display]
+  * [droidsystem]:
     * receive messages: sensors, & openurl (vibrate\* is ignored) 
     * send messages: accel, gyro, & magnet
-  * _[knob]_: implementation of the moonlib external [mknob]
-  * _[numberbox]_
-  * _[ribbon]_
-  * _[taplist]_
-  * _[touch]_
-  * _[wordbutton]_
+  * [knob]: implementation of the moonlib external [mknob]
+  * [numberbox]
+  * [ribbon]
+  * [taplist]
+  * [touch]
+  * [wordbutton]
 * scene folder background.png loading
 * scene foldder font.ttf & font-antialiased.ttf loading
 
@@ -355,18 +355,18 @@ SVG widget styling support are planned, but not an immediate priority as there i
 PdParty currently supports:
 
 * RjDj abstractions/objects:
-  * _[rj_image]_: implemented internally
-  * _[rj_text]_: implemented internally
-  * _[rj_gyro]_
-  * _[rj_loc]_
-  * _[rj_compass]_
-  * _[rj_time]_
+  * [rj_image]: implemented internally
+  * [rj_text]: implemented internally
+  * [rj_gyro]
+  * [rj_loc]
+  * [rj_compass]
+  * [rj_time]
 * RjDj externals:
-  * _[rj_accum]_
-  * _[rj_barkflux_accum~]_
-  * _[rj_centroid~]_
-  * _[rj_senergy~]_
-  * _[rj_zcr~]_
+  * [rj_accum]
+  * [rj_barkflux_accum~]
+  * [rj_centroid~]
+  * [rj_senergy~]
+  * [rj_zcr~]
 * scene background Image.jpg
 * scene Info.plist
 
@@ -379,7 +379,7 @@ Testing has been done using the original RjDj composer pack as well as various R
 * _Atsuke_ by Frank Barknecht
 * _CanOfBeats_ by Chris McCormick
 
-Also, thanks to Joe White for providing a copy of the RjDj get_sensors.pd by Roman Haefeli, et al. which provided an overview of the extended rj sensor objects.
+Also, thanks to Joe White for providing a copy of the RjDj _get_sensors.pd_ patch by Roman Haefeli, et al. which provided an overview of the extended rj sensor objects.
 
 ### Events
 
