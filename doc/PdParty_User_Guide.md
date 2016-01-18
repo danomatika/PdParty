@@ -226,7 +226,7 @@ Naturally, you can download the PdParty source and open the test patches & examp
 
 2. PdParty will scale GUI objects to fit the screen of the device. Your patch should have the rough dimensions of a phone/tablet in portrait or landscape mode (e.g. 3:2 aspect ratio or e.g. 480x320 should usually work well). If it's not exact it doesn't matter - the GUI elements will be scaled.
 
-3. Numberbox, Sliders, Radios, Toggle, Comment, Bang, Canvas, and VU are currently rendered by PdParty and are feature complete (yes, all the edit commands work!). Also, the [PdDroidParty](http://droidparty.net/) Wordbutton, Taplist, Touch, & Numberbox are supported.
+3. Numberbox, Sliders, Radios, Toggle, Comment, Bang, Canvas, and VU are currently rendered by PdParty and are feature complete (yes, all the edit commands work!). Also, the [PdDroidParty](http://droidparty.net) Wordbutton, Taplist, Touch, & Numberbox are supported.
 
 4. All GUI elements should communicate with the main audio patches using send and receive only. You can usually set send and receive for each GUI by right clicking on the object and choosing 'properties' in Pd. Do not directly connect cables to the GUI elements as they won't work. It helps to keep the GUIs on their own in the main patch and have it include the logic of your patch as an abstraction or subpatch containing senders and receivers for interfacing with GUI elements. This is good patch design practice anyway as it is basically a model-view-controller methodology.
 
@@ -267,7 +267,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * locked to portrait
   * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
   * an optional browser icon named "thumb.jpg" and a min size of 55x55
-  * an optional info xml file named "Info.plist" with the following string keys:
+  * an optional info xml file named "Info.plist" or "info.plist" with the following string keys:
     * _author_
     * _description_
     * _name_
@@ -286,10 +286,16 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * 44100 samplerate
 * PdParty scenes
   * a folder that contains a _main.pd
+  * portrait or landscape
+  * an optional info json file named "info.json" with a dictionay & the following keys:
+    * _author_
+    * _description_
+    * _name_
+    * _category_
   * requires all event types
   * \#touch positions are normalized from 0-1
   * sensors are accessed via receivers: \#gyro, \#loc, \#compass, \#magnet, & \#time
-  * sensors are enabled & udpated via control messages to \#pdparty
+  * sensors are enabled & updated via control messages to \#pdparty
   * 44100 samplerate
   
 Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene.

@@ -144,6 +144,20 @@
 		}
 		else if([PartyScene isPdPartyDirectory:path]) {
 			cell.imageView.image = [UIImage imageNamed:@"pdparty"];
+		
+			// info
+			NSDictionary *info = [PartyScene infoForSceneAt:path];
+			if(info) {
+				if([info objectForKey:@"name"]) {
+					cell.textLabel.text = [info objectForKey:@"name"];
+				}
+				else {
+					cell.textLabel.text = [path lastPathComponent];
+				}
+				if([info objectForKey:@"author"]) {
+					cell.detailTextLabel.text = [info objectForKey:@"author"];
+				}
+			}
 		}
 		else {
 			cell.imageView.image = [UIImage imageNamed:@"folder"];

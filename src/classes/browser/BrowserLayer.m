@@ -318,7 +318,8 @@ static NSMutableArray *s_movePaths; //< paths to move
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserCell"];
+	cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"BrowserCell"];
 	BOOL isDir;
 	NSString *path = [_paths objectAtIndex:indexPath.row];
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {

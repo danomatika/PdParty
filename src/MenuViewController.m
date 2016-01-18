@@ -16,6 +16,7 @@
 #import "Util.h"
 #import "Popover.h"
 #import "ConsoleViewController.h"
+#import "PatchViewController.h"
 
 #define CELL_SIZE 60
 #define PADDING   10
@@ -23,6 +24,8 @@
 @interface MenuViewController () {
 	BOOL scrolls; // YES if there are enough buttons for the menu to scroll
 	NSMapTable *menubangButtons; // menubangs via button id keys
+	int consoleButtonIndex;
+	int infoButtonIndex;
 }
 @end
 
@@ -63,6 +66,8 @@
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 	[menubangButtons removeAllObjects];
+	consoleButtonIndex = -1;
+	infoButtonIndex = -1;
 }
 
 #pragma Layout
@@ -102,12 +107,22 @@
 
 #pragma mark UICollectionViewDataSource
 
-- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-	return 1  + (int)([Log textViewLogger] != nil) + [Menubang menubangCount];
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	if([Log textViewLoggerEnabled]) {
+		consoleButtonIndex = 1;
+		if(app.sceneManager.scene.hasInfo) {
+			infoButtonIndex = 2;
+		}
+	}
+	else if(app.sceneManager.scene.hasInfo) {
+		infoButtonIndex = 1;
+	}
+	return 1 + (int)[Log textViewLoggerEnabled] + (int)app.sceneManager.scene.hasInfo + [Menubang menubangCount];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -167,31 +182,37 @@
 			//[button setTitle:@"Restart Scene" forState:UIControlStateNormal];
 			[button addTarget:self action:@selector(restartPressed:) forControlEvents:UIControlEventTouchUpInside];
 			break;
-		case 1:
-			if([Log textViewLoggerEnabled]) {
+		default:
+			if(indexPath.row == consoleButtonIndex) {
 				//[button setTitle:@"Show Console" forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:normalColor]  forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:selectedColor] forState:UIControlEventTouchDown];
 				[button addTarget:self action:@selector(showConsolePressed:) forControlEvents:UIControlEventTouchUpInside];
-				break;
 			}
-		default: {
-			NSInteger *row = indexPath.row - ([Log textViewLoggerEnabled] ? 2 : 1);
-			Menubang *m = [[Menubang menubangs] objectAtIndex:row];
-			[menubangButtons setObject:m forKey:button]; // store button used for menubang
-			if(m.imagePath) {
-				UIImage *image = [UIImage imageWithContentsOfFile:m.imagePath];
-				if(image) {
-					[button setImage:[Util image:image withTint:normalColor]  forState:UIControlStateNormal];
-					[button setImage:[Util image:image withTint:selectedColor] forState:UIControlEventTouchDown];
-					[button addTarget:self action:@selector(menubangPressed:) forControlEvents:UIControlEventTouchUpInside];
-					break;
+			else if(indexPath.row == infoButtonIndex) {
+				//[button setTitle:@"Show Info" forState:UIControlStateNormal];
+				[button setImage:[Util image:[UIImage imageNamed:@"info-big"] withTint:normalColor]  forState:UIControlStateNormal];
+				[button setImage:[Util image:[UIImage imageNamed:@"info-big"] withTint:selectedColor] forState:UIControlEventTouchDown];
+				[button addTarget:self action:@selector(showInfoPressed:) forControlEvents:UIControlEventTouchUpInside];
+			}
+			else {
+				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+				NSInteger *row = indexPath.row - (1 + (int)[Log textViewLoggerEnabled] + (int)app.sceneManager.scene.hasInfo);
+				Menubang *m = [[Menubang menubangs] objectAtIndex:row];
+				[menubangButtons setObject:m forKey:button]; // store button used for menubang
+				if(m.imagePath) {
+					UIImage *image = [UIImage imageWithContentsOfFile:m.imagePath];
+					if(image) {
+						[button setImage:[Util image:image withTint:normalColor]  forState:UIControlStateNormal];
+						[button setImage:[Util image:image withTint:selectedColor] forState:UIControlEventTouchDown];
+						[button addTarget:self action:@selector(menubangPressed:) forControlEvents:UIControlEventTouchUpInside];
+						break;
+					}
 				}
+				[button setTitle:[m.name stringByReplacingOccurrencesOfString:@"_" withString:@" "] forState:UIControlStateNormal];
+				[button addTarget:self action:@selector(menubangPressed:) forControlEvents:UIControlEventTouchUpInside];
 			}
-			[button setTitle:[m.name stringByReplacingOccurrencesOfString:@"_" withString:@" "] forState:UIControlStateNormal];
-			[button addTarget:self action:@selector(menubangPressed:) forControlEvents:UIControlEventTouchUpInside];
 			break;
-		}
 	}
 	[cell.contentView addSubview:button];
 
@@ -231,6 +252,13 @@
 	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
 	navigationController.modalInPopover = YES;
 	[self.popover.sourceController.navigationController presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)showInfoPressed:(id)sender {
+	DDLogVerbose(@"Menu: show info button pressed");
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	[self.popover dismissPopoverAnimated:YES];
+	[app.patchViewController performSegueWithIdentifier:@"showInfo" sender:self];
 }
 
 - (void)menubangPressed:(id)sender {

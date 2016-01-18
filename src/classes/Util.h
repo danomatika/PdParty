@@ -66,7 +66,7 @@
 // recursively copy srcFolder's contents to destFolder, overrites existing files
 + (BOOL)copyContentsOfFolder:(NSString *)srcFolder toFolder:(NSString *)destFolder error:(NSError *)error;
 
-#pragma mark Conversion
+#pragma mark Images
 
 // renders a given string into a UIImage
 + (UIImage *)imageFromString:(NSString *)string withFont:(UIFont*)font;
@@ -82,6 +82,12 @@
 
 // unregister font file with the CoreText font manager
 + (void)unregisterFont:(NSString *)fontPath;
+
+#pragma mark JSON
+
+// parses JSON from a file into an NSDictionary or NSArray,
+// returns nil on error
++ (id)parseJSONFromFile:(NSString *)path;
 
 @end
 

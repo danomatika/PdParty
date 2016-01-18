@@ -19,4 +19,8 @@
 // returns true if the given path is a PdParty scene dir
 + (BOOL)isPdPartyDirectory:(NSString *)fullpath;
 
+// returns a dictionary loaded from the info.json or Info.json in a given scene dir,
+// returns nil if not found or is empty
++ (NSDictionary*)infoForSceneAt:(NSString *)fullpath;
+
 @end

@@ -170,7 +170,7 @@
 #X connect 45 0 46 0;
 #X connect 46 0 47 0;
 #X restore 39 396 pd connectors_2;
-#N canvas 0 0 450 300 connectors_3 0;
+#N canvas 0 22 450 300 connectors_3 0;
 #X obj 10 0 r toggle_3_0;
 #X obj 100 0 list prepend 0;
 #X obj 200 0 s sequence_3;
@@ -252,7 +252,7 @@
 #X connect 45 0 46 0;
 #X connect 46 0 47 0;
 #X restore 39 416 pd connectors_3;
-#N canvas 0 0 450 562 buildtoggles 0;
+#N canvas 0 22 450 562 buildtoggles 0;
 #X obj 115 194 * 3;
 #X obj 115 215 + 2;
 #X msg 22 90 16;
@@ -304,7 +304,7 @@ empty empty 17 7 0 10 -262144 -1 -1 1 0 \;;
 #X obj 18 150 mod 16;
 #X obj 18 171 s tick;
 #X obj 179 17 drum sequence_1 sample_1;
-#N canvas 0 0 450 300 (subpatch) 0;
+#N canvas 0 22 450 300 (subpatch) 0;
 #X array sample_1 39753 float 3;
 #A 0 -0.0234375 -0.0546875 -0.0703125 -0.0859375 -0.078125 -0.046875
 0 0.078125 0.164062 0.273438 0.390625 0.507812 0.601562 0.679688 0.734375
@@ -5045,7 +5045,7 @@ empty empty 17 7 0 10 -262144 -1 -1 1 0 \;;
 0.0078125 0.0078125 0 -0.0078125 -0.0078125 0.0078125 0.0078125 0;
 #X coords 0 1 39753 -1 50 25 1;
 #X restore 271 461 graph;
-#N canvas 0 0 450 300 (subpatch) 0;
+#N canvas 0 22 450 300 (subpatch) 0;
 #X array sample_2 5825 float 3;
 #A 0 -0.000946045 -0.0181274 0.000793457 -0.0218201 0.00933838 -0.0310364
 0.0218506 -0.0447998 0.0427551 -0.0561523 0.052063 -0.0891418 0.089325
@@ -5880,7 +5880,7 @@ empty empty 17 7 0 10 -262144 -1 -1 1 0 \;;
 #X coords 0 1 5825 -1 50 25 1;
 #X restore 271 506 graph;
 #X obj 205 405 tanh~;
-#N canvas 0 0 450 300 (subpatch) 0;
+#N canvas 0 22 450 300 (subpatch) 0;
 #X array sample_3 5300 float 3;
 #A 0 0.00540161 0.00570679 0.00543213 -0.00311279 -0.00622559 -0.0219421
 -0.0571289 -0.0521545 0.0135193 0.0778503 0.0641479 -0.00753784 -0.0220947
@@ -6831,9 +6831,9 @@ empty empty 17 7 0 10 -262144 -1 -1 1 0 \;;
 -1 1 1;
 #X obj 435 279 tgl 25 1 toggle_3_15 empty empty 17 7 0 10 -262144 -1
 -1 0 1;
-#X obj 238 150 cnv 16 25 16 empty ticker empty 20 12 0 14 -258113 -66577
+#X obj 42 150 cnv 16 25 16 empty ticker empty 20 12 0 14 -258113 -66577
 0;
-#X obj 207 21 vsl 32 128 0 1.5 0 1 feedback feedback-r feedback 0 -9
+#X obj 207 21 vsl 32 128 0 1.5 0 1 feedback feedback-r feedbk 0 -9
 0 10 -262144 -1 -1 0 0;
 #X obj 164 21 vsl 32 128 0 127 0 1 length length-r delay 0 -9 0 10
 -262144 -1 -1 0 0;

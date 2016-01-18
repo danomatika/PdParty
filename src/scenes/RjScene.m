@@ -96,8 +96,17 @@
 				DDLogError(@"RjScene: couldn't load Info.plist");
 			}
 		}
-		else {
-			DDLogWarn(@"RjScene: no Info.plist");
+		else { // fallback
+			infoPath = [path stringByAppendingPathComponent:@"info.plist"];
+			if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
+				info = [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
+				if(!info) {
+					DDLogError(@"RjScene: couldn't load info.plist");
+				}
+			}
+		}
+		if(info) {
+			DDLogInfo(@"RjScene: loaded %@", [infoPath lastPathComponent]);
 		}
 		
 		// check sensor requirements
@@ -197,7 +206,7 @@
 }
 
 - (BOOL)hasInfo {
-	return (BOOL) info;
+	return (info != nil);
 }
 
 - (NSString *)artist {
@@ -293,6 +302,12 @@
 	NSString *infoPath = [fullpath stringByAppendingPathComponent:@"Info.plist"];
 	if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
 		return [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
+	}
+	else { // fallback
+		infoPath = [fullpath stringByAppendingPathComponent:@"info.plist"];
+		if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
+			return [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
+		}
 	}
 	return nil;
 }

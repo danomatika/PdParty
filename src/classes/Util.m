@@ -151,7 +151,7 @@
 	return YES;
 }
 
-#pragma mark Conversion
+#pragma mark Images
 
 // from:
 // http://stackoverflow.com/questions/2765537/how-do-i-use-the-nsstring-draw-functionality-to-create-a-uiimage-from-text#2768081
@@ -212,6 +212,17 @@
 		DDLogError(@"Util: Failed to unregister font: %@", errorDescription);
 		CFRelease(errorDescription);
 	}
+}
+
+#pragma mark JSON
+
++ (id)parseJSONFromFile:(NSString *)path {
+	NSError *error;
+    id data = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:&error];
+    if(!data) {
+        DDLogError(@"Util: parsing JSON from %@ failed: %@", path, error.debugDescription);
+    }
+    return data;
 }
 
 @end

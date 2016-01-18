@@ -30,8 +30,8 @@
 // return nil if images not found
 + (UIImage*)thumbnailForSceneAt:(NSString *)fullpath;
 
-// returns a dictionary loaded from the Info.plist in a given RjDj scene dir,
-// returns nil if Info.plist is not found or is empty
+// returns a dictionary loaded from the Info.plist or info.plist in a given RjDj scene dir,
+// returns nil if not found or is empty
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath;
 
 @end
