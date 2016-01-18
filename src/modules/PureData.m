@@ -39,7 +39,7 @@
 	self = [super init];
 	if(self) {
 
-		_micVolume = [[NSUserDefaults standardUserDefaults] floatForKey:@"micVolume"];
+		self.micVolume = [[NSUserDefaults standardUserDefaults] floatForKey:@"micVolume"];
 		_volume = 1.0;
 		_playing = YES;
 		_recording = NO;
@@ -91,7 +91,6 @@
 - (void)sendCurrentPlayValues {
 	[PureData sendTransportPlay:_playing];
 	[PureData sendTransportLoop:_looping];
-	[PureData sendMicVolume:_micVolume];
 	[PureData sendVolume:_volume];
 }
 
@@ -266,10 +265,6 @@
 
 + (void)sendTransportLoop:(BOOL)loop {
 	[PdBase sendMessage:@"loop" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:loop]] toReceiver:RJ_TRANSPORT_R];
-}
-
-+ (void)sendMicVolume:(float)micVolume {
-	[PdBase sendFloat:micVolume toReceiver:RJ_MICVOLUME_R];
 }
 
 + (void)sendVolume:(float)volume {
@@ -591,8 +586,12 @@
 
 - (void)setMicVolume:(float)micVolume {
 	_micVolume = CLAMP(micVolume, 0.0, 1.0);
-	[PureData sendMicVolume:_micVolume];
 	[[NSUserDefaults standardUserDefaults] setFloat:_micVolume forKey:@"micVolume"];
+	NSError *error;
+	[[AVAudioSession sharedInstance] setInputGain:_micVolume error:&error];
+	if(error) {
+		DDLogError(@"PureData: couldn't set input gain: %@", error.localizedDescription);
+	}
 }
 
 - (void)setOsc:(Osc *)osc {

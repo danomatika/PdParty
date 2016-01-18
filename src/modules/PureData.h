@@ -20,7 +20,6 @@
 // RjDj event receivers
 #define RJ_TRANSPORT_R	@"#transport"
 #define RJ_VOLUME_R		@"#volume"
-#define RJ_MICVOLUME_R	@"#micvolume"
 #define RJ_TOUCH_R		@"#touch"
 #define RJ_ACCELERATE_R	@"#accelerate"
 #define RJ_GYRO_R       @"#gyro"
@@ -176,8 +175,7 @@
 + (void)sendTransportPlay:(BOOL)play;
 + (void)sendTransportLoop:(BOOL)loop; // playback only
 
-+ (void)sendMicVolume:(float)micVolume;
-+ (void)sendVolume:(float)volume;
++ (void)sendVolume:(float)volume; // used for playback
 
 #pragma mark Find
 

@@ -43,7 +43,6 @@ typedef enum {
 @property (strong, nonatomic) PdFile *patch;
 @property (readonly, nonatomic) NSString *name; // scene name
 @property (readonly, nonatomic) BOOL records; // can this scene record? has a [soundoutput] object
-@property (readonly, nonatomic) BOOL micControl; // does this scene have mic control? has a [soundinput] object
 
 // rjdj style  scene info, probabaly loaded from a file, etc
 @property (readonly, nonatomic) BOOL hasInfo; // returns YES if the current info is good
@@ -59,18 +58,7 @@ typedef enum {
 @property (readonly, nonatomic) int sampleRate;
 
 @property (readonly, nonatomic) BOOL requiresTouch; // does the scene require touch events? (default NO)
-//@property (readonly, nonatomic) BOOL requiresAccel; // does the scene require accel events? (default NO)
-//@property (readonly, nonatomic) BOOL requiresGyro; // does the scene support gyro events? (default NO)
-//@property (readonly, nonatomic) BOOL requiresLocation; // does the scene support location events? (default NO)
-//@property (readonly, nonatomic) BOOL requiresCompass; // does the scene support compass events? (default NO)
-//@property (readonly, nonatomic) BOOL requiresMagnet; // does the scene support magnet events? (default NO)
 @property (readonly, nonatomic) BOOL requiresKeys; // does the scene require key events? (default NO)
-//
-//@property (readonly, nonatomic) BOOL supportsAccel; // does the scene support accel events? (default NO)
-//@property (readonly, nonatomic) BOOL supportsGyro; // does the scene support gyro events? (default NO)
-//@property (readonly, nonatomic) BOOL supportsLocation; // does the scene support location events? (default NO)
-//@property (readonly, nonatomic) BOOL supportsCompass; // does the scene support compass events? (default NO)
-//@property (readonly, nonatomic) BOOL supportsMagnet; // does the scene support magnet events? (default NO)
 
 // preferred orientations, all by default
 @property (assign, nonatomic) UIInterfaceOrientationMask preferredOrientations;
@@ -81,9 +69,6 @@ typedef enum {
 
 - (BOOL)open:(NSString *)path; // expects full path
 - (void)close;
-
-// start any sensors needed by the scene
-- (void)startSensorUpdates;
 
 // reshape to fit current parent view size
 - (void)reshape;

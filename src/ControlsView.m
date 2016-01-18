@@ -211,7 +211,6 @@
 		}
 		
 		self.rightButton.enabled = self.sceneManager.scene.records;
-		self.levelSlider.enabled = self.sceneManager.scene.micControl;
 		if(self.sceneManager.pureData.isRecording) {
 			[self rightButtonToStopRecord];
 		}

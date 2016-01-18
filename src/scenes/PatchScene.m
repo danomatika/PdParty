@@ -12,13 +12,10 @@
 
 #import "AppDelegate.h"
 
-// TODO: decide on these, maybe check for [r #transport] & [r #micvolume] instead
-//#define CHECK_SOUNDINPUT
 #define CHECK_SOUNDOUTPUT
 
 @interface PatchScene () {
 	BOOL soundoutputFound;
-	BOOL soundinputFound;
 }
 @end
 
@@ -53,14 +50,6 @@
 		[self.gui removeAllWidgets];
 		return NO;
 	}
-	
-	// check for [soundinput] which is used for mic control
-	#ifdef CHECK_SOUNDINPUT
-		soundinputFound = [PureData objectExists:@"soundinput" inPatch:self.patch];
-		DDLogVerbose(@"%@: soundinput found: %@", self.typeString, (soundinputFound ? @"yes" : @"no"));
-	#else
-		soundinputFound = YES;
-	#endif
 	
 	// check for [soundoutput] which is used for recording
 	#ifdef CHECK_SOUNDOUTPUT
@@ -127,10 +116,6 @@
 
 - (BOOL)records {
 	return soundoutputFound;
-}
-
-- (BOOL)micControl {
-	return soundinputFound;
 }
 
 - (SceneType)type {
