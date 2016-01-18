@@ -126,11 +126,8 @@
 
 	// clean up popover or there will be an exception when navigating away while
 	// popover is still displayed on iPhone
-	if(self.controlsPopover.popoverVisible) {
-		[self.controlsPopover dismissPopoverAnimated:YES];
-	}
+	[self dismissControlsPopover];
 }
-
 #pragma mark Scene Management
 
 - (void)openScene:(NSString *)path withType:(SceneType)type {
@@ -158,6 +155,7 @@
 	if(self.masterPopoverController != nil) {
 		[self.masterPopoverController dismissPopoverAnimated:YES];
 	}
+	[self dismissControlsPopover]; // controls popover too
 }
 
 - (void)closeScene {
@@ -291,6 +289,11 @@
 	return YES;
 }
 
+// hide controls popover when browser is shown on iPad
+- (void)splitViewController:(UISplitViewController *)splitController popoverController:(UIPopoverController *)popoverController willPresentViewController:(UIViewController *)viewController {
+    [self dismissControlsPopover];
+}
+
 #pragma mark Private
 
 - (void)checkOrientation {
@@ -344,9 +347,7 @@
 			[self.controlsView removeFromSuperview];
 			
 			// make sure to close popover if it's still visible on iPad
-			if(self.controlsPopover.popoverVisible) {
-				[self.controlsPopover dismissPopoverAnimated:YES];
-			}
+			[self dismissControlsPopover];
 			self.controlsPopover = nil;
 			
 			// make sure the color is black as it might have been white in a popover
@@ -450,6 +451,12 @@
 	[self.controlsView.superview setNeedsUpdateConstraints];
 	
 	[self.controlsView updateControls];
+}
+
+- (void)dismissControlsPopover {
+	if(self.controlsPopover.popoverVisible) {
+		[self.controlsPopover dismissPopoverAnimated:YES];
+	}
 }
 
 @end
