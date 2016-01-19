@@ -39,7 +39,6 @@
 			
 	r.orientation = orientation;
 	r.size = [[line objectAtIndex:5] intValue];
-	r.value = [[line objectAtIndex:6] intValue];
 	r.inits = [[line objectAtIndex:7] boolValue];
 	r.numCells = [[line objectAtIndex:8] intValue];
 	
@@ -56,6 +55,8 @@
 	
 	if(r.inits) {
 		r.value = [[line objectAtIndex:19] intValue];
+	} else {
+		r.value = 0;
 	}
 	
 	return r;
