@@ -40,7 +40,7 @@
 		return nil;
 	}
 
-	Slider *s = [[Slider alloc] initWithFrame:CGRectZero];
+	Slider *s = [[[self class] alloc] initWithFrame:CGRectZero];
 	
 	s.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
 	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];

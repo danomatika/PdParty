@@ -37,7 +37,7 @@
 		return nil;
 	}
 
-	VUMeter *v = [[VUMeter alloc] initWithFrame:CGRectZero];
+	VUMeter *v = [[[self class] alloc] initWithFrame:CGRectZero];
 	
 	v.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
 	if(![v hasValidReceiveName]) {

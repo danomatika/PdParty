@@ -23,7 +23,7 @@
 		return nil;
 	}
 
-	Radio *r = [[Radio alloc] initWithFrame:CGRectZero];
+	Radio *r = [[[self class] alloc] initWithFrame:CGRectZero];
 
 	r.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
 	r.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
