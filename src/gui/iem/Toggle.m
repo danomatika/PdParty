@@ -23,7 +23,7 @@
 		return nil;
 	}
 
-	Toggle *t = [[Toggle alloc] initWithFrame:CGRectZero];
+	Toggle *t = [[[self class] alloc] initWithFrame:CGRectZero];
 
 	t.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
 	t.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
