@@ -120,6 +120,7 @@
 - (void)sendInitValue {
 	if(self.inits) {
 		[self bang];
+    [self sendBang];
 	}
 }
 
