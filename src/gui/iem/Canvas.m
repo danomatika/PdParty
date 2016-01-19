@@ -23,7 +23,7 @@
 		return nil;
 	}
 
-	Canvas *c = [[Canvas alloc] initWithFrame:CGRectZero];
+	Canvas *c = [[[self class] alloc] initWithFrame:CGRectZero];
 
 	c.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	c.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];

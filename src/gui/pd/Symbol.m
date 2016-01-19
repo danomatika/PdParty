@@ -21,7 +21,7 @@
 		return nil;
 	}
 
-	Symbol *s = [[Symbol alloc] initWithFrame:CGRectZero];
+	Symbol *s = [[[self class] alloc] initWithFrame:CGRectZero];
 
 	s.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
 	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
