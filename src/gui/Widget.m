@@ -181,7 +181,9 @@
 	}
 }
 
-- (void)sendInitValue {}
+- (void)sendInitValue {
+  [self sendFloat:self.value];
+}
 
 #pragma mark Overridden Getters / Setters
 
