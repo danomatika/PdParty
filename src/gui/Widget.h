@@ -104,9 +104,10 @@ typedef enum {
 - (void)sendSymbol:(NSString *)symbol;
 - (void)sendList:(NSArray *)list;
 
-// send value if init is set,
-// this is done automatically by built in pd objects (number, slider, etc),
-// subclasses which implement non built in objects however should implement this
+// send value if init is set, empty by default
+//
+// libpd does this automatically for the built-in iem guis,
+// subclasses which implement non built-in widgets should implement this
 - (void)sendInitValue;
 
 #pragma mark Static Dispatcher
