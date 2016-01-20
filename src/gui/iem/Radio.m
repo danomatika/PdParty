@@ -39,7 +39,7 @@
 			
 	r.orientation = orientation;
 	r.size = [[line objectAtIndex:5] intValue];
-	r.value = [[line objectAtIndex:6] intValue];
+	// index 6 is the "new_old" value which isn't currently used
 	r.inits = [[line objectAtIndex:7] boolValue];
 	r.numCells = [[line objectAtIndex:8] intValue];
 	
