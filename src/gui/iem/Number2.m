@@ -167,10 +167,6 @@
 	[self reshapeLabelForGui:gui];
 }
 
-- (void)sendInitValue {
-	// doesn't appear to actually send on init in pd
-}
-
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)value {
