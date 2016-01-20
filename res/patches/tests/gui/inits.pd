@@ -1,18 +1,38 @@
 #N canvas 400 301 197 263 10;
-#X obj 49 42 bng 15 250 50 1 gui-out empty empty 17 7 0 10 -262144
+#X obj 49 40 bng 15 250 50 1 bng-out empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 88 44 tgl 15 1 gui-out empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 88 40 tgl 15 1 tgl-out empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#X obj 49 70 hsl 128 15 0 127 0 1 gui-out empty empty -2 -8 0 10 -262144
+#X obj 49 70 hsl 128 15 0 127 0 1 hsl-out empty empty -2 -8 0 10 -262144
 -1 -1 3400 1;
-#X obj 124 45 nbx 5 14 -1e+37 1e+37 0 1 gui-out empty empty 0 -8 0
+#X obj 124 41 nbx 5 14 -1e+37 1e+37 0 1 nbx-out empty empty 0 -8 0
 10 -262144 -1 -1 123 256;
-#X obj 53 110 hradio 15 1 1 8 gui-out empty empty 0 -8 0 10 -262144
+#X obj 53 110 hradio 15 1 1 8 hradio-out empty empty 0 -8 0 10 -262144
 -1 -1 2;
-#X obj 70 189 r gui-out;
-#X obj 70 218 print;
-#X obj 14 42 vsl 15 128 0 127 0 1 gui-out empty empty 0 -9 0 10 -262144
+#X obj 14 42 vsl 15 128 0 127 0 1 vsl-out empty empty 0 -9 0 10 -262144
 -1 -1 7700 1;
-#X obj 91 142 mknob 25 100 0 127 0 1 gui-out empty empty -2 -6 0 8
--262144 -1 -1 3300 1;
-#X connect 5 0 6 0;
+#X obj 91 142 mknob 25 100 0 127 0 1 mknob-out empty empty -2 -6 0
+8 -262144 -1 -1 3300 1;
+#N canvas 625 56 349 162 guts 0;
+#X obj 24 29 r vsl-out;
+#X obj 24 59 print vsl;
+#X obj 99 29 r hsl-out;
+#X obj 99 59 print hsl;
+#X obj 173 29 r bng-out;
+#X obj 173 59 print bng;
+#X obj 247 29 r hradio-out;
+#X obj 247 59 print hradio;
+#X obj 24 94 r tgl-out;
+#X obj 24 124 print tgl;
+#X obj 100 94 r num2-out;
+#X obj 100 124 print num2;
+#X obj 183 94 r mknob-out;
+#X obj 183 124 print mknob;
+#X connect 0 0 1 0;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 6 0 7 0;
+#X connect 8 0 9 0;
+#X connect 10 0 11 0;
+#X connect 12 0 13 0;
+#X restore 74 211 pd guts;
