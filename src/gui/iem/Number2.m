@@ -289,7 +289,6 @@
 }
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-
 	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// value width in chars, height
 		self.valueWidth = [[arguments objectAtIndex:0] integerValue];

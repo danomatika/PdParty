@@ -12,11 +12,11 @@
 
 @interface Number2 : IEMWidget
 
-@property (assign, nonatomic) BOOL log; // linear or logarithmic scale?
-@property (assign, nonatomic) BOOL steady; // steady on click?
-@property (assign, nonatomic) float logHeight;
+@property (assign, nonatomic) BOOL log; //< linear or logarithmic scale?
+@property (assign, nonatomic) BOOL steady; //< steady on click?
+@property (assign, nonatomic) float logHeight; //< used to compute log conversion
 
-@property (assign, nonatomic) int valueWidth; // number of value chars to show
-@property (strong, nonatomic) UILabel *valueLabel; // shows the value
+@property (assign, nonatomic) int valueWidth; //< number of value chars to show
+@property (strong, nonatomic) UILabel *valueLabel; //< shows the value
 
 @end

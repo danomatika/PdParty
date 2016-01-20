@@ -13,7 +13,10 @@
 
 @interface Menubang : Widget
 
+/// name from first argument, used for send name & menu button text if imagePath is nil
 @property (strong, nonatomic) NSString *name;
+
+/// optional path to menu button image (default nil)
 @property (strong, nonatomic) NSString *imagePath;
 
 #pragma mark Static Access

@@ -8,7 +8,7 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
- #import "RjImage.h"
+#import "RjImage.h"
 
 @implementation RjImage
 

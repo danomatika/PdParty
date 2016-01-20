@@ -22,7 +22,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-// global access
+/// global access
 @property (weak, nonatomic) PatchViewController *patchViewController;
 @property (weak, nonatomic) BrowserViewController *browserViewController;
 
@@ -50,14 +50,14 @@
 
 #pragma mark URL
 
-// launch web view for a url, uses app scene folder for relative path
+/// launch web view for a url, uses app scene folder for relative path
 - (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title;
 
 #pragma mark Util
 
-// recursively copy dirs and patches in the resource patches dir to the
-// Documents folder, removes/overwrites any currently existing subdirs matching
-// those within the source dir
+/// recursively copy dirs and patches in the resource patches dir to the
+/// Documents folder, removes/overwrites any currently existing subdirs matching
+/// those within the source dir
 - (void)copyLibFolder;
 - (void)copySamplesFolder;
 - (void)copyTestsFolder;

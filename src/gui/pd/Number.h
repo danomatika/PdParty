@@ -11,5 +11,4 @@
 #import "AtomWidget.h"
 
 @interface Number : AtomWidget
-
 @end

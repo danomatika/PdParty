@@ -11,7 +11,4 @@
 #import "Number.h"
 
 @interface Numberbox : Number
-
-- (void)reshapeValueLabel;
-
 @end

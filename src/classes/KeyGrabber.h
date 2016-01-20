@@ -10,34 +10,34 @@
  */
 #import <UIKit/UIKit.h>
 
-// key pressed event delegate
+/// key pressed event delegate
 @protocol KeyGrabberDelegate <NSObject>
 @optional
 - (void)keyPressed:(int)key;
 @end
 
-// a hidden view that grabs key events without showing the soft keyboard
-// from https://github.com/scarnie/iCade-iOS/tree/master/iCadeTest/iCade
-//
-// sorry intl peeps, ASCII only
-//
-// Usage:
-//	inherit from the KeyGrabberDelegate and add a KeyGrabber as a subview:
-//
-//    KeyGrabberView *grabber = [[KeyGrabberView alloc] init];
-//	  grabber.active = YES;
-//	  grabber.delegate = self;
-//	  [self.view addSubview:grabber];
-//
+/// a hidden view that grabs key events without showing the soft keyboard
+/// from https://github.com/scarnie/iCade-iOS/tree/master/iCadeTest/iCade
+///
+/// sorry intl peeps, ASCII only
+///
+/// Usage:
+///	inherit from the KeyGrabberDelegate and add a KeyGrabber as a subview:
+///
+///   KeyGrabberView *grabber = [[KeyGrabberView alloc] init];
+///	  grabber.active = YES;
+///	  grabber.delegate = self;
+///	  [self.view addSubview:grabber];
+///
 @interface KeyGrabberView : UIView<UIKeyInput>
 
-// enable key grabbing?
+/// enable key grabbing?
 @property (assign, nonatomic) BOOL active;
 
-// set the delegate to receive events
+/// set the delegate to receive events
 @property (assign, nonatomic) id<KeyGrabberDelegate> delegate;
 
-// or read the latest event value here
+/// or read the latest event value here
 @property (assign, nonatomic) int key;
 
 @end

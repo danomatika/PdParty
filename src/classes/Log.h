@@ -12,12 +12,12 @@
 #import "CocoaHTTPServer/Vendor/CocoaLumberjack/DDTTYLogger.h"
 #import "CocoaHTTPServer/Vendor/CocoaLumberjack/DDFileLogger.h"
 
-// global log level
-//
-// from http://bluedogtech.blogspot.com/2010/12/global-log-level-control-with.html
-//
-// off, error, warn, info, verbose
-//  0     1     3      7      15
+/// global log level
+///
+/// from http://bluedogtech.blogspot.com/2010/12/global-log-level-control-with.html
+///
+/// off, error, warn, info, verbose
+///  0     1     3      7      15
 extern int ddLogLevel;
 
 @class TextViewLogger;
@@ -43,7 +43,7 @@ extern int ddLogLevel;
 
 /// set the current log level:
 /// LOG_LEVEL_OFF, LOG_LEVEL_ERROR, LOG_LEVEL_WARN, LOG_LEVEL_INFO, LOG_LEVEL_VERBOSE
-// updates the defaults "logLevel" value
+/// updates the defaults "logLevel" value
 + (void)setLogLevel:(int)logLevel;
 
 /// get the current log level

@@ -99,12 +99,7 @@
 	return [super description];
 }
 
-
-- (SceneType)type {
-	return SceneTypeParty;
-}
-
-- (NSString *)typeString {
+- (NSString *)type {
 	return @"PartyScene";
 }
 
@@ -127,7 +122,5 @@
 	}
 	return nil;
 }
-
-#pragma mark
 
 @end

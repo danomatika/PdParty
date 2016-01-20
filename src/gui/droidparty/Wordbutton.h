@@ -11,5 +11,4 @@
 #import "Widget.h"
 
 @interface Wordbutton : Widget
-
 @end

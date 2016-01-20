@@ -14,119 +14,122 @@
 @class Gui;
 @class PdFile;
 
-// defaults
+/// defaults
 #define WIDGET_FILL_COLOR [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]
 #define WIDGET_FRAME_COLOR [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]
 
-// for widgets supporting orientation
+/// for widgets supporting orientation
 typedef enum {
 	WidgetOrientationHorizontal,
 	WidgetOrientationVertical
 } WidgetOrientation;
 
-// extended PdListener
+/// extended PdListener
+/// implement PdListener methods for receiving bang, float, & symbol
+/// which are called when lists and messages are receieved
 @protocol WidgetListener <PdListener>
-// implement PdListener methods for recieving bang, float, & symbol
-// which are called when lists and messages are receieved
 @optional
-// receive a [; receiveName set something < message
+/// receive a [; receiveName set something < message
 - (void)receiveSetFloat:(float)received;
 - (void)receiveSetSymbol:(NSString *)symbol;
-// for forwarding IEM widget edit messages, returns YES if message was handled
+/// for forwarding IEM widget edit messages, returns YES if message was handled
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments;
 @end
 
 @class PdDispatcher;
 
-// a widget baseclass
+/// a widget baseclass
 @interface Widget : UIView <WidgetListener>
 
-@property (weak, nonatomic) Gui *gui; // parent gui pointer
+@property (weak, nonatomic) Gui *gui; //< parent gui pointer
 
-@property (assign, nonatomic) CGRect originalFrame; // original pd gui object pos & size
-@property (assign, nonatomic) CGPoint originalLabelPos; // origin pd label pos (rel to object pos)
+@property (assign, nonatomic) CGRect originalFrame; //< original pd gui object pos & size
+@property (assign, nonatomic) CGPoint originalLabelPos; //< origin pd label pos (rel to object pos)
 
-@property (strong, nonatomic) UIColor *fillColor;		// IEM gui background
-@property (strong, nonatomic) UIColor *frameColor;		// widget outline
-@property (strong, nonatomic) UIColor *controlColor;	// IEM gui foreground
-// IEM gui label color is at label.textColor
+@property (strong, nonatomic) UIColor *fillColor; //< IEM gui background
+@property (strong, nonatomic) UIColor *frameColor; //< widget outline
+@property (strong, nonatomic) UIColor *controlColor; //< IEM gui foreground
+/// IEM gui label color is at label.textColor
 
-@property (assign, nonatomic) float minValue;
-@property (assign, nonatomic) float maxValue;
-@property (assign, nonatomic) float value; // base value, Widget is redrawn when set
-@property (assign, nonatomic) BOOL inits; // sends value when initing?
+@property (assign, nonatomic) float minValue; /// min display value
+@property (assign, nonatomic) float maxValue; /// max display value
+@property (assign, nonatomic) float value; /// base value, Widget is redrawn when set
+@property (assign, nonatomic) BOOL inits; /// sends value when initing?
 
+/// pd sender name
 @property (strong, nonatomic) NSString *sendName;
 
-// setting this also adds the widget as a listener for pd messages,
-// setting to nil removes the widget listener which is important
-// as the Widget may not dealloc and you'll get a memory leak since
-// the pointer is still being held by the pd dispatcher
-// note: this is set to nil in the cleanup: method
+/// pd receiver name
+///
+/// setting this also adds the widget as a listener for pd messages,
+/// setting to nil removes the widget listener which is important
+/// as the Widget may not dealloc and you'll get a memory leak since
+/// the pointer is still being held by the pd dispatcher
+/// note: this is set to nil in the cleanup: method
 @property (strong, nonatomic) NSString *receiveName;
 
+/// text label
 @property (strong, nonatomic) UILabel *label;
 
-// get the widget type as a string, overridden by other widgets
+/// get the widget type as a string, overridden by other widgets
 @property (readonly, nonatomic) NSString *type;
 
-// init widget from an atom line and parent gui object,
-// this is the preferred method for widget creation
-// override this in a subclass and don't forget to call super
-// note: returns nil if atom line is invalid
+/// init widget from an atom line and parent gui object,
+/// this is the preferred method for widget creation
+/// override this in a subclass and don't forget to call super
+/// note: returns nil if atom line is invalid
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui;
 
-// setup any special resources, should be called after widget has been added to
-// a parent view *and* the patch has been loaded by libpd
-//
-// if set, init values are sent when calling this
-//
-// widgets can laod patch folder resources hre, for instance
+/// setup any special resources, should be called after widget has been added to
+/// a parent view *and* the patch has been loaded by libpd
+///
+/// if set, init values are sent when calling this
+///
+/// widgets can laod patch folder resources hre, for instance
 - (void)setup;
 
-// replace $0 in atom strings (send, receive, label)
-// call this *after* the patch has been loaded or $0 = 0
+/// replace $0 in atom strings (send, receive, label)
+/// call this *after* the patch has been loaded or $0 = 0
 - (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile *)patch;
 
-// reshape based on gui bounds & scale changes
+/// reshape based on gui bounds & scale changes
 - (void)reshape;
 
-// cleanup any special resources, should be called before widget will be deleted
-//
-// clears receiver name from pd dispatcher when called
-//
-// this is required as some widgets *may* be stored in container objects
-// and need to be removed otherwise they may not be dealloc automatically
-//
+/// cleanup any special resources, should be called before widget will be deleted
+///
+/// clears receiver name from pd dispatcher when called
+///
+/// this is required as some widgets *may* be stored in container objects
+/// and need to be removed otherwise they may not be dealloc automatically
 - (void)cleanup;
 
 #pragma mark Sending
 
-// returns true if the widget has a non empty send or recieve name
+/// returns true if the widget has a non empty send or recieve name
 - (BOOL)hasValidSendName;
 - (BOOL)hasValidReceiveName;
 
-// send to objects in pd
+/// send to objects in pd
 - (void)sendBang;
 - (void)sendFloat:(float) f;
 - (void)sendSymbol:(NSString *)symbol;
 - (void)sendList:(NSArray *)list;
 
-// send value if init is set, empty by default
-//
-// libpd does this automatically for the built-in iem guis,
-// subclasses which implement non built-in widgets should implement this
+/// send value if init is set, empty by default
+///
+/// libpd does this automatically for the built-in iem guis,
+/// subclasses which implement non built-in widgets should implement this
 - (void)sendInitValue;
 
 #pragma mark Static Dispatcher
 
-// static recieve dispatcher
+/// static receive dispatcher
 + (PdDispatcher *) dispatcher;
 + (void)setDispatcher:(PdDispatcher *)d;
 
 #pragma mark Number Formatting
 
-// convert a float to a string of the given max length
+/// convert a float to a string of the given max length
 + (NSString *)stringFromFloat:(double)f withWidth:(int)width;
 
 @end

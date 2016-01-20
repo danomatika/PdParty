@@ -160,7 +160,6 @@
 }
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-
 	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// size
 		self.originalFrame = CGRectMake(

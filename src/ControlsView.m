@@ -15,7 +15,6 @@
 
 @interface ControlsView () {
 	NSString *currentLevelIcon;
-
 	NSLayoutConstraint *heightConstraint;
 	NSLayoutConstraint *toolbarHeightConstraint;
 	NSLayoutConstraint *sliderLeadingConstraint;
@@ -113,10 +112,9 @@
 #pragma mark UI
 
 - (void)controlChanged:(id)sender {
-
 	if(sender == self.leftButton) {
 		//DDLogVerbose(@"ControlsView: left button pressed");
-		if(self.sceneManager.scene.type == SceneTypeRecording) {						
+		if([self.sceneManager.scene isKindOfClass:[RecordingScene class]]) {
 			if(self.sceneManager.pureData.audioEnabled) {
 				
 				// restart playback if stopped
@@ -147,7 +145,7 @@
 	}
 	else if(sender == self.rightButton) {
 		//DDLogVerbose(@"ControlsView: right button pressed");
-		if(self.sceneManager.scene.type == SceneTypeRecording) {
+		if([self.sceneManager.scene isKindOfClass:[RecordingScene class]]) {
 			self.sceneManager.pureData.looping = !self.sceneManager.pureData.isLooping;
 			if(self.sceneManager.pureData.isLooping) {
 				[self rightButtonToStopLoop];
@@ -169,7 +167,7 @@
 	}
 	else if(sender == self.levelSlider) {
 		//DDLogVerbose(@"ControlsView: level slider changed: %f", self.levelSlider.value);
-		if(self.sceneManager.scene.type == SceneTypeRecording) {
+		if([self.sceneManager.scene isKindOfClass:[RecordingScene class]]) {
 			self.sceneManager.pureData.volume = self.levelSlider.value;
 		}
 		else {
@@ -179,8 +177,7 @@
 }
 
 - (void)updateControls {
-	
-	if(self.sceneManager.scene.type == SceneTypeRecording) {
+	if([self.sceneManager.scene isKindOfClass:[RecordingScene class]]) {
 	
 		if(self.sceneManager.pureData.audioEnabled && self.sceneManager.pureData.isPlayingback) {
 			[self leftButtonToPause];
@@ -317,7 +314,6 @@
 }
 
 - (void)setSpacing:(float)spacing {
-
 	sliderLeadingConstraint.constant = spacing;
 	sliderTrailingConstraint.constant = -spacing;
 	

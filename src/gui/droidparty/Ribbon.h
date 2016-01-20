@@ -12,10 +12,11 @@
 
 @interface Ribbon : Widget
 
-//   value2          value
-// [   ||||||||||||||||   ]
-//
-// value: right control
-@property (assign, nonatomic) float value2; // left control
+///   value2          value
+/// [   ||||||||||||||||   ]
+///
+/// value: right control
+/// value2: left control
+@property (assign, nonatomic) float value2;
 
 @end

@@ -10,28 +10,30 @@
  */
 #import "PatchScene.h"
 
-// an RjDj scene (folder with .rj ext & _main.pd), portrait only
-// path is to scene folder
+/// an RjDj scene (folder with .rj ext & _main.pd), portrait only
+/// path is to scene folder
 @interface RjScene : PatchScene <PdListener>
 
+/// dispatcher to receive rj_image & rj_text pd events
 @property (weak, nonatomic) PdDispatcher *dispatcher;
 
+/// square background image (nominally 320x320)
 @property (strong, nonatomic) UIImageView *background;
 
-// scale amount between background bounds and background pixel size
+/// scale amount between background bounds and background pixel size
 @property (assign, readonly, nonatomic) float scale;
 
 + (id)sceneWithParent:(UIView *)parent andDispatcher:(PdDispatcher *)dispatcher;
 
-// returns true if the given path is an RjDj scene dir
+/// returns true if the given path is an RjDj scene dir
 + (BOOL)isRjDjDirectory:(NSString *)fullpath;
 
-// returns a thumbnail.jpg for a given RjDj scene dir, falls back to image.jpg
-// return nil if images not found
+/// returns a thumbnail.jpg for a given RjDj scene dir, falls back to image.jpg
+/// return nil if images not found
 + (UIImage*)thumbnailForSceneAt:(NSString *)fullpath;
 
-// returns a dictionary loaded from the Info.plist or info.plist in a given RjDj scene dir,
-// returns nil if not found or is empty
+/// returns a dictionary loaded from the Info.plist or info.plist in a given RjDj scene dir,
+/// returns nil if not found or is empty
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath;
 
 @end

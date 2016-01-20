@@ -45,8 +45,8 @@ enum MidiStatus {
 
 // number range defines
 // because it's sometimes hard to remember these  ...
-#define MIDI_MIN_BEND		0
-#define MIDI_MAX_BEND		16383
+#define MIDI_MIN_BEND 0
+#define MIDI_MAX_BEND 16383
 
 #pragma mark Util
 
@@ -82,7 +82,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 - (id)init {
 	self = [super init];
 	if(self) {
-		
 		lastTime = 0;
 		bFirstPacket = true;
 		bContinueSysex = false;
@@ -223,7 +222,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 // adapted from ofxMidi iOS & RTMidi CoreMidi message parsing
 - (void)midiSource:(PGMidiSource *)input midiReceived:(const MIDIPacketList *)packetList {
-
     const MIDIPacket * packet = &packetList->packet[0];
 	unsigned char statusByte;
 	unsigned short nBytes, curByte, msgSize;
@@ -433,7 +431,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 #pragma mark Private
 
 - (void)handleMessage:(NSData *)message withDelta:(double)deltatime {
-
 	const unsigned char *bytes = (const unsigned char*)[message bytes];
 	int statusByte = bytes[0];
 	int channel = 1;
@@ -495,7 +492,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 // adapted from PGMidi sendBytes
 - (void)sendMessage:(NSData *)message {
-	
 //	#ifdef DEBUG
 //		[Util logData:message withHeader:@"Midi: sending "];
 //	#endif
@@ -512,7 +508,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendMessage:(NSData *)message toPort:(int)port {
-
 //	#ifdef DEBUG
 //		[Util logData:message withHeader:@"Midi: sending "];
 //	#endif

@@ -39,7 +39,7 @@ typedef enum {
 /// set a custom navigation bar title, (default: current dir name)
 @property (copy, nonatomic) NSString *title;
 
-// root browser layer or self if a single layer, this must be set to a valid object
+/// root browser layer or self if a single layer, this must be set to a valid object
 @property (nonatomic) Browser *root;
 
 #pragma mark Location

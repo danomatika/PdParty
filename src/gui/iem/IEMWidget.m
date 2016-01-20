@@ -61,7 +61,6 @@
 #pragma mark WidgetListener
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-
 	if([message isEqualToString:@"color"] && [arguments count] > 2 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1] && [arguments isNumberAt:2])) {
 		// background, front-color, label-color

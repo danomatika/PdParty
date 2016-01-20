@@ -58,7 +58,7 @@
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
-	return @"EmptyScene";
+	return @"Scene";
 }
 
 - (BOOL)records {
@@ -85,11 +85,7 @@
 	return @"None";
 }
 
-- (SceneType)type {
-	return SceneTypeEmpty;
-}
-
-- (NSString *)typeString {
+- (NSString *)type {
 	return @"EmptyScene";
 }
 
@@ -118,23 +114,23 @@
 - (void)addSearchPathsIn:(NSString *)directory {
 	
 	if(![[NSFileManager defaultManager] fileExistsAtPath:directory]) {
-		DDLogWarn(@"%@: search path %@ not found, skipping", self.typeString, directory);
+		DDLogWarn(@"%@: search path %@ not found, skipping", self.type, directory);
 		return;
 	}
-	DDLogVerbose(@"%@: adding search paths in %@", self.typeString, directory);
+	DDLogVerbose(@"%@: adding search paths in %@", self.type, directory);
 
 	NSError *error;
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:&error];
 	if(!contents) {
-		DDLogError(@"%@: couldn't read contents of path %@, error: %@", self.typeString, directory, error.localizedDescription);
+		DDLogError(@"%@: couldn't read contents of path %@, error: %@", self.type, directory, error.localizedDescription);
 		return;
 	}
 	
-	DDLogVerbose(@"%@: found %lu paths", self.typeString, (unsigned long)contents.count);
+	DDLogVerbose(@"%@: found %lu paths", self.type, (unsigned long)contents.count);
 	for(NSString *p in contents) {
 		NSString *path = [directory stringByAppendingPathComponent:p];
 		if([Util isDirectory:path]) {
-			DDLogVerbose(@"%@: \tadded %@ to search path", self.typeString, p);
+			DDLogVerbose(@"%@: \tadded %@ to search path", self.type, p);
 			[PdBase addToSearchPath:path];
 		}
 	}

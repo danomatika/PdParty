@@ -15,31 +15,31 @@
 #import "MenuViewController.h"
 #import "KeyGrabber.h"
 
-// DetailViewController for patches/scenes 
+/// DetailViewController for patches/scenes
 @interface PatchViewController : UIViewController <UISplitViewControllerDelegate, KeyGrabberDelegate>
 
-// force a rotation of the view in degrees
+/// force a rotation of the view in degrees
 @property (assign, nonatomic) int rotation;
 
-// on screen/popup audio controls
+/// on screen/popup audio controls
 @property (strong, nonatomic) ControlsView *controlsView;
 
-// popup grid of menu buttons
+/// popup grid of menu buttons
 @property (strong, nonatomic) MenuViewController *menuViewController;
 
 #pragma mark Scene Management
 
 @property (weak, nonatomic) SceneManager *sceneManager;
 
-// close the current scene and open a new one, requires full path to current patch
-- (void)openScene:(NSString *)path withType:(SceneType)type;
+/// close the current scene and open a new one, requires full path to current patch
+- (void)openScene:(NSString *)path withType:(NSString *)type;
 
-// close the current scene
+/// close the current scene
 - (void)closeScene;
 
 #pragma mark UI
 
-// called when a right nav bar button is pressed
+/// called when a right nav bar button is pressed
 - (void)controlsNavButtonPressed:(id)sender;
 - (void)infoNavButtonPressed:(id)sender;
 

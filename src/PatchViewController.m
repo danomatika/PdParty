@@ -16,18 +16,18 @@
 #import "Popover.h"
 
 @interface PatchViewController () {
-	NSMutableDictionary *activeTouches; // for persistent ids
-	KeyGrabberView *grabber; // for keyboard events
+	NSMutableDictionary *activeTouches; //< for persistent ids
+	KeyGrabberView *grabber; //< for keyboard events
 }
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) Popover *controlsPopover;
 
-// check the current orientation against the scene's prefferred orientations &
-// manually rotate the view if needed
+/// check the current orientation against the scene's prefferred orientations &
+/// manually rotate the view if needed
 - (void)checkOrientation;
 
-// display the controls on screen or in a popup as required by the current scene
+/// display the controls on screen or in a popup as required by the current scene
 - (void)updateControls;
 
 @end
@@ -130,7 +130,7 @@
 }
 #pragma mark Scene Management
 
-- (void)openScene:(NSString *)path withType:(SceneType)type {
+- (void)openScene:(NSString *)path withType:(NSString *)type {
 
 	// set the scenemanager here since iPhone dosen't load view until *after* this is called
 	if(!self.sceneManager) {

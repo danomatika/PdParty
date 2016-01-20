@@ -17,7 +17,7 @@
     if(self) {
 		self.autoresizesSubviews = NO;
 		self.hidden = NO;
-		_centered = YES;	// draw from center by default
+		_centered = YES;
     }
     return self;
 }

@@ -18,18 +18,18 @@
 #import "Util.h"
 
 @interface BrowserViewController () {
-	// temp variables required for segues on iPhone since PatchViewController
-	// may not exist yet when opening first scene
-	NSString *selectedPatch; // maybe subpatch in the case of Rj Scenes, etc
-	SceneType selectedSceneType;
+	/// temp variables required for segues on iPhone since PatchViewController
+	/// may not exist yet when opening first scene
+	NSString *selectedPatch; //< maybe subpatch in the case of Rj Scenes, etc
+	NSString *selectedSceneType;
 }
 
-// run the given scene in the PatchViewController
-- (void)runScene:(NSString *)fullpath withSceneType:(SceneType)sceneType;
+/// run the given scene in the PatchViewController
+- (void)runScene:(NSString *)fullpath withSceneType:(NSString *)sceneType;
 
-// called when a patch is selected, return NO if the path was not handled
-- (BOOL)selectFile:(NSString *)path; // assumes full path
-- (BOOL)selectDirectory:(NSString *)path; // assumes full path
+/// called when a patch is selected, return NO if the path was not handled
+- (BOOL)selectFile:(NSString *)path; //< assumes full path
+- (BOOL)selectDirectory:(NSString *)path; //< assumes full path
 
 @end
 
@@ -93,7 +93,7 @@
 
 #pragma mark Private
 
-- (void)runScene:(NSString *)path withSceneType:(SceneType)sceneType {
+- (void)runScene:(NSString *)path withSceneType:(NSString *)sceneType {
 	selectedPatch = path;
 	selectedSceneType = sceneType;
 	if([Util isDeviceATablet]) {
@@ -108,10 +108,10 @@
 
 - (BOOL)selectFile:(NSString *)path {
 	if([[path pathExtension] isEqualToString:@"pd"]) { // regular patch
-		[self runScene:path withSceneType:SceneTypePatch];
+		[self runScene:path withSceneType:@"PatchScene"];
 	}
 	else if([RecordingScene isRecording:path]) { // recordings
-		[self runScene:path withSceneType:SceneTypeRecording];
+		[self runScene:path withSceneType:@"RecordingScene"];
 	}
 	else if([BrowserViewController isZipFile:path]) { // unzip zipfiles
 		NSError *error;
@@ -159,13 +159,13 @@
 
 - (BOOL)selectDirectory:(NSString *)path {
 	if([DroidScene isDroidPartyDirectory:path]) {
-		[self runScene:path withSceneType:SceneTypeDroid];
+		[self runScene:path withSceneType:@"DroidScene"];
 	}
 	else if([RjScene isRjDjDirectory:path]) {
-		[self runScene:path withSceneType:SceneTypeRj];
+		[self runScene:path withSceneType:@"RjScene"];
 	}
 	else if([PartyScene isPdPartyDirectory:path]) {
-		[self runScene:path withSceneType:SceneTypeParty];
+		[self runScene:path withSceneType:@"PartyScene"];
 	}
 	else { // regular dir
 		return NO;

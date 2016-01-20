@@ -76,7 +76,6 @@
 
 // from http://code-ninja.org/blog/2012/02/29/ios-quick-tip-programmatically-hiding-sections-of-a-uitableview-with-static-cells/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
 	if(section == 0) {
 		// hide cells based on midi status
 		return midi.isEnabled ? 2 : 1; // change back to 4 to reenable virtual port controls
@@ -138,9 +137,8 @@
 	return UITableViewCellEditingStyleNone;
 }
 
+// if a dynamic section, make all rows the same height as row 0
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-	// if a dynamic section, make all rows the same height as row 0
 	if(indexPath.section == 1 || indexPath.section == 2) {
 		return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
 	}
@@ -149,9 +147,8 @@
 	}
 }
 
+// if dynamic section make all rows the same indentation level as row 0
 -(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-	// if dynamic section make all rows the same indentation level as row 0
 	if(indexPath.section == 1 || indexPath.section == 2) {
 		return [super tableView:tableView indentationLevelForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
 	}
@@ -160,22 +157,22 @@
 	}
 }
 
+// shouldn't be called since nothing is selectable
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	// shouldn't be called since nothing is selectable
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark MidiConnectionDelegate
 
+// reload inputs section
 - (void)midiInputConnectionEvent {
-	// reload inputs section
 	NSRange range = NSMakeRange(1, 1);
 	NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];                                     
 	[self.tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+// reload outputs section
 - (void)midiOutputConnectionEvent {
-	// reload outputs section
 	NSRange range = NSMakeRange(2, 1);
 	NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];                                     
 	[self.tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];

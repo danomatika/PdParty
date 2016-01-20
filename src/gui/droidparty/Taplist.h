@@ -10,13 +10,12 @@
  */
 #import "Widget.h"
 
-@class Gui;
-
 @interface Taplist : Widget
 
+/// list of string items
 @property (strong, nonatomic) NSMutableArray *list;
 
-// set list receive name, essentially self.receiveName + "-list"
+/// set list receive name, essentially self.receiveName + "-list"
 @property (readonly, strong, nonatomic) NSString *listReceiveName;
 
 @end

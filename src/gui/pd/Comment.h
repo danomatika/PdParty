@@ -12,6 +12,7 @@
 
 @interface Comment : Widget
 
-@property (assign, nonatomic) int numForcedLineBreaks; // num line breaks forced by a ; char
+/// num line breaks forced by a ; char
+@property (assign, nonatomic) int numForcedLineBreaks;
 
 @end

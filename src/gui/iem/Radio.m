@@ -104,7 +104,6 @@
 }
 
 - (void)reshape {
-	
 	float cellSize = ceil(self.size * self.gui.scaleX);
 	
 	// bounds
@@ -182,7 +181,6 @@
 }
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-
 	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// size
 		self.size = [[arguments objectAtIndex:0] intValue];

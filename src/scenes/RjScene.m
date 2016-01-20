@@ -51,7 +51,6 @@
 }
 
 - (BOOL)open:(NSString *)path {
-	
 	[self.dispatcher addListener:self forSource:@"rj_image"];
 	[self.dispatcher addListener:self forSource:@"rj_text"];
 	
@@ -121,15 +120,12 @@
 }
 
 - (void)close {
-	
 	[self.dispatcher removeListener:self forSource:@"rj_image"];
 	[self.dispatcher removeListener:self forSource:@"rj_text"];
-	
 	if(self.background) {
 		[self.background removeFromSuperview];
 		self.background = nil;
 	}
-	
 	[super close];
 }
 
@@ -239,11 +235,7 @@
 	return [super description];
 }
 
-- (SceneType)type {
-	return SceneTypeRj;
-}
-
-- (NSString *)typeString {
+- (NSString *)type {
 	return @"RjScene";
 }
 
@@ -316,8 +308,9 @@
 
 // mostly borrowed from the pd-for-android ScenePlayer
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-	if(list.count < 2 || ![list isStringAt:0] || ![list isStringAt:1]) return;
-	
+	if(list.count < 2 || ![list isStringAt:0] || ![list isStringAt:1]) {
+		return;
+	}
 	NSString *key = [list objectAtIndex:0];
 	NSString *cmd = [list objectAtIndex:1];
 	
@@ -381,7 +374,7 @@
 		[self.background addSubview:widget];
 		[self.background bringSubviewToFront:widget];
 		[widgets setValue:widget forKey:key];
-		DDLogVerbose(@"RjScene: added %@ with key: %@", widget.typeString, key);
+		DDLogVerbose(@"RjScene: added %@ with key: %@", widget.type, key);
 	}
 }
 
@@ -390,7 +383,6 @@
 // weird little hack to avoid having our rj_image.pd and such masked by files in the scene,
 // from pd-for-android ScenePlayer
 + (void)removeRjAbstractionDuplicates:(NSString *)directory {
-
 	NSArray *contents = [[NSFileManager defaultManager] subpathsAtPath:directory];
 	if(!contents) {
 		return;

@@ -22,58 +22,58 @@
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
-@property (readonly, nonatomic) BOOL isListening;
-@property (strong, nonatomic) NSString *sendHost; // do not set when listening
-@property (nonatomic) int sendPort; // do not set when listening
-@property (nonatomic) int listenPort;
+@property (readonly, nonatomic) BOOL isListening; //< is the listener running
+@property (strong, nonatomic) NSString *sendHost; //< do not set when listening
+@property (nonatomic) int sendPort; //< do not set when listening
+@property (nonatomic) int listenPort; //< listening port
 
-// should the following events be sent automatically? (default: NO)
-@property (assign, nonatomic) BOOL touchSendingEnabled;
-@property (assign, nonatomic) BOOL sensorSendingEnabled; // accel, gyro, location, compass, magnet
-@property (assign, nonatomic) BOOL keySendingEnabled;
-@property (assign, nonatomic) BOOL printSendingEnabled;
+/// should the following events be sent automatically? (default NO)
+@property (assign, nonatomic) BOOL touchSendingEnabled; //< send touch events?
+@property (assign, nonatomic) BOOL sensorSendingEnabled; //< accel, gyro, location, compass, magnet
+@property (assign, nonatomic) BOOL keySendingEnabled; //< send [key] events?
+@property (assign, nonatomic) BOOL printSendingEnabled; //< send pd prints?
 
-// returns YES if listening was started or the server was already listening,
-// returns NO & sets the error if the server cannot be started
-// note: does *not* restart, you must do that manually
+/// returns YES if listening was started or the server was already listening,
+/// returns NO & sets the error if the server cannot be started
+/// note: does *not* restart, you must do that manually
 - (BOOL)startListening:(NSError *)error;
 
-// stops the server
+/// stops the server
 - (void)stopListening;
 
 #pragma mark Send Events
 
-// send to pdParty osc receiver
+/// send to pdParty osc receiver
 - (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments;
 
-// send a raw byte packet to pdParty osc receiver
+/// send a raw byte packet to pdParty osc receiver
 - (void)sendPacket:(NSData *)data;
 
-// rj touch event
+/// rj touch event
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
 
-// rj accel event
+/// rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;
 
-// rj gyro event
+/// rj gyro event
 - (void)sendGyro:(float)x y:(float)y z:(float)z;
 
-// rj location event
+/// rj location event
 - (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy;
 
-// rj compass event
+/// rj compass event
 - (void)sendCompass:(float)degrees;
 
-// rj time event
+/// rj time event
 - (void)sendTime:(NSArray *)time;
 
-// droid party magnetometer event
+/// droid party magnetometer event
 - (void)sendMagnet:(float)x y:(float)y z:(float)z;
 
-// pd key event
+/// pd key event
 - (void)sendKey:(int)key;
 
-// pd print event
+/// pd print event
 - (void)sendPrint:(NSString *)print;
 
 @end

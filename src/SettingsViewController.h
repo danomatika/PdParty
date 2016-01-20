@@ -10,7 +10,7 @@
  */
 #import <UIKit/UIKit.h>
 
-// settings view
+/// settings view
 @interface SettingsViewController : UITableViewController
 
 #pragma mark Behavior

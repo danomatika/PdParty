@@ -12,21 +12,23 @@
 
 @class PureData;
 
-// Recording scene (wav file playback)
-// path is to .wav file
+/// Recording scene (wav file playback)
+/// path is to .wav file
 @interface RecordingScene : Scene
 
-@property (weak, nonatomic) PureData *pureData;
+@property (weak, nonatomic) PureData *pureData; //< playback handled in pd
 
-@property (strong, nonatomic) NSString *file;
+@property (strong, nonatomic) NSString *file; //< wav file to play
+
+/// sqaure background image (nominally 320x320)
 @property (strong, nonatomic) UIImageView *background;
 
 + (id)sceneWithParent:(UIView *)parent andPureData:(PureData *)pureData;
 
-// restart playback at the beginning
+/// restart playback at the beginning
 - (void)restartPlayback;
 
-// returns true if a given path is a recording file aka .wav
+/// returns true if a given path is a recording file aka .wav
 + (BOOL)isRecording:(NSString *)fullpath;
 
 @end

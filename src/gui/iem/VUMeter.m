@@ -20,12 +20,10 @@
 
 @interface VUMeter () {
 	BOOL isDefaultFillColor;
-	int rmsLed, peakLed; // led bar indices
+	int rmsLed, peakLed; //< led bar indices
 	int ledSize;
 }
-
 - (void)checkHeight;
-
 @end
 
 @implementation VUMeter
@@ -74,7 +72,6 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-
 	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospace font
 	int yOffset = charSize.height / 2;
 

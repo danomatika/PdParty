@@ -17,7 +17,7 @@
 #import "TextViewLogger.h"
 
 @interface SceneManager () {
-	BOOL hasReshaped; // has the gui been reshaped?
+	BOOL hasReshaped; //< has the gui been reshaped?
 }
 @property (strong, readwrite, nonatomic) NSString* currentPath;
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
@@ -62,12 +62,12 @@
 	}
 }
 
-- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent {
+- (BOOL)openScene:(NSString *)path withType:(NSString *)type forParent:(UIView *)parent {
 	return [self openScene:path withType:type forParent:parent allowReload:NO];
 }
 
 // helper
-- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent allowReload:(BOOL)reload {
+- (BOOL)openScene:(NSString *)path withType:(NSString *)type forParent:(UIView *)parent allowReload:(BOOL)reload {
 	if(!reload && [self.currentPath isEqualToString:path]) {
 		DDLogVerbose(@"SceneManager openScene: ignoring scene with same path");
 		return NO;
@@ -80,25 +80,24 @@
 	[[Log textViewLogger] clear];
 	
 	// open new scene
-	switch(type) {
-		case SceneTypePatch:
-			self.scene = [PatchScene sceneWithParent:parent andGui:self.gui];
-			break;
-		case SceneTypeRj:
-			self.scene = [RjScene sceneWithParent:parent andDispatcher:self.pureData.dispatcher];
-			break;
-		case SceneTypeDroid:
-			self.scene = [DroidScene sceneWithParent:parent andGui:self.gui];
-			break;
-		case SceneTypeParty:
-			self.scene = [PartyScene sceneWithParent:parent andGui:self.gui];
-			break;
-		case SceneTypeRecording:
-			self.scene = [RecordingScene sceneWithParent:parent andPureData:self.pureData];
-			break;
-		default: // SceneTypeEmpty
-			self.scene = [[Scene alloc] init];
-			break;
+	if([type isEqualToString:@"PatchScene"]) {
+		self.scene = [PatchScene sceneWithParent:parent andGui:self.gui];
+	}
+	else if([type isEqualToString:@"RjScene"]) {
+		self.scene = [RjScene sceneWithParent:parent andDispatcher:self.pureData.dispatcher];
+	}
+	else if([type isEqualToString:@"DroidScene"]) {
+		self.scene = [DroidScene sceneWithParent:parent andGui:self.gui];
+	}
+	else if([type isEqualToString:@"PartyScene"]) {
+		self.scene = [PartyScene sceneWithParent:parent andGui:self.gui];
+	}
+	else if([type isEqualToString:@"RecordingScene"]) {
+		self.scene = [RecordingScene sceneWithParent:parent andPureData:self.pureData];
+	}
+	else {
+		DDLogWarn(@"SceneManager: unknown scene type: %@", type);
+		self.scene = [[Scene alloc] init];
 	}
 	self.pureData.audioEnabled = YES;
 	self.pureData.sampleRate = self.scene.sampleRate;
@@ -123,7 +122,7 @@
 		return NO;
 	}
 	DDLogVerbose(@"SceneManager: reloading %@", self.scene.name);
-	SceneType type = self.scene.type;
+	NSString *type = self.scene.type;
 	UIView *parent = self.scene.parentView;
 	[self closeScene];
 	return [self openScene:self.currentPath withType:type forParent:parent allowReload:YES];

@@ -12,8 +12,10 @@
 
 @interface Bang : IEMWidget
 
-// flash times ms
+/// how long to wait before showing a new flash
 @property (assign, nonatomic) int interruptTimeMS;
+
+/// how long to show flash
 @property (assign, nonatomic) int holdTimeMS;
 
 @end

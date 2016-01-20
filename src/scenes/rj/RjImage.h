@@ -10,17 +10,18 @@
  */
 #import "RjWidget.h"
 
-// rj_image
+/// rj_image
 @interface RjImage : RjWidget
 
-@property (strong, nonatomic) UIImageView *image;
+@property (strong, nonatomic) UIImageView *image; //< image to draw
 
-@property (assign, nonatomic) float scaleX;
-@property (assign, nonatomic) float scaleY;
-@property (assign, nonatomic) float angle;
+@property (assign, nonatomic) float scaleX; //< current horz size (default 1.0)
+@property (assign, nonatomic) float scaleY; //< current vert size (default 1.0)
+@property (assign, nonatomic) float angle; //< current rotational angle in degrees (default 0)
 
 + (id)imageWithFile:(NSString *)path andParent:(RjScene *)parent;
 
+/// set current scale (default 1.0 & 1.0)
 - (void)setScaleX:(float)sx andY:(float)sy;
 
 @end

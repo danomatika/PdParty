@@ -38,7 +38,6 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-
 		self.micVolume = [[NSUserDefaults standardUserDefaults] floatForKey:@"micVolume"];
 		_volume = 1.0;
 		_playing = YES;

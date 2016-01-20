@@ -24,7 +24,6 @@
 }
 
 - (BOOL)open:(NSString *)path {
-	
 	self.file = path;
 	[self.pureData startPlaybackFrom:self.file];
 	
@@ -60,19 +59,16 @@
 	else {
 		DDLogWarn(@"RecordingScene: no background image");
 	}
-	
 	return YES;
 }
 
 - (void)close {
 	[self.pureData stopPlayback];
 	self.file = nil;
-	
 	if(self.background) {
 		[self.background removeFromSuperview];
 		self.background = nil;
 	}
-	
 	[super close];
 }
 
@@ -115,11 +111,7 @@
 	return [self.file lastPathComponent];
 }
 
-- (SceneType)type {
-	return SceneTypeRecording;
-}
-
-- (NSString *)typeString {
+- (NSString *)type {
 	return @"RecordingScene";
 }
 

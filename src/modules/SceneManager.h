@@ -17,37 +17,38 @@
 
 @interface SceneManager : NSObject <PdSensorSupportDelegate>
 
-@property (strong, nonatomic) Gui *gui; // pd gui widgets
-@property (strong, nonatomic) Scene* scene; // current scene
-@property (strong, readonly, nonatomic) NSString* currentPath; // the current given path
+@property (strong, nonatomic) Gui *gui; //< pd gui widgets
+@property (strong, nonatomic) Scene* scene; //< current scene
+@property (strong, readonly, nonatomic) NSString* currentPath; //< the current given path
 
 @property (strong, nonatomic) Sensors *sensors; //< internal sensor manager
 @property (weak, nonatomic) PureData *pureData;
 @property (weak, nonatomic) Osc *osc;
 
-@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; // accel orientation based on this
+@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; //< accel orientation based on this
 
-// close the current scene and open a new one, requires full path to current patch
-- (BOOL)openScene:(NSString *)path withType:(SceneType)type forParent:(UIView *)parent;
+/// close the current scene and open a new one, requires full path to current patch
+/// available types: PatchScene, RjScene, DroidScene, PartyScene, RecordingScene
+- (BOOL)openScene:(NSString *)path withType:(NSString *)type forParent:(UIView *)parent;
 
-// reload the current scene
+/// reload the current scene
 - (BOOL)reloadScene;
 
-// close the current scene
+/// close the current scene
 - (void)closeScene;
 
-// reshape the gui elements to a give size
+/// reshape the gui elements to a give size
 - (void)reshapeToParentSize:(CGSize)size;
 
-// update view pointers in case the patch view controller has changed  
+/// update view pointers in case the patch view controller has changed
 - (void)updateParent:(UIView *)parent;
 
 #pragma mark Send Events
 
-// rj touch event
+/// rj touch event
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
 
-// pd key event
+/// pd key event
 - (void)sendKey:(int)key;
 
 @end

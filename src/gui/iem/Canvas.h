@@ -11,5 +11,4 @@
 #import "IEMWidget.h"
 
 @interface Canvas : IEMWidget
-
 @end

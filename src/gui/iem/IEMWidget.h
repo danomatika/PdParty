@@ -12,21 +12,21 @@
 
 @interface IEMWidget : Widget
 
-@property (assign, nonatomic) int labelFontStyle; // loaded font style
-@property (assign, nonatomic) int labelFontSize; // loaded font size
+@property (assign, nonatomic) int labelFontStyle; //< loaded font style
+@property (assign, nonatomic) int labelFontSize; //< loaded font size
 
-// reshape label based on gui bounds & scale changes
+/// reshape label based on gui bounds & scale changes
 - (void)reshapeLabel;
 
 #pragma mark Util
 
-// return the font name from a given font style:
-// 0: current gui font
-// 1: Helvetica
-// 2: Times
+/// return the font name from a given font style:
+/// 0: current gui font
+/// 1: Helvetica
+/// 2: Times
 - (NSString *)fontNameFromStyle:(int)iemFont;
 
-// convert an IEM color to a UIColor
+/// convert an IEM color to a UIColor
 + (UIColor *)colorFromIEMColor:(int)iemColor;
 
 @end

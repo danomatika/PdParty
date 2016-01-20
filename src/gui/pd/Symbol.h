@@ -12,6 +12,6 @@
 
 @interface Symbol : AtomWidget
 
-@property (strong, nonatomic)	NSString *symbol; // symbol text access
+@property (strong, nonatomic) NSString *symbol; //< current symbol value
 
 @end

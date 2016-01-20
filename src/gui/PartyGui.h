@@ -10,12 +10,12 @@
  */
 #import "Gui.h"
 
-// Gui subclass which adds droidparty-specific Widget loading
+/// Gui subclass which adds droidparty-specific Widget loading
 @interface PartyGui : Gui
 
 #pragma mark Add Widgets
 
-// droidparty
+/// droidparty
 - (void)addDisplay:(NSArray *)atomLine;
 - (void)addNumberbox:(NSArray *)atomLine;
 - (void)addRibbon:(NSArray *)atomLine;

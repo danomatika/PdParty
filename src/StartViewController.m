@@ -17,7 +17,7 @@
 	NSTimer *serverInfoTimer;
 }
 
-// timer function to update the server footer info
+/// timer function to update the server footer info
 - (void)updateServerInfo:(NSTimer *)theTimer;
 
 @end

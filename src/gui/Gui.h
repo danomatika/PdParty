@@ -13,46 +13,46 @@
 #import "Log.h"
 #import "Util.h"
 
-// default pd gui font, loading custom fonts:
-// http://stackoverflow.com/questions/11047900/cant-load-custom-font-on-ios
+/// default pd gui font, loading custom fonts:
+/// http://stackoverflow.com/questions/11047900/cant-load-custom-font-on-ios
 #define GUI_FONT_NAME @"DejaVu Sans Mono"
 
-// pd gui wraps lines at 60 chars
+/// pd gui wraps lines at 60 chars
 #define GUI_LINE_WRAP 60
 
 @class PdFile;
 
-// Widget array wrapper, loads Widgets from atom line string arrays
+/// Widget array wrapper, loads Widgets from atom line string arrays
 @interface Gui : NSObject
 
-@property (strong, nonatomic) NSMutableArray *widgets;	// widget array
-@property (assign, nonatomic) CGSize parentViewSize; // current view size
+@property (strong, nonatomic) NSMutableArray *widgets; //< widget array
+@property (assign, nonatomic) CGSize parentViewSize; //< current view size
 
-// pixel size of original pd patch
+/// pixel size of original pd patch
 @property (assign, readonly, nonatomic) int patchWidth;
 @property (assign, readonly, nonatomic) int patchHeight;
 
-// base font name, default is GUI_FONT_NAME
-// setting to nil resets to default
+/// base font name, default is GUI_FONT_NAME
+/// setting to nil resets to default
 @property (strong, nonatomic) NSString *fontName;
 
-// font size loaded from patch
+/// font size loaded from patch
 @property (assign, readonly, nonatomic) int fontSize;
 
-// scale amount between view bounds and original patch size, calculated when bounds is set
+/// scale amount between view bounds and original patch size, calculated when bounds is set
 @property (assign, readonly, nonatomic) float scaleX;
 @property (assign, readonly, nonatomic) float scaleY;
 
 #pragma mark Add Widgets
 
-// add a widget using a given atom line (array of NSStrings)
+/// add a widget using a given atom line (array of NSStrings)
 
-// pd
+/// pd
 - (void)addNumber:(NSArray *)atomLine;
 - (void)addSymbol:(NSArray *)atomLine;
 - (void)addComment:(NSArray *)atomLine;
 
-// iem
+/// iem
 - (void)addBang:(NSArray *)atomLine;
 - (void)addToggle:(NSArray *)atomLine;
 - (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
@@ -61,40 +61,40 @@
 - (void)addVUMeter:(NSArray *)atomLine;
 - (void)addCanvas:(NSArray *)atomLine;
 
-// add a widget using the object type name, returns true if type handled
-// subclass this to add additional type creation & don't forget to call super	
+/// add a widget using the object type name, returns true if type handled
+/// subclass this to add additional type creation & don't forget to call super
 - (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine;
 
-// add widgets from an array of atom lines
+/// add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray *)lines;
 
-// add widgets from a pd patch
+/// add widgets from a pd patch
 - (void)addWidgetsFromPatch:(NSString *)patch;
 
 #pragma mark Manipulate Widgets
 
-// init widgets with patch $0 value
+/// init widgets with patch $0 value
 - (void)initWidgetsFromPatch:(PdFile *)patch;
 
-// init widgets with patch $0 value and add them as subviews to view
+/// init widgets with patch $0 value and add them as subviews to view
 - (void)initWidgetsFromPatch:(PdFile *)patch andAddToView:(UIView *)view;
 
-// reposition/resize widgets based on scale amounts & font size
+/// reposition/resize widgets based on scale amounts & font size
 - (void)reshapeWidgets;
 
-// remove all widgets from their super view, does not delete
+/// remove all widgets from their super view, does not delete
 - (void)removeWidgetsFromSuperview;
 
-// remove all widgets, deletes
+/// remove all widgets, deletes
 - (void)removeAllWidgets;
 
 #pragma mark Utils
 
-// replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id
+/// replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch;
 
-// convert atom string empty values to an empty string
-// nil, @"-", & @"empty" -> @""
+/// convert atom string empty values to an empty string
+/// nil, @"-", & @"empty" -> @""
 + (NSString *)filterEmptyStringValues:(NSString *)atom;
 
 @end

@@ -12,13 +12,13 @@
 
 #import "SceneManager.h"
 
-// RjDj-inspired onscreen controls
+/// RjDj-inspired onscreen controls
 @interface ControlsView : UIView <PdRecordEventDelegate>
 
-// make sure to set this or nothing will happen ...
+/// make sure to set this or nothing will happen ...
 @property (weak, nonatomic) SceneManager *sceneManager;
 
-// use a light background?
+/// use a light background?
 @property (assign, nonatomic) BOOL lightBackground;
 
 #pragma mark UI
@@ -28,28 +28,28 @@
 @property (strong, nonatomic) UIBarButtonItem *rightButton;
 @property (strong, nonatomic) UISlider *levelSlider;
 
-// update the controls based on the current PureData settings
+/// update the controls based on the current PureData settings
 - (void)updateControls;
 
 #pragma mark Sizing
 
-// constraint constants
+/// constraint constants
 @property (assign, nonatomic) float height; // controls the height constraint
 @property (assign, nonatomic) float spacing; // toolbar button / slider space
 @property (assign, nonatomic) float toolbarHeight; // toolbar height & slider center y
 
-// default values
+/// default values
 @property (readonly, nonatomic) float defaultHeight;
 @property (readonly, nonatomic) float defaultSpacing;
 @property (readonly, nonatomic) float defaultToolbarHeight;
 
-// base sizing per the device w/ tablet 2x larger than phone
+/// base sizing per the device w/ tablet 2x larger than phone
 + (float)baseWidth;
 + (float)baseHeight;
 + (float)baseSpacing;
 + (float)baseToolbarHeight;
 
-// sets overall sizing
+/// sets overall sizing
 - (void)halfSize;
 - (void)defaultSize;
 

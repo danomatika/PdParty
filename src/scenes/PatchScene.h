@@ -10,13 +10,13 @@
  */
 #import "Scene.h"
 
-// basic pd patch
-// path is to patch file, requires all event types
+/// basic pd patch
+/// path is to patch file, requires all event types
 @interface PatchScene : Scene
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
-// returns true if the given path is an patch file
+/// returns true if the given path is an patch file
 + (BOOL)isPatchFile:(NSString *)fullpath;
 
 @end

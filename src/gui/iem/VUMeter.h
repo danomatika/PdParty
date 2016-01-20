@@ -10,10 +10,10 @@
  */
 #import "IEMWidget.h"
 
+/// self.value is rms in dB
 @interface VUMeter : IEMWidget
 
-// value is rms in dB
-@property (assign, nonatomic) float peakValue; // in dB
-@property (assign, nonatomic) BOOL showScale; // show the vu scale?
+@property (assign, nonatomic) float peakValue; //< in dB
+@property (assign, nonatomic) BOOL showScale; //< show the vu scale?
 
 @end

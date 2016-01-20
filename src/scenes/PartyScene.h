@@ -10,17 +10,17 @@
  */
 #import "PatchScene.h"
 
-// PdParty scene (folder with _main.pd)
-// path is to scene folder
+/// PdParty scene (folder with _main.pd)
+/// path is to scene folder
 @interface PartyScene : PatchScene
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
-// returns true if the given path is a PdParty scene dir
+/// returns true if the given path is a PdParty scene dir
 + (BOOL)isPdPartyDirectory:(NSString *)fullpath;
 
-// returns a dictionary loaded from the info.json or Info.json in a given scene dir,
-// returns nil if not found or is empty
+/// returns a dictionary loaded from the info.json or Info.json in a given scene dir,
+/// returns nil if not found or is empty
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath;
 
 @end

@@ -12,26 +12,26 @@
 
 #import <Foundation/Foundation.h>
 
-// webdav server
+/// webdav server
 @interface WebServer : NSObject 
 
-@property (assign, nonatomic) int port; // change only takes effect on server restart
-@property ( weak, readonly, nonatomic) NSString *hostName; // Bonjour hostname
+@property (assign, nonatomic) int port; //< change only takes effect on server restart
+@property (weak, readonly, nonatomic) NSString *hostName; //> Bonjour hostname
 @property (assign,readonly, getter=isRunning, nonatomic) BOOL running;
 
-// start the server with the given folder as the server root
-// returns YES on success
+/// start the server with the given folder as the server root
+/// returns YES on success
 - (BOOL)start:(NSString *)webFolder;
-- (BOOL)start; // start with the Documents folder as the root
+- (BOOL)start; //< start with the Documents folder as the root
 - (void)stop;
 
-// is wifi enabled and the local network reachable?
+/// is wifi enabled and the local network reachable?
 + (BOOL)isLocalWifiReachable;
 
-// get the ip address of the wifi interface
+/// get the ip address of the wifi interface
 + (NSString *)wifiInterfaceAddress;
 
-// returns port if texField value is valid, returns -1 & presents UIAlert if not
+/// returns port if texField value is valid, returns -1 & presents UIAlert if not
 + (int)checkPortValueFromTextField:(UITextField *)textField;
 
 @end

@@ -11,5 +11,4 @@
 #import "Widget.h"
 
 @interface Display : Widget
-
 @end

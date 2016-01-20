@@ -13,7 +13,7 @@
 #import "Gui.h"
 
 @interface AtomWidget () {
-	int cornerSize; // bent corner pixel size
+	int cornerSize; //< bent corner pixel size
 }
 @end
 

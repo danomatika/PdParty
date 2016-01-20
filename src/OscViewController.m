@@ -19,10 +19,10 @@
 	NSTimer *oscRestartTimer;
 }
 
-// restart the osc server
+/// restart the osc server
 - (void) restart;
 
-// timer function to start the server after a gui change
+/// timer function to start the server after a gui change
 - (void)startOsc:(NSTimer *)theTimer;
 
 @end

@@ -80,11 +80,7 @@
 	return [self.patch.pathName lastPathComponent];
 }
 
-- (SceneType)type {
-	return SceneTypeDroid;
-}
-
-- (NSString *)typeString {
+- (NSString *)type {
 	return @"DroidScene";
 }
 

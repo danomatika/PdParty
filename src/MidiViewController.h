@@ -12,8 +12,8 @@
 
 #import "Midi.h"
 
-// midi settings view
-@interface MidiViewController : UITableViewController <MidiConnectionDelegate> // <UITableViewDataSource>
+/// midi settings view
+@interface MidiViewController : UITableViewController <MidiConnectionDelegate>
 
 @property (weak, nonatomic) IBOutlet UISwitch *midiEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *networkMidiEnabledSwitch;

@@ -21,11 +21,11 @@
 #import "BrowserViewController.h"
 
 @interface AppDelegate () {
-	UINavigationController *webViewNav; // current URL web view navigation controller
+	UINavigationController *webViewNav; //< current URL web view navigation controller
 }
 
-// recursively copy a given folder in the resource patches dir to the
-// Documents folder, overwrites any currently existing files with the same name
+/// recursively copy a given folder in the resource patches dir to the
+/// Documents folder, overwrites any currently existing files with the same name
 - (BOOL)copyResourcePatchFolderToDocuments:(NSString *)folderPath error:(NSError *)error;
 
 @end
@@ -150,7 +150,6 @@
 	// pd patch
 	if([ext isEqualToString:@"pd"]) {
 		NSString *newPath = [[Util documentsPath] stringByAppendingPathComponent:[path lastPathComponent]];
-		
 		if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
 			if(![[NSFileManager defaultManager] removeItemAtPath:newPath error:&error]) {
 				DDLogError(@"AppDelegate: couldn't remove %@, error: %@", newPath, error.localizedDescription);
@@ -179,9 +178,7 @@
 		[alert show];
 	}
 	else { // assume zip file
-		
 		ZipArchive *zip = [[ZipArchive alloc] init];
-		
 		if([zip UnzipOpenFile:path]) {
 			if([zip UnzipFileTo:[Util documentsPath] overWrite:YES]) {
                 if(![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) { // remove original file
@@ -376,7 +373,6 @@
 #pragma mark Private
 
 - (BOOL)copyResourcePatchFolderToDocuments:(NSString *)folderPath error:(NSError *)error {
-
 	DDLogVerbose(@"AppDelegate: copying %@ to Documents", folderPath);
 	
 	// create dest folder if it doesn't exist
@@ -399,9 +395,9 @@
 
 #pragma mark UINavigationController Rotation
 
-// category to force all UINavigationControllers to do rotations
-// based on the top view controller
-// http://stackoverflow.com/questions/12520030/how-to-force-a-uiviewcontroller-to-portait-orientation-in-ios-6/12522119#12522119
+/// category to force all UINavigationControllers to do rotations
+/// based on the top view controller
+/// http://stackoverflow.com/questions/12520030/how-to-force-a-uiviewcontroller-to-portait-orientation-in-ios-6/12522119#12522119
 @implementation UINavigationController (Rotation_IOS6)
 
 - (BOOL)shouldAutorotate {
@@ -420,7 +416,7 @@
 
 #pragma mark UISplitViewController Rotation
 
-// needed for rotation on iPad since SplitViewController is root controller
+/// needed for rotation on iPad since SplitViewController is root controller
 @implementation UISplitViewController (Rotation_IOS6)
 
 - (BOOL)shouldAutorotate {

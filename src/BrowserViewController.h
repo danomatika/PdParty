@@ -15,13 +15,13 @@
 
 @class PatchViewController;
 
-// main MasterViewController for browsing the Documents dir
+/// main MasterViewController for browsing the Documents dir
 @interface BrowserViewController : PartyBrowser <BrowserDelegate>
 
-// strong to make sure to retain the view on iPhone
+/// strong to make sure to retain the view on iPhone
 @property (strong, nonatomic) PatchViewController *patchViewController;
 
-// try opening a path in the PatchBrowser, dosen't affect current browser dir
+/// try opening a path in the PatchBrowser, dosen't affect current browser dir
 - (BOOL)tryOpeningPath:(NSString *)path;
 
 @end

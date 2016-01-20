@@ -15,20 +15,16 @@
 #include "g_all_guis.h" // iem gui
 
 @interface Slider () {
-	BOOL isReversed; // is the min value > max value?
-	double sizeConvFactor; // scaling factor for lin/log value conversion
-	int centerValue; // for detecting when to draw thicker control
-	int controlPos; // control movement calc
-	BOOL isOneFinger; // one finger or two?
-	float prevPos; // prev pos for delta calc
+	BOOL isReversed; //< is the min value > max value?
+	double sizeConvFactor; //< scaling factor for lin/log value conversion
+	int centerValue; //< for detecting when to draw thicker control
+	int controlPos; //< control movement calc
+	BOOL isOneFinger; //< one finger or two?
+	float prevPos; //< prev pos for delta calc
 }
-
-// slider int value, related to pos
-@property (readonly, nonatomic) int controlValue;
-
+@property (readonly, nonatomic) int controlValue; //< slider int value, related to pos
 - (void)checkSize;
 - (void)checkMinAndMax;
-
 @end
 
 @implementation Slider
@@ -346,7 +342,6 @@
 }
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-
 	if([message isEqualToString:@"size"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// width, height
@@ -389,7 +384,6 @@
 
 // from g_hslider.c & g_vslider.c
 - (void)checkSize {
-
 	float size = CGRectGetWidth(self.originalFrame);
 	if(self.orientation == WidgetOrientationVertical) {
 		size = CGRectGetHeight(self.originalFrame);
@@ -423,7 +417,6 @@
 
 // from g_hslider.c & g_vslider.c
 - (void)checkMinAndMax {
-   
 	if(self.log) {
         if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
 			self.maxValue = 1.0;
@@ -439,7 +432,7 @@
 			}
         }
     }
-	
+
     if(self.minValue > self.maxValue) {
         isReversed = YES;
 	}

@@ -19,10 +19,8 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     self.inputView = [[UIView alloc] initWithFrame:CGRectZero];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
     return self;
 }
 
@@ -53,7 +51,6 @@
     if(self.active == value) {
 		return;
     }
-	
     _active = value;
     if(self.active) {
         [self becomeFirstResponder];

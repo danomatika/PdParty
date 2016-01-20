@@ -20,9 +20,9 @@
 #define SENSOR_FASTEST_HZ 100.0
 
 @interface Sensors () {
-	CMMotionManager *motionManager; // for accel data
-	CLLocationManager *locationManager; // for location data
-	BOOL hasIgnoredStartingLocation; // ignore the initial, old location
+	CMMotionManager *motionManager; //< for accel data
+	CLLocationManager *locationManager; //< for location data
+	BOOL hasIgnoredStartingLocation; //< ignore the initial, old location
 }
 @end
 

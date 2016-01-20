@@ -15,7 +15,7 @@
 
 #pragma mark Utils
 
-// is the given file path a zip file?
+/// is the given file path a zip file?
 + (BOOL)isZipFile:(NSString *)path;
 
 @end

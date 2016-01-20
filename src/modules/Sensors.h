@@ -14,10 +14,10 @@
 @class SceneManager;
 
 /// iOS sensor manager, forwards events to pd & osc
-@interface Sensors : NSObject <CLLocationManagerDelegate>//, PdSensorEventDelegate>
+@interface Sensors : NSObject <CLLocationManagerDelegate>
 
-@property (weak, nonatomic) Osc *osc; // pointer to osc instance
-@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; // accel orientation based on this
+@property (weak, nonatomic) Osc *osc; //< pointer to osc instance
+@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; //< accel orientation based on this
 
 /// reset sensors back to default values
 - (void)reset;
@@ -25,7 +25,7 @@
 #pragma mark Accel
 
 @property (assign, nonatomic) BOOL accelEnabled; //< enable accelerometer service
-@property (nonatomic) NSString *accelSpeed;  //< accel update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
+@property (nonatomic) NSString *accelSpeed; //< accel update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
 
 #pragma mark Gyro
 
@@ -56,7 +56,7 @@
 
 @property (assign, nonatomic) BOOL magnetEnabled; //< enable magnet service
 @property (assign, nonatomic) BOOL magnetAutoUpdates; //< set to NO if sending manually (default: YES), only takes effect on re-enable
-@property (nonatomic) NSString *magnetSpeed; // magnet update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
+@property (nonatomic) NSString *magnetSpeed; //< magnet update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
 
 - (void)sendMagnet; //< request current gyro value manually, use this when auto updates is NO
 

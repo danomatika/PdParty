@@ -48,8 +48,8 @@
 
 #pragma mark UITableViewDelegate
 
+// make sure the text view cell expands to fill the empty space in the parent view
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-	// make sure the text view cell expands to fill the empty space in the parent view
 	if(indexPath.section == 1) {
 		return CGRectGetHeight(self.view.bounds) - (defaultCellHeight * 4) - 88; // 88 for space between groups
 	}

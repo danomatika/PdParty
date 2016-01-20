@@ -13,8 +13,13 @@
 
 @interface Loadsave : Widget <BrowserDelegate>
 
+/// name from first argument, used for send & receive names
 @property (strong, nonatomic) NSString *name;
+
+/// optional directory to open, locks navigation (default nil)
 @property (strong, nonatomic) NSString *directory;
+
+/// optional file extension (minus .) ie. "txt", "wav", etc
 @property (strong, nonatomic) NSString *extension;
 
 @end

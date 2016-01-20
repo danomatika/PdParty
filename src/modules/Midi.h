@@ -12,37 +12,37 @@
  */
 #import "PGMidi.h"
 
-// midi connection event delegate
+/// midi connection event delegate
 @protocol MidiConnectionDelegate <NSObject>
-- (void)midiInputConnectionEvent; // an input has been added or removed
-- (void)midiOutputConnectionEvent; // an output has been added or removed
+- (void)midiInputConnectionEvent; //< an input has been added or removed
+- (void)midiOutputConnectionEvent; //< an output has been added or removed
 @end
 
 @interface Midi : NSObject <PGMidiDelegate, PGMidiSourceDelegate>
 
-// called when new connections are made
+/// called when new connections are made
 @property (assign, nonatomic) id<MidiConnectionDelegate> delegate;
 
-// enabled midi in/out?
+/// enabled midi in/out?
 @property (getter=isEnabled, nonatomic) BOOL enabled;
 
-// enable Core Midi networking session
+/// enable Core Midi networking session
 @property (getter=isNetworkEnabled, nonatomic) BOOL networkEnabled;
 
-// enable virtual connections
+/// enable virtual connections
 @property (getter=isVirtualInputEnabled, nonatomic) BOOL virtualInputEnabled;
 @property (getter=isVirtualOutputEnabled, nonatomic) BOOL virtualOutputEnabled;
 
-// PGMidiSource & PGMidiDestination array acess
+/// PGMidiSource & PGMidiDestination array acess
 @property (weak, readonly, nonatomic) NSArray *inputs;
 @property (weak, readonly, nonatomic) NSArray *outputs;
 
-// midi input message ignores
+/// midi input message ignores
 @property bool bIgnoreSysex;
 @property bool bIgnoreTiming;
 @property bool bIgnoreSense;
 
-// sending
+/// sending
 - (void)sendNoteOn:(int)channel pitch:(int)pitch velocity:(int)velocity;
 - (void)sendControlChange:(int)channel controller:(int)controller value:(int)value;
 - (void)sendProgramChange:(int)channel value:(int)value;

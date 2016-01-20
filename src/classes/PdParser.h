@@ -12,7 +12,7 @@
 
 @interface PdParser : NSObject
 	
-// print out a particular atom line with words separated by spaces
+/// print out a particular atom line with words separated by spaces
 + (void)printAtomLine:(NSArray *)line;
 
 /// print out all of the atoms found
