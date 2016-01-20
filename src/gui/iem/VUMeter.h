@@ -10,14 +10,10 @@
  */
 #import "IEMWidget.h"
 
-@class Gui;
-
 @interface VUMeter : IEMWidget
 
 // value is rms in dB
 @property (assign, nonatomic) float peakValue; // in dB
 @property (assign, nonatomic) BOOL showScale; // show the vu scale?
-
-+ (id)vumeterFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

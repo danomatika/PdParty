@@ -19,8 +19,8 @@
 
 @implementation AtomWidget
 
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
+    self = [super initWithAtomLine:line andGui:gui];
     if(self) {
 		self.valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.valueLabel.textAlignment = NSTextAlignmentLeft;
@@ -59,10 +59,10 @@
 	CGPathRelease(path);
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 	
 	// value label
-	self.valueLabel.font = [UIFont fontWithName:gui.fontName size:gui.fontSize * gui.scaleX];
+	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleX];
 	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
 	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
 	[self.valueLabel sizeToFit];
@@ -76,39 +76,39 @@
 	else if(valueLabelFrame.size.width < charSize.width*3) { // min zero width of 3
 		valueLabelFrame.size.width = charSize.width*3;
 	}
-	valueLabelFrame.origin = CGPointMake(round(gui.scaleX), round(gui.scaleX));
+	valueLabelFrame.origin = CGPointMake(round(self.gui.scaleX), round(self.gui.scaleX));
 	self.valueLabel.frame = valueLabelFrame;
 	
 	// bounds from value label size, zero width atoms are slightly taller
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) + (3 * gui.scaleX)),
-		round(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 3 : 2) * gui.scaleX)));
-	cornerSize = 4 * gui.scaleX;
+		round(self.originalFrame.origin.x * self.gui.scaleX),
+		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round(CGRectGetWidth(self.valueLabel.frame) + (3 * self.gui.scaleX)),
+		round(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 3 : 2) * self.gui.scaleX)));
+	cornerSize = 4 * self.gui.scaleX;
 
 	// label
-	self.label.font = [UIFont fontWithName:gui.fontName size:gui.fontSize * gui.scaleX];
+	self.label.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleX];
 	[self.label sizeToFit];
 		
 	// set the label pos from the LRUD setting
 	int labelPosX, labelPosY;
 	switch(self.labelPos) {
 		default: // 0 LEFT
-			labelPosX = -self.label.frame.size.width - (2 * gui.scaleX);
-			labelPosY = 2 * gui.scaleX;
+			labelPosX = -self.label.frame.size.width - (2 * self.gui.scaleX);
+			labelPosY = 2 * self.gui.scaleX;
 			break;
 		case 1: // RIGHT
-			labelPosX = self.frame.size.width + (2 * gui.scaleX);
-			labelPosY = 2 * gui.scaleX;
+			labelPosX = self.frame.size.width + (2 * self.gui.scaleX);
+			labelPosY = 2 * self.gui.scaleX;
 			break;
 		case 2: // TOP
 			labelPosX = 0;
-			labelPosY = -self.label.frame.size.height - (2 * gui.scaleX);
+			labelPosY = -self.label.frame.size.height - (2 * self.gui.scaleX);
 			break;
 		case 3: // BOTTOM
 			labelPosX = 0;
-			labelPosY = self.frame.size.height + (2 * gui.scaleX);
+			labelPosY = self.frame.size.height + (2 * self.gui.scaleX);
 			break;
 	}
 	
@@ -120,7 +120,7 @@
 
 - (void)setValue:(float)value {
 	if(self.valueWidth == 0 && self.gui) {
-		[self reshapeForGui:self.gui];
+		[self reshape];
 	}
 	[super setValue:value];
 }
@@ -128,7 +128,7 @@
 - (void)setValueWidth:(int)valueWidth {
 	_valueWidth = MAX(valueWidth, 0);
 	if(self.valueWidth == 0 && self.gui) {
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 	}
 }

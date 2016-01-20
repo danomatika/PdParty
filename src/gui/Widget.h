@@ -41,6 +41,8 @@ typedef enum {
 // a widget baseclass
 @interface Widget : UIView <WidgetListener>
 
+@property (weak, nonatomic) Gui *gui; // parent gui pointer
+
 @property (assign, nonatomic) CGRect originalFrame; // original pd gui object pos & size
 @property (assign, nonatomic) CGPoint originalLabelPos; // origin pd label pos (rel to object pos)
 
@@ -68,6 +70,12 @@ typedef enum {
 // get the widget type as a string, overridden by other widgets
 @property (readonly, nonatomic) NSString *type;
 
+// init widget from an atom line and parent gui object,
+// this is the preferred method for widget creation
+// override this in a subclass and don't forget to call super
+// note: returns nil if atom line is invalid
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui;
+
 // setup any special resources, should be called after widget has been added to
 // a parent view *and* the patch has been loaded by libpd
 //
@@ -81,7 +89,7 @@ typedef enum {
 - (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile *)patch;
 
 // reshape based on gui bounds & scale changes
-- (void)reshapeForGui:(Gui *)gui;
+- (void)reshape;
 
 // cleanup any special resources, should be called before widget will be deleted
 //

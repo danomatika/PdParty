@@ -10,12 +10,8 @@
  */
 #import "AtomWidget.h"
 
-@class Gui;
-
 @interface Symbol : AtomWidget
 
 @property (strong, nonatomic)	NSString *symbol; // symbol text access
-
-+ (id)symbolFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

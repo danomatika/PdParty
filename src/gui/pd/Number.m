@@ -20,48 +20,38 @@
 
 @implementation Number
 
-+ (id)numberFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 11) { // sanity check
 		DDLogWarn(@"Numberbox: cannot create, atom line length < 11");
 		return nil;
 	}
-
-	Number *n = [[[self class] alloc] initWithFrame:CGRectZero];
-
-	n.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
-	n.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
-	if(![n hasValidSendName] && ![n hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Numberbox: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	n.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		0, 0); // size based on valueWidth
-
-	n.valueWidth = [[line objectAtIndex:4] integerValue];
-	n.minValue = [[line objectAtIndex:5] floatValue];
-	n.maxValue = [[line objectAtIndex:6] floatValue];
-	n.value = 0; // set text in number label
-		
-	n.labelPos = [[line objectAtIndex:7] integerValue];
-	n.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-	
-	n.gui = gui;
-	
-	return n;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.multipleTouchEnabled = YES;
 		touchPrevY = 0;
 		isOneFinger = YES;
-    }
-    return self;
+		
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
+		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Numberbox: dropping, send/receive names are empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			0, 0); // size based on valueWidth
+
+		self.valueWidth = [[line objectAtIndex:4] integerValue];
+		self.minValue = [[line objectAtIndex:5] floatValue];
+		self.maxValue = [[line objectAtIndex:6] floatValue];
+		self.value = 0; // set text in number label
+			
+		self.labelPos = [[line objectAtIndex:7] integerValue];
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+	}
+	return self;
 }
 
 #pragma mark Overridden Getters / Setters

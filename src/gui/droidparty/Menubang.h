@@ -11,15 +11,10 @@
 #import "Widget.h"
 #import "Browser.h"
 
-@class Gui;
-
 @interface Menubang : Widget
 
 @property (strong, nonatomic) NSString *name;
-
 @property (strong, nonatomic) NSString *imagePath;
-
-+ (id)menubangFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 #pragma mark Static Access
 

@@ -56,7 +56,7 @@
 #pragma mark Add Widgets
 
 - (void)addNumber:(NSArray *)atomLine {
-	Number *n = [Number numberFromAtomLine:atomLine withGui:self];
+	Number *n = [[Number alloc] initWithAtomLine:atomLine andGui:self];
 	if(n) {
 		[self.widgets addObject:n];
 		DDLogVerbose(@"Gui: added %@", n.type);
@@ -64,7 +64,7 @@
 }
 
 - (void)addSymbol:(NSArray *)atomLine {
-	Symbol *s = [Symbol symbolFromAtomLine:atomLine withGui:self];
+	Symbol *s = [[Symbol alloc] initWithAtomLine:atomLine andGui:self];
 	if(s) {
 		[self.widgets addObject:s];
 		DDLogVerbose(@"Gui: added %@", s.type);
@@ -72,7 +72,7 @@
 }
 
 - (void)addComment:(NSArray *)atomLine {
-	Comment *c = [Comment commentFromAtomLine:atomLine withGui:self];
+	Comment *c = [[Comment alloc] initWithAtomLine:atomLine andGui:self];
 	if(c) {
 		[self.widgets addObject:c];
 		DDLogVerbose(@"Gui: added %@", c.type);
@@ -80,7 +80,7 @@
 }
 
 - (void)addBang:(NSArray *)atomLine {
-	Bang *b = [Bang bangFromAtomLine:atomLine withGui:self];
+	Bang *b = [[Bang alloc] initWithAtomLine:atomLine andGui:self];
 	if(b) {
 		[self.widgets addObject:b];
 		DDLogVerbose(@"Gui: added %@", b.type);
@@ -88,7 +88,7 @@
 }
 
 - (void)addToggle:(NSArray *)atomLine {
-	Toggle *t = [Toggle toggleFromAtomLine:atomLine withGui:self];
+	Toggle *t = [[Toggle alloc] initWithAtomLine:atomLine andGui:self];
 	if(t) {
 		[self.widgets addObject:t];
 		DDLogVerbose(@"Gui: added %@", t.type);
@@ -96,7 +96,7 @@
 }
 
 - (void)addNumber2:(NSArray *)atomLine {
-	Number2 *n = [Number2 number2FromAtomLine:atomLine withGui:self];
+	Number2 *n = [[Number2 alloc] initWithAtomLine:atomLine andGui:self];
 	if(n) {
 		[self.widgets addObject:n];
 		DDLogVerbose(@"Gui: added %@", n.type);
@@ -104,23 +104,25 @@
 }
 
 - (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation {
-	Slider *s = [Slider sliderFromAtomLine:atomLine withOrientation:orientation withGui:self];
+	Slider *s = [[Slider alloc] initWithAtomLine:atomLine andGui:self];
 	if(s) {
+		s.orientation = orientation;
 		[self.widgets addObject:s];
 		DDLogVerbose(@"Gui: added %@", s.type);
 	}
 }
 
 - (void)addRadio:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation {
-	Radio *r = [Radio radioFromAtomLine:atomLine withOrientation:orientation withGui:self];
+	Radio *r = [[Radio alloc] initWithAtomLine:atomLine andGui:self];
 	if(r) {
+		r.orientation = orientation;
 		[self.widgets addObject:r];
 		DDLogVerbose(@"Gui: added %@", r.type);
 	}
 }
 
 - (void)addVUMeter:(NSArray *)atomLine {
-	VUMeter *v = [VUMeter vumeterFromAtomLine:atomLine withGui:self];
+	VUMeter *v = [[VUMeter alloc] initWithAtomLine:atomLine andGui:self];
 	if(v) {
 		[self.widgets addObject:v];
 		DDLogVerbose(@"Gui: added %@", v.type);
@@ -128,7 +130,7 @@
 }
 
 - (void)addCanvas:(NSArray *)atomLine {
-	Canvas *c = [Canvas canvasFromAtomLine:atomLine withGui:self];
+	Canvas *c = [[Canvas alloc] initWithAtomLine:atomLine andGui:self];
 	if(c) {
 		[self.widgets addObject:c];
 		DDLogVerbose(@"Gui: added %@", c.type);
@@ -254,7 +256,7 @@
 
 - (void)reshapeWidgets {
 	for(Widget *widget in self.widgets) {
-		[widget reshapeForGui:self];
+		[widget reshape];
 		[widget setNeedsDisplay]; // redraw to avoid antialiasing on rotate
 	}
 }

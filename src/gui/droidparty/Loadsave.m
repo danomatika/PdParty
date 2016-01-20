@@ -16,41 +16,33 @@
 
 @implementation Loadsave
 
-+ (id)loadsaveFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 6) { // sanity check
 		DDLogWarn(@"Loadsave: cannot create, atom line length < 6");
 		return nil;
 	}
-
-	Loadsave *l = [[self alloc] initWithFrame:CGRectZero];
-
-	l.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
-	l.receiveName = l.name;
-	if(![l hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Loadsave: dropping, receive name is empty");
-		return nil;
-	}
-	
-	l.originalFrame = CGRectZero; // doesn't draw anything
-	
-	return l;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.label = nil; // no label
-    }
-    return self;
+
+		self.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
+		self.receiveName = self.name;
+		if(![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Loadsave: dropping, receive name is empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectZero; // doesn't draw anything
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
 	// doesn't draw anything
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 	// doesn't draw anything
 }
 

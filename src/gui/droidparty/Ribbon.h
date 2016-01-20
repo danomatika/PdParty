@@ -10,19 +10,12 @@
  */
 #import "Widget.h"
 
-@class Gui;
-
-// TODO: this isn't done/working yet
 @interface Ribbon : Widget
-
-@property (weak, nonatomic) Gui *gui;
 
 //   value2          value
 // [   ||||||||||||||||   ]
 //
 // value: right control
 @property (assign, nonatomic) float value2; // left control
-
-+ (id)ribbonFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

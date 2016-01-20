@@ -10,14 +10,10 @@
  */
 #import "IEMWidget.h"
 
-@class Gui;
-
 @interface Toggle : IEMWidget
 
 @property (assign, nonatomic) float nonZeroValue;
 
-+ (id)toggleFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
-
-- (void)toggle;
+- (void)toggle; // flip the toggle
 
 @end

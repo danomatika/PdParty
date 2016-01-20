@@ -10,10 +10,6 @@
  */
 #import "AtomWidget.h"
 
-@class Gui;
-
 @interface Number : AtomWidget
-
-+ (id)numberFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

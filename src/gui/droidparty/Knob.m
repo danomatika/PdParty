@@ -29,60 +29,13 @@
 
 @implementation Knob
 
-+ (id)knobFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 23) { // sanity check
 		DDLogWarn(@"Knob: cannot create, atom line length < 23");
 		return nil;
 	}
-
-	Knob *k = [[self alloc] initWithFrame:CGRectZero];
-	
-	k.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-	k.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
-	if(![k hasValidSendName]  && ![k hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Knob: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	k.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
-	
-	k.mouse = [[line objectAtIndex:6] floatValue];
-	k.minValue = [[line objectAtIndex:7] floatValue];
-	k.maxValue = [[line objectAtIndex:8] floatValue];
-	k.log = [[line objectAtIndex:9] boolValue];
-	k.inits = [[line objectAtIndex:10] boolValue];
-	[k checkMinAndMax];
-	
-	k.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
-	k.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue],
-	                                 [[line objectAtIndex:15] floatValue]);
-	k.labelFontStyle = [[line objectAtIndex:16] intValue];
-	k.labelFontSize = [[line objectAtIndex:17] floatValue];
-	
-	k.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
-	k.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] intValue]];
-	k.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] intValue]];
-	
-	k.gui = gui;
-	
-	if(k.inits) { // convert saved int to float
-		[k initValue:[[line objectAtIndex:21] intValue]];
-	}
-	k.steady = [[line objectAtIndex:22] boolValue];
-	
-	return k;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
-		self.mouse = 100;
-		self.log = NO;
-		self.steady = YES;
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		_controlValue = 0;
 		isReversed = NO;
 		convFactor = 0;
@@ -90,8 +43,45 @@
 		pos0 = CGPointZero;
 		value0 = 0;
 		angle0 = 0;
-    }
-    return self;
+		self.mouse = 100;
+		self.log = NO;
+		self.steady = YES;
+		
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
+		if(![self hasValidSendName]  && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Knob: dropping, send/receive names are empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
+		
+		self.mouse = [[line objectAtIndex:6] floatValue];
+		self.minValue = [[line objectAtIndex:7] floatValue];
+		self.maxValue = [[line objectAtIndex:8] floatValue];
+		self.log = [[line objectAtIndex:9] boolValue];
+		self.inits = [[line objectAtIndex:10] boolValue];
+		[self checkMinAndMax];
+		
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
+		self.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue],
+										 [[line objectAtIndex:15] floatValue]);
+		self.labelFontStyle = [[line objectAtIndex:16] intValue];
+		self.labelFontSize = [[line objectAtIndex:17] floatValue];
+		
+		self.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] intValue]];
+		
+		if(self.inits) { // convert saved int to float
+			[self initValue:[[line objectAtIndex:21] intValue]];
+		}
+		self.steady = [[line objectAtIndex:22] boolValue];
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -296,7 +286,7 @@
 			MAX([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE),
 			MAX([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE));
 		self.mouse = [[arguments objectAtIndex:1] floatValue];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}

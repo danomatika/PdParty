@@ -10,13 +10,6 @@
  */
 #import "Widget.h"
 
-@class Gui;
-
 @interface Display : Widget
-
-// TODO: this works but dosen't handle line wrapping etc
-@property (weak, nonatomic) Gui *gui;
-
-+ (id)displayFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

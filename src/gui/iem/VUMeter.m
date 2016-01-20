@@ -30,55 +30,47 @@
 
 @implementation VUMeter
 
-+ (id)vumeterFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 16) { // sanity check
 		DDLogWarn(@"VUMeter: cannot create, atom line length < 16");
 		return nil;
 	}
-
-	VUMeter *v = [[[self class] alloc] initWithFrame:CGRectZero];
-	
-	v.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
-	if(![v hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"VUMeter: dropping, receive name is empty");
-		return nil;
-	}
-	
-	v.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
-	
-	v.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-	v.originalLabelPos = CGPointMake([[line objectAtIndex:9] floatValue], [[line objectAtIndex:10] floatValue]);
-	v.labelFontStyle = [[line objectAtIndex:11] intValue];
-	v.labelFontSize = [[line objectAtIndex:12] floatValue];
-
-	v.fillColor = [IEMWidget colorFromIEMColor:(int)[[line objectAtIndex:13] integerValue]];
-	v.label.textColor = [IEMWidget colorFromIEMColor:(int)[[line objectAtIndex:14] integerValue]];
-
-	v.showScale = [[line objectAtIndex:15] boolValue];
-
-	[v checkHeight];
-	v.gui = gui;
-	
-	v.value = -100; // default to off which is -100 dB
-	
-	return v;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
-		self.showScale = YES;
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		isDefaultFillColor = NO;
 		ledSize = 4;
+		self.showScale = YES;
 		
 		// not interactive, so don't accept touch events
 		self.userInteractionEnabled = NO;
+	
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		if(![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"VUMeter: dropping, receive name is empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+		
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+		self.originalLabelPos = CGPointMake([[line objectAtIndex:9] floatValue], [[line objectAtIndex:10] floatValue]);
+		self.labelFontStyle = [[line objectAtIndex:11] intValue];
+		self.labelFontSize = [[line objectAtIndex:12] floatValue];
+
+		self.fillColor = [IEMWidget colorFromIEMColor:(int)[[line objectAtIndex:13] integerValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:(int)[[line objectAtIndex:14] integerValue]];
+
+		self.showScale = [[line objectAtIndex:15] boolValue];
+
+		[self checkHeight];
+		self.gui = gui;
+		
+		self.value = -100; // default to off which is -100 dB
 	}
-    return self;
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -157,26 +149,26 @@
 	}
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 	
 	// reshape label first to make sure font has been set
-	[self reshapeLabelForGui:gui];
+	[self reshapeLabel];
 	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospaced font
 	
 	// bounds from meter size + optional scale width
 	if(self.showScale) {
 		self.frame = CGRectMake(
-			round((self.originalFrame.origin.x - 1) * gui.scaleX),
-			round(((self.originalFrame.origin.y) * gui.scaleY) - (charSize.height / 2)),
-			round(((CGRectGetWidth(self.originalFrame) + 1) * gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
-			round(((CGRectGetHeight(self.originalFrame) + 2) * gui.scaleX) + charSize.height));
+			round((self.originalFrame.origin.x - 1) * self.gui.scaleX),
+			round(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2)),
+			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
+			round(((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleX) + charSize.height));
 	}
 	else {
 		self.frame = CGRectMake(
-			round((self.originalFrame.origin.x - 1) * gui.scaleX),
-			round(((self.originalFrame.origin.y) * gui.scaleY) - (charSize.height / 2)),
-			round(((CGRectGetWidth(self.originalFrame) + 1) * gui.scaleX) + 1),
-			round((CGRectGetHeight(self.originalFrame) + 2) * gui.scaleX) + charSize.height);
+			round((self.originalFrame.origin.x - 1) * self.gui.scaleX),
+			round(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2)),
+			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + 1),
+			round((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleX) + charSize.height);
 	}
 
 	// shift label down slightly
@@ -268,7 +260,7 @@
 		// background, label-color
 		self.fillColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
 		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 	}
 	else if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
@@ -280,13 +272,13 @@
 		}
 		self.originalFrame = CGRectMake(self.originalFrame.origin.x, self.originalFrame.origin.y, w, h);
 		[self checkHeight];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	else if([message isEqualToString:@"scale"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		self.showScale = [[arguments objectAtIndex:0] boolValue];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}

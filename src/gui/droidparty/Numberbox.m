@@ -19,54 +19,45 @@
 
 @implementation Numberbox
 
-+ (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 10) { // sanity check
 		DDLogWarn(@"Numberbox: cannot create, atom line length < 10");
 		return nil;
 	}
-
-	Numberbox *n = [[self alloc] initWithFrame:CGRectZero];
-	
-	n.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-	n.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
-	if(![n hasValidSendName] && ![n hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Numberbox: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	n.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
-
-	n.valueWidth = 3; // fixed width
-	n.minValue = [[line objectAtIndex:9] floatValue];
-	n.maxValue = [[line objectAtIndex:10] floatValue];
-	n.inits = YES;
-	
-	if ([line count] > 10) {
-		n.value = [[line objectAtIndex:11] floatValue];
-	}
-	else {
-		n.value = 0; // set text in number label
-	}
-	
-	return n;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
+		touchDown = NO;
 		self.valueLabel.textAlignment = NSTextAlignmentCenter;
 		
 		// don't need the label
 		[self.label removeFromSuperview];
 		self.label = nil;
 		
-		touchDown = NO;
-    }
-    return self;
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Numberbox: dropping, send/receive names are empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+
+		self.valueWidth = 3; // fixed width
+		self.minValue = [[line objectAtIndex:9] floatValue];
+		self.maxValue = [[line objectAtIndex:10] floatValue];
+		self.inits = YES;
+		
+		if ([line count] > 10) {
+			self.value = [[line objectAtIndex:11] floatValue];
+		}
+		else {
+			self.value = 0; // set text in number label
+		}
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -90,14 +81,14 @@
 	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 
 	// bounds (from Widget)
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		round(self.originalFrame.size.width * gui.scaleX),
-		round(self.originalFrame.size.height * gui.scaleX));
+		round(self.originalFrame.origin.x * self.gui.scaleX),
+		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round(self.originalFrame.size.width * self.gui.scaleX),
+		round(self.originalFrame.size.height * self.gui.scaleX));
 	
 	// value label
 	[self reshapeValueLabel];

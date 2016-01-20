@@ -26,7 +26,7 @@
 #pragma mark Add Widgets
 
 - (void)addDisplay:(NSArray *)atomLine {
-	Display *d = [Display displayFromAtomLine:atomLine withGui:self];
+	Display *d = [[Display alloc] initWithAtomLine:atomLine andGui:self];
 	if(d) {
 		[self.widgets addObject:d];
 		DDLogVerbose(@"Gui: added %@", d.type);
@@ -34,7 +34,7 @@
 }
 
 - (void)addNumberbox:(NSArray *)atomLine {
-	Numberbox *n = [Numberbox numberboxFromAtomLine:atomLine withGui:self];
+	Numberbox *n = [[Numberbox alloc] initWithAtomLine:atomLine andGui:self];
 	if(n) {
 		[self.widgets addObject:n];
 		DDLogVerbose(@"Gui: added %@", n.type);
@@ -42,7 +42,7 @@
 }
 
 - (void)addRibbon:(NSArray *)atomLine {
-	Ribbon *r = [Ribbon ribbonFromAtomLine:atomLine withGui:self];
+	Ribbon *r = [[Ribbon alloc] initWithAtomLine:atomLine andGui:self];
 	if(r) {
 		[self.widgets addObject:r];
 		DDLogVerbose(@"Gui: added %@", r.type);
@@ -50,7 +50,7 @@
 }
 
 - (void)addTaplist:(NSArray *)atomLine {
-	Taplist *t = [Taplist taplistFromAtomLine:atomLine withGui:self];
+	Taplist *t = [[Taplist alloc] initWithAtomLine:atomLine andGui:self];
 	if(t) {
 		[self.widgets addObject:t];
 		DDLogVerbose(@"Gui: added %@", t.type);
@@ -58,7 +58,7 @@
 }
 
 - (void)addTouch:(NSArray *)atomLine {
-	Touch *t = [Touch touchFromAtomLine:atomLine withGui:self];
+	Touch *t = [[Touch alloc] initWithAtomLine:atomLine andGui:self];
 	if(t) {
 		[self.widgets addObject:t];
 		DDLogVerbose(@"Gui: added %@", t.type);
@@ -66,7 +66,7 @@
 }
 
 - (void)addWordbutton:(NSArray *)atomLine {
-	Wordbutton *w = [Wordbutton wordbuttonFromAtomLine:atomLine withGui:self];
+	Wordbutton *w = [[Wordbutton alloc] initWithAtomLine:atomLine andGui:self];
 	if(w) {
 		[self.widgets addObject:w];
 		DDLogVerbose(@"Gui: added %@", w.type);
@@ -74,7 +74,7 @@
 }
 
 - (void)addLoadsave:(NSArray *)atomLine {
-	Loadsave *l = [Loadsave loadsaveFromAtomLine:atomLine withGui:self];
+	Loadsave *l = [[Loadsave alloc] initWithAtomLine:atomLine andGui:self];
 	if(l) {
 		[self.widgets addObject:l];
 		DDLogVerbose(@"Gui: added %@", l.type);
@@ -82,7 +82,7 @@
 }
 
 - (void)addKnob:(NSArray *)atomLine {
-	Knob *k = [Knob knobFromAtomLine:atomLine withGui:self];
+	Knob *k = [[Knob alloc] initWithAtomLine:atomLine andGui:self];
 	if(k) {
 		[self.widgets addObject:k];
 		DDLogVerbose(@"Gui: added %@", k.type);
@@ -90,7 +90,7 @@
 }
 
 - (void)addMenubang:(NSArray *)atomLine {
-	Menubang *m = [Menubang menubangFromAtomLine:atomLine withGui:self];
+	Menubang *m = [[Menubang alloc] initWithAtomLine:atomLine andGui:self];
 	if(m) {
 		[self.widgets addObject:m];
 		DDLogVerbose(@"Gui: added %@", m.type);

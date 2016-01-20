@@ -10,10 +10,6 @@
  */
 #import "Widget.h"
 
-@class Gui;
-
 @interface Touch : Widget
-
-+ (id)touchFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

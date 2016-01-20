@@ -33,67 +33,56 @@
 
 @implementation Slider
 
-+ (id)sliderFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 23) { // sanity check
 		DDLogWarn(@"Slider: cannot create, atom line length < 23");
 		return nil;
 	}
-
-	Slider *s = [[[self class] alloc] initWithFrame:CGRectZero];
-	
-	s.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
-	if(![s hasValidSendName] && ![s hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Slider: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	s.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
-	
-	s.orientation = orientation;
-	s.minValue = [[line objectAtIndex:7] floatValue];
-	s.maxValue = [[line objectAtIndex:8] floatValue];
-	s.log = [[line objectAtIndex:9] boolValue];
-	s.inits = [[line objectAtIndex:10] boolValue];
-	[s checkMinAndMax];
-	[s checkSize];
-	
-	s.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
-	s.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
-	s.labelFontStyle = [[line objectAtIndex:16] intValue];
-	s.labelFontSize = [[line objectAtIndex:17] floatValue];
-	
-	s.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
-	s.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] intValue]];
-	s.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] intValue]];
-
-	s.gui = gui;
-	
-	if(s.inits) {
-		s.controlValue = [[line objectAtIndex:21] intValue];
-	}
-	s.steady = [[line objectAtIndex:22] boolValue];
-	
-	return s;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
-		self.multipleTouchEnabled = YES;
-		self.log = NO;
-		self.orientation = WidgetOrientationHorizontal;
-		self.steady = YES;
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		isReversed = NO;
 		sizeConvFactor = 0;
 		isOneFinger = YES;
 		prevPos = 0;
-    }
-    return self;
+		self.multipleTouchEnabled = YES;
+		self.log = NO;
+		self.orientation = WidgetOrientationHorizontal;
+		self.steady = YES;
+		
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
+		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Slider: dropping, send/receive names are empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+		
+		self.minValue = [[line objectAtIndex:7] floatValue];
+		self.maxValue = [[line objectAtIndex:8] floatValue];
+		self.log = [[line objectAtIndex:9] boolValue];
+		self.inits = [[line objectAtIndex:10] boolValue];
+		[self checkMinAndMax];
+		[self checkSize];
+		
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
+		self.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
+		self.labelFontStyle = [[line objectAtIndex:16] intValue];
+		self.labelFontSize = [[line objectAtIndex:17] floatValue];
+		
+		self.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] intValue]];
+		
+		if(self.inits) {
+			self.controlValue = [[line objectAtIndex:21] intValue];
+		}
+		self.steady = [[line objectAtIndex:22] boolValue];
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -192,6 +181,12 @@
         g = 0.0;
 	}
 	[super setValue:g];
+}
+
+- (void)setOrientation:(WidgetOrientation)orientation {
+	_orientation = orientation;
+	[self checkMinAndMax];
+	[self checkSize];
 }
 
 - (void)setLog:(BOOL)l {
@@ -360,7 +355,7 @@
 			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
 			CLAMP([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
 		[self checkSize];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}

@@ -14,38 +14,34 @@
 
 @implementation Symbol
 
-+ (id)symbolFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 11) { // sanity check
 		DDLogWarn(@"Symbolbox: cannot create, atom line length < 11");
 		return nil;
 	}
-
-	Symbol *s = [[[self class] alloc] initWithFrame:CGRectZero];
-
-	s.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
-	s.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
-	if(![s hasValidSendName] && ![s hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Symbolbox: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	s.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		0, 0); // size based on valueWidth
-
-	s.valueWidth = [[line objectAtIndex:4] integerValue];
-	s.minValue = [[line objectAtIndex:5] floatValue];
-	s.maxValue = [[line objectAtIndex:6] floatValue];
-	s.symbol = @"symbol";
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
+		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Symbolbox: dropping, send/receive names are empty");
+			return nil;
+		}
 		
-	s.labelPos = [[line objectAtIndex:7] integerValue];
-	s.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			0, 0); // size based on valueWidth
 
-	s.gui = gui;
-
-	return s;
+		self.valueWidth = [[line objectAtIndex:4] integerValue];
+		self.minValue = [[line objectAtIndex:5] floatValue];
+		self.maxValue = [[line objectAtIndex:6] floatValue];
+		self.symbol = @"symbol";
+			
+		self.labelPos = [[line objectAtIndex:7] integerValue];
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+	}
+	return self;
 }
 
 #pragma mark Overridden Getters / Setters
@@ -53,7 +49,7 @@
 - (void)setSymbol:(NSString *)symbol {
 	self.valueLabel.text = symbol;
 	if(self.valueWidth == 0) {
-		[self reshapeForGui:self.gui];
+		[self reshape];
 	}
 	[self setNeedsDisplay];
 }

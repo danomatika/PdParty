@@ -25,60 +25,18 @@
 
 @implementation Number2
 
-+ (id)number2FromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 23) { // sanity check
 		DDLogWarn(@"Numberbox2: cannot create, atom line length < 23");
 		return nil;
 	}
-
-	Number2 *n = [[[self class] alloc] initWithFrame:CGRectZero];
-
-	n.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-	n.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
-	if(![n hasValidSendName] && ![n hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Numberbox2: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	n.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		0, [[line objectAtIndex:6] floatValue]); // width based on valueWidth
-
-	n.valueWidth = [[line objectAtIndex:5] integerValue];
-	n.minValue = [[line objectAtIndex:7] floatValue];
-	n.maxValue = [[line objectAtIndex:8] floatValue];
-	n.log = [[line objectAtIndex:9] boolValue];
-	n.inits = [[line objectAtIndex:10] boolValue];
-	
-	n.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
-	n.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
-	n.labelFontStyle = [[line objectAtIndex:16] intValue];
-	n.labelFontSize = [[line objectAtIndex:17] floatValue];
-	
-	n.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
-	n.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
-	n.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
-	
-	if(n.inits) {
-		n.value = [[line objectAtIndex:21] floatValue];
-	}
-	else {
-		n.value = 0; // set label
-	}
-	if([line count] > 22 && [line isNumberAt:22]) {
-		n.logHeight = [[line objectAtIndex:22] floatValue];
-	}
-
-	n.gui = gui;
-
-	return n;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
+		touchPrevY = 0;
+		isOneFinger = YES;
+		isControlColorBlack = NO;
+		isValueLabelRed = NO;
+		
 		self.multipleTouchEnabled = YES;
 		
 		self.log = 0;
@@ -89,13 +47,45 @@
 		self.valueLabel.lineBreakMode = NSLineBreakByClipping;
 		self.valueLabel.backgroundColor = [UIColor clearColor];
 		[self addSubview:self.valueLabel];
+
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
+		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Numberbox2: dropping, send/receive names are empty");
+			return nil;
+		}
 		
-		touchPrevY = 0;
-		isOneFinger = YES;
-		isControlColorBlack = NO;
-		isValueLabelRed = NO;
-    }
-    return self;
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			0, [[line objectAtIndex:6] floatValue]); // width based on valueWidth
+
+		self.valueWidth = [[line objectAtIndex:5] integerValue];
+		self.minValue = [[line objectAtIndex:7] floatValue];
+		self.maxValue = [[line objectAtIndex:8] floatValue];
+		self.log = [[line objectAtIndex:9] boolValue];
+		self.inits = [[line objectAtIndex:10] boolValue];
+		
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
+		self.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
+		self.labelFontStyle = [[line objectAtIndex:16] intValue];
+		self.labelFontSize = [[line objectAtIndex:17] floatValue];
+		
+		self.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
+		
+		if(self.inits) {
+			self.value = [[line objectAtIndex:21] floatValue];
+		}
+		else {
+			self.value = 0; // set label
+		}
+		if([line count] > 22 && [line isNumberAt:22]) {
+			self.logHeight = [[line objectAtIndex:22] floatValue];
+		}
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -134,10 +124,10 @@
 	CGPathRelease(path);
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 	
 	// value label
-	self.valueLabel.font = [UIFont fontWithName:gui.fontName size:self.labelFontSize * gui.scaleX];
+	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:self.labelFontSize * self.gui.scaleX];
 	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
 	self.valueLabel.preferredMaxLayoutWidth =
 		(charSize.width * self.valueWidth) +
@@ -149,26 +139,22 @@
 		valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
 	}
 	valueLabelFrame.origin = CGPointMake(
-		round((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * gui.scaleX),
-		round(((CGRectGetHeight(self.originalFrame) * 0.5 + 0.5) * gui.scaleX) -
+		round((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * self.gui.scaleX),
+		round(((CGRectGetHeight(self.originalFrame) * 0.5 + 0.5) * self.gui.scaleX) -
 			  CGRectGetHeight(self.valueLabel.frame) * 0.5));
 	self.valueLabel.frame = valueLabelFrame;
 	
 	// width from value label
 	CGRect frame = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) + self.valueLabel.frame.origin.x + (4 * gui.scaleX)),
-		round(CGRectGetHeight(self.originalFrame) * gui.scaleX));
+		round(self.originalFrame.origin.x * self.gui.scaleX),
+		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round(CGRectGetWidth(self.valueLabel.frame) + self.valueLabel.frame.origin.x + (4 * self.gui.scaleX)),
+		round(CGRectGetHeight(self.originalFrame) * self.gui.scaleX));
 	self.frame = frame;
-	cornerSize = 4 * gui.scaleX;
+	cornerSize = 4 * self.gui.scaleX;
 
 	// label
-	[self reshapeLabelForGui:gui];
-}
-
-- (void)sendInitValue {
-	// doesn't appear to actually send on init in pd
+	[self reshapeLabel];
 }
 
 #pragma mark Overridden Getters / Setters
@@ -313,7 +299,7 @@
 			CGRectGetWidth(self.originalFrame),
 			MAX([[arguments objectAtIndex:1] floatValue], 8));
 		}
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}

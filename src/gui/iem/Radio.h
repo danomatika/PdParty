@@ -10,14 +10,10 @@
  */
 #import "IEMWidget.h"
 
-@class Gui;
-
 @interface Radio : IEMWidget
 
+@property (assign, nonatomic) WidgetOrientation orientation; // (default horz)
 @property (assign, nonatomic) int size; // pixel size of one side of a cell
-@property (assign, nonatomic) int numCells;
-@property (assign, nonatomic) WidgetOrientation orientation;
-
-+ (id)radioFromAtomLine:(NSArray *)line withOrientation:(WidgetOrientation)orientation withGui:(Gui *)gui;
+@property (assign, nonatomic) int numCells; // number of cells (default 8)
 
 @end

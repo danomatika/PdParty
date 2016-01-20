@@ -10,10 +10,6 @@
  */
 #import "IEMWidget.h"
 
-@class Gui;
-
 @interface Canvas : IEMWidget
-
-+ (id)canvasFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

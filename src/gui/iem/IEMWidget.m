@@ -16,8 +16,8 @@
 
 @implementation IEMWidget
 
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
+    self = [super initWithAtomLine:line andGui:gui];
     if(self) {
 		self.labelFontStyle = 0;
 		self.labelFontSize = 10;
@@ -25,21 +25,21 @@
     return self;
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 
 	// bounds
-	[super reshapeForGui:gui];
+	[super reshape];
 
 	// label
-	[self reshapeLabelForGui:gui];
+	[self reshapeLabel];
 }
 
-- (void)reshapeLabelForGui:(Gui *)gui {
-	self.label.font = [UIFont fontWithName:[self fontNameFromStyle:self.labelFontStyle] size:self.labelFontSize * gui.scaleX];
+- (void)reshapeLabel {
+	self.label.font = [UIFont fontWithName:[self fontNameFromStyle:self.labelFontStyle] size:self.labelFontSize * self.gui.scaleX];
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
-		round(self.originalLabelPos.x * gui.scaleX),
-		round((self.originalLabelPos.y * gui.scaleY) - (self.labelFontSize * 0.5 * gui.scaleY)),
+		round(self.originalLabelPos.x * self.gui.scaleX),
+		round((self.originalLabelPos.y * self.gui.scaleY) - (self.labelFontSize * 0.5 * self.gui.scaleY)),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }
@@ -68,7 +68,7 @@
 		self.fillColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
 		self.controlColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
 		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:2] intValue]];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
@@ -79,7 +79,7 @@
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
 			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
 			CLAMP([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
@@ -89,7 +89,7 @@
 		self.originalFrame = CGRectMake(
 			[[arguments objectAtIndex:0] floatValue], [[arguments objectAtIndex:1] floatValue],
 			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
@@ -100,13 +100,13 @@
 			self.originalFrame.origin.x + [[arguments objectAtIndex:0] floatValue],
 			self.originalFrame.origin.y + [[arguments objectAtIndex:1] floatValue],
 			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	else if([message isEqualToString:@"label"] && [arguments count] > 0 && [arguments isStringAt:0]) {
 		self.label.text = [arguments objectAtIndex:0];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
@@ -115,7 +115,7 @@
 		// x, y
 		self.originalLabelPos = CGPointMake([[arguments objectAtIndex:0] floatValue],
 											[[arguments objectAtIndex:1] floatValue]);
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
@@ -123,7 +123,7 @@
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		self.labelFontStyle = [[arguments objectAtIndex:0] intValue];
 		self.labelFontSize = [[arguments objectAtIndex:1] floatValue];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}

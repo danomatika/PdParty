@@ -18,8 +18,5 @@
 
 // set list receive name, essentially self.receiveName + "-list"
 @property (readonly, strong, nonatomic) NSString *listReceiveName;
-@property (weak, nonatomic) Gui *gui; // gui pointer needed for edit message reshapes
-
-+ (id)taplistFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

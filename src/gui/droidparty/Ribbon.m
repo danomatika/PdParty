@@ -20,40 +20,30 @@
 
 @implementation Ribbon
 
-+ (id)ribbonFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 7) { // sanity check
 		DDLogWarn(@"Ribbon: cannot create, atom line length < 7");
 		return nil;
 	}
-
-	Ribbon *r = [[self alloc] initWithFrame:CGRectZero];
-
-	r.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
-	if(![r hasValidSendName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Ribbon: dropping, send name is empty");
-		return nil;
-	}
-	
-	r.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
-	
-	r.gui = gui;
-	
-	return r;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
-		self.multipleTouchEnabled = YES;
-		self.label = nil; // don't need label
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		leftTouch = nil;
 		rightTouch = nil;
-    }
-    return self;
+		self.multipleTouchEnabled = YES;
+		self.label = nil; // don't need label
+		
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		if(![self hasValidSendName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Ribbon: dropping, send name is empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -16,55 +16,45 @@
 
 @implementation Canvas
 
-+ (id)canvasFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 18) { // sanity check
 		DDLogWarn(@"Canvas: cannot create, atom line length < 18");
 		return nil;
 	}
-
-	Canvas *c = [[[self class] alloc] initWithFrame:CGRectZero];
-
-	c.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-	c.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
-	// don't check receiveName as canvas could be a simple background component, etc
-	
-	c.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:6] floatValue], [[line objectAtIndex:7] floatValue]);
-	
-	c.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
-	c.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
-	c.labelFontStyle = [[line objectAtIndex:13] intValue];
-	c.labelFontSize = [[line objectAtIndex:14] floatValue];
-	
-	c.backgroundColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] intValue]];
-	c.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
-	
-	c.gui = gui;
-	
-	return c;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.labelFontSize = 14;
-    }
-    return self;
+
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
+		// don't check receiveName as canvas could be a simple background component, etc
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:6] floatValue], [[line objectAtIndex:7] floatValue]);
+		
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
+		self.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
+		self.labelFontStyle = [[line objectAtIndex:13] intValue];
+		self.labelFontSize = [[line objectAtIndex:14] floatValue];
+		
+		self.backgroundColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
+	}
+	return self;
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 
 	// bounds
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		round(self.originalFrame.size.width * gui.scaleX),
-		round(self.originalFrame.size.height * gui.scaleY));
+		round(self.originalFrame.origin.x * self.gui.scaleX),
+		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round(self.originalFrame.size.width * self.gui.scaleX),
+		round(self.originalFrame.size.height * self.gui.scaleY));
 
 	// label
-	[self reshapeLabelForGui:gui];
+	[self reshapeLabel];
 }
 
 #pragma mark Overridden Getters / Setters
@@ -82,7 +72,7 @@
 		// background, label-color
 		self.backgroundColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
 		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 	}
 	else if([message isEqualToString:@"size"]) {
@@ -98,7 +88,7 @@
 		}
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y, w, h);
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 	}
 	else if([message isEqualToString:@"get_pos"]) {

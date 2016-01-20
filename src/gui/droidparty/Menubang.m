@@ -18,35 +18,27 @@ static NSMutableArray *s_menubangs;
 
 @implementation Menubang
 
-+ (id)menubangFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 6) { // sanity check
 		DDLogWarn(@"Menubang: cannot create, atom line length < 6");
 		return nil;
 	}
-
-	Menubang *m = [[self alloc] initWithFrame:CGRectZero];
-
-	m.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
-	m.sendName = [NSString stringWithFormat:@"menubang-%@", m.name];
-	if(!m.name || [m.name isEqualToString:@""]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Menubang: dropping, name is empty");
-		return nil;
-	}
-	
-	m.originalFrame = CGRectZero; // doesn't draw anything
-	m.inits = YES;
-	
-	return m;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.label = nil; // no label
-    }
-    return self;
+		
+		self.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
+		self.sendName = [NSString stringWithFormat:@"menubang-%@", self.name];
+		if(!self.name || [self.name isEqualToString:@""]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Menubang: dropping, name is empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectZero; // doesn't draw anything
+		self.inits = YES;
+	}
+	return self;
 }
 
 - (void)setup {
@@ -77,7 +69,7 @@ static NSMutableArray *s_menubangs;
 	// doesn't draw anything
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 	// doesn't draw anything
 }
 

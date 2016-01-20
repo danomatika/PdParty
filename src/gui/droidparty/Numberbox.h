@@ -10,11 +10,7 @@
  */
 #import "Number.h"
 
-@class Gui;
-
 @interface Numberbox : Number
-
-+ (id)numberboxFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 - (void)reshapeValueLabel;
 

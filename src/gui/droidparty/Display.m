@@ -14,34 +14,13 @@
 
 @implementation Display
 
-+ (id)displayFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 7) { // sanity check
 		DDLogWarn(@"Display: cannot create, atom line length < 7");
 		return nil;
 	}
-
-	Display *d = [[self alloc] initWithFrame:CGRectZero];
-
-	d.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
-	if(![d hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Display: dropping, receive name is empty");
-		return nil;
-	}
-	
-	d.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
-	
-	d.gui = gui;
-	
-	return d;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.label.textAlignment = NSTextAlignmentCenter;
 		self.label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		self.label.adjustsFontSizeToFitWidth = YES;
@@ -51,8 +30,19 @@
 		else {
 			self.label.numberOfLines = 0;
 		}
+		
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		if(![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Display: dropping, receive name is empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
 	}
-    return self;
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -71,13 +61,13 @@
 	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 
 	// bounds
-	[super reshapeForGui:gui];
+	[super reshape];
 
 	// label
-	self.label.font = [UIFont fontWithName:gui.fontName size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
+	self.label.font = [UIFont fontWithName:self.gui.fontName size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
 	self.label.preferredMaxLayoutWidth = round(CGRectGetWidth(self.frame) * 0.75);
 	self.label.frame = CGRectMake(
 		round(CGRectGetWidth(self.frame) * 0.125), round(CGRectGetHeight(self.frame) * 0.125),
@@ -98,19 +88,19 @@
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
 	self.label.text = [[NSNumber numberWithFloat:received] stringValue];
-	[self reshapeForGui:self.gui];
+	[self reshape];
 	[self setNeedsDisplay];
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
 	self.label.text = symbol;
-	[self reshapeForGui:self.gui];
+	[self reshape];
 	[self setNeedsDisplay];
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
 	self.label.text = [list componentsJoinedByString:@" "];
-	[self reshapeForGui:self.gui];
+	[self reshape];
 	[self setNeedsDisplay];
 }
 

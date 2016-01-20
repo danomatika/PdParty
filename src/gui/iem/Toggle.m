@@ -16,54 +16,44 @@
 
 @implementation Toggle
 
-+ (id)toggleFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 18) { // sanity check
 		DDLogWarn(@"Toggle: cannot create, atom line length < 18");
 		return nil;
 	}
-
-	Toggle *t = [[[self class] alloc] initWithFrame:CGRectZero];
-
-	t.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
-	t.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-	if(![t hasValidSendName] && ![t hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Toggle: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	t.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
-	
-	t.inits = [[line objectAtIndex:6] boolValue];
-	
-	t.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:9]];	
-	t.originalLabelPos = CGPointMake([[line objectAtIndex:10] floatValue], [[line objectAtIndex:11] floatValue]);
-	t.labelFontStyle = [[line objectAtIndex:12] intValue];
-	t.labelFontSize = [[line objectAtIndex:13] floatValue];
-	
-	t.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:14] intValue]];
-	t.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
-	t.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
-	
-	t.gui = gui;
-	
-	t.nonZeroValue = [[line objectAtIndex:18] floatValue];
-	if(t.inits) {
-		t.value = [[line objectAtIndex:17] floatValue];
-	}
-	
-	return t;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.nonZeroValue = 1;
-    }
-    return self;
+		
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Toggle: dropping, send/receive names are empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
+		
+		self.inits = [[line objectAtIndex:6] boolValue];
+		
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:9]];	
+		self.originalLabelPos = CGPointMake([[line objectAtIndex:10] floatValue], [[line objectAtIndex:11] floatValue]);
+		self.labelFontStyle = [[line objectAtIndex:12] intValue];
+		self.labelFontSize = [[line objectAtIndex:13] floatValue];
+		
+		self.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:14] intValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
+		
+		self.nonZeroValue = [[line objectAtIndex:18] floatValue];
+		if(self.inits) {
+			self.value = [[line objectAtIndex:17] floatValue];
+		}
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -105,17 +95,17 @@
 	}
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 
 	// bounds
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		round(self.originalFrame.size.width * gui.scaleX),
-		round(self.originalFrame.size.height * gui.scaleX));
+		round(self.originalFrame.origin.x * self.gui.scaleX),
+		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round(self.originalFrame.size.width * self.gui.scaleX),
+		round(self.originalFrame.size.height * self.gui.scaleX));
 
 	// label
-	[self reshapeLabelForGui:gui];
+	[self reshapeLabel];
 }
 
 - (void)toggle {
@@ -177,7 +167,7 @@
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
 			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
 			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 	}
 	else if([message isEqualToString:@"nonzero"] && [arguments count] > 0 && [arguments isNumberAt:0]) {

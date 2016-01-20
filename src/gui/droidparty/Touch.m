@@ -19,35 +19,27 @@
 
 @implementation Touch
 
-+ (id)touchFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 7) { // sanity check
 		DDLogWarn(@"Touch: cannot create, atom line length < 7");
 		return nil;
 	}
-
-	Touch *t = [[self alloc] initWithFrame:CGRectZero];
-	
-	t.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
-	if(![t hasValidSendName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Touch: dropping, send name is empty");
-		return nil;
-	}
-	
-	t.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
-	
-	return t;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.label = nil; // don't need label
-    }
-    return self;
+		
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		if(![self hasValidSendName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Touch: dropping, send name is empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {

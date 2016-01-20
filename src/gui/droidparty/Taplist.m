@@ -22,40 +22,14 @@
 
 @implementation Taplist
 
-+ (id)taplistFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 9) { // sanity check
 		DDLogWarn(@"Taplist: cannot create, atom line length < 9");
 		return nil;
 	}
-
-	Taplist *t = [[self alloc] initWithFrame:CGRectZero];
-	
-	t.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-	t.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
-	if(![t hasValidSendName] && ![t hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Taplist: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	t.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
-	
-	for(int i = 9; i < [line count]; ++i) {
-		[t.list addObject:[line objectAtIndex:i]];
-	}
-	t.value = 0;
-	
-	t.gui = gui;
-	
-	return t;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
+		touchDown = NO;
 		self.list = [[NSMutableArray alloc] init];
 		self.label.textAlignment = NSTextAlignmentCenter;
 		self.label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
@@ -66,9 +40,25 @@
 		else {
 			self.label.numberOfLines = 0;
 		}
-		touchDown = NO;
-    }
-    return self;
+		
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Taplist: dropping, send/receive names are empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+		
+		for(int i = 9; i < [line count]; ++i) {
+			[self.list addObject:[line objectAtIndex:i]];
+		}
+		self.value = 0;
+	}
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -92,10 +82,10 @@
 	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 
 	// bounds
-	[super reshapeForGui:gui];
+	[super reshape];
 
 	// label
 	[self reshapeLabel];

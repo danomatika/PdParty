@@ -16,32 +16,62 @@
 
 @implementation Widget
 
-- (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if(self) {
-		self.originalFrame = CGRectZero;
-		self.originalLabelPos = CGPointZero;
+// private init
+- (void)_init {
+	self.originalFrame = CGRectZero;
+	self.originalLabelPos = CGPointZero;
+
+	self.fillColor = WIDGET_FILL_COLOR;
+	self.frameColor = WIDGET_FRAME_COLOR;
+	self.controlColor = WIDGET_FRAME_COLOR;
+	self.backgroundColor = [UIColor clearColor];
 	
-		self.fillColor = WIDGET_FILL_COLOR;
-		self.frameColor = WIDGET_FRAME_COLOR;
-		self.controlColor = WIDGET_FRAME_COLOR;
-		self.backgroundColor = [UIColor clearColor];
-		
-		self.minValue = 0.0;
-		self.maxValue = 1.0;
-		self.value = 0.0;
-		self.inits = NO;
-	
-		self.sendName = @"";
-		self.receiveName = @"";
-	
-		self.label = [[UILabel alloc] initWithFrame:CGRectZero];
-		self.label.backgroundColor = [UIColor clearColor];
-		self.label.textColor = WIDGET_FRAME_COLOR;
-		self.label.textAlignment = NSTextAlignmentLeft;
-		[self addSubview:self.label];
+	self.minValue = 0.0;
+	self.maxValue = 1.0;
+	self.value = 0.0;
+	self.inits = NO;
+
+	self.sendName = @"";
+	self.receiveName = @"";
+
+	self.label = [[UILabel alloc] initWithFrame:CGRectZero];
+	self.label.backgroundColor = [UIColor clearColor];
+	self.label.textColor = WIDGET_FRAME_COLOR;
+	self.label.textAlignment = NSTextAlignmentLeft;
+	[self addSubview:self.label];
+}
+
+- (id)init {
+	self = [super init];
+	if(self) {
+		[self _init];
 	}
-    return self;
+	return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if(self) {
+		[self _init];
+	}
+	return self;
+}
+
+- (id)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
+	if(self) {
+		[self _init];
+	}
+	return self;
+}
+
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
+	self = [super initWithFrame:CGRectZero];
+	if(self) {
+		[self _init];
+		self.gui = gui;
+	}
+	return self;
 }
 
 - (void)dealloc {
@@ -61,12 +91,12 @@
 }
 
 // override for custom redraw
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		round(self.originalFrame.size.width * gui.scaleX),
-		round(self.originalFrame.size.height * gui.scaleX));
+		round(self.originalFrame.origin.x * self.gui.scaleX),
+		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round(self.originalFrame.size.width * self.gui.scaleX),
+		round(self.originalFrame.size.height * self.gui.scaleX));
 }
 
 - (void)cleanup {

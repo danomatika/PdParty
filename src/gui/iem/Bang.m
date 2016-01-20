@@ -26,53 +26,43 @@
 
 @implementation Bang
 
-+ (id)bangFromAtomLine:(NSArray *)line withGui:(Gui *)gui {
-
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 18) { // sanity check
 		DDLogWarn(@"Bang: cannot create, atom line length < 18");
 		return nil;
 	}
-
-	Bang *b = [[[self class] alloc] initWithFrame:CGRectZero];
-
-	b.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
-	b.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
-	if(![b hasValidSendName] && ![b hasValidReceiveName]) {
-		// drop something we can't interact with
-		DDLogVerbose(@"Bang: dropping, send/receive names are empty");
-		return nil;
-	}
-	
-	b.originalFrame = CGRectMake(
-		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-		[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
-	
-	b.holdTimeMS = [[line objectAtIndex:6] intValue];
-	b.interruptTimeMS = [[line objectAtIndex:7] intValue];
-	b.inits = [[line objectAtIndex:8] boolValue];
-	[b checkFlashTimes];
-	
-	b.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-	b.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
-	b.labelFontStyle = [[line objectAtIndex:14] intValue];
-	b.labelFontSize = [[line objectAtIndex:15] floatValue];
-	
-	b.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
-	b.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] intValue]];
-	b.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
-	
-	b.gui = gui;
-	
-	return b;
-}
-
-- (id)initWithFrame:(CGRect)frame {    
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		_interruptTimeMS = IEM_BNG_DEFAULTBREAKFLASHTIME;
 		_holdTimeMS = IEM_BNG_DEFAULTHOLDFLASHTIME;
-    }
-    return self;
+		
+		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
+		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
+		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
+			// drop something we can't interact with
+			DDLogVerbose(@"Bang: dropping, send/receive names are empty");
+			return nil;
+		}
+		
+		self.originalFrame = CGRectMake(
+			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
+		
+		self.holdTimeMS = [[line objectAtIndex:6] intValue];
+		self.interruptTimeMS = [[line objectAtIndex:7] intValue];
+		self.inits = [[line objectAtIndex:8] boolValue];
+		[self checkFlashTimes];
+		
+		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
+		self.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
+		self.labelFontStyle = [[line objectAtIndex:14] intValue];
+		self.labelFontSize = [[line objectAtIndex:15] floatValue];
+		
+		self.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:17] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
+	}
+	return self;
 }
 
 - (void)dealloc {
@@ -104,17 +94,17 @@
 	CGContextStrokeEllipseInRect(context, circleFrame);
 }
 
-- (void)reshapeForGui:(Gui *)gui {
+- (void)reshape {
 
 	// bounds
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * gui.scaleX),
-		round(self.originalFrame.origin.y * gui.scaleY),
-		round(self.originalFrame.size.width * gui.scaleX),
-		round(self.originalFrame.size.height * gui.scaleX));
+		round(self.originalFrame.origin.x * self.gui.scaleX),
+		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round(self.originalFrame.size.width * self.gui.scaleX),
+		round(self.originalFrame.size.height * self.gui.scaleX));
 
 	// label
-	[self reshapeLabelForGui:gui];
+	[self reshapeLabel];
 }
 
 - (void)sendInitValue {
@@ -200,7 +190,7 @@
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
 			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
 			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
-		[self reshapeForGui:self.gui];
+		[self reshape];
 		[self setNeedsDisplay];
 	}
 	else if([message isEqualToString:@"flashtime"] && [arguments count] > 1 &&

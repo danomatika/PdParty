@@ -10,8 +10,6 @@
  */
 #import "IEMWidget.h"
 
-@class Gui;
-
 // moonlib [mknob] implementation
 @interface Knob : IEMWidget
 
@@ -23,7 +21,5 @@
 
 @property (assign, nonatomic) BOOL log; // linear or logarithmic scale?
 @property (assign, nonatomic) BOOL steady; // steady on click?
-
-+ (id)knobFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

@@ -10,14 +10,10 @@
  */
 #import "IEMWidget.h"
 
-@class Gui;
-
 @interface Bang : IEMWidget
 
 // flash times ms
 @property (assign, nonatomic) int interruptTimeMS;
 @property (assign, nonatomic) int holdTimeMS;
-
-+ (id)bangFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

@@ -11,14 +11,10 @@
 #import "Widget.h"
 #import "PartyBrowser.h"
 
-@class Gui;
-
 @interface Loadsave : Widget <BrowserDelegate>
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *directory;
 @property (strong, nonatomic) NSString *extension;
-
-+ (id)loadsaveFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end

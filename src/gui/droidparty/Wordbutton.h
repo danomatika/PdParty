@@ -10,10 +10,6 @@
  */
 #import "Widget.h"
 
-@class Gui;
-
 @interface Wordbutton : Widget
-
-+ (id)wordbuttonFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
 @end
