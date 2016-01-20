@@ -21,7 +21,7 @@
 		return nil;
 	}
 
-	Comment *c = [[Comment alloc] initWithFrame:CGRectZero];
+	Comment *c = [[[self class] alloc] initWithFrame:CGRectZero];
 
 	c.originalFrame = CGRectMake(
 		[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],

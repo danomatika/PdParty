@@ -32,7 +32,7 @@
 		return nil;
 	}
 
-	Number2 *n = [[Number2 alloc] initWithFrame:CGRectZero];
+	Number2 *n = [[[self class] alloc] initWithFrame:CGRectZero];
 
 	n.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
 	n.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];

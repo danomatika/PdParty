@@ -33,7 +33,7 @@
 		return nil;
 	}
 
-	Bang *b = [[Bang alloc] initWithFrame:CGRectZero];
+	Bang *b = [[[self class] alloc] initWithFrame:CGRectZero];
 
 	b.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
 	b.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
