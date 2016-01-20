@@ -26,7 +26,7 @@
 		return nil;
 	}
 
-	Wordbutton *w = [[Wordbutton alloc] initWithFrame:CGRectZero];
+	Wordbutton *w = [[self alloc] initWithFrame:CGRectZero];
 
 	w.sendName = [@"wordbutton-" stringByAppendingString:[Gui filterEmptyStringValues:[line objectAtIndex:7]]];
 	if(![w hasValidSendName]) {

@@ -23,7 +23,7 @@
 		return nil;
 	}
 
-	Loadsave *l = [[Loadsave alloc] initWithFrame:CGRectZero];
+	Loadsave *l = [[self alloc] initWithFrame:CGRectZero];
 
 	l.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
 	l.receiveName = l.name;

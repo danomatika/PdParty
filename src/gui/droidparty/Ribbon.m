@@ -27,7 +27,7 @@
 		return nil;
 	}
 
-	Ribbon *r = [[Ribbon alloc] initWithFrame:CGRectZero];
+	Ribbon *r = [[self alloc] initWithFrame:CGRectZero];
 
 	r.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
 	if(![r hasValidSendName]) {

@@ -36,7 +36,7 @@
 		return nil;
 	}
 
-	Knob *k = [[Knob alloc] initWithFrame:CGRectZero];
+	Knob *k = [[self alloc] initWithFrame:CGRectZero];
 	
 	k.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
 	k.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];

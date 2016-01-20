@@ -26,7 +26,7 @@
 		return nil;
 	}
 
-	Numberbox *n = [[Numberbox alloc] initWithFrame:CGRectZero];
+	Numberbox *n = [[self alloc] initWithFrame:CGRectZero];
 	
 	n.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	n.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];

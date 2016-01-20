@@ -26,7 +26,7 @@
 		return nil;
 	}
 
-	Touch *t = [[Touch alloc] initWithFrame:CGRectZero];
+	Touch *t = [[self alloc] initWithFrame:CGRectZero];
 	
 	t.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
 	if(![t hasValidSendName]) {

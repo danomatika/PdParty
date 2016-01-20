@@ -21,7 +21,7 @@
 		return nil;
 	}
 
-	Display *d = [[Display alloc] initWithFrame:CGRectZero];
+	Display *d = [[self alloc] initWithFrame:CGRectZero];
 
 	d.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
 	if(![d hasValidReceiveName]) {

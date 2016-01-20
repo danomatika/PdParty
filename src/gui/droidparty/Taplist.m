@@ -29,7 +29,7 @@
 		return nil;
 	}
 
-	Taplist *t = [[Taplist alloc] initWithFrame:CGRectZero];
+	Taplist *t = [[self alloc] initWithFrame:CGRectZero];
 	
 	t.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	t.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];

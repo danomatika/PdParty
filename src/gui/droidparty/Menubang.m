@@ -25,7 +25,7 @@ static NSMutableArray *s_menubangs;
 		return nil;
 	}
 
-	Menubang *m = [[Menubang alloc] initWithFrame:CGRectZero];
+	Menubang *m = [[self alloc] initWithFrame:CGRectZero];
 
 	m.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
 	m.sendName = [NSString stringWithFormat:@"menubang-%@", m.name];

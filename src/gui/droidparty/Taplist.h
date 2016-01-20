@@ -22,6 +22,4 @@
 
 + (id)taplistFromAtomLine:(NSArray *)line withGui:(Gui *)gui;
 
-- (void)reshapeLabel:(Gui *)gui;
-
 @end
