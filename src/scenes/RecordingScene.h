@@ -20,7 +20,7 @@
 
 @property (strong, nonatomic) NSString *file; //< wav file to play
 
-/// sqaure background image (nominally 320x320)
+/// square background image (nominally 320x320)
 @property (strong, nonatomic) UIImageView *background;
 
 + (id)sceneWithParent:(UIView *)parent andPureData:(PureData *)pureData;
