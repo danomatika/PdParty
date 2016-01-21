@@ -2,7 +2,7 @@ PdParty
 =======
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/images/splash/patchview_bg.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/images/background/patchview_bg.png"/>
 </p>
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
