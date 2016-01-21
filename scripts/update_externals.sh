@@ -4,6 +4,8 @@
 #
 # browse: http://git.puredata.info/cgit
 #
+# Dan Wilcox <danomatika@gmail.com> 2012
+#
 
 WD=$(dirname $0)
 

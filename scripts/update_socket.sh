@@ -7,7 +7,7 @@
 # as long as the download link is formatted in the same way and folder
 # structure are the same, this script should *just work*
 #
-# 2013 Dan Wilcox <danomatika@gmail.com> 
+# Dan Wilcox <danomatika@gmail.com> 2013
 #
 
 WD=$(dirname $0)

@@ -1,4 +1,7 @@
 #! /bin/bash
+#
+# Dan Wilcox <danomatika@gmail.com> 2016
+#
 
 WD=$(dirname $0)
 DEST=_generated

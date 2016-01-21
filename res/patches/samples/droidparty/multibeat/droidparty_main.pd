@@ -6831,7 +6831,7 @@ empty empty 17 7 0 10 -262144 -1 -1 1 0 \;;
 -1 1 1;
 #X obj 435 279 tgl 25 1 toggle_3_15 empty empty 17 7 0 10 -262144 -1
 -1 0 1;
-#X obj 42 150 cnv 16 25 16 empty ticker empty 20 12 0 14 -258113 -66577
+#X obj 14 150 cnv 16 25 16 empty ticker empty 20 12 0 14 -258113 -66577
 0;
 #X obj 207 21 vsl 32 128 0 1.5 0 1 feedback feedback-r feedbk 0 -9
 0 10 -262144 -1 -1 0 0;
