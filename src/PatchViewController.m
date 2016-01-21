@@ -30,6 +30,13 @@
 /// display the controls on screen or in a popup as required by the current scene
 - (void)updateControls;
 
+/// close the controls popover
+- (void)dismissControlsPopover;
+
+/// add/remove default background
+- (void)addBackground;
+- (void)removeBackground;
+
 @end
 
 @implementation PatchViewController
@@ -128,13 +135,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	if(self.sceneManager.scene) {
-		self.background = nil;
+		if(self.background) {
+			[self removeBackground];
+		}
 	}
-	else if(!self.background) { // load background
-		self.background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"patchview_bg"]];
-		self.background.contentMode = UIViewContentModeScaleAspectFit;
-		[self.view addSubview:self.background];
-		[Util logRect:self.background.frame];
+	else if(!self.background) {
+		[self addBackground];
 	}
 	[super viewWillAppear:animated];
 }
@@ -167,6 +173,11 @@
 		
 		// make sure controls are updated and nav bar buttons are created
 		[self updateControls];
+		
+		// don't need background anymore
+		if(self.background) {
+			[self removeBackground];
+		}
 	}
 	
 	// hide iPad browser popover on selection 
@@ -475,6 +486,17 @@
 	if(self.controlsPopover.popoverVisible) {
 		[self.controlsPopover dismissPopoverAnimated:YES];
 	}
+}
+
+- (void)addBackground {
+	self.background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"patchview_bg"]];
+	self.background.contentMode = UIViewContentModeScaleAspectFit;
+	[self.view addSubview:self.background];
+}
+
+- (void)removeBackground {
+	[self.background removeFromSuperview];
+	self.background = nil;
 }
 
 @end
