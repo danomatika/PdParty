@@ -389,11 +389,6 @@ Also, thanks to Joe White for providing a copy of the RjDj _get_sensors.pd_ patc
 
 ### Events
 
-<p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_events_scene_iPhone.png"/><br/>
-	Event test PdParty scene
-</p>
-
 PdParty returns the following events:
 
 * **[r \#touch] _eventType_ _id_ _x_ _y_**: multitouch event
@@ -427,7 +422,7 @@ _Note: RjDj scenes only receive #touch & #accelerate by default, DroidParty scen
 #### Accelerate, Gyro, & Magnet Control
 
 <p align="center">
-  <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_events_scene.png"/><br/>
+  <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_events_scene_iPhone.png"/><br/>
   PdParty accelerometer events
 </p>
 
