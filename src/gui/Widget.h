@@ -7,6 +7,8 @@
  *
  * See https://github.com/danomatika/PdParty for documentation
  *
+ * PD File Format reference: https://puredata.info/docs/developer/PdFileFormat
+ *
  */
 #import <UIKit/UIKit.h>
 #import "PdBase.h"
