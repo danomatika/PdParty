@@ -422,15 +422,15 @@ PdParty returns the following events:
   * _msec_: millisecond
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
   
-<p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/receiving_events_patch.png"/><br/>
-	Receiving PdParty events
-</p>
-  
 _Note: RjDj scenes only receive #touch & #accelerate by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj_gyro], [rj_loc], etc abstractions._
 
 #### Accelerate, Gyro, & Magnet Control
-  
+
+<p align="center">
+  <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_events_scene.png"/><br/>
+  PdParty accelerometer events
+</p>
+
 Reading accelerometer, gyroscope, and/or magnetometer events will affect battery life, so these must be manually started after the scene is loaded by sending messages to the internal #pdparty receiver:
 
 * **\#pdparty _sensor_ _value_**: sensor run control
@@ -544,7 +544,7 @@ All of the PdParty events can be streamed over OSC, included Pd prints. The rece
 
 _Note: The argument number and types are equivalent with their receive counterparts, i.e. /pdparty/touch receives the same data as [r \#touch]._
 
-See `tests/osc-event-receiver.pd` in the PdParty source repository for an event receiver you can use while patching & debugging on your computer:
+See `docs/composerpack/osc/osc-event-receiver.pd` in the PdParty source repository for an event receiver you can use while patching & debugging on your computer:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/osc_patch.png"/><br/>

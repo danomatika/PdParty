@@ -137,7 +137,7 @@
 
 - (void)startPlaybackFrom:(NSString *)path {
 	if(!playbackPatch) {
-		playbackPatch = [PdFile openFileNamed:@"playback.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"]];
+		playbackPatch = [PdFile openFileNamed:@"playback.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/pd"]];
 	}
 	[PdBase sendMessage:@"playback" withArguments:[NSArray arrayWithObject:path] toReceiver:RJ_TRANSPORT_R];
 	self.playingback = YES;

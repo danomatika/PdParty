@@ -44,19 +44,6 @@
 	return self;
 }
 
-- (void)reshape {
-
-	// bounds
-	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
-		round(self.originalFrame.size.width * self.gui.scaleX),
-		round(self.originalFrame.size.height * self.gui.scaleY));
-
-	// label
-	[self reshapeLabel];
-}
-
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)type {
