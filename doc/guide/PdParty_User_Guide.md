@@ -120,7 +120,7 @@ The desired aspect ratio is inferred from the patch canvas size and the Scene Vi
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/droidparty_scene_iPad.png"/>
 </p>
 
-and RjDJ scenes which support any orientation on iPad:
+and RjDJ scenes which are always portrait:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/rjdj_scene_rotated_iPad.png"/>
