@@ -1,0 +1,25 @@
+#N canvas 346 237 562 384 10;
+#X obj 188 210 bng 15 250 50 0 empty empty end_of_list 17 7 1 10 -262144
+-1 -1;
+#X msg 188 159 1 2 3 4 5;
+#X msg 128 107 bang;
+#X floatatom 128 227 5 0 0 0 - - -;
+#X text 60 35 u_listser;
+#X text 262 157 list to serialize;
+#X obj 260 186 spigot;
+#X obj 314 185 tgl 15 0 empty empty loop 17 7 1 10 -262144 -1 -1 0
+1;
+#X obj 128 185 u_listser;
+#X obj 128 247 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 177 109 Output the next element of the list;
+#X text 90 62 serialize a list on demand. (same as [list-dripslow]
+from the [list]-abs collection);
+#X connect 1 0 8 1;
+#X connect 2 0 8 0;
+#X connect 3 0 9 0;
+#X connect 6 0 1 0;
+#X connect 7 0 6 1;
+#X connect 8 0 3 0;
+#X connect 8 1 0 0;
+#X connect 8 1 6 0;

@@ -1,0 +1,18 @@
+#N canvas 291 215 877 330 10;
+#N canvas 156 167 851 478 REFERENCE 0;
+#X text 128 120 Name: e_agc;
+#X text 128 137 Summary: automatic gain control for RjDj;
+#X text 128 154 Inlet 0: signal in;
+#X text 128 171 Outlet 0: signal out;
+#X text 126 195 Description: e_agc tries to automatically figure out
+the best gain settings for the RjDj device you're running. Generally
+you should use it directly after [soundinput].;
+#X coords 0 -1 1 1 450 200 1 100 100;
+#X restore 32 68 pd REFERENCE;
+#X obj 521 44 soundinput;
+#X obj 520 94 e_agc;
+#X obj 521 152 soundoutput;
+#X text 28 28 e_agc - automatic gain control;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 0 3 1;

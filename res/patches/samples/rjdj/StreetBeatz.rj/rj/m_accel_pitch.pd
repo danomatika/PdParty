@@ -1,0 +1,16 @@
+#N canvas 482 350 448 360 10;
+#X obj 98 121 /;
+#X obj 98 151 atan;
+#X obj 98 181 * -1;
+#X msg 98 98 \$2 \$3;
+#X obj 98 241 outlet;
+#X obj 98 17 r #accelerate;
+#X obj 98 73 spigot 1;
+#X obj 151 49 inlet;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 4 0;
+#X connect 3 0 0 0;
+#X connect 5 0 6 0;
+#X connect 6 0 3 0;
+#X connect 7 0 6 1;

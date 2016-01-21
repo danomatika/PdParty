@@ -1,0 +1,53 @@
+#N canvas 208 186 876 511 10;
+#X floatatom 649 87 5 0 0 0 - - -;
+#X floatatom 550 176 5 0 0 0 - - -;
+#X floatatom 649 176 5 0 0 0 - - -;
+#X floatatom 735 176 5 0 0 0 - - -;
+#X text 732 192 never;
+#X text 545 197 always;
+#X text 648 193 very rare;
+#X floatatom 595 263 5 0 0 0 - - -;
+#X obj 556 314 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 556 220 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 566 262 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 556 241 metro 150;
+#X obj 550 137 c_pass 100;
+#X obj 649 136 c_pass 1;
+#X obj 735 136 c_pass 0;
+#X obj 556 284 c_pass;
+#X msg 788 110 seed \$1;
+#X floatatom 788 89 5 0 0 0 - - -;
+#X text 723 66 seed the randomness;
+#X text 19 9 c_pass - passes messages randomly;
+#X obj 633 346 c_multipass;
+#X text 549 347 Also see:;
+#N canvas 550 144 695 621 REFERENCE 0;
+#X text 114 121 Name: c_pass;
+#X text 114 148 Summary: passes messages randomly;
+#X text 114 215 Inlet 0: message to pass (or not);
+#X text 114 309 Description: [c_pass] lets a message pass with a probability
+in percent set via its argument or the right inlet.;
+#X text 114 282 Outlet 0: same as input \, if passed.;
+#X text 114 175 Argument 0: passing probability in percent. 100 % passes
+always \, 0 percent passes never.;
+#X text 114 242 Inlet 1: float: passing probability in percent (like
+argument) \, seed <num>: seed random number generator;
+#X text 124 452 Tags: random;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 20 34 pd REFERENCE;
+#X connect 0 0 12 0;
+#X connect 0 0 13 0;
+#X connect 0 0 14 0;
+#X connect 7 0 15 1;
+#X connect 9 0 11 0;
+#X connect 11 0 10 0;
+#X connect 11 0 15 0;
+#X connect 12 0 1 0;
+#X connect 13 0 2 0;
+#X connect 14 0 3 0;
+#X connect 15 0 8 0;
+#X connect 16 0 14 1;
+#X connect 17 0 16 0;

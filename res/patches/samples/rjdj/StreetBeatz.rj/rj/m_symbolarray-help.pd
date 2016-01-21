@@ -1,0 +1,107 @@
+#N struct 1006-symarray float x array symbols 1006-sym;
+#N struct 1006-sym symbol name float on;
+#N struct 1010-symarray float x array symbols 1010-sym;
+#N struct 1010-sym symbol name float on;
+#N canvas 281 100 721 759 10;
+#X floatatom 113 383 5 0 0 0 - - -;
+#X msg 258 377 1 one \, 2 two \, 4 four;
+#X msg 258 345 0 null;
+#X obj 113 319 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 4;
+#X text 240 318 lookup data by index;
+#X obj 271 532 hradio 15 1 0 12 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X symbolatom 271 723 10 0 0 0 - - -;
+#N canvas 473 338 450 300 count 0;
+#X obj 131 154 f 0;
+#X obj 156 153 + 1;
+#X msg 147 133 0;
+#X obj 131 183 outlet;
+#X obj 131 59 inlet;
+#X obj 131 96 b;
+#X obj 178 61 inlet;
+#X obj 178 98 b;
+#X connect 0 0 1 0;
+#X connect 0 0 3 0;
+#X connect 1 0 0 1;
+#X connect 2 0 0 1;
+#X connect 4 0 5 0;
+#X connect 5 0 0 0;
+#X connect 6 0 7 0;
+#X connect 7 0 2 0;
+#X restore 440 649 pd count;
+#X msg 359 599 c \, c# \, d \, d# \, e \, f \, f# \, g \, g# \, a \,
+a# \, b;
+#X obj 359 624 t a b;
+#X obj 359 673 list prepend;
+#X symbolatom 113 480 10 0 0 0 - - -;
+#X msg 61 397 reset;
+#X obj 113 502 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 283 673 reset;
+#X obj 359 551 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 359 574 t b b b;
+#X text 418 382 arrays can have "holes";
+#X msg 258 452 0 1;
+#X text 108 592 Notes example:;
+#X text 324 344 add or change data. syntax: <index> <symbol to store>
+;
+#X text 294 453 error;
+#X msg 258 427 3;
+#X msg 61 372 print;
+#X msg 224 674 print;
+#X msg 258 402 10 long lists are truncated;
+#X text 294 431 messages with missing symbol are ignored;
+#X text 26 18 m_symbolarray - map numbers to symbols;
+#X text 102 42 m_symbolarray is like an array/table that stores symbols
+instead of numbers. It grows automatically.;
+#X obj 359 725 print NOTES;
+#X obj 201 483 print ARRAY;
+#X msg 61 422 dump;
+#X msg 224 649 dump;
+#X text 102 125 Inlet 0:;
+#X text 175 213 reset: reset everything;
+#X text 176 124 float: lookup symbol at index position;
+#X text 175 235 print: print to console;
+#X text 175 149 dump: dump array to second outlet. Can be used to copy
+an array to another [m_symbolarray];
+#X text 102 271 Inlet 1: <index> <symbol to store> will add or change
+data;
+#X msg 201 345 0 zero;
+#X text 174 184 delete <index>: delete symbol at index position.;
+#X msg 127 411 delete 2;
+#X obj 113 455 m_symbolarray;
+#X obj 271 698 m_symbolarray;
+#X text 102 77 Indices range from 0 to the number of elements minus
+one \; Undefined indices should not generate output.;
+#X connect 0 0 42 0;
+#X connect 1 0 42 1;
+#X connect 2 0 42 1;
+#X connect 3 0 0 0;
+#X connect 5 0 43 0;
+#X connect 7 0 10 1;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 9 1 7 0;
+#X connect 10 0 43 1;
+#X connect 11 0 13 0;
+#X connect 12 0 42 0;
+#X connect 14 0 43 0;
+#X connect 15 0 16 0;
+#X connect 16 0 8 0;
+#X connect 16 1 14 0;
+#X connect 16 2 7 1;
+#X connect 18 0 42 1;
+#X connect 22 0 42 1;
+#X connect 23 0 42 0;
+#X connect 24 0 43 0;
+#X connect 25 0 42 1;
+#X connect 31 0 42 0;
+#X connect 32 0 43 0;
+#X connect 39 0 42 1;
+#X connect 41 0 42 0;
+#X connect 42 0 11 0;
+#X connect 42 1 30 0;
+#X connect 43 0 6 0;
+#X connect 43 1 29 0;

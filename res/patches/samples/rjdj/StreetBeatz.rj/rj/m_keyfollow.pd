@@ -1,0 +1,49 @@
+#N canvas 0 0 832 610 10;
+#X obj 152 385 * 1;
+#X obj 372 121 / 100;
+#X obj 287 249 t b a;
+#X obj 372 167 t b a;
+#X obj 152 85 inlet;
+#X obj 372 83 inlet;
+#X obj 287 81 inlet;
+#X text 283 56 key freq;
+#X text 150 53 filter freq;
+#X obj 152 417 outlet;
+#X text 368 58 key following percent;
+#X obj 386 321 pow;
+#X obj 386 297 / 261;
+#X msg 319 317 1;
+#X obj 319 272 moses 0.01;
+#X text 433 298 midi C;
+#X obj 287 212 f;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 502 19 pd LICENSE-GPL;
+#X connect 0 0 9 0;
+#X connect 1 0 3 0;
+#X connect 2 0 0 0;
+#X connect 2 1 14 0;
+#X connect 3 0 16 0;
+#X connect 3 1 11 1;
+#X connect 4 0 0 0;
+#X connect 5 0 1 0;
+#X connect 6 0 16 0;
+#X connect 11 0 0 1;
+#X connect 12 0 11 0;
+#X connect 13 0 0 1;
+#X connect 14 0 13 0;
+#X connect 14 1 12 0;
+#X connect 16 0 2 0;

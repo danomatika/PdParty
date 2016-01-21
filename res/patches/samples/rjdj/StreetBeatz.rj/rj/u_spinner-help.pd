@@ -1,0 +1,21 @@
+#N canvas 313 273 798 373 10;
+#X msg 254 181 items a b c d e;
+#X obj 119 204 u_spinner letters;
+#X symbolatom 119 230 10 0 0 0 - - -;
+#X floatatom 119 182 5 0 0 0 - - -;
+#X text 376 154 how many steps to count before activating the next
+item;
+#X text 377 178 list of items to choose;
+#X floatatom 235 230 5 0 0 0 - - -;
+#X text 61 46 u_spinner - select items from a list by a scaled index
+;
+#X text 97 74 Useful for building "spinner" GUIs;
+#X obj 122 130 hsl 200 15 0 200 0 0 empty empty 0-200 -2 -8 1 10 -262144
+-1 -1 12600 1;
+#X msg 235 155 resolution 20;
+#X connect 0 0 1 1;
+#X connect 1 0 2 0;
+#X connect 1 1 6 0;
+#X connect 3 0 1 0;
+#X connect 9 0 3 0;
+#X connect 10 0 1 1;

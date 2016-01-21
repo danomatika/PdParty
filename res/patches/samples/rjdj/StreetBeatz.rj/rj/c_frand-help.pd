@@ -1,0 +1,59 @@
+#N canvas 137 16 932 538 10;
+#N canvas 377 58 827 710 REFERENCE 0;
+#X text 114 141 Summary: random float number between two limits;
+#X text 114 121 Name: c_frand;
+#X text 114 174 Argument 0: limit_0 (default 0);
+#X text 114 194 Argument 1: limit_1 (default 1);
+#X text 114 214 Inlet 0: bang: generate random number. seed <float>:
+seed random number generatoe;
+#X text 112 321 Description: generates a random floating point number
+between to limits. Limits can be negative.;
+#X text 122 529 Tags: random \, between;
+#X text 114 287 Outlet 0: random floating point number between limit_0
+and limit_1 (excluding limit_1 itself);
+#X text 114 244 Inlet 1: float to set limit_0 (default 0);
+#X text 114 264 Inlet 2: float to set limit_1 (default 1);
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X floatatom 474 209 5 0 0 0 - - -;
+#X msg 474 57 bang;
+#X msg 489 87 seed 123;
+#X floatatom 497 140 5 0 0 1 limit_0 - -;
+#X floatatom 520 159 5 0 0 1 limit_1 - -;
+#X msg 662 74 bang;
+#X floatatom 662 121 5 0 0 0 - - -;
+#X obj 662 99 c_frand 10 20;
+#X obj 474 183 c_frand;
+#X text 7 14 c_frand - random float number between two limits;
+#X obj 479 449 c_adsrj \$0-myadsr;
+#X obj 685 399 c_frand;
+#X obj 632 345 unpack s 0 0;
+#X obj 632 367 t a b;
+#X obj 632 426 pack s 0;
+#X text 473 251 Useful idiom: [c_frand] can be used to randomize settings
+of other objects like this:;
+#X text 701 423 repack and send to object;
+#X text 731 348 unpack and set range;
+#X msg 632 317 A 5 20 \, D 20 80 \, S 0 100 \, R 10 500;
+#X obj 662 142 int;
+#X floatatom 662 163 5 0 0 0 - - -;
+#X text 706 164 random int between 10 and 20;
+#X text 475 295 Write comma-separated lists of: <param_name> <min>
+<max>;
+#X connect 2 0 9 0;
+#X connect 3 0 9 0;
+#X connect 4 0 9 1;
+#X connect 5 0 9 2;
+#X connect 6 0 8 0;
+#X connect 7 0 20 0;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 12 0 15 1;
+#X connect 13 0 14 0;
+#X connect 13 1 12 1;
+#X connect 13 2 12 2;
+#X connect 14 0 15 0;
+#X connect 14 1 12 0;
+#X connect 15 0 11 1;
+#X connect 19 0 13 0;
+#X connect 20 0 21 0;

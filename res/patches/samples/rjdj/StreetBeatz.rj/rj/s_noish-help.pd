@@ -1,0 +1,27 @@
+#N canvas 0 0 830 523 10;
+#X obj 513 162 s_noish;
+#N canvas 377 58 827 710 REFERENCE 0;
+#X text 114 121 Name: s_noish;
+#X text 114 174 Argument 0: sample-and-hold frequency (optional);
+#X text 114 193 Inlet 0: sample-and-hold frequency;
+#X text 114 140 Summary: sample and hold noise;
+#X text 114 212 Outlet 0: audio signal with sample and hold noise;
+#X text 116 246 Description: Generates a noise signal that is sampled
+at the specified frequency. This is similar to filtered noise \, but
+sounds more 8-bit ish.;
+#X text 122 529 Tags: 8bit \, chiptune \, chip music \, noise \, generator
+;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X text 7 14 s_noish - sample and hold noise;
+#X obj 513 121 mtof;
+#X obj 513 142 * 10;
+#X floatatom 513 102 5 0 0 0 - - -;
+#X obj 489 219 soundoutput;
+#X obj 513 187 *~ 0.5;
+#X connect 0 0 7 0;
+#X connect 3 0 4 0;
+#X connect 4 0 0 0;
+#X connect 5 0 3 0;
+#X connect 7 0 6 0;
+#X connect 7 0 6 1;

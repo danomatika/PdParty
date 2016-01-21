@@ -1,0 +1,57 @@
+#N canvas 74 92 1073 583 10;
+#X floatatom 598 68 5 0 1000 0 - - -;
+#X msg 604 120 feedback 1;
+#X obj 598 48 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 611 100 feedback level. If 1 the chunk gets repeated endlessly.
+;
+#X msg 686 161 dry 1;
+#X msg 733 169 dry 0.5;
+#X msg 795 169 dry 0;
+#X text 686 141 dry signal (1) - wet signal (0);
+#X msg 767 249 num 4;
+#X msg 720 249 num 0;
+#X msg 814 249 num 16;
+#X msg 686 120 feedback 0.9;
+#X text 714 227 number of repetitions (default (0) is endless);
+#X obj 475 48 soundinput;
+#X obj 477 349 soundoutput;
+#X obj 476 294 e_repeater repea;
+#N canvas 161 72 722 672 REFERENCE 0;
+#X text 114 135 Summary: repeat a chunks of the incoming signal.;
+#X text 114 115 Name: e_repeater;
+#X text 114 155 Argument 0: name for state saving \, required.;
+#X text 113 174 Inlet 0: audio signal to repeat;
+#X text 112 274 Outlet 0: repeated audio signal.;
+#X text 112 198 Inlet 1: float: sets length of the chunk repeated in
+ms and triggers new recording \, maximung length is 1000 ms. feedback
+<float>: feedback level \, if 1 the chunk gets repeated endlessly.
+dry <float>: dry/wet control - dry signal is 1 \, all wet signal is
+0 (default). num <float>: number of repetitions \, default or 0 is
+endless.;
+#X text 112 302 Description: e_repeater samples up to 1 second of the
+incoming audio signal and repeats it as many times as specified with
+the "num" parameter. Each repetition is attenuated by the value of
+the "feedback" parameter.;
+#X text 114 578 Tags: delay \, repetition \, echo;
+#X coords 0 -1 1 1 450 500 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X text 7 14 e_repeater - repeat a chunks of the incoming signal.;
+#X obj 625 43 hsl 128 15 0 1000 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 641 67 length of the chunk repeated in ms triggers new recording.
+Max 1000!;
+#X connect 0 0 15 1;
+#X connect 1 0 15 1;
+#X connect 2 0 0 0;
+#X connect 4 0 15 1;
+#X connect 5 0 15 1;
+#X connect 6 0 15 1;
+#X connect 8 0 15 1;
+#X connect 9 0 15 1;
+#X connect 10 0 15 1;
+#X connect 11 0 15 1;
+#X connect 13 0 15 0;
+#X connect 15 0 14 0;
+#X connect 15 0 14 1;
+#X connect 18 0 0 0;

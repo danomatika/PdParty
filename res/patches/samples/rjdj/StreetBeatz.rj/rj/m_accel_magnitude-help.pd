@@ -1,0 +1,12 @@
+#N canvas 363 399 572 344 10;
+#X obj 80 192 m_accel_magnitude;
+#X obj 80 170 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 47 32 m_accel_magnitude - calulate acceleration magnitude;
+#X floatatom 80 220 5 0 0 0 - - -;
+#X text 66 69 m_accel_magnitude watches the force sensor's output and
+calculates the magnitude of the forces applied in all directions.;
+#X text 70 121 Inlet: 0/1 to switch off or on. Default is on. Switch
+it off to save some CPU cycles.;
+#X connect 0 0 3 0;
+#X connect 1 0 0 0;

@@ -1,0 +1,50 @@
+#N canvas 235 103 646 378 10;
+#X obj 72 315 rj_image \$1;
+#X obj 72 45 inlet;
+#X obj 398 60 inlet;
+#X obj 398 90 u_dispatch \$0 pos;
+#X obj 203 248 r \$0-pos;
+#X obj 398 115 u_dispatch \$0 show;
+#X obj 86 79 r \$0-show;
+#X obj 72 153 f;
+#X obj 157 79 loadbang;
+#X msg 157 102 0;
+#X obj 398 135 u_dispatch \$0 move;
+#X obj 189 149 r \$0-move;
+#X obj 442 60 u_dispatch g_showimage-\$1;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 502 19 pd LICENSE-GPL;
+#X obj 189 225 list append \$2 \$3;
+#X msg 189 171 move \$1 \$2 \, visible 1;
+#X obj 189 200 loadbang;
+#X msg 189 274 move \$1 \$2;
+#X msg 72 204 visible \$1;
+#X connect 1 0 7 0;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 4 0 17 0;
+#X connect 5 0 10 0;
+#X connect 6 0 7 0;
+#X connect 7 0 18 0;
+#X connect 8 0 9 0;
+#X connect 9 0 7 0;
+#X connect 11 0 15 0;
+#X connect 14 0 17 0;
+#X connect 15 0 0 0;
+#X connect 16 0 14 0;
+#X connect 17 0 0 0;
+#X connect 18 0 0 0;

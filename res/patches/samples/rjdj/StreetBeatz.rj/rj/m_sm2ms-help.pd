@@ -1,0 +1,82 @@
+#N canvas 229 284 985 536 10;
+#X obj 522 81 m_ms2sm;
+#X obj 522 140 m_sm2ms;
+#X floatatom 522 167 5 0 0 0 ms - -;
+#X floatatom 522 57 5 0 0 0 ms - -;
+#X floatatom 522 116 5 0 0 0 samples - -;
+#N canvas 0 0 750 317 upsampled 0;
+#X obj 127 134 m_ms2sm;
+#X obj 127 189 m_sm2ms;
+#X floatatom 127 216 5 0 0 0 - - -;
+#X floatatom 127 106 5 0 0 0 - - -;
+#X floatatom 127 157 5 0 0 0 - - -;
+#X text 44 49 In subpatches that have been resampled with [block~]
+the objects use the up- or downsampled samplerate for their calculations.
+;
+#X obj 270 118 block~ 64 1 4;
+#X text 370 118 four times the surrounding samplerate.;
+#X msg 191 167 0;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 3 0 0 0;
+#X connect 4 0 1 0;
+#X connect 8 0 1 1;
+#X connect 8 0 0 1;
+#X restore 519 403 pd upsampled;
+#X text 678 115 use Pd's samplerate (default);
+#X floatatom 521 335 5 0 0 0 ms - -;
+#X floatatom 521 225 5 0 0 0 ms - -;
+#X floatatom 521 276 5 0 0 0 samples - -;
+#X text 685 266 use Pd's samplerate (default);
+#X msg 653 294 22050;
+#X text 703 288 manually set samplerate to use;
+#X obj 521 308 m_sm2ms 96000;
+#X obj 521 249 m_ms2sm 96000;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 122 529 Tags: samplerate \, duration \, conversion \, frequency
+;
+#X text 114 140 Summary: convert duration in samples to duration in
+milliseconds;
+#X text 114 121 Name: m_sm2ms;
+#X text 114 217 Inlet 0: float \, duration to convert (samples);
+#X text 114 281 Outlet 0: duration in milliseconds;
+#X text 115 319 Description: m_sm2ms converts duration in samples to
+a duration in convert duration in samples to duration in milliseconds
+using either Pd's samplerate to calculate the conversion or a manually
+specified samplerate in Hz. In resampled subpatches \, the subpatch
+samplerate is used as default \, which may be up- or downsampled with
+a [block~] object.;
+#X text 114 236 Inlet 1: float to set samplerate in Hz to use. A value
+of 0 is filtered out and will instead activate the system's samplerate
+as reported by the [samplerate~] object.;
+#X text 114 172 Argument 0: float to set samplerate in Hz to use. Optional
+\, default is Pd's samplerate as reported by the [samplerate~] object.
+;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 7 52 pd REFERENCE;
+#X text 501 469 Related:;
+#X obj 634 470 samplerate~;
+#X obj 725 470 block~;
+#X text 507 198 Argument can overwrite the samplerate used for conversion.
+\,;
+#X text 516 366 In reblocked subpatches \, the local samplerate is
+used as default.;
+#X text 7 14 m_sm2ms - convert duration in samples to duration in milliseconds
+;
+#X obj 571 470 m_ms2sm;
+#X msg 646 116 0;
+#X msg 653 267 0;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 3 0 0 0;
+#X connect 4 0 1 0;
+#X connect 8 0 14 0;
+#X connect 9 0 13 0;
+#X connect 11 0 13 1;
+#X connect 11 0 14 1;
+#X connect 13 0 7 0;
+#X connect 14 0 9 0;
+#X connect 23 0 1 1;
+#X connect 23 0 0 1;
+#X connect 24 0 13 1;
+#X connect 24 0 14 1;

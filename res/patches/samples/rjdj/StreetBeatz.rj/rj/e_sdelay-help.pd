@@ -1,0 +1,34 @@
+#N canvas 398 222 563 502 10;
+#X text 48 27 e_sdelay - static delay line;
+#X text 62 66 Argument: delay time in milliseconds. This also sets
+the maximum delaytime the object can achieve.;
+#X text 63 108 Inlet 0: audio signal in;
+#X text 64 124 Inlet 1: number to set delay time. Beware that the delay
+time can only be lower than the maximum time set via argument.;
+#X floatatom 259 251 5 0 0 2 delay-time - -;
+#N canvas 0 0 450 300 plock 0;
+#X obj 97 145 *~;
+#X obj 96 170 outlet~;
+#X obj 98 34 inlet;
+#X obj 98 56 b;
+#X obj 116 120 osc~ 440;
+#X obj 98 78 c_ead 3 100;
+#X connect 0 0 1 0;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 4 0 0 1;
+#X connect 5 0 0 0;
+#X restore 75 225 pd plock;
+#X obj 76 381 soundoutput;
+#X obj 178 272 e_sdelay 500;
+#X msg 75 203 test signal;
+#X obj 88 346 e_sdelay 250;
+#X obj 88 325 *~ 0.5;
+#X connect 4 0 7 1;
+#X connect 5 0 6 0;
+#X connect 5 0 7 0;
+#X connect 7 0 6 1;
+#X connect 7 0 10 0;
+#X connect 8 0 5 0;
+#X connect 9 0 6 0;
+#X connect 10 0 9 0;

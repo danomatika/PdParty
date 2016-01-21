@@ -1,0 +1,123 @@
+#N canvas 124 83 1087 613 10;
+#X obj 477 57 soundinput;
+#X obj 488 212 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 377 58 722 672 REFERENCE 0;
+#X text 114 578 Tags: onset detection \, analysis \, percussion \,
+hit;
+#X text 114 115 Name: a_onset;
+#X text 114 135 Summary: detect onsets in an audio signal;
+#X text 114 234 Inlet 0: audio signal to analyse;
+#X text 114 201 Argument 1: onset sensitivity (default 25). Smaller
+values are more sensitive.;
+#X text 114 379 Description: [a_onset] is a very simple and fast audio
+onset detection. It compares changes in the input signals level with
+a reference value (the sensitivity) and sends a bang \, whenever the
+changes exceed the reference level. Changes are measured as differences
+between two sucessive output values of an envelope follower [env~]
+analysis. The default sensitivity value is 25 \, it can be changed
+through the second inlet or with the second argument. The analysis
+windows size of the [env~] object can (only) be set with the first
+argument \, which has to be a power of 2 (like 64 \, 128 \, 256 \,
+512 or 1024).;
+#X text 114 346 Outlet 1: copy of input signal for your patching convenience.
+;
+#X text 114 300 Outlet 0: float whenever and outlet was detected. The
+float value is the attack strength (difference between [env~] outputs.
+;
+#X text 114 155 Argument 0: analysis window size in samples (default:
+1024). Must be a power of two. Use smaller values like 128 to detect
+quicker onsets.;
+#X text 114 529 When "compensate" is set to 1 \, [a_onset] will delay
+the input signal by <window size> samples before sending it to second
+outlet. Default is compensation off.;
+#X text 114 254 Inlet 1: float: set onset change sensitivity (default:
+25). "compensate 0/1": Turn latency compensation off or on (default:
+0=off).;
+#X coords 0 -1 1 1 450 500 1 100 100;
+#X restore 5 48 pd REFERENCE;
+#X text 7 14 a_onset - detect onsets in an audio signal;
+#X obj 477 236 print ONSET;
+#X obj 641 85 noise~;
+#X obj 673 113 *~;
+#X msg 694 63 bang;
+#X obj 694 85 c_ead 3 8;
+#X floatatom 602 159 5 0 0 1 sensitivity - -;
+#X text 597 183 args: window size \, sensitivity;
+#N canvas 384 13 798 658 world_quantization 0;
+#X obj 76 135 soundinput;
+#X msg 149 294 start;
+#X obj 76 254 t b b;
+#X text 308 153 Latency compensation;
+#X obj 87 471 s_fplaytable;
+#X obj 87 439 symbol \$0-sampled;
+#X obj 62 576 soundoutput;
+#X obj 87 395 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 44 233 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 175 199 5 0 0 0 - - -;
+#X obj 229 382 u_record \$0-sampled 500;
+#X obj 76 295 delay 500;
+#X obj 87 416 metro 1000;
+#X obj 419 442 route start stop;
+#X msg 419 467 0;
+#X msg 473 466 1;
+#X obj 86 549 *~ 1;
+#X obj 387 358 t a a;
+#X msg 76 317 stop \, normalize;
+#X text 327 522 mute playback when recording to avoid feedback when
+not using headphones.;
+#X msg 202 154 compensate \$1;
+#X obj 202 128 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 40 6 The analysis performed by [a_onset] is the base for the
+famous "World Quantizer" RjDj scene by Roman Haefeli. In this scene
+\, whenever an onset is detected \, the sound is recorded and played
+in a rhythmic pattern. You probably should compensate for the latency
+introduced by the [env~] analysis by delaying the signal for as many
+samples as your analysis window is long. [a_onset] can do this for
+you if you send a "compensate 1" message to the last inlet.;
+#X obj 76 198 a_onset 128;
+#X connect 0 0 23 0;
+#X connect 1 0 17 0;
+#X connect 2 0 11 0;
+#X connect 2 1 1 0;
+#X connect 4 0 16 0;
+#X connect 5 0 4 0;
+#X connect 7 0 12 0;
+#X connect 9 0 23 1;
+#X connect 11 0 18 0;
+#X connect 12 0 5 0;
+#X connect 13 0 14 0;
+#X connect 13 1 15 0;
+#X connect 14 0 16 1;
+#X connect 15 0 16 1;
+#X connect 16 0 6 0;
+#X connect 16 0 6 1;
+#X connect 17 0 10 1;
+#X connect 17 1 13 0;
+#X connect 18 0 17 0;
+#X connect 20 0 23 1;
+#X connect 21 0 20 0;
+#X connect 23 0 8 0;
+#X connect 23 0 2 0;
+#X connect 23 1 10 0;
+#X restore 483 303 pd world_quantization;
+#X floatatom 520 212 5 0 0 0 - - -;
+#X obj 477 184 a_onset 128 25;
+#X msg 743 156 compensate \$1;
+#X obj 743 130 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 849 155 Latency compensation.;
+#X connect 0 0 13 0;
+#X connect 5 0 6 0;
+#X connect 6 0 13 0;
+#X connect 7 0 8 0;
+#X connect 8 0 6 1;
+#X connect 9 0 13 1;
+#X connect 13 0 1 0;
+#X connect 13 0 4 0;
+#X connect 13 0 12 0;
+#X connect 14 0 13 1;
+#X connect 15 0 14 0;

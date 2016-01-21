@@ -1,0 +1,61 @@
+#N canvas 344 162 675 675 10;
+#X obj 160 530 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 297 529 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 160 471 5 0 0 0 - - -;
+#X obj 160 387 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 290 387 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 160 318 5 0 0 0 - - -;
+#X text 111 103 Inlet 0: value to check;
+#X msg 290 299 50 100;
+#X text 92 247 The outlets will send bangs whenever a threshold crossing
+is detected and after that pass over control to the other threshold.
+;
+#X text 350 326 reset;
+#X msg 300 326 reset;
+#X text 88 44 Use it to detect when an activity starts and stops.;
+#X text 352 300 set new thresholds and reset;
+#X text 90 425 Here we use only one threshold level. The two inlets
+report the direction the threshold was crossed.;
+#X text 294 553 From lower side;
+#X text 155 553 From higher side;
+#X text 61 22 m_thresholds - detect threshold crossings;
+#X text 143 144 "reset" will reset the detection algorithm to a clean
+state by opening both gates.;
+#X text 111 123 Inlet 1: a list of two numbers will set the new thresholds
+;
+#X msg 297 477 dead \$1;
+#X floatatom 297 460 5 0 0 0 - - -;
+#X obj 160 501 m_thresholds 100 100;
+#X text 96 597 Note: [m_thresholds] implements the event detection
+strategies described in Miller S. Puckette: Theory and Technique of
+Electronic Music \, section "Event detection".;
+#X msg 318 365 dead \$1;
+#X floatatom 318 348 5 0 0 0 - - -;
+#X obj 343 524 print low;
+#X obj 64 532 print high;
+#X text 142 179 "dead" will set the duration of a dead period during
+which the threshold detection doesn't register new events after an
+event was detected. When the dead period has passed \, belated events
+get reported. Default is a dead period of 0;
+#X obj 160 358 m_thresholds 90 110;
+#X text 111 66 Arguments: <low threshold> <high threshold> <dead period
+(optional)>;
+#X text 385 365 set dead period duration (default 0);
+#X connect 2 0 21 0;
+#X connect 5 0 28 0;
+#X connect 7 0 28 1;
+#X connect 10 0 28 1;
+#X connect 19 0 21 1;
+#X connect 20 0 19 0;
+#X connect 21 0 0 0;
+#X connect 21 0 26 0;
+#X connect 21 1 1 0;
+#X connect 21 1 25 0;
+#X connect 23 0 28 1;
+#X connect 24 0 23 0;
+#X connect 28 0 3 0;
+#X connect 28 1 4 0;

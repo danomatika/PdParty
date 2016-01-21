@@ -1,0 +1,70 @@
+#N canvas 62 7 1061 563 10;
+#X declare -path .;
+#X obj 496 48 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 40 501 Also see:;
+#X obj 495 394 soundoutput;
+#X obj 666 67 u_loadmeter;
+#X text 694 308 2nd inlet is for instrument messages.;
+#X obj 495 359 *~ 0.25;
+#X obj 619 232 declare -path .;
+#X text 615 210 You should use a declaration like this:;
+#X text 615 255 in your Scene's "_main.pd" to let u_robinpoly find
+your instruments there.;
+#X msg 496 152 bd;
+#X msg 528 152 hh;
+#X msg 560 152 oh;
+#X msg 595 152 cp;
+#X obj 234 502 u_makepoly;
+#X obj 496 68 metro 150;
+#X obj 496 117 select 0 1 2 3 5;
+#X msg 630 152 sn;
+#X obj 496 91 random 5;
+#X obj 496 330 u_robinpoly 8 s_drumelectro a b c d;
+#X obj 116 501 u_robinpolymono;
+#N canvas 247 14 820 742 REFERENCE 0;
+#X text 113 231 Inlet 0: connected to Inlet 0 of your instrument;
+#X text 113 248 Inlet 1: connected to Inlet 1 of your instrument;
+#X text 113 167 Argument 0: <max polyphony>;
+#X text 113 184 Argument 1: poly-abstraction name>;
+#X text 113 201 Argument 2: up to additional 4 arguments are passed
+to your instrument abstraction.;
+#X text 109 280 Description: Helper to automatically create copies
+of an abstraction and schedule them in a round robin fashion. Round
+robin polyphony is useful when you want a fixed number of voices and
+only steal the oldest voice automatically. This is typically the case
+for drums sounds or oneshot-samples. For piano-like instruments [u_makepoly]
+is better.;
+#X text 114 121 Name: u_robinpoly;
+#X text 109 385 The instruments to make polyphonc should have two inlets
+and one outlet~. Up to 4 arguments can be passed as arguments to the
+instrument.;
+#X text 111 440 You should use a declaration like [declare -path .]
+in your Scene's "_main.pd" to let u_robinpoly find your instruments
+there.;
+#X text 112 509 See also: u_robinpolymono \, u_makepoly;
+#X text 113 150 Summary: round robin polyphony;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 30 37 pd REFERENCE;
+#X text 569 359 The output is unscaled \, so scale as you need to \,
+;
+#X text 501 459 Note: If an instrument like s_drumelectro doesn't have
+the right number of inlets/outlets \, it can still be used \, but you
+may get some some errors in the console.;
+#X text 27 10 u_robinpoly - round robin polyphony;
+#X connect 0 0 14 0;
+#X connect 5 0 2 0;
+#X connect 5 0 2 1;
+#X connect 9 0 18 0;
+#X connect 10 0 18 0;
+#X connect 11 0 18 0;
+#X connect 12 0 18 0;
+#X connect 14 0 17 0;
+#X connect 15 0 9 0;
+#X connect 15 1 10 0;
+#X connect 15 2 11 0;
+#X connect 15 3 12 0;
+#X connect 15 4 16 0;
+#X connect 16 0 18 0;
+#X connect 17 0 15 0;
+#X connect 18 0 5 0;

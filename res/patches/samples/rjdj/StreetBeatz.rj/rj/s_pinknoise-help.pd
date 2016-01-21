@@ -1,0 +1,48 @@
+#N canvas 369 183 560 601 10;
+#X obj 117 277 env~;
+#X obj 117 301 - 100;
+#X obj 118 328 vu 15 120 empty empty -1 -8 0 10 -66577 -1 1 0;
+#N canvas 397 140 536 444 demux 0;
+#X obj 109 67 inlet~;
+#X obj 177 66 inlet~;
+#X obj 258 66 inlet;
+#X obj 107 373 outlet~;
+#X obj 108 309 *~ 1;
+#X obj 178 314 *~ 0;
+#X msg 258 122 1 0;
+#X msg 291 151 0 1;
+#X obj 258 90 select 0 1;
+#X obj 258 275 unpack 0 0;
+#X connect 0 0 4 0;
+#X connect 1 0 5 0;
+#X connect 2 0 8 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 6 0 9 0;
+#X connect 7 0 9 0;
+#X connect 8 0 6 0;
+#X connect 8 1 7 0;
+#X connect 9 0 4 1;
+#X connect 9 1 5 1;
+#X restore 187 232 pd demux;
+#X obj 260 232 hradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 213 201 noise~;
+#X obj 187 138 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 186 277 soundoutput;
+#X text 58 30 s_pinknoise - pinkish noise source;
+#X text 91 110 Can be switched on and off by sending 1 or 0 to its
+inlet.;
+#X text 92 70 Realised by filtering white noise with a rbj-filter from
+music--dsp.;
+#X obj 187 167 s_pinknoise;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 3 0 0 0;
+#X connect 3 0 7 0;
+#X connect 3 0 7 1;
+#X connect 4 0 3 2;
+#X connect 5 0 3 1;
+#X connect 6 0 11 0;
+#X connect 11 0 3 0;

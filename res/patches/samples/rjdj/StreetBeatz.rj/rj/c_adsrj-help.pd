@@ -1,0 +1,67 @@
+#N canvas 31 47 1144 562 10;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-adsr 44100 float 2;
+#X coords 0 1 44100 -1 200 140 1;
+#X restore 578 347 graph;
+#X obj 579 302 tabwrite~ \$0-adsr;
+#X obj 547 91 t a b;
+#X msg 547 69 80;
+#X obj 547 134 makenote 100 400;
+#X floatatom 601 110 5 0 0 2 velocity - -;
+#X floatatom 809 77 5 0 0 1 A - -;
+#X floatatom 873 77 5 0 0 1 D - -;
+#X floatatom 935 77 5 0 0 1 S(%) - -;
+#X floatatom 1007 77 5 0 0 1 R - -;
+#X msg 809 96 A \$1;
+#X msg 873 96 D \$1;
+#X msg 935 97 S \$1;
+#X msg 1007 97 R \$1;
+#X floatatom 613 175 5 0 0 0 - - -;
+#X text 868 224 Remote control;
+#X obj 871 341 s RJ_SCENE_LOAD;
+#X obj 656 210 c_adsrj myadsr;
+#X obj 871 294 list prepend c_adsrj-myadsr;
+#X obj 871 318 list trim;
+#X msg 871 250 A 50 \, D 80 \, S 70 \, R 300;
+#X text 803 410 Also see;
+#X obj 873 408 c_adsr 1 20 30 90 300;
+#N canvas 605 93 654 612 REFERENCE 0;
+#X text 115 200 Argument 1: attack time (msec);
+#X text 115 222 Argument 2: decay time (msec);
+#X text 115 244 Argument 3: sustain level in percent!;
+#X text 115 266 Argument 4: release time (msec);
+#X text 114 121 Name: c_adsrj;
+#X text 114 143 Summary: ADSR envelope with GUI and state saving;
+#X text 115 178 Argument 0: nametag (for state saving);
+#X text 115 288 Inlet 0: trigger float. Positive triggers start attack
+and decay from the current level. Zero triggers release \, negative
+triggers cause a jump to zero before attacking. Trigger input is also
+used to set the peak level. It's taken to be a number specifiying midi
+velocity (0-127) that internally is converted to a range of 0-1;
+#X text 115 375 Inlet 1: messages to set attack (A) \, decay (D) \,
+sustain (S) and release (R) as with arguments. State-savable.;
+#X text 115 432 Description: This is a variation on the classical Miller
+S. Puckette linear ADSR envelope which has a GUI included and is rj-save
+enabled.;
+#X text 115 410 Outlet 0: envelope signal;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 44 36 pd REFERENCE;
+#X text 40 15 c_adsrj - ADSR envelope with GUI and state saving;
+#X connect 2 0 4 0;
+#X connect 2 1 1 0;
+#X connect 3 0 2 0;
+#X connect 4 1 14 0;
+#X connect 4 1 17 0;
+#X connect 5 0 4 1;
+#X connect 6 0 10 0;
+#X connect 7 0 11 0;
+#X connect 8 0 12 0;
+#X connect 9 0 13 0;
+#X connect 10 0 17 1;
+#X connect 11 0 17 1;
+#X connect 12 0 17 1;
+#X connect 13 0 17 1;
+#X connect 17 0 1 0;
+#X connect 18 0 19 0;
+#X connect 19 0 16 0;
+#X connect 20 0 18 0;

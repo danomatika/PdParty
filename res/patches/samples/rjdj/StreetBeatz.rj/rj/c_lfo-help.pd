@@ -1,0 +1,76 @@
+#N canvas 96 211 961 495 10;
+#X obj 613 149 g_tgl on;
+#X obj 542 344 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 3070 1;
+#X msg 640 199 waveform sine;
+#X msg 640 245 waveform saw;
+#X msg 640 222 waveform tri;
+#X obj 613 118 g_nbx freq;
+#X obj 539 387 timer;
+#X obj 539 364 t b b;
+#X floatatom 539 410 5 0 0 0 - - -;
+#X floatatom 539 124 5 0 0 0 freq - -;
+#X obj 613 56 g_hsl phase 0 1;
+#X obj 613 87 g_nbx updates;
+#X text 12 7 c_lfo - message rate LFO with various waveforms;
+#X text 760 59 set phase;
+#X text 744 223 select waveform;
+#X floatatom 555 321 5 0 0 0 - - -;
+#X text 686 342 all waves oscillate between 0 and 1;
+#X obj 478 336 print;
+#X obj 699 419 c_lfo MYLFO2 1 50 sine;
+#X text 744 248 <= default;
+#X obj 702 441 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 10952 1;
+#X obj 850 386 g_tgl on;
+#X floatatom 697 380 5 0 0 0 - - -;
+#X obj 697 399 / 100;
+#X obj 539 294 c_lfo MYLFO;
+#N canvas 147 120 1101 721 REFERENCE 0;
+#X text 114 142 Summary: message rate LFO with various waveforms;
+#X text 114 121 Name: c_lfo;
+#X text 113 174 Argument 0: name (required!);
+#X text 113 195 Argument 1: freq;
+#X text 113 216 Argument 2: updates;
+#X text 113 237 Argument 3: waveform;
+#X text 113 258 Inlet 0: frequency;
+#X text 113 313 Outlet 0: message based LFO signal between 0 and 1
+;
+#X text 113 279 Inlet 1: messages: phase <f> \, updates <f> \, freq
+<f> \, on <f> \, waveform <symbol>;
+#X text 112 348 Description: c_lfo generates message oscillators in
+various waveforms. The first inlet accepts a float to set the frequency
+of the LFO. If the frequency is 0 \, the lfo will be turned off \,
+frequencies unequal to 0 will turn it on. To manually switch on or
+off the LFO \, send an "on 0/1" message to he second inlet. The second
+inlet also accepts other messages to change various internals. Supported
+waveforms are saw (default) \, sine and tri (trigangle) waveforms.
+They all extend from 0 to 1 It's possible to set the update period
+in milliseconds by sendung "updates <num>" to the last inlet \, default
+is 10 msec. To set the phase of the LFO use a "phase <num>" message
+to the second inlet.;
+#X text 113 528 Tags: lfo oscillator messages;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 11 33 pd REFERENCE;
+#X text 709 91 set update period;
+#X text 697 116 set lfo frequency.;
+#X text 701 155 switch on/off;
+#X connect 0 0 24 1;
+#X connect 1 0 7 0;
+#X connect 2 0 24 1;
+#X connect 3 0 24 1;
+#X connect 4 0 24 1;
+#X connect 5 0 0 0;
+#X connect 6 0 8 0;
+#X connect 7 0 6 0;
+#X connect 7 1 6 1;
+#X connect 9 0 24 0;
+#X connect 10 0 11 0;
+#X connect 11 0 5 0;
+#X connect 18 0 20 0;
+#X connect 21 0 18 1;
+#X connect 22 0 23 0;
+#X connect 23 0 18 0;
+#X connect 24 0 1 0;
+#X connect 24 0 15 0;
+#X connect 24 0 17 0;

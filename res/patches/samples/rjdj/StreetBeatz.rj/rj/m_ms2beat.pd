@@ -1,0 +1,34 @@
+#N canvas 0 0 497 330 10;
+#X obj 98 51 inlet;
+#X obj 216 52 inlet;
+#X text 221 33 BPM;
+#X text 96 27 beats;
+#X obj 216 158 m_bpm2ms;
+#X obj 98 229 outlet;
+#X obj 232 127 select 0;
+#X obj 232 104 f \$1;
+#X obj 232 78 loadbang;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 295 48 pd LICENSE-GPL;
+#X obj 98 197 /;
+#X connect 0 0 10 0;
+#X connect 1 0 4 0;
+#X connect 4 0 10 1;
+#X connect 6 1 4 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 0;
+#X connect 10 0 5 0;

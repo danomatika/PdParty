@@ -1,0 +1,77 @@
+#N canvas 216 127 967 506 10;
+#X obj 519 98 openpanel;
+#X msg 519 76 bang;
+#X obj 691 42 hsl 128 15 0 127 0 0 empty empty lop 20 7 1 10 -262144
+-1 -1 0 1;
+#X obj 690 154 hsl 128 15 0 500 0 0 empty empty drive 20 7 1 10 -262144
+-1 -1 0 1;
+#X obj 690 273 hsl 128 15 0 127 0 0 empty empty dry 20 7 1 10 -262144
+-1 -1 0 1;
+#X obj 687 295 / 127;
+#X msg 687 193 drive \$1;
+#X msg 687 320 dry \$1;
+#X text 686 133 0 ... inf;
+#X text 683 253 0 ... 1 \, default: dry = 0 i.e. full wet;
+#X text 687 22 low pass frequency;
+#X msg 688 85 lop \$1;
+#X obj 688 64 mtof;
+#N canvas 0 0 450 300 playsamp 0;
+#X obj 109 170 readsf~;
+#X obj 155 194 spigot 1;
+#X obj 109 113 symbol;
+#X msg 109 137 open \$1 \, 1;
+#X obj 156 216 b;
+#X obj 217 80 inlet;
+#X obj 109 66 inlet;
+#X obj 109 251 outlet~;
+#X connect 0 0 7 0;
+#X connect 0 1 1 0;
+#X connect 1 0 4 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 2 0;
+#X connect 5 0 1 1;
+#X connect 6 0 2 0;
+#X restore 519 178 pd playsamp;
+#X obj 593 145 tgl 15 0 empty empty loop 17 7 1 10 -262144 -1 -1 0
+1;
+#X msg 535 121 bang;
+#X text 565 74 open wav;
+#X text 578 121 play again;
+#X floatatom 687 174 5 0 0 0 - - -;
+#X obj 520 343 e_apdist name;
+#X obj 519 434 soundoutput;
+#X text 18 5 e_apdist - distort by a modulated allpass filter;
+#N canvas 377 111 827 710 REFERENCE 0;
+#X text 114 161 Argument 0: name for state saving (required);
+#X text 114 181 Inlet 0: audio signal to distort;
+#X text 122 529 Tags: distortion \, effect;
+#X text 114 121 Name: e_apdist;
+#X text 114 141 Summary: distort by a modulated allpass filter;
+#X text 114 201 Inlet 1: method inlet for: dry <amount>: regulat dry/wet
+mix \, default 0 which is fully wet. lop <freq>: low pass frequency
+\, drive <amount>: distortion \, 0 ... inf.;
+#X text 114 309 Description: distorts any audio signal by reducing
+the sample rate to generate aliasing. The algorithm is described in
+"Coefficient Modulated Allpass Filter as Distortion Effect" \, DAFx
+2008 paper by Jussi Pekonen. See: http://www.acoustics.hut.fi/~jpekonen/Papers/dafx08/
+;
+#X text 114 257 Outlet 0: distorted audio signal.;
+#X coords 0 -1 1 1 450 450 1 100 100;
+#X restore 21 35 pd REFERENCE;
+#X connect 0 0 13 0;
+#X connect 1 0 0 0;
+#X connect 2 0 12 0;
+#X connect 3 0 18 0;
+#X connect 4 0 5 0;
+#X connect 5 0 7 0;
+#X connect 6 0 19 1;
+#X connect 7 0 19 1;
+#X connect 11 0 19 1;
+#X connect 12 0 11 0;
+#X connect 13 0 19 0;
+#X connect 14 0 13 1;
+#X connect 15 0 13 0;
+#X connect 18 0 6 0;
+#X connect 19 0 20 0;
+#X connect 19 0 20 1;

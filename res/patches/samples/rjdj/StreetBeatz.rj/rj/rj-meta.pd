@@ -1,0 +1,11 @@
+#N canvas 10 10 200 200 10;
+#N canvas 433 345 420 300 META 0;
+#X text 10 10 META libdir meta file for rj;
+#X text 10 30 NAME rj;
+#X text 10 50 AUTHOR Reality Jockey Ltd. and others;
+#X text 10 90 DESCRIPTION A collection of almost pure vanilla abstractions
+for writing RjDj scenes. Contains synths \, effects \, composition
+helpers \, mapping abstractions \, selected list operations and much
+more. Open rj/OVERVIEW.pd to see everything.;
+#X text 10 70 LICENSE GNU GPL v3;
+#X restore 10 10 pd META;

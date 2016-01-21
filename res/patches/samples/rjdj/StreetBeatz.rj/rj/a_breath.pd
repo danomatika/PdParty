@@ -1,0 +1,61 @@
+#N canvas 71 72 1107 644 10;
+#X obj 215 128 * -1;
+#X obj 215 149 + 100;
+#X obj 162 155 +;
+#X text 406 342 latency (0= no smoothing \, 0.99= very smoothed \,
+1=infinite);
+#X obj 162 350 outlet;
+#X obj 162 30 inlet~;
+#X obj 407 151 inlet;
+#X obj 466 125 loadbang;
+#X obj 215 104 r \$0-threshold;
+#X obj 230 275 r \$0-latency;
+#X text 406 307 threshold (0=no minimum energy threshold \, 100=high
+threshold);
+#X msg 229 294 latency \$1;
+#X msg 466 150 threshold 70 \, latency 0.8;
+#X obj 162 182 / 30;
+#X obj 162 53 env~ 256 128;
+#X obj 162 208 * 2;
+#X msg 201 242 gain 10;
+#X obj 201 222 loadbang;
+#X obj 162 267 u_sigm;
+#X obj 162 319 u_follower;
+#X obj 407 208 u_dispatch \$0 threshold;
+#X obj 407 229 u_dispatch \$0 latency;
+#X obj 465 179 u_loader a_breath-\$1 \$0;
+#N canvas 172 83 586 377 LICENSE-GPL 0;
+#X text 57 88 This program is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation \, either version 3 of
+the License \, or (at your option) any later version.;
+#X text 58 168 This program is distributed in the hope that it will
+be useful \, but WITHOUT ANY WARRANTY \; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.;
+#X text 57 261 You should have received a copy of the GNU General Public
+License along with this program. If not \, see <http://www.gnu.org/licenses/>.
+;
+#X text 61 54 Copyright (C) 2009 \, Reality Jockey Ltd.;
+#X text 60 325 See the file LICENSE.txt for the full license text.
+;
+#X restore 822 59 pd LICENSE-GPL;
+#X connect 0 0 1 0;
+#X connect 0 0 2 1;
+#X connect 1 0 13 1;
+#X connect 2 0 13 0;
+#X connect 5 0 14 0;
+#X connect 6 0 20 0;
+#X connect 7 0 12 0;
+#X connect 8 0 0 0;
+#X connect 9 0 11 0;
+#X connect 11 0 19 1;
+#X connect 12 0 20 0;
+#X connect 13 0 15 0;
+#X connect 14 0 2 0;
+#X connect 15 0 18 0;
+#X connect 16 0 18 1;
+#X connect 17 0 16 0;
+#X connect 18 0 19 0;
+#X connect 19 0 4 0;
+#X connect 20 0 21 0;
