@@ -1,0 +1,8 @@
+#N canvas 273 257 450 300 10;
+#X obj 4 4 bng 15 250 50 0 empty empty \$1 23 8 0 10 -262144 -1 -1
+;
+#X obj 4 30 s menubang-\$1;
+#X text 114 1 args: name (icon should be 72x72 and called menubang-name.png)
+;
+#X connect 0 0 1 0;
+#X coords 0 -1 1 1 23 23 2 0 0;

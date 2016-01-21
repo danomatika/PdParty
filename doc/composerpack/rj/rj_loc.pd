@@ -1,0 +1,16 @@
+#N canvas 661 63 297 259 10;
+#X obj 24 23 inlet;
+#X text 93 58 request 1 locate (GPS) update;
+#X obj 24 227 outlet;
+#X obj 58 203 outlet;
+#X obj 93 179 outlet;
+#X obj 24 122 r #loc;
+#X obj 24 151 unpack f f f;
+#X obj 24 91 s #pdparty;
+#X msg 24 58 loc;
+#X connect 0 0 8 0;
+#X connect 5 0 6 0;
+#X connect 6 0 2 0;
+#X connect 6 1 3 0;
+#X connect 6 2 4 0;
+#X connect 8 0 7 0;

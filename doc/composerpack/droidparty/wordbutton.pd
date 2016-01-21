@@ -1,0 +1,17 @@
+#N canvas 233 123 463 327 10;
+#X msg 9 157 bang;
+#X obj 313 6 namecanvas pd-\$0-self;
+#X obj 9 136 loadbang;
+#X msg 9 250 \; pd-\$1-self donecanvasdialog 1 1 2 0 0 1 1 \$2 \$3
+0 0 1 1 1 \; pd-\$1-self dirty 0 \; pd-\$1-self obj 5 5 bng 16 250
+50 0 wordbutton-\$4 empty \$4 18 8 0 10 -262144 -1 -1 \;;
+#X obj 9 227 pack \$0 \$1 \$2 s;
+#X obj 96 205 symbol \$3;
+#X obj 9 178 t b b;
+#X connect 0 0 6 0;
+#X connect 2 0 0 0;
+#X connect 4 0 3 0;
+#X connect 5 0 4 3;
+#X connect 6 0 4 0;
+#X connect 6 1 5 0;
+#X coords 0 0 1 1 100 25 2 0 0;

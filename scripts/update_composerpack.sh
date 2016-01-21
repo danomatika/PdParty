@@ -5,7 +5,7 @@
 
 WD=$(dirname $0)
 
-CPDIR=../pdparty-composer-pack
+CPDIR=../doc/composerpack
 
 ###
 

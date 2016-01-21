@@ -1,0 +1,10 @@
+#N canvas 396 381 308 127 10;
+#X obj 13 34 netreceive \$1 \$3;
+#X obj 73 65 outlet;
+#X obj 136 34 loadbang;
+#X obj 136 56 print NETRECEIVE INSTANCE;
+#X obj 13 65 s \$2;
+#X text 11 9 args: port packet-receiver-name [udp_mode];
+#X connect 0 0 1 0;
+#X connect 0 0 4 0;
+#X connect 2 0 3 0;

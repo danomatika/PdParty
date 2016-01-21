@@ -1,6 +1,10 @@
 PdParty
 =======
 
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/images/splash/patchview_bg.png"/>
+</p>
+
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
 
 BSD Simplified License.
@@ -13,16 +17,26 @@ See https://github.com/danomatika/PdParty for documentation
 DESCRIPTION
 -----------
 
-Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS with native GUIs emulated. Inspired by Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/PdDroidParty/) and the (now defunct) original RjDj app.
+Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS with native GUIs emulated. Inspired by Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/PdDroidParty) and the (now defunct) original RjDj app.
 
 <p align="center">
 	<img src="http://droidparty.net/PdDroidParty.png"/><br/>
 	<small>(Image by PdDroidParty).</small>
 </p>
 
-### Are you an alpha/beta tester?
+USER GUIDE & COMPOSER PACK
+--------------------------
 
-Head on over to the [User Guide](https://github.com/danomatika/PdParty/blob/master/doc/PdParty_User_Guide.md).
+Are you a beta tester?
+
+Head on over to the [**User Guide**](https://github.com/danomatika/PdParty/blob/master/doc/guide/PdParty_User_Guide.md)
+
+and
+
+Download the [**PdParty Composer Pack**](http://docs.danomatika.com/PdParty_composerpack.zip) which contains the abstractions you need when composing on your computer as well as scene type templates.
+
+ACKNOWLEDGEMENTS
+----------------
 
 ### 3rd Party Libraries
 

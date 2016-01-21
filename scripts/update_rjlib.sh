@@ -8,7 +8,7 @@
 WD=$(dirname $0)
 
 DESTDIR=../res/patches/lib
-CPDIR=../pdparty-composer-pack
+CPDIR=../doc/composerpack
 
 ###
 
@@ -21,8 +21,10 @@ git clone git://github.com/danomatika/rjlib.git rjlib
 # copy input/output patches
 mkdir -p $DESTDIR/pd
 mkdir -p $CPDIR/pd
+mkdir -p $CPDIR/templates/DroidTemplate/pd
 cp -v rjlib/pd/*.pd $DESTDIR/pd
 cp -v rjlib/pd/*.pd $CPDIR/pd
+cp -v rjlib/pd/*.pd $CPDIR/templates/DroidTemplate/pd
 
 # copy deprecated rj patches
 mkdir -p $DESTDIR/rj_deprecated

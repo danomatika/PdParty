@@ -6,7 +6,7 @@
 WD=$(dirname $0)
 
 DESTDIR=../res/patches
-CPDIR=../pdparty-composer-pack
+CPDIR=../doc/composerpack
 
 ###
 

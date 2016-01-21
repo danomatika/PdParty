@@ -10,8 +10,6 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 See <https://github.com/danomatika/PdParty> for documentation
 
-**This User Guide is currently a work in progress.**
-
 Description
 -----------
 
@@ -19,17 +17,17 @@ PdParty is an iOS 6+ app that allows you to run [Pure Data](http://puredata.info
 
 <p align="center">
 	This patch in Pure Data …<br/>
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/patch_scene_pd.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/patch_scene_pd.png"/>
 </p>
 
 <p align="center">
 	becomes this on iPhone …<br/><br/>
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/patch_scene_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/patch_scene_iPhone.png"/>
 </p>
 
 <p align="center">
 	and this on iPad.<br/><br/>
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/patch_scene_iPad.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/patch_scene_iPad.png"/>
 </p>
 
 Acknowledgements
@@ -37,11 +35,11 @@ Acknowledgements
 
 * [Miller Puckette](http://msp.ucsd.edu/) and the [Pure Data](http://puredata.info/) community
 * [libpd](https://github.com/libpd/libpd): Peter Brinkmann and Rich Eakin
-* my long suffering / pillar of support wife [Anika](http://anikahirt.de)
+* my long suffering / pillar of support wife [Anika](http://anikahirt.de) for graphic design work (and much more)
 * [Reality Jockey](http://rjdj.me/) for proving PD + mobile devices = win
 * Chris McCormick for providing the design basis with [PdDroidParty](http://droidparty.net/)
 * Frank B. and the rjlib crew for a great vanilla abstraction set
-* the [CMU School of Art](https://www.cmu.edu/art/) and the [New Hazlett Theater](http://newhazletttheater.org/) for providing the impetus to write this so I can use it for the upcoming [robotcowboy: Onward to Mars](http://robotcowboy.com/onwardtomars/)
+* The [Frank-Ratchey STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org) at Carnegie Mellon University which supported various aspects of my early work on libpd
 
 Backstory
 ---------
@@ -57,7 +55,7 @@ Fast forward a few years and the future of ubiquitous, mobile/wearable computati
 Now I have a stable, low latency mobile/wearable platform with a touchscreen, accelerometer, wifi networking, and usb midi/audio. Here's my belt-based wearable setup using an iPad 2, Camera Connection Kit, powered usb hub, Roland Edirol UA-25 bus-powered usb audio interface, and a Behringer direct box (the latter two are built into the green case on the left):
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/belt_setup.jpg"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/belt_setup.jpg"/>
 </p>
 
 App Layout
@@ -70,12 +68,12 @@ There's a root settings screen and a patch/scene browser. Go to your patch and r
 ### Start Screen
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/start_screen_iPhone.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/start_screen_iPhone.png"/><br/>
 <small> Start screen on iPhone</small>
 </p>
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/start_screen_iPad.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/start_screen_iPad.png"/><br/>
 <small> Start screen on iPad, activate by pressing the "Patches" nav button.</small>
 </p>
 
@@ -86,7 +84,7 @@ This is also where you can enable the WebDAV server to access the app's Document
 ### Patch Browser
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/documents_browser_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/documents_browser_iPhone.png"/>
 </p>
 
 This is a simple "drill-down" file browser in the app's Document's folder. Stuff in here is sandboxed between app versions. Simply navigate to patches or scene folders to run them. A "Now Playing" nav button will take you back to the Scene View for the currently playing patch/scene.
@@ -111,7 +109,7 @@ These default folders can be restored on the Settings screen.
 Running a patch/scene launches the Scene View:
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/patch_scene_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/patch_scene_iPhone.png"/>
 </p>
 
 Gui elements work similarly to those in the Pure Data gui, except now you have multitouch instead of the 10 foot pole called a mouse pointer. Also, Numberboxes can be incrementally scrolled using two fingers. Empty space is used for touch events if the patch/scene type supports them.
@@ -119,13 +117,13 @@ Gui elements work similarly to those in the Pure Data gui, except now you have m
 The desired aspect ratio is inferred from the patch canvas size and the Scene View is automatically rotated. Also, the device orientation is locked depending on if the Scene is in portrait or landscape. The exceptions to this are PdDroidParty scenes which are always landscape:
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/droidparty_scene_iPad.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/droidparty_scene_iPad.png"/>
 </p>
 
 and RjDJ scenes which support any orientation on iPad:
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/rjdj_scene_rotated_iPad.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/rjdj_scene_rotated_iPad.png"/>
 </p>
 
 #### On Screen Controls
@@ -135,13 +133,13 @@ Simple on screen controls inspired by the RjDj app are provided to change the au
 Patches, DroidParty, & PdParty scenes display these controls in a popover activated by the "Controls" nav bar button:
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/patch_scene_controls_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/patch_scene_controls_iPhone.png"/>
 </p>
 
 RjDj scenes always have a square background with the controls located below.
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/rjdj_scene_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/rjdj_scene_iPhone.png"/>
 </p>
 
 #### Recording Scene
@@ -149,7 +147,7 @@ RjDj scenes always have a square background with the controls located below.
 There is also a special scene for playing back recordings (aka .wav files). The slider now controls the playback volume and there is also a button for looping the playback.
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/recording_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/recording_iPhone.png"/>
 </p>
 
 The cassette background is a placeholder for now. When metadata is added, it will be replaced by the scene icon, etc.
@@ -157,7 +155,7 @@ The cassette background is a placeholder for now. When metadata is added, it wil
 ### OSC Server Settings
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/osc_settings_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/osc_settings_iPhone.png"/>
 </p>
 
 Enable the OSC server here and update it's settings: ports, host (destination address), etc. The Local IP Address is the network IP of the device itself so you know where to send OSC messages to from another device.
@@ -165,7 +163,7 @@ Enable the OSC server here and update it's settings: ports, host (destination ad
 ### MIDI Settings
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/midi_settings_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/midi_settings_iPhone.png"/>
 </p>
 
 Enable CoreMIDI here and optionally enable Network MIDI with a Mac OSX machine.
@@ -175,11 +173,11 @@ Inputs & Outputs are refreshed when a MIDI device is plugged in/out. Currently, 
 ### App Settings
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/settings_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/settings_iPhone.png"/>
 </p>
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/settings2_iPhone.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/settings2_iPhone.png"/>
 </p>
 
 #### App Behavior
@@ -239,7 +237,7 @@ Naturally, you can download the PdParty source and open the test patches & examp
         *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that's just how the iTunes file sharing system currently works.* 
         
         <p align="center">
-<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/itunes_file_sharing.png"/>
+<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/itunes_file_sharing.png"/>
 </p>
 
     - **WebDAV** 
@@ -249,7 +247,7 @@ Naturally, you can download the PdParty source and open the test patches & examp
             *  **Mac OSX**: Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K. Login as a Guest:
 
             <p align="center">
-	            <img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/finder_connect_to_server.png"/>
+	            <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/finder_connect_to_server.png"/>
             </p>
             
             * **Linux**: both Nautilus (Gnome) & Konqueror (KDE) support mounting WebDAV folders, also [FileZilla](https://filezilla-project.org) and other file transfer applications should work
@@ -263,7 +261,7 @@ Naturally, you can download the PdParty source and open the test patches & examp
 PdParty also supports running "scenes" which are basically folders with a specific layout that are treated as a single entity for encapsulation and have certain event attributes:
 
 * RjDj scenes:
-  * a folder that ends in *.rj that contains a _main.pd
+  * a folder that ends in *.rj that contains a _main.pd patch
   * locked to portrait
   * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
   * an optional browser icon named "thumb.jpg" and a min size of 55x55
@@ -277,17 +275,17 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * optional sensors accessed by abstractions: [rj_gyro], [rj_loc], [rj_compass], & [rj_time]
   * 20500 samplerate
 * PdDroidParty scenes
-  * a folder that contains a droidparty_main.pd
+  * a folder that contains a droidparty_main.pd patch
   * locked to landscape
   * an optional background image named "background.png" which should have a landscape aspect ratio
-  * an optional font named
+  * an optional font named "font.ttf" or "font-antialiased.ttf"
   * does not require the following events (#accelerate, #touch, or [key])
   * sensors are accessed by the [droidsystem] abstraction
   * 44100 samplerate
 * PdParty scenes
-  * a folder that contains a _main.pd
+  * a folder that contains a _main.pd patch
   * portrait or landscape
-  * an optional info json file named "info.json" with a dictionay & the following keys:
+  * an optional info json file named "info.json" with a dictionary & the following keys:
     * _author_
     * _description_
     * _name_
@@ -327,7 +325,7 @@ When patching for PdParty (as with RjDj & PdDroidParty), it is recommended to di
 All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to have a usb MIDI interface (through a USB hub connected to the Apple Camera Connection Kit) or using Network MIDI and Mac OSX.
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_midi_scene_iPad.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_midi_scene_iPad.png"/><br/>
 	Midi test Pdparty scene
 </p>
 
@@ -392,7 +390,7 @@ Also, thanks to Joe White for providing a copy of the RjDj _get_sensors.pd_ patc
 ### Events
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_events_scene_iPhone.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_events_scene_iPhone.png"/><br/>
 	Event test PdParty scene
 </p>
 
@@ -425,7 +423,7 @@ PdParty returns the following events:
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
   
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/receiving_events_patch.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/receiving_events_patch.png"/><br/>
 	Receiving PdParty events
 </p>
   
@@ -454,7 +452,7 @@ _Note: \#touch & \#accelerate events are automatically started for RjDj scenes f
 #### Loc (GPS) Control
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_locate_scene_iPhone.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_locate_scene_iPhone.png"/><br/>
 	Loc test PdParty scene
 </p>
 
@@ -485,7 +483,7 @@ _Note: Loc events are available in PdParty & Patch scene types by default, while
 #### Compass Control
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_heading_scene_iPhone.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_heading_scene_iPhone.png"/><br/>
 	Compass test PdParty scene
 </p>
 
@@ -549,14 +547,14 @@ _Note: The argument number and types are equivalent with their receive counterpa
 See `tests/osc-event-receiver.pd` in the PdParty source repository for an event receiver you can use while patching & debugging on your computer:
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/osc_patch.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/osc_patch.png"/><br/>
 	osc-event-receiver.pd test patch
 </p>
 
 Also, try the `tests/osc-test.pd` test patch on your computer with the tests/pdparty/Osc scene on the device for a simple example on two-way communication:
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/screenshots/pdparty_osc_scene_iPhone.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_osc_scene_iPhone.png"/><br/>
 	OSC test PdParty scene
 </p>
 

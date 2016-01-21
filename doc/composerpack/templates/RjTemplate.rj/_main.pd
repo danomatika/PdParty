@@ -1,0 +1,22 @@
+#N canvas 286 38 895 616 10;
+#X declare -path .;
+#X declare -path rj;
+#X declare -path ../pd;
+#X declare -path ../../pd;
+#N canvas 0 22 588 274 LICENSE 0;
+#X text 79 84 (c) 2008 Reality Jockey;
+#X text 57 36 Released under the GNU General Public License ver. 3
+or later. See the file LICENSE.txt for the full text.;
+#X restore 571 80 pd LICENSE;
+#X obj 71 83 soundinput;
+#X obj 73 491 soundoutput;
+#X text 27 23 RjDj Scene Template - _main.pd;
+#X obj 571 24 declare -path .;
+#X obj 571 52 declare -path rj;
+#N canvas 0 22 448 215 more_paths 0;
+#X text 27 19 You can add more paths here as well \, like the path
+to soundoutput.pd on your computer etc.;
+#X obj 36 57 declare -path ../pd;
+#X obj 35 79 declare -path ../../pd;
+#X restore 707 52 pd more_paths;
+#X text 77 263 put your music here;
