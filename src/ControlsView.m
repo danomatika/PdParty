@@ -114,7 +114,7 @@
 - (void)controlChanged:(id)sender {
 	if(sender == self.leftButton) {
 		//DDLogVerbose(@"ControlsView: left button pressed");
-		if([self.sceneManager.scene isKindOfClass:[RecordingScene class]]) {
+		if([self.sceneManager.scene.type isEqualToString:@"RecordingScene"]) {
 			if(self.sceneManager.pureData.audioEnabled) {
 				
 				// restart playback if stopped
@@ -145,7 +145,7 @@
 	}
 	else if(sender == self.rightButton) {
 		//DDLogVerbose(@"ControlsView: right button pressed");
-		if([self.sceneManager.scene isKindOfClass:[RecordingScene class]]) {
+		if([self.sceneManager.scene.type isEqualToString:@"RecordingScene"]) {
 			self.sceneManager.pureData.looping = !self.sceneManager.pureData.isLooping;
 			if(self.sceneManager.pureData.isLooping) {
 				[self rightButtonToStopLoop];
@@ -167,7 +167,7 @@
 	}
 	else if(sender == self.levelSlider) {
 		//DDLogVerbose(@"ControlsView: level slider changed: %f", self.levelSlider.value);
-		if([self.sceneManager.scene isKindOfClass:[RecordingScene class]]) {
+		if([self.sceneManager.scene.type isEqualToString:@"RecordingScene"]) {
 			self.sceneManager.pureData.volume = self.levelSlider.value;
 		}
 		else {
@@ -177,7 +177,7 @@
 }
 
 - (void)updateControls {
-	if([self.sceneManager.scene isKindOfClass:[RecordingScene class]]) {
+	if([self.sceneManager.scene.type isEqualToString:@"RecordingScene"]) {
 	
 		if(self.sceneManager.pureData.audioEnabled && self.sceneManager.pureData.isPlayingback) {
 			[self leftButtonToPause];
@@ -355,7 +355,8 @@
 	if(_showsMicIcon == showsMicIcon) {
 		return;
 	}
-	if(showsMicIcon) {
+	_showsMicIcon = showsMicIcon;
+	if(_showsMicIcon) {
 		[self levelIconTo:@"microphone"];
 	}
 	else {
