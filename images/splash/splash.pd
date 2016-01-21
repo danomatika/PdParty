@@ -1,0 +1,6 @@
+#N canvas 162 155 145 177 10;
+#X obj 45 71 until;
+#X msg 45 27 bang;
+#X obj 45 116 PdParty;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;

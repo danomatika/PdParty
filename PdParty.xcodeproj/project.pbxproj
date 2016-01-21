@@ -165,9 +165,6 @@
 		30ABE2EC16B5D0FB00464926 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE2E216B5D0FB00464926 /* AppDelegate.m */; };
 		30ABE2EE16B5D0FB00464926 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE2E516B5D0FB00464926 /* main.m */; };
 		30ABE2F116B5D0FB00464926 /* PatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE2EB16B5D0FB00464926 /* PatchViewController.m */; };
-		30ABE30316B5D11D00464926 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F316B5D11D00464926 /* Default-568h@2x.png */; };
-		30ABE30416B5D11D00464926 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F416B5D11D00464926 /* Default.png */; };
-		30ABE30516B5D11D00464926 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F516B5D11D00464926 /* Default@2x.png */; };
 		30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F616B5D11D00464926 /* InfoPlist.strings */; };
 		30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */; };
 		30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2FA16B5D11D00464926 /* MainStoryboard_iPhone.storyboard */; };
@@ -488,9 +485,6 @@
 		30ABE2E516B5D0FB00464926 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = src/main.m; sourceTree = "<group>"; };
 		30ABE2EA16B5D0FB00464926 /* PatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatchViewController.h; path = src/PatchViewController.h; sourceTree = "<group>"; };
 		30ABE2EB16B5D0FB00464926 /* PatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PatchViewController.m; path = src/PatchViewController.m; sourceTree = "<group>"; };
-		30ABE2F316B5D11D00464926 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		30ABE2F416B5D11D00464926 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		30ABE2F516B5D11D00464926 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		30ABE2F716B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		30ABE2F916B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		30ABE2FB16B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
@@ -1215,9 +1209,6 @@
 				30ACA10C16D1866000B50B73 /* patches */,
 				30F3E79417C5491100117305 /* images */,
 				3088883C16BF062700781682 /* fonts */,
-				30ABE2F316B5D11D00464926 /* Default-568h@2x.png */,
-				30ABE2F416B5D11D00464926 /* Default.png */,
-				30ABE2F516B5D11D00464926 /* Default@2x.png */,
 				308986BD18CD195E004423AD /* Images.xcassets */,
 				30ABE2F616B5D11D00464926 /* InfoPlist.strings */,
 				30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */,
@@ -1609,10 +1600,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30ABE30316B5D11D00464926 /* Default-568h@2x.png in Resources */,
-				30ABE30416B5D11D00464926 /* Default.png in Resources */,
 				3083BD4A17F2867400EDF587 /* LICENSE in Resources */,
-				30ABE30516B5D11D00464926 /* Default@2x.png in Resources */,
 				30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */,
 				30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */,
 				30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */,

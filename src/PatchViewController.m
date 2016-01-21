@@ -91,6 +91,11 @@
 // called when view bounds change (after rotations, etc)
 - (void)viewDidLayoutSubviews {
 	
+	// update background, if set
+	if(self.background) {
+		self.background.frame = self.view.bounds;
+	}
+	
 	// update parent, orient, and reshape scene
 	[self.sceneManager updateParent:self.view];
 	[self checkOrientation];
@@ -119,6 +124,19 @@
 		return self.sceneManager.scene.preferredOrientations;
 	}
 	return UIInterfaceOrientationMaskAll;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	if(self.sceneManager.scene) {
+		self.background = nil;
+	}
+	else if(!self.background) { // load background
+		self.background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"patchview_bg"]];
+		self.background.contentMode = UIViewContentModeScaleAspectFit;
+		[self.view addSubview:self.background];
+		[Util logRect:self.background.frame];
+	}
+	[super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

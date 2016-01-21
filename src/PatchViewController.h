@@ -27,6 +27,9 @@
 /// popup grid of menu buttons
 @property (strong, nonatomic) MenuViewController *menuViewController;
 
+/// loaded background image, used if scene didn;t load or there is no scene
+@property (strong, nonatomic) UIImageView *background;
+
 #pragma mark Scene Management
 
 @property (weak, nonatomic) SceneManager *sceneManager;
