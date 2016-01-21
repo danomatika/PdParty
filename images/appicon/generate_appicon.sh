@@ -43,7 +43,7 @@ convert-icon 114 114 $NAME-57@2x
 
 # iPhone App iOS 7-9
 convert-icon 120 120 $NAME-60@2x
-convert-icon 240 240 $NAME-60@3x
+convert-icon 180 180 $NAME-60@3x
 
 # iPad Spotlight iOS 5-6
 convert-icon 50 50 $NAME-50
