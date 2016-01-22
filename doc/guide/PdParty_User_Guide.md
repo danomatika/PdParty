@@ -1,5 +1,5 @@
-PdParty 0.5.0-beta
-===================
+PdParty 0.5.0 (beta)
+====================
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
 
