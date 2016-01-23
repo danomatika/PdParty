@@ -104,6 +104,8 @@ Templates
 
 Templates for each scene file type are provided in the templates folder.
 
+Also, pre-sized patches for specific devices and orientations are also provided in the templates/devices folder
+
 Resources & Examples
 --------------------
 
