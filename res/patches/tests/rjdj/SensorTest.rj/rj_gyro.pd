@@ -1,0 +1,16 @@
+#N canvas 0 22 266 263 10;
+#X obj 18 18 inlet;
+#X obj 18 228 outlet;
+#X obj 18 88 s #pdparty;
+#X text 112 52 request 1 gyro update;
+#X msg 18 53 gyro;
+#X obj 18 123 r #gyro;
+#X obj 18 151 unpack f f f;
+#X obj 52 207 outlet;
+#X obj 87 182 outlet;
+#X connect 0 0 4 0;
+#X connect 4 0 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;
+#X connect 6 1 7 0;
+#X connect 6 2 8 0;
