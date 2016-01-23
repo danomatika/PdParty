@@ -44,6 +44,8 @@ Acknowledgements
 Backstory
 ---------
 
+_Dan Wilcox 2013_
+
 In 2006-2007, I built a wearable computer based mobile performance system using Linux & Pure Data called [*robotcowboy*](http://robotcowboy.com) as a [MS thesis project](http://danomatika.com/media/projects/s2007/thesis/dwilcox_thesis_arttech_07.pdf):
 
 <p align="center">
@@ -89,9 +91,9 @@ This is also where you can enable the WebDAV server to access the app's Document
 
 This is a simple "drill-down" file browser in the app's Document's folder. Stuff in here is sandboxed between app versions. Simply navigate to patches or scene folders to run them. A "Now Playing" nav button will take you back to the Scene View for the currently playing patch/scene.
 
-It only displays folders and supported file types. File type icons will be added in the future.
+It only displays folders and supported file types. File type icons represent the supported files & scene folder types & certian scene types include a thumbnail image & author subtitle.
 
-You can delete items by swiping right to show the delete button. Moving, copying, & renaming files/folders may be added in the future.
+You can delete items by swiping right to show the delete button. Moving, copying, mass deletion, & renaming files/folders is available via the Edit button.
 
 The default layout is:
 
@@ -100,9 +102,9 @@ The default layout is:
 * **samples**: example patches and scenes
 * **tests**: internal tests
 
-Feel free to delete samples and tests. **Do not delete the libs folder** as the abstractions inside are required. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions. If the libs folder is not ofund, PdParty falls back to including it's internal backup copy.
+Feel free to delete samples and tests. **Do not delete the libs folder** as the abstractions inside are required. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions. If the libs folder is not found, PdParty falls back to including it's internal backup copy.
 
-These default folders can be restored on the Settings screen.
+Note: These default folders can be restored on the Settings screen. So if you accidentally remove everything, you're not out of luck!
 
 ### Scene View
 
@@ -193,15 +195,15 @@ These are useful options for patch creation & debugging. Basically, you can send
 
 The OSC server needs to be enabled and a patch/scene must be running in order for events to be streamed. The easiest option is to run an existing patch or upload an empty one you can run while sending events. Event sending *will not* work unless a patch or scene is being run.
 
-_Note: Locate & Heading events require the services to be enabled within the patch/scene before any events will be sent. Also, certain scene types do not support all events, please see "Scenes" in "Patching for PdParty" for more info._
+_Note: Most sensor events require the services to be enabled within the patch/scene before any events will be sent. Also, certain scene types do not support all events, please see "Scenes" in "Patching for PdParty" for more info._
 
 \* *requires a usb/bluetooth keyboard*
 
 #### Audio Latency
 
-This is pretty straight forward and awesome thanks to CoreAudio. Simply set your desired buffer size and you'll see the approximate latency. A lower latency will give you more responsive audio (nearer to "real time") at the cost of more CPU usage and lower battery life. Higher latencies are good for more simultaneous processing or where realtime response is not as critical (lots of delay, recording only, etc).
+This is pretty straight-forward and awesome thanks to CoreAudio. Simply set your desired buffer size and you'll see the approximate latency. A lower latency will give you more responsive audio (nearer to "real time") at the cost of more CPU usage and lower battery life. Higher latencies are good for more simultaneous processing or where realtime response is not as critical (lots of delay, recording only, etc).
 
-Your mileage may vary depending on the device and the complexity of the patch or scene you're running. If you get audio clicks/audio dropouts, then you need to either increase the buffer size or decrease the processing complexity of your patch.
+Your mileage may vary depending on the device and the complexity of the patch or scene you're running. If you get audio clicks/dropouts, then you need to either increase the buffer size or decrease the processing complexity of your patch.
 
 #### Copy Default Folders
 
@@ -214,9 +216,9 @@ Patching for PdParty
 
 PdParty only shows gui objects (numbox, slider, etc) with send or receive names. It does not render your entire patch, so you need to create send and receives through the guis you want to appear on the device when you run your patch/scene.
 
-Naturally, you can download the PdParty source and open the test patches & examples to see how this is done: <https://github.com/danomatika/PdParty/tree/master/res/patches>
-
 Download the [**PdParty Composer Pack**](http://docs.danomatika.com/PdParty_composerpack.zip) which contains the abstractions you need when composing on your computer as well as scene type templates.
+
+Naturally, you can also download the PdParty source and open the test patches & examples to see how this is done: <https://github.com/danomatika/PdParty/tree/master/res/patches>
 
 ### Detailed Instructions
 
@@ -226,7 +228,7 @@ Download the [**PdParty Composer Pack**](http://docs.danomatika.com/PdParty_comp
 
 2. PdParty will scale GUI objects to fit the screen of the device. Your patch should have the rough dimensions of a phone/tablet in portrait or landscape mode (e.g. 3:2 aspect ratio or e.g. 480x320 should usually work well). If it's not exact it doesn't matter - the GUI elements will be scaled.
 
-3. Numberbox, Sliders, Radios, Toggle, Comment, Bang, Canvas, and VU are currently rendered by PdParty and are feature complete (yes, all the edit commands work!). Also, the [PdDroidParty](http://droidparty.net) Wordbutton, Taplist, Touch, & Numberbox are supported.
+3. Numberbox, Sliders, Radios, Toggle, Comment, Bang, Canvas, and VU are currently rendered by PdParty and are feature complete (yes, all the edit commands work!). Also, the [PdDroidParty](http://droidparty.net) GUI abstractions are supported.
 
 4. All GUI elements should communicate with the main audio patches using send and receive only. You can usually set send and receive for each GUI by right clicking on the object and choosing 'properties' in Pd. Do not directly connect cables to the GUI elements as they won't work. It helps to keep the GUIs on their own in the main patch and have it include the logic of your patch as an abstraction or subpatch containing senders and receivers for interfacing with GUI elements. This is good patch design practice anyway as it is basically a model-view-controller methodology.
 
@@ -239,8 +241,8 @@ Download the [**PdParty Composer Pack**](http://docs.danomatika.com/PdParty_comp
         *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that's just how the iTunes file sharing system currently works.* 
         
         <p align="center">
-<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/itunes_file_sharing.png"/>
-</p>
+          <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/itunes_file_sharing.png"/>
+        </p>
 
     - **WebDAV** 
 
@@ -254,7 +256,7 @@ Download the [**PdParty Composer Pack**](http://docs.danomatika.com/PdParty_comp
             
             * **Linux**: both Nautilus (Gnome) & Konqueror (KDE) support mounting WebDAV folders, also [FileZilla](https://filezilla-project.org) and other file transfer applications should work
             
-            * **Windows**: Windows Explorer does not support mapping WebDAV folders, but [Cyberduck](http://cyberduck.ch/) and [FileZilla](https://filezilla-projects.org) work nicely
+            * **Windows**: Windows Explorer does not support mapping WebDAV folders, but [Cyberduck](http://cyberduck.ch) and [FileZilla](https://filezilla-projects.org) work nicely
  
       2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
 
@@ -308,7 +310,7 @@ PdParty is built using libpd and can be compared to Pd-vanilla with the followin
 
 It's highly recommended that you use a vanilla-based abstraction library like [rjlib](https://github.com/rjdj/rjlib) for expanded functionality.
 
-When patching for PdParty (as with RjDj & PdDroidParty), it is recommended to disable all external libraries except for ggee if you are using pd-extended. This should help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
+When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that you work with Pure Data vanilla versions 0.46+. If you are working with Pd-extended, disable all externals in order tohelp lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
 
 #### [expr], [expr~], & [fexpr~]
 
@@ -522,7 +524,7 @@ _title_ is an open ended list of arguments that will be appended together and us
 
 #### OSC
 
-PdParty sends and receives OSC messages internally between the PureData instance and the OSC server:
+PdParty sends and receives OSC (Open Sound Control) messages internally between the PureData instance and the OSC server:
  
 * **[r \#osc-in]**: incoming OSC messages
 * **[s \#osc-out]**: outgoing OSC messages
@@ -554,6 +556,8 @@ Also, try the `tests/osc-test.pd` test patch on your computer with the tests/pdp
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_osc_scene_iPhone.png"/><br/>
 	OSC test PdParty scene
 </p>
+
+_Note: PdParty utilizes the OSC library provided by Pure Data vanilla versions 0.46+, mainly the [oscparse] & [oscformat] objects._
 
 ### Libs Folder
 

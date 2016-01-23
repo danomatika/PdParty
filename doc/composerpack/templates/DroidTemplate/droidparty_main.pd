@@ -3,7 +3,6 @@
 #X declare -path ../pd;
 #X declare -path ../../pd;
 #X declare -path./pd;
-#X text 27 23 DroidParty Scene Template;
 #N canvas 0 22 895 577 guts 0;
 #N canvas 0 22 588 274 LICENSE 0;
 #X text 57 36 Released under the GNU General Public License ver. 3
@@ -23,10 +22,11 @@ to soundoutput.pd on your computer etc.;
 #X text 455 119 note: [soundinput] & [soundoutput] are included in
 the scene folder since PdDroidParty doesnt use them by default.;
 #X obj 570 162 declare -path./pd;
-#X restore 257 107 pd guts;
-#X text 29 61 Place UIs here in the main patch;
-#X text 29 106 Place core dsp etc in a subpatch;
-#X text 29 184 and PdParty will scale on the device;
-#X text 27 261 sends/receives or PdParty will ignore them;
-#X text 28 237 UIs *must* communicate through;
-#X text 28 157 Size this in landscape;
+#X restore 359 105 pd guts;
+#X text 26 182 and PdParty will scale on the device;
+#X text 25 261 sends/receives or PdParty will ignore them;
+#X text 26 237 UIs *must* communicate through;
+#X text 27 61 place UIs here in the main patch;
+#X text 27 106 place core dsp etc in a subpatch;
+#X text 26 157 size this in landscape;
+#X text 27 23 DroidParty Scene Template - droidparty_main.pd;
