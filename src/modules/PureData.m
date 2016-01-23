@@ -68,7 +68,7 @@
 		[Externals setup];
 		
 		// open "external patches" that always run in the background
-		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/rj"]];
+		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/pd"]];
 	
 		// set ticks per buffer after everything else is setup, setting a tpb of 1 too early results in no audio
 		// and feedback until it is changed ... this fixes that

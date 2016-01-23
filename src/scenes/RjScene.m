@@ -20,7 +20,6 @@
 @interface RjScene () {
 	NSDictionary *info;
 	NSMutableDictionary *widgets;
-	BOOL requiresGyro;
 	BOOL requiresLocation;
 	BOOL requiresCompass;
 }
@@ -109,7 +108,6 @@
 		}
 		
 		// check sensor requirements
-		requiresGyro = [PureData objectExists:@"rj_gyro" inPatch:self.patch];
 		requiresLocation = [PureData objectExists:@"rj_loc" inPatch:self.patch];
 		requiresCompass = [PureData objectExists:@"rj_compass" inPatch:self.patch];
 		
@@ -175,7 +173,7 @@
 		case SensorTypeAccel:
 			return YES;
 		case SensorTypeGyro:
-			return requiresGyro;
+			return YES;
 		case SensorTypeLocation:
 			return requiresLocation;
 		case SensorTypeCompass:
@@ -392,8 +390,8 @@
 	NSError *error;
 	for(NSString *path in contents) {
 		NSString *file = [path lastPathComponent];
-		if([file isEqualToString:@"rj_image.pd"] || [file isEqualToString:@"rj_text.pd"] || [file isEqualToString:@"rj_time.pd"] ||
-		   [file isEqualToString:@"rj_compass.pd"] || [file isEqualToString:@"rj_loc.pd"] || [file isEqualToString:@"rj_gyro.pd"] ||
+		if([file isEqualToString:@"rj_image.pd"] || [file isEqualToString:@"rj_text.pd"] ||
+		   [file isEqualToString:@"rj_compass.pd"] || [file isEqualToString:@"rj_loc.pd"] || [file isEqualToString:@"rj_time.pd"] ||
 		   [file isEqualToString:@"soundinput.pd"] || [file isEqualToString:@"soundoutput.pd"]) {
 			if(![[NSFileManager defaultManager] removeItemAtPath:[directory stringByAppendingPathComponent:path] error:&error]) {
 				DDLogError(@"RjScene: couldn't remove %@, error: %@", path, error.localizedDescription);

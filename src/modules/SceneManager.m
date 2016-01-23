@@ -237,7 +237,7 @@
 		self.sensors.accelEnabled = YES;
 	}
 	if([self.scene requiresSensor:SensorTypeGyro]) {
-		self.sensors.gyroAutoUpdates = NO;
+		self.sensors.gyroAutoUpdates = YES;
 		self.sensors.gyroEnabled = YES;
 	}
 	if([self.scene requiresSensor:SensorTypeLocation]) {

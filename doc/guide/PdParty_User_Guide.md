@@ -10,6 +10,12 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 See <https://github.com/danomatika/PdParty> for documentation
 
+**Want to join the BETA test? Send your name & email address to:**
+
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/contact.png"/>
+</p>
+
 Description
 -----------
 
@@ -274,9 +280,9 @@ PdParty also supports running "scenes" which are basically folders with a specif
     * _description_
     * _name_
     * _category_
-  * requires #accelerate & #touch events
+  * requires #touch, #accelerate & #gyro events
   * \#touch positions are normalized from 0-320
-  * optional sensors accessed by abstractions: [rj_gyro], [rj_loc], [rj_compass], & [rj_time]
+  * optional sensors accessed by abstractions: [rj_loc], [rj_compass], & [rj_time]
   * 20500 samplerate
 * PdDroidParty scenes
   * a folder that contains a droidparty_main.pd patch
@@ -366,7 +372,6 @@ PdParty currently supports:
 * RjDj abstractions/objects:
   * [rj_image]: implemented internally
   * [rj_text]: implemented internally
-  * [rj_gyro]
   * [rj_loc]
   * [rj_compass]
   * [rj_time]
@@ -421,7 +426,7 @@ PdParty returns the following events:
   * _msec_: millisecond
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
   
-_Note: RjDj scenes only receive #touch & #accelerate by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj_gyro], [rj_loc], etc abstractions._
+_Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj_loc] & [rj_compass] abstractions._
 
 #### Accelerate, Gyro, & Magnet Control
 

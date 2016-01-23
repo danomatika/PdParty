@@ -14,6 +14,12 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 See https://github.com/danomatika/PdParty for documentation
 
+**Want to join the BETA test? Send your name & email address to:**
+
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/contact.png"/>
+</p>
+
 DESCRIPTION
 -----------
 
