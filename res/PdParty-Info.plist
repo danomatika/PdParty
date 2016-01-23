@@ -66,6 +66,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Useful for soundwalk scenes, etc while PdParty is running in the background.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Required for PdParty #loc  &amp; [rj_loc] events.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DejaVuSansMono.ttf</string>

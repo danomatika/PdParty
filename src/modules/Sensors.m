@@ -186,17 +186,38 @@
 	if(locationEnabled) { // start
 		if([CLLocationManager locationServicesEnabled]) {
 			hasIgnoredStartingLocation = NO;
-			[locationManager startUpdatingLocation];
-			[PureData sendPrint:@"locate enabled"];
+//			if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+//				[PureData sendPrint:@"location denied"];
+//				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Denied"
+//											message:@"To reenable, please go to Settings and turn on Location Service for this app."
+//										   delegate:nil
+//								  cancelButtonTitle:@"OK"
+//								  otherButtonTitles:nil]show];
+//			}
+//			else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
+//				[PureData sendPrint:@"location restricted"];
+//				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Restricted"
+//											message:@"To reenable, please go to Settings and turn off the Location Service restriction for this app."
+//										   delegate:nil
+//								  cancelButtonTitle:@"OK"
+//								  otherButtonTitles:nil]show];
+//			}
+//			else {
+				[locationManager startUpdatingLocation];
+				[PureData sendPrint:@"location enabled"];
+				if([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+					[locationManager requestAlwaysAuthorization];
+				}
+//			}
 		}
 		else {
-			[PureData sendPrint:@"location services disabled or not available on this device"];
+			[PureData sendPrint:@"location disabled or not available on this device"];
 		}
 	}
 	else { // stop
 		if([CLLocationManager locationServicesEnabled]) {
 			[locationManager stopUpdatingLocation];
-			[PureData sendPrint:@"locate disabled"];
+			[PureData sendPrint:@"location disabled"];
 		}
 	}
 }
@@ -221,20 +242,20 @@
 		locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
 	}
 	else {
-		[PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown locate accuracy string: %@", accuracy]];
+		[PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown location accuracy string: %@", accuracy]];
 		return;
 	}
-	DDLogVerbose(@"Sensors: locate accuracy: %@", accuracy);
+	DDLogVerbose(@"Sensors: location accuracy: %@", accuracy);
 }
 
 - (void)setLocationFilter:(float)distance {
 	if(distance > 0 ) {
 		locationManager.distanceFilter = distance;
-		DDLogVerbose(@"Sensors: locate distance filter: +/- %f", distance);
+		DDLogVerbose(@"Sensors: location distance filter: +/- %f", distance);
 	}
 	else { // clip 0 & negative values
 		locationManager.distanceFilter = kCLDistanceFilterNone;
-		DDLogVerbose(@"Sensors: locate distance filter: none");
+		DDLogVerbose(@"Sensors: location distance filter: none");
 	}
 }
 
