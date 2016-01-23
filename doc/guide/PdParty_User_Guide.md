@@ -216,6 +216,8 @@ PdParty only shows gui objects (numbox, slider, etc) with send or receive names.
 
 Naturally, you can download the PdParty source and open the test patches & examples to see how this is done: <https://github.com/danomatika/PdParty/tree/master/res/patches>
 
+Download the [**PdParty Composer Pack**](http://docs.danomatika.com/PdParty_composerpack.zip) which contains the abstractions you need when composing on your computer as well as scene type templates.
+
 ### Detailed Instructions
 
 *Largely borrowed from [PdDroidParty](http://droidparty.net/)*
