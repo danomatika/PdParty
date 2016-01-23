@@ -95,9 +95,9 @@ Running a regular .pd patch is the same as running a PdParty scene.
 Open Sound Control Bridges
 --------------------------
 
-The patches in the osc folder provide basic Open Sound Control (OSC) communication between PdParty and Pure Data running on your desktop. Once osc sending is enabled in PdParty, you can send and receive PdParty events which allows you to develop & test patches. For instance, you can work with #touch events generated on PdParty which ptch on your computer.
+The patches in the osc folder provide basic Open Sound Control (OSC) communication between PdParty and Pure Data running on your desktop. Once osc sending is enabled in PdParty, you can send and receive PdParty events which allows you to develop & test patches. For instance, you can work with #touch events generated on PdParty while patching on your computer.
 
-The rj sensor objects are implemented using PdParty events, so they wil also work over OSC.
+The rj_loc & rj_compass sensor objects are implemented using PdParty events, so they wil also work over OSC.
 
 Templates
 ---------
