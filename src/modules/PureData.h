@@ -15,11 +15,12 @@
 // PD event receivers
 #define PD_KEY_R        @"#key"
 #define PD_OSC_R        @"#osc-in"
-#define PD_CLOSEBANG_R @"#closebang"
+#define PD_CLOSEBANG_R  @"#closebang"
 
 // RjDj event receivers
-#define RJ_TRANSPORT_R @"#transport"
+#define RJ_TRANSPORT_R  @"#transport"
 #define RJ_VOLUME_R     @"#volume"
+#define RJ_MICVOLUME_R	@"#micvolume"
 #define RJ_TOUCH_R      @"#touch"
 #define RJ_ACCELERATE_R @"#accelerate"
 #define RJ_GYRO_R       @"#gyro"

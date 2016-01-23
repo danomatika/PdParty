@@ -91,6 +91,7 @@
 	[PureData sendTransportPlay:_playing];
 	[PureData sendTransportLoop:_looping];
 	[PureData sendVolume:_volume];
+	[PdBase sendFloat:1.0 toReceiver:RJ_MICVOLUME_R]; // turn on [soundinput]!
 }
 
 - (void)startRecordingTo:(NSString *)path {

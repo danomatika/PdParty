@@ -15,7 +15,7 @@
 #import "RjText.h"
 
 // TODO: decide on this
-//#define IPAD_LANDSCAPE
+#define IPAD_ALLOW_LANDSCAPE
 
 @interface RjScene () {
 	NSDictionary *info;
@@ -58,7 +58,7 @@
 	
 	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {
 		
-		#ifdef IPAD_LANDSCAPE
+		#ifdef IPAD_ALLOW_LANDSCAPE
 			// allow all orientations on iPad
 			if([Util isDeviceATablet]) {
 				self.preferredOrientations = UIInterfaceOrientationMaskAll;
