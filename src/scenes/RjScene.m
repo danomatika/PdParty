@@ -151,8 +151,7 @@
 	}
 	
 	// scale rj object positions and sizes
-	NSArray *array = [widgets allValues];
-	for(RjWidget *widget in array) {
+	for(RjWidget *widget in [widgets allValues]) {
 		[widget reshape];
 	}
 }

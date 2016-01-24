@@ -58,13 +58,13 @@
 	}
 	
 	// fix blurry label text
-	// http://thinketg.com/ios-tip-fixing-blurry-text-anti-aliasing-in-your-ipadiphone-app/
+	// http://thinketg.com/ios-tip-fixing-blurry-text-anti-aliasing-in-your-ipadiphone-app
 	self.frame = CGRectIntegral(self.frame);
 }
 
 #pragma mark Overridden Getters / Setters
 
-- (NSString *)typeString {
+- (NSString *)type {
 	return @"RjText";
 }
 

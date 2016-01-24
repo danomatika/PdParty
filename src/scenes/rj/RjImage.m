@@ -49,13 +49,12 @@
 - (void)reshape {
 	self.transform = CGAffineTransformIdentity;
 	if(self.centered) {
+		self.frame = CGRectMake(0, 0,
+			round(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
+			round(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
 		self.center = CGPointMake(
 			round(self.originalFrame.origin.x * self.parentScene.scale),
 			round(self.originalFrame.origin.y * self.parentScene.scale));
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y,
-			round(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
-			round(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
-		
 	}
 	else {
 		self.frame = CGRectMake(
@@ -64,7 +63,7 @@
 			round(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
 			round(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
 	}
-	self.image.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+	self.image.frame = self.bounds;
 	self.transform = CGAffineTransformMakeRotation(self.angle * (M_PI/180.f));
 }
 
@@ -76,6 +75,10 @@
 }
 
 #pragma mark Overridden Getters / Setters
+
+- (NSString *)type {
+	return @"RjImage";
+}
 
 - (void)setScaleX:(float)scaleX {
 	if(_scaleX == scaleX) return;
@@ -93,10 +96,6 @@
 	if(_angle == angle) return;
 	_angle = angle;
 	[self reshape];
-}
-
-- (NSString *)typeString {
-	return @"RjImage";
 }
 
 @end
