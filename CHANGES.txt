@@ -1,17 +1,26 @@
-0.5.2-beta: in progress
+0.5.2-beta: 2016-01-23
 
-* fixed Location Services not being enabled on iOS 8+ (reported by Eric Drasin)
+* added device orientation templates
+* added rjlib & rc-patches to the composerpack
+* added info to Boomerang rj sample about wearing earphones
+* added rj NoBGTest
+* added changelog
+
+* fixed location services not being enabled on iOS 8+ (reported by Eric Drasin)
 * fixed record button not working due to recording.pd not being loaded
+* fixed wrong pos when reshaping centered RjImages
+* fixed white mic icon on white controls popover background
+* fixed on screen slider width on ipad by increasing leading & trailing controls spacing
 
 * removed [rj_gyro] as original RjDj used #gyro receive, RjScene now requires gyro with auto updates 
 
-0.5.1-beta: Jan 2016
+0.5.1-beta: 2016-01-22
 
 * added rj SensorTest
 
 * fixed [soundinput] not passing audio at scene start 
 
-0.5.0-beta: Jan 2016
+0.5.0-beta: 2016-01-22
 
 major overhaul for beta release via TestFlight/iTunesConnect
 
@@ -54,7 +63,7 @@ major overhaul for beta release via TestFlight/iTunesConnect
 * removed mrpeach osc external (use [route] & [oscformat] instead)
 * removed Crashlytics library
 
-0.4.6-alpha Jul 2014
+0.4.6-alpha 2014-07-07
 
 * added prelim app icon
 * added browser & button icons
@@ -78,7 +87,7 @@ major overhaul for beta release via TestFlight/iTunesConnect
 * updated to libpd pd_045-4 & externals
 * updated user guide
 
-0.4.5-alpha Nov 2013
+0.4.5-alpha 2013-11-17
 
 * added ggee moog & stripdir externals
 * added #locate & #heading events (GPS & compass data)
@@ -93,23 +102,23 @@ major overhaul for beta release via TestFlight/iTunesConnect
 * removed redundant "pdparty:" header in info prints
 * removed reference to CloudSafe win client
 
-0.4.4-alpha Oct 2013
+0.4.4-alpha 2013-10-09
 
 * added expr, expr~, & fexpr~ externals
 * added info on #pdparty recording messages to user guide
 
-0.4.3-alpha Oct 2013
+0.4.3-alpha 2013-10-06
 
 * added ggee getdir external
 * added iTunes File Sharing support
 * added #pdparty receive message to trigger recording in patches
 * added [closebang] emulation
 
-0.4.2-alpha Sep 2013
+0.4.2-alpha 2013-09-25
 
 * fixed load time crash on 3GS on first run
 
-0.4.1-alpha Sep 2013
+0.4.1-alpha 2013-09-21
 
 * added progress HUD when copying on first run
 * added screenshots to user guide
@@ -119,7 +128,7 @@ major overhaul for beta release via TestFlight/iTunesConnect
 
 * updated user guide
 
-0.4.0-alpha Sep 2013
+0.4.0-alpha 2013-09-17
 
 first alpha release via TestFlight
 
@@ -151,7 +160,7 @@ first alpha release via TestFlight
 * removed unneeded bin folder
 * removed some unneeded variables
 
-0.3.0 Mar 2013
+0.3.0 2013-04-17
 
 rewritten in Obj-C & UIKit
 
@@ -173,10 +182,10 @@ rewritten in Obj-C & UIKit
 
 * updated PdParser
 
-0.2.0 Jan 2012
+0.2.0 2012-01-23
 
 * added widgets: Bang, Toggle, Numbox, Comment
 
-0.1.0 Apr 2011
+0.1.0 2011-10-13
 
 initial commit, used OpenFrameworks & ofxPd
