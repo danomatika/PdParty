@@ -30,18 +30,20 @@ Abstraction Folders
 
 The following abstraction folders are provided:
 
-* pd: stereo soundinput & soundoutput wrappers
-* rj: rjdj-specific abstractions
-* droidparty: droidparty UI abstractions
+* lib/pd: stereo soundinput & soundoutput wrappers
+* lib/droidparty: [PdDroidParty](http://www.droidparty.net) UI abstractions
+* lib/pdparty: RjDj-specific message wrappers and other abstractions for use with PdParty
 
 Add these to your Pure Data path settings.
 
 ### Useful Abstraction Libraries
 
-There are a number of useful vanilla-only abstraction libraries that make working with vanilla/libpd-based projects easier:
+Also included are two useful vanilla-only abstraction libraries that make working with vanilla/libpd-based projects easier:
 
-* [rjlib](https://github.com/rjdj/rjlib): developed for the RjDj ecosystem
-* [rc-patches](https://github.com/danomatika/rc-patches): extended patch set from the [robotcowboy project](http://robotcowboy.com), designed to work with rjlib
+* rj: [rjlib](https://github.com/rjdj/rjlib), developed for the RjDj ecosystem
+* rc: [rc-patches](https://github.com/danomatika/rc-patches), extended patch set from the [robotcowboy project](http://robotcowboy.com), designed to work with rjlib
+
+There are two ways you can utilize either of these in your scenes: include a copy of the rj and/or rc folder within your scene folder or add a copy to the libs PdParty folder using the WebDAV server. 
 
 soundinput & soundoutput
 ------------------------
