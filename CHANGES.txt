@@ -10,6 +10,7 @@
 * fixed record button not working due to recording.pd not being loaded
 * fixed wrong pos when reshaping centered RjImages
 * fixed white mic icon on white controls popover background
+* fixed play button icon not loading
 * fixed on screen slider width on ipad by increasing leading & trailing controls spacing
 
 * removed [rj_gyro] as original RjDj used #gyro receive, RjScene now requires gyro with auto updates 
