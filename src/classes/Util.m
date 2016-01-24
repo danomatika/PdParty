@@ -151,6 +151,21 @@
 	return YES;
 }
 
++ (NSArray *)whichFilenames:(NSArray *)filenames existInDirectory:(NSString *)dir {
+	if(![[NSFileManager defaultManager] fileExistsAtPath:dir isDirectory:nil]) {
+		DDLogError(@"Util: couldn't check if filenames exist, dir does not exist: %@", dir);
+		return nil;
+	}
+	NSMutableArray *found = [NSMutableArray array];
+	for(NSString *file in filenames) {
+		NSString *filePath = [dir stringByAppendingPathComponent:file];
+		if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+			[found addObject:file];
+		}
+	}
+	return (found.count > 0) ? found : nil;
+}
+
 #pragma mark Images
 
 // from:

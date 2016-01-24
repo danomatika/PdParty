@@ -37,9 +37,9 @@
 	}
 	
 	// load font
-	if(![self loadFont:[path stringByAppendingPathComponent:@"font.ttf"]]) {
-		// try alternate name
-		[self loadFont:[path stringByAppendingPathComponent:@"font-antialiased.ttf"]];
+	NSArray *fontPaths = [Util whichFilenames:@[@"font.ttf", @"font-antialiased.ttf"] existInDirectory:path];
+	if(fontPaths) {
+		[self loadFont:[path stringByAppendingPathComponent:[fontPaths firstObject]]];
 	}
 	
 	return ret;

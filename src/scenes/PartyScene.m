@@ -28,24 +28,12 @@
 	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {
 	
 		// load info
-		NSString *infoPath = [path stringByAppendingPathComponent:@"info.json"];
-		if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-			info = [Util parseJSONFromFile:infoPath];
-			if(!info) {
-				DDLogError(@"PartyScene: couldn't load info.json");
-			}
-		}
-		else{ // fallback
-			infoPath = [path stringByAppendingPathComponent:@"Info.json"];
-			if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-				info = [Util parseJSONFromFile:infoPath];
-				if(!info) {
-					DDLogError(@"PartyScene: couldn't load Info.json");
-				}
-			}
-		}
+		info = [PartyScene infoForSceneAt:path];
 		if(info) {
-			DDLogInfo(@"PartyScene: loaded %@", [infoPath lastPathComponent]);
+			DDLogInfo(@"PartyScene: loaded info");
+		}
+		else {
+			DDLogError(@"PartyScene: couldn't load info");
 		}
 		
 		return YES;
@@ -110,15 +98,9 @@
 }
 
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath {
-	NSString *infoPath = [fullpath stringByAppendingPathComponent:@"info.json"];
-	if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-		return [Util parseJSONFromFile:infoPath];
-	}
-	else { // fallback
-		[fullpath stringByAppendingPathComponent:@"Info.json"];
-		if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-			return [Util parseJSONFromFile:infoPath];
-		}
+	NSArray *infoPaths = [Util whichFilenames:@[@"info.json", @"Info.json"] existInDirectory:fullpath];
+	if(infoPaths) {
+		return [Util parseJSONFromFile:[fullpath stringByAppendingPathComponent:[infoPaths firstObject]]];
 	}
 	return nil;
 }

@@ -87,24 +87,12 @@
 		[self.parentView addSubview:self.background];
 		
 		// load info
-		NSString *infoPath = [path stringByAppendingPathComponent:@"Info.plist"];
-		if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-			info = [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
-			if(!info) {
-				DDLogError(@"RjScene: couldn't load Info.plist");
-			}
-		}
-		else { // fallback
-			infoPath = [path stringByAppendingPathComponent:@"info.plist"];
-			if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-				info = [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
-				if(!info) {
-					DDLogError(@"RjScene: couldn't load info.plist");
-				}
-			}
-		}
+		info = [RjScene infoForSceneAt:path];
 		if(info) {
-			DDLogInfo(@"RjScene: loaded %@", [infoPath lastPathComponent]);
+			DDLogInfo(@"RjScene: loaded info");
+		}
+		else {
+			DDLogError(@"RjScene: couldn't load info");
 		}
 		
 		// check sensor requirements
@@ -278,25 +266,17 @@
 }
 
 + (UIImage*)thumbnailForSceneAt:(NSString *)fullpath {
-	if([[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"thumb.jpg"]]) {
-		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:@"thumb.jpg"]];
-	}
-	else if([[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"image.jpg"]]) {
-		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:@"image.jpg"]];
+	NSArray *imagePaths = [Util whichFilenames:@[@"thumb.jpg", @"Thumb.jpg", @"image.jpg", @"Image.jpg"] existInDirectory:fullpath];
+	if(imagePaths) {
+		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:[imagePaths firstObject]]];
 	}
 	return nil;
 }
 
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath {
-	NSString *infoPath = [fullpath stringByAppendingPathComponent:@"Info.plist"];
-	if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-		return [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
-	}
-	else { // fallback
-		infoPath = [fullpath stringByAppendingPathComponent:@"info.plist"];
-		if([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-			return [[NSDictionary dictionaryWithContentsOfFile:infoPath] objectForKey:@"info"];
-		}
+	NSArray *infoPaths = [Util whichFilenames:@[@"Info.plist", @"info.plist"] existInDirectory:fullpath];
+	if(infoPaths) {
+		return [[NSDictionary dictionaryWithContentsOfFile:[fullpath stringByAppendingPathComponent:[infoPaths firstObject]]] objectForKey:@"info"];
 	}
 	return nil;
 }

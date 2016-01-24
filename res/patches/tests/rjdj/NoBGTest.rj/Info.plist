@@ -7,9 +7,9 @@
 		<key>author</key>
 		<string>Dan Wilcox</string>
 		<key>description</key>
-		<string>A recreation the Nasa Quindar Tones, most often referred to as the &quot;beeps&quot; that were heard during the American Apollo space missions to the Moon. These tones were used as Push-To-Talk remote transmitter controls used to mute the Mission Control to spacecraft uplink radio to avoid annoying the astronauts when the Capcom had nothing to say. Although known popularly through media recorded at Mission Control, they were filtered out of the audio stream and never heard by the astronauts.</string>
+		<string>Empty scene without a background, should load default RjDj background.</string>
 		<key>name</key>
-		<string>ApolloVoice</string>
+		<string>NoBGTest</string>
 	</dict>
 </dict>
 </plist>

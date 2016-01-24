@@ -67,6 +67,10 @@
 /// recursively copy srcDir's contents to destDir, overwrites existing files
 + (BOOL)copyContentsOfDirectory:(NSString *)srcDir toDirectory:(NSString *)destDir error:(NSError *)error;
 
+/// takes an array of filenames and returns those that exist in a given dir,
+/// returns nil if none are found
++ (NSArray *)whichFilenames:(NSArray *)filenames existInDirectory:(NSString *)dir;
+
 #pragma mark Images
 
 /// renders a given string into a UIImage
