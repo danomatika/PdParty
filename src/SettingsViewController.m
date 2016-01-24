@@ -113,7 +113,7 @@
 		hud.labelText = @"Copying lib folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
-			[app copyLibFolder];
+			[app copyLibDirectory];
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[hud hide:YES];
 			});
@@ -124,7 +124,7 @@
 		hud.labelText = @"Copying samples folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
-			[app copySamplesFolder];
+			[app copySamplesDirectory];
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[hud hide:YES];
 			});
@@ -135,7 +135,7 @@
 		hud.labelText = @"Copying tests folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
-			[app copyTestsFolder];
+			[app copyTestsDirectory];
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[hud hide:YES];
 			});

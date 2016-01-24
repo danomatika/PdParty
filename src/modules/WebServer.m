@@ -38,7 +38,7 @@
     return self;
 }
 
-- (BOOL)start:(NSString *)webFolder {
+- (BOOL)start:(NSString *)directory {
 
 	// create DAV server
 	[server setConnectionClass:[DAVConnection class]];
@@ -47,8 +47,8 @@
 	[server setType:@"_http._tcp."];
 
 	// set document root
-	[server setDocumentRoot:[webFolder stringByExpandingTildeInPath]];
-	DDLogVerbose(@"WebServer: set root to %@", webFolder);
+	[server setDocumentRoot:[directory stringByExpandingTildeInPath]];
+	DDLogVerbose(@"WebServer: set root to %@", directory);
 
 	// start DAV server
 	NSError* error = nil;

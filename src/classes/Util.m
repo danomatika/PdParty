@@ -107,24 +107,24 @@
 	return isDir;
 }
 
-+ (BOOL)copyContentsOfFolder:(NSString *)srcFolder toFolder:(NSString *)destFolder error:(NSError *)error {
++ (BOOL)copyContentsOfDirectory:(NSString *)srcDir toDirectory:(NSString *)destDir error:(NSError *)error {
 
 	// create dest folder if it doesn't exist
-	if(![[NSFileManager defaultManager] fileExistsAtPath:destFolder isDirectory:nil]) {
-		if(![[NSFileManager defaultManager] createDirectoryAtPath:destFolder withIntermediateDirectories:NO attributes:nil error:&error]) {
-			DDLogError(@"Util: couldn't create %@, error: %@", destFolder, error.localizedDescription);
+	if(![[NSFileManager defaultManager] fileExistsAtPath:destDir isDirectory:nil]) {
+		if(![[NSFileManager defaultManager] createDirectoryAtPath:destDir withIntermediateDirectories:NO attributes:nil error:&error]) {
+			DDLogError(@"Util: couldn't create %@, error: %@", destDir, error.localizedDescription);
 			return NO;
 		}
 	}
 
 	// copy all items within src into dest, this way we don't lose any other files or folders added by the user
-	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:srcFolder error:&error];
+	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:srcDir error:&error];
 	if(!contents) {
 		return YES; // no contents to copy
 	}
 	for(NSString *p in contents) {
-		NSString *srcPath = [srcFolder stringByAppendingPathComponent:p];
-		NSString *destPath = [destFolder stringByAppendingPathComponent:p];
+		NSString *srcPath = [srcDir stringByAppendingPathComponent:p];
+		NSString *destPath = [destDir stringByAppendingPathComponent:p];
 		BOOL isDir = NO;
 		
 		// remove existing files in the dest folder that match those in the src folder
@@ -139,7 +139,7 @@
 		
 		[[NSFileManager defaultManager] fileExistsAtPath:destPath isDirectory:&isDir];
 		if(isDir) { // copy folder recursively
-			[Util copyContentsOfFolder:srcPath toFolder:destPath error:error];
+			[Util copyContentsOfDirectory:srcPath toDirectory:destPath error:error];
 		}
 		else { // copy file
 			if(![[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:destPath error:&error]) {

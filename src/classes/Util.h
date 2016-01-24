@@ -64,8 +64,8 @@
 /// returns YES if given path exists and is a directory
 + (BOOL)isDirectory:(NSString *)path;
 
-/// recursively copy srcFolder's contents to destFolder, overrites existing files
-+ (BOOL)copyContentsOfFolder:(NSString *)srcFolder toFolder:(NSString *)destFolder error:(NSError *)error;
+/// recursively copy srcDir's contents to destDir, overwrites existing files
++ (BOOL)copyContentsOfDirectory:(NSString *)srcDir toDirectory:(NSString *)destDir error:(NSError *)error;
 
 #pragma mark Images
 

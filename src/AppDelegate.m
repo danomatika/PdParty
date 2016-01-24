@@ -24,9 +24,9 @@
 	UINavigationController *webViewNav; //< current URL web view navigation controller
 }
 
-/// recursively copy a given folder in the resource patches dir to the
-/// Documents folder, overwrites any currently existing files with the same name
-- (BOOL)copyResourcePatchFolderToDocuments:(NSString *)folderPath error:(NSError *)error;
+/// recursively copy a given dir in the resource patches dir to the
+/// Documents dir, overwrites any currently existing files with the same name
+- (BOOL)copyResourcePatchDirectoryToDocuments:(NSString *)dirPath error:(NSError *)error;
 
 @end
 
@@ -65,9 +65,9 @@
 		hud.labelText = @"Setting up for the first time...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
-			[self copyLibFolder];
-			[self copySamplesFolder];
-			[self copyTestsFolder];
+			[self copyLibDirectory];
+			[self copySamplesDirectory];
+			[self copyTestsDirectory];
 			[defaults setBool:NO forKey:@"firstRun"];
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[hud hide:YES];
@@ -318,9 +318,9 @@
 
 #pragma mark Util
 
-- (void)copyLibFolder {
+- (void)copyLibDirectory {
 	NSError *error;
-	if(![self copyResourcePatchFolderToDocuments:@"lib" error:error]) {
+	if(![self copyResourcePatchDirectoryToDocuments:@"lib" error:error]) {
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:@"Couldn't lib samples folder"
 								  message:error.localizedDescription
@@ -329,10 +329,10 @@
 	}
 }
 
-- (void)copySamplesFolder {
+- (void)copySamplesDirectory {
 	NSError *error;
 	UIAlertView *alertView;
-	if(![self copyResourcePatchFolderToDocuments:@"samples" error:error]) {
+	if(![self copyResourcePatchDirectoryToDocuments:@"samples" error:error]) {
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:@"Couldn't copy samples folder"
 								  message:error.localizedDescription
@@ -341,10 +341,10 @@
 	}
 }
 
-- (void)copyTestsFolder {
+- (void)copyTestsDirectory {
 	NSError *error;
 	UIAlertView *alertView;
-	if(![self copyResourcePatchFolderToDocuments:@"tests" error:error]) {
+	if(![self copyResourcePatchDirectoryToDocuments:@"tests" error:error]) {
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:@"Couldn't copy tests folder"
 								  message:error.localizedDescription
@@ -372,11 +372,11 @@
 
 #pragma mark Private
 
-- (BOOL)copyResourcePatchFolderToDocuments:(NSString *)folderPath error:(NSError *)error {
-	DDLogVerbose(@"AppDelegate: copying %@ to Documents", folderPath);
+- (BOOL)copyResourcePatchDirectoryToDocuments:(NSString *)dirPath error:(NSError *)error {
+	DDLogVerbose(@"AppDelegate: copying %@ to Documents", dirPath);
 	
 	// create dest folder if it doesn't exist
-	NSString* destPath = [[Util documentsPath] stringByAppendingPathComponent:folderPath];
+	NSString* destPath = [[Util documentsPath] stringByAppendingPathComponent:dirPath];
 	if(![[NSFileManager defaultManager] fileExistsAtPath:destPath]) {
 		if(![[NSFileManager defaultManager] createDirectoryAtPath:destPath withIntermediateDirectories:NO attributes:NULL error:&error]) {
 			DDLogError(@"AppDelegate: couldn't create %@, error: %@", destPath, error.localizedDescription);
@@ -385,10 +385,10 @@
 	}
 	
 	// patch folder resources are in patches/*
-	NSString *srcPath = [[[Util bundlePath] stringByAppendingPathComponent:@"patches"] stringByAppendingPathComponent:folderPath];
+	NSString *srcPath = [[[Util bundlePath] stringByAppendingPathComponent:@"patches"] stringByAppendingPathComponent:dirPath];
 	
 	// recursively copy all items within src into dest, this way we don't lose any other files or folders added by the user
-	return [Util copyContentsOfFolder:srcPath toFolder:destPath error:error];
+	return [Util copyContentsOfDirectory:srcPath toDirectory:destPath error:error];
 }
 
 @end

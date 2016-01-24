@@ -19,9 +19,9 @@
 @property (weak, readonly, nonatomic) NSString *hostName; //> Bonjour hostname
 @property (assign,readonly, getter=isRunning, nonatomic) BOOL running;
 
-/// start the server with the given folder as the server root
+/// start the server with the given dir as the server root
 /// returns YES on success
-- (BOOL)start:(NSString *)webFolder;
+- (BOOL)start:(NSString *)directory;
 - (BOOL)start; //< start with the Documents folder as the root
 - (void)stop;
 
