@@ -122,13 +122,13 @@ Running a patch/scene launches the Scene View:
 
 Gui elements work similarly to those in the Pure Data gui, except now you have multitouch instead of the 10 foot pole called a mouse pointer. Also, Numberboxes can be incrementally scrolled using two fingers. Empty space is used for touch events if the patch/scene type supports them.
 
-The desired aspect ratio is inferred from the patch canvas size and the Scene View is automatically rotated. Also, the device orientation is locked depending on if the Scene is in portrait or landscape. The exceptions to this are PdDroidParty scenes which are always landscape:
+The desired aspect ratio is inferred from the patch canvas size and the Scene View is automatically rotated. Also, the device orientation is locked depending on if the Scene is in portrait or landscape. The exceptions to this are RjDj scenes which are portrait on iPhone & PdDroidParty scenes which are always landscape:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/droidparty_scene_iPad.png"/>
 </p>
 
-and RjDJ scenes which are always portrait:
+On iPad, however, RjDJ scenes can be both portrait or landscape:
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/rjdj_scene_rotated_iPad.png"/>
