@@ -1,0 +1,5 @@
+#N canvas 0 22 326 185 10;
+#X obj 95 112 outlet;
+#X obj 95 78 r #closebang;
+#X text 18 17 this is a temp until libpd supports [closebang];
+#X connect 1 0 0 0;
