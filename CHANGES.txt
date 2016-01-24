@@ -1,0 +1,182 @@
+0.5.2-beta: in progress
+
+* fixed Location Services not being enabled on iOS 8+ (reported by Eric Drasin)
+* fixed record button not working due to recording.pd not being loaded
+
+* removed [rj_gyro] as original RjDj used #gyro receive, RjScene now requires gyro with auto updates 
+
+0.5.1-beta: Jan 2016
+
+* added rj SensorTest
+
+* fixed [soundinput] not passing audio at scene start 
+
+0.5.0-beta: Jan 2016
+
+major overhaul for beta release via TestFlight/iTunesConnect
+
+* added Pd 0.46+ native [oscparse] & [oscformat] object osc handling
+* added AVSession input gain slider control, replaces [soundinput] #micvolume which means the slider will work consistently across all scene types irregardless of the presence of [soundinput]
+* added generic file Browser imeplementation which includes edit controls (move, rename, mass delete, etc)
+* added sensor controls messages, sensors can now be enabled/disabled from the scene (saves batt on unused capabilities)
+* added Popover class so popovers work on both iOS 6 & iOS 8+
+* added controls popover menu buttons (also utilized by Menubang)
+* added About screen activated by Startup screen info button
+* added DroidParty widgets set message support
+* added support for the following DroidScene abstractions: loadsave, menubang, ribbon, mknob
+* added DroidScene background.png & font.ttf/font-antialiased.ttf loading
+* added PartyScene info.json loading
+* added Gui subclass for DroidParty specific Widget loading (reported by Dan Iglesia)
+* added loading screens: "[bang<-[until]-[PdParty]"
+* added default background on iPad
+* added Droidparty demo scenes
+* added StreatBeatz, ApolloVoice, & Boomerange rj samples
+* added libpd as a submodule
+
+* fixed memory leak due to widgets being retained by the PdDispatcher
+* fixed crash in FloatAtom & Number label conversion (reported by Dan Iglesia)
+* fixed resource folders not being copied recursively, additional files & folders are no longer overwritten
+* fixed browser not showing extended scene info (thumbnail & author subtitle)
+* fixed Widget init values being sent twice
+* fixed loading wrong Radio default value (Dan Iglesia)
+* fixed Slider values being clipped on pass through, as per Pd 0.46+
+* fixed inverted VSlider movement w/ jump on click
+
+* updated record button to only be enabled if [soundoutput] is found in the current scene
+* updated Now Playing button for iOS 8+
+* updated RjScene background loading so images are no longer smoothed
+* updated Widget subclassing via initWithAtomLine:andGui: method
+* updated app icon & browser icons
+* updated all underlying libraries
+* updated user guide
+
+* removed Browser swipe back gesture on iPhone since interferes with PatchView gestures
+* removed mrpeach osc external (use [route] & [oscformat] instead)
+* removed Crashlytics library
+
+0.4.6-alpha Jul 2014
+
+* added prelim app icon
+* added browser & button icons
+* added RjScene info view
+* added support for unzipping zip files in the Browser
+* added associated file types (pd, pdz, rjz, zip) and Open in PdParty support
+* added progress HUD popover when copying default folders
+* added Heading test (should have been added in Nov)
+* added receiving events screenshot to user guide
+* added events patch reference
+
+* fixed ticks per buffer being set too early
+* fixed copying default folders overwriting main folder, now copies via subfolders
+* fixed issue where OSC server was not restarting after the listening port was changed
+* fixed OSC text field not being reset on bad port num
+* fixed vu bars being drawn by default, init value is now -100
+* fixed expr being setup twice
+
+* updated test patches to no longer require [import mrpeach] for osc
+* updated socket lib
+* updated to libpd pd_045-4 & externals
+* updated user guide
+
+0.4.5-alpha Nov 2013
+
+* added ggee moog & stripdir externals
+* added #locate & #heading events (GPS & compass data)
+* added locate, Heading & OpenClose test scenes
+
+* fixed comment not handling escaped chars correctly
+* fixed missing Crashlytics framework path (reported by tkzic)
+
+* updated documentation with newer test patches & scene screenshots
+* updated user guide
+
+* removed redundant "pdparty:" header in info prints
+* removed reference to CloudSafe win client
+
+0.4.4-alpha Oct 2013
+
+* added expr, expr~, & fexpr~ externals
+* added info on #pdparty recording messages to user guide
+
+0.4.3-alpha Oct 2013
+
+* added ggee getdir external
+* added iTunes File Sharing support
+* added #pdparty receive message to trigger recording in patches
+* added [closebang] emulation
+
+0.4.2-alpha Sep 2013
+
+* fixed load time crash on 3GS on first run
+
+0.4.1-alpha Sep 2013
+
+* added progress HUD when copying on first run
+* added screenshots to user guide
+
+* fixed bug where ticks per buffer was always 2
+* fixed PatchView extending under nav bar on iOS7
+
+* updated user guide
+
+0.4.0-alpha Sep 2013
+
+first alpha release via TestFlight
+
+* added latency controls to SettingsView
+* added Midi settings view
+* added Now Playing nav button to main table views on iPhone
+* added PartyScene & DroidParty
+* added RecordingScene for wav file playback
+* added pause/play, recording, & input level controls
+* added controls popover for non-RJ & Recording scenes
+* added app behavior settings: lock screen disabled & runs in background
+* added RjScene [rj_image] & [rj_text] support
+* added RjScene default background loading if background.png not found
+* added multiple touch drag for numberboxes, equivalent to Shift+Drag
+* addd IEMWidget edit messages, also works over OSC
+* added PatchView rotation/orientation handling based on scene type
+* added mrpeach osc, net, & midifile externals
+* added Crashlytics framework
+* added Browser swipe to delete
+* added rjdj test scenes
+* added droidparty test scenes
+* added user defaults support
+
+* fixed CGMutablePath memory leak
+* fixed bad path to Crashlytics script
+
+* updated to latest PGMidi
+
+* removed unneeded bin folder
+* removed some unneeded variables
+
+0.3.0 Mar 2013
+
+rewritten in Obj-C & UIKit
+
+* added Start
+* added StartView, Browser, & SettingsView
+* added OSC support
+* added Midi support
+* added WebDAV server for patch management
+* added #touch & #accelerate sensor events
+* added RjDj scene support
+* added Slider, Canvas, Radio, Number2, & VU
+* added IEM color conversion
+* added $0 substitution after patch load
+* added default font: DejaVu Sans Mono
+* added Lumberjack logging
+* added PureData, Midi, & OSC Util classes
+* added user guide
+* added licensing
+
+* updated PdParser
+
+0.2.0 Jan 2012
+
+* added widgets: Bang, Toggle, Numbox, Comment
+
+0.1.0 Apr 2011
+
+initial commit, used OpenFrameworks & ofxPd
