@@ -35,7 +35,7 @@
 
 /// constraint constants
 @property (assign, nonatomic) float height; // controls the height constraint
-@property (assign, nonatomic) float spacing; // toolbar button / slider space
+@property (assign, nonatomic) float spacing; // toolbar button width & slider leading/trailing space
 @property (assign, nonatomic) float toolbarHeight; // toolbar height & slider center y
 
 /// default values

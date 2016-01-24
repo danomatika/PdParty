@@ -252,7 +252,7 @@
 
 - (void)defaultSize {
 	self.height = self.defaultHeight;
-	self.spacing = self.defaultSpacing;
+	self.spacing = [Util isDeviceATablet] ? self.defaultSpacing*2 : self.defaultSpacing;
 	self.toolbarHeight = self.defaultToolbarHeight;
 	[self setNeedsUpdateConstraints];
 }
@@ -343,12 +343,12 @@
 	if(lightBackground) {
 		self.backgroundColor = [UIColor whiteColor];
 		self.toolbar.barTintColor = [UIColor whiteColor];
-		
 	}
 	else {
 		self.backgroundColor = [UIColor blackColor];
 		self.toolbar.barTintColor = [UIColor blackColor];
 	}
+	[self levelIconTo:currentLevelIcon]; // reload
 }
 
 - (void)setShowsMicIcon:(BOOL)showsMicIcon {
