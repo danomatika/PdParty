@@ -7,7 +7,7 @@
         <key>author</key>
 		<string>Dan Wilcox</string>
 		<key>description</key>
-        <string>A simple test for [rj_gyro], [rj_loc], [rj_compass], and [rj_time]</string>
+        <string>A simple test for [r #accelerate], [r #gyro], [rj_loc], [rj_compass], and [rj_time]</string>
 		<key>name</key>
 		<string>SensorTest</string>
 		<key>category</key>
