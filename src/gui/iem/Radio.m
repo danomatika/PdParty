@@ -91,10 +91,10 @@
 		
 		// selected?
 		if(i == (int)self.value) {
-			int buttonSize = round(cellSize/4);
-			CGRect buttonRect = CGRectMake(round(cellRect.origin.x + buttonSize),
-										   round(cellRect.origin.y + buttonSize),
-										   round(cellSize/2), round(cellSize/2));
+			int buttonSize = floor(cellSize*0.25);
+			CGRect buttonRect = CGRectMake(floor(cellRect.origin.x + buttonSize),
+			                               floor(cellRect.origin.y + buttonSize),
+			                               ceil(cellSize*0.5), ceil(cellSize*0.5));
 			CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
 			CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 			CGContextFillRect(context, buttonRect);
