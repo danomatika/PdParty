@@ -104,7 +104,7 @@
 }
 
 - (void)reshape {
-	float cellSize = ceil(self.size * self.gui.scaleX);
+	float cellSize = round(self.size * self.gui.scaleX);
 	
 	// bounds
 	if(self.orientation == WidgetOrientationHorizontal) {
