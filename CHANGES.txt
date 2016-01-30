@@ -1,5 +1,6 @@
 0.5.3-beta: in progress
 
+* fixed buffer size not being computed after sample rate change
 * fixed radio indicator sizing in small radio cells
 
 0.5.2-beta: 2016-01-23

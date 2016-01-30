@@ -538,7 +538,8 @@
 }
 
 - (void)setTicksPerBuffer:(int)ticksPerBuffer {
-	if(audioController.ticksPerBuffer == ticksPerBuffer) return;
+	// always set value, don't check if ticksPerBuffer = _ticksPerBuffer since this
+	// may lead to a buffer duration not being updated after a samplerate change
 	
 	if(ticksPerBuffer <= 0 || ticksPerBuffer > 32) {
 		DDLogWarn(@"PureData: ignoring obviously bad ticks per buffer: %d", ticksPerBuffer);
