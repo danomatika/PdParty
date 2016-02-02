@@ -1,7 +1,14 @@
-0.5.3-beta: in progress
+0.5.3-beta: 2016-02-02
+
+the Groundhog Day edition
+
+* added dollararg.pd test
 
 * fixed buffer size not being computed after sample rate change
-* fixed radio indicator sizing in small radio cells
+* fixed radio indicator sizing & offset in small radio cells
+* fixed incorrect radio background size (Dan Iglesia)
+* fixed #0 not being replaced in widget labels (reported by Dan Iglesia)
+* fixed $0 & #0 being replaced in comment widget
 
 0.5.2-beta: 2016-01-23
 
