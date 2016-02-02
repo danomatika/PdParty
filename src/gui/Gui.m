@@ -283,6 +283,10 @@
 							   withString:[[NSNumber numberWithInt:patch.dollarZero] stringValue]
 								  options:NSCaseInsensitiveSearch
 									range:NSMakeRange(0, newString.length)];
+	[newString replaceOccurrencesOfString:@"#0"
+							   withString:[[NSNumber numberWithInt:patch.dollarZero] stringValue]
+								  options:NSCaseInsensitiveSearch
+									range:NSMakeRange(0, newString.length)];
 	return newString;
 }
 
