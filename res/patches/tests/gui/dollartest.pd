@@ -1,15 +1,18 @@
 #N canvas 409 65 283 428 10;
-#X floatatom 114 155 5 0 0 0 #0-bar #0-bar-in #0-bar, f 5;
-#X text 22 67 the number box below should have the;
-#X text 23 87 \$0 instance id as part of it's name;
-#X obj 55 328 print;
-#X obj 55 300 r \$0-bar;
+#X floatatom 112 111 5 0 0 0 #0-bar #0-bar-in #0-bar, f 5;
+#X obj 55 368 print;
+#X obj 55 340 r \$0-bar;
 #X obj 119 255 bng 15 250 50 0 hitit empty set_100 17 7 0 10 -262144
 -1 -1;
-#X obj 146 300 r hitit;
-#X msg 146 330 100;
-#X obj 146 357 s \$0-bar-in;
-#X text 28 228 the bang should set the number to 100;
-#X connect 4 0 3 0;
-#X connect 6 0 7 0;
-#X connect 7 0 8 0;
+#X obj 146 340 r hitit;
+#X msg 146 370 100;
+#X obj 146 397 s \$0-bar-in;
+#X text 25 307 these should *not* be numbers: \$0 & #0;
+#X obj 114 169 nbx 5 14 -1e+37 1e+37 0 0 \$0-bar \$0-bar-in \$0_hello_\$0_world
+0 -8 0 10 -262144 -1 -1 100 256;
+#X text 12 45 the number boxes below should have the;
+#X text 27 228 the bang should set the numbers to 100;
+#X text 13 65 \$0 & #0 instance ids as part of their names;
+#X connect 2 0 1 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;

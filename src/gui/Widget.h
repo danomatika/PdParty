@@ -90,8 +90,8 @@ typedef enum {
 /// widgets can laod patch folder resources hre, for instance
 - (void)setup;
 
-/// replace $0 in atom strings (send, receive, label)
-/// call this *after* the patch has been loaded or $0 = 0
+/// replace $0 & #0 in atom strings (send, receive, label)
+/// call this *after* the patch has been loaded or $0/#0 = 0
 - (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile *)patch;
 
 /// reshape based on gui bounds & scale changes

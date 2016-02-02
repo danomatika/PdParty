@@ -53,6 +53,11 @@
 				[text appendString:[line objectAtIndex:i]];
 			}
 		}
+		// remove and stray backslashes
+		[text replaceOccurrencesOfString:@"\\"
+							   withString:@""
+								  options:NSCaseInsensitiveSearch
+									range:NSMakeRange(0, text.length)];
 		self.label.text = text;
 	}
 	return self;
@@ -87,6 +92,12 @@
 		round(self.originalFrame.origin.y * self.gui.scaleY),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
+}
+
+// overridden so $0 or #0 is not replaced in label text
+- (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile *)patch {
+	self.sendName = [gui replaceDollarZeroStringsIn:self.sendName fromPatch:patch];
+	self.receiveName = [gui replaceDollarZeroStringsIn:self.receiveName fromPatch:patch];
 }
 
 #pragma mark Overridden Getters / Setters

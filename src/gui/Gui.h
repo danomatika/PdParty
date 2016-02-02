@@ -90,7 +90,7 @@
 
 #pragma mark Utils
 
-/// replace any occurrances of "//$0" or "$0" with the given patches' dollar zero id
+/// replace any occurrances of "//$0" or "#0" with the given patches' dollar zero id
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch;
 
 /// convert atom string empty values to an empty string

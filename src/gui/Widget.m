@@ -84,6 +84,7 @@
 	}
 }
 
+// override if label shouldn't replace $0 or #0
 - (void)replaceDollarZerosForGui:(Gui *)gui fromPatch:(PdFile *)patch {
 	self.sendName = [gui replaceDollarZeroStringsIn:self.sendName fromPatch:patch];
 	self.receiveName = [gui replaceDollarZeroStringsIn:self.receiveName fromPatch:patch];
