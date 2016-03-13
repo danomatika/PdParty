@@ -33,7 +33,7 @@
 	<key>webServerPort</key>
 	<integer>8080</integer>
 	<key>micVolume</key>
-	<real>1</real>
+	<integer>1</integer>
 	<key>midiEnabled</key>
 	<false/>
 	<key>networkMidiEnabled</key>

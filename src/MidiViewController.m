@@ -97,7 +97,7 @@
 	UITableViewCell *cell;
 	
 	if(indexPath.section == 1) { // inputs
-		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiInputCell"];//] forIndexPath:indexPath];
+		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiInputCell"];
 		if(!cell) {
 			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MidiInputCell"];
 		}
@@ -106,7 +106,7 @@
 		cell.textLabel.text = [[midi.inputs objectAtIndex:indexPath.row] name];
 	}
 	else if(indexPath.section == 2) { // outputs
-		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiOutputCell"];//] forIndexPath:indexPath];
+		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiOutputCell"];
 		if(!cell) {
 			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MidiOutputCell"];
 		}
