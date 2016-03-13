@@ -23,7 +23,6 @@ mkdir -p $TEMP
 cp -Rv $CPDIR/* $TEMP
 
 # rj
-#git clone https://github.com/rjdj/rjlib.git
 git clone https://github.com/rjdj/rjlib.git
 cp -Rv rjlib/rj $TEMP
 rm -rf rjlib

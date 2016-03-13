@@ -20,7 +20,7 @@
 @implementation MidiViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	// set midi pointer
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -92,7 +92,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Customize the appearance of table view cells.
+	// Customize the appearance of table view cells.
 	
 	UITableViewCell *cell;
 	
@@ -118,7 +118,7 @@
 		cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 	}
 	
-    return cell;
+	return cell;
 }
 
 // the following are largely from this post https://devforums.apple.com/message/502990#502990

@@ -10,30 +10,30 @@
 @implementation TextViewLogger
 
 - (id)init {
-    self = [super init];
+	self = [super init];
 	if(self) {
 		self.text = [NSMutableString string];
 		self.lineCount = 0;
 	}
-    return self;
+	return self;
 }
 
 - (void)addLine:(NSString*)line {
-    @synchronized(self) {
+	@synchronized(self) {
 		// append & catch any embedded endlines
 		[self.text appendFormat:@"%@%@", (self.lineCount > 0 ? @"\n" : @""), line];
 		self.lineCount += [[line componentsSeparatedByString:@"\n"] count];
 		
-        // pop oldest lines
-        while(self.lineCount >= MAX_LINES) {
+		// pop oldest lines
+		while(self.lineCount >= MAX_LINES) {
 			NSRange endline = [self.text rangeOfString:@"\n"];
 			[self.text deleteCharactersInRange:NSMakeRange(0, endline.location+1)];
 			self.lineCount--;
-        }
-        
-        // update textview, if any
-        [self update];
-    }
+		}
+		
+		// update textview, if any
+		[self update];
+	}
 }
 
 - (void)update {
@@ -46,7 +46,7 @@
 				    !self.textView.decelerating && !self.textView.zooming) &&
 				   (self.textView.contentOffset.y + CGRectGetHeight(self.textView.bounds) >=
 				    self.textView.contentSize.height - self.textView.font.lineHeight*2)) {
-				   scroll = YES;
+					scroll = YES;
 				}
 				[self updateText];
 				if(scroll) {

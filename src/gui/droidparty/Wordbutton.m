@@ -55,7 +55,7 @@
 
 - (void)drawRect:(CGRect)rect {
 
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	CGContextSetLineWidth(context, 1.0);
 	

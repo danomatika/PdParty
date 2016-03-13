@@ -20,31 +20,31 @@
 enum MidiStatus {
 
 	// channel voice messages
-	MIDI_NOTE_OFF			= 0x80,
-	MIDI_NOTE_ON			= 0x90,
-	MIDI_CONTROL_CHANGE		= 0xB0,
-	MIDI_PROGRAM_CHANGE		= 0xC0,
-	MIDI_PITCH_BEND			= 0xE0,
-	MIDI_AFTERTOUCH			= 0xD0,	// aka channel pressure
-	MIDI_POLY_AFTERTOUCH	= 0xA0,	// aka key pressure
+	MIDI_NOTE_OFF           = 0x80,
+	MIDI_NOTE_ON            = 0x90,
+	MIDI_CONTROL_CHANGE     = 0xB0,
+	MIDI_PROGRAM_CHANGE     = 0xC0,
+	MIDI_PITCH_BEND         = 0xE0,
+	MIDI_AFTERTOUCH         = 0xD0, // aka channel pressure
+	MIDI_POLY_AFTERTOUCH    = 0xA0, // aka key pressure
 
 	// system messages
-	MIDI_SYSEX				= 0xF0,
-	MIDI_TIME_CODE			= 0xF1,
-	MIDI_SONG_POS_POINTER	= 0xF2,
-	MIDI_SONG_SELECT		= 0xF3,
-	MIDI_TUNE_REQUEST		= 0xF6,
-	MIDI_SYSEX_END			= 0xF7,
-	MIDI_TIME_CLOCK			= 0xF8,
-	MIDI_START				= 0xFA,
-	MIDI_CONTINUE			= 0xFB,
-	MIDI_STOP				= 0xFC,
-	MIDI_ACTIVE_SENSING		= 0xFE,
-	MIDI_SYSTEM_RESET		= 0xFF
+	MIDI_SYSEX              = 0xF0,
+	MIDI_TIME_CODE          = 0xF1,
+	MIDI_SONG_POS_POINTER   = 0xF2,
+	MIDI_SONG_SELECT        = 0xF3,
+	MIDI_TUNE_REQUEST       = 0xF6,
+	MIDI_SYSEX_END          = 0xF7,
+	MIDI_TIME_CLOCK         = 0xF8,
+	MIDI_START              = 0xFA,
+	MIDI_CONTINUE           = 0xFB,
+	MIDI_STOP               = 0xFC,
+	MIDI_ACTIVE_SENSING     = 0xFE,
+	MIDI_SYSTEM_RESET       = 0xFF
 };
 
 // number range defines
-// because it's sometimes hard to remember these  ...
+// because it's sometimes hard to remember these...
 #define MIDI_MIN_BEND 0
 #define MIDI_MAX_BEND 16383
 
@@ -62,11 +62,11 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 @interface Midi () {
 	
-	unsigned long long lastTime;	// timestamp from last packet
-	bool bFirstPacket;				// is this the first received packet?
-	bool bContinueSysex;			// is this packet part of a sysex message?
+	unsigned long long lastTime; // timestamp from last packet
+	bool bFirstPacket;           // is this the first received packet?
+	bool bContinueSysex;         // is this packet part of a sysex message?
 
-	NSMutableData *messageIn, *messageOut;	// raw byte buffers
+	NSMutableData *messageIn, *messageOut; // raw byte buffers
 }
 
 @property (strong, nonatomic) PGMidi *midi; // underlying pgmidi object
@@ -228,8 +228,8 @@ uint64_t absoluteToNanos(uint64_t time) {
 	unsigned long long time;
 	double delta = 0.0;
 
-    for(int i = 0; i < packetList->numPackets; ++i) {
-       
+	for(int i = 0; i < packetList->numPackets; ++i) {
+
 		nBytes = packet->length;
 		if(nBytes == 0)
 			continue;
@@ -496,11 +496,11 @@ uint64_t absoluteToNanos(uint64_t time) {
 //		[Util logData:message withHeader:@"Midi: sending "];
 //	#endif
 
-    Byte packetBuffer[message.length+100];
-    MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
-    MIDIPacket *packet = MIDIPacketListInit(packetList);
+	Byte packetBuffer[message.length+100];
+	MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
+	MIDIPacket *packet = MIDIPacketListInit(packetList);
 	
-    packet = MIDIPacketListAdd(packetList, sizeof(packetBuffer), packet, 0, message.length, message.bytes);
+	packet = MIDIPacketListAdd(packetList, sizeof(packetBuffer), packet, 0, message.length, message.bytes);
 
 	for(PGMidiDestination *destination in self.midi.destinations) {
 		[destination sendPacketList:packetList];
@@ -513,10 +513,10 @@ uint64_t absoluteToNanos(uint64_t time) {
 //	#endif
 
 	Byte packetBuffer[message.length];
-    MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
-    MIDIPacket *packet = MIDIPacketListInit(packetList);
+	MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
+	MIDIPacket *packet = MIDIPacketListInit(packetList);
 
-    packet = MIDIPacketListAdd(packetList, sizeof(packetBuffer), packet, 0, message.length, message.bytes);
+	packet = MIDIPacketListAdd(packetList, sizeof(packetBuffer), packet, 0, message.length, message.bytes);
 	
 	PGMidiDestination *destination = [self.midi.destinations objectAtIndex:port];
 	if(destination) {

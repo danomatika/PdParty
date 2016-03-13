@@ -17,12 +17,12 @@
 @implementation IEMWidget
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
-    self = [super initWithAtomLine:line andGui:gui];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.labelFontStyle = 0;
 		self.labelFontSize = 10;
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)reshape {

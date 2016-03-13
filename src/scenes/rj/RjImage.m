@@ -36,12 +36,12 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
-    if(self) {
+	if(self) {
 		_scaleX = 1.0f;
 		_scaleY = 1.0f;
 		_angle = 0.0f;
-    }
-    return self;
+	}
+	return self;
 }
 
 // TODO: edge antialiasing for rotations?

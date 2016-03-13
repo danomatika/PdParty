@@ -53,7 +53,7 @@
 	if([[segue identifier] isEqualToString:@"runScene"]) { // load the selected patch
 		// iPhone opens here
 		[[segue destinationViewController] openScene:selectedPatch withType:selectedSceneType];
-    }
+	}
 }
 
 - (BOOL)tryOpeningPath:(NSString*)path {
@@ -120,16 +120,16 @@
 		if([zip UnzipOpenFile:path]) {
 			if(![zip UnzipFileTo:[Util documentsPath] overWrite:YES]) {
 				DDLogError(@"Browser: couldn't open zipfile: %@", path);
-                UIAlertView *alert = [[UIAlertView alloc]
+				UIAlertView *alert = [[UIAlertView alloc]
                                       initWithTitle: @"Unzip Failed"
                                       message: [NSString stringWithFormat:@"Could not decompress %@", filename]
                                       delegate: nil
                                       cancelButtonTitle:@"OK"
                                       otherButtonTitles:nil];
-                [alert show];
-            }
-            [zip UnzipCloseFile];
-        }
+				[alert show];
+			}
+			[zip UnzipCloseFile];
+		}
 		else {
 			DDLogError(@"Browser: couldn't unzip %@", path);
 			UIAlertView *alert = [[UIAlertView alloc]

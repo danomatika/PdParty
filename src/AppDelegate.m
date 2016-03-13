@@ -34,7 +34,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+	// Override point for customization after application launch.
 	
 	// light status bar text on iOS 7
 	if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
@@ -43,9 +43,9 @@
 	
 	// setup split view on iPad
 	if([Util isDeviceATablet]) {
-	    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-	    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-	    splitViewController.delegate = (id)navigationController.topViewController;
+		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+		UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+		splitViewController.delegate = (id)navigationController.topViewController;
 		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
 	}
 	
@@ -238,7 +238,7 @@
 		return nil;
 	}
 	return [[UIBarButtonItem alloc] initWithTitle:@"Now Playing"
-											style:UIBarButtonItemStylePlain
+										   style:UIBarButtonItemStylePlain
 										   target:self
 										   action:@selector(nowPlayingPressed:)];
 }

@@ -21,7 +21,7 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
-    if(self) {
+	if(self) {
 		_fontSize = 12;
 		
 		self.label = [[UILabel alloc] initWithFrame:CGRectZero];

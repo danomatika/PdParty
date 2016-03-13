@@ -39,15 +39,15 @@
 #pragma mark App
 
 + (CGFloat)appWidth {
-    return [UIScreen mainScreen].applicationFrame.size.width;
+	return [UIScreen mainScreen].applicationFrame.size.width;
 }
 
 + (CGFloat)appHeight {
-    return [UIScreen mainScreen].applicationFrame.size.height;
+	return [UIScreen mainScreen].applicationFrame.size.height;
 }
 
 + (CGSize)appSize {
-    return CGSizeMake(
+	return CGSizeMake(
 		[UIScreen mainScreen].applicationFrame.size.width,
 		[UIScreen mainScreen].applicationFrame.size.height);
 }

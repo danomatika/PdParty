@@ -218,7 +218,7 @@
 
 - (void)setValue:(float)f {
 	_value = f;
-    [self setNeedsDisplay];
+	[self setNeedsDisplay];
 }
 
 - (void)setReceiveName:(NSString *)name {
@@ -255,34 +255,34 @@ static PdDispatcher *dispatcher = nil;
 // adapted from void my_numbox_ftoa(t_my_numbox *x) in g_numbox.c
 + (NSString *)stringFromFloat:(double)f withWidth:(int)width {
 
-    BOOL is_exp = NO;
+	BOOL is_exp = NO;
 	int i, idecimal;
-    NSMutableString *string = [NSMutableString stringWithFormat:@"%g", f];
+	NSMutableString *string = [NSMutableString stringWithFormat:@"%g", f];
 	
 	// if it is in exponential mode
-    if(string.length >= 5) {
-        i = (int)string.length - 4;
-        if(([string characterAtIndex:i] == 'e') || ([string characterAtIndex:i] == 'E'))
-            is_exp = YES;
-    }
+	if(string.length >= 5) {
+		i = (int)string.length - 4;
+		if(([string characterAtIndex:i] == 'e') || ([string characterAtIndex:i] == 'E'))
+			is_exp = YES;
+	}
 	
 	// if to reduce
-    if(string.length > width) {
-        if(is_exp) {
-            if(width <= 5) {
+	if(string.length > width) {
+		if(is_exp) {
+			if(width <= 5) {
 				[string setString:(f < 0.0 ? @"-" : @"+")];
-            }
-            i = (int)string.length - 4;
-            for(idecimal = 0; idecimal < i; idecimal++) {
-                if([string characterAtIndex:idecimal] == '.') {
+			}
+			i = (int)string.length - 4;
+			for(idecimal = 0; idecimal < i; idecimal++) {
+				if([string characterAtIndex:idecimal] == '.') {
 					break;
 				}
 			}
-            if(idecimal > (width - 4)){
-                [string setString:(f < 0.0 ? @"-" : @"+")];
-            }
-            else {
-                int new_exp_index = width-4, old_exp_index = (int)string.length-4;
+			if(idecimal > (width - 4)){
+				[string setString:(f < 0.0 ? @"-" : @"+")];
+			}
+			else {
+				int new_exp_index = width-4, old_exp_index = (int)string.length-4;
 				// check index here since original algorithm was designed for a
 				// fixed length string buffer and simply moved the null terminator around,
 				// but we're using a dynamic length Obj-C string
@@ -293,21 +293,21 @@ static PdDispatcher *dispatcher = nil;
 					[string deleteCharactersInRange:NSMakeRange(width, string.length-width)];
 				}
 			}
-        }
-        else {
-            for(idecimal = 0; idecimal < (int)string.length; idecimal++) {
-                if([string characterAtIndex:idecimal] == '.') {
+		}
+		else {
+			for(idecimal = 0; idecimal < (int)string.length; idecimal++) {
+				if([string characterAtIndex:idecimal] == '.') {
 					break;
 				}
 			}
 			if(idecimal > width) {
 				[string setString:(f < 0.0 ? @"-" : @"+")];
-            }
+			}
 			else {
 				[string deleteCharactersInRange:NSMakeRange(width, string.length-width)];
 			}
-        }
-    }
+		}
+	}
 	return string;
 }
 

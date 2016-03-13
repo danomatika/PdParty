@@ -25,7 +25,7 @@
 @implementation StartViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	if(!self.server) {
 		self.server = [[WebServer alloc] init];

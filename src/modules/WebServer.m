@@ -31,11 +31,11 @@
 
 - (id)init {
 	self = [super init];
-    if(self) {
+	if(self) {
 		server = [[HTTPServer alloc] init];
 		[server setPort:[[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"]];
-    }
-    return self;
+	}
+	return self;
 }
 
 - (BOOL)start:(NSString *)directory {

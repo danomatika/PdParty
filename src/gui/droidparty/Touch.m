@@ -44,7 +44,7 @@
 
 - (void)drawRect:(CGRect)rect {
 
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	CGContextSetLineWidth(context, 1.0);
 	
@@ -73,7 +73,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	CGPoint pos = [touch locationInView:self];
 	[self sendList:[NSArray arrayWithObjects:
 		[NSNumber numberWithFloat:(pos.x / CGRectGetWidth(self.frame))],
 		[NSNumber numberWithFloat:(pos.y / CGRectGetHeight(self.frame))], nil]];
@@ -82,7 +82,7 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	CGPoint pos = [touch locationInView:self];
 	[self sendList:[NSArray arrayWithObjects:
 		[NSNumber numberWithFloat:(pos.x / CGRectGetWidth(self.frame))],
 		[NSNumber numberWithFloat:(pos.y / CGRectGetHeight(self.frame))], nil]];

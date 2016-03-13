@@ -14,12 +14,12 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
-    if(self) {
+	if(self) {
 		self.autoresizesSubviews = NO;
 		self.hidden = NO;
 		_centered = YES;
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)dealloc {

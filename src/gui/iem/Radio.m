@@ -63,9 +63,9 @@
 
 - (void)drawRect:(CGRect)rect {
 
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, 1.0);
 	
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
@@ -154,8 +154,8 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
-    UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	UITouch *touch = [touches anyObject];
+	CGPoint pos = [touch locationInView:self];
 	if(self.orientation == WidgetOrientationHorizontal) {
 		self.value = pos.x/round(self.size * self.gui.scaleX);
 	}

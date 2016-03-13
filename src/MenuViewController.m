@@ -40,8 +40,8 @@
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    
+	[super viewDidLoad];
+	
 	// make sure the cell class is known
 	[self.collectionView registerClass:UICollectionViewCell.class forCellWithReuseIdentifier:@"MenuCell"];
 	

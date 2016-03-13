@@ -20,7 +20,7 @@
 // RjDj event receivers
 #define RJ_TRANSPORT_R  @"#transport"
 #define RJ_VOLUME_R     @"#volume"
-#define RJ_MICVOLUME_R	@"#micvolume"
+#define RJ_MICVOLUME_R  @"#micvolume"
 #define RJ_TOUCH_R      @"#touch"
 #define RJ_ACCELERATE_R @"#accelerate"
 #define RJ_GYRO_R       @"#gyro"

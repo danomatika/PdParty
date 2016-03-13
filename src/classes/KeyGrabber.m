@@ -17,52 +17,52 @@
 @implementation KeyGrabberView
 
 - (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    self.inputView = [[UIView alloc] initWithFrame:CGRectZero];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-    return self;
+	self = [super initWithFrame:frame];
+	self.inputView = [[UIView alloc] initWithFrame:CGRectZero];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+	return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)didEnterBackground {
-    if(self.active) {
-        [self resignFirstResponder];
+	if(self.active) {
+		[self resignFirstResponder];
 	}
 }
 
 - (void)didBecomeActive {
-    if(self.active) {
-        [self becomeFirstResponder];
+	if(self.active) {
+		[self becomeFirstResponder];
 	}
 }
 
 - (BOOL)canBecomeFirstResponder { 
-    return YES; 
+	return YES; 
 }
 
 #pragma mark Overridden Getters/Setters
 
 - (void)setActive:(BOOL)value {
-    if(self.active == value) {
+	if(self.active == value) {
 		return;
-    }
-    _active = value;
-    if(self.active) {
-        [self becomeFirstResponder];
-    } else {
-        [self resignFirstResponder];
-    }
+	}
+	_active = value;
+	if(self.active) {
+		[self becomeFirstResponder];
+	} else {
+		[self resignFirstResponder];
+	}
 }
 
 #pragma mark UIKeyInput
 
 - (BOOL)hasText {
-    return NO;
+	return NO;
 }
 
 - (void)insertText:(NSString *)theText {

@@ -30,8 +30,8 @@
 @implementation ControlsView
 
 - (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if(self) {
+	self = [super initWithFrame:frame];
+	if(self) {
 		self.translatesAutoresizingMaskIntoConstraints = NO;
 		
 		self.defaultHeight = [ControlsView baseHeight];

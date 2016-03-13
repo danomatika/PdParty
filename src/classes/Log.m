@@ -23,38 +23,38 @@
 static TextViewLogger *s_textViewLogger = nil;;
 
 + (void)setup {
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"logLevel"]) {
-        ddLogLevel = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"];
-    }
+	[DDLog addLogger:[DDTTYLogger sharedInstance]];
+	if([[NSUserDefaults standardUserDefaults] objectForKey:@"logLevel"]) {
+		ddLogLevel = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"];
+	}
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"logTextView"]) {
 		[Log enableTextViewLogger:YES];
 	}
-    DDLogInfo(@"Log level: %d", ddLogLevel);
+	DDLogInfo(@"Log level: %d", ddLogLevel);
 }
 
 #pragma mark Log Levels
 
 + (void)setLogLevel:(int)logLevel {
-    ddLogLevel = logLevel;
+	ddLogLevel = logLevel;
 	[[NSUserDefaults standardUserDefaults] setInteger:ddLogLevel forKey:@"logLevel"];
 }
 
 + (int)logLevel {
-    return ddLogLevel;
+	return ddLogLevel;
 }
 
 + (int)defaultLogLevel {
-    if([[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"]) {
-        return (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"];
-    }
-    return ddLogLevel;
+	if([[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"]) {
+		return (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"];
+	}
+	return ddLogLevel;
 }
 
 #pragma mark TextViewLogger
 
 + (TextViewLogger *)textViewLogger {
-    return s_textViewLogger;
+	return s_textViewLogger;
 }
 
 + (void)enableTextViewLogger:(BOOL)enable {

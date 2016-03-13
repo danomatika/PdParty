@@ -121,8 +121,8 @@
 }
 
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[super didReceiveMemoryWarning];
+	// Dispose of any resources that can be recreated.
 }
 
 // lock orientation based on scene's preferred orientation mask
@@ -302,15 +302,15 @@
 			barButtonItem.title = @"Patches";
 		}
 	}
-    
+
 	[self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
-    self.masterPopoverController = popoverController;
+	self.masterPopoverController = popoverController;
 }
 
 - (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    // Called when the view is shown again in the split view, invalidating the button and popover controller.
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    self.masterPopoverController = nil;
+	// Called when the view is shown again in the split view, invalidating the button and popover controller.
+	[self.navigationItem setLeftBarButtonItem:nil animated:YES];
+	self.masterPopoverController = nil;
 }
 
 // hide master view controller by default on all orientations
@@ -320,7 +320,7 @@
 
 // hide controls popover when browser is shown on iPad
 - (void)splitViewController:(UISplitViewController *)splitController popoverController:(UIPopoverController *)popoverController willPresentViewController:(UIViewController *)viewController {
-    [self dismissControlsPopover];
+	[self dismissControlsPopover];
 }
 
 #pragma mark Private

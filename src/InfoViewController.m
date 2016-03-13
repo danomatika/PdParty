@@ -26,7 +26,7 @@
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	sceneManager = app.sceneManager;

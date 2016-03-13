@@ -140,12 +140,12 @@
 #pragma mark UIAdaptivePresentationControllerDelegate
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    return UIModalPresentationNone; // specify this particular value in order to make it work on iPhone
+	return UIModalPresentationNone; // specify this particular value in order to make it work on iPhone
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller traitCollection:(UITraitCollection *)traitCollection {
 	// this method is called in iOS 8.3 or later regardless of trait collection, in which case use the original presentation style (UIModalPresentationNone signals no adaptation)
-    return UIModalPresentationNone;
+	return UIModalPresentationNone;
 }
 
 @end

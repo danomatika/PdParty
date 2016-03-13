@@ -20,28 +20,28 @@
 @implementation AtomWidget
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
-    self = [super initWithAtomLine:line andGui:gui];
-    if(self) {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
 		self.valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.valueLabel.textAlignment = NSTextAlignmentLeft;
 		self.valueLabel.lineBreakMode = NSLineBreakByClipping;
 		self.valueLabel.backgroundColor = [UIColor clearColor];
 		[self addSubview:self.valueLabel];
 	}
-    return self;
+	return self;
 }
 
 - (void)drawRect:(CGRect)rect {
 
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	CGContextSetLineWidth(context, 1.0);
 
 	// bounds as path
 	CGMutablePathRef path = CGPathCreateMutable();
-    CGPathMoveToPoint(path, NULL, 0, 0);
+	CGPathMoveToPoint(path, NULL, 0, 0);
 	CGPathAddLineToPoint(path, NULL, rect.size.width-cornerSize, 0);
-    CGPathAddLineToPoint(path, NULL, rect.size.width-1, cornerSize);
+	CGPathAddLineToPoint(path, NULL, rect.size.width-1, cornerSize);
 	CGPathAddLineToPoint(path, NULL, rect.size.width-1, rect.size.height-1);
 	CGPathAddLineToPoint(path, NULL, 0, rect.size.height-1);
 	CGPathAddLineToPoint(path, NULL, 0, 0);

@@ -73,7 +73,7 @@
 
 - (void)drawRect:(CGRect)rect {
 
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	CGContextSetLineWidth(context, 1.0);
 	
@@ -212,12 +212,12 @@
 
 // form g_bang.c
 - (void)checkFlashTimes {
-    if(self.interruptTimeMS > self.holdTimeMS) {
-        float h;
-        h = self.holdTimeMS;
+	if(self.interruptTimeMS > self.holdTimeMS) {
+		float h;
+		h = self.holdTimeMS;
 		self.holdTimeMS = self.interruptTimeMS;
-        self.interruptTimeMS = h;
-    }
+		self.interruptTimeMS = h;
+	}
 }
 
 - (void)stopFlash:(NSTimer *)timer {

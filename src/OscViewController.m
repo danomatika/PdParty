@@ -30,7 +30,7 @@
 @implementation OscViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	// set Osc pointer
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -50,8 +50,8 @@
 }
 
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[super didReceiveMemoryWarning];
+	// Dispose of any resources that can be recreated.
 }
 
 - (void)viewDidUnload {
@@ -125,7 +125,7 @@
 
 // from http://code-ninja.org/blog/2012/02/29/ios-quick-tip-programmatically-hiding-sections-of-a-uitableview-with-static-cells/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 0 && osc.isListening) {
+	if(section == 0 && osc.isListening) {
 		return 5;	// hide cells based on listening status
 	}
 	return 1;

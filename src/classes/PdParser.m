@@ -56,8 +56,8 @@
 	
 	// convert buffer to string
 	return [[NSString alloc] initWithBytes:[buffer bytes]
-                                            length:buffer.length
-											encoding:NSUTF8StringEncoding];
+                                    length:buffer.length
+                                  encoding:NSUTF8StringEncoding];
 }
 
 // icu regex doc: http://userguide.icu-project.org/strings/regexp

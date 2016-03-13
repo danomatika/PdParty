@@ -100,7 +100,7 @@
 - (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments {
 	if(!self.isListening) return;
 	OSCMutableMessage *m = [[OSCMutableMessage alloc] init];
-    m.address = address;
+	m.address = address;
 	for(NSObject *object in arguments) {
 		[m addArgument:object];
 	}
@@ -120,7 +120,7 @@
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
 	if(!self.isListening || !self.touchSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_TOUCH_ADDR;
+	message.address = OSC_TOUCH_ADDR;
 	[message addString:eventType];
 	[message addFloat:id+1];
 	[message addFloat:x];
@@ -131,7 +131,7 @@
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_ACCEL_ADDR;
+	message.address = OSC_ACCEL_ADDR;
 	[message addFloat:x];
 	[message addFloat:y];
 	[message addFloat:z];
@@ -141,7 +141,7 @@
 - (void)sendGyro:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_GYRO_ADDR;
+	message.address = OSC_GYRO_ADDR;
 	[message addFloat:x];
 	[message addFloat:y];
 	[message addFloat:z];
@@ -151,7 +151,7 @@
 - (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_LOCATION_ADDR;
+	message.address = OSC_LOCATION_ADDR;
 	[message addFloat:lat];
 	[message addFloat:lon];
 	[message addFloat:accuracy];
@@ -161,7 +161,7 @@
 - (void)sendCompass:(float)degrees {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_COMPASS_ADDR;
+	message.address = OSC_COMPASS_ADDR;
 	[message addFloat:degrees];
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
@@ -174,7 +174,7 @@
 - (void)sendMagnet:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_MAGNET_ADDR;
+	message.address = OSC_MAGNET_ADDR;
 	[message addFloat:x];
 	[message addFloat:y];
 	[message addFloat:z];
@@ -184,7 +184,7 @@
 - (void)sendKey:(int)key {
 	if(!self.isListening || !self.keySendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_KEY_ADDR;
+	message.address = OSC_KEY_ADDR;
 	[message addFloat:key];
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
@@ -192,7 +192,7 @@
 - (void)sendPrint:(NSString *)print {
 	if(!self.isListening || !self.printSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-    message.address = OSC_PRINT_ADDR;
+	message.address = OSC_PRINT_ADDR;
 	[message addString:print];
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }

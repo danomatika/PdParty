@@ -90,15 +90,15 @@
 
 - (void)drawRect:(CGRect)rect {
 
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	CGContextSetLineWidth(context, 1.0);
 	
 	// bounds as path
 	CGMutablePathRef path = CGPathCreateMutable();
-    CGPathMoveToPoint(path, NULL, 0, 0);
+	CGPathMoveToPoint(path, NULL, 0, 0);
 	CGPathAddLineToPoint(path, NULL, rect.size.width-cornerSize, 0);
-    CGPathAddLineToPoint(path, NULL, rect.size.width-1, cornerSize);
+	CGPathAddLineToPoint(path, NULL, rect.size.width-1, cornerSize);
 	CGPathAddLineToPoint(path, NULL, rect.size.width-1, rect.size.height-1);
 	CGPathAddLineToPoint(path, NULL, 0, rect.size.height-1);
 	CGPathAddLineToPoint(path, NULL, 0, 0);
@@ -116,7 +116,7 @@
 	// triangle
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 1, 1);
+	CGContextMoveToPoint(context, 1, 1);
 	CGContextAddLineToPoint(context, rect.size.height/2, rect.size.height/2);
 	CGContextAddLineToPoint(context, 1, rect.size.height-1);
 	CGContextStrokePath(context);
@@ -192,15 +192,15 @@
 
 // from g_numbox.c
 - (void)setLogHeight:(float)logHeight {
-    if(logHeight < 10.0) {
-        logHeight = 10.0;
+	if(logHeight < 10.0) {
+		logHeight = 10.0;
 	}
-    _logHeight = logHeight;
-    if(self.log) {
-        convFactor = exp(log(self.maxValue / self.minValue) / (double)(_logHeight));
-    }
+	_logHeight = logHeight;
+	if(self.log) {
+		convFactor = exp(log(self.maxValue / self.minValue) / (double)(_logHeight));
+	}
 	else {
-        convFactor = 1.0;
+		convFactor = 1.0;
 	}
 }
 
@@ -211,8 +211,8 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
-    UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	UITouch *touch = [touches anyObject];
+	CGPoint pos = [touch locationInView:self];
 	touchPrevY = pos.y;
 	if(touches.count > 1) {
 		isOneFinger = NO;
@@ -223,8 +223,8 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	UITouch *touch = [touches anyObject];
+	CGPoint pos = [touch locationInView:self];
 	int diff = touchPrevY - pos.y;
 	if(diff != 0) {
 		double k2 = 1.0;
@@ -328,33 +328,33 @@
 
 // from g_numbox.c
 - (void)checkMinAndMax {
-    if(self.log) {
-        if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
-            self.maxValue = 1.0;
+	if(self.log) {
+		if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
+			self.maxValue = 1.0;
 		}
-        if(self.maxValue > 0.0) {
-            if(self.minValue <= 0.0) {
-                self.minValue = 0.01 * self.maxValue;
+		if(self.maxValue > 0.0) {
+			if(self.minValue <= 0.0) {
+				self.minValue = 0.01 * self.maxValue;
 			}
-        }
-        else {
-            if(self.minValue > 0.0) {
-                self.maxValue = 0.01 * self.minValue;
+		}
+		else {
+			if(self.minValue > 0.0) {
+				self.maxValue = 0.01 * self.minValue;
 			}
-        }
-    }
-    if(self.value < self.minValue) {
-        [self setValue:self.minValue];
-    }
-    if(self.value > self.maxValue) {
-        [self setValue:self.maxValue];
-    }
-    if(self.log) {
-        convFactor = exp(log(self.maxValue / self.minValue) / (double)(self.logHeight));
-    }
+		}
+	}
+	if(self.value < self.minValue) {
+		[self setValue:self.minValue];
+	}
+	if(self.value > self.maxValue) {
+		[self setValue:self.maxValue];
+	}
+	if(self.log) {
+		convFactor = exp(log(self.maxValue / self.minValue) / (double)(self.logHeight));
+	}
 	else {
-        convFactor = 1.0;
-    }
+		convFactor = 1.0;
+	}
 }
 
 @end
