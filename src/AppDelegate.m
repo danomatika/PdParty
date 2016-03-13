@@ -22,6 +22,7 @@
 
 @interface AppDelegate () {
 	UINavigationController *webViewNav; //< current URL web view navigation controller
+	BOOL audioEnabledWhenBackgrounded; //< YES if the audio was on when we backgrounded
 }
 
 /// recursively copy a given dir in the resource patches dir to the
@@ -110,6 +111,7 @@
 
 	// pause while backgrounded?
 	if(!self.runsInBackground) {
+		audioEnabledWhenBackgrounded = self.pureData.audioEnabled;
 		self.pureData.audioEnabled = NO;
 	}
 }
@@ -123,7 +125,7 @@
 	
 	// restart audio
 	if(!self.runsInBackground) {
-		self.pureData.audioEnabled = YES;
+		self.pureData.audioEnabled = audioEnabledWhenBackgrounded;
 	}
 }
 
