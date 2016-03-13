@@ -38,17 +38,17 @@
 	
 	if([Util deviceOSVersion] >= 7.0) {
 		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-												 initWithImage:[UIImage imageNamed:@"info"]
-												 style:UIBarButtonItemStylePlain
-												 target:self
-												 action:@selector(infoPressed:)];
+		                                         initWithImage:[UIImage imageNamed:@"info"]
+		                                         style:UIBarButtonItemStylePlain
+		                                         target:self
+		                                         action:@selector(infoPressed:)];
 	}
 	else { // light button on iOS 6
 		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-												 initWithImage:[Util image:[UIImage imageNamed:@"info"] withTint:[UIColor whiteColor]]
-												 style:UIBarButtonItemStylePlain
-												 target:self
-												 action:@selector(infoPressed:)];
+		                                         initWithImage:[Util image:[UIImage imageNamed:@"info"] withTint:[UIColor whiteColor]]
+		                                         style:UIBarButtonItemStylePlain
+		                                         target:self
+		                                         action:@selector(infoPressed:)];
 	}
 }
 
@@ -95,10 +95,10 @@
 		// check if wifi is on/reachable
 		if(![WebServer isLocalWifiReachable]) {
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Wifi?"
-																message:@"You need a Wifi connection in order to enable the server"
-															   delegate:self
-													  cancelButtonTitle:@"Ok"
-													  otherButtonTitles:nil];
+			                                                    message:@"You need a Wifi connection in order to enable the server"
+			                                                   delegate:self
+			                                          cancelButtonTitle:@"Ok"
+			                                          otherButtonTitles:nil];
 			[alertView show];
 			self.serverEnabledSwitch.on = NO; // reset switch
 			return;

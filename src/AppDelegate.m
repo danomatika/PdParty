@@ -160,11 +160,11 @@
 		if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
 			DDLogError(@"AppDelegate: couldn't move %@, error: %@", path, error.localizedDescription);
 			UIAlertView *alert = [[UIAlertView alloc]
-                                      initWithTitle: @"Copy Failed"
-                                      message: [NSString stringWithFormat:@"Could not copy %@ to Documents", filename]
-                                      delegate: nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
+			                          initWithTitle: @"Copy Failed"
+			                          message: [NSString stringWithFormat:@"Could not copy %@ to Documents", filename]
+			                          delegate: nil
+			                          cancelButtonTitle:@"OK"
+			                          otherButtonTitles:nil];
 			[alert show];
 			return NO;
 		}
@@ -172,52 +172,52 @@
 
 		DDLogVerbose(@"AppDelegate: copied %@ to Documents", filename);
 		UIAlertView *alert = [[UIAlertView alloc]
-                                      initWithTitle: @"Copy Succeeded"
-                                      message: [NSString stringWithFormat:@"%@ copied to Documents", filename]
-                                      delegate: nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
+			                          initWithTitle: @"Copy Succeeded"
+			                          message: [NSString stringWithFormat:@"%@ copied to Documents", filename]
+			                          delegate: nil
+			                          cancelButtonTitle:@"OK"
+			                          otherButtonTitles:nil];
 		[alert show];
 	}
 	else { // assume zip file
 		ZipArchive *zip = [[ZipArchive alloc] init];
 		if([zip UnzipOpenFile:path]) {
 			if([zip UnzipFileTo:[Util documentsPath] overWrite:YES]) {
-                if(![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) { // remove original file
+				if(![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) { // remove original file
 					DDLogError(@"AppDelegate: couldn't remove %@, error: %@", path, error.localizedDescription);
 				}
 			}
-            else{
+			else{
 				DDLogError(@"AppDelegate: couldn't open zipfile: %@", path);
-                UIAlertView *alert = [[UIAlertView alloc]
-                                      initWithTitle: @"Unzip Failed"
-                                      message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
-                                      delegate: nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
-                [alert show];
-            }
-            [zip UnzipCloseFile];
-        }
+				UIAlertView *alert = [[UIAlertView alloc]
+			                          initWithTitle: @"Unzip Failed"
+			                          message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
+			                          delegate: nil
+			                          cancelButtonTitle:@"OK"
+			                          otherButtonTitles:nil];
+				[alert show];
+			}
+			[zip UnzipCloseFile];
+		}
 		else {
 			DDLogError(@"AppDelegate: couldn't unzip %@ to Documents", path);
 			UIAlertView *alert = [[UIAlertView alloc]
-                                      initWithTitle: @"Unzip Failed"
-                                      message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
-                                      delegate: nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
+			                          initWithTitle: @"Unzip Failed"
+			                          message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
+			                          delegate: nil
+			                          cancelButtonTitle:@"OK"
+			                          otherButtonTitles:nil];
 			[alert show];
 			return NO;
 		}
 
 		DDLogVerbose(@"AppDelegate: unzipped %@ to Documents", filename);
 		UIAlertView *alert = [[UIAlertView alloc]
-								  initWithTitle: @"Unzip Succeeded"
-								  message: [NSString stringWithFormat:@"%@ unzipped to Documents", filename]
-								  delegate: nil
-								  cancelButtonTitle:@"OK"
-								  otherButtonTitles:nil];
+		                          initWithTitle: @"Unzip Succeeded"
+		                          message: [NSString stringWithFormat:@"%@ unzipped to Documents", filename]
+		                          delegate: nil
+		                          cancelButtonTitle:@"OK"
+		                          otherButtonTitles:nil];
 		[alert show];
 	}
 	
@@ -238,9 +238,9 @@
 		return nil;
 	}
 	return [[UIBarButtonItem alloc] initWithTitle:@"Now Playing"
-										   style:UIBarButtonItemStylePlain
-										   target:self
-										   action:@selector(nowPlayingPressed:)];
+	                                       style:UIBarButtonItemStylePlain
+	                                       target:self
+	                                       action:@selector(nowPlayingPressed:)];
 }
 
 - (void)nowPlayingPressed:(id)sender {
@@ -286,9 +286,9 @@
 		NSError *error;
 		if(![url checkResourceIsReachableAndReturnError:&error]) {
 			UIAlertView *alert = [[UIAlertView alloc]
-								  initWithTitle:@"Couldn't launch URL"
-								  message:error.localizedDescription
-								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+			                      initWithTitle:@"Couldn't launch URL"
+			                      message:error.localizedDescription
+			                      delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 			[alert show];
 			return;
 		}
@@ -303,9 +303,9 @@
 	controller.title = (title ? title : @"URL");
 	controller.modalPresentationStyle = UIModalPresentationPageSheet;
 	controller.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-													  initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-													  target:self
-													  action:@selector(doneButtonPressed:)];
+	                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+	                                                  target:self
+	                                                  action:@selector(doneButtonPressed:)];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
 	nav.navigationBar.barStyle = UIBarStyleBlack;
 	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
@@ -403,15 +403,15 @@
 @implementation UINavigationController (Rotation_IOS6)
 
 - (BOOL)shouldAutorotate {
-    return [self.topViewController shouldAutorotate];
+	return [self.topViewController shouldAutorotate];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return [self.topViewController supportedInterfaceOrientations];
+	return [self.topViewController supportedInterfaceOrientations];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return [self.topViewController preferredInterfaceOrientationForPresentation];
+	return [self.topViewController preferredInterfaceOrientationForPresentation];
 }
 
 @end
@@ -422,15 +422,15 @@
 @implementation UISplitViewController (Rotation_IOS6)
 
 - (BOOL)shouldAutorotate {
-    return [[self.viewControllers lastObject] shouldAutorotate];
+	return [[self.viewControllers lastObject] shouldAutorotate];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return [[self.viewControllers lastObject] supportedInterfaceOrientations];
+	return [[self.viewControllers lastObject] supportedInterfaceOrientations];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return [[self.viewControllers lastObject] preferredInterfaceOrientationForPresentation];
+	return [[self.viewControllers lastObject] preferredInterfaceOrientationForPresentation];
 }
 
 @end
