@@ -145,18 +145,18 @@
 	double g;
 	if(isReversed) {
 		value = CLAMP(value, self.maxValue, self.minValue);
-    }
-    else {
+	}
+	else {
 		value = CLAMP(value, self.minValue, self.maxValue);
-    }
+	}
 	[super setValue:value];
 
 	if(self.log) { // float to pos
-        g = log(value / self.minValue) / sizeConvFactor;
+		g = log(value / self.minValue) / sizeConvFactor;
 	}
-    else {
-        g = (value - self.minValue) / sizeConvFactor;
-    }
+	else {
+		g = (value - self.minValue) / sizeConvFactor;
+	}
 	_controlValue = (int)(100.0*g + 0.49999);
 	controlPos = _controlValue;
 }
@@ -167,14 +167,14 @@
 	
 	double g;
 	if(self.log) { // pos to float
-        g = self.minValue * exp(sizeConvFactor * (double)(controlValue) * 0.01);
-    }
+		g = self.minValue * exp(sizeConvFactor * (double)(controlValue) * 0.01);
+	}
 	else {
-        g = (double)(controlValue) * 0.01 * sizeConvFactor + self.minValue;
+		g = (double)(controlValue) * 0.01 * sizeConvFactor + self.minValue;
 	}
 	
-    if((g < 1.0e-10) && (g > -1.0e-10)) {
-        g = 0.0;
+	if((g < 1.0e-10) && (g > -1.0e-10)) {
+		g = 0.0;
 	}
 	[super setValue:g];
 }
@@ -212,8 +212,8 @@
 
 // from g_hslider.c & g_vslider.c
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
-    UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	UITouch *touch = [touches anyObject];
+	CGPoint pos = [touch locationInView:self];
 	
 	if([touches count] > 1) {
 		isOneFinger = NO;
@@ -248,8 +248,8 @@
 
 // from g_hslider.c & g_vslider.c
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    CGPoint pos = [touch locationInView:self];
+	UITouch *touch = [touches anyObject];
+	CGPoint pos = [touch locationInView:self];
 	
 	if(self.orientation == WidgetOrientationHorizontal) {
 		float delta = (pos.x - prevPos) / self.gui.scaleX;
@@ -389,8 +389,8 @@
 		size = CGRectGetHeight(self.originalFrame);
 	}
 
-    if(size < IEM_SL_MINSIZE) {
-        size = IEM_SL_MINSIZE;
+	if(size < IEM_SL_MINSIZE) {
+		size = IEM_SL_MINSIZE;
 		if(self.orientation == WidgetOrientationHorizontal) {
 			self.originalFrame = CGRectMake(
 				self.originalFrame.origin.x, self.originalFrame.origin.y,
@@ -404,40 +404,40 @@
 	}
 	
 	centerValue = (size-1) * 50;
-    if(self.controlValue > (size * 100 - 100)) {
-        self.controlValue = size * 100 - 100;
-    }
-    if(self.log) {
+	if(self.controlValue > (size * 100 - 100)) {
+		self.controlValue = size * 100 - 100;
+	}
+	if(self.log) {
 		sizeConvFactor = log(self.maxValue / self.minValue) / (double)(size - 1);
-    }
+	}
 	else {
-        sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
+		sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
 	}
 }
 
 // from g_hslider.c & g_vslider.c
 - (void)checkMinAndMax {
 	if(self.log) {
-        if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
+		if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
 			self.maxValue = 1.0;
 		}
-        if(self.maxValue > 0.0) {
-            if(self.minValue <= 0.0) {
-                self.minValue = 0.01 * self.maxValue;
+		if(self.maxValue > 0.0) {
+			if(self.minValue <= 0.0) {
+				self.minValue = 0.01 * self.maxValue;
 			}
-        }
-        else {
-            if(self.minValue > 0.0) {
-                self.maxValue = 0.01 * self.minValue;
+		}
+		else {
+			if(self.minValue > 0.0) {
+				self.maxValue = 0.01 * self.minValue;
 			}
-        }
-    }
-
-    if(self.minValue > self.maxValue) {
-        isReversed = YES;
+		}
 	}
-    else {
-        isReversed = NO;
+
+	if(self.minValue > self.maxValue) {
+		isReversed = YES;
+	}
+	else {
+		isReversed = NO;
 	}
 	
 	float size = CGRectGetWidth(self.originalFrame);
@@ -447,9 +447,9 @@
 	
 	if(self.log) {
 		sizeConvFactor = log(self.maxValue / self.minValue) / (double)(size - 1);
-    }
+	}
 	else {
-        sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
+		sizeConvFactor = (self.maxValue - self.minValue) / (double)(size - 1);
 	}
 }
 

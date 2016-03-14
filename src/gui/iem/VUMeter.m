@@ -75,7 +75,7 @@
 	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospace font
 	int yOffset = charSize.height / 2;
 
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
 	CGContextSetLineWidth(context, 1.0);
 		
@@ -93,15 +93,15 @@
 	CGContextStrokeRect(context, meterRect);
 	
 	// from g_vumeter.c
-    int w4 = CGRectGetWidth(self.originalFrame) / 4,
-        quad1 = ceil(w4 * self.gui.scaleX);
-    int quad3 = floor((CGRectGetWidth(self.originalFrame) - w4) * self.gui.scaleX),
-        end = floor((CGRectGetWidth(self.originalFrame) + 2) * self.gui.scaleX);
-    int k1 = ledSize + 1, k2 = IEM_VU_STEPS + 1, k3 = k1 / 2;
-    int yyy, i, k4 = -k3;
+	int w4 = CGRectGetWidth(self.originalFrame) / 4,
+		quad1 = ceil(w4 * self.gui.scaleX);
+	int quad3 = floor((CGRectGetWidth(self.originalFrame) - w4) * self.gui.scaleX),
+		end = floor((CGRectGetWidth(self.originalFrame) + 2) * self.gui.scaleX);
+	int k1 = ledSize + 1, k2 = IEM_VU_STEPS + 1, k3 = k1 / 2;
+	int yyy, i, k4 = -k3;
 	
 	for(i = 1; i <= IEM_VU_STEPS; ++i) {
-        yyy = round(((k4 + k1 * (k2 - i)) * self.gui.scaleX) + yOffset);
+		yyy = round(((k4 + k1 * (k2 - i)) * self.gui.scaleX) + yOffset);
 		
 		// fat line for overlap since spacing between is not pixel perfect when scaling
 		CGContextSetLineWidth(context, ceil((ledSize + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleX));
@@ -124,7 +124,7 @@
 		}
 				 
 		// scale
-        if(((i + 2) & 3) && self.showScale) {
+		if(((i + 2) & 3) && self.showScale) {
 			yyy = round((k1 * (k2 - i)) * self.gui.scaleX);
 			NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
 			if(vuString.length > 0) {
@@ -177,35 +177,35 @@
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)f {
-    int i;
+	int i;
 	if(f <= IEM_VU_MINDB) {
 		rmsLed = 0;
-    }
+	}
 	else if(f >= IEM_VU_MAXDB) {
 		rmsLed = IEM_VU_STEPS;
-    }
+	}
 	else {
-        i = (int)(2.0 * (f + IEM_VU_OFFSET));
-        rmsLed = iemgui_vu_db2i[i];
-    }
-    i = (int)((100.0 * f) + 10000.5);
-    [super setValue:(0.01 * (i - 10000))];
+		i = (int)(2.0 * (f + IEM_VU_OFFSET));
+		rmsLed = iemgui_vu_db2i[i];
+	}
+	i = (int)((100.0 * f) + 10000.5);
+	[super setValue:(0.01 * (i - 10000))];
 }
 
 - (void)setPeakValue:(float)peakValue {
-    int i;
-    if(peakValue <= IEM_VU_MINDB) {
-        peakLed = 0;
+	int i;
+	if(peakValue <= IEM_VU_MINDB) {
+		peakLed = 0;
 	}
-    else if(peakValue >= IEM_VU_MAXDB) {
-        peakLed = IEM_VU_STEPS;
+	else if(peakValue >= IEM_VU_MAXDB) {
+		peakLed = IEM_VU_STEPS;
 	}
-    else {
-        i = (int)(2.0 * (peakValue + IEM_VU_OFFSET));
-        peakLed = iemgui_vu_db2i[i];
-    }
-    i = (int)(100.0 * peakValue + 10000.5);
-    _peakValue = 0.01 * (i - 10000);
+	else {
+		i = (int)(2.0 * (peakValue + IEM_VU_OFFSET));
+		peakLed = iemgui_vu_db2i[i];
+	}
+	i = (int)(100.0 * peakValue + 10000.5);
+	_peakValue = 0.01 * (i - 10000);
 	// doesn't call setNeedsDisplay,
 	// rms & peak values come in pairs so only redisplay once when setting rms
 }
@@ -294,10 +294,10 @@
 // from g_vumeter.c
 - (void)checkHeight {
 	int n = CGRectGetHeight(self.originalFrame) / IEM_VU_STEPS;
-    if(n < IEM_VU_MINSIZE) {
-        n = IEM_VU_MINSIZE;
+	if(n < IEM_VU_MINSIZE) {
+		n = IEM_VU_MINSIZE;
 	}
-    ledSize = n-1;
+	ledSize = n-1;
 	CGRect frame = self.originalFrame;
 	frame.size.height = IEM_VU_STEPS * n;
 	self.originalFrame = frame;

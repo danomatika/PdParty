@@ -172,17 +172,17 @@
 // http://stackoverflow.com/questions/2765537/how-do-i-use-the-nsstring-draw-functionality-to-create-a-uiimage-from-text#2768081
 + (UIImage *)imageFromString:(NSString *)string withFont:(UIFont*)font {
 	
-    CGSize size  = [string sizeWithFont:font];
+	CGSize size  = [string sizeWithFont:font];
 	UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
 
-    // draw in context, you can use also drawInRect:withFont:
-    [string drawAtPoint:CGPointMake(0.0, 0.0) withFont:font];
+	// draw in context, you can use also drawInRect:withFont:
+	[string drawAtPoint:CGPointMake(0.0, 0.0) withFont:font];
 
-    // transfer image
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();    
+	// transfer image
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();    
 
-    return image;
+	return image;
 }
 
 + (UIImage *)image:(UIImage *)image withTint:(UIColor *)tint {
@@ -233,11 +233,11 @@
 
 + (id)parseJSONFromFile:(NSString *)path {
 	NSError *error;
-    id data = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:&error];
-    if(!data) {
-        DDLogError(@"Util: parsing JSON from %@ failed: %@", path, error.debugDescription);
-    }
-    return data;
+	id data = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:&error];
+	if(!data) {
+		DDLogError(@"Util: parsing JSON from %@ failed: %@", path, error.debugDescription);
+	}
+	return data;
 }
 
 @end
