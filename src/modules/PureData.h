@@ -103,8 +103,8 @@
 - (int)calculateBufferSize;
 
 /// calculate the latency in ms: (buffer size / samplerate) * 2
-/// 4 tpb * 64 = 256, latency = (256 / 44100) * 2 = 11.6 ms
-- (float)calculateLatency;
+/// 4 tpb * 64 = 256, latency = (256 / 44100) * 2 = ~12 ms
+- (int)calculateLatency;
 
 #pragma mark Current Play Values
 

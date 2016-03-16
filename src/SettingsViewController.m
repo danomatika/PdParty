@@ -101,7 +101,6 @@
 	app.pureData.autoLatency = self.autoLatencySwitch.isOn;
 	self.ticksPerBufferSegmentedControl.enabled = !app.pureData.autoLatency;
 	self.ticksPerBufferSegmentedControl.userInteractionEnabled = !app.pureData.autoLatency;
-	//self.ticksPerBufferSegmentedControl.tintColor = [UIColor grayColor];
 }
 
 - (IBAction)ticksPerBufferChanged:(id)sender {
@@ -156,7 +155,7 @@
 #pragma mark Private
 
 - (void)updateLatencyLabel {
-	self.latencyLabel.text = [NSString stringWithFormat:@"%.1f ms @ %d Hz",
+	self.latencyLabel.text = [NSString stringWithFormat:@"%d ms @ %d Hz",
 		[app.pureData calculateLatency], app.pureData.sampleRate];
 }
 

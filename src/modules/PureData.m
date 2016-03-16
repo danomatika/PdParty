@@ -82,8 +82,8 @@
 	return audioController.ticksPerBuffer * [PdBase getBlockSize];
 }
 
-- (float)calculateLatency {
-	return ((float)[self calculateBufferSize] / (float)audioController.sampleRate) * 2.0 * 1000;
+- (int)calculateLatency {
+	return round(((float)[self calculateBufferSize] / (float)audioController.sampleRate) * 2.0 * 1000);
 }
 
 - (void)setAutoLatency:(BOOL)autoLatency {
