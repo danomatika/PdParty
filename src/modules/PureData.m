@@ -530,6 +530,13 @@
 	else {
 		DDLogVerbose(@"PureData: sampleRate now %d", audioController.sampleRate);
 	}
+	
+	// check tpb
+	if(audioController.ticksPerBuffer == 0) {
+		DDLogVerbose(@"PureData: caught 0 ticksPerBuffer, setting to 1");
+		[self setTicksPerBuffer:1];
+	}
+	
 	audioController.active = YES;
 }
 

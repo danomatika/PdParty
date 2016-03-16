@@ -39,14 +39,14 @@
 	ticksPerBufferValues = [NSArray arrayWithObjects:
 		[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:4],
 		[NSNumber numberWithInt:8], [NSNumber numberWithInt:16], [NSNumber numberWithInt:32], nil];
-	for(int i = (int)ticksPerBufferValues.count-1; i > 0; --i) {
+	for(int i = 0; i < (int)ticksPerBufferValues.count; ++i) {
 		NSNumber *value = [ticksPerBufferValues objectAtIndex:i];
-		if(app.pureData.ticksPerBuffer >= [value intValue]) {
+		if(app.pureData.ticksPerBuffer <= [value intValue]) {
 			self.ticksPerBufferSegmentedControl.selectedSegmentIndex = i;
 			break;
 		}
 	}
-	self.latencyLabel.text = [NSString stringWithFormat:@"%.1f ms", [app.pureData calculateLatency]];
+	self.latencyLabel.text = [NSString stringWithFormat:@"%.1f ms @ %d Hz", [app.pureData calculateLatency], app.pureData.sampleRate];
 	
     [super viewDidLoad];
 }
@@ -98,7 +98,7 @@
 	// get value from array
 	int index = (int)self.ticksPerBufferSegmentedControl.selectedSegmentIndex;
 	app.pureData.ticksPerBuffer = [[ticksPerBufferValues objectAtIndex:index] intValue];
-	self.latencyLabel.text = [NSString stringWithFormat:@"%.1f ms", [app.pureData calculateLatency]];
+	self.latencyLabel.text = [NSString stringWithFormat:@"%.1f ms @ %d Hz", [app.pureData calculateLatency], app.pureData.sampleRate];
 }
 
 #pragma mark Default Folders
