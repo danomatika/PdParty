@@ -32,9 +32,11 @@
 
 #pragma mark Audio Latency
 
+@property (weak, nonatomic) IBOutlet UISwitch *autoLatencySwitch;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *ticksPerBufferSegmentedControl;
 @property (weak, nonatomic) IBOutlet UILabel *latencyLabel;
 
+- (IBAction)autoLatencyChanged:(id)sender;
 - (IBAction)ticksPerBufferChanged:(id)sender;
 
 #pragma mark Default Folders

@@ -20,6 +20,8 @@
 	<false/>
 	<key>printSendingEnabled</key>
 	<false/>
+	<key>autoLatency</key>
+	<true/>
 	<key>ticksPerBuffer</key>
 	<integer>16</integer>
 	<key>oscSendHost</key>

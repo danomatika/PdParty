@@ -207,9 +207,12 @@ _Note: Most sensor events require the services to be enabled within the patch/sc
 
 #### Audio Latency
 
-This is pretty straight-forward and awesome thanks to CoreAudio. Simply set your desired buffer size and you'll see the approximate latency. A lower latency will give you more responsive audio (nearer to "real time") at the cost of more CPU usage and lower battery life. Higher latencies are good for more simultaneous processing or where realtime response is not as critical (lots of delay, recording only, etc).
+This is pretty straight-forward and awesome thanks to CoreAudio. A lower audio latency will give you more responsive audio (nearer to "real time") at the cost of more CPU usage and lower battery life. Higher latencies are good for more simultaneous processing or where realtime response is not as critical (lots of delay, recording only, etc).
 
-Your mileage may vary depending on the device and the complexity of the patch or scene you're running. If you get audio clicks/dropouts, then you need to either increase the buffer size or decrease the processing complexity of your patch.
+By default, the "Choose automatic latency" switch is enabled which tells the app to choose the best latency for your device. If this setting is disabled, you can
+set your desired buffer size using the radio buttons and you'll see the approximate latency.
+
+Your mileage may vary depending on the device and the complexity of the patch or scene you're running. If you get audio clicks/dropouts, then you need to either increase the buffer size or decrease the processing complexity of your patch. 
 
 #### Copy Default Folders
 

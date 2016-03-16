@@ -89,6 +89,11 @@
 /// new sample rate ignored if it is equal to the current samplerate
 @property (nonatomic) int sampleRate;
 
+/// set to YES to have the latency (ticks per buffer) chosen automatically,
+/// otherwise the ticks per buffer will always be set when changing sampleRates,
+/// YES by default
+@property (nonatomic) BOOL autoLatency;
+
 /// setting the ticks per buffer sets the buffer size / audio latency
 /// range is 1 - 32, 16 by default
 @property (nonatomic) int ticksPerBuffer;

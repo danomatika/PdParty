@@ -906,27 +906,27 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Audio Latency" footerTitle="Lower latencies are more responsive, yet use more CPU time." id="a1B-i8-5GH">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="132" id="cTe-I4-MiK">
-                                        <rect key="frame" x="0.0" y="466" width="320" height="132"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="160" id="cTe-I4-MiK">
+                                        <rect key="frame" x="0.0" y="466" width="320" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cTe-I4-MiK" id="XNy-Ou-GQb">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="131.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="159.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Buffer Size" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xfe-Sm-Sag">
-                                                    <rect key="frame" x="118" y="16" width="84" height="20.5"/>
+                                                    <rect key="frame" x="118" y="51" width="84" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Latency" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llV-mi-vTk">
-                                                    <rect key="frame" x="30" y="99.5" width="61" height="20.5"/>
+                                                    <rect key="frame" x="30" y="128" width="61" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5.8 ms @ 44100 Hz" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uLU-Ha-FO9">
-                                                    <rect key="frame" x="120" y="99" width="170" height="20.5"/>
+                                                    <rect key="frame" x="120" y="128" width="170" height="20.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="170" id="6TI-YL-LCi"/>
                                                     </constraints>
@@ -935,7 +935,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="JrK-39-flH">
-                                                    <rect key="frame" x="18" y="44.5" width="284" height="29"/>
+                                                    <rect key="frame" x="18" y="79" width="284" height="29"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="284" id="gjE-Ve-CYk"/>
                                                     </constraints>
@@ -951,10 +951,22 @@
                                                         <action selector="ticksPerBufferChanged:" destination="RNJ-xj-nga" eventType="valueChanged" id="rGt-x8-eyb"/>
                                                     </connections>
                                                 </segmentedControl>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lVh-XT-tPA">
+                                                    <rect key="frame" x="253" y="8" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="autoLatencyChanged:" destination="RNJ-xj-nga" eventType="valueChanged" id="5Af-wv-Kcu"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose latency automatically" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bSW-nl-zot">
+                                                    <rect key="frame" x="18" y="13" width="225" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <constraints>
-                                            <constraint firstItem="xfe-Sm-Sag" firstAttribute="top" secondItem="cTe-I4-MiK" secondAttribute="top" constant="16" id="3qB-lI-nhi"/>
+                                            <constraint firstItem="xfe-Sm-Sag" firstAttribute="top" secondItem="cTe-I4-MiK" secondAttribute="top" constant="51" id="3qB-lI-nhi"/>
                                             <constraint firstItem="JrK-39-flH" firstAttribute="top" secondItem="xfe-Sm-Sag" secondAttribute="bottom" constant="8" symbolic="YES" id="Ikh-yC-c7K"/>
                                             <constraint firstItem="llV-mi-vTk" firstAttribute="leading" secondItem="cTe-I4-MiK" secondAttribute="leading" constant="30" id="Mze-6g-kEX"/>
                                             <constraint firstAttribute="bottom" secondItem="llV-mi-vTk" secondAttribute="bottom" constant="12" id="XHf-DU-smD"/>
@@ -970,7 +982,7 @@
                                 <string key="footerTitle">Copy default libs &amp; scenes to the Documents folder. Performs a recursive overwrite so you won't lose anything you've added manually.</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="etW-dl-FRQ">
-                                        <rect key="frame" x="0.0" y="680.5" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="708.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="etW-dl-FRQ" id="g1T-hU-j5c">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1008,7 +1020,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3Qu-S9-cIv">
-                                        <rect key="frame" x="0.0" y="724.5" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="752.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Qu-S9-cIv" id="MGC-eJ-KVv">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1048,7 +1060,7 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="s0g-Eq-PZI">
-                                        <rect key="frame" x="0.0" y="768.5" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="796.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s0g-Eq-PZI" id="kSQ-H8-gcI">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1095,9 +1107,11 @@
                             <outlet property="delegate" destination="RNJ-xj-nga" id="jaU-Fn-8q1"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Settings" id="rQW-Uu-yxs"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="autoLatencySwitch" destination="lVh-XT-tPA" id="0PE-z6-2Fi"/>
                         <outlet property="enableConsoleSwitch" destination="lcR-kz-cZ5" id="bGW-rs-mMS"/>
                         <outlet property="latencyLabel" destination="uLU-Ha-FO9" id="T7N-Lm-Myr"/>
                         <outlet property="libFolderButton" destination="ynH-bs-kU9" id="kpd-yZ-8gp"/>

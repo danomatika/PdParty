@@ -38,6 +38,7 @@
 - (id)init {
 	self = [super init];
 	if(self) {
+		_autoLatency = [[NSUserDefaults standardUserDefaults] floatForKey:@"autoLatency"];
 		self.micVolume = [[NSUserDefaults standardUserDefaults] floatForKey:@"micVolume"];
 		_volume = 1.0;
 		_playing = YES;
@@ -83,6 +84,14 @@
 
 - (float)calculateLatency {
 	return ((float)[self calculateBufferSize] / (float)audioController.sampleRate) * 2.0 * 1000;
+}
+
+- (void)setAutoLatency:(BOOL)autoLatency {
+	if(_autoLatency == autoLatency) {
+		return;
+	}
+	_autoLatency = autoLatency;
+	[[NSUserDefaults standardUserDefaults] setBool:autoLatency forKey:@"autoLatency"];
 }
 
 #pragma mark Current Play Values
@@ -517,10 +526,11 @@
 	}
 
 	audioController.active = NO;
+	int tpb = audioController.ticksPerBuffer;
 	PdAudioStatus status = [audioController configurePlaybackWithSampleRate:sampleRate
-															 numberChannels:2
-															   inputEnabled:YES
-															  mixingEnabled:YES];
+	                                                         numberChannels:2
+	                                                           inputEnabled:YES
+	                                                          mixingEnabled:YES];
 	if(status == PdAudioError) {
 		DDLogError(@"PureData: could not configure PdAudioController");
 	}
@@ -531,10 +541,17 @@
 		DDLogVerbose(@"PureData: sampleRate now %d", audioController.sampleRate);
 	}
 	
-	// check tpb
-	if(audioController.ticksPerBuffer == 0) {
-		DDLogVerbose(@"PureData: caught 0 ticksPerBuffer, setting to 1");
+	// (re)set tpb if we're not letting the latency be chosen automatically
+	// by the audioController
+	if(!self.autoLatency && audioController.ticksPerBuffer != tpb) {
+		[self setTicksPerBuffer:tpb];
+		DDLogVerbose(@"PureData: resetting ticksPerBuffer after sampleRate change");
+	}
+	
+	// catch zero ticks per buffer
+	if(audioController.ticksPerBuffer <= 0) {
 		[self setTicksPerBuffer:1];
+		DDLogVerbose(@"PureData: caught 0 ticksPerBuffer after sampleRate change, setting to 1");
 	}
 	
 	audioController.active = YES;
