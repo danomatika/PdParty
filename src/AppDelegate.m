@@ -44,8 +44,8 @@
 	// setup split view on iPad
 	if([Util isDeviceATablet]) {
 		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-		UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-		splitViewController.delegate = (id)navigationController.topViewController;
+		UINavigationController *detailNavController = [splitViewController.viewControllers lastObject];
+		splitViewController.delegate = (id)detailNavController.topViewController;
 		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
 	}
 	
@@ -274,13 +274,17 @@
 #pragma mark URL
 
 - (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title {
-	if(!url.scheme) { // assume relative file path if no http:, file:, etc
+	
+	// assume relative file path if no http:, file:, etc
+	if(!url.scheme) {
 		if(!self.sceneManager.scene) {
 			DDLogError(@"AppDelegate: can't open relative path url without scene: %@", url.path);
 			return;
 		}
 		url = [NSURL fileURLWithPath:[self.sceneManager.currentPath stringByAppendingPathComponent:url.path]];
 	}
+	
+	// create web view and load
 	UIWebView *webView = [[UIWebView alloc] init];
 	if([url isFileURL]) {
 		NSError *error;
@@ -298,6 +302,8 @@
 	else { // external url
 		[webView loadRequest:[NSURLRequest requestWithURL:url]];
 	}
+	
+	// show webview in nav controller
 	UIViewController *controller = [[UIViewController alloc] init];
 	controller.view = webView;
 	controller.title = (title ? title : @"URL");
@@ -309,6 +315,7 @@
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
 	nav.navigationBar.barStyle = UIBarStyleBlack;
 	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+	[self.patchViewController dismissMasterPopover:NO]; // hide master popover if visible
 	[root presentViewController:nav animated:YES completion:nil];
 	webViewNav = nav;
 }

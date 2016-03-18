@@ -209,7 +209,17 @@
 	[self performSegueWithIdentifier:@"showInfo" sender:self];
 }
 
+- (void)dismissMasterPopover:(BOOL)animated {
+	if(self.isMasterPopoverVisible) {
+		[self.masterPopoverController dismissPopoverAnimated:animated];
+	}
+}
+
 #pragma mark Overridden Getters / Setters
+
+- (BOOL)isMasterPopoverVisible {
+	return (self.masterPopoverController != nil && self.masterPopoverController.isPopoverVisible);
+}
 
 - (void)setRotation:(int)rotation {
 	if(rotation == _rotation) {
