@@ -8,7 +8,7 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
- #import "SceneManager.h"
+#import "SceneManager.h"
 
 #import <CoreMotion/CoreMotion.h>
 #import "Log.h"
@@ -48,6 +48,9 @@
 		self.sensors = [[Sensors alloc] init];
 		self.sensors.osc = app.osc;
 		self.pureData.sensors = self.sensors;
+		
+		// create game controller manager
+		self.controllers = [[Controllers alloc] init];
 		
 		// create gui
 		self.gui = [[PartyGui alloc] init];

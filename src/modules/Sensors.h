@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@class SceneManager;
+@class Osc;
 
 /// iOS sensor manager, forwards events to pd & osc
 @interface Sensors : NSObject <CLLocationManagerDelegate>

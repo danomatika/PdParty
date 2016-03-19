@@ -11,9 +11,10 @@
 #import <UIKit/UIKit.h>
 
 #import "AllScenes.h"
-#import "Sensors.h"
 #import "PureData.h"
 #import "Osc.h"
+#import "Sensors.h"
+#import "Controllers.h"
 
 @interface SceneManager : NSObject <PdSensorSupportDelegate>
 
@@ -21,9 +22,10 @@
 @property (strong, nonatomic) Scene* scene; //< current scene
 @property (strong, readonly, nonatomic) NSString* currentPath; //< the current given path
 
-@property (strong, nonatomic) Sensors *sensors; //< internal sensor manager
 @property (weak, nonatomic) PureData *pureData;
 @property (weak, nonatomic) Osc *osc;
+@property (strong, nonatomic) Sensors *sensors; //< internal sensor manager
+@property (strong, nonatomic) Controllers *controllers; //< internal game controller manager
 
 @property (assign, nonatomic) UIInterfaceOrientation currentOrientation; //< accel orientation based on this
 

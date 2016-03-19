@@ -8,9 +8,10 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
- #import "SceneManager.h"
+#import "Sensors.h"
 
 #import <CoreMotion/CoreMotion.h>
+#import "SceneManager.h"
 #import "Log.h"
 
 // androidy update speed defines

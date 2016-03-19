@@ -10,6 +10,8 @@
 		300507B217C29CE700D1563C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300507B117C29CE600D1563C /* SettingsViewController.m */; };
 		300507B417C2C11700D1563C /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 300507B317C2C11700D1563C /* Defaults.plist */; };
 		300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300EC0451833D74F00219F48 /* CoreLocation.framework */; };
+		3024B08E1C993769002C36DA /* Controllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3024B08D1C993769002C36DA /* Controllers.m */; };
+		3024B0901C99384E002C36DA /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024B08F1C99384E002C36DA /* GameController.framework */; };
 		3028626A1C40CEBA00A176C6 /* ConsoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862691C40CEBA00A176C6 /* ConsoleViewController.m */; };
 		3028626D1C40D06C00A176C6 /* TextViewLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3028626C1C40D06C00A176C6 /* TextViewLogger.m */; };
 		302862711C4325B000A176C6 /* PartyGui.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862701C4325B000A176C6 /* PartyGui.m */; };
@@ -256,6 +258,9 @@
 		300507B117C29CE600D1563C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = src/SettingsViewController.m; sourceTree = "<group>"; };
 		300507B317C2C11700D1563C /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
 		300EC0451833D74F00219F48 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3024B08C1C993769002C36DA /* Controllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controllers.h; sourceTree = "<group>"; };
+		3024B08D1C993769002C36DA /* Controllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controllers.m; sourceTree = "<group>"; };
+		3024B08F1C99384E002C36DA /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		302862681C40CEBA00A176C6 /* ConsoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConsoleViewController.h; path = src/ConsoleViewController.h; sourceTree = "<group>"; };
 		302862691C40CEBA00A176C6 /* ConsoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConsoleViewController.m; path = src/ConsoleViewController.m; sourceTree = "<group>"; };
 		3028626B1C40D06C00A176C6 /* TextViewLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewLogger.h; sourceTree = "<group>"; };
@@ -643,6 +648,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3024B0901C99384E002C36DA /* GameController.framework in Frameworks */,
 				302862731C4369EA00A176C6 /* CoreText.framework in Frameworks */,
 				3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */,
 				300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */,
@@ -1128,6 +1134,7 @@
 		30ABE2A616B5A8E500464926 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3024B08F1C99384E002C36DA /* GameController.framework */,
 				302862721C4369EA00A176C6 /* CoreText.framework */,
 				3094B43B18C975AE00AFE178 /* libz.1.2.5.dylib */,
 				300EC0451833D74F00219F48 /* CoreLocation.framework */,
@@ -1352,6 +1359,8 @@
 		30C9BF5716E8456B00E5AA5B /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				3024B08C1C993769002C36DA /* Controllers.h */,
+				3024B08D1C993769002C36DA /* Controllers.m */,
 				30C9BF5816E8456B00E5AA5B /* Midi.h */,
 				30C9BF5916E8456B00E5AA5B /* Midi.m */,
 				30C77BB216F1ADFB00988EB9 /* Osc.h */,
@@ -1823,6 +1832,7 @@
 				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
 				308E063C1AD8611800BD1C79 /* g_readwrite.c in Sources */,
 				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
+				3024B08E1C993769002C36DA /* Controllers.m in Sources */,
 				308E06501AD8611800BD1C79 /* s_audio_dummy.c in Sources */,
 				30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */,
 				308E063E1AD8611800BD1C79 /* g_scalar.c in Sources */,
@@ -1953,8 +1963,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					libs,
@@ -1973,7 +1983,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = PdParty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f6e75dfc-e20d-4bfb-8c9c-c496ab8061b0";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1986,8 +1996,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					libs,
@@ -2006,7 +2016,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = PdParty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824f2465-1411-4a54-b1e6-85de96bbd99a";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
