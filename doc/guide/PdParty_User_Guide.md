@@ -322,11 +322,11 @@ PdParty is built using libpd and can be compared to Pd-vanilla with the followin
 
 It's highly recommended that you use a vanilla-based abstraction library like [rjlib](https://github.com/rjdj/rjlib) for expanded functionality.
 
-When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that you work with Pure Data vanilla versions 0.46+. If you are working with Pd-extended, disable all externals in order tohelp lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
+When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that you work with Pure Data vanilla versions 0.46+. If you are working with Pd-extended, disable all externals in order to help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
 
 #### [expr], [expr~], & [fexpr~]
 
-[expr], [expr~], & [fexpr~] are included with PdParty. They are under the BSD license which is compatible with the Apple App Store licensing requirements as long as the PdParty source is open (which it is). I'm making a note of this, as it may not be the case with other closed source libpd based apps.
+[expr], [expr~], & [fexpr~] are included with PdParty. As of Pd versions 0.47+, they are under the BSD license which is compatible with the Apple App Store licensing requirements. This was not the case with earlier versions of Pd/libpd.
 
 #### Key events
 
@@ -555,29 +555,24 @@ _title_ is an open ended list of arguments that will be appended together and us
 
 Compatible iOS MiFi game controllers can be read in PdParty if your device supports them. If the controller uses Bluetooth, enable Bluetooth in your iOS settings and make sure the controller is paired to your device. Currently, iOS limits the number of simultaneous controllers to 4.
 
-Controller events can be read via the [ \#controller] receiver with the following format:
+Controller events can be read via the [r \#controller] receiver with the following format:
 
-* **[ \#controller] _name_ button _buttonname_ _state_**: button event
+* **[r \#controller] _name_ button _buttonname_ _state_**: button event
   * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-  * button: symbol "button"
   * _buttonname_: symbol "a", "b", "x", "y", "dpleft", "dpright", "dpup", "dpdown", "leftshoulder", "rightshoulder", "lefttrigger", "righttrigger"
   * _state_: boolean 0 or 1
-* **[ \#controller] _name_ axis _axisname_ _value_**: axis event
+* **[r \#controller] _name_ axis _axisname_ _value_**: axis event
   * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-  * axis: symbol "axis"
   * _axisname_: symbol "leftx", "lefty", "rightx", or "righty"
   * _value_: -1 to 1 with 0 centered
-* **[ \#controller] _name_ pause**: pause event
+* **[r \#controller] _name_ pause**: pause event
   * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-  * pause: symbol "pause"
-* **[ \#controller] connect _name_**: connect event
-  * connect: symbol "connect"
+* **[r \#controller] connect _name_**: connect event
   * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-* **[ \#controller] disconnect _name_**: disconnect event
-  * disconnect: symbol "disconnect"
+* **[r \#controller] disconnect _name_**: disconnect event
   * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 
- There is no direct controller over enabling/disabling game controller support. This is handled by scene type detection as RjDj & DroidParty scenes do not use controller events.
+There is no direct control over enabling/disabling game controller support. This is handled by scene type detection as RjDj & DroidParty scenes do not use controller events.
 
 _Note: Game controller button & axis names are based on the [SDL 2.0 naming](https://www.libsdl.org) where "dpup" refers to digital pad up, "dpleft refers to digital pad left etc. This format is compatible with the OSC messages sent by the [joyosc](https://github.com/danomatika/joyosc) desktop HID device to OSC event daemon._
 
