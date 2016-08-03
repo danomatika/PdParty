@@ -16,6 +16,8 @@
 	<false/>
 	<key>sensorSendingEnabled</key>
 	<false/>
+	<key>controllerSendingEnabled</key>
+	<false/>
 	<key>keySendingEnabled</key>
 	<false/>
 	<key>printSendingEnabled</key>

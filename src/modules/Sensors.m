@@ -11,7 +11,9 @@
 #import "Sensors.h"
 
 #import <CoreMotion/CoreMotion.h>
-#import "SceneManager.h"
+#import "PureData.h"
+#import "Osc.h"
+#import "Util.h"
 #import "Log.h"
 
 // androidy update speed defines

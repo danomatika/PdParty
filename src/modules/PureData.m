@@ -15,6 +15,7 @@
 #import "Midi.h"
 #import "Osc.h"
 #import "Sensors.h"
+#import "Controllers.h"
 #import "PdAudioController.h"
 #import "Externals.h"
 #import "Util.h"
@@ -211,6 +212,34 @@
 		toReceiver:PARTY_MAGNET_R];
 }
 
++ (void)sendEvent:(NSString *)event forController:(NSString *)controller {
+	[PdBase sendMessage:[NSString stringWithString:event]
+		withArguments:@[[NSString stringWithString:controller]]
+		toReceiver:PARTY_CONTROLLER_R];
+}
+
++ (void)sendController:(NSString *)controller button:(NSString *)button state:(BOOL)state {
+	[PdBase sendMessage:[NSString stringWithString:controller]
+		withArguments:@[@"button",
+		[NSString stringWithString:button],
+		[NSNumber numberWithFloat:state]]
+		toReceiver:PARTY_CONTROLLER_R];
+}
+
++ (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value {
+	[PdBase sendMessage:[NSString stringWithString:controller]
+		withArguments:@[@"axis",
+		[NSString stringWithString:axis],
+		[NSNumber numberWithFloat:value]]
+		toReceiver:PARTY_CONTROLLER_R];
+}
+
++ (void)sendControllerPause:(NSString *)controller {
+	[PdBase sendMessage:[NSString stringWithString:controller]
+		withArguments:@[@"pause"]
+		toReceiver:PARTY_CONTROLLER_R];
+}
+
 + (void)sendKey:(int)key {
 	[PdBase sendFloat:key toReceiver:PD_KEY_R];
 }
@@ -343,7 +372,7 @@
 		}
 		
 		// gyro control
-		if([message isEqualToString:@"gyro"]) {
+		else if([message isEqualToString:@"gyro"]) {
 			if(arguments.count == 0) {
 				[self.sensors sendGyro];
 			}
@@ -391,7 +420,7 @@
 		}
 		
 		// compass control
-		if([message isEqualToString:@"compass"]) {
+		else if([message isEqualToString:@"compass"]) {
 			if(arguments.count == 0) {
 				[self.sensors sendCompass];
 			}
@@ -413,7 +442,7 @@
 		}
 		
 		// magnetometer control
-		if([message isEqualToString:@"magnet"]) {
+		else if([message isEqualToString:@"magnet"]) {
 			if(arguments.count == 0) {
 				[self.sensors sendMagnet];
 			}

@@ -143,6 +143,10 @@
 	return YES;
 }
 
+- (BOOL)requiresControllers {
+	return YES;
+}
+
 - (BOOL)requiresKeys {
 	return YES;
 }

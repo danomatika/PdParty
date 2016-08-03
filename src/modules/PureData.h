@@ -13,36 +13,37 @@
 #import "PdDispatcher.h"
 
 // PD event receivers
-#define PD_KEY_R        @"#key"
-#define PD_OSC_R        @"#osc-in"
-#define PD_CLOSEBANG_R  @"#closebang"
+#define PD_KEY_R           @"#key"
+#define PD_OSC_R           @"#osc-in"
+#define PD_CLOSEBANG_R     @"#closebang"
 
 // RjDj event receivers
-#define RJ_TRANSPORT_R  @"#transport"
-#define RJ_VOLUME_R     @"#volume"
-#define RJ_MICVOLUME_R  @"#micvolume"
-#define RJ_TOUCH_R      @"#touch"
-#define RJ_ACCELERATE_R @"#accelerate"
-#define RJ_GYRO_R       @"#gyro"
-#define RJ_LOCATION_R   @"#loc"
-#define RJ_COMPASS_R    @"#compass"
-#define RJ_TIME_R       @"#time"
+#define RJ_TRANSPORT_R     @"#transport"
+#define RJ_VOLUME_R        @"#volume"
+#define RJ_MICVOLUME_R     @"#micvolume"
+#define RJ_TOUCH_R         @"#touch"
+#define RJ_ACCELERATE_R    @"#accelerate"
+#define RJ_GYRO_R          @"#gyro"
+#define RJ_LOCATION_R      @"#loc"
+#define RJ_COMPASS_R       @"#compass"
+#define RJ_TIME_R          @"#time"
 
 // touch event types
-#define RJ_TOUCH_UP     @"up"
-#define RJ_TOUCH_DOWN   @"down"
-#define RJ_TOUCH_XY     @"xy"
+#define RJ_TOUCH_UP        @"up"
+#define RJ_TOUCH_DOWN      @"down"
+#define RJ_TOUCH_XY        @"xy"
 
 // PdParty event receivers
-#define PARTY_MAGNET_R  @"#magnet"
+#define PARTY_MAGNET_R     @"#magnet"
+#define PARTY_CONTROLLER_R @"#controller"
 
 // incoming event sends
-#define PD_OSC_S        @"#osc-out"
-#define RJ_GLOBAL_S     @"rjdj"
-#define PARTY_GLOBAL_S  @"#pdparty"
+#define PD_OSC_S           @"#osc-out"
+#define RJ_GLOBAL_S        @"rjdj"
+#define PARTY_GLOBAL_S     @"#pdparty"
 
 // incoming OSC address patterns
-#define PARTY_OSC_R     @"pdparty"
+#define PARTY_OSC_R        @"pdparty"
 
 // sample rates
 #define PARTY_SAMPLERATE 44100
@@ -53,6 +54,7 @@
 @class Midi;
 @class Osc;
 @class Sensors;
+@class Controllers;
 
 /// custom dispatcher to grab print events
 @interface PureDataDispatcher : PdDispatcher
@@ -81,6 +83,7 @@
 @property (weak, nonatomic) Midi *midi; //< pointer to midi instance
 @property (weak, nonatomic) Osc *osc; //< pointer to osc instance
 @property (weak, nonatomic) Sensors *sensors; //< pointer to sensor manager instance
+@property (weak, nonatomic) Controllers *controllers; //< pointer to controller manager instance
 
 /// enabled / disable PD audio processing
 @property (getter=isAudioEnabled) BOOL audioEnabled;
@@ -163,6 +166,18 @@
 
 /// droid party gyro event
 + (void)sendMagnet:(float)x y:(float)y z:(float)z;
+
+/// pdparty game controller connect/disconnect event
++ (void)sendEvent:(NSString *)event forController:(NSString *)controller;
+
+/// pdparty game controller button event
++ (void)sendController:(NSString *)controller button:(NSString *)button state:(BOOL)state;
+
+/// pdparty game controller axis event
++ (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value;
+
+/// pdparty game controller pause event (no state)
++ (void)sendControllerPause:(NSString *)controller;
 
 /// pd key event
 + (void)sendKey:(int)key;

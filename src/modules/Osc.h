@@ -10,15 +10,16 @@
  */
 #import "CocoaOSC.h"
 
-#define OSC_TOUCH_ADDR     @"/pdparty/touch"
-#define OSC_ACCEL_ADDR     @"/pdparty/accelerate"
-#define OSC_GYRO_ADDR      @"/pdparty/gyro"
-#define OSC_LOCATION_ADDR  @"/pdparty/loc"
-#define OSC_COMPASS_ADDR   @"/pdparty/compass"
-#define OSC_TIME_ADDR      @"/pdparty/time"
-#define OSC_MAGNET_ADDR    @"/pdparty/magnet"
-#define OSC_KEY_ADDR       @"/pdparty/key"
-#define OSC_PRINT_ADDR     @"/pdparty/print"
+#define OSC_TOUCH_ADDR       @"/pdparty/touch"
+#define OSC_ACCEL_ADDR       @"/pdparty/accelerate"
+#define OSC_GYRO_ADDR        @"/pdparty/gyro"
+#define OSC_LOCATION_ADDR    @"/pdparty/loc"
+#define OSC_COMPASS_ADDR     @"/pdparty/compass"
+#define OSC_TIME_ADDR        @"/pdparty/time"
+#define OSC_MAGNET_ADDR      @"/pdparty/magnet"
+#define OSC_CONTROLLER_ADDR  @"/pdparty/controller"
+#define OSC_KEY_ADDR         @"/pdparty/key"
+#define OSC_PRINT_ADDR       @"/pdparty/print"
 
 @interface Osc : NSObject <OSCConnectionDelegate>
 
@@ -30,6 +31,7 @@
 /// should the following events be sent automatically? (default NO)
 @property (assign, nonatomic) BOOL touchSendingEnabled; //< send touch events?
 @property (assign, nonatomic) BOOL sensorSendingEnabled; //< accel, gyro, location, compass, magnet
+@property (assign, nonatomic) BOOL controllerSendingEnabled; //< send game controller events?
 @property (assign, nonatomic) BOOL keySendingEnabled; //< send [key] events?
 @property (assign, nonatomic) BOOL printSendingEnabled; //< send pd prints?
 
@@ -43,10 +45,10 @@
 
 #pragma mark Send Events
 
-/// send to pdParty osc receiver
+/// send to pdparty osc receiver
 - (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments;
 
-/// send a raw byte packet to pdParty osc receiver
+/// send a raw byte packet to pdparty osc receiver
 - (void)sendPacket:(NSData *)data;
 
 /// rj touch event
@@ -69,6 +71,18 @@
 
 /// droid party magnetometer event
 - (void)sendMagnet:(float)x y:(float)y z:(float)z;
+
+/// pdparty game controller connect/disconnect event
+- (void)sendEvent:(NSString *)event forController:(NSString *)controller;
+
+/// pdparty game controller button event
+- (void)sendController:(NSString *)controller button:(NSString *)button state:(BOOL)state;
+
+/// pdparty game controller axis event
+- (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value;
+
+/// pdparty game controller pause event (no state)
+- (void)sendControllerPause:(NSString *)controller;
 
 /// pd key event
 - (void)sendKey:(int)key;

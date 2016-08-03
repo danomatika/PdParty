@@ -33,6 +33,7 @@
 	
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
 	self.oscSensorEnabledSwitch.on = app.osc.sensorSendingEnabled;
+	self.oscControllersEnabledSwitch.on = app.osc.controllerSendingEnabled;
 	self.oscKeyEnabledSwitch.on = app.osc.keySendingEnabled;
 	self.oscPrintEnabledSwitch.on = app.osc.printSendingEnabled;
 	
@@ -86,6 +87,9 @@
 	}
 	else if(sender == self.oscSensorEnabledSwitch) {
 		app.osc.sensorSendingEnabled = self.oscSensorEnabledSwitch.isOn;
+	}
+	else if(sender == self.oscControllersEnabledSwitch) {
+		app.osc.controllerSendingEnabled = self.oscControllersEnabledSwitch.isOn;
 	}
 	else if(sender == self.oscKeyEnabledSwitch) {
 		app.osc.keySendingEnabled = self.oscKeyEnabledSwitch.isOn;

@@ -43,6 +43,7 @@
 		
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
 		self.sensorSendingEnabled = [defaults boolForKey:@"sensorSendingEnabled"];
+		self.controllerSendingEnabled = [defaults boolForKey:@"controllerSendingEnabled"];
 		self.keySendingEnabled = [defaults boolForKey:@"keySendingEnabled"];
 		self.printSendingEnabled = [defaults boolForKey:@"printSendingEnabled"];
 		
@@ -181,6 +182,46 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendEvent:(NSString *)event forController:(NSString *)controller {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+	message.address = OSC_CONTROLLER_ADDR;
+	[message addString:event];
+	[message addString:controller];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendController:(NSString *)controller button:(NSString *)button state:(BOOL)state {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+	message.address = OSC_CONTROLLER_ADDR;
+	[message addString:controller];
+	[message addString:@"button"];
+	[message addString:button];
+	[message addFloat:state];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+	message.address = OSC_CONTROLLER_ADDR;
+	[message addString:controller];
+	[message addString:@"axis"];
+	[message addString:axis];
+	[message addFloat:value];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
+- (void)sendControllerPause:(NSString *)controller {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+	message.address = OSC_CONTROLLER_ADDR;
+	[message addString:controller];
+	[message addString:@"pause"];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
 - (void)sendKey:(int)key {
 	if(!self.isListening || !self.keySendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
@@ -222,6 +263,11 @@
 - (void)setSensorSendingEnabled:(BOOL)sensorSendingEnabled {
 	_sensorSendingEnabled = sensorSendingEnabled;
 	[[NSUserDefaults standardUserDefaults] setBool:sensorSendingEnabled forKey:@"sensorSendingEnabled"];
+}
+
+- (void)setControllerSendingEnabled:(BOOL)controllerSendingEnabled {
+	_controllerSendingEnabled = controllerSendingEnabled;
+	[[NSUserDefaults standardUserDefaults] setBool:controllerSendingEnabled forKey:@"controllerSendingEnabled"];
 }
 
 - (void)setKeySendingEnabled:(BOOL)keySendingEnabled {

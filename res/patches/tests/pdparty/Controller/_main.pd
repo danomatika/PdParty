@@ -1,0 +1,75 @@
+#N canvas 146 133 396 577 10;
+#X obj 28 132 cnv 15 340 80 empty empty gc1 20 12 0 14 -233017 -66577
+0;
+#X floatatom 180 166 10 0 0 1 value gc1-b-value -, f 10;
+#N canvas 342 138 292 333 guts 0;
+#X obj 174 91 s #pdparty;
+#X obj 40 28 r #controller;
+#X msg 174 61 controller \$1;
+#X obj 174 30 r runctl;
+#X obj 40 60 gc-send gc1;
+#X obj 40 87 gc-send gc2;
+#X obj 40 114 gc-send gc3;
+#X obj 40 141 gc-send gc4;
+#X obj 40 169 route connect disconnect;
+#X obj 67 228 s connect;
+#X obj 137 229 s disconnect;
+#X obj 40 199 t a b;
+#X obj 40 293 s name;
+#X obj 110 199 t a b;
+#X obj 40 267 symbol;
+#X connect 1 0 4 0;
+#X connect 2 0 0 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 11 0;
+#X connect 8 1 13 0;
+#X connect 11 0 14 0;
+#X connect 11 1 9 0;
+#X connect 13 0 14 0;
+#X connect 13 1 10 0;
+#X connect 14 0 12 0;
+#X restore 319 137 pd guts;
+#X text 28 7 iOS game controller events;
+#X symbolatom 48 166 14 0 0 1 button gc1-b-name -, f 14;
+#X floatatom 179 189 10 0 0 1 value gc1-a-value -, f 10;
+#X symbolatom 47 189 14 0 0 1 axis gc1-a-name -, f 14;
+#X obj 303 189 bng 15 250 50 0 empty gc1-pause pause 17 7 0 10 -262144
+-1 -1;
+#X obj 28 224 cnv 15 340 80 empty empty gc2 20 12 0 14 -233017 -66577
+0;
+#X floatatom 180 258 10 0 0 1 value gc2-b-value -, f 10;
+#X symbolatom 48 258 14 0 0 1 button gc2-b-name -, f 14;
+#X floatatom 179 281 10 0 0 1 value gc2-a-value -, f 10;
+#X symbolatom 47 281 14 0 0 1 axis gc2-a-name -, f 14;
+#X obj 303 281 bng 15 250 50 0 empty gc2-pause pause 17 7 0 10 -262144
+-1 -1;
+#X obj 28 316 cnv 15 340 80 empty empty gc3 20 12 0 14 -233017 -66577
+0;
+#X floatatom 180 350 10 0 0 1 value gc3-b-value -, f 10;
+#X symbolatom 48 350 14 0 0 1 button gc3-b-name -, f 14;
+#X floatatom 179 373 10 0 0 1 value gc3-a-value -, f 10;
+#X symbolatom 47 373 14 0 0 1 axis gc3-a-name -, f 14;
+#X obj 303 373 bng 15 250 50 0 empty gc3-pause pause 17 7 0 10 -262144
+-1 -1;
+#X obj 28 409 cnv 15 340 80 empty empty gc4 20 12 0 14 -233017 -66577
+0;
+#X floatatom 180 443 10 0 0 1 value gc4-b-value -, f 10;
+#X symbolatom 48 443 14 0 0 1 button gc4-b-name -, f 14;
+#X floatatom 179 466 10 0 0 1 value gc4-a-value -, f 10;
+#X symbolatom 47 466 14 0 0 1 axis gc4-a-name -, f 14;
+#X obj 303 466 bng 15 250 50 0 empty gc4-pause pause 17 7 0 10 -262144
+-1 -1;
+#X text 45 524 Gamepads are assigned the first available index.;
+#X obj 28 82 cnv 15 340 40 empty empty event 20 12 0 14 -233017 -66577
+0;
+#X obj 99 101 bng 15 250 50 0 empty connect connect 17 7 0 10 -262144
+-1 -1;
+#X obj 177 102 bng 15 250 50 0 empty disconnect disconnect 17 7 0 10
+-262144 -1 -1;
+#X symbolatom 269 102 10 0 0 1 name name -, f 10;
+#X text 25 39 Connect an iOS compatible controller via Bluetooth settings.
+;

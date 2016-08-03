@@ -50,7 +50,13 @@
 		self.pureData.sensors = self.sensors;
 		
 		// create game controller manager
-		self.controllers = [[Controllers alloc] init];
+		if([Controllers controllersAvailable]) {
+			self.controllers = [[Controllers alloc] init];
+			self.pureData.controllers = self.controllers;
+		}
+		else {
+			DDLogVerbose(@"SceneManager: game controller support not available on this device");
+		}
 		
 		// create gui
 		self.gui = [[PartyGui alloc] init];
@@ -107,6 +113,7 @@
 	self.pureData.playing = YES;
 	if([self.scene open:path]) {
 		[self startRequiredSensors];
+		self.controllers.enabled = self.scene.requiresControllers;
 		DDLogInfo(@"SceneManager: opened %@", self.scene.name);
 	}
 	
@@ -140,6 +147,7 @@
 		[self.scene close];
 		self.scene = nil;
 		[self stopSensors];
+		self.controllers.enabled = NO;
 		hasReshaped = NO;
 	}
 }

@@ -197,7 +197,7 @@ These settings are mainly for live performance reasons where you don't want the 
 
 #### OSC Event Forwarding
 
-These are useful options for patch creation & debugging. Basically, you can send accelerometer, touch, and key\* events from the device to your computer while you work on your patch/scene in Pure Data. You can also receive live Pd prints from a running patch/scene in PdParty to make sure everything is working as expected.
+These are useful options for patch creation & debugging. Basically, you can send accelerometer, touch, key\*, and game controller events from the device to your computer while you work on your patch/scene in Pure Data. You can also receive live Pd prints from a running patch/scene in PdParty to make sure everything is working as expected.
 
 The OSC server needs to be enabled and a patch/scene must be running in order for events to be streamed. The easiest option is to run an existing patch or upload an empty one you can run while sending events. Event sending *will not* work unless a patch or scene is being run.
 
@@ -286,6 +286,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * requires #touch, #accelerate & #gyro events
   * \#touch positions are normalized from 0-320
   * optional sensors accessed by abstractions: [rj_loc], [rj_compass], & [rj_time]
+  * does not support game controllers
   * 20500 samplerate
 * PdDroidParty scenes
   * a folder that contains a droidparty_main.pd patch
@@ -294,6 +295,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * an optional font named "font.ttf" or "font-antialiased.ttf"
   * does not require the following events (#accelerate, #touch, or [key])
   * sensors are accessed by the [droidsystem] abstraction
+  * does not support game controllers
   * 44100 samplerate
 * PdParty scenes
   * a folder that contains a _main.pd patch
@@ -307,6 +309,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * \#touch positions are normalized from 0-1
   * sensors are accessed via receivers: \#gyro, \#loc, \#compass, \#magnet, & \#time
   * sensors are enabled & updated via control messages to \#pdparty
+  * supports game controllers
   * 44100 samplerate
   
 Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene.
@@ -416,19 +419,10 @@ PdParty returns the following events:
   * _accuracy_: lat & lon accuracy (+/-) in meters
 * **[r \#compass] _degrees_**: orientation toward magnetic north with the top of UI at 0 degrees
   * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E
-* **[r \#time] timestamp event
-  * _year_: year
-  * _month_: month
-  * _day_month_: day of the month
-  * _day_week_: day of the week
-  * _day_year_: day of the year
-  * _tz_: deviation from GMT, ex. "-700" is US MT which is 7 hours behind GMT
-  * _hour_: hour (in 24 hour format)
-  * _min_: minute
-  * _sec_: second
-  * _msec_: millisecond
+* **[r \#time]**: timestamp event, see "Timestamps" section"
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
-  
+* **[r \#controller]**: game controller event, see "Game Controllers" section
+
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj_loc] & [rj_compass] abstractions._
 
 #### Accelerate, Gyro, & Magnet Control
@@ -506,6 +500,28 @@ Like location events, the tracking the compass requires extra resources so it mu
 
 _Note: Compass events are only available in PdParty & Patch scene types by default, while the presence of an [rj_compass] object enables them in RjDj scenes. Events work best on devices with a digital compass (phones) and may not work on some devices at all._
 
+#### Timestamps
+
+Timestamps are sent to the [r \#time] receiver with the following argument format:
+
+* **[r \#time]**: timestamp event
+  * _year_: year
+  * _month_: month
+  * _day_month_: day of the month
+  * _day_week_: day of the week
+  * _day_year_: day of the year
+  * _tz_: deviation from GMT, ex. "-700" is US MT which is 7 hours behind GMT
+  * _hour_: hour (in 24 hour format)
+  * _min_: minute
+  * _sec_: second
+  * _msec_: millisecond
+
+*This is the same format that the RjDj [rj_time] object returns.* 
+
+Timestamp events must be triggered manually by sending a message to the internal \#pdparty receiver in your patches:
+
+* **\#pdparty time**: generate a timestamp with the current time & day
+
 #### Recording
 
 You can manually trigger recording via sending messages to the internal \#pdparty receiver in your patches:
@@ -530,6 +546,41 @@ _url_ can be either:
 
 _title_ is an open ended list of arguments that will be appended together and used as the navigation bar title, "URL" is used by default when there are no title arguments
 
+#### Game Controllers
+
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_controller_scene_iPhone.png"/><br/>
+	Controller PdParty scene
+</p>
+
+Compatible iOS MiFi game controllers can be read in PdParty if your device supports them. If the controller uses Bluetooth, enable Bluetooth in your iOS settings and make sure the controller is paired to your device. Currently, iOS limits the number of simultaneous controllers to 4.
+
+Controller events can be read via the [ \#controller] receiver with the following format:
+
+* **[ \#controller] _name_ button _buttonname_ _state_**: button event
+  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  * button: symbol "button"
+  * _buttonname_: symbol "a", "b", "x", "y", "dpleft", "dpright", "dpup", "dpdown", "leftshoulder", "rightshoulder", "lefttrigger", "righttrigger"
+  * _state_: boolean 0 or 1
+* **[ \#controller] _name_ axis _axisname_ _value_**: axis event
+  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  * axis: symbol "axis"
+  * _axisname_: symbol "leftx", "lefty", "rightx", or "righty"
+  * _value_: -1 to 1 with 0 centered
+* **[ \#controller] _name_ pause**: pause event
+  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  * pause: symbol "pause"
+* **[ \#controller] connect _name_**: connect event
+  * connect: symbol "connect"
+  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+* **[ \#controller] disconnect _name_**: disconnect event
+  * disconnect: symbol "disconnect"
+  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+
+ There is no direct controller over enabling/disabling game controller support. This is handled by scene type detection as RjDj & DroidParty scenes do not use controller events.
+
+_Note: Game controller button & axis names are based on the [SDL 2.0 naming](https://www.libsdl.org) where "dpup" refers to digital pad up, "dpleft refers to digital pad left etc. This format is compatible with the OSC messages sent by the [joyosc](https://github.com/danomatika/joyosc) desktop HID device to OSC event daemon._
+
 #### OSC
 
 PdParty sends and receives OSC (Open Sound Control) messages internally between the PureData instance and the OSC server:
@@ -547,6 +598,7 @@ All of the PdParty events can be streamed over OSC, included Pd prints. The rece
 * /pdparty/magnet
 * /pdparty/time
 * /pdparty/key
+* /pdparty/controller
 * /pdparty/print
 
 _Note: The argument number and types are equivalent with their receive counterparts, i.e. /pdparty/touch receives the same data as [r \#touch]._

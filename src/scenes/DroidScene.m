@@ -88,6 +88,10 @@
 	return NO;
 }
 
+- (BOOL)requiresControllers {
+	return NO;
+}
+
 - (BOOL)requiresKeys {
 	return NO;
 }

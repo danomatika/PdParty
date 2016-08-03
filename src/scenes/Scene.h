@@ -48,6 +48,7 @@ typedef enum {
 @property (readonly, nonatomic) int sampleRate;
 
 @property (readonly, nonatomic) BOOL requiresTouch; //< does the scene require touch events? (default NO)
+@property (readonly, nonatomic) BOOL requiresControllers; //< does the scene require controller events? (default NO)
 @property (readonly, nonatomic) BOOL requiresKeys; //< does the scene require key events? (default NO)
 
 /// preferred orientations, all by default

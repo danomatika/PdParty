@@ -243,6 +243,10 @@
 	return RJ_SAMPLERATE;
 }
 
+- (BOOL)requiresControllers {
+	return NO;
+}
+
 - (BOOL)requiresKeys {
 	return NO;
 }
@@ -295,7 +299,7 @@
 	if(widget) {
 		if([cmd isEqualToString:@"visible"]) {
 			if(list.count < 3 || ![list isNumberAt:2]) return;
-			widget.hidden = ![[list objectAtIndex:2] floatValue] > 0.5f;
+			widget.hidden = !([[list objectAtIndex:2] floatValue] > 0.5f);
 		}
 		else if([cmd isEqualToString:@"move"]) {
 			if(list.count < 4 || ![list isNumberAt:2] || ![list isNumberAt:3]) return;
