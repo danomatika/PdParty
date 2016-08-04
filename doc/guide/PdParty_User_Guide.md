@@ -413,10 +413,13 @@ PdParty returns the following events:
   * _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
 * **[r \#accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
 * **[r \#gyro] _x_ _y_ _z_**: 3 axis gyroscope rotation rate in radians/s
-* **[r \#loc] _lat_ _lon_ _accuracy_**
+* **[r \#loc] _lat_ _lon_ _accuracy_**: GPS location
   * _lat_: latitude in degrees
   * _lon_: longitude in degrees
   * _accuracy_: lat & lon accuracy (+/-) in meters
+* **[r \#speed] _speed_ _course_**: GPS speed & course heading, only sent if \#loc events are enabled
+  * _speed_: instantaneous speed in meters per second, negative values are invalid
+  * _course_: direction of travel, N is 0 degrees, E is 90, S is 180, etc; negative values are invalid
 * **[r \#compass] _degrees_**: orientation toward magnetic north with the top of UI at 0 degrees
   * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E
 * **[r \#time]**: timestamp event, see "Timestamps" section"
@@ -457,7 +460,7 @@ _Note: \#touch & \#accelerate events are automatically started for RjDj scenes f
 	Loc test PdParty scene
 </p>
 
-Loc events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFI only, cell tower + GPS chip, etc).
+Loc events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFi only, cell tower + GPS chip, etc). Additionally, speed & course events are generated when the location events are enabled.
 
 Since running the GPS location service will affect battery life in most cases, it must be manually started and configured after the scene is loaded by sending messages to the internal #pdparty receiver:
   

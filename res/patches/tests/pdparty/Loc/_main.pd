@@ -1,11 +1,11 @@
-#N canvas 207 154 364 529 10;
-#X obj 11 56 tgl 30 0 runlocate empty run 7 15 0 10 -262144 -1 -1 0
+#N canvas 200 90 364 529 10;
+#X obj 11 31 tgl 30 0 runlocate empty run 7 15 0 10 -262144 -1 -1 0
 1;
-#X obj 11 98 cnv 15 340 80 empty empty loc 20 12 0 14 -233017 -66577
+#X obj 11 73 cnv 15 340 50 empty empty loc 20 12 0 14 -233017 -66577
 0;
-#X floatatom 20 140 10 0 0 1 lat lat -, f 10;
-#X floatatom 118 140 10 0 0 1 lon lon -, f 10;
-#X floatatom 211 141 10 0 0 1 accuracy_(m) accuracy -, f 10;
+#X floatatom 20 105 10 0 0 1 lat lat -, f 10;
+#X floatatom 118 105 10 0 0 1 lon lon -, f 10;
+#X floatatom 211 105 7 0 0 1 accuracy_(m) accuracy -, f 7;
 #X obj 20 480 hsl 320 30 0 127 0 0 filter-out filter-in distance_filter_0_-_1000m
 8 15 0 10 -262144 -1 -1 0 1;
 #X obj 18 341 hradio 54 1 0 6 accuracy-out accuracy-in empty 0 -8 0
@@ -20,11 +20,11 @@
 ;
 #X text 11 277 the speed of location events & overall resource usage
 ;
-#N canvas 556 333 503 297 guts 0;
+#N canvas 556 333 588 296 guts 0;
 #X obj 34 195 loadbang;
-#X obj 228 136 r accuracy-out;
-#X obj 358 137 r filter-out;
-#X obj 228 259 s #pdparty;
+#X obj 317 135 r accuracy-out;
+#X obj 447 136 r filter-out;
+#X obj 317 258 s #pdparty;
 #N canvas 651 529 319 192 type 0;
 #X obj 16 9 inlet;
 #X obj 16 38 sel 0 1 2 3 4 5;
@@ -50,23 +50,27 @@
 #X connect 6 0 8 0;
 #X connect 7 0 8 0;
 #X connect 8 0 9 0;
-#X restore 228 183 pd type;
+#X restore 317 182 pd type;
 #X obj 36 141 s lat;
 #X obj 70 115 s lon;
 #X obj 36 17 r #loc;
 #X obj 105 86 s accuracy;
 #X obj 36 50 unpack f f f;
-#X msg 228 216 loc accuracy \$1;
-#X msg 358 216 loc filter \$1;
-#X obj 285 90 s #pdparty;
-#X obj 401 21 r update;
-#X obj 192 20 r runlocate;
-#X msg 192 51 loc \$1;
-#X obj 285 21 r updates;
-#X msg 285 52 loc updates \$1;
+#X msg 317 215 loc accuracy \$1;
+#X msg 447 215 loc filter \$1;
+#X obj 405 90 s #pdparty;
+#X obj 521 21 r update;
+#X obj 312 20 r runlocate;
+#X msg 312 51 loc \$1;
+#X obj 405 21 r updates;
+#X msg 405 52 loc updates \$1;
 #X msg 34 230 \; updates-in set 1 \; accuracy-in set 1 \; filter-in
 set 0;
-#X msg 401 53 loc;
+#X msg 521 53 loc;
+#X obj 188 50 unpack f f;
+#X obj 188 115 s speed;
+#X obj 245 87 s course;
+#X obj 188 19 r #speed;
 #X connect 0 0 18 0;
 #X connect 1 0 4 0;
 #X connect 2 0 11 0;
@@ -83,20 +87,26 @@ set 0;
 #X connect 16 0 17 0;
 #X connect 17 0 12 0;
 #X connect 19 0 12 0;
-#X restore 304 100 pd guts;
+#X connect 20 0 21 0;
+#X connect 20 1 22 0;
+#X connect 23 0 20 0;
+#X restore 304 75 pd guts;
 #X text 15 316 accuracy (default "best") \, "navigation" is *intensive*
 ;
 #X text 12 451 your pos has changed beyond this value \, 0 = no filter
 ;
 #X text 12 435 distance filter threshold (default 0) \, events occur
 when;
-#X text 47 62 turn on by sending a msg to #pdparty: loc 1;
+#X text 47 37 turn on by sending a msg to #pdparty: loc 1;
 #X obj 19 208 tgl 30 0 updates updates-in updates 32 15 0 10 -262144
 -1 -1 1 1;
 #X obj 236 207 bng 30 250 50 0 update empty update 32 15 0 10 -262144
 -1 -1;
-#X text 9 8 location;
 #X text 9 185 enable auto updates to receive event stream (default:
 on);
-#X text 10 28 your device should have a GPS chip for best results;
-#X text 11 246 send manual update when auto updates is disabled;
+#X obj 11 130 cnv 15 340 50 empty empty speed 20 12 0 14 -233017 -66577
+0;
+#X floatatom 20 159 10 0 0 1 m/s speed -, f 10;
+#X floatatom 118 159 10 0 0 1 course_(degrees) course -, f 10;
+#X text 9 8 GPS location & speed;
+#X text 11 246 send manual updates when auto updates is disabled;

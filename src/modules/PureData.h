@@ -35,6 +35,7 @@
 
 // PdParty event receivers
 #define PARTY_MAGNET_R     @"#magnet"
+#define PARTY_SPEED_R      @"#speed"
 #define PARTY_CONTROLLER_R @"#controller"
 
 // incoming event sends
@@ -155,8 +156,11 @@
 /// rj gyro event
 + (void)sendGyro:(float)x y:(float)y z:(float)z;
 
-/// rj location event
+/// rj gps location event
 + (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy;
+
+/// pdparty gps speed event
++ (void)sendSpeed:(float)speed course:(float)course;
 
 /// rj compass event
 + (void)sendCompass:(float)degrees;

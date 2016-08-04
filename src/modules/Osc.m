@@ -159,6 +159,15 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendSpeed:(float)speed course:(float)course {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+	message.address = OSC_SPEED_ADDR;
+	[message addFloat:speed];
+	[message addFloat:course];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
 - (void)sendCompass:(float)degrees {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];

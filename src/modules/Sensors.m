@@ -483,9 +483,11 @@
 	[PureData sendLocation:location.coordinate.latitude
 					   lon:location.coordinate.longitude
 				  accuracy:location.horizontalAccuracy];
+	[PureData sendSpeed:location.speed course:location.course];
 	[self.osc sendLocation:location.coordinate.latitude
 									lon:location.coordinate.longitude
 							   accuracy:location.horizontalAccuracy];
+	[self.osc sendSpeed:location.speed course:location.course];
 }
 
 - (void)sendCompass:(CLHeading *)heading {

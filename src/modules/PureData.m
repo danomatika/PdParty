@@ -196,6 +196,11 @@
 		nil] toReceiver:RJ_LOCATION_R];
 }
 
++ (void)sendSpeed:(float)speed course:(float)course {
+	[PdBase sendList:[NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:speed], [NSNumber numberWithFloat:course], nil] toReceiver:PARTY_SPEED_R];
+}
+
 + (void)sendCompass:(float)degrees {
 	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:degrees], nil] toReceiver:RJ_COMPASS_R];
 }

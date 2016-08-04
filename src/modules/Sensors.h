@@ -37,7 +37,7 @@
 
 #pragma mark Location
 
-@property (assign, nonatomic) BOOL locationEnabled; //< enable location service
+@property (assign, nonatomic) BOOL locationEnabled; //< enable location service, includes speed & course events
 @property (assign, nonatomic) BOOL locationAutoUpdates; //< set to NO if sending manually (default: YES)
 @property (nonatomic) NSString *locationAccuracy; //< desired location accuracy: "3km", "1km", "100m", "10m", "best", "navigation" (default: "best")
 @property (nonatomic) float locationFilter; //< location distance filter in meters (default: 0)
