@@ -94,6 +94,16 @@ This scene type basically acts as a wrapper around a patch folder.
   
 Running a regular .pd patch is the same as running a PdParty scene.
 
+Samples & Tests
+---------------
+
+The PdDarty samples & tests are included:
+
+* samples: working scenes
+* tests: scene type tests for uis, osc communication, sensor events, etc; this includes the [DroidParty demos](https://github.com/chr15m/PdDroidParty/tree/master/droidparty-demos)
+
+These are the patches included with [PdParty](https://github.com/danomatika/PdParty/tree/master/res/patches).
+
 Open Sound Control Bridges
 --------------------------
 
@@ -113,5 +123,5 @@ Resources & Examples
 
 * [rjlib example RjDj scenes](https://github.com/rjdj/rjlib/tree/master/examplescenes)
 * [DroidParty webpage](http://droidparty.net)
-* [DroidParty demos](https://github.com/chr15m/PdDroidParty/tree/master/droidparty-demos)
-* [PdParty tests](https://github.com/danomatika/PdParty/tree/master/res/patches/tests), includes all scene types, osc communication, sensors events, etc
+* 
+* /tests), includes all scene types, osc communication, sensors events, etc

@@ -9,7 +9,8 @@ SSH_USER=danomatika
 SSH_HOST=danomatika.com
 SSH_DEST=/home/danomatika/danomatika.com/docs
 
-CPDIR=../doc/composerpack
+CP_DIR=../doc/composerpack
+RES_DIR=../res/patches
 
 TEMP=$ZIP
 
@@ -20,7 +21,9 @@ WD=$(dirname $0)
 cd $WD
 
 mkdir -p $TEMP
-cp -Rv $CPDIR/* $TEMP
+cp -Rv $CP_DIR/* $TEMP
+cp -Rv $RES_DIR/samples $TEMP
+cp -Rv $RES_DIR/tests $TEMP
 
 # rj
 git clone https://github.com/rjdj/rjlib.git
@@ -31,6 +34,8 @@ rm -rf rjlib
 git clone https://github.com/danomatika/rc-patches.git
 cp -Rv rc-patches/rc $TEMP
 rm -rf rc-patches
+
+cp 
 
 # zip
 zip -r $ZIP $TEMP

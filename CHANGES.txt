@@ -1,3 +1,17 @@
+0.5.4-beta: 2016-08-04
+
+* added iOS MiFi game controller support via #controller event
+* re-added gps speed & course events via #speed receiver
+* added auto latency settings control
+* added samples & test patches to composer pack zip download
+
+* fixed iPad master popover not hiding before launching web view
+* fixed audio not re-enabling in the same state after exiting background
+* fixed ticks per buffer being set to 0 (kills audio)
+
+* updated to libpd 0.9.2
+* updated ZipArchive & added update script
+
 0.5.3-beta: 2016-02-02
 
 the Groundhog Day edition
