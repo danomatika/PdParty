@@ -163,7 +163,7 @@
 		b = (iemColor & 0x3F) << 2;
 	}
 	else {
-		iemColor = iemgui_modulo_color(iemColor);
+		//iemColor = iemgui_modulo_color(iemColor);
 		iemColor = iemgui_color_hex[iemColor] << 8 | 0xFF;
 		r = ((iemColor >> 24) & 0xFF);
 		g = ((iemColor >> 16 ) & 0xFF);
