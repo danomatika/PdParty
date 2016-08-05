@@ -143,7 +143,15 @@
 			cell.imageView.image = [UIImage imageNamed:@"android"];
 		}
 		else if([PartyScene isPdPartyDirectory:path]) {
-			cell.imageView.image = [UIImage imageNamed:@"pdparty"];
+		
+			// thumbnail
+			UIImage *thumb = [PartyScene thumbnailForSceneAt:path];
+			if(thumb) {
+				cell.imageView.image = thumb;
+			}
+			else {
+				cell.imageView.image = [UIImage imageNamed:@"pdparty"];
+			}
 		
 			// info
 			NSDictionary *info = [PartyScene infoForSceneAt:path];

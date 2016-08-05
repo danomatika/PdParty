@@ -1,0 +1,84 @@
+#N canvas 577 171 568 293 10;
+#X declare -path . -path ./rj;
+#X obj 18 12 cnv 15 160 270 empty empty 1 10 12 0 14 -233017 -66577
+0;
+#X obj 97 78 bng 30 250 50 0 \$0-one-trigger empty trigger 32 15 0
+10 -4034 -1 -1;
+#X obj 97 118 tgl 30 0 \$0-one-loop \$0-one-loop-in loop 32 15 0 10
+-4032 -1 -1 0 1;
+#X obj 53 36 vsl 30 150 0.5 2 0 0 \$0-one-speed \$0-one-speed-in speed
+0 -9 0 10 -204800 -1 -1 4967 0;
+#X obj 97 36 bng 30 250 50 0 \$0-one-record empty record 32 15 0 10
+-258113 -1 -1;
+#X obj 199 12 cnv 15 160 270 empty empty 2 10 12 0 14 -233017 -66577
+0;
+#X obj 277 78 bng 30 250 50 0 \$0-two-trigger empty trigger 32 15 0
+10 -4034 -1 -1;
+#X obj 277 118 tgl 30 0 \$0-two-loop \$0-two-loop-in loop 32 15 0 10
+-4032 -1 -1 0 1;
+#X obj 228 36 vsl 30 150 0.5 2 0 0 \$0-two-speed \$0-two-speed-in speed
+0 -9 0 10 -204800 -1 -1 4967 0;
+#X obj 277 36 bng 30 250 50 0 \$0-two-record empty record 32 15 0 10
+-258113 -1 -1;
+#X obj 378 13 cnv 15 160 270 empty empty 3 10 12 0 14 -233017 -66577
+0;
+#X obj 456 78 bng 30 250 50 0 \$0-three-trigger empty trigger 32 15
+0 10 -4034 -1 -1;
+#X obj 456 118 tgl 30 0 \$0-three-loop \$0-three-loop-in loop 32 15
+0 10 -4032 -1 -1 0 1;
+#X obj 407 36 vsl 30 150 0.5 2 0 0 \$0-three-speed \$0-three-speed-in
+speed 0 -9 0 10 -204800 -1 -1 4967 0;
+#X obj 456 36 bng 30 250 50 0 \$0-three-record empty record 32 15 0
+10 -258113 -1 -1;
+#X obj 36 200 hsl 128 30 0 1 0 0 \$0-one-pan \$0-one-pan-in pan 8 15
+0 10 -203904 -1 -1 6350 0;
+#X obj 36 237 hsl 128 30 0 1 0 0 \$0-one-volume \$0-one-volume-in volume
+8 15 0 10 -191407 -1 -1 12700 0;
+#X obj 215 201 hsl 128 30 0 1 0 0 \$0-two-pan \$0-two-pan-in pan 8
+15 0 10 -203904 -1 -1 6350 0;
+#X obj 215 238 hsl 128 30 0 1 0 0 \$0-two-volume \$0-two-volume-in
+volume 8 15 0 10 -191407 -1 -1 12700 0;
+#X obj 393 202 hsl 128 30 0 1 0 0 \$0-three-pan \$0-three-pan-in pan
+8 15 0 10 -203904 -1 -1 6350 0;
+#X obj 393 239 hsl 128 30 0 1 0 0 \$0-three-volume \$0-three-volume-in
+volume 8 15 0 10 -191407 -1 -1 12700 0;
+#N canvas 677 394 366 367 guts 0;
+#X obj 36 30 soundinput;
+#X obj 36 311 soundoutput;
+#X obj 205 30 inlet;
+#X obj 187 331 declare -path . -path ./rj;
+#X msg 205 56 \; #micvolume 1 \; #volume set 1;
+#X text 185 291 Dan Wilcox 2016;
+#X text 185 310 danomatika.com;
+#X obj 239 160 sampler \$0-three;
+#X obj 36 160 sampler \$0-one;
+#X obj 137 161 sampler \$0-two;
+#X connect 0 0 7 0;
+#X connect 0 0 8 0;
+#X connect 0 0 9 0;
+#X connect 2 0 4 0;
+#X connect 7 0 1 0;
+#X connect 7 1 1 1;
+#X connect 8 0 1 0;
+#X connect 8 1 1 1;
+#X connect 9 0 1 0;
+#X connect 9 1 1 1;
+#X restore 492 12 pd guts;
+#X obj 477 12 bng 15 250 50 0 empty empty setup -32 7 0 10 -262144
+-1 -1;
+#X text 31 176 1/2;
+#X text 43 129 1;
+#X text 43 34 2;
+#X obj 97 159 bng 30 250 50 0 \$0-one-restart empty restart 32 15 0
+10 -257985 -1 -1;
+#X obj 277 159 bng 30 250 50 0 \$0-two-restart empty restart 32 15
+0 10 -257985 -1 -1;
+#X obj 456 159 bng 30 250 50 0 \$0-three-restart empty restart 32 15
+0 10 -257985 -1 -1;
+#X text 206 176 1/2;
+#X text 218 129 1;
+#X text 218 34 2;
+#X text 385 176 1/2;
+#X text 397 129 1;
+#X text 397 34 2;
+#X connect 22 0 21 0;

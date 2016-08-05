@@ -277,7 +277,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * a folder that ends in *.rj that contains a _main.pd patch
   * locked to portrait
   * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
-  * an optional browser icon named "thumb.jpg" and a min size of 55x55
+  * an optional browser icon named "thumb.jpg" and a min size of 55x55, will fall back to "image.jpg" if not found
   * an optional info xml file named "Info.plist" or "info.plist" with the following string keys:
     * _author_
     * _description_
@@ -300,6 +300,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
 * PdParty scenes
   * a folder that contains a _main.pd patch
   * portrait or landscape
+  * an optional browser icon named "thumb.png" or "thumb.jpg" and a min size of 55x55
   * an optional info json file named "info.json" with a dictionary & the following keys:
     * _author_
     * _description_

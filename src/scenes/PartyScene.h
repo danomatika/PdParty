@@ -19,6 +19,10 @@
 /// returns true if the given path is a PdParty scene dir
 + (BOOL)isPdPartyDirectory:(NSString *)fullpath;
 
+/// returns a thumbnail.jpg for a given RjDj scene dir, falls back to image.jpg
+/// return nil if images not found
++ (UIImage*)thumbnailForSceneAt:(NSString *)fullpath;
+
 /// returns a dictionary loaded from the info.json or Info.json in a given scene dir,
 /// returns nil if not found or is empty
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath;

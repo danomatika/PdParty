@@ -97,6 +97,14 @@
 	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]];
 }
 
++ (UIImage*)thumbnailForSceneAt:(NSString *)fullpath {
+	NSArray *imagePaths = [Util whichFilenames:@[@"thumb.png", @"Thumb.png", @"thumb.jpg", @"Thumb.jpg"] existInDirectory:fullpath];
+	if(imagePaths) {
+		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:[imagePaths firstObject]]];
+	}
+	return nil;
+}
+
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath {
 	NSArray *infoPaths = [Util whichFilenames:@[@"info.json", @"Info.json"] existInDirectory:fullpath];
 	if(infoPaths) {
