@@ -53,6 +53,7 @@
 		if([Controllers controllersAvailable]) {
 			self.controllers = [[Controllers alloc] init];
 			self.pureData.controllers = self.controllers;
+			self.controllers.osc = app.osc;
 		}
 		else {
 			DDLogVerbose(@"SceneManager: game controller support not available on this device");
