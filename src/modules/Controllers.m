@@ -59,9 +59,9 @@
 
 - (void)controllerDidConnect:(NSNotification *)notification {
 	Controller *controller = [[Controller alloc] init];
+	controller.controller = (GCController *)[notification object];
 	controller.index = [self firstAvailableIndex];
 	controller.parent = self;
-	controller.controller = (GCController *)[notification object];
 	[self.controllers addObject:controller];
 	[self sortControllers];
 	[PureData sendEvent:@"connect" forController:controller.name];
