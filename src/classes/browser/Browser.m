@@ -84,7 +84,7 @@
 			return;
 		}
 	}
-	unsigned int count = baseComponents.count-1;
+	unsigned int count = (unsigned int)baseComponents.count-1;
 	NSMutableArray *components = [NSMutableArray arrayWithArray:baseComponents];
 	for(int i = count; i < dirComponents.count; ++i) {
 		if(i > count) {

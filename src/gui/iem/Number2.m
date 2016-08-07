@@ -60,7 +60,7 @@
 			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 			0, [[line objectAtIndex:6] floatValue]); // width based on valueWidth
 
-		self.valueWidth = [[line objectAtIndex:5] integerValue];
+		self.valueWidth = [[line objectAtIndex:5] intValue];
 		self.minValue = [[line objectAtIndex:7] floatValue];
 		self.maxValue = [[line objectAtIndex:8] floatValue];
 		self.log = [[line objectAtIndex:9] boolValue];
@@ -71,9 +71,9 @@
 		self.labelFontStyle = [[line objectAtIndex:16] intValue];
 		self.labelFontSize = [[line objectAtIndex:17] floatValue];
 		
-		self.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] integerValue]];
-		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] integerValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] integerValue]];
+		self.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:18] intValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:19] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:20] intValue]];
 		
 		if(self.inits) {
 			self.value = [[line objectAtIndex:21] floatValue];
@@ -291,7 +291,7 @@
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// value width in chars, height
-		self.valueWidth = [[arguments objectAtIndex:0] integerValue];
+		self.valueWidth = [[arguments objectAtIndex:0] intValue];
 		if([arguments count] > 1 && [arguments isNumberAt:1]) {
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,

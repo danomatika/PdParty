@@ -45,8 +45,8 @@
 		self.labelFontSize = [[line objectAtIndex:13] floatValue];
 		
 		self.fillColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:14] intValue]];
-		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] integerValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] integerValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
 		
 		self.nonZeroValue = [[line objectAtIndex:18] floatValue];
 		if(self.inits) {

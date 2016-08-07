@@ -33,12 +33,12 @@
 			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
 			0, 0); // size based on valueWidth
 
-		self.valueWidth = [[line objectAtIndex:4] integerValue];
+		self.valueWidth = [[line objectAtIndex:4] intValue];
 		self.minValue = [[line objectAtIndex:5] floatValue];
 		self.maxValue = [[line objectAtIndex:6] floatValue];
 		self.symbol = @"symbol";
 			
-		self.labelPos = [[line objectAtIndex:7] integerValue];
+		self.labelPos = [[line objectAtIndex:7] intValue];
 		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
 	}
 	return self;
