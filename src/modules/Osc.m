@@ -168,6 +168,15 @@
 	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
 }
 
+- (void)sendAltitude:(float)altitude accuracy:(float)accuracy {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
+	message.address = OSC_ALTITUDE_ADDR;
+	[message addFloat:altitude];
+	[message addFloat:accuracy];
+	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+}
+
 - (void)sendCompass:(float)degrees {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];

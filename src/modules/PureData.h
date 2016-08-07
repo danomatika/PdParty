@@ -36,6 +36,7 @@
 // PdParty event receivers
 #define PARTY_MAGNET_R     @"#magnet"
 #define PARTY_SPEED_R      @"#speed"
+#define PARTY_ALTITUDE_R   @"#altitude"
 #define PARTY_CONTROLLER_R @"#controller"
 
 // incoming event sends
@@ -161,6 +162,9 @@
 
 /// pdparty gps speed event
 + (void)sendSpeed:(float)speed course:(float)course;
+
+/// pdparty gps altitude event
++ (void)sendAltitude:(float)altitude accuracy:(float)accuracy;
 
 /// rj compass event
 + (void)sendCompass:(float)degrees;

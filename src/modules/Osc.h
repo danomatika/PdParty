@@ -15,6 +15,7 @@
 #define OSC_GYRO_ADDR        @"/pdparty/gyro"
 #define OSC_LOCATION_ADDR    @"/pdparty/loc"
 #define OSC_SPEED_ADDR       @"/pdparty/speed"
+#define OSC_ALTITUDE_ADDR    @"/pdparty/altitude"
 #define OSC_COMPASS_ADDR     @"/pdparty/compass"
 #define OSC_TIME_ADDR        @"/pdparty/time"
 #define OSC_MAGNET_ADDR      @"/pdparty/magnet"
@@ -66,6 +67,9 @@
 
 /// pdparty gps speed event
 - (void)sendSpeed:(float)speed course:(float)course;
+
+/// pdparty gps altitude event
+- (void)sendAltitude:(float)altitude accuracy:(float)accuracy;
 
 /// rj compass event
 - (void)sendCompass:(float)degrees;

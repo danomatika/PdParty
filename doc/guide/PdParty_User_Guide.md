@@ -308,7 +308,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
     * _category_
   * requires all event types
   * \#touch positions are normalized from 0-1
-  * sensors are accessed via receivers: \#gyro, \#loc, \#compass, \#magnet, & \#time
+  * sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, & \#time
   * sensors are enabled & updated via control messages to \#pdparty
   * supports game controllers
   * 44100 samplerate
@@ -417,10 +417,13 @@ PdParty returns the following events:
 * **[r \#loc] _lat_ _lon_ _accuracy_**: GPS location
   * _lat_: latitude in degrees
   * _lon_: longitude in degrees
-  * _accuracy_: lat & lon accuracy (+/-) in meters
+  * _accuracy_: lat & lon accuracy in meters; negative values are invalid
 * **[r \#speed] _speed_ _course_**: GPS speed & course heading, only sent if \#loc events are enabled
   * _speed_: instantaneous speed in meters per second, negative values are invalid
   * _course_: direction of travel, N is 0 degrees, E is 90, S is 180, etc; negative values are invalid
+* **[e \#altitude] _altitude_ _accuracy_**: GPS altitude, only sent if \#loc events are enabled
+  * _altitude_: altitude above sea level in meters
+  * _accuracy_: altitude accuracy in meters; negative values are invalid
 * **[r \#compass] _degrees_**: orientation toward magnetic north with the top of UI at 0 degrees
   * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E
 * **[r \#time]**: timestamp event, see "Timestamps" section"
@@ -461,7 +464,7 @@ _Note: \#touch & \#accelerate events are automatically started for RjDj scenes f
 	Loc test PdParty scene
 </p>
 
-Loc events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFi only, cell tower + GPS chip, etc). Additionally, speed & course events are generated when the location events are enabled.
+Loc events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFi only, cell tower + GPS chip, etc). Additionally, speed & altitude events are generated when the location events are enabled.
 
 Since running the GPS location service will affect battery life in most cases, it must be manually started and configured after the scene is loaded by sending messages to the internal #pdparty receiver:
   
@@ -472,7 +475,7 @@ Since running the GPS location service will affect battery life in most cases, i
 * **\#pdparty loc**: request the current location if automatic updates is disabled
 * **\#pdparty loc accuracy _type_**: set desired accuracy, this setting impacts battery life
   * _type_: desired accuracy as one of the following strings: 
-    * navigation: highest possible accuracy using additional sensors at all times, intended to be used only while the device is plugged in 
+    * navigation: highest possible accuracy using additional sensors at all times, intended to be used only while the device is plugged in
     * best: highest accuracy on battery (default)
     * 10m: accurate to within 10 meters
     * 100m: accurate to within 100 meters
