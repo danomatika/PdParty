@@ -17,8 +17,7 @@
 extern NSString *const AsyncSocketException;
 extern NSString *const AsyncSocketErrorDomain;
 
-enum AsyncSocketError
-{
+typedef NS_ENUM(NSInteger, AsyncSocketError) {
 	AsyncSocketCFSocketError = kCFSocketError,	// From CFSocketError enum.
 	AsyncSocketNoError = 0,						// Never used.
 	AsyncSocketCanceledError,					// onSocketWillConnect: returned NO.
@@ -27,8 +26,8 @@ enum AsyncSocketError
 	AsyncSocketReadTimeoutError,
 	AsyncSocketWriteTimeoutError
 };
-typedef enum AsyncSocketError AsyncSocketError;
 
+__deprecated_msg("The RunLoop versions of CocoaAsyncSocket are deprecated and will be removed in a future release. Please migrate to GCDAsyncSocket.")
 @protocol AsyncSocketDelegate
 @optional
 
@@ -151,6 +150,7 @@ typedef enum AsyncSocketError AsyncSocketError;
 #pragma mark -
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+__deprecated_msg("The RunLoop versions of CocoaAsyncSocket are deprecated and will be removed in a future release. Please migrate to GCDAsyncSocket.")
 @interface AsyncSocket : NSObject
 {
 	CFSocketNativeHandle theNativeSocket4;

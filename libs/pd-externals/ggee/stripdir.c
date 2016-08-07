@@ -1,7 +1,7 @@
 /* (C) Guenter Geiger <geiger@epy.co.at> */
 
 
-#include "m_pd.h"
+#include <m_pd.h>
 #include <string.h>
 #ifdef _MSC_VER
 #pragma warning( disable : 4244 )

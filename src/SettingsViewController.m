@@ -123,34 +123,34 @@
 	}
 	if(sender == self.libFolderButton) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:root animated:YES];
-		hud.labelText = @"Copying lib folder...";
+		hud.label.text = @"Copying lib folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
 			[app copyLibDirectory];
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[hud hide:YES];
+				[hud hideAnimated:YES];
 			});
 		});
 	}
 	else if(sender == self.samplesFolderButton) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:root animated:YES];
-		hud.labelText = @"Copying samples folder...";
+		hud.label.text = @"Copying samples folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
 			[app copySamplesDirectory];
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[hud hide:YES];
+				[hud hideAnimated:YES];
 			});
 		});
 	}
 	else if(sender == self.testsFolderButton) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:root animated:YES];
-		hud.labelText = @"Copying tests folder...";
+		hud.label.text = @"Copying tests folder...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
 			[app copyTestsDirectory];
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[hud hide:YES];
+				[hud hideAnimated:YES];
 			});
 		});
 	}

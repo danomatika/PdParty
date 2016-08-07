@@ -63,7 +63,7 @@
 	// blocks UI with progress HUD until done
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"firstRun"]) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:YES];
-		hud.labelText = @"Setting up for the first time...";
+		hud.label.text = @"Setting up for the first time...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
 			[self copyLibDirectory];
@@ -71,7 +71,7 @@
 			[self copyTestsDirectory];
 			[defaults setBool:NO forKey:@"firstRun"];
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[hud hide:YES];
+				[hud hideAnimated:YES];
 			});
 		});
 	}

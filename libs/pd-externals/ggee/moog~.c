@@ -2,7 +2,7 @@
 
 
 #include "math.h"
-#include "m_pd.h"
+#include <m_pd.h>
 
 /* ----------------------------- moog ----------------------------- */
 static t_class *moog_class;

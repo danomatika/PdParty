@@ -16,8 +16,7 @@
 extern NSString *const AsyncUdpSocketException;
 extern NSString *const AsyncUdpSocketErrorDomain;
 
-enum AsyncUdpSocketError
-{
+typedef NS_ENUM(NSInteger, AsyncUdpSocketError) {
 	AsyncUdpSocketCFSocketError = kCFSocketError,	// From CFSocketError enum
 	AsyncUdpSocketNoError = 0,                      // Never used
 	AsyncUdpSocketBadParameter,                     // Used if given a bad parameter (such as an improper address)
@@ -26,8 +25,8 @@ enum AsyncUdpSocketError
 	AsyncUdpSocketSendTimeoutError,
 	AsyncUdpSocketReceiveTimeoutError
 };
-typedef enum AsyncUdpSocketError AsyncUdpSocketError;
 
+__deprecated_msg("The RunLoop versions of CocoaAsyncSocket are deprecated and will be removed in a future release. Please migrate to GCDAsyncUdpSocket.")
 @interface AsyncUdpSocket : NSObject
 {
 	CFSocketRef theSocket4;            // IPv4 socket
@@ -317,6 +316,7 @@ typedef enum AsyncUdpSocketError AsyncUdpSocketError;
 #pragma mark -
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+__deprecated_msg("The RunLoop versions of CocoaAsyncSocket are deprecated and will be removed in a future release. Please migrate to GCDAsyncUdpSocket.")
 @protocol AsyncUdpSocketDelegate
 @optional
 

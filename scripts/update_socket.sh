@@ -26,10 +26,10 @@ mkdir -pv $destDir/GCD
 mkdir -pv $destDir/RunLoop
 
 # copy sources
-cp -v CocoaAsyncSocket/GCD/*.h $destDir/GCD
-cp -v CocoaAsyncSocket/GCD/*.m $destDir/GCD
-cp -v CocoaAsyncSocket/RunLoop/*.h $destDir/RunLoop
-cp -v CocoaAsyncSocket/RunLoop/*.m $destDir/RunLoop
+cp -v CocoaAsyncSocket/Source/GCD/*.h $destDir/GCD
+cp -v CocoaAsyncSocket/Source/GCD/*.m $destDir/GCD
+cp -v CocoaAsyncSocket/Source/RunLoop/*.h $destDir/RunLoop
+cp -v CocoaAsyncSocket/Source/RunLoop/*.m $destDir/RunLoop
 
 # cleanup
 rm -rf CocoaAsyncSocket
