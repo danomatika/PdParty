@@ -14,6 +14,7 @@
 #import "Midi.h"
 #import "Osc.h"
 #import "SceneManager.h"
+#import "WebServer.h"
 
 @class PatchViewController;
 @class BrowserViewController;
@@ -30,6 +31,7 @@
 @property (strong, nonatomic) Midi *midi;
 @property (strong, nonatomic) Osc *osc;
 @property (strong, nonatomic) SceneManager *sceneManager;
+@property (strong, nonatomic) WebServer *server;
 
 /// returns whether the patch view is currently visible
 @property (readonly, nonatomic) BOOL isPatchViewVisible;

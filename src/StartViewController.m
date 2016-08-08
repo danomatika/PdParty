@@ -27,11 +27,11 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	if(!self.server) {
-		self.server = [[WebServer alloc] init];
-	}
-	self.serverEnabledSwitch.on = self.server.isRunning;
+	// set instance pointer
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	self.server = app.server;
 	
+	self.serverEnabledSwitch.on = self.server.isRunning;
 	self.serverPortLabel.enabled = YES;
 	self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
 	self.serverPortTextField.enabled = YES;

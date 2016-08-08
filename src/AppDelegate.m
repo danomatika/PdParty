@@ -23,6 +23,7 @@
 @interface AppDelegate () {
 	UINavigationController *webViewNav; //< current URL web view navigation controller
 	BOOL audioEnabledWhenBackgrounded; //< YES if the audio was on when we backgrounded
+	BOOL serverEnabledWhenBackgrounded; //< YES if the web server was on when backgrounded
 }
 
 /// recursively copy a given dir in the resource patches dir to the
@@ -97,6 +98,9 @@
 	self.sceneManager.pureData = self.pureData;
 	self.sceneManager.osc = self.osc;
 	
+	// setup webserver
+	self.server = [[WebServer alloc] init];
+	
     return YES;
 }
 							
@@ -113,20 +117,23 @@
 	if(!self.runsInBackground) {
 		audioEnabledWhenBackgrounded = self.pureData.audioEnabled;
 		self.pureData.audioEnabled = NO;
+		serverEnabledWhenBackgrounded = self.server.isRunning;
+		[self.server stop];
 	}
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
 	// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+	// restart audio & server
+	if(!self.runsInBackground) {
+		self.pureData.audioEnabled = audioEnabledWhenBackgrounded;
+		[self.server start];
+	}
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-	
-	// restart audio
-	if(!self.runsInBackground) {
-		self.pureData.audioEnabled = audioEnabledWhenBackgrounded;
-	}
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -135,6 +142,7 @@
 	self.pureData.audioEnabled = NO;
 	[self.osc stopListening];
 	self.midi.networkEnabled = NO;
+	[self.server stop];
 }
 
 // references:

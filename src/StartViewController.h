@@ -24,7 +24,7 @@
 
 #pragma mark WebServer
 
-@property (strong, nonatomic) WebServer *server;
+@property (weak, nonatomic) WebServer *server;
 
 @property (weak, nonatomic) IBOutlet UISwitch *serverEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *serverPortLabel;
