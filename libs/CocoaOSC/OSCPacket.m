@@ -9,6 +9,8 @@
 #import "OSCPacket.h"
 #import "NS+OSCAdditions.h"
 
+/// Pad length to 4-byte alignment
+static NSUInteger padLength(NSUInteger length);
 
 static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, NSUInteger length);
 
@@ -67,6 +69,7 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
 
 @implementation OSCPacket
 
+@dynamic address, arguments, timetag, childPackets, bundle;
 
 // Following accessors overridden by concrete subclasses.
 
@@ -106,25 +109,21 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
     {
         if ([data length] == 0)
         {
-            [self release];
             return nil;
         }
         unsigned char firstByte[1];
         [data getBytes:firstByte length:1];
         if (firstByte[0] == '/')
         {
-            [self release];
-            self = [[OSCMutableMessage alloc] initWithData:data];
+            self = [[OSCMessage alloc] initWithData:data];
         }
         else if (firstByte[0] == '#')
         {
-            [self release];
             self = [[OSCMutableBundle alloc] initWithData:data];
         }
         else
         {
             NSLog(@"Unrecognized first byte for OSC message: %@", data);
-            [self release];
             return nil;
         }
     }
@@ -133,7 +132,6 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    [self release];
     self = nil;
     NSData *data = [aDecoder decodeObjectForKey:@"data"];
     if (data) {
@@ -229,6 +227,12 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
     return nil;
 }
 
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ (%@) %@>", self.class, self.address, self.arguments];
+}
+
 @end
 
 
@@ -238,12 +242,6 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
 @synthesize arguments;
 @synthesize address;
 
-- (void)dealloc
-{
-    [arguments release];
-    [address release];
-    [super dealloc];
-}
 
 - (id)init
 {
@@ -421,13 +419,236 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
 }
 
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<OSCMutableMessage (%@) %@>", address, arguments];
-}
 
 @end
 
+@interface OSCMessage ()
+
+- (const char *)_address;
+- (const NSUInteger)packetSize;
+- (const char *)typetag;
+
+@end
+
+@implementation OSCMessage
+
+@synthesize timestamp;
+
+- (id)initWithData:(NSData *)data
+{
+    self = [super init];
+    if(!self) return self;
+
+    if(data.length % 4 != 0) {
+        NSLog(@"Invalid OSC packet received");
+        return nil;
+    }
+
+    packetData = [NSMutableData dataWithData:data];
+    timestamp = CFAbsoluteTimeGetCurrent();
+
+#if __LITTLE_ENDIAN__
+
+    // Convert endianness to native for each argument
+    for(int i = 0 ; i < [self countOfArguments] ; i++) {
+        void *argumentBytes = [self pointerToArgumentAtIndex:i];
+
+        OSCValueType type = [self typeOfArgumentAtIndex:i];
+        switch (type) {
+            case OSCValueTypeFloat: {
+                Float32 hostFloat = CFConvertFloat32SwappedToHost(*(CFSwappedFloat32 *)argumentBytes);
+                *((Float32 *)argumentBytes) = hostFloat;
+            }
+                break;
+
+            case OSCValueTypeBlob:
+            case OSCValueTypeInteger: {
+                int32_t hostInt = CFSwapInt32BigToHost(*((int32_t *)argumentBytes));
+                *((int32_t *)argumentBytes) = hostInt;
+            }
+                break;
+
+            case OSCValueTypeLong:
+            case OSCValueTypeTimetag: {
+                int64_t hostInt = CFSwapInt64BigToHost(*(uint64_t *)argumentBytes);
+                *((int64_t *)argumentBytes) = hostInt;
+            }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+#endif
+
+    return self;
+}
+
+#pragma mark Parsing
+
+- (const NSUInteger)packetSize
+{
+    return *((NSUInteger *)packetData.bytes);
+}
+
+- (const char *)_address
+{
+    return packetData.bytes;
+}
+
+/// Padded address length
+- (size_t)addressLength
+{
+    return padLength(strnlen([self _address], packetData.length) + 1);
+}
+
+- (NSString *)address
+{
+    size_t length = strnlen([self _address], [self addressLength]);
+    return [[NSString alloc] initWithBytes:(void *)[self _address] length:length
+                                        encoding:NSASCIIStringEncoding];
+}
+
+/// Padded typetag length
+- (size_t)typetagLength
+{
+    return padLength(strnlen([self typetag], packetData.length - [self addressLength]));
+}
+
+- (const char *)typetag
+{
+    return (packetData.bytes + [self addressLength]);
+}
+
+
+#pragma mark Arguments
+
+/// Slow copy of all arguments wrapped in NSObjects
+- (NSArray *)arguments
+{
+    int count = [self countOfArguments];
+    NSMutableArray *args = [NSMutableArray arrayWithCapacity:count];
+
+    for(int i = 0 ; i < count ; i++) {
+        switch([self typeOfArgumentAtIndex:i]) {
+            case OSCValueTypeFloat:
+                [args addObject:[NSNumber numberWithFloat:
+                                 *((float *)[self pointerToArgumentAtIndex:i])]];
+                break;
+
+            case OSCValueTypeInteger:
+                [args addObject:[NSNumber numberWithInt:
+                                 *((int32_t *)[self pointerToArgumentAtIndex:i])]];
+                break;
+
+            case OSCValueTypeLong:
+                [args addObject:[NSNumber numberWithLong:
+                                 *((int64_t *)[self pointerToArgumentAtIndex:i])]];
+                break;
+
+            case OSCValueTypeString: {
+                char *str = [self pointerToArgumentAtIndex:i];
+                int len = strnlen(str, [self lengthOfArgumentAtIndex:i]);
+                
+                [args addObject:[[NSString alloc] initWithBytes:str length:len
+                                                       encoding:NSASCIIStringEncoding]];
+            }
+                break;
+
+            case OSCValueTypeBlob:
+                [args addObject:[NSData dataWithBytesNoCopy:[self pointerToArgumentAtIndex:i]
+                                                     length:[self lengthOfArgumentAtIndex:i]
+                                               freeWhenDone:NO]];
+                break;
+
+            case OSCValueTypeTimetag:
+                [args addObject:[NSDate dateWithNTPTimestamp:
+                                 *((int64_t *)[self pointerToArgumentAtIndex:i])]];
+                break;
+
+            case OSCValueTypeNone:
+            default:
+                [args addObject:[NSNull null]];
+                break;
+        }
+    }
+
+    return [NSArray arrayWithArray:args];
+}
+
+- (NSUInteger)countOfArguments
+{
+    // TODO: Use strnlen for safety
+    return strlen([self typetag]) - 1;
+}
+
+- (void *)pointerToArgumentAtIndex:(NSUInteger)index
+{
+    if(index >= self.countOfArguments) {
+        return NULL;
+    }
+
+    void *arg = ((void *)[self typetag] + [self typetagLength]);
+    int i = 0;
+
+    // Iterate until we get to the desired argument
+    while(i != index) {
+        arg += [self lengthOfArgumentAtIndex:i];
+        i++;
+    }
+
+    return arg;
+}
+
+- (NSUInteger)lengthOfArgumentAtIndex:(NSUInteger)index
+{
+    if(index >= self.countOfArguments) {
+        return 0;
+    }
+
+    switch([self typeOfArgumentAtIndex:index]) {
+        case OSCValueTypeInteger:
+        case OSCValueTypeFloat:
+            return 4;
+
+        case OSCValueTypeLong:
+            return 8;
+
+        case OSCValueTypeBlob:
+            return padLength(*((UInt32 *)[self pointerToArgumentAtIndex:index])) + 4;
+
+        case OSCValueTypeString:
+            // TODO: Use strnlen for safety
+            return padLength(strlen([self pointerToArgumentAtIndex:index]) + 1);
+
+        case OSCValueTypeNone:
+        default:
+            return 0;
+    }
+}
+
+- (OSCValueType)typeOfArgumentAtIndex:(NSUInteger)index
+{
+    if(index >= self.countOfArguments) {
+        return OSCValueTypeNone;
+    }
+
+    return (OSCValueType) self.typetag[index + 1]; // comma is first char
+}
+
+#pragma mark -
+
+- (BOOL)isEqual:(id)object
+{
+    if([object isKindOfClass:[OSCMessage class]]) {
+        return [packetData isEqualToData:((OSCMessage *)object)->packetData];
+    }
+
+    return [super isEqual:object];
+}
+
+@end
 
 
 @implementation OSCMutableBundle
@@ -435,12 +656,6 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
 @synthesize childPackets;
 @synthesize timetag;
 
-- (void)dealloc
-{
-    [childPackets release];
-    [timetag release];
-    [super dealloc];
-}
 
 - (id)init
 {
@@ -467,7 +682,6 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
             if (![bundleMarker isEqualToString:@"#bundle"])
             {
                 NSLog(@"Malformed bundle marker: %@", bundleMarker);
-                [self release];
                 return nil;
             }
             
@@ -478,10 +692,13 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
             while (index < length)
             {
                 NSUInteger size = [parseOSCObject('i', bytes, &index, length) unsignedIntegerValue];
+                if(index + size > length) {
+                    NSLog(@"Invalid packet size '%ld' in %@", (unsigned long)size, self);
+                    return self;
+                }
                 NSData *subData = [data subdataWithRange:NSMakeRange(index, size)];
                 OSCPacket *childPacket = [[OSCPacket alloc] initWithData:subData];
                 [self addChildPacket:childPacket];
-                [childPacket release];
                 index += size;
             }
         }
@@ -519,6 +736,10 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
 @end
 
 
+static NSUInteger padLength(NSUInteger length)
+{
+    return length - ((length % 4) ?: 4) + 4;
+}
 
 static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, NSUInteger length)
 {
@@ -535,7 +756,7 @@ static id parseOSCObject(char typetag, const void *bytes, NSUInteger *ioIndex, N
             if (buffer[bufferSize-1] == '\0')
             {
                 NSUInteger strLength = strlen(buffer);
-                returnValue = [[[NSString alloc] initWithBytesNoCopy:buffer length:strLength encoding:NSASCIIStringEncoding freeWhenDone:YES] autorelease];
+                returnValue = [[NSString alloc] initWithBytesNoCopy:buffer length:strLength encoding:NSASCIIStringEncoding freeWhenDone:YES];
                 *ioIndex += strLength+1;
             }
             else

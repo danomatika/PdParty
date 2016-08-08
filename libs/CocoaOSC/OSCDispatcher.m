@@ -18,11 +18,8 @@ static NSString* globToRegex(NSString *glob);
 
 @interface OSCAddressNode : NSObject
 {
-    OSCAddressNode *parent;
     NSString *name;
     NSMutableDictionary *children;
-    id target;
-    SEL action;
 }
 
 @property (nonatomic, assign) OSCAddressNode *parent;
@@ -47,19 +44,11 @@ static NSString* globToRegex(NSString *glob);
 
 @synthesize parent, name, target, action;
 
-- (void)dealloc
-{
-    [children release];
-    [name release];
-    [super dealloc];
-}
-
 - (NSString *)description
 {
     NSMutableString *string = [NSMutableString stringWithFormat:@"%@ -> %@ (%@)", self.address, self.target, NSStringFromSelector(self.action)];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     NSArray *allChildren = [[self.children allValues] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-    [sortDescriptor release];
     for (OSCAddressNode *child in allChildren)
     {
         [string appendFormat:@"\n%@", child];
@@ -105,7 +94,6 @@ static NSString* globToRegex(NSString *glob);
         child.name = childName;
         child.parent = self;
         [self.children setObject:child forKey:childName];
-        [child release];
     }
     [child addMethodAtSubAddress:[address cdr] target:t action:a];
 }
@@ -185,9 +173,6 @@ static NSString* globToRegex(NSString *glob);
 - (void)dealloc
 {
     [self cancelQueuedBundles];
-    [queuedBundles release];
-    [rootNode release];
-    [super dealloc];
 }
 
 

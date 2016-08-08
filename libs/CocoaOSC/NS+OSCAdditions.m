@@ -22,8 +22,6 @@
         [components setDay:1];
         NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         date = [[calendar dateFromComponents:components] copy];
-        [components release];
-        [calendar release];
     }
     return date;
 }
@@ -55,7 +53,7 @@
 
 - (NSData *)oscStringData
 {
-    NSMutableData *data = [[[self dataUsingEncoding:NSASCIIStringEncoding] mutableCopy] autorelease];
+    NSMutableData *data = [[self dataUsingEncoding:NSASCIIStringEncoding] mutableCopy];
     
     // Add terminating NULL.
     [data setLength:[data length]+1];

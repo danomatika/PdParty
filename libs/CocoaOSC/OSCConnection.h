@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "OSCConnectionDelegate.h"
 
+#import "GCDAsyncSocket.h"
+#import "GCDAsyncUdpSocket.h"
 
-@class AsyncSocket;
-@class AsyncUdpSocket;
 @class OSCPacket;
 @class OSCDispatcher;
 
@@ -24,14 +24,17 @@ typedef enum {
 
 
 
-@interface OSCConnection : NSObject
+@interface OSCConnection : NSObject <GCDAsyncSocketDelegate, GCDAsyncUdpSocketDelegate>
 {
-    id<OSCConnectionDelegate> delegate;
+    __unsafe_unretained id<OSCConnectionDelegate> delegate;
     OSCDispatcher *dispatcher;
     
-    AsyncSocket *tcpListenSocket;
-    AsyncSocket *tcpSocket;
-    AsyncUdpSocket *udpSocket;
+    GCDAsyncSocket *tcpListenSocket;
+    GCDAsyncSocket *tcpSocket;
+    GCDAsyncUdpSocket *udpSocket;
+
+    /// Used to serialize accesses to pendingPacketsByTag
+    dispatch_queue_t pendingPacketsQueue;
     
     OSCConnectionProtocol protocol;
     
@@ -50,6 +53,11 @@ typedef enum {
 @property (nonatomic, readonly) NSString *localHost;
 @property (nonatomic, readonly) UInt16 localPort;
 @property (nonatomic, readonly) OSCConnectionProtocol protocol;
+
+/**
+ @param dispatcher can be nil
+ */
+- (id)initWithDispatcher:(OSCDispatcher *)dispatcher;
 
 // Connect and either accept or bind are mutually exclusive.  Don't call one after calling the other.
 - (BOOL)connectToHost:(NSString *)host port:(UInt16)port protocol:(OSCConnectionProtocol)protocol error:(NSError **)errPtr;

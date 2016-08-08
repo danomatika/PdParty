@@ -19,7 +19,9 @@ destDir=../libs/CocoaOSC
 cd $WD
 
 # get latest source
-git clone git://github.com/danieldickison/CocoaOSC.git
+#git clone git://github.com/danieldickison/CocoaOSC.git
+# prefer GCD & ARC updated fork for now
+git clone git://github.com/randomblast/CocoaOSC.git
 
 # create destination dir
 mkdir -pv $destDir

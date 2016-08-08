@@ -63,9 +63,7 @@
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
-		3083BD4A17F2867400EDF587 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3083BD4617F2867400EDF587 /* LICENSE */; };
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
-		3083BD4C17F2867400EDF587 /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 3083BD4917F2867400EDF587 /* README.mdown */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		308986BE18CD195E004423AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 308986BD18CD195E004423AD /* Images.xcassets */; };
 		3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3094B43B18C975AE00AFE178 /* libz.1.2.5.dylib */; };
@@ -102,16 +100,14 @@
 		30C38D551C35B7F400A273BE /* Popover.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D541C35B7F400A273BE /* Popover.m */; };
 		30C38D811C3868DB00A273BE /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D801C3868DB00A273BE /* MenuViewController.m */; };
 		30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB316F1ADFB00988EB9 /* Osc.m */; };
-		30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		30C77BC216F1BEAC00988EB9 /* OSCDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBD16F1BEAC00988EB9 /* OSCDispatcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		30C77BC316F1BEAC00988EB9 /* OSCPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBF16F1BEAC00988EB9 /* OSCPacket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */; };
+		30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */; };
+		30C77BC216F1BEAC00988EB9 /* OSCDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBD16F1BEAC00988EB9 /* OSCDispatcher.m */; };
+		30C77BC316F1BEAC00988EB9 /* OSCPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBF16F1BEAC00988EB9 /* OSCPacket.m */; };
 		30C77BE216F1C50000988EB9 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BD816F1C50000988EB9 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C77BE316F1C67500988EB9 /* libicucore.dylib */; };
 		30C77BEF16F1C84E00988EB9 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */; };
 		30C77BF016F1C84E00988EB9 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */; };
-		30C77BF116F1C84E00988EB9 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BEC16F1C84E00988EB9 /* AsyncSocket.m */; };
-		30C77BF216F1C84E00988EB9 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BEE16F1C84E00988EB9 /* AsyncUdpSocket.m */; };
 		30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5916E8456B00E5AA5B /* Midi.m */; };
 		30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5B16E8456B00E5AA5B /* PureData.m */; };
 		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
@@ -285,10 +281,8 @@
 		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
 		30774FA417E2A7A70060C5C6 /* ControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlsView.h; path = src/ControlsView.h; sourceTree = "<group>"; };
 		30774FA517E2A7A80060C5C6 /* ControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControlsView.m; path = src/ControlsView.m; sourceTree = "<group>"; };
-		3083BD4617F2867400EDF587 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3083BD4717F2867400EDF587 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3083BD4817F2867400EDF587 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		3083BD4917F2867400EDF587 /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mdown; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		308986BD18CD195E004423AD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3094B43B18C975AE00AFE178 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
@@ -369,10 +363,6 @@
 		30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		30C77BE816F1C84E00988EB9 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
-		30C77BEB16F1C84E00988EB9 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
-		30C77BEC16F1C84E00988EB9 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
-		30C77BED16F1C84E00988EB9 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
-		30C77BEE16F1C84E00988EB9 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		30C9BF5816E8456B00E5AA5B /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midi.h; sourceTree = "<group>"; };
 		30C9BF5916E8456B00E5AA5B /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Midi.m; sourceTree = "<group>"; };
 		30C9BF5A16E8456B00E5AA5B /* PureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureData.h; sourceTree = "<group>"; };
@@ -666,10 +656,8 @@
 		3083BD4517F2867400EDF587 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				3083BD4617F2867400EDF587 /* LICENSE */,
 				3083BD4717F2867400EDF587 /* MBProgressHUD.h */,
 				3083BD4817F2867400EDF587 /* MBProgressHUD.m */,
-				3083BD4917F2867400EDF587 /* README.mdown */,
 			);
 			name = MBProgressHUD;
 			path = libs/MBProgressHUD;
@@ -896,7 +884,6 @@
 			isa = PBXGroup;
 			children = (
 				30C77BE516F1C84E00988EB9 /* GCD */,
-				30C77BEA16F1C84E00988EB9 /* RunLoop */,
 			);
 			name = CocoaAsyncSocket;
 			path = libs/CocoaAsyncSocket;
@@ -920,17 +907,6 @@
 				30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */,
 			);
 			path = GCD;
-			sourceTree = "<group>";
-		};
-		30C77BEA16F1C84E00988EB9 /* RunLoop */ = {
-			isa = PBXGroup;
-			children = (
-				30C77BEB16F1C84E00988EB9 /* AsyncSocket.h */,
-				30C77BEC16F1C84E00988EB9 /* AsyncSocket.m */,
-				30C77BED16F1C84E00988EB9 /* AsyncUdpSocket.h */,
-				30C77BEE16F1C84E00988EB9 /* AsyncUdpSocket.m */,
-			);
-			path = RunLoop;
 			sourceTree = "<group>";
 		};
 		30C9BF5716E8456B00E5AA5B /* modules */ = {
@@ -1194,14 +1170,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3083BD4A17F2867400EDF587 /* LICENSE in Resources */,
 				30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */,
 				30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */,
 				30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */,
 				3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */,
 				308986BE18CD195E004423AD /* Images.xcassets in Resources */,
 				30ACA10D16D1866000B50B73 /* patches in Resources */,
-				3083BD4C17F2867400EDF587 /* README.mdown in Resources */,
 				300507B417C2C11700D1563C /* Defaults.plist in Resources */,
 				30E92A841C44A44900C75380 /* about in Resources */,
 				30F3E79517C5491100117305 /* images in Resources */,
@@ -1311,8 +1285,6 @@
 				30C77BE216F1C50000988EB9 /* RegexKitLite.m in Sources */,
 				30C77BEF16F1C84E00988EB9 /* GCDAsyncSocket.m in Sources */,
 				30C77BF016F1C84E00988EB9 /* GCDAsyncUdpSocket.m in Sources */,
-				30C77BF116F1C84E00988EB9 /* AsyncSocket.m in Sources */,
-				30C77BF216F1C84E00988EB9 /* AsyncUdpSocket.m in Sources */,
 				30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */,
 				3094B44B18C97CCF00AFE178 /* mztools.c in Sources */,
 				302862711C4325B000A176C6 /* PartyGui.m in Sources */,
