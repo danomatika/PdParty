@@ -5,8 +5,7 @@
 
 WD=$(dirname $0)
 
-DESTDIR=../res/patches
-CPDIR=../doc/composerpack
+DEST_DIR=../res/patches
 
 ###
 
@@ -20,16 +19,14 @@ git clone git://github.com/danomatika/PdDroidParty.git
 rm -f PdDroidParty/bundled-abstractions/droidsystem.pd
 
 # setup dest dir
-mkdir -p $DESTDIR
-mkdir -p $DESTDIR/lib/droidparty
-mkdir -p $DESTDIR/samples/droidparty
-mkdir -p $CPDIR/droidparty
+mkdir -p $DEST_DIR
+mkdir -p $DEST_DIR/lib/droidparty
+mkdir -p $DEST_DIR/samples/droidparty
 
 # copy patches
-cp -Rv PdDroidParty/droidparty-tests/* $DESTDIR/tests/droidparty
-cp -Rv PdDroidParty/bundled-abstractions/* $DESTDIR/lib/droidparty
-cp -Rv PdDroidParty/droidparty-demos/* $DESTDIR/samples/droidparty
-cp -Rv PdDroidParty/droidparty-abstractions/* $CPDIR/droidparty
+cp -Rv PdDroidParty/droidparty-tests/* $DEST_DIR/tests/droidparty
+cp -Rv PdDroidParty/bundled-abstractions/* $DEST_DIR/lib/droidparty
+cp -Rv PdDroidParty/droidparty-demos/* $DEST_DIR/samples/droidparty
 
 # cleanup
 rm -rf PdDroidParty

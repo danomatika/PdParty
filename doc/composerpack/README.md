@@ -40,8 +40,8 @@ Add these to your Pure Data path settings.
 
 Also included are two useful vanilla-only abstraction libraries that make working with vanilla/libpd-based projects easier:
 
-* rj: [rjlib](https://github.com/rjdj/rjlib), developed for the RjDj ecosystem
-* rc: [rc-patches](https://github.com/danomatika/rc-patches), extended patch set from the [robotcowboy project](http://robotcowboy.com), designed to work with rjlib
+* lib/rj: [rjlib](https://github.com/rjdj/rjlib), developed for the RjDj ecosystem
+* lib/rc: [rc-patches](https://github.com/danomatika/rc-patches), extended patch set from the [robotcowboy project](http://robotcowboy.com), designed to work with rjlib
 
 There are two ways you can utilize either of these in your scenes: include a copy of the rj and/or rc folder within your scene folder or add a copy to the libs PdParty folder using the WebDAV server. 
 
@@ -123,5 +123,8 @@ Resources & Examples
 
 * [rjlib example RjDj scenes](https://github.com/rjdj/rjlib/tree/master/examplescenes)
 * [DroidParty webpage](http://droidparty.net)
-* 
-* /tests), includes all scene types, osc communication, sensors events, etc
+
+Developing
+----------
+
+If you are helping with PdParty development, you can build the composer pack zip file using the scripts/composerpack_zip.sh script in the main PdParty directory. This is required as the main PdParty repo does not contain all of the various external libraries & patches.
