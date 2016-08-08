@@ -26,7 +26,9 @@
 @interface Gui : NSObject
 
 @property (strong, nonatomic) NSMutableArray *widgets; //< widget array
-@property (assign, nonatomic) CGSize parentViewSize; //< current view size
+
+/// current view size, used to determine screen scaling
+@property (assign, nonatomic) CGSize parentViewSize;
 
 /// pixel size of original pd patch
 @property (assign, readonly, nonatomic) int patchWidth;

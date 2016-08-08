@@ -89,6 +89,11 @@
 	// clear last scene's console
 	[[Log textViewLogger] clear];
 	
+	// set parent size if unset (aka first load on iPhone)
+	if(self.gui.parentViewSize.width == 0 && self.gui.parentViewSize.height == 0) {
+		[self reshapeToParentSize:parent.bounds.size];
+	}
+	
 	// open new scene
 	if([type isEqualToString:@"PatchScene"]) {
 		self.scene = [PatchScene sceneWithParent:parent andGui:self.gui];

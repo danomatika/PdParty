@@ -191,13 +191,25 @@
 			if([lineType isEqualToString:@"canvas"]) {
 				level++;
 				if(level == 1) {
-					self.patchWidth = (int) [[line objectAtIndex:4] integerValue];
-					self.patchHeight = (int) [[line objectAtIndex:5] integerValue];
-					self.fontSize = (int) [[line objectAtIndex:6] integerValue];
+					self.patchWidth = [[line objectAtIndex:4] intValue];
+					self.patchHeight = [[line objectAtIndex:5] intValue];
+					self.fontSize = [[line objectAtIndex:6] intValue];
 					
-					// set pd gui to ios gui scale amount based on relative sizes
-					self.scaleX = self.parentViewSize.width / self.patchWidth;
-					self.scaleY = self.parentViewSize.height / self.patchHeight;
+					// check for bad canvas sizes
+					if(self.patchWidth < 20 || self.patchHeight < 20) {
+						self.patchWidth = self.parentViewSize.width;
+						self.patchHeight = self.parentViewSize.height;
+						DDLogWarn(@"Gui: patch size < 20x20, using screen size with scaling of 1.0");
+					}
+					else {
+						// set pd gui to ios gui scale amount based on relative sizes
+						self.scaleX = self.parentViewSize.width / self.patchWidth;
+						self.scaleY = self.parentViewSize.height / self.patchHeight;
+					}
+					
+					// sanity check
+					if(self.scaleX <= 0) {self.scaleX = 1.0;}
+					if(self.scaleY <= 0) {self.scaleY = 1.0;}
 				}
 			}
 			else if([lineType isEqualToString:@"restore"]) {
