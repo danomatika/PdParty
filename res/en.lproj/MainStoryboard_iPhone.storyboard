@@ -279,7 +279,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Patch" id="jS9-YK-GRw"/>
                     <connections>
-                        <segue destination="aTA-Ed-lni" kind="push" identifier="showInfo" id="Hxt-6U-JCL"/>
+                        <segue destination="aTA-Ed-lni" kind="push" identifier="showInfo" id="OD3-bb-3qk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nac-nB-azG" sceneMemberID="firstResponder"/>
@@ -290,7 +290,7 @@
         <scene sceneID="WWE-8U-EKj">
             <objects>
                 <tableViewController id="aTA-Ed-lni" customClass="InfoViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="IfB-rM-y6v">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="IfB-rM-y6v">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
