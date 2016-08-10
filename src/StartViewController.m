@@ -52,23 +52,29 @@
 	}
 }
 
+- (void)dealloc {
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.midi.delegate = nil;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.midi.delegate = self;
 	if(app.osc.isListening) {
 		self.oscLabel.text = [NSString stringWithFormat:@"OSC: %@", app.osc.sendHost];
 	}
 	else {
 		self.oscLabel.text = @"OSC: Disabled";
 	}
-	if(app.midi.isEnabled) {
-		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%lu) Out(%lu)",
-							   (unsigned long)app.midi.inputs.count, (unsigned long)app.midi.outputs.count];
-	}
-	else {
-		self.midiLabel.text = @"MIDI: Disabled";
-	}
+	[self updateMidiLabel];
 	self.navigationItem.rightBarButtonItem = [app nowPlayingButton];
 	[super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.midi.delegate = nil;
+	[super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -146,6 +152,17 @@
 	[app launchWebViewForURL:url withTitle:@"About" sceneRotationsOnly:NO];
 }
 
+- (void)updateMidiLabel {
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	if(app.midi.isEnabled) {
+		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%lu) Out(%lu)",
+							   (unsigned long)app.midi.inputs.count, (unsigned long)app.midi.outputs.count];
+	}
+	else {
+		self.midiLabel.text = @"MIDI: Disabled";
+	}
+}
+
 #pragma mark UITableViewController
 
 // http://stackoverflow.com/questions/1547497/change-uitableview-section-header-footer-while-running-the-app?rq=1
@@ -163,6 +180,16 @@
 		default:
 			return nil;
 	}
+}
+
+#pragma mark MidiConnectionDelegate
+
+- (void)midiInputConnectionEvent {
+	[self updateMidiLabel];
+}
+
+- (void)midiOutputConnectionEvent {
+	[self updateMidiLabel];
 }
 
 @end

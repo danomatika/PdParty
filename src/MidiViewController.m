@@ -25,7 +25,6 @@
 	// set midi pointer
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	midi = app.midi;
-	midi.delegate = self;
 	
 	// make sure the tableView knows about our dynamic cells
 	[self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"MidiInputCell"];
@@ -37,8 +36,14 @@
 	self.virtualOutputEnabledSwitch.on = midi.isVirtualOutputEnabled;
 }
 
-- (void)dealloc {
+- (void)viewWillAppear:(BOOL)animated {
+	midi.delegate = self;
+	[super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
 	midi.delegate = nil;
+	[super viewWillDisappear:animated];
 }
 
 // lock orientation
