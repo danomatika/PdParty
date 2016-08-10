@@ -22,7 +22,6 @@
 #import "WebViewController.h"
 
 @interface AppDelegate () {
-//	UINavigationController *webViewNav; //< current URL web view navigation controller
 	BOOL audioEnabledWhenBackgrounded; //< YES if the audio was on when we backgrounded
 	BOOL serverEnabledWhenBackgrounded; //< YES if the web server was on when backgrounded
 }
