@@ -1,0 +1,17 @@
+#N canvas 0 23 340 195 10;
+#X floatatom 75 56 5 10 20 1 - num1send num2send, f 5;
+#X floatatom 75 35 5 0 0 0 - - num1send, f 5;
+#X floatatom 75 77 5 0 0 0 - num2send -, f 5;
+#X obj 65 111 nbx 5 14 -1e+37 1e+37 0 0 \$0-num1 empty empty 0 -8 0
+10 -262144 -1 -1 0 256;
+#X obj 65 133 nbx 5 14 10 20 0 0 \$0-num2 \$0-num1 empty 0 -8 0 10
+-262144 -1 -1 10 256;
+#X obj 65 153 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-num2 empty 0 -8 0
+10 -262144 -1 -1 0 256;
+#X obj 181 36 vsl 15 128 0 127 0 0 \$0-vnum1 empty empty 0 -9 0 10
+-262144 -1 -1 0 1;
+#X obj 206 36 vsl 15 128 10 20 0 0 \$0-vnum2 \$0-vnum1 empty 0 -9 0
+10 -262144 -1 -1 0 1;
+#X obj 231 36 vsl 15 128 0 127 0 0 empty \$0-vnum2 empty 0 -9 0 10
+-262144 -1 -1 0 1;
+#X text 7 4 check min/max ranges through send -> receives;

@@ -57,9 +57,6 @@
 #pragma mark Overridden Getters / Setters
 
 - (void)setValue:(float)value {
-	if(self.minValue != 0 || self.maxValue != 0) {
-		value = CLAMP(value, self.minValue, self.maxValue);
-	}
 	self.valueLabel.text = [Widget stringFromFloat:value withWidth:(self.valueWidth > 0 ? self.valueWidth : INT_MAX)];
 	[super setValue:value];
 }
@@ -92,13 +89,15 @@
 	CGPoint pos = [touch locationInView:self];
 	int diff = touchPrevY - pos.y;
 	if(diff != 0) {
+		float value = 0;
 		if(isOneFinger) {
-			self.value = self.value + diff;
+			value = self.value + diff;
 		}
 		else {
 			// mult & divide by ints to avoid float rounding errors ...
-			self.value = ((self.value*100) + (double) ((diff * 10) / 1000.f)*100)/100;
+			value = ((self.value*100) + (double) ((diff * 10) / 1000.f)*100)/100;
 		}
+		self.value = [self clampValue:value];
 		[self sendFloat:self.value];
 	}
 	touchPrevY = pos.y;
@@ -136,6 +135,15 @@
 
 - (void)receiveSetSymbol:(NSString *)symbol {
 	// swallows set symbols
+}
+
+#pragma mark Private
+
+- (float)clampValue:(float)value {
+	if(self.minValue != 0 || self.maxValue != 0) {
+		return CLAMP(value, self.minValue, self.maxValue);
+	}
+	return value;
 }
 
 @end
