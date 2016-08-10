@@ -14,6 +14,7 @@
 #import "Util.h"
 #import "Gui.h"
 #import "TextViewLogger.h"
+#import "AppDelegate.h"
 
 @implementation ConsoleViewController
 
@@ -53,6 +54,7 @@
 																				  views:@{@"view" : self.textView}]];
 
 	self.navigationItem.title = @"Console";
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
 }
 
@@ -66,12 +68,19 @@
 	[[Log textViewLogger] setTextView:nil];
 }
 
-// lock orientation on iPhone
+// lock to orientations allowed by the current scene
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	if([Util isDeviceATablet]) {
-		return UIInterfaceOrientationMaskAll;
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	if(app.sceneManager.scene && !app.sceneManager.isRotated) {
+		return app.sceneManager.scene.preferredOrientations;
 	}
-	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+	return UIInterfaceOrientationMaskAll;
+}
+
+// update the scenemanager if there are rotations while the PatchView is hidden
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.sceneManager.currentOrientation = [self interfaceOrientation];
 }
 
 #pragma mark UI
@@ -81,4 +90,3 @@
 }
 
 @end
-

@@ -63,7 +63,7 @@
 				self.preferredOrientations = UIInterfaceOrientationMaskAll;
 			}
 			else { // lock to portrait on iPhone
-				self.preferredOrientations = UIInterfaceOrientationMaskPortrait;
+				self.preferredOrientations = UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 			}
 		#else
 			self.preferredOrientations = UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;

@@ -53,7 +53,8 @@
 #pragma mark URL
 
 /// launch web view for a url, uses app scene folder for relative path
-- (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title;
+/// set sceneRotationsOnly if launched from a scene
+- (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title sceneRotationsOnly:(BOOL)sceneRotationsOnly;
 
 #pragma mark Util
 

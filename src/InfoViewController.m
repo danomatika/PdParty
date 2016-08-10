@@ -35,6 +35,16 @@
 	self.artistLabel.text = sceneManager.scene.artist;
 	self.categoryLabel.text = sceneManager.scene.category;
 	self.descriptionTextView.text = sceneManager.scene.description;
+	
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
+}
+
+// lock to orientations allowed by the current scene
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	if(sceneManager.scene && !sceneManager.isRotated) {
+		return sceneManager.scene.preferredOrientations;
+	}
+	return UIInterfaceOrientationMaskAll;
 }
 
 // update the scenemanager if there are rotations while the PatchView is hidden
@@ -50,10 +60,17 @@
 
 // make sure the text view cell expands to fill the empty space in the parent view
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-	if(indexPath.section == 1) {
-		return CGRectGetHeight(self.view.bounds) - (defaultCellHeight * 4) - 88; // 88 for space between groups
+	if(indexPath.section == 1) { // description text view
+		float size = CGRectGetHeight(self.view.bounds) - (defaultCellHeight * 4) - 88; // 88 for space between groups
+		return MAX(size, 2 * 22); // min size is 2 lines
 	}
 	return defaultCellHeight;
+}
+
+#pragma mark UI
+
+- (void)donePressed:(id)sender {
+	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

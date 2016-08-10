@@ -507,7 +507,7 @@
 				NSArray *array = [arguments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, arguments.count-1)]];
 				title = [array componentsJoinedByString:@" "];
 			}
-			[app launchWebViewForURL:url withTitle:title];
+			[app launchWebViewForURL:url withTitle:title sceneRotationsOnly:YES];
 		}
 		
 		// send a timestamp

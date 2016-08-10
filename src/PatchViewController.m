@@ -51,6 +51,16 @@
 	[super awakeFromNib];
 }
 
+- (void)dealloc {
+	
+	// clear pointer when the view is popped
+	[self.sceneManager updateParent:nil];
+	
+	// clear instance pointer for Now Playing button on iPhone
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.patchViewController = nil;
+}
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
@@ -85,14 +95,24 @@
 	}
 }
 
-- (void)dealloc {
-	
-	// clear pointer when the view is popped
-	[self.sceneManager updateParent:nil];
-	
-	// clear instance pointer for Now Playing button on iPhone
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	app.patchViewController = nil;
+- (void)viewWillAppear:(BOOL)animated {
+	if(self.sceneManager.scene) {
+		if(self.background) {
+			[self removeBackground];
+		}
+	}
+	else if(!self.background) {
+		[self addBackground];
+	}
+	[super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+
+	// clean up popover or there will be an exception when navigating away while
+	// popover is still displayed on iPhone
+	[self dismissControlsPopover];
 }
 
 // called when view bounds change (after rotations, etc)
@@ -120,38 +140,19 @@
 	self.sceneManager.currentOrientation = [self interfaceOrientation];
 }
 
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
-}
-
 // lock orientation based on scene's preferred orientation mask
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	if(self.sceneManager.scene) {
+	if(self.sceneManager.scene && !self.sceneManager.isRotated) {
 		return self.sceneManager.scene.preferredOrientations;
 	}
 	return UIInterfaceOrientationMaskAll;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	if(self.sceneManager.scene) {
-		if(self.background) {
-			[self removeBackground];
-		}
-	}
-	else if(!self.background) {
-		[self addBackground];
-	}
-	[super viewWillAppear:animated];
+- (void)didReceiveMemoryWarning {
+	[super didReceiveMemoryWarning];
+	// Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-
-	// clean up popover or there will be an exception when navigating away while
-	// popover is still displayed on iPhone
-	[self dismissControlsPopover];
-}
 #pragma mark Scene Management
 
 - (void)openScene:(NSString *)path withType:(NSString *)type {
@@ -232,12 +233,14 @@
 			self.view.transform = CGAffineTransformIdentity;
 			self.view.bounds = CGRectMake(0, 0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds));
 		}
+		self.sceneManager.isRotated = NO;
 	}
 	else {
 		if(CGAffineTransformIsIdentity(self.view.transform)) {
 			self.view.transform = CGAffineTransformMakeRotation(self.rotation / 180.0 * M_PI);
 			self.view.bounds = CGRectMake(0, 0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds));
 		}
+		self.sceneManager.isRotated = YES;
 	}
 }
 

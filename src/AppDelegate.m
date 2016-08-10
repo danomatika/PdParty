@@ -19,9 +19,10 @@
 
 #import "PatchViewController.h"
 #import "BrowserViewController.h"
+#import "WebViewController.h"
 
 @interface AppDelegate () {
-	UINavigationController *webViewNav; //< current URL web view navigation controller
+//	UINavigationController *webViewNav; //< current URL web view navigation controller
 	BOOL audioEnabledWhenBackgrounded; //< YES if the audio was on when we backgrounded
 	BOOL serverEnabledWhenBackgrounded; //< YES if the web server was on when backgrounded
 }
@@ -281,56 +282,20 @@
 
 #pragma mark URL
 
-- (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title {
+- (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title sceneRotationsOnly:(BOOL)sceneRotationsOnly {
+
+	// open url in web view
+	WebViewController *controller = [[WebViewController alloc] init];
+	[controller openURL:url withTitle:title sceneRotationsOnly:sceneRotationsOnly];
 	
-	// assume relative file path if no http:, file:, etc
-	if(!url.scheme) {
-		if(!self.sceneManager.scene) {
-			DDLogError(@"AppDelegate: can't open relative path url without scene: %@", url.path);
-			return;
-		}
-		url = [NSURL fileURLWithPath:[self.sceneManager.currentPath stringByAppendingPathComponent:url.path]];
-	}
-	
-	// create web view and load
-	UIWebView *webView = [[UIWebView alloc] init];
-	if([url isFileURL]) {
-		NSError *error;
-		if(![url checkResourceIsReachableAndReturnError:&error]) {
-			UIAlertView *alert = [[UIAlertView alloc]
-			                      initWithTitle:@"Couldn't launch URL"
-			                      message:error.localizedDescription
-			                      delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-			[alert show];
-			return;
-		}
-		NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
-		[webView loadHTMLString:html baseURL:nil];
-	}
-	else { // external url
-		[webView loadRequest:[NSURLRequest requestWithURL:url]];
-	}
-	
-	// show webview in nav controller
-	UIViewController *controller = [[UIViewController alloc] init];
-	controller.view = webView;
-	controller.title = (title ? title : @"URL");
-	controller.modalPresentationStyle = UIModalPresentationPageSheet;
-	controller.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-	                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-	                                                  target:self
-	                                                  action:@selector(doneButtonPressed:)];
+	// wrap web view in nav controller
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
 	nav.navigationBar.barStyle = UIBarStyleBlack;
+
+	// present nav controller
 	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
 	[self.patchViewController dismissMasterPopover:NO]; // hide master popover if visible
 	[root presentViewController:nav animated:YES completion:nil];
-	webViewNav = nav;
-}
-
-- (void)doneButtonPressed:(id)sender {
-	[webViewNav dismissViewControllerAnimated:YES completion:nil];
-	webViewNav = nil;
 }
 
 #pragma mark Util

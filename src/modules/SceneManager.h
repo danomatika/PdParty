@@ -29,6 +29,9 @@
 
 @property (assign, nonatomic) UIInterfaceOrientation currentOrientation; //< accel orientation based on this
 
+/// is the scene being displayed rotated from it's preferred orientation?
+@property (assign, nonatomic) BOOL isRotated;
+
 /// close the current scene and open a new one, requires full path to current patch
 /// available types: PatchScene, RjScene, DroidScene, PartyScene, RecordingScene
 - (BOOL)openScene:(NSString *)path withType:(NSString *)type forParent:(UIView *)parent;

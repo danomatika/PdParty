@@ -10,6 +10,7 @@
 		300507B217C29CE700D1563C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300507B117C29CE600D1563C /* SettingsViewController.m */; };
 		300507B417C2C11700D1563C /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 300507B317C2C11700D1563C /* Defaults.plist */; };
 		300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300EC0451833D74F00219F48 /* CoreLocation.framework */; };
+		302438CD1D5AC072005B15A2 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302438CC1D5AC072005B15A2 /* WebViewController.m */; };
 		3024B08E1C993769002C36DA /* Controllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3024B08D1C993769002C36DA /* Controllers.m */; };
 		3024B0901C99384E002C36DA /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024B08F1C99384E002C36DA /* GameController.framework */; };
 		3028626A1C40CEBA00A176C6 /* ConsoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862691C40CEBA00A176C6 /* ConsoleViewController.m */; };
@@ -176,6 +177,8 @@
 		300507B117C29CE600D1563C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = src/SettingsViewController.m; sourceTree = "<group>"; };
 		300507B317C2C11700D1563C /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
 		300EC0451833D74F00219F48 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		302438CB1D5AC072005B15A2 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = src/WebViewController.h; sourceTree = "<group>"; };
+		302438CC1D5AC072005B15A2 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = src/WebViewController.m; sourceTree = "<group>"; };
 		3024B08C1C993769002C36DA /* Controllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controllers.h; sourceTree = "<group>"; };
 		3024B08D1C993769002C36DA /* Controllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controllers.m; sourceTree = "<group>"; };
 		3024B08F1C99384E002C36DA /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
@@ -798,6 +801,8 @@
 				300507B117C29CE600D1563C /* SettingsViewController.m */,
 				30FA774D16E5636A000E8D2B /* StartViewController.h */,
 				30FA774E16E5636A000E8D2B /* StartViewController.m */,
+				302438CB1D5AC072005B15A2 /* WebViewController.h */,
+				302438CC1D5AC072005B15A2 /* WebViewController.m */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -1232,6 +1237,7 @@
 				3050821716E198C900895CB2 /* MultipartMessageHeader.m in Sources */,
 				303CBBF01C497330000384FF /* Sensors.m in Sources */,
 				3050821816E198C900895CB2 /* MultipartMessageHeaderField.m in Sources */,
+				302438CD1D5AC072005B15A2 /* WebViewController.m in Sources */,
 				3050821916E198C900895CB2 /* HTTPAsyncFileResponse.m in Sources */,
 				3050821A16E198C900895CB2 /* HTTPDataResponse.m in Sources */,
 				3050821B16E198C900895CB2 /* HTTPDynamicFileResponse.m in Sources */,

@@ -143,7 +143,7 @@
 - (void)infoPressed:(id)sender {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	NSURL *url = [NSURL fileURLWithPath:[[Util resourcePath] stringByAppendingPathComponent:@"/about/about.html"]];
-	[app launchWebViewForURL:url withTitle:@"About"];
+	[app launchWebViewForURL:url withTitle:@"About" sceneRotationsOnly:NO];
 }
 
 #pragma mark UITableViewController
