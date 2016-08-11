@@ -61,7 +61,7 @@
 	// load widgets from gui
 	if(self.parentView) {
 		if(self.gui.widgets.count > 0) {
-			DDLogVerbose(@"%@: adding %lu widgets", self.type, self.gui.widgets.count);
+			DDLogVerbose(@"%@: adding %lu widgets", self.type, (unsigned long)self.gui.widgets.count);
 		}
 		[self.gui initWidgetsFromPatch:self.patch andAddToView:self.parentView];
 	}

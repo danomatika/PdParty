@@ -508,7 +508,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	}
 	Browser *browserLayer = [self.root newBrowser]; // use subclass
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
-	browserLayer.title = [NSString stringWithFormat:@"Moving %lu item%@", s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
+	browserLayer.title = [NSString stringWithFormat:@"Moving %lu item%@", (unsigned long)s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
 	browserLayer.directoriesOnly = YES;
 	browserLayer.mode = BrowserModeMove;
 	navigationController.toolbarHidden = NO;
