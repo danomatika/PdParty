@@ -14,6 +14,7 @@
 	if(self) {
 		self.text = [NSMutableString string];
 		self.lineCount = 0;
+		self.animateScroll = NO;
 	}
 	return self;
 }
@@ -50,7 +51,14 @@
 				}
 				[self updateText];
 				if(scroll) {
-					[self.textView scrollRangeToVisible:NSMakeRange(self.textView.text.length-1, 1)];
+					if(self.animateScroll) {
+						[self.textView scrollRangeToVisible:NSMakeRange(self.textView.text.length-1, 1)];
+					}
+					else {
+						// from http://stackoverflow.com/questions/29022962/scroll-uitextview-to-bottom-without-animation
+						CGPoint bottomOffset = CGPointMake(0, self.textView.contentSize.height - self.textView.bounds.size.height);
+						[self.textView setContentOffset:bottomOffset animated:NO];
+					}
 				}
 			});
 		}

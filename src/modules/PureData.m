@@ -795,7 +795,7 @@ static NSNumberFormatter *s_numFormatter = nil;
 @implementation PureDataDispatcher
 
 - (void)receivePrint:(NSString *)message {
-	DDLogInfo(@"Pd: %@", message);
+	DDLogInfo(@"%@", message);
 	[self.osc sendPrint:message];
 }
 
