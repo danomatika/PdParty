@@ -78,6 +78,4 @@
 #X text 7 7 gyroscope rotation radians/s;
 #X text 9 213 enable auto updates to receive event stream (default:
 on);
-#X text 10 300 auto update changes only take effect on gyro restart
-;
 #X text 10 278 send manual update when auto updates is disabled;

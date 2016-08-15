@@ -173,6 +173,24 @@
 	DDLogVerbose(@"Sensors: gyro speed: %@", speed);
 }
 
+- (void)setGyroAutoUpdates:(BOOL)gyroAutoUpdates {
+	if(_gyroAutoUpdates == gyroAutoUpdates) {return;}
+	_gyroAutoUpdates = gyroAutoUpdates;
+	if(motionManager.gyroActive) {
+		[motionManager stopGyroUpdates];
+		if(self.gyroAutoUpdates) {
+			[motionManager startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
+				withHandler:^(CMGyroData *data, NSError *error) {
+				[self sendGyro:data];
+			}];
+		}
+		else {
+			[motionManager startGyroUpdates];
+		}
+	}
+	DDLogVerbose(@"Sensors: gyro updates: %d", (int)gyroAutoUpdates);
+}
+
 - (void)sendGyro {
 	if(motionManager.gyroActive) {
 		[self sendGyro:motionManager.gyroData];
@@ -189,29 +207,29 @@
 	if(locationEnabled) { // start
 		if([CLLocationManager locationServicesEnabled]) {
 			hasIgnoredStartingLocation = NO;
-//			if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
-//				[PureData sendPrint:@"location denied"];
-//				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Denied"
-//											message:@"To reenable, please go to Settings and turn on Location Service for this app."
-//										   delegate:nil
-//								  cancelButtonTitle:@"OK"
-//								  otherButtonTitles:nil]show];
-//			}
-//			else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
-//				[PureData sendPrint:@"location restricted"];
-//				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Restricted"
-//											message:@"To reenable, please go to Settings and turn off the Location Service restriction for this app."
-//										   delegate:nil
-//								  cancelButtonTitle:@"OK"
-//								  otherButtonTitles:nil]show];
-//			}
-//			else {
+			if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+				[PureData sendPrint:@"location denied"];
+				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Denied"
+											message:@"To reenable, please go to Settings and turn on Location Service for this app."
+										   delegate:nil
+								  cancelButtonTitle:@"OK"
+								  otherButtonTitles:nil]show];
+			}
+			else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
+				[PureData sendPrint:@"location restricted"];
+				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Restricted"
+											message:@"To reenable, please go to Settings and turn off the Location Service restriction for this app."
+										   delegate:nil
+								  cancelButtonTitle:@"OK"
+								  otherButtonTitles:nil]show];
+			}
+			else {
 				[locationManager startUpdatingLocation];
 				[PureData sendPrint:@"location enabled"];
 				if([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
 					[locationManager requestAlwaysAuthorization];
 				}
-//			}
+			}
 		}
 		else {
 			[PureData sendPrint:@"location disabled or not available on this device"];
@@ -359,6 +377,24 @@
 		return;
 	}
 	DDLogVerbose(@"Sensors: magnet speed: %@", speed);
+}
+
+- (void)setMagnetAutoUpdates:(BOOL)magnetAutoUpdates {
+	if(_magnetAutoUpdates == magnetAutoUpdates) {return;}
+	_magnetAutoUpdates = magnetAutoUpdates;
+	if(motionManager.magnetometerActive) {
+		[motionManager stopMagnetometerUpdates];
+		if(self.magnetAutoUpdates) {
+			[motionManager startMagnetometerUpdatesToQueue:[NSOperationQueue mainQueue]
+				withHandler:^(CMMagnetometerData *data, NSError *error) {
+				[self sendMagnet:data];
+			}];
+		}
+		else {
+			[motionManager startMagnetometerUpdates];
+		}
+	}
+	DDLogVerbose(@"Sensors: magnet updates: %d", (int)magnetAutoUpdates);
 }
 
 - (void)sendMagnet {

@@ -30,7 +30,7 @@
 #pragma mark Gyro
 
 @property (assign, nonatomic) BOOL gyroEnabled; //< enable gyro service
-@property (assign, nonatomic) BOOL gyroAutoUpdates; //< set to NO if sending manually (default: YES), only takes effect on re-enable
+@property (assign, nonatomic) BOOL gyroAutoUpdates; //< set to NO if sending manually (default: YES)
 @property (nonatomic) NSString *gyroSpeed;  //< gyro update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
 
 - (void)sendGyro; //< request current gyro values manually, use this when auto updates is NO
@@ -55,7 +55,7 @@
 #pragma mark Magnet
 
 @property (assign, nonatomic) BOOL magnetEnabled; //< enable magnet service
-@property (assign, nonatomic) BOOL magnetAutoUpdates; //< set to NO if sending manually (default: YES), only takes effect on re-enable
+@property (assign, nonatomic) BOOL magnetAutoUpdates; //< set to NO if sending manually (default: YES)
 @property (nonatomic) NSString *magnetSpeed; //< magnet update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
 
 - (void)sendMagnet; //< request current gyro value manually, use this when auto updates is NO
