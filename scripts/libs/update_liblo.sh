@@ -10,7 +10,7 @@
 
 WD=$(dirname $0)
 SRC_DIR=liblo
-DEST_DIR=../libs/liblo
+DEST_DIR=../../libs/liblo
 
 ###
 
@@ -69,7 +69,7 @@ cd ../
 
 # copy headers & lib
 cp -v $SRC_DIR/lo/*.h $DEST_DIR/lo/
-cp -v $SRC_DIR/liblo.a $DEST_DIR
+cp -v $SRC_DIR/liblo.a $DEST_DIR/
 
 # cleanup
 rm -rf $SRC_DIR

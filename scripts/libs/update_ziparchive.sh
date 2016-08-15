@@ -11,7 +11,8 @@
 #
 
 WD=$(dirname $0)
-destDir=../libs/ZipArchive
+SRC_DIR=ZipArchive
+DEST_DIR=../../libs/ZipArchive
 
 ###
 
@@ -22,25 +23,24 @@ cd $WD
 git clone https://github.com/mattconnolly/ZipArchive.git
 
 # remove stuff we don't need
-rm ZipArchive/minizip/ChangeLogUnzip
-rm ZipArchive/minizip/Makefile
-rm ZipArchive/minizip/MiniZip64_Changes.txt
-rm ZipArchive/minizip/MiniZip64_info.txt
-rm ZipArchive/minizip/make_vms.com
-rm ZipArchive/minizip/miniunz.c
-rm ZipArchive/minizip/minizip.c
+rm $SRC_DIR/minizip/ChangeLogUnzip
+rm $SRC_DIR/minizip/Makefile
+rm $SRC_DIR/minizip/MiniZip64_Changes.txt
+rm $SRC_DIR/minizip/MiniZip64_info.txt
+rm $SRC_DIR/minizip/make_vms.com
+rm $SRC_DIR/minizip/miniunz.c
+rm $SRC_DIR/minizip/minizip.c
 
 # create destination dir
-mkdir -pv $destDir
+mkdir -pv $DEST_DIR
 
 # copy sources
-cp -v ZipArchive/ZipArchive/*.h $destDir
-cp -v ZipArchive/ZipArchive/*.m $destDir
-cp -vR ZipArchive/minizip $destDir
+cp -v $SRC_DIR/ZipArchive/*.h $DEST_DIR/
+cp -v $SRC_DIR/ZipArchive/*.m $DEST_DIR/
+cp -vR $SRC_DIR/minizip $DEST_DIR/
 
 # copy license
-cp -v ZipArchive/LICENSE $destDir
+cp -v $SRC_DIR/LICENSE $DEST_DIR/
 
 # cleanup
-rm -rf ZipArchive
-
+rm -rf $SRC_DIR

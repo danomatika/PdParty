@@ -2,8 +2,6 @@
 #
 # this script automatically updates the sources for the MBProgressHUD ios library
 #
-# to upgrade to a new version, change the version number below
-#
 # as long as the download link is formatted in the same way and folder
 # structure are the same, this script should *just work*
 #
@@ -11,8 +9,8 @@
 #
 
 WD=$(dirname $0)
-destDir=../libs/MBProgressHUD
-srcDir=MBProgressHUD
+SRC_DIR=MBProgressHUD
+DEST_DIR=../../libs/MBProgressHUD
 
 ###
 
@@ -23,16 +21,15 @@ cd $WD
 git clone https://github.com/jdg/MBProgressHUD.git
 
 # create destination dir
-mkdir -pv $destDir
+mkdir -pv $DEST_DIR
 
 # copy readme/license
-cp -v $srcDir/README.mdown $destDir
-cp -v $srcDir/LICENSE $destDir
+cp -v $SRC_DIR/README.mdown $DEST_DIR/
+cp -v $SRC_DIR/LICENSE $DEST_DIR/
 
 # copy sources
-cp -v $srcDir/MBProgressHUD.h $destDir
-cp -v $srcDir/MBProgressHUD.m $destDir
+cp -v $SRC_DIR/MBProgressHUD.h $DEST_DIR/
+cp -v $SRC_DIR/MBProgressHUD.m $DEST_DIR/
 
 # cleanup
-rm -rf MBProgressHUD
-
+rm -rf $SRC_DIR

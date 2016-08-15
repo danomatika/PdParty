@@ -2,8 +2,6 @@
 #
 # this script automatically updates the sources for the PGMidi ios library
 #
-# to upgrade to a new version, change the version number below
-#
 # as long as the download link is formatted in the same way and folder
 # structure are the same, this script should *just work*
 #
@@ -11,7 +9,8 @@
 #
 
 WD=$(dirname $0)
-destDir=../libs/pgmidi
+SRC_DIR=PGMidi
+DEST_DIR=../../libs/pgmidi
 
 ###
 
@@ -22,14 +21,13 @@ cd $WD
 git clone git://github.com/petegoodliffe/PGMidi.git
 
 # create destination dir
-mkdir -pv $destDir
+mkdir -pv $DEST_DIR
 
 # copy readme/license
-cp -v PGMidi/README.md $destDir
+cp -v $SRC_DIR/README.md $DEST_DIR/
 
 # copy sources
-cp -v PGMidi/Sources/PGMidi/* $destDir
+cp -v $SRC_DIR/Sources/PGMidi/* $DEST_DIR/
 
 # cleanup
-rm -rf PGMidi
-
+rm -rf $SRC_DIR

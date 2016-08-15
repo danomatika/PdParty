@@ -10,7 +10,7 @@
 
 WD=$(dirname $0)
 SRC_DIR=CocoaHTTPServer
-DEST_DIR=../libs/CocoaHTTPServer
+DEST_DIR=../../libs/CocoaHTTPServer
 
 ###
 
@@ -29,4 +29,4 @@ cp -Rv $SRC_DIR/Vendor $DEST_DIR/
 cp -Rv $SRC_DIR/LICENSE.txt $DEST_DIR/
 
 # cleanup
-rm -rfv $SRC_DIR
+rm -rf $SRC_DIR

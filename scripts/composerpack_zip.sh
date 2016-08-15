@@ -38,8 +38,7 @@ cp -Rv $RES_DIR/lib/droidparty/droidsystem.pd $TEMP/lib/droidparty
 cp -Rv $RES_DIR/lib/droidparty/mknob.pd $TEMP/lib/droidparty
 
 # droidparty
-#git clone git://github.com/chr15m/PdDroidParty.git
-git clone git://github.com/danomatika/PdDroidParty.git
+git clone git://github.com/chr15m/PdDroidParty.git
 mkdir -p $TEMP/lib/droidparty
 cp -Rv PdDroidParty/droidparty-abstractions/* $TEMP/lib/droidparty
 rm -rf PdDroidParty
