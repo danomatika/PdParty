@@ -10,11 +10,21 @@
  */
 #import "Osc.h"
 
+#import "lo.h"
 #import "Log.h"
 #import "PureData.h"
 
+// internal liblo raw data send
+static int send_data(lo_address a, lo_server from, char *data, const size_t data_len);
+
+// liblo C callbacks
+void errorCB(int num, const char *msg, const char *where);
+int messageCB(const char *path, const char *types, lo_arg **argv,
+              int argc, lo_message msg, void *user_data);
+
 @interface Osc () {
-	OSCConnection *connection;
+	lo_server_thread *server;
+	lo_address *sendAddress;
 }
 @property (readwrite, nonatomic) BOOL isListening;
 @end
@@ -24,22 +34,14 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		connection = [[OSCConnection alloc] init];
-		connection.delegate = self;
-		connection.continuouslyReceivePackets = YES;
+		server = NULL;
+		sendAddress = NULL;
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		
 		self.sendHost = [defaults objectForKey:@"oscSendHost"];
 		self.sendPort = (int)[defaults integerForKey:@"oscSendPort"];
 		self.listenPort = (int)[defaults integerForKey:@"oscListenPort"];
-		
-		// do a bind at the beginning so sending works
-		NSError *error;
-		if(![connection bindToAddress:nil port:self.listenPort error:&error]) {
-			DDLogError(@"OSC: could not bind UDP connection: %@", error);
-		}
-		[connection disconnect];
 		
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
 		self.sensorSendingEnabled = [defaults boolForKey:@"sensorSendingEnabled"];
@@ -57,21 +59,15 @@
 
 - (BOOL)startListening:(NSError *)error {
 	if(self.isListening) return YES; // still listening
-
-	if(![connection bindToAddress:nil port:self.listenPort error:&error]) {
-		if(error) { // error might be nil
-			DDLogError(@"OSC: could not bind UDP connection: %@", error);
-		}
-		else {
-			DDLogError(@"OSC: could not bind UDP connection");
-		}
-		self.isListening = NO;
+	
+	if(![self updateSendAddress]) {
 		return NO;
 	}
-	DDLogVerbose(@"OSC: started listening on port %d", connection.localPort);
-	[connection receivePacket];
+	if(![self updateServer]) {
+		return NO;
+	}
 	self.isListening = YES;
-	
+
 	[[NSUserDefaults standardUserDefaults] setBool:self.isListening forKey:@"oscServerEnabled"];
 
 	return YES;
@@ -80,109 +76,124 @@
 - (void)stopListening {
 	if(!self.isListening) return;
 	
-	DDLogVerbose(@"OSC: stopped listening on port %d", connection.localPort);
-	[connection disconnect];
+	DDLogVerbose(@"OSC: stopped listening");
+	lo_server_thread_stop(server);
+	lo_server_thread_free(server);
+	server = NULL;
 	self.isListening = NO;
-		
+	
+	lo_address_free(sendAddress);
+	sendAddress = NULL;
+	
 	[[NSUserDefaults standardUserDefaults] setBool:self.isListening forKey:@"oscServerEnabled"];
 }
 
-#pragma OSCConnectionDelegate
+#pragma mark Receive Events
 
-- (void)oscConnection:(OSCConnection *)connection didReceivePacket:(OSCPacket *)packet {
-//	#ifdef DEBUG
-//		DDLogVerbose(@"OSC message to %@: %@", packet.address, [packet.arguments description]);
-//	#endif
-	[PureData sendOscMessage:packet.address withArguments:packet.arguments];
+- (void)receiveMessage:(NSString *)address withArguments:(NSArray *)arguments {
+	#ifdef DEBUG
+		DDLogVerbose(@"OSC message to %@: %@", packet.address, [packet.arguments description]);
+	#endif
+	[PureData sendOscMessage:address withArguments:arguments];
 }
 
 #pragma mark Send Events
 
 - (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments {
 	if(!self.isListening) return;
-	OSCMutableMessage *m = [[OSCMutableMessage alloc] init];
-	m.address = address;
-	for(NSObject *object in arguments) {
-		[m addArgument:object];
+	lo_message *m = lo_message_new();
+	for(NSObject *o in arguments) {
+		if([o isKindOfClass:[NSNumber class]]) {
+			lo_message_add_float(m, [(NSNumber *)o floatValue]);
+		}
+		else if([o isKindOfClass:[NSString class]]) {
+			lo_message_add_string(m, [(NSString *)o UTF8String]);
+		}
+		else {
+			DDLogWarn(@"Osc: sendMessage dropping non-numeric/string argument: %@", o);
+		}
 	}
-	[connection sendPacket:m toHost:self.sendHost port:self.sendPort];
+	lo_send_message(sendAddress, [address UTF8String], m);
 }
 
 - (void)sendPacket:(NSData *)data {
 	if(!self.isListening) return;
-	OSCPacket *p = [[OSCPacket alloc] initWithData:data];
-	if(!p) {
-		DDLogWarn(@"OSC: couldn't send raw packet");
+	if(!data || data.length < 1 || !data.bytes) {
 		return;
 	}
-	[connection sendPacket:p toHost:self.sendHost port:self.sendPort];
+	char firstByte = ((char *)data.bytes)[0];
+	if(firstByte == '/') {
+		int res = 0;
+		lo_message m = lo_message_deserialise((void *)data.bytes, data.length, &res);
+		if(res != 0) {
+			DDLogError(@"Osc: couldn't send packet: message parsing failed, error %d", res);
+		}
+		char *path = lo_get_path((void *)data.bytes, data.length);
+		lo_send_message(sendAddress, path, m);
+		lo_message_free(m);
+	}
+	else if(firstByte == '#') {
+		DDLogWarn(@"Osc: couldn't send packet: bundle not supported");
+	}
+	else {
+		DDLogWarn(@"Osc: couldn't send packet: unrecognized first byte '%c'", firstByte);
+	}
 }
 
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
 	if(!self.isListening || !self.touchSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_TOUCH_ADDR;
-	[message addString:eventType];
-	[message addFloat:id+1];
-	[message addFloat:x];
-	[message addFloat:y];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "siff", [eventType UTF8String], id, x, y);
+	lo_send_message(sendAddress, [OSC_TOUCH_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_ACCEL_ADDR;
-	[message addFloat:x];
-	[message addFloat:y];
-	[message addFloat:z];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "fff", x, y, z);
+	lo_send_message(sendAddress, [OSC_ACCEL_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendGyro:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_GYRO_ADDR;
-	[message addFloat:x];
-	[message addFloat:y];
-	[message addFloat:z];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "fff", x, y, z);
+	lo_send_message(sendAddress, [OSC_GYRO_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_LOCATION_ADDR;
-	[message addFloat:lat];
-	[message addFloat:lon];
-	[message addFloat:accuracy];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "fff", lat, lon, accuracy);
+	lo_send_message(sendAddress, [OSC_LOCATION_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendSpeed:(float)speed course:(float)course {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_SPEED_ADDR;
-	[message addFloat:speed];
-	[message addFloat:course];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "ff", speed, course);
+	lo_send_message(sendAddress, [OSC_SPEED_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendAltitude:(float)altitude accuracy:(float)accuracy {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_ALTITUDE_ADDR;
-	[message addFloat:altitude];
-	[message addFloat:accuracy];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "ff", altitude, accuracy);
+	lo_send_message(sendAddress, [OSC_ALTITUDE_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendCompass:(float)degrees {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_COMPASS_ADDR;
-	[message addFloat:degrees];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add_float(m, degrees);
+	lo_send_message(sendAddress, [OSC_COMPASS_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendTime:(NSArray *)time {
@@ -192,84 +203,77 @@
 
 - (void)sendMagnet:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_MAGNET_ADDR;
-	[message addFloat:x];
-	[message addFloat:y];
-	[message addFloat:z];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "fff", x, y, z);
+	lo_send_message(sendAddress, [OSC_MAGNET_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendEvent:(NSString *)event forController:(NSString *)controller {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_CONTROLLER_ADDR;
-	[message addString:event];
-	[message addString:controller];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "ss", [event UTF8String], [controller UTF8String]);
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendController:(NSString *)controller button:(NSString *)button state:(BOOL)state {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_CONTROLLER_ADDR;
-	[message addString:controller];
-	[message addString:@"button"];
-	[message addString:button];
-	[message addFloat:state];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "sssf", [controller UTF8String], "button", [button UTF8String], (float)state);
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_CONTROLLER_ADDR;
-	[message addString:controller];
-	[message addString:@"axis"];
-	[message addString:axis];
-	[message addFloat:value];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "sssf", [controller UTF8String], "axis", [axis UTF8String], value);
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendControllerPause:(NSString *)controller {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_CONTROLLER_ADDR;
-	[message addString:controller];
-	[message addString:@"pause"];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add(m, "ss", [controller UTF8String], "pause");
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendKey:(int)key {
 	if(!self.isListening || !self.keySendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_KEY_ADDR;
-	[message addFloat:key];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add_float(m, key);
+	lo_send_message(sendAddress, [OSC_KEY_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendPrint:(NSString *)print {
 	if(!self.isListening || !self.printSendingEnabled) return;
-	OSCMutableMessage *message = [[OSCMutableMessage alloc] init];
-	message.address = OSC_PRINT_ADDR;
-	[message addString:print];
-	[connection sendPacket:message toHost:self.sendHost port:self.sendPort];
+	lo_message *m = lo_message_new();
+	lo_message_add_string(m, [print UTF8String]);
+	lo_send_message(sendAddress, [OSC_PRINT_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 #pragma mark Overridden Getters / Setters
 
 - (void)setSendHost:(NSString *)sendHost {
 	_sendHost = sendHost;
+	[self updateSendAddress];
 	[[NSUserDefaults standardUserDefaults] setObject:sendHost forKey:@"oscSendHost"];
 }
 
 - (void)setSendPort:(int)sendPort {
 	_sendPort = sendPort;
+	[self updateSendAddress];
 	[[NSUserDefaults standardUserDefaults] setInteger:sendPort forKey:@"oscSendPort"];
 }
 
 - (void)setListenPort:(int)listenPort {
 	_listenPort = listenPort;
+	[self updateServer];
 	[[NSUserDefaults standardUserDefaults] setInteger:listenPort forKey:@"oscListenPort"];
 }
 
@@ -298,4 +302,88 @@
 	[[NSUserDefaults standardUserDefaults] setBool:printSendingEnabled forKey:@"printSendingEnabled"];
 }
 
+#pragma mark Private
+
+- (BOOL)updateSendAddress {
+	if(sendAddress) {
+		lo_address_free(sendAddress);
+	}
+	NSString *port = [NSString stringWithFormat:@"%d", self.sendPort];
+	sendAddress = lo_address_new([self.sendHost UTF8String], [port UTF8String]);
+	if(!sendAddress) {
+		DDLogError(@"Osc: could not create send address");
+		return NO;
+	}
+	DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
+	return YES;
+}
+
+- (BOOL)updateServer {
+	if(server) {
+		lo_server_thread_stop(server);
+		lo_server_free(*server);
+	}
+	NSString *port = [NSString stringWithFormat:@"%d", self.listenPort];
+	server = lo_server_thread_new([port UTF8String], *errorCB);
+	if(!server) {
+		DDLogError(@"Osc: could not create server");
+		return NO;
+	}
+	lo_server_thread_add_method(server, NULL, NULL, *messageCB, (__bridge const void *)(self));
+	lo_server_thread_start(server);
+	DDLogVerbose(@"Osc: listening on port %d", lo_server_thread_get_port(server));
+	return YES;
+}
+
 @end
+
+#pragma mark liblo C callbacks
+
+void errorCB(int num, const char *msg, const char *where) {
+	NSMutableString *s = [[NSMutableString alloc] initWithFormat:@"OSC: liblo server thread error %d", num];
+	if(msg) {[s appendFormat:@" : %s", msg];}     // might be NULL
+	if(where) {[s appendFormat:@" : %s", where];} // might be NULL
+	NSLog(@"%@", s);
+}
+
+int messageCB(const char *path, const char *types, lo_arg **argv,
+              int argc, lo_message msg, void *user_data) {
+	Osc *osc = (__bridge Osc *)user_data;
+	NSMutableArray *args = [NSMutableArray new];
+	for(int i = 0; i < argc; ++i) {
+		char type = types[i];
+		switch (type) {
+		
+			// strings & chars
+			case LO_STRING:
+				[args addObject:[NSString stringWithUTF8String:argv[i]->s]];
+				break;
+			case LO_SYMBOL:
+				[args addObject:[NSString stringWithUTF8String:argv[i]->S]];
+				break;
+			case LO_CHAR:
+				[args addObject:[NSString stringWithFormat:@"%c", argv[i]->c]];
+				break;
+				
+			// numbers
+			case LO_INT32:
+				[args addObject:[NSNumber numberWithInt:argv[i]->i]];
+				break;
+			case LO_INT64:
+				[args addObject:[NSNumber numberWithLong:argv[i]->h]];
+				break;
+			case LO_FLOAT:
+				[args addObject:[NSNumber numberWithFloat:argv[i]->f]];
+				break;
+			case LO_DOUBLE:
+				[args addObject:[NSNumber numberWithDouble:argv[i]->d]];
+				break;
+			
+			// drop the rest for now
+			default:
+				break;
+		}
+	}
+	[osc receiveMessage:[NSString stringWithUTF8String:path] withArguments:args];
+	return 0;
+}

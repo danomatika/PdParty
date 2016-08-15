@@ -64,6 +64,7 @@
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
+		3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081A4721D615FDE006106E8 /* liblo.a */; };
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		308986BE18CD195E004423AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 308986BD18CD195E004423AD /* Images.xcassets */; };
@@ -101,11 +102,6 @@
 		30C38D551C35B7F400A273BE /* Popover.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D541C35B7F400A273BE /* Popover.m */; };
 		30C38D811C3868DB00A273BE /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D801C3868DB00A273BE /* MenuViewController.m */; };
 		30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB316F1ADFB00988EB9 /* Osc.m */; };
-		30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */; };
-		30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */; };
-		30C77BC216F1BEAC00988EB9 /* OSCDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBD16F1BEAC00988EB9 /* OSCDispatcher.m */; };
-		30C77BC316F1BEAC00988EB9 /* OSCPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BBF16F1BEAC00988EB9 /* OSCPacket.m */; };
-		30C77BE216F1C50000988EB9 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BD816F1C50000988EB9 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C77BE316F1C67500988EB9 /* libicucore.dylib */; };
 		30C77BEF16F1C84E00988EB9 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */; };
 		30C77BF016F1C84E00988EB9 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */; };
@@ -284,6 +280,17 @@
 		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
 		30774FA417E2A7A70060C5C6 /* ControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlsView.h; path = src/ControlsView.h; sourceTree = "<group>"; };
 		30774FA517E2A7A80060C5C6 /* ControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControlsView.m; path = src/ControlsView.m; sourceTree = "<group>"; };
+		3081A4721D615FDE006106E8 /* liblo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblo.a; sourceTree = "<group>"; };
+		3081A4741D615FDE006106E8 /* lo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo.h; sourceTree = "<group>"; };
+		3081A4751D615FDE006106E8 /* lo_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_cpp.h; sourceTree = "<group>"; };
+		3081A4761D615FDE006106E8 /* lo_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_endian.h; sourceTree = "<group>"; };
+		3081A4771D615FDE006106E8 /* lo_errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_errors.h; sourceTree = "<group>"; };
+		3081A4781D615FDE006106E8 /* lo_lowlevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_lowlevel.h; sourceTree = "<group>"; };
+		3081A4791D615FDE006106E8 /* lo_macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_macros.h; sourceTree = "<group>"; };
+		3081A47A1D615FDE006106E8 /* lo_osc_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_osc_types.h; sourceTree = "<group>"; };
+		3081A47B1D615FDE006106E8 /* lo_serverthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_serverthread.h; sourceTree = "<group>"; };
+		3081A47C1D615FDE006106E8 /* lo_throw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_throw.h; sourceTree = "<group>"; };
+		3081A47D1D615FDE006106E8 /* lo_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_types.h; sourceTree = "<group>"; };
 		3083BD4717F2867400EDF587 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3083BD4817F2867400EDF587 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
@@ -349,18 +356,6 @@
 		30C38D801C3868DB00A273BE /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = src/MenuViewController.m; sourceTree = "<group>"; };
 		30C77BB216F1ADFB00988EB9 /* Osc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Osc.h; sourceTree = "<group>"; };
 		30C77BB316F1ADFB00988EB9 /* Osc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Osc.m; sourceTree = "<group>"; };
-		30C77BB616F1BEAC00988EB9 /* CocoaOSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaOSC.h; sourceTree = "<group>"; };
-		30C77BB716F1BEAC00988EB9 /* NS+OSCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NS+OSCAdditions.h"; sourceTree = "<group>"; };
-		30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NS+OSCAdditions.m"; sourceTree = "<group>"; };
-		30C77BB916F1BEAC00988EB9 /* OSCConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCConnection.h; sourceTree = "<group>"; };
-		30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCConnection.m; sourceTree = "<group>"; };
-		30C77BBB16F1BEAC00988EB9 /* OSCConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCConnectionDelegate.h; sourceTree = "<group>"; };
-		30C77BBC16F1BEAC00988EB9 /* OSCDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCDispatcher.h; sourceTree = "<group>"; };
-		30C77BBD16F1BEAC00988EB9 /* OSCDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCDispatcher.m; sourceTree = "<group>"; };
-		30C77BBE16F1BEAC00988EB9 /* OSCPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCPacket.h; sourceTree = "<group>"; };
-		30C77BBF16F1BEAC00988EB9 /* OSCPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCPacket.m; sourceTree = "<group>"; };
-		30C77BD616F1C50000988EB9 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
-		30C77BD816F1C50000988EB9 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		30C77BE316F1C67500988EB9 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		30C77BE616F1C84E00988EB9 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
 		30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
@@ -455,6 +450,7 @@
 				30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */,
 				30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */,
 				30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */,
+				3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */,
 				30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */,
 				3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */,
 				3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */,
@@ -656,6 +652,33 @@
 			path = src/scenes;
 			sourceTree = "<group>";
 		};
+		3081A4711D615FDE006106E8 /* liblo */ = {
+			isa = PBXGroup;
+			children = (
+				3081A4721D615FDE006106E8 /* liblo.a */,
+				3081A4731D615FDE006106E8 /* lo */,
+			);
+			name = liblo;
+			path = libs/liblo;
+			sourceTree = "<group>";
+		};
+		3081A4731D615FDE006106E8 /* lo */ = {
+			isa = PBXGroup;
+			children = (
+				3081A4741D615FDE006106E8 /* lo.h */,
+				3081A4751D615FDE006106E8 /* lo_cpp.h */,
+				3081A4761D615FDE006106E8 /* lo_endian.h */,
+				3081A4771D615FDE006106E8 /* lo_errors.h */,
+				3081A4781D615FDE006106E8 /* lo_lowlevel.h */,
+				3081A4791D615FDE006106E8 /* lo_macros.h */,
+				3081A47A1D615FDE006106E8 /* lo_osc_types.h */,
+				3081A47B1D615FDE006106E8 /* lo_serverthread.h */,
+				3081A47C1D615FDE006106E8 /* lo_throw.h */,
+				3081A47D1D615FDE006106E8 /* lo_types.h */,
+			);
+			path = lo;
+			sourceTree = "<group>";
+		};
 		3083BD4517F2867400EDF587 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -812,7 +835,7 @@
 			children = (
 				30C77BC416F1C4CF00988EB9 /* CocoaAsyncSocket */,
 				305081C616E198C900895CB2 /* CocoaHTTPServer */,
-				30C77BB516F1BEAB00988EB9 /* CocoaOSC */,
+				3081A4711D615FDE006106E8 /* liblo */,
 				3083BD4517F2867400EDF587 /* MBProgressHUD */,
 				30FA775016E68936000E8D2B /* net */,
 				30ABE31916B5D15400464926 /* pd */,
@@ -866,25 +889,6 @@
 			path = libs/pgmidi;
 			sourceTree = "<group>";
 		};
-		30C77BB516F1BEAB00988EB9 /* CocoaOSC */ = {
-			isa = PBXGroup;
-			children = (
-				30C77BB616F1BEAC00988EB9 /* CocoaOSC.h */,
-				30C77BB716F1BEAC00988EB9 /* NS+OSCAdditions.h */,
-				30C77BB816F1BEAC00988EB9 /* NS+OSCAdditions.m */,
-				30C77BB916F1BEAC00988EB9 /* OSCConnection.h */,
-				30C77BBA16F1BEAC00988EB9 /* OSCConnection.m */,
-				30C77BBB16F1BEAC00988EB9 /* OSCConnectionDelegate.h */,
-				30C77BBC16F1BEAC00988EB9 /* OSCDispatcher.h */,
-				30C77BBD16F1BEAC00988EB9 /* OSCDispatcher.m */,
-				30C77BBE16F1BEAC00988EB9 /* OSCPacket.h */,
-				30C77BBF16F1BEAC00988EB9 /* OSCPacket.m */,
-				30C77BCB16F1C50000988EB9 /* RegexKitLite */,
-			);
-			name = CocoaOSC;
-			path = libs/CocoaOSC;
-			sourceTree = "<group>";
-		};
 		30C77BC416F1C4CF00988EB9 /* CocoaAsyncSocket */ = {
 			isa = PBXGroup;
 			children = (
@@ -892,15 +896,6 @@
 			);
 			name = CocoaAsyncSocket;
 			path = libs/CocoaAsyncSocket;
-			sourceTree = "<group>";
-		};
-		30C77BCB16F1C50000988EB9 /* RegexKitLite */ = {
-			isa = PBXGroup;
-			children = (
-				30C77BD616F1C50000988EB9 /* RegexKitLite.h */,
-				30C77BD816F1C50000988EB9 /* RegexKitLite.m */,
-			);
-			path = RegexKitLite;
 			sourceTree = "<group>";
 		};
 		30C77BE516F1C84E00988EB9 /* GCD */ = {
@@ -1283,12 +1278,7 @@
 				30E89D4716ECEDF2005B40C4 /* Number2.m in Sources */,
 				30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */,
 				30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */,
-				30C77BC016F1BEAC00988EB9 /* NS+OSCAdditions.m in Sources */,
-				30C77BC116F1BEAC00988EB9 /* OSCConnection.m in Sources */,
-				30C77BC216F1BEAC00988EB9 /* OSCDispatcher.m in Sources */,
 				30555CF01C24C242009F4F9B /* Browser.m in Sources */,
-				30C77BC316F1BEAC00988EB9 /* OSCPacket.m in Sources */,
-				30C77BE216F1C50000988EB9 /* RegexKitLite.m in Sources */,
 				30C77BEF16F1C84E00988EB9 /* GCDAsyncSocket.m in Sources */,
 				30C77BF016F1C84E00988EB9 /* GCDAsyncUdpSocket.m in Sources */,
 				30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */,
@@ -1447,8 +1437,13 @@
 					libs,
 					"$(SDKROOT)/usr/include/libxml2",
 					"libs/pd/**",
+					libs/liblo,
 				);
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs/liblo",
+				);
 				OTHER_CFLAGS = (
 					"-DPD",
 					"-DHAVE_UNISTD_H",
@@ -1484,8 +1479,13 @@
 					libs,
 					"$(SDKROOT)/usr/include/libxml2",
 					"libs/pd/**",
+					libs/liblo,
 				);
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs/liblo",
+				);
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DPD",

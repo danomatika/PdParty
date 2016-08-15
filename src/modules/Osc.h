@@ -8,7 +8,7 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "CocoaOSC.h"
+#import <UIKit/UIKit.h>
 
 #define OSC_TOUCH_ADDR       @"/pdparty/touch"
 #define OSC_ACCEL_ADDR       @"/pdparty/accelerate"
@@ -23,7 +23,7 @@
 #define OSC_KEY_ADDR         @"/pdparty/key"
 #define OSC_PRINT_ADDR       @"/pdparty/print"
 
-@interface Osc : NSObject <OSCConnectionDelegate>
+@interface Osc : NSObject
 
 @property (readonly, nonatomic) BOOL isListening; //< is the listener running
 @property (strong, nonatomic) NSString *sendHost; //< do not set when listening
