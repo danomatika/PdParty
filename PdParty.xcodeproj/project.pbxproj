@@ -65,6 +65,7 @@
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
 		3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081A4721D615FDE006106E8 /* liblo.a */; };
+		3081A4841D628495006106E8 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3081A4821D628495006106E8 /* GCDAsyncSocket.m */; };
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		308986BE18CD195E004423AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 308986BD18CD195E004423AD /* Images.xcassets */; };
@@ -103,8 +104,6 @@
 		30C38D811C3868DB00A273BE /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D801C3868DB00A273BE /* MenuViewController.m */; };
 		30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB316F1ADFB00988EB9 /* Osc.m */; };
 		30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C77BE316F1C67500988EB9 /* libicucore.dylib */; };
-		30C77BEF16F1C84E00988EB9 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */; };
-		30C77BF016F1C84E00988EB9 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */; };
 		30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5916E8456B00E5AA5B /* Midi.m */; };
 		30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5B16E8456B00E5AA5B /* PureData.m */; };
 		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
@@ -244,7 +243,6 @@
 		305081F416E198C900895CB2 /* DELETEResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DELETEResponse.m; sourceTree = "<group>"; };
 		305081F516E198C900895CB2 /* PUTResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PUTResponse.h; sourceTree = "<group>"; };
 		305081F616E198C900895CB2 /* PUTResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PUTResponse.m; sourceTree = "<group>"; };
-		305081FE16E198C900895CB2 /* About.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = About.txt; sourceTree = "<group>"; };
 		305081FF16E198C900895CB2 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
 		3050820016E198C900895CB2 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
 		3050820116E198C900895CB2 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
@@ -291,6 +289,8 @@
 		3081A47B1D615FDE006106E8 /* lo_serverthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_serverthread.h; sourceTree = "<group>"; };
 		3081A47C1D615FDE006106E8 /* lo_throw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_throw.h; sourceTree = "<group>"; };
 		3081A47D1D615FDE006106E8 /* lo_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_types.h; sourceTree = "<group>"; };
+		3081A4811D628495006106E8 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		3081A4821D628495006106E8 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		3083BD4717F2867400EDF587 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3083BD4817F2867400EDF587 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
@@ -357,10 +357,6 @@
 		30C77BB216F1ADFB00988EB9 /* Osc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Osc.h; sourceTree = "<group>"; };
 		30C77BB316F1ADFB00988EB9 /* Osc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Osc.m; sourceTree = "<group>"; };
 		30C77BE316F1C67500988EB9 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
-		30C77BE616F1C84E00988EB9 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
-		30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
-		30C77BE816F1C84E00988EB9 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
-		30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		30C9BF5816E8456B00E5AA5B /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midi.h; sourceTree = "<group>"; };
 		30C9BF5916E8456B00E5AA5B /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Midi.m; sourceTree = "<group>"; };
 		30C9BF5A16E8456B00E5AA5B /* PureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureData.h; sourceTree = "<group>"; };
@@ -583,6 +579,7 @@
 		305081F816E198C900895CB2 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				3081A47F1D628495006106E8 /* CocoaAsyncSocket */,
 				305081FD16E198C900895CB2 /* CocoaLumberjack */,
 			);
 			path = Vendor;
@@ -591,7 +588,6 @@
 		305081FD16E198C900895CB2 /* CocoaLumberjack */ = {
 			isa = PBXGroup;
 			children = (
-				305081FE16E198C900895CB2 /* About.txt */,
 				305081FF16E198C900895CB2 /* DDAbstractDatabaseLogger.h */,
 				3050820016E198C900895CB2 /* DDAbstractDatabaseLogger.m */,
 				3050820116E198C900895CB2 /* DDASLLogger.h */,
@@ -677,6 +673,15 @@
 				3081A47D1D615FDE006106E8 /* lo_types.h */,
 			);
 			path = lo;
+			sourceTree = "<group>";
+		};
+		3081A47F1D628495006106E8 /* CocoaAsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				3081A4811D628495006106E8 /* GCDAsyncSocket.h */,
+				3081A4821D628495006106E8 /* GCDAsyncSocket.m */,
+			);
+			path = CocoaAsyncSocket;
 			sourceTree = "<group>";
 		};
 		3083BD4517F2867400EDF587 /* MBProgressHUD */ = {
@@ -833,7 +838,6 @@
 		30ABE2D316B5CE3100464926 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				30C77BC416F1C4CF00988EB9 /* CocoaAsyncSocket */,
 				305081C616E198C900895CB2 /* CocoaHTTPServer */,
 				3081A4711D615FDE006106E8 /* liblo */,
 				3083BD4517F2867400EDF587 /* MBProgressHUD */,
@@ -887,26 +891,6 @@
 			);
 			name = pgmidi;
 			path = libs/pgmidi;
-			sourceTree = "<group>";
-		};
-		30C77BC416F1C4CF00988EB9 /* CocoaAsyncSocket */ = {
-			isa = PBXGroup;
-			children = (
-				30C77BE516F1C84E00988EB9 /* GCD */,
-			);
-			name = CocoaAsyncSocket;
-			path = libs/CocoaAsyncSocket;
-			sourceTree = "<group>";
-		};
-		30C77BE516F1C84E00988EB9 /* GCD */ = {
-			isa = PBXGroup;
-			children = (
-				30C77BE616F1C84E00988EB9 /* GCDAsyncSocket.h */,
-				30C77BE716F1C84E00988EB9 /* GCDAsyncSocket.m */,
-				30C77BE816F1C84E00988EB9 /* GCDAsyncUdpSocket.h */,
-				30C77BE916F1C84E00988EB9 /* GCDAsyncUdpSocket.m */,
-			);
-			path = GCD;
 			sourceTree = "<group>";
 		};
 		30C9BF5716E8456B00E5AA5B /* modules */ = {
@@ -1279,8 +1263,6 @@
 				30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */,
 				30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */,
 				30555CF01C24C242009F4F9B /* Browser.m in Sources */,
-				30C77BEF16F1C84E00988EB9 /* GCDAsyncSocket.m in Sources */,
-				30C77BF016F1C84E00988EB9 /* GCDAsyncUdpSocket.m in Sources */,
 				30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */,
 				3094B44B18C97CCF00AFE178 /* mztools.c in Sources */,
 				302862711C4325B000A176C6 /* PartyGui.m in Sources */,
@@ -1303,6 +1285,7 @@
 				303BD3151759928D000FBEB5 /* RjWidget.m in Sources */,
 				3094B44A18C97CCF00AFE178 /* ioapi.c in Sources */,
 				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
+				3081A4841D628495006106E8 /* GCDAsyncSocket.m in Sources */,
 				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
 				3024B08E1C993769002C36DA /* Controllers.m in Sources */,
 				30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */,
