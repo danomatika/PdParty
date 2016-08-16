@@ -282,8 +282,8 @@
 		return;
 	}
 	if([firstComponent isEqualToString:PARTY_OSC_R]) { // catch incoming control messages
-		if(list.count > 0) {
-			if(([[list firstObject] isEqualToString:RJ_GLOBAL_S])) { // forward rj messages
+		if(list.count > 0 && [list.firstObject isKindOfClass:[NSString class]] ) {
+			if([list.firstObject isEqualToString:RJ_GLOBAL_S]) { // forward rj messages
 				[PdBase sendMessage:[list firstObject]
 							 withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
 								toReceiver:[list firstObject]];
