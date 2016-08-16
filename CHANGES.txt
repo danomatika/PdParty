@@ -1,3 +1,29 @@
+0.5.5-beta: 2016-08-15
+
+the OSC-lympics swap
+
+* replaced CocoaOSC with liblo
+
+* re-added gps altitude data via #altitude event
+* added TriSamp pdparty sample scene (copy samples folder in settings to get)
+* added optional pdparty scene thumbnails to the browser
+
+* fixed bug where game controller events were not being forwarded over OSC
+* fixed game controller index led not being set
+* fixed web server not restarting on focus if app was backgrounded and server
+  was already running
+* fixed crash on bad canvas size (1x1), now falls back to scaling of 1.0 if
+  canvas size is < 20x20
+* fixed numbox clipping values passing through (reported by Dan Iglesia)
+* fixed console scroll bug on fast updates by disabling animation
+* fixed crash when first argument in OSC message to /pdparty was not a string
+
+* updated rj scenes to support portrait upside down on iphone
+* updated info, context, & web views to match current scene orientation
+* updated rj scenes to support portrait upside down on iphone
+* updated settings view MIDI label to refresh on hotplug events
+* gyro & magnet auto update control now works on the fly
+
 0.5.4-beta: 2016-08-04
 
 * added iOS MiFi game controller support via #controller event
