@@ -27,6 +27,7 @@ mkdir -pv $DEST_DIR/src
 cd $SRC_DIR
 
 # generate configure
+# adapted from https://gist.github.com/mikewoz/519121
 ./autogen.sh
 MIN_IOS="6.0"
 CF="-pipe -std=c99 -gdwarf-2 -mthumb -fembed-bitcode -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -fmessage-length=0 -fvisibility=hidden"
