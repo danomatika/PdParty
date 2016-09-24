@@ -205,6 +205,7 @@
 + (void)sendTransportLoop:(BOOL)loop; //< playback only
 
 + (void)sendVolume:(float)volume; //< used for playback
++ (void)sendMicVolume:(float)micVolume; //< [soundinput] control
 
 #pragma mark Find
 

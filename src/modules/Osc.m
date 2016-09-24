@@ -39,9 +39,9 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		
-		self.sendHost = [defaults objectForKey:@"oscSendHost"];
-		self.sendPort = (int)[defaults integerForKey:@"oscSendPort"];
-		self.listenPort = (int)[defaults integerForKey:@"oscListenPort"];
+		_sendHost = [defaults objectForKey:@"oscSendHost"];
+		_sendPort = (int)[defaults integerForKey:@"oscSendPort"];
+		_listenPort = (int)[defaults integerForKey:@"oscListenPort"];
 		
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
 		self.sensorSendingEnabled = [defaults boolForKey:@"sensorSendingEnabled"];
@@ -67,7 +67,9 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		return NO;
 	}
 	self.isListening = YES;
-
+	DDLogVerbose(@"Osc: started listening on port %d", lo_server_thread_get_port(server));
+	DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
+	
 	[[NSUserDefaults standardUserDefaults] setBool:self.isListening forKey:@"oscServerEnabled"];
 
 	return YES;
@@ -76,11 +78,11 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 - (void)stopListening {
 	if(!self.isListening) return;
 	
-	DDLogVerbose(@"OSC: stopped listening");
 	lo_server_thread_stop(server);
 	lo_server_thread_free(server);
 	server = NULL;
 	self.isListening = NO;
+	DDLogVerbose(@"OSC: stopped listening");
 	
 	lo_address_free(sendAddress);
 	sendAddress = NULL;
@@ -261,19 +263,25 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)setSendHost:(NSString *)sendHost {
 	_sendHost = sendHost;
-	[self updateSendAddress];
+	if([self updateSendAddress]) {
+		DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
+	}
 	[[NSUserDefaults standardUserDefaults] setObject:sendHost forKey:@"oscSendHost"];
 }
 
 - (void)setSendPort:(int)sendPort {
 	_sendPort = sendPort;
-	[self updateSendAddress];
+	if([self updateSendAddress]) {
+		DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
+	}
 	[[NSUserDefaults standardUserDefaults] setInteger:sendPort forKey:@"oscSendPort"];
 }
 
 - (void)setListenPort:(int)listenPort {
 	_listenPort = listenPort;
-	[self updateServer];
+	if([self updateServer]) {
+		DDLogVerbose(@"Osc: listening on port %d", lo_server_thread_get_port(server));
+	}
 	[[NSUserDefaults standardUserDefaults] setInteger:listenPort forKey:@"oscListenPort"];
 }
 
@@ -314,7 +322,6 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		DDLogError(@"Osc: could not create send address");
 		return NO;
 	}
-	DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
 	return YES;
 }
 
@@ -331,7 +338,6 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	}
 	lo_server_thread_add_method(server, NULL, NULL, *messageCB, (__bridge const void *)(self));
 	lo_server_thread_start(server);
-	DDLogVerbose(@"Osc: listening on port %d", lo_server_thread_get_port(server));
 	return YES;
 }
 

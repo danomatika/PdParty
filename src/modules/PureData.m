@@ -101,7 +101,7 @@
 	[PureData sendTransportPlay:_playing];
 	[PureData sendTransportLoop:_looping];
 	[PureData sendVolume:_volume];
-	[PdBase sendFloat:1.0 toReceiver:RJ_MICVOLUME_R]; // turn on [soundinput]!
+	[PureData sendMicVolume:_micVolume]; // [soundinput] control
 }
 
 - (void)startRecordingTo:(NSString *)path {
@@ -255,7 +255,7 @@
 }
 
 + (void)sendPrint:(NSString *)print {
-	AppDelegate *app = [[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	DDLogInfo(@"Pd: %@", print);
 	[app.osc sendPrint:print];
 }
@@ -289,7 +289,7 @@
 								toReceiver:[list firstObject]];
 			}
 			else { // process pdparty messages
-				AppDelegate *app = [[UIApplication sharedApplication] delegate];
+				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 				[app.pureData receiveMessage:[list firstObject]
 							   withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
 								  fromSource:PARTY_GLOBAL_S];
@@ -317,6 +317,10 @@
 
 + (void)sendVolume:(float)volume {
 	[PdBase sendMessage:@"set" withArguments:[NSArray arrayWithObject:[NSNumber numberWithFloat:volume]] toReceiver:RJ_VOLUME_R];
+}
+
++ (void)sendMicVolume:(float)micVolume {
+	[PdBase sendFloat:micVolume toReceiver:RJ_MICVOLUME_R];
 }
 
 #pragma mark PdReceiverDelegate
@@ -651,11 +655,7 @@
 - (void)setMicVolume:(float)micVolume {
 	_micVolume = CLAMP(micVolume, 0.0, 1.0);
 	[[NSUserDefaults standardUserDefaults] setFloat:_micVolume forKey:@"micVolume"];
-	NSError *error;
-	[[AVAudioSession sharedInstance] setInputGain:_micVolume error:&error];
-	if(error) {
-		DDLogError(@"PureData: couldn't set input gain: %@", error.localizedDescription);
-	}
+	[PureData sendMicVolume:_micVolume]; // [soundinput] control
 }
 
 - (void)setOsc:(Osc *)osc {

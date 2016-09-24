@@ -21,6 +21,7 @@
 @implementation InfoViewController
 
 - (void)awakeFromNib {
+	[super awakeFromNib];
 	// this should probably calculated using the default height of a cell, but that seems to return 0 ...
 	defaultCellHeight = 44; // reasonable default judging from values in the storyboard
 }

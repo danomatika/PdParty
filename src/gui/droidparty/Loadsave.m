@@ -73,7 +73,7 @@
 		self.sendName = [self.name stringByAppendingFormat:@"-%@", message];
 		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
 		
-		AppDelegate *app = [[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 		if(!app.isPatchViewVisible) {
 			DDLogWarn(@"Loadsave %@: cannot open dialog when patch view is not visible", self.receiveName);
 			return YES;

@@ -47,7 +47,7 @@
 
 #pragma mark Send Events
 
-/// send to pdparty osc receiver
+/// send to pdparty osc receiver, arguments should be NSNumber float values & NSStrings
 - (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments;
 
 /// send a raw byte packet to pdparty osc receiver
