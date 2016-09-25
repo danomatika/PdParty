@@ -1,3 +1,14 @@
+0.5.6-beta: 2016-09-24
+
+Release Candidate 1
+
+* fixed #micvolume slider not working due to AVAudioSession inputGain not
+  actually being set to 0.0(?!), reverted to [soundinput] control
+* fixed AppDelegate cast warnings
+
+* updated to pd 0.47-1
+* updated OSC verbose prints
+
 0.5.5-beta: 2016-08-15
 
 the OSC-lympics swap
