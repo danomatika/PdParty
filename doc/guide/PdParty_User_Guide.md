@@ -1,4 +1,4 @@
-PdParty 0.5.5 (beta)
+PdParty 0.5.6 (beta, rc1)
 ====================
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
