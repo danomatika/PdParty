@@ -275,7 +275,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
 
 * RjDj scenes:
   * a folder that ends in *.rj that contains a _main.pd patch
-  * locked to portrait
+  * locked to portrait on iPhone
   * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
   * an optional browser icon named "thumb.jpg" and a min size of 55x55, will fall back to "image.jpg" if not found
   * an optional info xml file named "Info.plist" or "info.plist" with the following string keys:
@@ -319,7 +319,8 @@ Running a regular .pd patch (a Patch scene) is the same as running a PdParty sce
 
 PdParty is built using libpd and can be compared to Pd-vanilla with the following externals:
 
-* **ggee**: [getdir], [moog~], [stripdir]
+* **ggee**: [getdir], [stripdir]
+* **mrpeach**: [midifile]
 
 It's highly recommended that you use a vanilla-based abstraction library like [rjlib](https://github.com/rjdj/rjlib) for expanded functionality.
 
@@ -368,7 +369,7 @@ PdParty currently supports:
 
 <small>\* doesn't do much as audio has to be off for vibrate to happen on iOS</small>
 
-SVG widget styling support are planned, but not an immediate priority as there is no built-in svg handling on iOS and there doesn't seem to be a standout 3rd party SVG library.
+SVG widget styling support is planned, but not an immediate priority as there is no built-in svg handling on iOS and there doesn't seem to be a standout 3rd party SVG library.
 
 [droidnetclient] & [droidnetreceive] are deprecated in PdDroidParty and therefore not supported. Use [netsend] & [netreceive] instead.
 
@@ -497,7 +498,7 @@ _Note: Loc events are available in PdParty & Patch scene types by default, while
 
 A compass event is simply the orientation toward magnetic north with the top of the current UI orientation being at 0 degrees.
 
-Like location events, the tracking the compass requires extra resources so it must be manual started by the scene after it is loaded by sending messages to the internal \#pdparty receiver:
+Like location events, the tracking the compass requires extra resources so it must be manually started by the scene after it is loaded by sending messages to the internal \#pdparty receiver:
 
 * **\#pdparty compass _value_**: compass service run control
 * **\#pdparty compass updates _value_**: compass automatic update control
