@@ -56,7 +56,6 @@
 @class Midi;
 @class Osc;
 @class Sensors;
-@class Controllers;
 
 /// custom dispatcher to grab print events
 @interface PureDataDispatcher : PdDispatcher
