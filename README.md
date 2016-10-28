@@ -14,7 +14,7 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 See https://github.com/danomatika/PdParty for documentation
 
-**Want to join the BETA test? Send your name & email address to:**
+**Want to help with BETA testing? Send your name & email address to:**
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/contact.png"/>
@@ -32,8 +32,6 @@ Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS wit
 
 USER GUIDE & COMPOSER PACK
 --------------------------
-
-Are you a beta tester?
 
 Head on over to the [**User Guide**](https://github.com/danomatika/PdParty/blob/master/doc/guide/PdParty_User_Guide.md)
 
@@ -62,7 +60,7 @@ This project uses:
 * [UIActionSheet+Blocks](https://github.com/ryanmaxwell/UIActionSheet-Blocks)
 
 ### 3rd Party Samples
-* CanOfBeats, multibeat, & pure-widgets-demo: Chris McCormick
+* CanOfBeats, drummachine, multibeat, & pure-widgets-demo: Chris McCormick
 * Atsuke: Frank Barknecht
 * Eargasm: Damian Stewart
 * bouncy: Georg Bosch
@@ -72,8 +70,14 @@ This project uses:
 * [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/Main_Page): font
 * [Icons8](http://icons8.com): iOS7+ icons
 
-INSTALLATION & BUILDING
------------------------
+CHECKOUT & BUILD
+----------------
+
+Clone this repository and checkout it's submodules using git:
+
+    git clone https://github.com/danomatika/PdParty.git
+    git submodule foreach --recursive init
+    git submodule foreach --recursive update
 
 Open the Xcode project and Build/Run.
 

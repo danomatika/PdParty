@@ -1,0 +1,17 @@
+Release Checklist
+-----------------
+
+Update version in:
+* Xcode: PdParty->PdParty Target->General->Identity->Version
+* about page: res/about/about.html
+* user guide: doc/guide/PdParty_User_Guide.md
+
+Update CHANGES.txt.
+
+Update user guide with any new documentation.
+
+Add any new icon or background sizes for new devices.
+
+Upload to App Store & update release info.
+
+Tag commit with version.

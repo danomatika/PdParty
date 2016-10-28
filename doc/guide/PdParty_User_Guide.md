@@ -1,5 +1,5 @@
-PdParty 0.5.6 (beta, rc1)
-====================
+PdParty 1.0.0
+=============
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
 
@@ -10,7 +10,7 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 See <https://github.com/danomatika/PdParty> for documentation
 
-**Want to join the BETA test? Send your name & email address to:**
+**Want to help with BETA testing? Send your name & email address to:**
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/contact.png"/>
