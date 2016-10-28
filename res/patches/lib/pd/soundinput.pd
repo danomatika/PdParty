@@ -19,16 +19,18 @@
 #X msg 212 105 0;
 #X obj 257 107 inlet;
 #X obj 222 157 float;
-#X obj 308 37 r input_live;
-#X msg 309 105 1;
-#X obj 112 119 hsl 50 15 0 1 0 0 empty empty empty -2 -8 0 10 -4034
--1 -1 0 1;
+#X obj 309 39 r input_live;
+#X msg 309 107 1;
+#X obj 112 119 hsl 50 15 0 1 0 0 empty \$0-micvol empty -2 -8 0 10
+-4034 -1 -1 4900 1;
 #X text 114 119 volume;
 #X obj 270 159 r #transport;
 #X obj 270 180 route play;
 #X obj 350 159 r #micvolume;
-#X obj 350 180 t b f;
 #X obj 317 224 * 1;
+#X msg 369 225 set \$1;
+#X obj 369 249 s \$0-micvol;
+#X obj 350 180 t b f f;
 #X connect 0 0 3 0;
 #X connect 0 1 4 0;
 #X connect 0 2 8 0;
@@ -57,11 +59,13 @@
 #X connect 19 0 9 1;
 #X connect 20 0 21 0;
 #X connect 21 0 19 0;
-#X connect 22 0 28 0;
+#X connect 22 0 27 0;
 #X connect 24 0 25 0;
-#X connect 25 0 28 0;
-#X connect 26 0 27 0;
-#X connect 27 0 28 0;
-#X connect 27 1 28 1;
-#X connect 28 0 15 0;
+#X connect 25 0 27 0;
+#X connect 26 0 30 0;
+#X connect 27 0 15 0;
+#X connect 28 0 29 0;
+#X connect 30 0 27 0;
+#X connect 30 1 27 1;
+#X connect 30 2 28 0;
 #X coords 0 -1 1 1 110 40 1 100 100;

@@ -15,7 +15,7 @@ cd $WD
 git clone git://github.com/chr15m/PdDroidParty.git
 
 # remove things we don't need
-rm -f $SRC_DIR/droidparty-demos/vocoder-rjdj
+rm -rf $SRC_DIR/droidparty-demos/vocoder-rjdj
 
 # remove things we don't want to overwrite
 rm -f $SRC_DIR/bundled-abstractions/droidsystem.pd

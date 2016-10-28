@@ -15,3 +15,5 @@ Add any new icon or background sizes for new devices.
 Upload to App Store & update release info.
 
 Tag commit with version.
+
+If changed, update composer pack zip.
