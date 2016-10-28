@@ -152,6 +152,8 @@ RjDj scenes always have a square background with the controls located below.
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/rjdj_scene_iPhone.png"/>
 </p>
 
+Optionally, a button to launch a Console view to display Pd prints for the current patch/scene can be added to the Controls popover. Enable to Console view in the PdParty Settings.
+
 #### Recording Scene
 
 There is also a special scene for playing back recordings (aka .wav files). The slider now controls the playback volume and there is also a button for looping the playback.
