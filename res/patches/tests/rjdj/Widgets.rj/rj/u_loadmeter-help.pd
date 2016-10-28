@@ -1,0 +1,5 @@
+#N canvas 0 0 455 244 10;
+#X obj 90 110 u_loadmeter;
+#X text 61 27 u_loadmeter;
+#X text 84 51 Graphical CPU load meter.;
+#X text 83 77 Shows CPU load in percent.;

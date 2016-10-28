@@ -1,0 +1,65 @@
+#N canvas 129 76 953 630 10;
+#X obj 172 214 tgl 15 0 empty empty on/off 17 7 1 10 -262144 -1 -1
+1 1;
+#X floatatom 172 389 5 0 0 0 - - -;
+#X floatatom 237 301 5 0 0 2 length - -;
+#X text 231 188 3) (list of) periods \, will be cycled.;
+#X floatatom 302 303 5 0 0 2 period - -;
+#X text 232 94 2) single period;
+#X obj 172 441 timer;
+#X obj 172 464 list prepend;
+#X obj 172 416 t b b a;
+#X msg 172 517 14 125;
+#X msg 172 490 set \$1 \$2;
+#X text 369 289 also lists are possible;
+#X msg 367 312 200 300 400 150;
+#X text 502 309 == duration of beat0==200 \, duration of beat1=300
+\, duration of beat2=400 \, duration of beat3=150 and so on for beat([modulo
+pattern length] modulo period list-length).;
+#X msg 132 489 set;
+#X msg 97 299 set 3;
+#X msg 190 310 bang;
+#X msg 192 332 stop;
+#X text 161 26 variable period metro with counter inside.;
+#X text 182 60 args:;
+#X text 230 157 3) pattern length. If length is 0 \, then the counter
+is unrestricted;
+#X obj 60 26 c_multimetro;
+#X obj 172 358 c_multimetro 16 125;
+#X obj 427 461 tgl 15 0 empty empty on/off 17 7 1 10 -262144 -1 -1
+0 1;
+#X floatatom 427 526 5 0 0 0 - - -;
+#X obj 427 495 c_multimetro 0 125;
+#X text 174 116 inlets: 1) 0/1 rsp bang/stop for start/stop;
+#X text 423 410 If you set the pattern length to 0 \, the counter will
+not be bounded and grow constanly:;
+#X text 233 60 1) pattern length. If length is 0 \, then the counter
+is unbounded.;
+#X text 491 116 or "set POS" message or "hold 0/1" message to pause
+counting.;
+#X msg 185 269 hold \$1;
+#X obj 185 242 tgl 15 0 empty empty hold 17 7 1 10 -262144 -1 -1 1
+1;
+#X obj 132 404 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X connect 0 0 22 0;
+#X connect 1 0 8 0;
+#X connect 2 0 22 1;
+#X connect 4 0 22 2;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 6 0;
+#X connect 8 1 6 1;
+#X connect 8 2 7 1;
+#X connect 10 0 9 0;
+#X connect 12 0 22 2;
+#X connect 14 0 9 0;
+#X connect 15 0 22 0;
+#X connect 16 0 22 0;
+#X connect 17 0 22 0;
+#X connect 22 0 1 0;
+#X connect 22 0 32 0;
+#X connect 23 0 25 0;
+#X connect 25 0 24 0;
+#X connect 30 0 22 0;
+#X connect 31 0 30 0;

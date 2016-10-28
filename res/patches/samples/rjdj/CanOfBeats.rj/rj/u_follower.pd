@@ -1,0 +1,31 @@
+#N canvas 380 153 770 513 10;
+#X obj 75 216 +;
+#X obj 75 81 inlet;
+#X obj 108 217 * 0.94;
+#X obj 75 279 * 0.06;
+#X obj 75 308 outlet;
+#X obj 160 217 * -1;
+#X obj 160 248 + 1;
+#X text 311 252 latency (0= no latency \, 0.99= very smoothed \, 1=infinite)
+;
+#X text 71 55 input message (should be updated at constant rate);
+#X obj 160 114 r \$0-latency;
+#X obj 316 136 inlet;
+#X obj 375 100 loadbang;
+#X msg 375 125 latency 0.8;
+#X text 311 289 u_follower is a simple smoother for messages provided
+at constant rate;
+#X obj 376 153 u_loader u_follower-\$1 \$0;
+#X obj 316 204 u_dispatch \$0 latency;
+#X connect 0 0 2 0;
+#X connect 0 0 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 1;
+#X connect 3 0 4 0;
+#X connect 5 0 6 0;
+#X connect 6 0 3 1;
+#X connect 9 0 5 0;
+#X connect 9 0 2 1;
+#X connect 10 0 15 0;
+#X connect 11 0 12 0;
+#X connect 12 0 15 0;

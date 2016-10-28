@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>info</key>
+	<dict>
+		<key>author</key>
+		<string>Georg Bosch</string>
+		<key>category</key>
+		<string>Shake</string>
+		<key>description</key>
+		<string>Fun with physics.</string>
+		<key>name</key>
+		<string>bouncy</string>
+	</dict>
+</dict>
+</plist>

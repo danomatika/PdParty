@@ -1,0 +1,12 @@
+#N canvas 534 336 450 300 10;
+#X obj 107 35 r~ INPUT;
+#X obj 244 33 r RECORD;
+#X obj 244 62 route \$1;
+#X obj 107 101 u_record \$1-rec 1000;
+#X obj 331 31 loadbang;
+#X msg 331 53 fade 1;
+#X connect 0 0 3 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 1;
+#X connect 4 0 5 0;
+#X connect 5 0 3 1;

@@ -1,0 +1,17 @@
+#N canvas 631 70 466 365 10;
+#X obj 106 37 inlet;
+#X text 109 23 panning \, 0 = left \, 1 = right;
+#X obj 49 100 * 1.5708;
+#X obj 144 103 * 1.5708;
+#X obj 55 130 cos;
+#X obj 146 130 sin;
+#X obj 150 287 outlet;
+#X obj 52 277 outlet;
+#X obj 105 59 d-default \$1 0;
+#X connect 0 0 8 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 6 0;
+#X connect 8 0 3 0;
+#X connect 8 0 2 0;

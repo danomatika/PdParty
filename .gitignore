@@ -19,3 +19,7 @@ example/obj
 # Win
 *.exe
 *.dll
+
+# patches
+/res/patches/tests/droidparty/loadsave/savedir/
+

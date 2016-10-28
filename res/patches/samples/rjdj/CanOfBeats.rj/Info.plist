@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>info</key>
+	<dict>
+		<key>author</key>
+		<string>Chris McCormick</string>
+		<key>bundleIdentifier</key>
+		<string>com.rj.template</string>
+		<key>description</key>
+        <string>Shake a break. Finger paint a tune on the Can. Remove it with [x]. Word up.</string>
+		<key>name</key>
+		<string>CanOfBeats</string>
+		<key>category</key>
+		<string>Move</string>
+	</dict>
+	<key>installLocation</key>
+	<string>CanOfBeats.rj</string>
+</dict>
+</plist>

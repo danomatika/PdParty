@@ -1,0 +1,142 @@
+#N struct 1167-symarray float x array symbols 1167-sym;
+#N struct 1167-sym symbol name float on;
+#N struct 1169-symarray float x array symbols 1169-sym;
+#N struct 1169-sym symbol name float on;
+#N struct 1171-symarray float x array symbols 1171-sym;
+#N struct 1171-sym symbol name float on;
+#N struct 1172-symarray float x array symbols 1172-sym;
+#N struct 1172-sym symbol name float on;
+#N canvas 317 100 656 775 10;
+#X declare -path .;
+#X text 59 22 u_samplekit - load a directory of samples;
+#X text 102 146 The index-file has one line for each sample to load
+consisting of:;
+#X text 145 179 <filename> <index number>;
+#X text 146 229 bassdrum.wav 36;
+#X text 146 251 handclap.wav 39;
+#X text 146 273 hihat.wav 42;
+#X text 106 206 Example:;
+#X msg 111 470 open <directory>;
+#X msg 120 493 open <directory> <alternate_mapping.txt>;
+#X text 102 98 The samplekit must have a text file mapping sample names
+to numbers. The default name of this file is "index.txt" \, but you
+can overwrite the name inside the "open" message.;
+#X text 104 54 [u_samplekit] loads a directory of samples (a "kit")
+into numbered tables prefixed with "\$0-" or the first argument.;
+#X text 104 308 The tables for the samples are created as \$0-<index
+number> \, if [u_samplekit] was created without an argument. If you
+pass an argument it will be taken instead of the abstraction's \$0
+as a prefix.;
+#X text 104 377 After a kit was loaded you can look up the actual table
+names by sending a number to the [u_samplekit]'s first inlet. It will
+then send out the matching table name to its first outlet.;
+#X msg 132 521 print;
+#X text 111 447 open samplekits:;
+#X text 244 470 loads a map "index.txt";
+#X text 183 520 print the current mapping.;
+#X msg 132 546 dump;
+#X text 183 542 dump the current mapping to the second outlet as lists
+of "<index> <table>";
+#X floatatom 66 535 5 0 0 0 lookup - -;
+#X symbolatom 110 604 10 0 0 0 - - -;
+#X obj 110 579 u_samplekit <optional_prefix>;
+#X text 311 243 Don't use spaces in filenames!;
+#N canvas 322 156 651 327 hints 0;
+#N canvas 0 0 772 685 gmkit 0;
+#N canvas 0 0 588 406 list2symbol 0;
+#X msg 326 212 set %s;
+#X obj 234 260 t a;
+#X obj 117 268 makefilename %s;
+#X obj 95 78 t b a b;
+#X obj 95 299 symbol;
+#X msg 141 38 a b c d 1 2;
+#X obj 117 174 route symbol float;
+#X obj 117 202 symbol;
+#X obj 95 37 inlet;
+#X obj 95 329 outlet;
+#X obj 394 208 makefilename 1%s%%s;
+#X msg 394 244 set set \, adddollsym \$1;
+#X msg 234 281 set \$1 %s;
+#X obj 178 203 makefilename %g;
+#X obj 117 139 u_listdrip;
+#X obj 394 181 symbol;
+#X text 286 36 list-l2s;
+#X msg 394 128 32;
+#X obj 394 156 makefilename %c;
+#X obj 394 103 loadbang;
+#X text 432 130 SPACE char.;
+#X connect 0 0 2 0;
+#X connect 1 0 12 0;
+#X connect 2 0 1 0;
+#X connect 2 0 4 1;
+#X connect 3 0 4 0;
+#X connect 3 1 14 0;
+#X connect 3 2 0 0;
+#X connect 4 0 9 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 1 13 0;
+#X connect 7 0 2 0;
+#X connect 8 0 3 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 12 0 2 0;
+#X connect 13 0 2 0;
+#X connect 14 0 6 0;
+#X connect 15 0 10 0;
+#X connect 17 0 18 0;
+#X connect 18 0 15 0;
+#X connect 19 0 17 0;
+#X restore 285 342 pd list2symbol;
+#X obj 232 318 list split 1;
+#X obj 232 367 pack 0 s;
+#X floatatom 104 419 5 0 0 0 - - -;
+#X symbolatom 144 419 25 0 0 0 - - -;
+#X msg 232 125 35 Acoustic Bass Drum \, 36 Bass Drum 1 \, 37 Side Stick
+\, 38 Acoustic Snare \, 39 Hand Clap \, 40 Electric Snare \, 41 Low
+Floor Tom \, 42 Closed Hi-Hat \, 43 High Floor Tom \, 44 Pedal Hi-Hat
+\, 45 Low Tom \, 46 Open Hi-Hat \, 47 Low-Mid Tom \, 48 Hi-Mid Tom
+\, 49 Crash Cymbal 1 \, 50 High Tom \, 51 Ride Cymbal 1 \, 52 Chinese
+Cymbal \, 53 Ride Bell \, 54 Tambourine \, 55 Splash Cymbal \, 56 Cowbell
+\, 57 Crash Symbol 2 \, 58 Vibraslap \, 59 Ride Cymbal 2 \, 60 (middle
+C) Hi Bongo \, 61 Low Bongo \, 62 Mute Hi Conga \, 63 Open Hi Conga
+\, 64 Low Conga \, 65 High Timbale \, 66 Low Timbale \, 67 High Agogo
+\, 68 Low Agogo \, 69 Cabasa \, 70 Maracas \, 71 Short Whistle \, 72
+Long Whistle \, 73 Short Guiro \, 74 Long Guiro \, 75 Claves \, 76
+Hi Wood Block \, 77 Low Wood Block \, 78 Mute Cuica \, 79 Open Cuica
+\, 80 Mute Triangle \, 81 Open Triangle \, 82 Shaker \,;
+#X obj 232 100 loadbang;
+#X obj 144 394 m_symbolarray;
+#X obj 84 453 outlet;
+#X obj 84 343 inlet;
+#X msg 104 376 set \$1;
+#X connect 0 0 2 1;
+#X connect 1 0 2 0;
+#X connect 1 1 0 0;
+#X connect 2 0 7 1;
+#X connect 3 0 7 0;
+#X connect 3 0 8 0;
+#X connect 5 0 1 0;
+#X connect 6 0 5 0;
+#X connect 7 0 4 0;
+#X connect 9 0 10 0;
+#X connect 9 0 8 0;
+#X connect 9 0 7 0;
+#X connect 10 0 3 0;
+#X coords 0 -1 1 1 255 40 1 100 400;
+#X restore 113 85 pd gmkit;
+#X text 103 43 When loading drum samples this way \, it may be useful
+to follow the GM drum standard:;
+#X obj 107 180 declare -path .;
+#X text 100 145 Generally you should also use a declaration like this
+in _main.pd to be able to use relative directory names:;
+#X restore 111 640 pd hints;
+#X obj 167 694 u_multisamplebank;
+#X obj 300 694 m_symbolarray;
+#X text 89 697 Also see:;
+#X connect 7 0 21 0;
+#X connect 8 0 21 0;
+#X connect 13 0 21 0;
+#X connect 17 0 21 0;
+#X connect 19 0 21 0;
+#X connect 21 0 20 0;

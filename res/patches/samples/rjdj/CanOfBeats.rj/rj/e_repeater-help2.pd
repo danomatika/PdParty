@@ -1,0 +1,47 @@
+#N canvas 519 243 750 420 10;
+#X floatatom 205 61 5 0 0 0 - - -;
+#X msg 202 108 feedback 1;
+#X obj 206 39 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 28 19 Repeat a chunk of the incoming signal.;
+#X text 385 114 feedback level. If 1 the chunk gets repeated endlessly.
+;
+#X msg 201 135 dry 1;
+#X msg 252 136 dry 0.5;
+#X msg 314 136 dry 0;
+#X text 394 140 dry signal (1) - wet signal (0);
+#X msg 245 174 num 4;
+#X msg 198 174 num 0;
+#X msg 292 174 num 16;
+#X msg 284 109 feedback 0.9;
+#X text 381 176 number of repetitions (default (0) is endless);
+#X obj 47 102 soundinput;
+#X obj 61 257 soundoutput;
+#X text 248 60 length of the chunk repeated in ms triggers new recording.
+;
+#X obj 74 165 e_repeater repea;
+#X obj 305 290 s_looper xxx;
+#X msg 303 254 open;
+#X msg 345 253 play;
+#X msg 405 252 loop \$1;
+#X obj 405 232 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X connect 0 0 17 1;
+#X connect 1 0 17 1;
+#X connect 2 0 0 0;
+#X connect 5 0 17 1;
+#X connect 6 0 17 1;
+#X connect 7 0 17 1;
+#X connect 9 0 17 1;
+#X connect 10 0 17 1;
+#X connect 11 0 17 1;
+#X connect 12 0 17 1;
+#X connect 14 0 17 0;
+#X connect 17 0 15 0;
+#X connect 17 0 15 1;
+#X connect 18 0 17 0;
+#X connect 18 1 17 0;
+#X connect 19 0 18 0;
+#X connect 20 0 18 0;
+#X connect 21 0 18 0;
+#X connect 22 0 21 0;

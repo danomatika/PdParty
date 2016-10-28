@@ -1,0 +1,18 @@
+#N canvas 345 214 519 438 10;
+#X obj 149 121 noise~;
+#X obj 149 251 soundoutput;
+#X obj 215 138 mtof;
+#X floatatom 215 117 5 0 0 2 pitch - -;
+#X floatatom 264 118 5 0 0 2 Q - -;
+#X obj 148 218 *~ 0.2;
+#X obj 149 176 e_lop2 1000 2;
+#X text 92 60 2-pole resonant lowpass filter with Q inlet;
+#X text 59 34 e_lop2;
+#X text 259 174 args: <freq> <Q>;
+#X connect 0 0 6 0;
+#X connect 2 0 6 1;
+#X connect 3 0 2 0;
+#X connect 4 0 6 2;
+#X connect 5 0 1 0;
+#X connect 5 0 1 1;
+#X connect 6 0 5 0;

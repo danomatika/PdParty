@@ -1,0 +1,12 @@
+#N canvas 581 173 450 300 10;
+#X obj 31 32 r style;
+#X obj 8 76 list trim;
+#X obj 8 54 list;
+#X obj 8 12 r choose-new-loops;
+#X obj 8 98 symbol;
+#X obj 8 120 outlet;
+#X connect 0 0 2 1;
+#X connect 1 0 4 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;

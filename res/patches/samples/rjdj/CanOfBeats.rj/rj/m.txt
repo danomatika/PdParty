@@ -1,0 +1,7 @@
+m_autoscale - scale numbers with a dynamically detected input range
+m_bpm2ms - convert between BPM frequency and periods in milliseconds
+m_keyfollow - apply keyboard following to filter frequencies
+m_majorscale - map numbers to a major scale
+m_scale - scale ranges
+m_speedlimit - impose upper limit on message speed
+m_touch2grid - map x y coordinates to a lower resolution grid

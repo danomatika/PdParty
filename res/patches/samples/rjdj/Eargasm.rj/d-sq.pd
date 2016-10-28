@@ -1,0 +1,10 @@
+#N canvas 0 22 470 320 10;
+#X obj 65 33 inlet;
+#X obj 66 66 t a a;
+#X obj 71 105 *;
+#X obj 72 143 outlet;
+#X text 148 55 squares the input;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 2 1;
+#X connect 2 0 3 0;

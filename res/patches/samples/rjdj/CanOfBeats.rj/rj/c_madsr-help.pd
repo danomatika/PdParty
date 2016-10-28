@@ -1,0 +1,61 @@
+#N canvas 256 30 612 631 10;
+#X text 86 214 Negative triggers cause the output to jump to zero and
+then attack (instead of attacking from the current location).;
+#X obj 236 357 / 127;
+#X obj 127 292 t a b;
+#X msg 127 270 80;
+#X obj 127 335 makenote 100 400;
+#X obj 236 383 t a a;
+#X floatatom 181 311 5 0 0 2 velocity - -;
+#X floatatom 299 290 5 0 0 1 A - -;
+#X floatatom 330 315 5 0 0 1 D - -;
+#X floatatom 362 343 5 0 0 1 S(%) - -;
+#X floatatom 394 368 5 0 0 1 R - -;
+#X text 86 112 Arguments: peak level \, attack time \, decay time \,
+sustain level \, release time. A \, D \, and R are in msec and S is
+in percent!;
+#X text 51 13 c_madsr: ADSR ENVELOPE FOR MESSAGES;
+#X text 85 161 When you send this patch a positive trigger it schedules
+messages to do an attack and decay \, and if zero \, it starts the
+release ramp.;
+#X text 85 46 This is a generator for message rate ADSR envelopes following
+the classical Miller S. Puckette linear ADSR envelope design.;
+#X text 93 93 It is designed to be used with an additional;
+#X obj 412 92 line;
+#X text 448 92 object.;
+#N canvas 0 0 450 300 collect 0;
+#X obj 195 37 inlet;
+#X obj 41 37 inlet;
+#X obj 41 187 outlet;
+#X msg 195 74 set;
+#X obj 41 99 list trim;
+#X obj 41 74 list prepend add;
+#X connect 0 0 3 0;
+#X connect 1 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X restore 92 494 pd collect;
+#X msg 92 521;
+#X msg 170 492 reset;
+#X obj 236 439 line 0 10;
+#X obj 239 474 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 236 411 c_madsr 1 80 100 60 200;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 2 1 18 1;
+#X connect 3 0 2 0;
+#X connect 4 1 1 0;
+#X connect 5 0 23 0;
+#X connect 5 1 23 1;
+#X connect 6 0 4 1;
+#X connect 7 0 23 2;
+#X connect 8 0 23 3;
+#X connect 9 0 23 4;
+#X connect 10 0 23 5;
+#X connect 18 0 19 0;
+#X connect 20 0 18 1;
+#X connect 21 0 22 0;
+#X connect 23 0 18 0;
+#X connect 23 0 21 0;

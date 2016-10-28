@@ -1,0 +1,13 @@
+c_adsr - ADSR envelope generator
+c_adsrj - ADSR envelope generator with GUI and preset
+1
+c_cpfade - constant power crossfader
+c_drunk - output random numbers bound to a range (random walk)
+c_ead - exponential attack/decay envelope
+c_lfo - message rate LFO with various waveforms
+c_madsr - ADSR envelope generator for messages
+c_madsrj - ADSR envelope generator for messages with GUI and preset
+1
+c_mphasor - message phasor for LFO generation
+c_multimetro - multi-period metro with builtin counter
+c_xfade - linear crossfader

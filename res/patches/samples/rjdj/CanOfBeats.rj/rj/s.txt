@@ -1,0 +1,15 @@
+s_blsaw - bandlimited saw wave
+s_blsquare - bandlimited square wave with PWM
+s_buzz - buzz harmonics generator
+s_drumelectro - electronic drums
+s_fmoscil - simple 2-operator FM
+s_fm4 - simple 4-operator FM unfinished!
+s_fplaytable - fast sample player for tables
+s_fplaytable2 - fast sample player for tables (stereo)
+s_guitar - karplus strong guitar
+s_looper - sample player with builtin sample loader 
+s_pinknoise - pinkish noise source
+s_playtable - sample player for tables with resampling
+s_playtable2 - sample player for tables with resampling (stereo)
+s_rhodey - FM emulation of rhodes e-piano
+s_osc - multi-waveform oscillator: sine saw square triangle

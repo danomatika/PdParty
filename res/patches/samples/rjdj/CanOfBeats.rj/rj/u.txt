@@ -1,0 +1,29 @@
+u_bandpass1 - compute biquad coefficients for a bandpass filter (const skirt BW)
+u_bandpass1q - compute biquad coefficients for a bandpass filter (const skirt Q)
+u_bandpass2 - compute biquad coefficients for a bandpass filter (const peak BW)
+u_bandpass2q - compute biquad coefficients for a bandpass filter (const peak Q)
+u_channelstrip - mixing strip with two postfader sends
+u_cocollect - collect messages into a message and end each with a comma
+u_collect - collect messages into a message
+u_dispatch - dispatch messages by selector to local senders
+u_fade - remote fader control
+u_follower - follower for messages delivered at constant rate 
+u_highpass - compute biquad coefficients for a resonant highpass filter (BW)
+u_highpassq - compute biquad coefficients for a resonant highpass filter (Q)
+u_listdrip - serialise a list immediatly (i.e. list-drip)
+u_listfilter - filter a list (i.e. list-filter)
+u_listmap - map an operation to each list element (i.e. list-map)
+u_listnth - output the nth element of a list (i.e. list-nth)
+u_listreduce - reduce a list in pairs (i.e. list-reduce)
+u_listser - serialise a list on demand (i.e. list-dripslow)
+u_loadmeter - show CPU load
+u_loader - connect local state variables to global senders
+u_lowpass - compute biquad coefficients for a resonant lowpass filter (BW)
+u_lowpassq - compute biquad coefficients for a resonant lowpass filter (Q)
+u_makepoly - make midi-like instruments polyphonic
+u_record - record audio data into tables
+u_samplebank - load files into tables
+u_samplebank2 - load stereo files into tables
+u_sigm - sigmoid function for messaging squashing
+u_splicetrans - transition splicer for bandlimiting jumps in waveforms
+u_stereo - make stereo versions of effects

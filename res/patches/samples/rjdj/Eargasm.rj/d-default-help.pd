@@ -1,0 +1,49 @@
+#N canvas 295 129 513 477 10;
+#X text 17 7 d-default;
+#X text 16 19 ---------;
+#X text 15 45 provides default values for unspecified float arguments.
+;
+#X obj 24 162 outlet;
+#X obj 131 161 outlet;
+#X text 14 57 values are output on load.;
+#X floatatom 181 319 5 0 0 0 - - -;
+#X floatatom 298 320 5 0 0 0 - - -;
+#X floatatom 340 319 5 0 0 0 - - -;
+#X floatatom 469 319 5 0 0 0 - - -;
+#X floatatom 18 416 5 0 0 0 - - -;
+#X floatatom 141 417 5 0 0 0 - - -;
+#X floatatom 31 318 5 0 0 0 - - -;
+#X floatatom 130 319 5 0 0 0 - - -;
+#X text 14 83 inlet just passes values straight through.;
+#X text 20 347 unfortunately \, it does not work if trying to overload
+a non-zero default argument with a 0:;
+#X floatatom 75 163 5 0 0 0 - - -;
+#X floatatom 24 109 5 0 0 0 - - -;
+#X text 240 138 <-- this is duplicated in d-default-example;
+#X text 14 242 here we instantiate d-default-example with and without
+arguments:;
+#X text 397 382 part of dlib;
+#X text 186 448 released under the GNU General Public License v3+;
+#X text 275 423 damian@frey.co.nz | www.frey.co.nz;
+#X text 275 409 copyright damian stewart 2006-2008;
+#X text 16 187 in the first example above \, if the first creation
+argument to this patch (\$1) is not specified \, 6 is output. if it
+is specified \, then the specified number it is output instead.;
+#X obj 181 290 d-default-example 99;
+#X obj 340 290 d-default-example 99 1;
+#X obj 31 289 d-default-example;
+#X obj 18 387 d-default-example 0 0;
+#X obj 131 135 d-default \$2 12;
+#X obj 24 135 d-default \$1 6;
+#X connect 17 0 30 0;
+#X connect 25 0 6 0;
+#X connect 25 1 7 0;
+#X connect 26 0 8 0;
+#X connect 26 1 9 0;
+#X connect 27 0 12 0;
+#X connect 27 1 13 0;
+#X connect 28 0 10 0;
+#X connect 28 1 11 0;
+#X connect 29 0 4 0;
+#X connect 30 0 3 0;
+#X connect 30 0 16 0;

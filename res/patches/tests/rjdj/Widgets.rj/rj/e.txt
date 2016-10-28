@@ -1,0 +1,30 @@
+e_agc - automatic gain control
+e_alias - downsample to alias a signal
+e_apdist - distort with a modulated allpass filter
+e_bitcrusher - reduce bit depth of a signal
+e_beequad - biquad filter with settable coeff. interpolation time
+e_chorus - chorus effect 
+e_chorusr - chorus effect after roland
+e_circlepan - circular panner
+e_dynproc - dynamics processor: compressor noisegate limiter expander
+e_dubdel - beat synchronized pingpong or dub delay
+e_fbdelay - feedback delay line
+e_fbdelay2 - feedback delay line (stereo)
+e_freqshift - frequency shifter
+e_graindelread - granular delay reader
+e_lop2 - 2-pole resonant lowpass filter
+e_lop4 - 4-pole resonant lowpass filter
+e_pan - stereo panning (constant power)
+e_phaser - Phaser effect
+e_pingpong - Pingpong delay line
+e_pitchshift - pitch shifter
+e_platereverb - Griesinger style plate reverb
+e_repeater - repeat chunks of incoming signal
+e_reslop - resonant lowpass filter
+e_resonzq - 2-pole resonant bandpass filter
+e_reverb - simple reverb
+e_scompress - compressor with sidechain (can be used without as well)
+e_sdelay - static delay line
+e_softclip - tube-like distortion (tanh)
+e_tremolo - simple tremolo
+e_vocoder - FFT vocoder

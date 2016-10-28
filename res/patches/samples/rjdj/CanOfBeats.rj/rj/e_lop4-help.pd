@@ -1,0 +1,17 @@
+#N canvas 345 214 519 438 10;
+#X text 59 37 e_lop4;
+#X text 92 61 4-pole resonant lowpass filter with Q inlet;
+#X obj 149 121 noise~;
+#X obj 149 251 soundoutput;
+#X obj 215 138 mtof;
+#X floatatom 215 117 5 0 0 2 pitch - -;
+#X floatatom 264 118 5 0 0 2 Q - -;
+#X obj 148 218 *~ 0.2;
+#X obj 149 176 e_lop4 1000 2;
+#X connect 2 0 8 0;
+#X connect 4 0 8 1;
+#X connect 5 0 4 0;
+#X connect 6 0 8 2;
+#X connect 7 0 3 0;
+#X connect 7 0 3 1;
+#X connect 8 0 7 0;

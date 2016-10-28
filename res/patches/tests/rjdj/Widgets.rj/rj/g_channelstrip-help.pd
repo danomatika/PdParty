@@ -1,0 +1,62 @@
+#N canvas 59 46 996 567 10;
+#N canvas 0 0 450 300 store 0;
+#X msg 155 128 aux2name chan1-2 \, aux1name chan1-1 \,;
+#X obj 155 98 inlet;
+#X obj 88 128 outlet;
+#X obj 208 97 loadbang;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 3 0 0 0;
+#X restore 555 37 pd store;
+#N canvas 0 0 450 300 store 0;
+#X msg 155 128 aux2 0.341772 \, aux1 0.151899 \, pan 0.708661 \, level
+43.1646 \,;
+#X obj 155 98 inlet;
+#X obj 88 128 outlet;
+#X obj 208 97 loadbang;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 3 0 0 0;
+#X restore 722 38 pd store;
+#N canvas 0 0 711 385 store 0;
+#X obj 155 98 inlet;
+#X obj 88 128 outlet;
+#X obj 208 97 loadbang;
+#X msg 155 128;
+#X connect 0 0 3 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X restore 882 39 pd store;
+#X obj 412 60 g_channelstrip chan1;
+#X obj 579 60 g_channelstrip chan2;
+#X obj 739 61 g_channelstrip chan3;
+#X text 55 79 Argument: <NAME> (required!);
+#X text 61 109 Inlet0~: Signal in;
+#X text 62 126 Inlet1: Control messages;
+#X text 62 160 Outlet 0 + 1: Panned signal left and right;
+#X text 62 180 Outlet 2: Aux1 signal (postfader);
+#X text 61 199 Outlet 3: Aux2 signal (postfader);
+#X obj 88 263 bng 15 250 50 0 empty empty save 17 7 1 10 -262144 -1
+-1;
+#X obj 89 344 bng 15 250 50 0 empty empty autoaux 17 7 1 10 -262144
+-1 -1;
+#X text 86 376 Rename aux1 and aux2 from first argument. Result will
+be: "ARG1-1" and "ARG1-2". Make sure that your have the respective
+[catch~ ARG1-1] and [catch~ ARG1-2] available \, otherwise Pd will
+complain.;
+#X obj 163 462 u_channelstrip;
+#X text 83 462 Also see:;
+#X obj 526 404 catch~ chan1-1;
+#X obj 642 404 catch~ chan1-2;
+#X text 523 365 Example: After pressing autoaux in first channel from
+above \, aux signals go here:;
+#X text 60 220 Outlet 4: Control messages to set message boxes;
+#X text 84 288 Send control messages to outlet 4 See [pd store] for
+how to save these messages into your patch.;
+#X text 30 24 g_channelstrip - mixer strip bundled with GUI;
+#X connect 0 0 3 1;
+#X connect 1 0 4 1;
+#X connect 2 0 5 1;
+#X connect 3 4 0 0;
+#X connect 4 4 1 0;
+#X connect 5 4 2 0;

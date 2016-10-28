@@ -1,0 +1,16 @@
+#N canvas 227 381 852 486 10;
+#X obj 101 107 inlet~;
+#X obj 102 287 outlet~;
+#X obj 368 104 inlet;
+#X obj 274 287 outlet~;
+#X obj 275 107 inlet~;
+#X text 61 41 A quick way to convert a mono effect into a stereo effect.
+Works for effects with 1 audio in and 1 audio out.;
+#X obj 102 253 \$1 \$2 \$3 \$4 \$5;
+#X obj 274 251 \$1 \$2 \$3 \$4 \$5;
+#X connect 0 0 6 0;
+#X connect 2 0 6 1;
+#X connect 2 0 7 1;
+#X connect 4 0 7 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;

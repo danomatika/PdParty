@@ -1,0 +1,41 @@
+#N canvas 249 145 739 584 10;
+#X text 160 170 signal 2;
+#X floatatom 204 238 5 0 0 0 - - -;
+#X obj 207 215 hsl 128 15 0 1 0 0 empty empty crossfader_0-1 -2 -8
+1 10 -262144 -1 -1 6700 1;
+#X obj 78 467 *~ 0.5;
+#X text 120 141 signal 1;
+#X obj 118 189 osc~ 800;
+#X obj 78 160 osc~ 400;
+#X obj 197 429 vu 15 120 empty empty -1 -8 0 8 -66577 -1 1 0;
+#X obj 196 380 env~;
+#X obj 196 405 - 100;
+#X text 24 34 c_cpfade;
+#X text 75 75 Crossfades two signals according to a sine-based transfer
+function so that the loudness of the result is constant.;
+#X obj 245 357 c_xfade;
+#X obj 79 511 soundoutput;
+#X obj 246 429 vu 15 120 empty empty -1 -8 0 8 -66577 -1 1 0;
+#X obj 245 380 env~;
+#X obj 245 405 - 100;
+#X text 152 337 arg1: 0-1;
+#X text 105 36 - constant power crossfade;
+#X obj 78 317 c_cpfade 0.5;
+#X text 291 307 The normal xfade has a little "hole in middle" \, but
+it's cheaper;
+#X connect 1 0 12 2;
+#X connect 1 0 19 2;
+#X connect 2 0 1 0;
+#X connect 3 0 13 0;
+#X connect 3 0 13 1;
+#X connect 5 0 12 1;
+#X connect 5 0 19 1;
+#X connect 6 0 12 0;
+#X connect 6 0 19 0;
+#X connect 8 0 9 0;
+#X connect 9 0 7 0;
+#X connect 12 0 15 0;
+#X connect 15 0 16 0;
+#X connect 16 0 14 0;
+#X connect 19 0 3 0;
+#X connect 19 0 8 0;

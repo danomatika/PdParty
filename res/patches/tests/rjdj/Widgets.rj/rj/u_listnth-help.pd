@@ -1,0 +1,32 @@
+#N canvas 0 0 789 629 10;
+#X floatatom 275 339 5 0 0 1 n - -;
+#X text 136 110 Inlets: 1) list to look up in;
+#X text 136 48 look up the nth element in a list. n has to be positive
+and is zero-based!;
+#X obj 215 392 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 193 129 2) number giving position to filter. Zero-based \,
+positive.;
+#X msg 201 238 0 1 2 3 4 5 6;
+#X text 138 83 Argument: <n \, default: 0==first element>;
+#X msg 223 300 a b c d e;
+#X msg 201 469;
+#X msg 149 395 bang;
+#X msg 218 266 list x y z;
+#X text 310 301 non-lists get converted to proper lists.;
+#X text 134 162 Note: negative postion numbers give no output \, lists
+longer than the index give a spurious 0 as result \, but also an error
+in the console: "$x: argument out of range".;
+#X obj 201 364 u_listnth 2;
+#X text 57 26 u_listnth;
+#X obj 201 425 list prepend set;
+#X obj 201 446 list trim;
+#X connect 0 0 13 1;
+#X connect 5 0 13 0;
+#X connect 7 0 13 0;
+#X connect 9 0 15 0;
+#X connect 10 0 13 0;
+#X connect 13 0 3 0;
+#X connect 13 0 15 0;
+#X connect 15 0 16 0;
+#X connect 16 0 8 0;

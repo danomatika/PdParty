@@ -1,0 +1,71 @@
+#N canvas 83 19 1026 733 10;
+#X obj 408 272 g_nbx delr;
+#X obj 408 237 g_nbx dell;
+#X obj 408 377 g_nbx bpitch;
+#X obj 408 307 g_nhsl feedback 0 1;
+#X msg 410 588 dry 0.2 \, bq 2 \, basedur 500 \, bpitch 83 \, feedback
+0.99 \, dell 2 \, delr 3 \,;
+#X obj 410 561 u_cocollect;
+#X obj 272 555 soundoutput;
+#X msg 425 519 help;
+#X obj 292 519 e_dubdel mydubdel;
+#X obj 408 202 g_nbx basedur;
+#X obj 408 342 g_nbx bq;
+#X obj 408 417 g_hsl dry 0 1;
+#X msg 452 460 save;
+#X obj 452 487 t a b;
+#X obj 197 409 s_rhodey mypiano;
+#X obj 197 371 pack 0 0;
+#X obj 197 317 m_majorscale 60;
+#X obj 197 238 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 197 290 random 7;
+#X obj 197 263 metro 1000;
+#X obj 197 344 makenote 80 50;
+#X obj 408 116 loadbang;
+#X text 86 41 e_dubdel;
+#X text 120 64 beat synchronized pingpong or dub delay;
+#X obj 198 464 e_pan 0.5;
+#X obj 261 441 hsl 50 15 0 1 0 0 empty empty pan 20 8 1 10 -262144
+-86277 -1 1000 1;
+#X text 504 245 dell - delay divisor left. Actual delay: basedur/dell
+;
+#X text 504 278 delr - delay divisor right. Actual delay: basedur/delr
+;
+#X text 562 312 feedback - delay feedback;
+#X text 504 349 bq - bandpass Q: resonance (default 2);
+#X text 505 382 bpitch - bandpass pitch in midi units (0-127);
+#X text 561 421 dry - amount of dry signal: dry=0 means fully wet (default)
+;
+#X text 501 459 e_dubdel is saveable;
+#X text 504 206 basedur - base duration for delays;
+#X msg 408 143 dry 0.2 \, bq 2 \, basedur 500 \, bpitch 83 \, feedback
+0.99 \, dell 2 \, delr 3 \,;
+#X connect 0 0 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 11 0;
+#X connect 3 0 10 0;
+#X connect 5 0 4 0;
+#X connect 7 0 8 2;
+#X connect 8 0 6 0;
+#X connect 8 1 6 1;
+#X connect 8 2 5 0;
+#X connect 9 0 1 0;
+#X connect 10 0 2 0;
+#X connect 11 0 8 2;
+#X connect 12 0 13 0;
+#X connect 13 0 8 2;
+#X connect 13 1 5 1;
+#X connect 14 0 24 0;
+#X connect 15 0 14 0;
+#X connect 16 0 20 0;
+#X connect 17 0 19 0;
+#X connect 18 0 16 0;
+#X connect 19 0 18 0;
+#X connect 20 0 15 0;
+#X connect 20 1 15 1;
+#X connect 21 0 34 0;
+#X connect 24 0 8 0;
+#X connect 24 1 8 1;
+#X connect 25 0 24 1;
+#X connect 34 0 9 0;

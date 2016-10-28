@@ -1,0 +1,55 @@
+#N canvas 0 0 777 653 10;
+#X obj 87 232 t a b;
+#X msg 87 210 80;
+#X obj 87 275 makenote 100 400;
+#X floatatom 141 251 5 0 0 2 velocity - -;
+#X floatatom 349 218 5 0 0 1 A - -;
+#X floatatom 413 218 5 0 0 1 D - -;
+#X floatatom 475 218 5 0 0 1 S(%) - -;
+#X floatatom 547 218 5 0 0 1 R - -;
+#X msg 349 237 A \$1;
+#X msg 413 237 D \$1;
+#X msg 475 238 S \$1;
+#X msg 547 238 R \$1;
+#X floatatom 153 316 5 0 0 0 - - -;
+#X text 475 336 Remote control;
+#X obj 478 453 s RJ_SCENE_LOAD;
+#X text 86 102 Arguments: NAME \, attack time \, decay time \, sustain
+level \, release time. A \, D \, and R are in msec and S is in percent!
+;
+#X obj 478 430 list trim;
+#X msg 478 362 A 50 \, D 80 \, S 70 \, R 300;
+#X text 378 508 Also see;
+#X text 86 152 Trigger input is taken to be a number specifiying midi
+velocity (0-127) which will also set the peak level.;
+#X obj 196 351 c_madsrj myadsr;
+#X obj 448 506 c_madsr 1 20 30 90 300;
+#X text 51 13 c_madsrj: ADSR ENVELOPE for messages with GUI and state
+saving;
+#X text 84 46 This is a variation on the c_madsr ADSR envelope which
+has a GUI included and is rj-save enabled.;
+#X obj 478 406 list prepend c_madsrj-myadsr;
+#X text 83 83 It is designed to be used with an additional;
+#X obj 402 82 line;
+#X text 438 82 object.;
+#X obj 196 422 line;
+#X obj 199 453 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 1 12 0;
+#X connect 2 1 20 0;
+#X connect 3 0 2 1;
+#X connect 4 0 8 0;
+#X connect 5 0 9 0;
+#X connect 6 0 10 0;
+#X connect 7 0 11 0;
+#X connect 8 0 20 1;
+#X connect 9 0 20 1;
+#X connect 10 0 20 1;
+#X connect 11 0 20 1;
+#X connect 16 0 14 0;
+#X connect 17 0 24 0;
+#X connect 20 0 28 0;
+#X connect 24 0 16 0;
+#X connect 28 0 29 0;

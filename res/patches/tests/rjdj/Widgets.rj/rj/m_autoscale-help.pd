@@ -1,0 +1,52 @@
+#N canvas 285 96 919 623 10;
+#X floatatom 137 398 5 0 0 0 - - -;
+#X msg 268 437 dump;
+#X floatatom 137 537 5 0 0 0 - - -;
+#X obj 140 569 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 3077 1;
+#X obj 211 491 unpack 0 0;
+#X floatatom 211 517 5 0 0 0 - - -;
+#X floatatom 278 517 5 0 0 0 - - -;
+#X text 291 489 input range;
+#X msg 264 276 reset;
+#X text 33 13 m_autoscale:;
+#X text 82 108 Arguments:;
+#X text 110 123 <output low \, default=0> <output high \, default 1>
+<mapping curve \, default=linear>;
+#X text 79 161 Inlets:;
+#X obj 411 343 m_scale;
+#X text 115 180 1) number to scale;
+#X obj 211 251 tgl 15 0 empty empty autoscaling 17 7 1 10 -262144 -1
+-1 0 1;
+#X text 115 202 2) various messages \, see below:;
+#X text 298 249 switch input range detection on/off;
+#X text 322 276 reset input range to tiny rsp. huge;
+#X text 366 302 set output range;
+#X text 373 324 set output range and mapping.;
+#X text 316 439 dump current input range to 2nd outlet;
+#X obj 137 458 m_autoscale;
+#X msg 267 384 input 0 100;
+#X text 364 385 set input range;
+#X msg 268 408 input 0 100 \, 0;
+#X text 382 408 set input range and switch off autoscaling in one message.
+;
+#X msg 266 323 output 0 127 4;
+#X msg 266 302 output 0 100;
+#X text 81 47 Scale a range of numbers to another range. The input
+range is dynamically chosen from the minimum and maximum input values.
+;
+#X text 372 343 See;
+#X text 481 345 for possible mappings.;
+#X connect 0 0 22 0;
+#X connect 1 0 22 1;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 4 1 6 0;
+#X connect 8 0 22 1;
+#X connect 15 0 22 1;
+#X connect 22 0 2 0;
+#X connect 22 1 4 0;
+#X connect 23 0 22 1;
+#X connect 25 0 22 1;
+#X connect 27 0 22 1;
+#X connect 28 0 22 1;

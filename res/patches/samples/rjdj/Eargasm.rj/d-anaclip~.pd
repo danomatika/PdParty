@@ -1,0 +1,25 @@
+#N canvas 85 63 500 340 10;
+#X obj 49 108 *~;
+#X obj 100 138 *~ 9;
+#X obj 47 195 /~;
+#X obj 48 161 +~ 27;
+#X obj 31 253 outlet~;
+#X obj 31 223 *~;
+#X text 104 206 x * ( 27 + x * x ) / ( 27 + 9 * x * x );
+#X obj 99 161 +~ 27;
+#X text 94 251 stolen from musicdsp.org via frank barknecht;
+#X text 120 71 nice analogue clipping \, assuming input is between
+-3 and 3;
+#X obj 32 60 clip~ -3 3;
+#X obj 32 29 inlet~;
+#X connect 0 0 3 0;
+#X connect 0 0 1 0;
+#X connect 1 0 7 0;
+#X connect 2 0 5 1;
+#X connect 3 0 2 0;
+#X connect 5 0 4 0;
+#X connect 7 0 2 1;
+#X connect 10 0 0 0;
+#X connect 10 0 0 1;
+#X connect 10 0 5 0;
+#X connect 11 0 10 0;
