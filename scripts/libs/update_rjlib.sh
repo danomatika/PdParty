@@ -18,6 +18,9 @@ cd $WD
 #git clone git://github.com/rjdj/rjlib.git rjlib
 git clone git://github.com/danomatika/rjlib.git rjlib
 
+# remove stuff we don't need
+rm $SRC_DIR/deprecated/hilbert~.pd
+
 # copy input/output patches
 mkdir -p $DEST_DIR/pd
 cp -v $SRC_DIR/pd/*.pd $DEST_DIR/pd/
