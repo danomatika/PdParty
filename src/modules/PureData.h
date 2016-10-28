@@ -85,7 +85,6 @@
 @property (weak, nonatomic) Midi *midi; //< pointer to midi instance
 @property (weak, nonatomic) Osc *osc; //< pointer to osc instance
 @property (weak, nonatomic) Sensors *sensors; //< pointer to sensor manager instance
-@property (weak, nonatomic) Controllers *controllers; //< pointer to controller manager instance
 
 /// enabled / disable PD audio processing
 @property (getter=isAudioEnabled) BOOL audioEnabled;

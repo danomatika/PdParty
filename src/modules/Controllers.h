@@ -33,6 +33,10 @@
 /// stop new controller discovery, if it's enabled
 - (void)stopDiscovery;
 
+/// update the currently connected controllers
+/// register any new ones and remove any that are no longer connected
+- (void)updateConnectedControllers;
+
 /// returns YES if game controller support is available on this device
 + (BOOL)controllersAvailable;
 

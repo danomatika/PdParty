@@ -52,7 +52,6 @@
 		// create game controller manager
 		if([Controllers controllersAvailable]) {
 			self.controllers = [[Controllers alloc] init];
-			self.pureData.controllers = self.controllers;
 			self.controllers.osc = app.osc;
 		}
 		else {

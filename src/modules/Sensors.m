@@ -22,6 +22,8 @@
 #define SENSOR_GAME_HZ    60.0
 #define SENSOR_FASTEST_HZ 100.0
 
+//#define DEBUG_SENSORS
+
 @interface Sensors () {
 	CMMotionManager *motionManager; //< for accel data
 	CLLocationManager *locationManager; //< for location data
@@ -467,9 +469,11 @@
 
 // orient accel data to current orientation
 - (void)sendAccel:(CMAccelerometerData *)accel {
-//	DDLogVerbose(@"accel %f %f %f", accel.acceleration.x,
-//									accel.acceleration.y,
-//									accel.acceleration.z);
+	#ifdef DEBUG_CONTROLLERS
+		DDLogVerbose(@"accel %f %f %f", accel.acceleration.x,
+										accel.acceleration.y,
+										accel.acceleration.z);
+	#endif
 	switch(self.currentOrientation) {
 		case UIInterfaceOrientationPortrait:
 			[PureData sendAccel:accel.acceleration.x
@@ -509,13 +513,17 @@
 }
 
 - (void)sendGyro:(CMGyroData *)gyro {
-//	DDLogVerbose(@"gyro %f %f %f", gyro.rotationRate.x, gyro.rotationRate.y, gyro.rotationRate.z);
+	#ifdef DEBUG_CONTROLLERS
+		DDLogVerbose(@"gyro %f %f %f", gyro.rotationRate.x, gyro.rotationRate.y, gyro.rotationRate.z);
+	#endif
 	[PureData sendGyro:gyro.rotationRate.x y:gyro.rotationRate.y z:gyro.rotationRate.z];
 	[self.osc sendGyro:gyro.rotationRate.x y:gyro.rotationRate.y z:gyro.rotationRate.z];
 }
 
 - (void)sendLocation:(CLLocation *)location {
-//	DDLogVerbose(@"locate %@", location.description);
+	#ifdef DEBUG_CONTROLLERS
+		DDLogVerbose(@"locate %@", location.description);
+	#endif
 	[PureData sendLocation:location.coordinate.latitude
 					   lon:location.coordinate.longitude
 				  accuracy:location.horizontalAccuracy];
@@ -529,13 +537,17 @@
 }
 
 - (void)sendCompass:(CLHeading *)heading {
-//	DDLogVerbose(@"heading %@", heading.description);
+	#ifdef DEBUG_CONTROLLERS
+		DDLogVerbose(@"heading %@", heading.description);
+	#endif
 	[PureData sendCompass:heading.magneticHeading];
 	[self.osc sendCompass:heading.magneticHeading];
 }
 
 - (void)sendMagnet:(CMMagnetometerData *)magnet {
-//	DDLogVerbose(@"magnet %f %f %f", magnet.magneticField.x, magnet.magneticField.y, magnet.magneticField.z);
+	#ifdef DEBUG_CONTROLLERS
+		DDLogVerbose(@"magnet %f %f %f", magnet.magneticField.x, magnet.magneticField.y, magnet.magneticField.z);
+	#endif
 	[PureData sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
 	[self.osc sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
 }
