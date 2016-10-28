@@ -61,6 +61,12 @@ This project uses:
 * [UIAlertView+Blocks](https://github.com/ryanmaxwell/UIAlertView-Blocks)
 * [UIActionSheet+Blocks](https://github.com/ryanmaxwell/UIActionSheet-Blocks)
 
+### 3rd Party Samples
+* CanOfBeats, multibeat, & pure-widgets-demo: Chris McCormick
+* Atsuke: Frank Barknecht
+* Eargasm: Damian Stewart
+* bouncy: Georg Bosch
+
 ### 3rd Party Resources
 
 * [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/Main_Page): font
