@@ -45,7 +45,7 @@ Acknowledgements
 * [Reality Jockey](http://rjdj.me/) for proving PD + mobile devices = win
 * Chris McCormick for providing the design basis with [PdDroidParty](http://droidparty.net/)
 * Frank B. and the rjlib crew for a great vanilla abstraction set
-* The [Frank-Ratchey STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org) at Carnegie Mellon University which supported various aspects of my early work on libpd
+* The [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org) at Carnegie Mellon University which supported various aspects of my early work on libpd
 
 Backstory
 ---------
@@ -60,7 +60,7 @@ In 2006-2007, I built a wearable computer based mobile performance system using 
 
 Fast forward a few years and the future of ubiquitous, mobile/wearable computational devices I wrote about in my thesis is here so [I decided to adapt this approach to the iPad](http://robotcowboy.com/news/robotcowboy-2-0/) when iOS officially supported MIDI and low latency usb audio. That and the old industrial wearable I was using was giving up the ghost, plus it was time for a computational upgrade. 
 
-Now I have a stable, low latency mobile/wearable platform with a touchscreen, accelerometer, wifi networking, and usb midi/audio. Here's my belt-based wearable setup using an iPad 2, Camera Connection Kit, powered usb hub, Roland Edirol UA-25 bus-powered usb audio interface, and a Behringer direct box (the latter two are built into the green case on the left):
+Now I have a stable, low latency mobile/wearable platform with a touchscreen, accelerometer, wifi networking, and usb midi/audio. Here is my belt-based wearable setup using an iPad 2, Camera Connection Kit, powered usb hub, Roland Edirol UA-25 bus-powered usb audio interface, and a Behringer direct box (the latter two are built into the green case on the left):
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/belt_setup.jpg"/>
@@ -71,7 +71,7 @@ App Layout
 
 ### TL;DR
 
-There's a root settings screen and a patch/scene browser. Go to your patch and run it. Go back to update settings. Patches/scenes have on screen controls for the input volume, audio processing state (on/off), & recording.
+There is a root settings screen and a patch/scene browser. Go to your patch and run it. Go back to update settings. Patches/scenes have on screen controls for the input volume, audio processing state (on/off), & recording.
 
 ### Start Screen
 
@@ -87,7 +87,7 @@ There's a root settings screen and a patch/scene browser. Go to your patch and r
 
 This is the root of the app and is inspired by [TouchOSC](http://hexler.net/software/touchosc). Here you can launch the Patch Browser or change app settings.
 
-This is also where you can enable the WebDAV server to access the app's Documents folder for adding/updating patches.
+This is also where you can enable the WebDAV server to access the app Documents folder for adding/updating patches.
 
 ### Patch Browser
 
@@ -95,7 +95,7 @@ This is also where you can enable the WebDAV server to access the app's Document
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/documents_browser_iPhone.png"/>
 </p>
 
-This is a simple "drill-down" file browser in the app's Document's folder. Stuff in here is sandboxed between app versions. Simply navigate to patches or scene folders to run them. A "Now Playing" nav button will take you back to the Scene View for the currently playing patch/scene.
+This is a simple "drill-down" file browser in the app Documents folder. Stuff in here is sandboxed between app versions. Simply navigate to patches or scene folders to run them. A "Now Playing" nav button will take you back to the Scene View for the currently playing patch/scene.
 
 It only displays folders and supported file types. File type icons represent the supported files & scene folder types & certian scene types include a thumbnail image & author subtitle.
 
@@ -108,7 +108,9 @@ The default layout is:
 * **samples**: example patches and scenes
 * **tests**: internal tests
 
-Feel free to delete samples and tests. **Do not delete the libs folder** as the abstractions inside are required. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions. If the libs folder is not found, PdParty falls back to including it's internal backup copy.
+Feel free to delete samples and tests. The libs folder contains abstractions needed by PdParty. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions. If the libs folder is not found, PdParty falls back to its internal backup copy.
+
+The all folders within the libs folder are automaitcally added to the PdParty search path so this can also be a location for centralized abstraction libraries.
 
 Note: These default folders can be restored on the Settings screen. So if you accidentally remove everything, you're not out of luck!
 
@@ -166,7 +168,7 @@ The cassette background is a placeholder for now. When metadata is added, it wil
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/osc_settings_iPhone.png"/>
 </p>
 
-Enable the OSC server here and update it's settings: ports, host (destination address), etc. The Local IP Address is the network IP of the device itself so you know where to send OSC messages to from another device.
+Enable the OSC server here and update its settings: ports, host (destination address), etc. The Local IP Address is the network IP of the device itself so you know where to send OSC messages to from another device.
 
 ### MIDI Settings
 
@@ -174,7 +176,7 @@ Enable the OSC server here and update it's settings: ports, host (destination ad
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/midi_settings_iPhone.png"/>
 </p>
 
-Enable CoreMIDI here and optionally enable Network MIDI with a Mac OSX machine.
+Enable CoreMIDI here and optionally enable Network MIDI with a macOS machine.
 
 Inputs & Outputs are refreshed when a MIDI device is plugged in/out. Currently, PdParty automatically connects to all detected MIDI devices.
 
@@ -216,7 +218,7 @@ Your mileage may vary depending on the device and the complexity of the patch or
 
 #### Copy Default Folders
 
-These buttons simply allow you to copy the default libs, samples, and test folders into the app's Document's folder, just as they were when you first ran PdParty. This is mainly there for when you screw up and delete something you probably shouldn't have (libs).
+These buttons simply allow you to copy the default libs, samples, and test folders into the app Documents folder, just as they were when you first ran PdParty. This is mainly there for when you screw up and delete something you probably shouldn't have (libs).
 
 Patching for PdParty
 --------------------
@@ -235,19 +237,19 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
 1. Create a new Pd patch that will contain your GUI objects like sliders, toggles, numberboxes etc. Place your main patch logic inside a subpatch and use the [soundinput] & [soundoutput] [rjlib objects](https://github.com/rjdj/rjlib/tree/master/pd) in place of [adc~] and [dac] \(soundoutput is required for the recording controls\).
 
-2. PdParty will scale GUI objects to fit the screen of the device. Your patch should have the rough dimensions of a phone/tablet in portrait or landscape mode (e.g. 3:2 aspect ratio or e.g. 480x320 should usually work well). If it's not exact it doesn't matter - the GUI elements will be scaled.
+2. PdParty will scale GUI objects to fit the screen of the device. Your patch should have the rough dimensions of a phone/tablet in portrait or landscape mode (e.g. 3:2 aspect ratio or e.g. 480x320 should usually work well). If it is not exact it, doesn't matter - the GUI elements will be scaled.
 
 3. Numberbox, Sliders, Radios, Toggle, Comment, Bang, Canvas, and VU are currently rendered by PdParty and are feature complete (yes, all the edit commands work!). Also, the [PdDroidParty](http://droidparty.net) GUI abstractions are supported.
 
 4. All GUI elements should communicate with the main audio patches using send and receive only. You can usually set send and receive for each GUI by right clicking on the object and choosing 'properties' in Pd. Do not directly connect cables to the GUI elements as they won't work. It helps to keep the GUIs on their own in the main patch and have it include the logic of your patch as an abstraction or subpatch containing senders and receivers for interfacing with GUI elements. This is good patch design practice anyway as it is basically a model-view-controller methodology.
 
-5. Copy the patch and/or it's containing directory and any needed abstractions to your iOS device using iTunes File Sharing or via WebDAV over your local network:
+5. Copy the patch and/or its containing directory and any needed abstractions to your iOS device using iTunes File Sharing, via WebDAV over your local network, or through "Open in..." from other apps:
 
     - **iTunes File Sharing**
     
         Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add…" and "Save to…" buttons\*.
 
-        *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that's just how the iTunes file sharing system currently works.* 
+        *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that is simply how the iTunes file sharing system currently works.* 
         
         <p align="center">
           <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/itunes_file_sharing.png"/>
@@ -255,9 +257,9 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
     - **WebDAV** 
 
-      1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using OSX or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#).
+      1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using macOS or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#).
         
-            *  **Mac OSX**: Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K. Login as a Guest:
+            *  **macOS**: Finder can mount WebDAV server folders: Go->Connect to Server… CMD+K. Login as a Guest:
 
             <p align="center">
 	            <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/finder_connect_to_server.png"/>
@@ -268,6 +270,10 @@ Naturally, you can also download the PdParty source and open the test patches & 
             * **Windows**: Windows Explorer does not support mapping WebDAV folders, but [Cyberduck](http://cyberduck.ch) and [FileZilla](https://filezilla-projects.org) work nicely
  
       2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
+
+    - **Open in...**
+
+      PdParty registers Pd patch *.pd files and Zip archives (*.zip, *.rjz, *.pdz) with iOS as supported types. This allows for each of these file types to be opened in PdParty from another application ie. Mail, DropBox, etc. When choosing "Open in..." via the Share button, the file(s) will be copied into the main PdParty Documents folder. Zip archives can then be unpacked by clicking on them in the Patch Browser.
 
 ### Scenes
 
@@ -322,7 +328,7 @@ PdParty is built using libpd and can be compared to Pd-vanilla with the followin
 * **ggee**: [getdir], [stripdir]
 * **mrpeach**: [midifile]
 
-It's highly recommended that you use a vanilla-based abstraction library like [rjlib](https://github.com/rjdj/rjlib) for expanded functionality.
+It is highly recommended that you use a vanilla-based abstraction library like [rjlib](https://github.com/rjdj/rjlib) for expanded functionality.
 
 When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that you work with Pure Data vanilla versions 0.46+. If you are working with Pd-extended, disable all externals in order to help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
 
@@ -340,7 +346,7 @@ When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that 
 
 #### MIDI
 
-All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to have a usb MIDI interface (through a USB hub connected to the Apple Camera Connection Kit) or using Network MIDI and Mac OSX.
+All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to have a usb MIDI interface (through a USB hub connected to the Apple Camera Connection Kit) or using Network MIDI and macOS.
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_midi_scene_iPad.png"/><br/>

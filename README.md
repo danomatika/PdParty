@@ -27,7 +27,7 @@ Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS wit
 
 <p align="center">
 	<img src="http://droidparty.net/PdDroidParty.png"/><br/>
-	<small>(Image by PdDroidParty).</small>
+	<small>(Image from PdDroidParty)</small>
 </p>
 
 USER GUIDE & COMPOSER PACK
