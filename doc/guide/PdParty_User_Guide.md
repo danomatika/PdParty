@@ -18,42 +18,42 @@ PdParty is an iOS 6+ app that allows you to run [Pure Data](http://puredata.info
 
 <p align="center">
 	and this on iPad.<br/><br/>
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/patch_scene_iPad.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/patch_scene_iPad.png" width="500"/>
 </p>
 
-Acknowledgements
-----------------
+Acknowledgments
+---------------
 
 * [Miller Puckette](http://msp.ucsd.edu/) and the [Pure Data](http://puredata.info/) community
 * [libpd](https://github.com/libpd/libpd): Peter Brinkmann and Rich Eakin
 * my long suffering / pillar of support wife [Anika](http://anikahirt.de) for graphic design work (and much more)
 * [Reality Jockey](http://rjdj.me/) for proving PD + mobile devices = win
 * Chris McCormick for providing the design basis with [PdDroidParty](http://droidparty.net/)
-* Frank B. and the rjlib crew for a great vanilla abstraction set
-* The [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org) at Carnegie Mellon University which supported various aspects of my early work on libpd
+* Frank Barknecht and the rjlib crew for a great vanilla abstraction set
+* CMU Frank-Ratchye [Studio for Creative Inquiry](http://studioforcreativeinquiry.org) which supported various aspects of my early work on libpd
 
 Table of Contents
 -----------------
 
 [TOC]
 
-Backstory
----------
+Background
+----------
 
-_Dan Wilcox 2013_
+Dan Wilcox 2016
 
-In 2006-2007, I built a wearable computer based mobile performance system using Linux & Pure Data called [*robotcowboy*](http://robotcowboy.com) as a [MS thesis project](http://danomatika.com/media/projects/s2007/thesis/dwilcox_thesis_arttech_07.pdf):
+[_robotcowboy_](http://robotcowboy.com) is the author's ongoing human-computer wearable performance project. Focusing on the embodiment of computational sound, _robotcowboy_ was originally built in 2006-2007 as an [MS thesis project](http://danomatika.com/publications/robotcowboy_thesis_07.pdf) using an industrial wearable computer[^wearable] running GNU/Linux & Pure Data, external stereo USB sound & MIDI interfaces, and various input devices including HID gamepads.
 
 <p align="center">
 	<img src="http://farm3.staticflickr.com/2435/3632901050_ec39f575af.jpg"/>
 </p>
 
-Fast forward a few years and the future of ubiquitous, mobile/wearable computational devices I wrote about in my thesis is here so [I decided to adapt this approach to the iPad](http://robotcowboy.com/news/robotcowboy-2-0/) when iOS officially supported MIDI and low latency usb audio. That and the old industrial wearable I was using was giving up the ghost, plus it was time for a computational upgrade. 
+The original _robotcowboy_ system hardware was gigged often, went on a 2 month tour of the United States in 2008, and lasted until the 2011 Pd Convention in Weimar. Around this time, Apple released the iPad 2 which featured a dual core processor and, most importantly, supported USB audio & MIDI interfaces. Seeking an option for new system hardware, the author began on and off development of an iOS application that could perform all of the tasks required for a live _robotcowboy_ performance: run patches, full duplex stereo audio, MIDI, HID game controller support, & Open Sound Control communication.
 
-Now I have a stable, low latency mobile/wearable platform with a touchscreen, accelerometer, wifi networking, and usb midi/audio. Here is my belt-based wearable setup using an iPad 2, Camera Connection Kit, powered usb hub, Roland Edirol UA-25 bus-powered usb audio interface, and a Behringer direct box (the latter two are built into the green case on the left):
+With PdParty, the author now has a stable low latency mobile/wearable platform with a touchscreen, accelerometer, WiFi networking, and USB MIDI/audio. Here is a belt-based wearable setup using an iPhone, Camera Connection Kit, powered USB hub, Roland Edirol UA-25 USB audio interface, and a Behringer direct box (the latter two are built in the case on the left):
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/belt_setup.jpg"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/belt_setup.png"/>
 </p>
 
 App Layout
@@ -87,7 +87,7 @@ This is also where you can enable the WebDAV server to access the app Documents 
 
 This is a simple "drill-down" file browser in the app Documents folder. Stuff in here is sandboxed between app versions. Simply navigate to patches or scene folders to run them. A "Now Playing" nav button will take you back to the Scene View for the currently playing patch/scene.
 
-It only displays folders and supported file types. File type icons represent the supported files & scene folder types & certian scene types include a thumbnail image & author subtitle.
+It only displays folders and supported file types. File type icons represent the supported files & scene folder types & certain scene types include a thumbnail image & author subtitle.
 
 You can delete items by swiping right to show the delete button. Moving, copying, mass deletion, & renaming files/folders is available via the Edit button.
 
@@ -100,7 +100,7 @@ The default layout is:
 
 Feel free to delete samples and tests. The libs folder contains abstractions needed by PdParty. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions. If the libs folder is not found, PdParty falls back to its internal backup copy.
 
-The all folders within the libs folder are automaitcally added to the PdParty search path so this can also be a location for centralized abstraction libraries.
+The all folders within the libs folder are automatically added to the PdParty search path so this can also be a location for centralized abstraction libraries.
 
 Note: These default folders can be restored on the Settings screen. So if you accidentally remove everything, you're not out of luck!
 
@@ -123,7 +123,7 @@ The desired aspect ratio is inferred from the patch canvas size and the Scene Vi
 On iPad, however, RjDJ scenes can be both portrait or landscape:
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/rjdj_scene_rotated_iPad.png"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/rjdj_scene_rotated_iPad.png" width="600"/>
 </p>
 
 #### On Screen Controls
@@ -341,7 +341,7 @@ When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that 
 All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to have a usb MIDI interface (through a USB hub connected to the Apple Camera Connection Kit) or using Network MIDI and macOS.
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_midi_scene_iPad.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_midi_scene_iPad.png" width="600"/><br/>
 	Midi test Pdparty scene
 </p>
 
