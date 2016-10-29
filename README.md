@@ -51,7 +51,7 @@ This project uses:
 
 * [libpd](https://github.com/libpd/libpd): audio engine
 * pd externals:
-  * _ggee_: getdir, moog~, stripdir
+  * _ggee_: getdir, stripdir
   * _mrpeach_: midifile
   * _rjlib_: rj_accum, rj_barkflux_accum~, rj_centroid~, rj_senergy~, rj_zcr~
 * [PGMidi](https://github.com/petegoodliffe/PGMidi): midi i/o
