@@ -14,7 +14,7 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 [**PdParty website**](http://danomatika.com/code/pdparty)
 
-DESCRIPTION
+Description
 -----------
 
 Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS with native GUIs emulated. Inspired by Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/PdDroidParty) and the (now defunct) original RjDj app.
@@ -24,7 +24,7 @@ Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS wit
 	<small>(Image from PdDroidParty)</small>
 </p>
 
-USER GUIDE & COMPOSER PACK
+User Guide & Composer Pack
 --------------------------
 
 Head on over to the [**User Guide**](http://danomatika.com/code/pdparty/guide)
@@ -33,7 +33,7 @@ Head on over to the [**User Guide**](http://danomatika.com/code/pdparty/guide)
 
 Download the [**PdParty Composer Pack**](http://danomatika.com/code/pdparty/PdParty_composerpack.zip) which contains the abstractions you need when composing on your computer as well as scene type templates.
 
-BETA TESTING
+Beta Testing
 ------------
 
 **Want to help with BETA testing? Send your name & email address to:**
@@ -42,8 +42,8 @@ BETA TESTING
   <img src="https://raw.github.com/danomatika/PdParty/master/doc/contact.png"/>
 </p>
 
-ACKNOWLEDGEMENTS
-----------------
+Acknowledgments
+---------------
 
 ### 3rd Party Libraries
 
@@ -73,7 +73,7 @@ This project uses:
 * [DejaVu Sans Mono](http://dejavu-fonts.org/wiki/Main_Page): font
 * [Icons8](http://icons8.com): iOS7+ icons
 
-CHECKOUT & BUILD
+Checkout & Build
 ----------------
 
 Clone this repository and checkout it's submodules using git:
@@ -86,7 +86,7 @@ Open the Xcode project and Build/Run.
 
 You can upgrade to newer versions of the libraries used by the project by running the update scripts in the `scripts` dir which clone the library and copy it's source files into `libs`.
 
-DEVELOPING
+Developing
 ----------
 
 You can help develop PDParty on GitHub: [https://github.com/danomatika/PdParty](https://github.com/danomatika/PdParty)

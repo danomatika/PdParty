@@ -1,9 +1,5 @@
-Welcome
-=======
-
-Howdy,
-
-*This is a preliminary version of the PdParty Composer Pack.*
+Howdy
+=====
 
 This folder contains the basics you need in order to start creating scenes for the PdParty iOS app using Pure Data 0.46+ (vanilla).
 
@@ -14,7 +10,7 @@ User Guide
 
 First off, check out the User Guide as it explains what PdParty is, how it works, and the details of how to create & run patches/scenes on it:
 
-https://github.com/danomatika/PdParty/blob/master/doc/PdParty_User_Guide.md
+http://danomatika.com/code/pdparty/guide
 
 This short readme is just a small overview by comparison.
 
