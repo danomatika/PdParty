@@ -592,7 +592,7 @@ PdParty sends and receives OSC (Open Sound Control) messages internally between 
 All of the PdParty events can be streamed over OSC, included Pd prints. The receive addresses are as follows:
 
 * /pdparty/touch 
-* /pdparty/accelrate
+* /pdparty/accelerate
 * /pdparty/gyro
 * /pdparty/loc
 * /pdparty/compass
