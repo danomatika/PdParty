@@ -27,7 +27,7 @@ Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS wit
 USER GUIDE & COMPOSER PACK
 --------------------------
 
-Head on over to the [**User Guide**](https://danomatika.com/code/pdparty/guide)
+Head on over to the [**User Guide**](http://danomatika.com/code/pdparty/guide)
 
 &
 
