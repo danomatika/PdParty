@@ -2,7 +2,7 @@ PdParty
 =======
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/images/background/patchview_bg.png"/>
+	<img src="http://danomatika.com/code/pdparty/patchview_bg.png"/>
 </p>
 
 Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
@@ -12,13 +12,7 @@ BSD Simplified License.
 For information on usage and redistribution, and for a DISCLAIMER OF ALL
 WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
-See https://github.com/danomatika/PdParty for documentation
-
-**Want to help with BETA testing? Send your name & email address to:**
-
-<p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/contact.png"/>
-</p>
+[**PdParty website**](http://danomatika.com/code/pdparty)
 
 DESCRIPTION
 -----------
@@ -26,18 +20,27 @@ DESCRIPTION
 Run your [Pure Data](https://en.wikipedia.org/wiki/Pure_Data) patches on iOS with native GUIs emulated. Inspired by Chris McCormick's Android [PdDroidParty](http://mccormick.cx/projects/PdDroidParty) and the (now defunct) original RjDj app.
 
 <p align="center">
-	<img src="http://droidparty.net/PdDroidParty.png"/><br/>
+	<img src="http://danomatika.com/code/pdparty/PdDroidParty.png"/><br/>
 	<small>(Image from PdDroidParty)</small>
 </p>
 
 USER GUIDE & COMPOSER PACK
 --------------------------
 
-Head on over to the [**User Guide**](https://github.com/danomatika/PdParty/blob/master/doc/guide/PdParty_User_Guide.md)
+Head on over to the [**User Guide**](https://danomatika.com/code/pdparty/guide)
 
-and
+&
 
-Download the [**PdParty Composer Pack**](http://docs.danomatika.com/PdParty_composerpack.zip) which contains the abstractions you need when composing on your computer as well as scene type templates.
+Download the [**PdParty Composer Pack**](http://danomatika.com/code/pdparty/PdParty_composerpack.zip) which contains the abstractions you need when composing on your computer as well as scene type templates.
+
+BETA TESTING
+------------
+
+**Want to help with BETA testing? Send your name & email address to:**
+
+<p align="center">
+  <img src="https://raw.github.com/danomatika/PdParty/master/doc/contact.png"/>
+</p>
 
 ACKNOWLEDGEMENTS
 ----------------

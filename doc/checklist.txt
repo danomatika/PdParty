@@ -16,4 +16,4 @@ Upload to App Store & update release info.
 
 Tag commit with version.
 
-If changed, update composer pack zip.
+If changed, update guide and composer pack zip on website: <http://danomatika.com/software/pdparty>
