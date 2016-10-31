@@ -1,3 +1,9 @@
+1.0.2: 2016-10-31
+
+Spooky Privacy edition
+
+* fix iOS 10 crash by setting privacy usage descriptions for location, microphone, & motion
+
 1.0.1: 2016-10-30
 
 * fixes to fully support IPv6
