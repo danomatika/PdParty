@@ -1,3 +1,18 @@
+1.0.0: 2016-10-28
+
+ First App Store release
+
+* added RjDj samples: Atsuke, bouncy, CanOfBeats, Eargasm
+* added notification icons
+
+* fixed app store encryption warning by setting plist key
+
+* updated libs & externals
+* updated overall docs for website
+* renamed RjDj tests
+
+* removed StreetBeatz RjDj sample
+
 0.5.6-beta: 2016-09-24
 
 Release Candidate 1
