@@ -13,9 +13,10 @@
 #import "HTTPServer.h"
 #import "DAVConnection.h"
 
-#import <CFNetwork/CFNetwork.h>
+//#import <CFNetwork/CFNetwork.h>
 #import <ifaddrs.h>
 #import <arpa/inet.h>
+#include <net/if.h>
 
 #import "Reachability.h"
 
@@ -108,42 +109,13 @@
 
 // from http://stackoverflow.com/questions/7975727/how-to-check-if-wifi-option-enabled-or-not
 + (BOOL)isLocalWifiReachable {
-	Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
-	[wifiReach startNotifier];
-	
-	NetworkStatus wifiStatus = [wifiReach currentReachabilityStatus];
-	return (wifiStatus == NotReachable) ? NO : YES;
+	Reachability *wifiReach = [Reachability reachabilityForInternetConnection];
+	return [wifiReach currentReachabilityStatus] == ReachableViaWiFi;
 }
 
 // from http://blog.zachwaugh.com/post/309927273/programmatically-retrieving-ip-address-of-iphone
 + (NSString *)wifiInterfaceAddress {
-
-	NSString *address = nil;
-	struct ifaddrs *interfaces = NULL;
-	struct ifaddrs *temp_addr = NULL;
-	int success = 0;
-
-	// retrieve the current interfaces - returns 0 on success
-	success = getifaddrs(&interfaces);
-	if(success == 0) {
-
-		// loop through interfaces
-		temp_addr = interfaces;
-		while(temp_addr != NULL) {
-			if(temp_addr->ifa_addr->sa_family == AF_INET) {
-				NSString *interfaceName = [NSString stringWithUTF8String:temp_addr->ifa_name];
-
-				// iOS wifi interface = en0, include en1 for Mac wifi in simulator 
-				if([interfaceName isEqualToString:@"en0"] || ([Util isDeviceRunningInSimulator] && [interfaceName isEqualToString:@"en1"])) {
-					address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-				}
-			}
-			temp_addr = temp_addr->ifa_next;
-		}
-	}
-	freeifaddrs(interfaces);
-
-	return address;
+	return [WebServer getIPAddressPreferIPv4:YES withCellular:NO withSimulator:[Util isDeviceRunningInSimulator]];
 }
 
 + (int)checkPortValueFromTextField:(UITextField *)textField {
@@ -164,6 +136,80 @@
 											  otherButtonTitles:nil];
 	[alertView show];
 	return -1;
+}
+
+#pragma mark Private
+
+// find current IP address from connected interfaces (IPv4 and IPv6)
+// from http://stackoverflow.com/a/10803584/2146055
+
++ (NSString *)getIPAddressPreferIPv4:(BOOL)preferIPv4 withCellular:(BOOL)cellular withSimulator:(BOOL)simulator {
+	NSMutableArray *searchArray = [NSMutableArray new];
+	if(preferIPv4) {
+		[searchArray addObjectsFromArray:@[ @"en0/ipv4", @"en0/ipv6" ]];
+		if(cellular) {
+			[searchArray addObjectsFromArray:@[ @"pdp_ip0/ipv4", @"pdp_ip0/ipv6" ]];
+		}
+		if(simulator) {
+			[searchArray addObjectsFromArray:@[ @"en1/ipv4", @"en1/ipv6" ]];
+		}
+	}
+	else {
+		[searchArray addObjectsFromArray:@[ @"en0/ipv6", @"en0/ipv4" ]];
+		if(cellular) {
+			[searchArray addObjectsFromArray:@[ @"pdp_ip0/ipv6", @"pdp_ip0/ipv4" ]];
+		}
+		if(simulator) {
+			[searchArray addObjectsFromArray:@[ @"en1/ipv6", @"en1/ipv4" ]];
+		}
+	}
+	NSDictionary *addresses = [WebServer getIPAddresses];
+	__block NSString *address;
+	[searchArray enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+		address = addresses[key];
+		if(address) {
+			*stop = YES;
+		}
+	} ];
+	return address ? address : @"0.0.0.0";
+}
++ (NSDictionary *)getIPAddresses {
+	NSMutableDictionary *addresses = [NSMutableDictionary dictionaryWithCapacity:8];
+	// retrieve the current interfaces - returns 0 on success
+	struct ifaddrs *interfaces;
+	if(!getifaddrs(&interfaces)) {
+		// loop through linked list of interfaces
+		struct ifaddrs *interface;
+		for(interface=interfaces; interface; interface=interface->ifa_next) {
+			if(!(interface->ifa_flags & IFF_UP)) {
+				continue; // deeply nested code harder to read
+			}
+			const struct sockaddr_in *addr = (const struct sockaddr_in*)interface->ifa_addr;
+			char addrBuf[ MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN) ];
+			if(addr && (addr->sin_family == AF_INET || addr->sin_family == AF_INET6)) {
+				NSString *name = [NSString stringWithUTF8String:interface->ifa_name];
+				NSString *type;
+				if(addr->sin_family == AF_INET) {
+					if(inet_ntop(AF_INET, &addr->sin_addr, addrBuf, INET_ADDRSTRLEN)) {
+						type = @"ipv4";
+					}
+				}
+				else {
+					const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)interface->ifa_addr;
+					if(inet_ntop(AF_INET6, &addr6->sin6_addr, addrBuf, INET6_ADDRSTRLEN)) {
+						type = @"ipv6";
+					}
+				}
+				if(type) {
+					NSString *key = [NSString stringWithFormat:@"%@/%@", name, type];
+					addresses[key] = [NSString stringWithUTF8String:addrBuf];
+				}
+			}
+		}
+		// free memory
+		freeifaddrs(interfaces);
+	}
+	return [addresses count] ? addresses : nil;
 }
 
 @end
