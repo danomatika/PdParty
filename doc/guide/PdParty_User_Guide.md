@@ -1,10 +1,10 @@
 PdParty User Guide
 ==================
 
-Version: **1.0.0**  
-Date: 2016-10-28
+Version: **1.0.1**  
+Date: 2016-10-30
 
-PdParty is an iOS 6+ app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
+PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
 
 <p align="center">
 	This patch in Pure Data...<br/>
@@ -160,7 +160,9 @@ The cassette background is a placeholder for now. When metadata is added, it wil
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/osc_settings_iPhone.png"/>
 </p>
 
-Enable the OSC server here and update its settings: ports, host (destination address), etc. The Local IP Address is the network IP of the device itself so you know where to send OSC messages to from another device.
+Enable the OSC server here and update its settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
+
+Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a multicast group in the Host field such as "224.0.0.0/24."
 
 ### MIDI Settings
 
@@ -249,7 +251,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
     - **WebDAV** 
 
-      1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using macOS or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#).
+      1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using macOS or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#). The server supports both IPv4 and IPv6.
         
             *  **macOS**: Finder can mount WebDAV server folders: Go->Connect to Server... CMD+K. Login as a Guest:
 

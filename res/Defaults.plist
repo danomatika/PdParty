@@ -27,7 +27,7 @@
 	<key>ticksPerBuffer</key>
 	<integer>16</integer>
 	<key>oscSendHost</key>
-	<string>127.0.0.1</string>
+	<string>localhost</string>
 	<key>oscSendPort</key>
 	<integer>8888</integer>
 	<key>oscListenPort</key>

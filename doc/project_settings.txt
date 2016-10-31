@@ -20,3 +20,5 @@ QuartzCore
 CoreLocation
 
 Compiler flags for non-Arc libs: -fno-objc-arc
+
+Testing IPv6 support: https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/NetworkingOverview/UnderstandingandPreparingfortheIPv6Transition/UnderstandingandPreparingfortheIPv6Transition.html#//apple_ref/doc/uid/TP40010220-CH213-SW1
