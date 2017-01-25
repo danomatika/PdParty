@@ -261,7 +261,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
             
             * **Linux**: both Nautilus (Gnome) & Konqueror (KDE) support mounting WebDAV folders, also [FileZilla](https://filezilla-project.org) and other file transfer applications should work
             
-            * **Windows**: Windows Explorer does not support mapping WebDAV folders, but [Cyberduck](http://cyberduck.ch) and [FileZilla](https://filezilla-projects.org) work nicely
+            * **Windows**: newer versions of Windows Explorer support connecting to WebDAV folders, type the full address (including http://) into the address bar, also [Cyberduck](http://cyberduck.ch) and [FileZilla](https://filezilla-projects.org) work nicely
  
       2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
 
