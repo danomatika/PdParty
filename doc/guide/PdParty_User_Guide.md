@@ -190,6 +190,7 @@ These settings are mainly for live performance reasons where you don't want the 
 
 * Disable lock screen: this disables the lock screen sleep timer and keeps the display on
 * Runs in background: allows the app to continue to run when backgrounded as long as audio dsp is on (including when screen is locked and display is off)
+* Enable Console: Adds a button to the Controls popover to launch a Console view to display Pd prints for the current patch/scene
 
 #### OSC Event Forwarding
 
