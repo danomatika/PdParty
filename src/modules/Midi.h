@@ -33,14 +33,14 @@
 @property (getter=isVirtualInputEnabled, nonatomic) BOOL virtualInputEnabled;
 @property (getter=isVirtualOutputEnabled, nonatomic) BOOL virtualOutputEnabled;
 
-/// PGMidiSource & PGMidiDestination array acess
+/// PGMidiSource & PGMidiDestination array access
 @property (weak, readonly, nonatomic) NSArray *inputs;
 @property (weak, readonly, nonatomic) NSArray *outputs;
 
-/// midi input message ignores
-@property bool bIgnoreSysex;
-@property bool bIgnoreTiming;
-@property bool bIgnoreSense;
+/// midi input message ignores, NO by default
+@property BOOL ignoreSysex;
+@property BOOL ignoreTiming;
+@property BOOL ignoreSense;
 
 /// sending
 - (void)sendNoteOn:(int)channel pitch:(int)pitch velocity:(int)velocity;
@@ -49,7 +49,6 @@
 - (void)sendPitchBend:(int)channel value:(int)value;
 - (void)sendAftertouch:(int)channel value:(int)value;
 - (void)sendPolyAftertouch:(int)channel pitch:(int)pitch value:(int)value;
-- (void)sendMidiByte:(int)port byte:(int)byte;
-- (void)sendSysex:(int)port byte:(int)byte;
+- (void)sendMidiByte:(int)byte;
 
 @end

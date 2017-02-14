@@ -16,37 +16,45 @@
 #import "iOSVersionDetection.h"
 #import "Util.h"
 
+// verbose prints for testing MIDI IO
+//#define DEBUG_MIDI
+
 // MIDI status bytes
 enum MidiStatus {
 
-	// channel voice messages
-	MIDI_NOTE_OFF           = 0x80,
-	MIDI_NOTE_ON            = 0x90,
-	MIDI_CONTROL_CHANGE     = 0xB0,
-	MIDI_PROGRAM_CHANGE     = 0xC0,
-	MIDI_PITCH_BEND         = 0xE0,
-	MIDI_AFTERTOUCH         = 0xD0, // aka channel pressure
-	MIDI_POLY_AFTERTOUCH    = 0xA0, // aka key pressure
+	// channel voice messages       # data bytes
+	MIDI_NOTE_OFF           = 0x80, // 2
+	MIDI_NOTE_ON            = 0x90, // 2
+	MIDI_POLY_AFTERTOUCH    = 0xA0, // 2, aka key pressure
+	MIDI_CONTROL_CHANGE     = 0xB0, // 2
+	MIDI_PROGRAM_CHANGE     = 0xC0, // 1
+	MIDI_AFTERTOUCH         = 0xD0, // 1, aka channel pressure
+	MIDI_PITCH_BEND         = 0xE0, // 2
 
-	// system messages
-	MIDI_SYSEX              = 0xF0,
-	MIDI_TIME_CODE          = 0xF1,
-	MIDI_SONG_POS_POINTER   = 0xF2,
-	MIDI_SONG_SELECT        = 0xF3,
-	MIDI_TUNE_REQUEST       = 0xF6,
-	MIDI_SYSEX_END          = 0xF7,
-	MIDI_TIME_CLOCK         = 0xF8,
-	MIDI_START              = 0xFA,
-	MIDI_CONTINUE           = 0xFB,
-	MIDI_STOP               = 0xFC,
-	MIDI_ACTIVE_SENSING     = 0xFE,
-	MIDI_SYSTEM_RESET       = 0xFF
+	// system common messages
+	MIDI_SYSEX              = 0xF0, // variable, until SYSEX_END
+	MIDI_TIME_CODE          = 0xF1, // 1
+	MIDI_SONG_POS_POINTER   = 0xF2, // 2
+	MIDI_SONG_SELECT        = 0xF3, // 1
+	MIDI_TUNE_REQUEST       = 0xF6, // -
+	MIDI_SYSEX_END          = 0xF7, // -
+	
+	// realtime messages
+	MIDI_TIME_CLOCK         = 0xF8, // -
+	MIDI_START              = 0xFA, // -
+	MIDI_CONTINUE           = 0xFB, // -
+	MIDI_STOP               = 0xFC, // -
+	MIDI_ACTIVE_SENSING     = 0xFE, // -
+	MIDI_SYSTEM_RESET       = 0xFF  // -
 };
 
 // number range defines
 // because it's sometimes hard to remember these...
 #define MIDI_MIN_BEND 0
 #define MIDI_MAX_BEND 16383
+
+// default port # for libpd raw midi senders as this has no meaning on iOS
+#define DEFAULT_PORT 0
 
 #pragma mark Util
 
@@ -73,7 +81,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 - (void)handleMessage:(NSData *)message withDelta:(double)deltatime;
 - (void)sendMessage:(NSData *)message;
-- (void)sendMessage:(NSData *)message toPort:(int)port;
 
 @end
 
@@ -88,9 +95,9 @@ uint64_t absoluteToNanos(uint64_t time) {
 		messageIn = [[NSMutableData alloc] init];
 		messageOut = [[NSMutableData alloc] init];
 		
-		self.bIgnoreSense = YES;
-		self.bIgnoreSysex = NO;
-		self.bIgnoreTiming = YES;
+		self.ignoreSense = NO;
+		self.ignoreSysex = NO;
+		self.ignoreTiming = NO;
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		self.enabled = [defaults boolForKey:@"midiEnabled"];
@@ -222,7 +229,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 // adapted from ofxMidi iOS & RTMidi CoreMidi message parsing
 - (void)midiSource:(PGMidiSource *)input midiReceived:(const MIDIPacketList *)packetList {
-    const MIDIPacket * packet = &packetList->packet[0];
+    const MIDIPacket *packet = &packetList->packet[0];
 	unsigned char statusByte;
 	unsigned short nBytes, curByte, msgSize;
 	unsigned long long time;
@@ -261,7 +268,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 		if(bContinueSysex) {
 
 			// copy the packet if not ignoring
-			if(!self.bIgnoreSysex) {
+			if(!self.ignoreSysex) {
 				for(int i = 0; i < nBytes; ++i) {
 					[messageIn appendBytes:&packet->data[i] length:1];
 				}
@@ -283,19 +290,22 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 				// next byte in the packet should be a status byte
 				statusByte = packet->data[curByte];
-				if(!statusByte & MIDI_NOTE_ON)
+				if(!statusByte & MIDI_NOTE_ON) {
 					break;
+				}
 
 				// determine number of bytes in midi message
-				if(statusByte < MIDI_PROGRAM_CHANGE)
+				if(statusByte < MIDI_PROGRAM_CHANGE) {
 					msgSize = 3;
-				else if(statusByte < MIDI_PITCH_BEND)
+				}
+				else if(statusByte < MIDI_PITCH_BEND) {
 					msgSize = 2;
-				else if(statusByte < MIDI_SYSEX)
+				}
+				else if(statusByte < MIDI_SYSEX) {
 					msgSize = 3;
+				}
 				else if(statusByte == MIDI_SYSEX) {
-
-					if(self.bIgnoreSysex) {
+					if(self.ignoreSysex) {
 						msgSize = 0;
 						curByte = nBytes;
 					}
@@ -305,8 +315,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 					bContinueSysex = packet->data[nBytes-1] != MIDI_SYSEX_END;
 				}
 				else if(statusByte == MIDI_TIME_CODE) {
-
-					if(self.bIgnoreTiming) {
+					if(self.ignoreTiming) {
 						msgSize = 0;
 						curByte += 2;
 					}
@@ -314,21 +323,23 @@ uint64_t absoluteToNanos(uint64_t time) {
 						msgSize = 2;
 					}
 				}
-				else if(statusByte == MIDI_SONG_POS_POINTER)
+				else if(statusByte == MIDI_SONG_POS_POINTER) {
 					msgSize = 3;
-				else if(statusByte == MIDI_SONG_SELECT)
+				}
+				else if(statusByte == MIDI_SONG_SELECT) {
 					msgSize = 2;
-				else if(statusByte == MIDI_TIME_CLOCK && self.bIgnoreTiming) {
+				}
+				else if(statusByte == MIDI_TIME_CLOCK && self.ignoreTiming) {
 					// ignoring ...
 					msgSize = 0;
 					curByte += 1;
 				}
-				else if(statusByte == MIDI_ACTIVE_SENSING && self.bIgnoreSense) { // active sense message
+				else if(statusByte == MIDI_ACTIVE_SENSING && self.ignoreSense) {
 					// ignoring ...
 					msgSize = 0;
 					curByte += 1;
 				}
-				else {
+				else { // remaining 1 byte messages: MIDI_START, MIDI_STOP, etc
 					msgSize = 1;
 				}
 
@@ -355,9 +366,11 @@ uint64_t absoluteToNanos(uint64_t time) {
 #pragma mark Sending
 
 - (void)sendNoteOn:(int)channel pitch:(int)pitch velocity:(int)velocity {
-	//DDLogVerbose(@"Midi: sending Note %d %d %d", channel, pitch, velocity);
+	#ifdef DEBUG_MIDI
+		DDLogVerbose(@"Midi: sending Note %d %d %d", channel, pitch, velocity);
+	#endif
 	[messageOut setLength:3];
-	unsigned char *bytes = (unsigned char*)[messageOut bytes];
+	unsigned char *bytes = (unsigned char *)[messageOut bytes];
 	bytes[0] = MIDI_NOTE_ON+channel;
 	bytes[1] = pitch;
 	bytes[2] = velocity;
@@ -365,9 +378,11 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendControlChange:(int)channel controller:(int)controller value:(int)value {
-	//DDLogVerbose(@"Midi: sending Control %d %d %d", channel, controller, value);
+	#ifdef DEBUG_MIDI
+		DDLogVerbose(@"Midi: sending Control %d %d %d", channel, controller, value);
+	#endif
 	[messageOut setLength:3];
-	unsigned char *bytes = (unsigned char*)[messageOut bytes];
+	unsigned char *bytes = (unsigned char *)[messageOut bytes];
 	bytes[0] = MIDI_CONTROL_CHANGE+channel;
 	bytes[1] = controller;
 	bytes[2] = value;
@@ -375,18 +390,22 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendProgramChange:(int)channel value:(int)value {
-	//DDLogVerbose(@"Midi: sending Program %d %d", channel, value);
+	#ifdef DEBUG_MIDI
+		DDLogVerbose(@"Midi: sending Program %d %d", channel, value);
+	#endif
 	[messageOut setLength:2];
-	unsigned char *bytes = (unsigned char*)[messageOut bytes];
+	unsigned char *bytes = (unsigned char *)[messageOut bytes];
 	bytes[0] = MIDI_PROGRAM_CHANGE+channel;
 	bytes[1] = value;
 	[self sendMessage:messageOut];
 }
 
 - (void)sendPitchBend:(int)channel value:(int)value {
-	//DDLogVerbose(@"Midi: sending PitchBend %d %d", channel, value);
+	#ifdef DEBUG_MIDI
+		DDLogVerbose(@"Midi: sending PitchBend %d %d", channel, value);
+	#endif
 	[messageOut setLength:3];
-	unsigned char *bytes = (unsigned char*)[messageOut bytes];
+	unsigned char *bytes = (unsigned char *)[messageOut bytes];
 	bytes[0] = MIDI_PITCH_BEND+channel;
 	bytes[1] = value & 0x7F; // lsb 7bit
 	bytes[2] = (value >> 7) & 0x7F; // msb 7bit
@@ -394,44 +413,42 @@ uint64_t absoluteToNanos(uint64_t time) {
 }
 
 - (void)sendAftertouch:(int)channel value:(int)value {
-	//DDLogVerbose(@"Midi: sending Aftertouch %d %d", channel, value);
+	#ifdef DEBUG_MIDI
+		DDLogVerbose(@"Midi: sending Aftertouch %d %d", channel, value);
+	#endif
 	[messageOut setLength:2];
-	unsigned char *bytes = (unsigned char*)[messageOut bytes];
+	unsigned char *bytes = (unsigned char *)[messageOut bytes];
 	bytes[0] = MIDI_AFTERTOUCH+channel;
 	bytes[1] = value;
 	[self sendMessage:messageOut];
 }
 
 - (void)sendPolyAftertouch:(int)channel pitch:(int)pitch value:(int)value {
-	//DDLogVerbose(@"Midi: sending PolyAftertouch %d %d %d", channel, pitch, value);
+	#ifdef DEBUG_MIDI
+		DDLogVerbose(@"Midi: sending PolyAftertouch %d %d %d", channel, pitch, value);
+	#endif
 	[messageOut setLength:3];
-	unsigned char *bytes = (unsigned char*)[messageOut bytes];
+	unsigned char *bytes = (unsigned char *)[messageOut bytes];
 	bytes[0] = MIDI_POLY_AFTERTOUCH+channel;
 	bytes[1] = pitch;
 	bytes[2] = value;
 	[self sendMessage:messageOut];
 }
 
-- (void)sendMidiByte:(int)port byte:(int)byte {
-	//DDLogVerbose(@"Midi: sending Sysex byte %02X to %d", byte, port);
+- (void)sendMidiByte:(int)byte {
+	#ifdef DEBUG_MIDI
+		DDLogVerbose(@"Midi: sending Midi byte %02X", byte);
+	#endif
 	[messageOut setLength:1];
-	unsigned char *bytes = (unsigned char*)[messageOut bytes];
+	unsigned char *bytes = (unsigned char *)[messageOut bytes];
 	bytes[0] = byte;
-	[self sendMessage: messageOut toPort:port];
-}
-
-- (void)sendSysex:(int)port byte:(int)byte {
-	//DDLogVerbose(@"Midi: sending Midi byte %02X to %d", byte, port);
-	[messageOut setLength:1];
-	unsigned char *bytes = (unsigned char*)[messageOut bytes];
-	bytes[0] = byte;
-	[self sendMessage:messageOut toPort:port];
+	[self sendMessage:messageOut];
 }
 
 #pragma mark Private
 
 - (void)handleMessage:(NSData *)message withDelta:(double)deltatime {
-	const unsigned char *bytes = (const unsigned char*)[message bytes];
+	const unsigned char *bytes = (const unsigned char *)[message bytes];
 	int statusByte = bytes[0];
 	int channel = 1;
 
@@ -442,59 +459,82 @@ uint64_t absoluteToNanos(uint64_t time) {
 		channel = (int) (bytes[0] & 0x0F);
 	}
 	
-//	#ifdef DEBUG
-//		[Util logData:message withHeader:@"Midi: received "];
-//	#endif
+	#ifdef DEBUG_MIDI
+		[Util logData:message withHeader:@"Midi: received "];
+	#endif
 	
+	// send message to appropriate object: [notein], [ctlin], [pgmin], etc
 	switch(statusByte) {
 		case MIDI_NOTE_ON :
 		case MIDI_NOTE_OFF:
 			[PdBase sendNoteOn:channel pitch:bytes[1] velocity:bytes[2]];
-			//DDLogVerbose(@"Midi: received Note %d %d %d", channel, bytes[1], bytes[2]);
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"Midi: received Note %d %d %d", channel, bytes[1], bytes[2]);
+			#endif
 			break;
 		case MIDI_CONTROL_CHANGE: {
 			[PdBase sendControlChange:channel controller:bytes[1] value:bytes[2]];
-			//DDLogVerbose(@"Midi: received Control %d %d %d", channel, bytes[1], bytes[2]);
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"Midi: received Control %d %d %d", channel, bytes[1], bytes[2]);
+			#endif
 			break;
 		}
 		case MIDI_PROGRAM_CHANGE:
 			[PdBase sendProgramChange:channel value:bytes[1]];
-			//DDLogVerbose(@"Midi: received Program %d %d", channel, bytes[1]);
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"Midi: received Program %d %d", channel, bytes[1]);
+			#endif
 			break;
 		case MIDI_PITCH_BEND: {
 			int value = (bytes[2] << 7) + bytes[1]; // msb + lsb
 			[PdBase sendPitchBend:channel value:value];
-			//DDLogVerbose(@"Midi: received PitchBend %d %d", channel, value);
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"Midi: received PitchBend %d %d", channel, value);
+			#endif
 			break;
 		}
 		case MIDI_AFTERTOUCH:
 			[PdBase sendAftertouch:channel value:bytes[1]];
-			//DDLogVerbose(@"Midi: received Aftertouch %d %d", channel, bytes[1]);
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"Midi: received Aftertouch %d %d", channel, bytes[1]);
+			#endif
 			break;
 		case MIDI_POLY_AFTERTOUCH:
 			[PdBase sendPolyAftertouch:channel pitch:bytes[1] value:bytes[2]];
-			//DDLogVerbose(@"Midi: received PolyAftertouch %d %d %d", channel, bytes[1], bytes[2]);
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"Midi: received PolyAftertouch %d %d %d", channel, bytes[1], bytes[2]);
+			#endif
 			break;
 		case MIDI_SYSEX:
 			for(int i = 0; i < message.length; ++i) {
 				[PdBase sendSysex:channel byte:bytes[i]];
 			}
-			//DDLogVerbose(@"Midi: received %d Sysex bytes to %d", message.length, channel);
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"Midi: received %d Sysex bytes to %d", (int)message.length, channel);
+			#endif
+			break;
+		case MIDI_TIME_CLOCK: case MIDI_START: case MIDI_CONTINUE: case MIDI_STOP:
+		case MIDI_ACTIVE_SENSING: case MIDI_SYSTEM_RESET:
+			[PdBase sendSysRealTime:DEFAULT_PORT byte:bytes[0]];
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"Midi: received %d Realtime bytes", (int)message.length);
+			#endif
 			break;
 		default:
-//			for(int i = 0; i < message.length; ++i) {
-//				[PdBase sendMidiByte:channel byte:bytes[i]];
-//			}
-//			DDLogVerbose(@"Midi: received %d Raw bytes to %d", message.length, channel);
 			break;
+	}
+	
+	// send raw byte data to [midiin]
+	for(int i = 0; i < message.length; ++i) {
+		[PdBase sendMidiByte:DEFAULT_PORT byte:bytes[i]];
 	}
 }
 
-// adapted from PGMidi sendBytes
+// adapted from PGMidi sendBytes, sends to all connected ports
 - (void)sendMessage:(NSData *)message {
-//	#ifdef DEBUG
-//		[Util logData:message withHeader:@"Midi: sending "];
-//	#endif
+	#ifdef DEBUG_MIDI
+		[Util logData:message withHeader:@"Midi: sending "];
+	#endif
 
 	Byte packetBuffer[message.length+100];
 	MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
@@ -504,26 +544,6 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 	for(PGMidiDestination *destination in self.midi.destinations) {
 		[destination sendPacketList:packetList];
-	}
-}
-
-- (void)sendMessage:(NSData *)message toPort:(int)port {
-//	#ifdef DEBUG
-//		[Util logData:message withHeader:@"Midi: sending "];
-//	#endif
-
-	Byte packetBuffer[message.length];
-	MIDIPacketList *packetList = (MIDIPacketList *)packetBuffer;
-	MIDIPacket *packet = MIDIPacketListInit(packetList);
-
-	packet = MIDIPacketListAdd(packetList, sizeof(packetBuffer), packet, 0, message.length, message.bytes);
-	
-	PGMidiDestination *destination = [self.midi.destinations objectAtIndex:port];
-	if(destination) {
-		[destination sendPacketList:packetList];
-	}
-	else {
-		DDLogWarn(@"Midi: cannot send message, port %d not found", port);
 	}
 }
 

@@ -552,7 +552,9 @@
 	[self.midi sendPolyAftertouch:channel pitch:pitch value:value];
 }
 
-- (void)receiveMidiByte:(int)byte forPort:(int)port {}
+- (void)receiveMidiByte:(int)byte forPort:(int)port {
+	[self.midi sendMidiByte:byte]; // ignoring port as message sent to all ports
+}
 
 #pragma mark Overridden Getters / Setters
 

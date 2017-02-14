@@ -1,3 +1,10 @@
+1.0.3: in progress
+
+* fixed bug where incoming MIDI bytes were not being forward to [midiin] 
+
+* updated MIDI handling to pass system common & realtime messages in/out of PdParty
+* updated Midi test scene to portrait layout
+
 1.0.2: 2016-10-31
 
 Spooky Privacy edition
