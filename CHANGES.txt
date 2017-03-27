@@ -1,4 +1,6 @@
-1.0.3: in progress
+1.1.0: in progress
+
+1.0.3: 2017-02-14
 
 * fixed bug where incoming MIDI bytes were not being forward to [midiin] 
 
