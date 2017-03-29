@@ -79,9 +79,9 @@
 
 - (void)logMessage:(DDLogMessage *)logMessage {
 	@synchronized(self) {
-		NSString *logMsg = logMessage->logMsg;
-		if(self->formatter) { // in case there is a formatter
-			logMsg = [self->formatter formatLogMessage:logMessage];
+		NSString *logMsg = logMessage->_message;
+		if(self->_logFormatter) { // in case there is a formatter
+			logMsg = [self->_logFormatter formatLogMessage:logMessage];
 		}
 		if(logMsg) {
 			[self addLine:logMsg];

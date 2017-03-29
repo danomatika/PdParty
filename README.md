@@ -56,7 +56,8 @@ This project uses:
   * _rjlib_: rj_accum, rj_barkflux_accum~, rj_centroid~, rj_senergy~, rj_zcr~
 * [PGMidi](https://github.com/petegoodliffe/PGMidi): midi i/o
 * [liblo](http://liblo.sourceforge.net): Open Sound Control i/o
-* [CocoaHTTPServer](https://github.com/robbiehanson/CocoaHTTPServer): WebDAV server
+* [GCDWebServer](https://github.com/swisspol/GCDWebServer): WebDAV server
+* [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack): logging
 * [ZipArchive](https://code.google.com/p/ziparchive): support for decompressing zip archives
 * [MBProgressHUD](https://github.com/jdg/MBProgressHUD): progress spinner overlay
 * [UIAlertView+Blocks](https://github.com/ryanmaxwell/UIAlertView-Blocks)

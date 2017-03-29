@@ -8,9 +8,7 @@
  * See https://github.com/danomatika/PdParty for documentation
  *
  */
-#import "CocoaHTTPServer/Vendor/CocoaLumberjack/DDLog.h"
-#import "CocoaHTTPServer/Vendor/CocoaLumberjack/DDTTYLogger.h"
-#import "CocoaHTTPServer/Vendor/CocoaLumberjack/DDFileLogger.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
 
 /// global log level
 ///
@@ -18,7 +16,7 @@
 ///
 /// off, error, warn, info, verbose
 ///  0     1     3      7      15
-extern int ddLogLevel;
+extern DDLogLevel ddLogLevel;
 
 @class TextViewLogger;
 
@@ -29,7 +27,7 @@ extern int ddLogLevel;
 /// DDLogError("an error ocurred");
 /// DDLogWarn("something didn't happen right at %@", "some place");
 /// DDLogInfo("1 + 1 = %d", 1+1);
-/// DDLogVerbose("let me tell you the sotyr of my life: %@", bioString);
+/// DDLogVerbose("let me tell you the story of my life: %@", bioString);
 ///
 @interface Log : NSObject
 
@@ -42,7 +40,7 @@ extern int ddLogLevel;
 #pragma Log Levels
 
 /// set the current log level:
-/// LOG_LEVEL_OFF, LOG_LEVEL_ERROR, LOG_LEVEL_WARN, LOG_LEVEL_INFO, LOG_LEVEL_VERBOSE
+/// DDLogLevelOff, DDLogLevelError, DDLogLevelWarn, DDLohLevelInfo, DDLogLevelVerbose
 /// updates the defaults "logLevel" value
 + (void)setLogLevel:(int)logLevel;
 

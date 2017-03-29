@@ -10,10 +10,8 @@
  */
 #import "WebServer.h"
  
-#import "HTTPServer.h"
-#import "DAVConnection.h"
+#import "GCDWebDAVServer.h"
 
-//#import <CFNetwork/CFNetwork.h>
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 #include <net/if.h>
@@ -24,7 +22,7 @@
 #import "Util.h"
 
 @interface WebServer () {
-	HTTPServer *server;
+	GCDWebDAVServer* server;
 }
 @end
 
@@ -33,27 +31,33 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		server = [[HTTPServer alloc] init];
-		[server setPort:[[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"]];
+		server = [[GCDWebDAVServer alloc] initWithUploadDirectory:[Util documentsPath]];
+		[GCDWebServer setLogLevel:3]; // WARNING
 	}
 	return self;
 }
 
 - (BOOL)start:(NSString *)directory {
+	if(server.isRunning) {
+		[self stop];
+	}
+	server = [[GCDWebDAVServer alloc] initWithUploadDirectory:[Util documentsPath]];
+	return [self start];
+}
 
-	// create DAV server
-	[server setConnectionClass:[DAVConnection class]];
+- (BOOL)start {
+	if(server.isRunning) {
+		[self stop];
+	}
 	
-	// enable Bonjour
-	[server setType:@"_http._tcp."];
-
-	// set document root
-	[server setDocumentRoot:[directory stringByExpandingTildeInPath]];
-	DDLogVerbose(@"WebServer: set root to %@", directory);
-
 	// start DAV server
 	NSError* error = nil;
-	if(![server start:&error]) {
+	NSInteger port = [[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"];
+	NSDictionary *options = @{
+		GCDWebServerOption_Port : [NSNumber numberWithInteger:port],
+		GCDWebServerOption_BonjourName : @"" // empty string to use default device name
+	};
+	if(![server startWithOptions:options error:nil]) {
 		DDLogError(@"WebServer: error starting: %@", error.localizedDescription);
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Woops"
 															message:[NSString stringWithFormat:@"Couldn't start server: %@", error.localizedDescription]
@@ -63,11 +67,8 @@
 		[alertView show];
 		return NO;
 	}
+	DDLogVerbose(@"WebServer: started");
 	return YES;
-}
-
-- (BOOL)start {
-	return [self start:[Util documentsPath]];
 }
 
 - (void)stop {
@@ -80,31 +81,38 @@
 #pragma mark Setter/Getter Overrides
 
 - (void)setPort:(int)port {
-	DDLogVerbose(@"WebServer: port set to %d", port);
-	[server setPort:port];
+	if(port == [[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"]) {
+		return;
+	}
 	[[NSUserDefaults standardUserDefaults] setInteger:port forKey:@"webServerPort"];
+	DDLogVerbose(@"WebServer: port set to %d", port);
 }
 
 - (int)port {
-	if([server isRunning]) {
-		return [server listeningPort];
-	}
-	else {
-		return [server port];
-	}
+	return (int)server.port;
 }
 
-- (NSString *)hostName {
-	if([server isRunning]) {
-		return [server publishedName];
+- (NSString *)hostUrl {
+	NSString *url = server.serverURL.absoluteString;
+	if(server.publicServerURL) {
+		url = server.publicServerURL.absoluteString;
 	}
-	else {
-		return [server name];
+	if (url && url.length > 0 && [url characterAtIndex:url.length-1] == '/') {
+		return [url substringToIndex:url.length-1];
 	}
+	return url;
+}
+
+- (NSString *)bonjourUrl {
+	NSString *url = server.bonjourServerURL.absoluteString;
+	if (url && url.length > 0 && [url characterAtIndex:url.length-1] == '/') {
+		return [url substringToIndex:url.length-1];
+	}
+	return url;
 }
 
 - (BOOL)isRunning {
-	return [server isRunning];
+	return server.isRunning;
 }
 
 // from http://stackoverflow.com/questions/7975727/how-to-check-if-wifi-option-enabled-or-not
@@ -142,7 +150,6 @@
 
 // find current IP address from connected interfaces (IPv4 and IPv6)
 // from http://stackoverflow.com/a/10803584/2146055
-
 + (NSString *)getIPAddressPreferIPv4:(BOOL)preferIPv4 withCellular:(BOOL)cellular withSimulator:(BOOL)simulator {
 	NSMutableArray *searchArray = [NSMutableArray new];
 	if(preferIPv4) {
@@ -173,6 +180,7 @@
 	} ];
 	return address ? address : @"0.0.0.0";
 }
+
 + (NSDictionary *)getIPAddresses {
 	NSMutableDictionary *addresses = [NSMutableDictionary dictionaryWithCapacity:8];
 	// retrieve the current interfaces - returns 0 on success

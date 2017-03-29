@@ -50,7 +50,7 @@
 		// configure a typical audio session with 2 output channels
 		audioController = [[PdAudioController alloc] init];
 		self.sampleRate = PARTY_SAMPLERATE;
-		if(ddLogLevel >= LOG_LEVEL_VERBOSE) {
+		if(ddLogLevel >= DDLogLevelVerbose) {
 			[audioController print];
 		}
 		

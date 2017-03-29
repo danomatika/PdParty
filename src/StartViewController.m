@@ -118,8 +118,8 @@
 		self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
 		self.serverPortTextField.enabled = NO;
 		
-		// launch timer to make sure server has enough time to setup before getting the host info for the footer text
-		serverInfoTimer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateServerInfo:) userInfo:nil repeats:NO];
+		// launch timer to make sure server has enough time to set up before getting the host info for the footer text
+		serverInfoTimer = [NSTimer timerWithTimeInterval:1.5 target:self selector:@selector(updateServerInfo:) userInfo:nil repeats:NO];
 		[[NSRunLoop mainRunLoop] addTimer:serverInfoTimer forMode:NSDefaultRunLoopMode];
 	}
 	else {
@@ -170,8 +170,8 @@
 	switch(section) {
 		case 1:
 			if(self.server.isRunning) {
-				return [NSString stringWithFormat:@"Connect to http://%@.local:%d\n  or http://%@:%d",
-					self.server.hostName, self.server.port, [WebServer wifiInterfaceAddress], self.server.port];
+				return [NSString stringWithFormat:@"Connect to %@\n  or %@",
+					self.server.bonjourUrl, self.server.hostUrl];
 			}
 			else {
 				return @"Manage patches over WebDAV";

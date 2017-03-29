@@ -1,5 +1,8 @@
 1.1.0: in progress
 
+* replaced CocoaHTTPServer with GCDWebServer, should fix server connection issues
+* updated to CocoaLumberjack 3+, now included in it's own lib folder
+
 1.0.3: 2017-02-14
 
 * fixed bug where incoming MIDI bytes were not being forward to [midiin] 

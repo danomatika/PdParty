@@ -94,7 +94,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)receiveMessage:(NSString *)address withArguments:(NSArray *)arguments {
 	#ifdef DEBUG
-		DDLogVerbose(@"OSC message to %@: %@", packet.address, [packet.arguments description]);
+		DDLogVerbose(@"OSC message to %@: %@", address, [arguments description]);
 	#endif
 	[PureData sendOscMessage:address withArguments:arguments];
 }

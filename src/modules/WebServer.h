@@ -13,10 +13,11 @@
 #import <Foundation/Foundation.h>
 
 /// webdav server
-@interface WebServer : NSObject 
+@interface WebServer : NSObject
 
 @property (assign, nonatomic) int port; //< change only takes effect on server restart
-@property (weak, readonly, nonatomic) NSString *hostName; //> Bonjour hostname
+@property (weak, readonly, nonatomic) NSString *hostUrl; //> host url, nil if server not running
+@property (weak, readonly, nonatomic) NSString *bonjourUrl; //> Bonjour host url, nil if server not running
 @property (assign,readonly, getter=isRunning, nonatomic) BOOL running;
 
 /// start the server with the given dir as the server root
@@ -31,7 +32,7 @@
 /// get the ip address of the wifi interface
 + (NSString *)wifiInterfaceAddress;
 
-/// returns port if texField value is valid, returns -1 & presents UIAlert if not
+/// returns port if textField value is valid, returns -1 & presents UIAlert if not
 + (int)checkPortValueFromTextField:(UITextField *)textField;
 
 @end
