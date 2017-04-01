@@ -42,11 +42,12 @@
 		if(self.textView) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				BOOL scroll = NO;
+				int contentHeight = self.textView.contentSize.height - self.textView.font.lineHeight*2;
 				// scroll up for new lines if we're not scrolling and within the last 2 lines
-				if((!self.textView.tracking && !self.textView.dragging &&
+				if((contentHeight >= CGRectGetHeight(self.textView.bounds)) &&
+				   (!self.textView.tracking && !self.textView.dragging &&
 				    !self.textView.decelerating && !self.textView.zooming) &&
-				   (self.textView.contentOffset.y + CGRectGetHeight(self.textView.bounds) >=
-				    self.textView.contentSize.height - self.textView.font.lineHeight*2)) {
+				   (CGRectGetHeight(self.textView.bounds) + self.textView.contentOffset.y >= contentHeight)) {
 					scroll = YES;
 				}
 				[self updateText];
