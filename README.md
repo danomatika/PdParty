@@ -13,7 +13,7 @@ For information on usage and redistribution, and for a DISCLAIMER OF ALL
 WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 <p align="center">
-<ahref="http://danomatika.com/code/pdparty"><b>PdParty website</b></a> | <a href="https://itunes.apple.com/app/id970528308"><b>PdParty on the App Store</b></a>
+<a href="http://danomatika.com/code/pdparty"><b>PdParty website</b></a> | <a href="https://itunes.apple.com/app/id970528308"><b>PdParty on the App Store</b></a>
 </a>
 
 Description
