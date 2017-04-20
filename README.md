@@ -14,6 +14,8 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 [**PdParty website**](http://danomatika.com/code/pdparty)
 
+[**PdParty on the App Store](https://itunes.apple.com/app/id970528308)
+
 Description
 -----------
 
@@ -36,7 +38,7 @@ Download the [**PdParty Composer Pack**](http://danomatika.com/code/pdparty/PdPa
 Beta Testing
 ------------
 
-**Want to help with BETA testing? Send your name & email address to:**
+**Want to help with BETA testing new versions? Send your name & email address to:**
 
 <p align="center">
   <img src="https://raw.github.com/danomatika/PdParty/master/doc/contact.png"/>
