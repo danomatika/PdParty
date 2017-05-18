@@ -84,8 +84,7 @@ Checkout & Build
 Clone this repository and checkout it's submodules using git:
 
     git clone https://github.com/danomatika/PdParty.git
-    git submodule foreach --recursive init
-    git submodule foreach --recursive update
+    git submodule update --init --recursive
 
 Open the Xcode project and Build/Run.
 
