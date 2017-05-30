@@ -22,7 +22,7 @@
 #import "Util.h"
 
 @interface WebServer () {
-	GCDWebDAVServer* server;
+	GCDWebDAVServer *server;
 }
 @end
 
@@ -31,8 +31,8 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		server = [[GCDWebDAVServer alloc] initWithUploadDirectory:[Util documentsPath]];
 		[GCDWebServer setLogLevel:3]; // WARNING
+		server = [[GCDWebDAVServer alloc] initWithUploadDirectory:[Util documentsPath]];
 	}
 	return self;
 }
@@ -55,7 +55,8 @@
 	NSInteger port = [[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"];
 	NSDictionary *options = @{
 		GCDWebServerOption_Port : [NSNumber numberWithInteger:port],
-		GCDWebServerOption_BonjourName : @"" // empty string to use default device name
+		GCDWebServerOption_BonjourName : @"", // empty string to use default device name
+		GCDWebServerOption_AutomaticallySuspendInBackground : @NO // run in background
 	};
 	if(![server startWithOptions:options error:nil]) {
 		DDLogError(@"WebServer: error starting: %@", error.localizedDescription);

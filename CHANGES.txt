@@ -1,7 +1,11 @@
-1.1.0: in progress
+1.0.4: in progress
+
+* fixed iOS 6 crash by making GameController linking optional as it's only
+  available in iOS 7+ (reported by Marc Lingk)
 
 * replaced CocoaHTTPServer with GCDWebServer, should fix server connection issues
 * updated to CocoaLumberjack 3+, now included in it's own lib folder
+* removed dynamic log levels in favor of static const (not working with CocoaLumberjack 3) 
 
 1.0.3: 2017-02-14
 
@@ -14,7 +18,7 @@
 
 Spooky Privacy edition
 
-* fix iOS 10 crash by setting privacy usage descriptions for location, microphone, & motion
+* fixed iOS 10 crash by setting privacy usage descriptions for location, microphone, & motion
 
 1.0.1: 2016-10-30
 

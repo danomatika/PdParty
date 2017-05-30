@@ -1,7 +1,7 @@
 PdParty User Guide
 ==================
 
-Version: **1.0.3**  
+Version: **1.0.4**  
 Date: 2017-?-?
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
@@ -254,7 +254,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
       1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using macOS or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#). The server supports both IPv4 and IPv6.
         
-            *  **macOS**: Finder can mount WebDAV server folders: Go->Connect to Server... CMD+K. Login as a Guest:
+            *  **macOS**: Finder can mount WebDAV server folders: Go->Connect to Server... CMD+K. Login as "anonymous" (or anything, really) and leave the password blank:
 
             <p align="center">
 	            <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/finder_connect_to_server.png"/>

@@ -16,7 +16,11 @@
 ///
 /// off, error, warn, info, verbose
 ///  0     1     3      7      15
-extern DDLogLevel ddLogLevel;
+#if DEBUG
+	static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
+#else
+	static const DDLogLevel ddLogLevel = DDLogLevelInfo;
+#endif
 
 @class TextViewLogger;
 
@@ -36,20 +40,6 @@ extern DDLogLevel ddLogLevel;
 /// Note: log level is VERBOSE when building in debug mode for testing and DEBUG is defined
 ///
 + (void)setup;
-
-#pragma Log Levels
-
-/// set the current log level:
-/// DDLogLevelOff, DDLogLevelError, DDLogLevelWarn, DDLohLevelInfo, DDLogLevelVerbose
-/// updates the defaults "logLevel" value
-+ (void)setLogLevel:(int)logLevel;
-
-/// get the current log level
-+ (int)logLevel;
-
-/// get the default log level if the "logLevel" key exists in the current NSUserDefaults,
-/// returns 0 if not found
-+ (int)defaultLogLevel;
 
 #pragma mark TextViewLogger
 

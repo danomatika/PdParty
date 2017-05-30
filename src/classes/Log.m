@@ -12,12 +12,6 @@
 
 #import "TextViewLogger.h"
 
-#if DEBUG
-	DDLogLevel ddLogLevel = DDLogLevelVerbose;
-#else
-	DDLogLevel ddLogLevel = DDLogLevelInfo;
-#endif
-
 @implementation Log
 
 static TextViewLogger *s_textViewLogger = nil;
@@ -25,31 +19,20 @@ static TextViewLogger *s_textViewLogger = nil;
 + (void)setup {
 	[DDLog addLogger:[DDTTYLogger sharedInstance]];
 	[DDLog addLogger:[DDASLLogger sharedInstance]];
-	if([[NSUserDefaults standardUserDefaults] objectForKey:@"logLevel"]) {
-		ddLogLevel = (DDLogLevel)[[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"];
-	}
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"logTextView"]) {
 		[Log enableTextViewLogger:YES];
 	}
-	DDLogInfo(@"Log level: %d", (int)ddLogLevel);
-}
-
-#pragma mark Log Levels
-
-+ (void)setLogLevel:(int)logLevel {
-	ddLogLevel = (DDLogLevel)logLevel;
-	[[NSUserDefaults standardUserDefaults] setInteger:ddLogLevel forKey:@"logLevel"];
-}
-
-+ (int)logLevel {
-	return (int)ddLogLevel;
-}
-
-+ (int)defaultLogLevel {
-	if([[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"]) {
-		return (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"logLevel"];
+	switch(ddLogLevel) {
+		case DDLogLevelInfo:
+			DDLogInfo(@"Log level: INFO");
+			break;
+		case DDLogLevelVerbose:
+			DDLogInfo(@"Log level: VERBOSE");
+			break;
+		default:
+			DDLogInfo(@"Log level: %d", (int)ddLogLevel);
+			break;
 	}
-	return (int)ddLogLevel;
 }
 
 #pragma mark TextViewLogger

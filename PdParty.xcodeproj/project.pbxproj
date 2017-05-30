@@ -12,7 +12,7 @@
 		300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300EC0451833D74F00219F48 /* CoreLocation.framework */; };
 		302438CD1D5AC072005B15A2 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302438CC1D5AC072005B15A2 /* WebViewController.m */; };
 		3024B08E1C993769002C36DA /* Controllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3024B08D1C993769002C36DA /* Controllers.m */; };
-		3024B0901C99384E002C36DA /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024B08F1C99384E002C36DA /* GameController.framework */; };
+		3024B0901C99384E002C36DA /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024B08F1C99384E002C36DA /* GameController.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3028626A1C40CEBA00A176C6 /* ConsoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862691C40CEBA00A176C6 /* ConsoleViewController.m */; };
 		3028626D1C40D06C00A176C6 /* TextViewLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3028626C1C40D06C00A176C6 /* TextViewLogger.m */; };
 		302862711C4325B000A176C6 /* PartyGui.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862701C4325B000A176C6 /* PartyGui.m */; };
@@ -1344,6 +1344,7 @@
 					libs/liblo,
 				);
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/liblo",
@@ -1387,6 +1388,7 @@
 					libs/liblo,
 				);
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/liblo",
