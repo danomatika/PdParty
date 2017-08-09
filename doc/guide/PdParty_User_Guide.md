@@ -1,7 +1,7 @@
 PdParty User Guide
 ==================
 
-Version: **1.0.4**  
+Version: **1.0.4**
 Date: 2017-?-?
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
@@ -209,7 +209,7 @@ This is pretty straight-forward and awesome thanks to CoreAudio. A lower audio l
 By default, the "Choose automatic latency" switch is enabled which tells the app to choose the best latency for your device. If this setting is disabled, you can
 set your desired buffer size using the radio buttons and you'll see the approximate latency.
 
-Your mileage may vary depending on the device and the complexity of the patch or scene you're running. If you get audio clicks/dropouts, then you need to either increase the buffer size or decrease the processing complexity of your patch. 
+Your mileage may vary depending on the device and the complexity of the patch or scene you're running. If you get audio clicks/dropouts, then you need to either increase the buffer size or decrease the processing complexity of your patch.
 
 #### Copy Default Folders
 
@@ -241,29 +241,29 @@ Naturally, you can also download the PdParty source and open the test patches & 
 5. Copy the patch and/or its containing directory and any needed abstractions to your iOS device using iTunes File Sharing, via WebDAV over your local network, or through "Open in..." from other apps:
 
     - **iTunes File Sharing**
-    
+
         Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add..." and "Save to..." buttons\*.
 
-        *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that is simply how the iTunes file sharing system currently works.* 
-        
+        *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that is simply how the iTunes file sharing system currently works.*
+
         <p align="center">
           <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/itunes_file_sharing.png"/>
         </p>
 
-    - **WebDAV** 
+    - **WebDAV**
 
       1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using macOS or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#). The server supports both IPv4 and IPv6.
-        
+
             *  **macOS**: Finder can mount WebDAV server folders: Go->Connect to Server... CMD+K. Login as "anonymous" (or anything, really) and leave the password blank:
 
             <p align="center">
 	            <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/finder_connect_to_server.png"/>
             </p>
-            
+
             * **Linux**: both Nautilus (Gnome) & Konqueror (KDE) support mounting WebDAV folders, also [FileZilla](https://filezilla-project.org) and other file transfer applications should work
-            
+
             * **Windows**: newer versions of Windows Explorer support connecting to WebDAV folders, type the full address (including http://) into the address bar, also [Cyberduck](http://cyberduck.ch) and [FileZilla](https://filezilla-projects.org) work nicely
- 
+
       2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
 
     - **Open in...**
@@ -286,7 +286,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
     * _category_
   * requires #touch, #accelerate & #gyro events
   * \#touch positions are normalized from 0-320
-  * optional sensors accessed by abstractions: [rj_loc], [rj_compass], & [rj_time]
+  * optional sensors accessed by abstractions: [rj\_loc], [rj\_compass], & [rj\_time]
   * does not support game controllers
   * 20500 samplerate
 * PdDroidParty scenes
@@ -313,7 +313,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * sensors are enabled & updated via control messages to \#pdparty
   * supports game controllers
   * 44100 samplerate
-  
+
 Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene.
 
 ### Pure Data Compatibility
@@ -357,7 +357,7 @@ PdParty currently supports:
   * [menubang]: buttons are added to the controls popup menu
   * [display]
   * [droidsystem]:
-    * receive messages: sensors, & openurl (vibrate\* is ignored) 
+    * receive messages: sensors, & openurl (vibrate\* is ignored)
     * send messages: accel, gyro, & magnet
   * [knob]: implementation of the moonlib external [mknob]
   * [numberbox]
@@ -379,17 +379,17 @@ SVG widget styling support is planned, but not an immediate priority as there is
 PdParty currently supports:
 
 * RjDj abstractions/objects:
-  * [rj_image]: implemented internally
-  * [rj_text]: implemented internally
-  * [rj_loc]
-  * [rj_compass]
-  * [rj_time]
+  * [rj\_image]: implemented internally
+  * [rj\_text]: implemented internally
+  * [rj\_loc]
+  * [rj\_compass]
+  * [rj\_time]
 * RjDj externals:
-  * [rj_accum]
-  * [rj_barkflux_accum~]
-  * [rj_centroid~]
-  * [rj_senergy~]
-  * [rj_zcr~]
+  * [rj\_accum]
+  * [rj\_barkflux\_accum~]
+  * [rj\_centroid~]
+  * [rj\_senergy~]
+  * [rj\_zcr~]
 * scene background image.jpg
 * scene browser icon thumb.jpg
 * scene Info.plist
@@ -403,7 +403,7 @@ Testing has been done using the original RjDj composer pack as well as various R
 * _Atsuke_ by Frank Barknecht
 * _CanOfBeats_ by Chris McCormick
 
-Also, thanks to Joe White for providing a copy of the RjDj _get_sensors.pd_ patch by Roman Haefeli, et al. which provided an overview of the extended rj sensor objects.
+Also, thanks to Joe White for providing a copy of the RjDj _get\_sensors.pd_ patch by Roman Haefeli, et al. which provided an overview of the extended rj sensor objects.
 
 ### Events
 
@@ -432,7 +432,7 @@ PdParty returns the following events:
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
 * **[r \#controller]**: game controller event, see "Game Controllers" section
 
-_Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj_loc] & [rj_compass] abstractions._
+_Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
 
 #### Accelerate, Gyro, & Magnet Control
 
@@ -451,13 +451,13 @@ Reading accelerometer, gyroscope, and/or magnetometer events will affect battery
 * **\#pdparty _sensor_**: request the current sensor values if automatic updates is disabled
 * **\#pdparty _sensor_ _speed_**: set desired update speed, this setting impacts battery life
   * _sensor_: accelerate, gyro, or magnet
-  * _speed_: desired update speed as one of the following strings: 
+  * _speed_: desired update speed as one of the following strings:
     * slow: 10 Hz, user interface orientation speed
     * normal: 30 Hz, normal movement (default)
     * fast: 60 Hz, suitable for gaming
     * fastest: 100 Hz, maximum firehose
 
-_Note: \#touch & \#accelerate events are automatically started for RjDj scenes for backward compatibility._  
+_Note: \#touch & \#accelerate events are automatically started for RjDj scenes for backward compatibility._
 
 #### Loc (GPS) Control
 
@@ -469,14 +469,14 @@ _Note: \#touch & \#accelerate events are automatically started for RjDj scenes f
 Loc events are essentially GPS location events, dependent on your device's sensors for accuracy (WiFi only, cell tower + GPS chip, etc). Additionally, speed & altitude events are generated when the location events are enabled.
 
 Since running the GPS location service will affect battery life in most cases, it must be manually started and configured after the scene is loaded by sending messages to the internal #pdparty receiver:
-  
+
 * **\#pdparty loc _value_**: location service run control
   * _value_: boolean to start/stop the location service
 * **\#pdparty loc updates _value_**: location automatic update control
   * _value_: boolean to start/stop automatic updates (default on)
 * **\#pdparty loc**: request the current location if automatic updates is disabled
 * **\#pdparty loc accuracy _type_**: set desired accuracy, this setting impacts battery life
-  * _type_: desired accuracy as one of the following strings: 
+  * _type_: desired accuracy as one of the following strings:
     * navigation: highest possible accuracy using additional sensors at all times, intended to be used only while the device is plugged in
     * best: highest accuracy on battery (default)
     * 10m: accurate to within 10 meters
@@ -488,7 +488,7 @@ Since running the GPS location service will affect battery life in most cases, i
 
 It usually takes a few seconds to fix your position after enabling the location services.
 
-_Note: Loc events are available in PdParty & Patch scene types by default, while the presence of an [rj_loc] object enables them in RjDj scenes. These events work best on devices with multiple location sensors (iPhone) and may not work on some devices at all (iPad)._
+_Note: Loc events are available in PdParty & Patch scene types by default, while the presence of an [rj\_loc] object enables them in RjDj scenes. These events work best on devices with multiple location sensors (iPhone) and may not work on some devices at all (iPad)._
 
 #### Compass Control
 
@@ -507,7 +507,7 @@ Like location events, the tracking the compass requires extra resources so it mu
 * **\#pdparty compass**: request the current compass heading if automatic updates is disabled
 * **\#pdparty compass filter _degrees_**: the minimum amount of change in degrees required before a compass event is generated (default 1), a value of 0 indicates no filtering, negative values are clipped to 0
 
-_Note: Compass events are only available in PdParty & Patch scene types by default, while the presence of an [rj_compass] object enables them in RjDj scenes. Events work best on devices with a digital compass (phones) and may not work on some devices at all._
+_Note: Compass events are only available in PdParty & Patch scene types by default, while the presence of an [rj\_compass] object enables them in RjDj scenes. Events work best on devices with a digital compass (phones) and may not work on some devices at all._
 
 #### Timestamps
 
@@ -525,7 +525,7 @@ Timestamps are sent to the [r \#time] receiver with the following argument forma
   * _sec_: second
   * _msec_: millisecond
 
-*This is the same format that the RjDj [rj_time] object returns.* 
+_This is the same format that the RjDj [rj\_time] object returns._
 
 Timestamp events must be triggered manually by sending a message to the internal \#pdparty receiver in your patches:
 
@@ -535,11 +535,11 @@ Timestamp events must be triggered manually by sending a message to the internal
 
 You can manually trigger recording via sending messages to the internal \#pdparty receiver in your patches:
 
-* **\#pdparty record _name_**: set the scene/file name for recording 
+* **\#pdparty record _name_**: set the scene/file name for recording
   * _name_: timestamp is appended & file is saved to the recordings dir
-* **\#pdparty record _value_**: recording control, also connected to the GUI 
+* **\#pdparty record _value_**: recording control, also connected to the GUI
   * _value_: boolean to start/stop recording
-  
+
 _Note: Recording will only work if you are using the rjlib [soundoutput] patch instead of [dac~]._
 
 #### Opening a URL
@@ -588,13 +588,13 @@ _Note: Game controller button & axis names are based on the [SDL 2.0 naming](htt
 #### OSC
 
 PdParty sends and receives OSC (Open Sound Control) messages internally between the PureData instance and the OSC server:
- 
+
 * **[r \#osc-in]**: incoming OSC messages
 * **[s \#osc-out]**: outgoing OSC messages
 
 All of the PdParty events can be streamed over OSC, included Pd prints. The receive addresses are as follows:
 
-* /pdparty/touch 
+* /pdparty/touch
 * /pdparty/accelerate
 * /pdparty/gyro
 * /pdparty/loc
