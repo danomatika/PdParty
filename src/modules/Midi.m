@@ -519,7 +519,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 			#ifdef DEBUG_MIDI
 				DDLogVerbose(@"Midi: received %d Realtime bytes", (int)message.length);
 			#endif
-			break;
+			return; // realtime bytes do not go to [midiin]
 		default:
 			break;
 	}
