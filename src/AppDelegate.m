@@ -17,6 +17,7 @@
 #import "Util.h"
 #import "Widget.h"
 
+#import "StartViewController.h"
 #import "PatchViewController.h"
 #import "BrowserViewController.h"
 #import "WebViewController.h"
@@ -153,8 +154,32 @@
 // references:
 // http://www.infragistics.com/community/blogs/stevez/archive/2013/03/04/associate-a-file-type-with-your-ios-application.aspx
 - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
-	// Called when a registered file type is transferred via the Open With... mechanism
-	
+	// called when a registered file type is transferred via the Open With... mechanism or
+	// PdParty is invoked via the custom "pdparty://" scheme
+	DDLogVerbose(@"AppDelegate: openURL %@ from %@", url, sourceApplication);
+
+	// open patch or scene via "pdparty://" scheme with "open" domain, ie. "pdparty://open/path/to/patch.pd"
+	if([url.scheme isEqualToString:@"pdparty"]) {
+		if(!url.host || !url.path) {return YES;}  // nothing to do, just open
+		if([url.host isEqualToString:@"open"]) {
+			NSString *path = [[Util documentsPath] stringByAppendingPathComponent:url.path];
+			DDLogVerbose(@"AppDelegate: opening %@", path);
+			if(![self tryOpeningPath:path]) {
+				DDLogError(@"AppDelegate: couldn't open pdparty url: %@", url.path);
+				UIAlertView *alert = [[UIAlertView alloc]
+									  initWithTitle: @"Open Failed"
+									  message: [NSString stringWithFormat:@"%@ not found in Documents", url.path]
+									  delegate: nil
+									  cancelButtonTitle:@"OK"
+									  otherButtonTitles:nil];
+				[alert show];
+				return NO;
+			}
+		}
+		return YES;
+	}
+
+	// copy patch or zip file
 	NSError *error;
 	NSString *path = [url path];
 	NSString *filename = [path lastPathComponent];
@@ -282,6 +307,34 @@
 	else {
 		DDLogError(@"AppDelegate: can't push now playing, rootViewController is not a UINavigationController");
 	}
+}
+
+#pragma mark Path
+
+/// requires full path within the Documents dir
+- (BOOL)tryOpeningPath:(NSString *)path {
+	BOOL opened;
+	UINavigationController *nav = self.startViewController.navigationController;
+	BrowserViewController *browser = self.browserViewController;
+	if(browser) {
+		// pop view stack to browser
+		[nav popToViewController:browser animated:NO];
+		opened = [browser tryOpeningPath:path];
+	}
+	else {
+		// browser may be nil on phone, so push from start view
+		[nav popToViewController:self.startViewController animated:NO];
+		NSString *name = ([Util isDeviceATablet] ? @"MainStoryboard_iPad" : @"MainStoryboard_iPhone");
+		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:name bundle:nil];
+		browser = [storyboard instantiateViewControllerWithIdentifier:@"BrowserViewController"];
+		[nav pushViewController:browser animated:NO];
+		opened = [browser tryOpeningPath:path];
+	}
+	if(!opened) {
+		// reset
+		[browser loadDocumentsDirectory];
+	}
+	return opened;
 }
 
 #pragma mark URL

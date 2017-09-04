@@ -24,6 +24,15 @@
 
 @implementation StartViewController
 
+- (void)awakeFromNib {
+
+	// set so AppDelegate can pop view stack to beginning
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.startViewController = self;
+
+	[super awakeFromNib];
+}
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	

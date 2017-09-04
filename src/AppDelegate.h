@@ -16,6 +16,7 @@
 #import "SceneManager.h"
 #import "WebServer.h"
 
+@class StartViewController;
 @class PatchViewController;
 @class BrowserViewController;
 
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 /// global access
+@property (weak, nonatomic) StartViewController *startViewController;
 @property (weak, nonatomic) PatchViewController *patchViewController;
 @property (weak, nonatomic) BrowserViewController *browserViewController;
 
@@ -49,6 +51,16 @@
 
 /// push patch view on sender.navigationController on iPhone, ignored on iPad
 - (void)nowPlayingPressed:(id)sender;
+
+#pragma mark Path
+
+/// try opening a path in the Browser:
+/// * pops all current views from the stack
+/// * open Browser
+/// * navigates to parent directory
+/// * tries opening path, reloads Documents dir on failure
+/// returns YES on success
+- (BOOL)tryOpeningPath:(NSString *)path;
 
 #pragma mark URL
 

@@ -46,7 +46,17 @@
 	self.delegate = self;
 	self.canAddFiles = NO;
 	self.title = self.navigationItem.title; // grab title from storyboard
-	[self loadDirectory:[Util documentsPath]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
+	// make sure initial layer is loaded when showing,
+	// do this here instead of viewDidLoad: as this might have
+	// been manually loaded outside of a segue
+	if(!self.directory) {
+		[self loadDocumentsDirectory];
+	}
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -56,21 +66,30 @@
 	}
 }
 
+- (BOOL)loadDocumentsDirectory {
+	return [self loadDirectory:[Util documentsPath]];
+}
+
 - (BOOL)tryOpeningPath:(NSString*)path {
 	BOOL isDir;
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-		if(isDir) {
-			if([self selectDirectory:path]) {
-				return YES;
+		// open to parent directory
+		[self clearDirectory];
+		if([self loadDirectory:[path stringByDeletingLastPathComponent] relativeTo:[Util documentsPath]]) {
+			// try opening
+			if(isDir) {
+				if([self selectDirectory:path]) {
+					return YES;
+				}
+				// load regular directory
+				[self clearDirectory];
+				return [self loadDirectory:path relativeTo:[Util documentsPath]];
 			}
-		}
-		else {
-			if([self selectFile:path]) {
-				return YES;
+			else {
+				return [self selectFile:path];
 			}
 		}
 	}
-	DDLogWarn(@"Browser: tried opening %@, but nothing to do", path);
 	return NO;
 }
 

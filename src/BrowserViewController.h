@@ -21,7 +21,14 @@
 /// strong to make sure to retain the view on iPhone
 @property (strong, nonatomic) PatchViewController *patchViewController;
 
-/// try opening a path in the PatchBrowser, dosen't affect current browser dir
+/// load the default Documents dir
+/// returns YES on success
+- (BOOL)loadDocumentsDirectory;
+
+/// try opening a path in the PatchViewController or in the browser itself,
+/// requires full path within the Documents dir
+/// pushes browser layers onto the stack starting in the Documents dir
+/// returns YES on success
 - (BOOL)tryOpeningPath:(NSString *)path;
 
 @end
