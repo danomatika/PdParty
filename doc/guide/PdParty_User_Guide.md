@@ -266,6 +266,8 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
       2. When the transfer is complete, navigate to the patch folder and run the patch. Don't forget to turn off the WebDAV server when you're done.
 
+      3. Transfer performance may be low if you are transferring *lots of files*. If you experience this, try zipping the project folder and transferring the zip file. You can then unpack the zip in the PdParty browser by selecting it.
+
     - **Open in...**
 
       PdParty registers Pd patch *.pd files and Zip archives (*.zip, *.rjz, *.pdz) with iOS as supported types. This allows for each of these file types to be opened in PdParty from another application ie. Mail, DropBox, etc. When choosing "Open in..." via the Share button, the file(s) will be copied into the main PdParty Documents folder. Zip archives can then be unpacked by clicking on them in the Patch Browser.
