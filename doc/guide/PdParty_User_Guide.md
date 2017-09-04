@@ -548,12 +548,15 @@ You can launch a web view with a given url via sending a message to \#pdparty:
 
 * **\#pdparty openurl _url title1 title2 ..._**
 
-_url_ can be either:
+_url_ can be:
 
 * a full URL path: "http://google.com"
 * a relative local file path: "local.html" or "../html/index.html"
+* a custom URL scheme to open another app: "maps://...", "twitter://...", etc
 
-_title_ is an open ended list of arguments that will be appended together and used as the navigation bar title, "URL" is used by default when there are no title arguments
+_title_ is an open ended list of arguments that will be appended together and used as the navigation bar title, "URL" is used by default when there are no title arguments.
+
+Local files are opened in a slide up web view within PdParty while all others are opened by the system in their respective apps: "http://" & "https://" in Safari, "maps://" in Maps, etc.
 
 #### Game Controllers
 
@@ -628,6 +631,23 @@ _Note: PdParty utilizes the OSC library provided by Pure Data vanilla versions 0
 PdParty automatically adds any subfolders inside the libs folder in the PdParty Documents root folder to the current search path. Put any abstractions here if you want them to be globally accessible.
 
 Also, this is where the default PdParty libraries are copied when the app is first run. This allows you to update the newer versions of the core lib patches. Be careful, as the rj patches, for instance, are required for running RjDj scenes etc. If you screw up / delete something, you can copy back the original files in the Settings screen.
+
+### PdParty URL Scheme
+
+As of version 1.1.0, PdParty has a custom URL scheme "pdparty://" for opening PdParty as well as PdParty from other apps on iOS. The domain portion of the URL is used as a message type and the following are supported:
+
+* pdparty://: empty, simply opens PdParty
+* pdparty://_**open**_/path/...: open a patch, scene, or folder inside the Documents folder
+
+To test, enter the following into the address bar in Safari and hit enter:
+
+    pdparty://
+
+This should open PdParty. To open the `all_pd_guis.pd` test patch in the `tests` folder:
+
+    pdparty://open/tests/all_pd_guis.pd
+
+Further message types may be added in the future.
 
 TODOs
 -----
