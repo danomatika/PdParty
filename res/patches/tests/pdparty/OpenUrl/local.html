@@ -8,11 +8,13 @@
 	<p>It's loaded by sending the follow message to #pdparty: <i>openurl local.html Hello World</i></p>
 	<h2>Message Format</h2>
 	<p>openurl <i>url title1 title2 ...</i></p>
-	<p><i>url</i> can be either:</p>
+	<p><i>url</i> can be:</p>
 	<ul>
-		<li>a full URL path: "http://google.com"
-		<li>a relative local file path: "local.html" or "../html/index.html"
+		<li>a relative local file path: "local.html" or "../html/index.html"</li>
+		<li>a full URL path: "http://google.com"</li>
+		<li>a custom URL scheme to open another app: "maps://...", "twitter://...", etc)</li>
 	</ul>
 	<p><i>title</i> is an open ended list of arguments that will be appended together and used as the navigation bar title, "URL" is used by default when there are no title arguments</p>
+	<p>Local files are opened in a slide up web view within PdParty while all others are opened by the system in their respective apps: "http://" &amp; "https://" in Safari, "maps://" in Maps, etc.
 </body>
 </html>

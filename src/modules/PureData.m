@@ -504,14 +504,27 @@
 		
 		// open a url
 		else if([message isEqualToString:@"openurl"] && arguments.count > 0 && [arguments isStringAt:0]) {
-			AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 			NSURL *url = [NSURL URLWithString:[arguments objectAtIndex:0]];
-			NSString *title = nil;
-			if(arguments.count > 1) { // build title
-				NSArray *array = [arguments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, arguments.count-1)]];
-				title = [array componentsJoinedByString:@" "];
+			// local file
+			if(!url.scheme || [url.scheme isEqualToString:@""] ||
+			   [url.scheme isEqualToString:@"file"]) {
+				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+				NSString *title = nil;
+				if(arguments.count > 1) { // build title
+					NSArray *array = [arguments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, arguments.count-1)]];
+					title = [array componentsJoinedByString:@" "];
+				}
+				[app launchWebViewForURL:url withTitle:title sceneRotationsOnly:YES];
 			}
-			[app launchWebViewForURL:url withTitle:title sceneRotationsOnly:YES];
+			else { // pass to openURL to open in Safari or some other app
+				if([[UIApplication sharedApplication] canOpenURL:url]) {
+					[[UIApplication sharedApplication] openURL:url];
+				}
+				else {
+					DDLogError(@"PureData: could not open url: %@", url);
+				}
+
+			}
 		}
 		
 		// send a timestamp

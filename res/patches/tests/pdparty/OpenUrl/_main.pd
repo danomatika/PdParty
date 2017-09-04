@@ -1,18 +1,30 @@
-#N canvas 0 22 294 378 10;
-#X obj 92 90 bng 30 250 50 0 google-out empty google.com 40 7 0 10
+#N canvas 0 23 329 471 10;
+#X obj 124 103 bng 40 250 50 0 local-out empty local_file 50 20 0 10
 -262144 -1 -1;
-#X obj 92 155 bng 30 250 50 0 local-out empty local_file 40 7 0 10
--262144 -1 -1;
+#X obj 124 181 bng 40 250 50 0 google-out empty google.com 50 20 0
+10 -262144 -1 -1;
 #X text 9 16 Open a file or external link in a web view;
 #X text 9 34 by sending openurl <url> <title> to #pdparty;
-#N canvas 0 22 315 263 guts 0;
-#X obj 29 183 s #pdparty;
-#X obj 29 46 r google-out;
-#X obj 68 113 r local-out;
-#X msg 29 76 openurl http://google.com Google;
-#X msg 68 140 openurl local.html Hello World;
+#N canvas 0 23 479 405 guts 0;
+#X obj 30 331 s #pdparty;
+#X obj 30 47 r google-out;
+#X obj 69 114 r local-out;
+#X msg 30 77 openurl http://google.com Google;
+#X msg 69 141 openurl local.html Hello World;
+#X obj 98 176 r maps-out;
+#X msg 98 204 openurl maps://maps.apple.com/?q=Electronic+Music;
+#X obj 113 242 r pdparty-out;
+#X msg 113 271 openurl pdparty://open/tests/all_pd_guis.pd;
 #X connect 1 0 3 0;
 #X connect 2 0 4 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
-#X restore 89 247 pd guts;
+#X connect 5 0 6 0;
+#X connect 6 0 0 0;
+#X connect 7 0 8 0;
+#X connect 8 0 0 0;
+#X restore 118 409 pd guts;
+#X obj 124 258 bng 40 250 50 0 maps-out empty maps 50 20 0 10 -262144
+-1 -1;
+#X obj 124 334 bng 40 250 50 0 pdparty-out empty pdparty 50 20 0 10
+-262144 -1 -1;
