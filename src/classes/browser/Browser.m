@@ -61,27 +61,27 @@
 #pragma mark Location
 
 // clear any existing layers
-- (void)loadDirectory:(NSString *)dirPath {
+- (BOOL)loadDirectory:(NSString *)dirPath {
 	[self.navigationController popToViewController:self animated:NO];
-	[super loadDirectory:dirPath];
+	return [super loadDirectory:dirPath];
 }
 
-- (void)loadDirectory:(NSString *)dirPath relativeTo:(NSString *)basePath {
+- (BOOL)loadDirectory:(NSString *)dirPath relativeTo:(NSString *)basePath {
 	DDLogVerbose(@"Browser: loading directory %@ relative to %@", dirPath, basePath);
 	NSMutableArray *dirComponents = [NSMutableArray arrayWithArray:[dirPath componentsSeparatedByString:@"/"]];
 	NSMutableArray *baseComponents = [NSMutableArray arrayWithArray:[basePath componentsSeparatedByString:@"/"]];
 	if(baseComponents.count == 0 || dirComponents.count == 0) {
 		DDLogWarn(@"Browser: cannot loadDirectory, basePath and/or dirPath are empty");
-		return;
+		return NO;
 	}
 	if(baseComponents.count > dirComponents.count) {
 		DDLogWarn(@"Browser: cannot loadDirectory, basePath is longer than dirPath");
-		return;
+		return NO;
 	}
 	for(int i = 0; i < baseComponents.count; ++i) {
 		if(![dirComponents[i] isEqualToString:baseComponents[i]]) {
 			DDLogWarn(@"Browser: cannot loadDirectory, dirPath is not a child of basePath");
-			return;
+			return NO;
 		}
 	}
 	unsigned int count = (unsigned int)baseComponents.count-1;
@@ -94,11 +94,11 @@
 		NSString *path = [components componentsJoinedByString:@"/"];
 		if(![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
 			DDLogWarn(@"Browser: stopped loading, %@ doesn't exist", [path lastPathComponent]);
-			return;
+			return NO;
 		}
 		if(!isDir) {
 			DDLogWarn(@"Browser: stopped loading, %@ is a file", [path lastPathComponent]);
-			return;
+			return NO;
 		}
 		DDLogVerbose(@"Browser: now pushing folder %@", [path lastPathComponent]);
 		if(i == count) { // load first layer, don't push
@@ -117,6 +117,7 @@
 			[self.navigationController pushViewController:browserLayer animated:NO];
 		}
 	}
+	return YES;
 }
 
 // clear any existing layers

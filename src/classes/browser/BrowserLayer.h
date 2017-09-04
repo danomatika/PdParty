@@ -45,12 +45,13 @@ typedef enum {
 #pragma mark Location
 
 /// change to and load a new current dir
-- (void)loadDirectory:(NSString *)dirPath;
+/// returns YES on success
+- (BOOL)loadDirectory:(NSString *)dirPath;
 
 /// reload the current directory
 - (void)reloadDirectory;
 
-// clar current paths & cells
+/// clear current paths & cells
 - (void)unloadDirectory;
 
 /// clear current directory, paths, & cells

@@ -118,11 +118,13 @@
 #pragma mark Location
 
 /// change to and load a new current dir, clears any currently pushed layers
-- (void)loadDirectory:(NSString *)dirPath;
+/// returns YES on success
+- (BOOL)loadDirectory:(NSString *)dirPath;
 
 /// change to and load a new current dir which is a child of a given base dir,
 /// pushes layers from basePath to dirPath & creates nav controller if not set
-- (void)loadDirectory:(NSString *)dirPath relativeTo:(NSString *)basePath;
+/// returns YES on success
+- (BOOL)loadDirectory:(NSString *)dirPath relativeTo:(NSString *)basePath;
 
 /// clear current directory and paths
 - (void)clearDirectory;

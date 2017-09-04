@@ -126,7 +126,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 // file access error codes:
 // https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Constants/Reference/reference.html
 
-- (void)loadDirectory:(NSString *)dirPath {
+- (BOOL)loadDirectory:(NSString *)dirPath {
 	NSError *error;
 	DDLogVerbose(@"Browser: loading directory %@", dirPath);
 
@@ -134,7 +134,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:&error];
 	if(!contents) {
 		DDLogError(@"Browser: couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
-		return;
+		return NO;
 	}
 	
 	// add contents to pathArray as absolute paths
@@ -154,6 +154,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 												 style:UIBarButtonItemStylePlain
 												 target:self
 												 action:@selector(backButtonPressed:)];
+	return YES;
 }
 
 - (void)reloadDirectory {
