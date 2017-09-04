@@ -1,9 +1,15 @@
-1.0.4: in progress
+1.1.0: in progress
+
+* added pdparty:// URL scheme so other apps can open PdParty and patches/scenes
+  (suggested by Josef Novotny)
+* #pdparty openurl message now passes non-local URLS to the system os PdParty
+  can open other apps
 
 * fixed iOS 6 crash by making GameController linking optional as it's only
   available in iOS 7+ (reported by Marc Lingk)
 
-* replaced CocoaHTTPServer with GCDWebServer, should fix server connection issues
+* replaced CocoaHTTPServer with GCDWebServer as the former is now deprecated,
+  should fix server connection issues
 * updated to CocoaLumberjack 3+, now included in it's own lib folder
 * removed dynamic log levels in favor of static const (not working with CocoaLumberjack 3) 
 
