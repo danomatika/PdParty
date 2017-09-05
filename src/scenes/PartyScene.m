@@ -32,10 +32,7 @@
 		if(info) {
 			DDLogInfo(@"PartyScene: loaded info");
 		}
-		else {
-			DDLogError(@"PartyScene: couldn't load info");
-		}
-		
+
 		return YES;
 	}
 	return NO;

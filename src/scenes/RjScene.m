@@ -91,9 +91,6 @@
 		if(info) {
 			DDLogInfo(@"RjScene: loaded info");
 		}
-		else {
-			DDLogError(@"RjScene: couldn't load info");
-		}
 		
 		// check sensor requirements
 		requiresLocation = [PureData objectExists:@"rj_loc" inPatch:self.patch];
