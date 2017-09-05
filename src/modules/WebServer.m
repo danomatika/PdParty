@@ -90,7 +90,10 @@
 }
 
 - (int)port {
-	return (int)server.port;
+	if(server.isRunning) {
+		return (int)server.port;
+	}
+	return [[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"];
 }
 
 - (NSString *)hostUrl {
