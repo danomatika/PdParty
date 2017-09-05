@@ -13,15 +13,6 @@
 #import "WebServer.h"
 #import "AppDelegate.h"
 
-@interface StartViewController () {
-	NSTimer *serverInfoTimer;
-}
-
-/// timer function to update the server footer info
-- (void)updateServerInfo:(NSTimer *)theTimer;
-
-@end
-
 @implementation StartViewController
 
 - (void)awakeFromNib {
@@ -64,11 +55,13 @@
 - (void)dealloc {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	app.midi.delegate = nil;
+	app.server.delegate = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	app.midi.delegate = self;
+	app.server.delegate = self;
 	if(app.osc.isListening) {
 		self.oscLabel.text = [NSString stringWithFormat:@"OSC: %@", app.osc.sendHost];
 	}
@@ -83,6 +76,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	app.midi.delegate = nil;
+	app.server.delegate = nil;
 	[super viewWillDisappear:animated];
 }
 
@@ -126,16 +120,11 @@
 		self.serverPortLabel.enabled = NO;
 		self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
 		self.serverPortTextField.enabled = NO;
-		
-		// launch timer to make sure server has enough time to set up before getting the host info for the footer text
-		serverInfoTimer = [NSTimer timerWithTimeInterval:1.5 target:self selector:@selector(updateServerInfo:) userInfo:nil repeats:NO];
-		[[NSRunLoop mainRunLoop] addTimer:serverInfoTimer forMode:NSDefaultRunLoopMode];
 	}
 	else {
 		[self.server stop];
 		self.serverPortLabel.enabled = YES;
 		self.serverPortTextField.enabled = YES;
-		[self.tableView reloadData]; // reset footer text
 	}
 }
 
@@ -146,11 +135,6 @@
 		return;
 	}
 	self.server.port = port;
-}
-
-- (void)updateServerInfo:(NSTimer *)theTimer {
-	// reloading the table view loads the footer text
-	[self.tableView reloadData];
 }
 
 #pragma mark UI
@@ -172,6 +156,11 @@
 	}
 }
 
+- (void)updateServerInfo {
+	// reloading the table view loads the footer text
+	[self.tableView reloadData];
+}
+
 #pragma mark UITableViewController
 
 // http://stackoverflow.com/questions/1547497/change-uitableview-section-header-footer-while-running-the-app?rq=1
@@ -179,8 +168,14 @@
 	switch(section) {
 		case 1:
 			if(self.server.isRunning) {
-				return [NSString stringWithFormat:@"Connect to %@\n  or %@",
-					self.server.bonjourUrl, self.server.hostUrl];
+				if(self.server.bonjourUrl) {
+					return [NSString stringWithFormat:@"Connect to %@\nor %@",
+						self.server.hostUrl, self.server.bonjourUrl];
+				}
+				else {
+					return [NSString stringWithFormat:@"Connect to %@",
+						self.server.hostUrl];
+				}
 			}
 			else {
 				return @"Manage patches over WebDAV";
@@ -199,6 +194,20 @@
 
 - (void)midiOutputConnectionEvent {
 	[self updateMidiLabel];
+}
+
+#pragma mark WebServerDelegate
+
+- (void)webServerDidStart {
+	[self updateServerInfo];
+}
+
+- (void)webServerBonjourRegistered {
+	[self updateServerInfo];
+}
+
+- (void)webServerDidStop {
+	[self updateServerInfo];
 }
 
 @end

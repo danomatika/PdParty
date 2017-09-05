@@ -9,8 +9,6 @@
  *
  */
 #import "WebServer.h"
- 
-#import "GCDWebDAVServer.h"
 
 #import <ifaddrs.h>
 #import <arpa/inet.h>
@@ -33,6 +31,7 @@
 	if(self) {
 		[GCDWebServer setLogLevel:3]; // WARNING
 		server = [[GCDWebDAVServer alloc] initWithUploadDirectory:[Util documentsPath]];
+		server.delegate = self;
 	}
 	return self;
 }
@@ -41,7 +40,10 @@
 	if(server.isRunning) {
 		[self stop];
 	}
-	server = [[GCDWebDAVServer alloc] initWithUploadDirectory:[Util documentsPath]];
+	server.delegate = nil;
+	server = nil;
+	server = [[GCDWebDAVServer alloc] initWithUploadDirectory:directory];
+	server.delegate = self;
 	return [self start];
 }
 
@@ -58,7 +60,7 @@
 		GCDWebServerOption_BonjourName : @"", // empty string to use default device name
 		GCDWebServerOption_AutomaticallySuspendInBackground : @NO // run in background
 	};
-	if(![server startWithOptions:options error:nil]) {
+	if(![server startWithOptions:options error:&error]) {
 		DDLogError(@"WebServer: error starting: %@", error.localizedDescription);
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Woops"
 															message:[NSString stringWithFormat:@"Couldn't start server: %@", error.localizedDescription]
@@ -119,6 +121,8 @@
 	return server.isRunning;
 }
 
+#pragma mark Utils
+
 // from http://stackoverflow.com/questions/7975727/how-to-check-if-wifi-option-enabled-or-not
 + (BOOL)isLocalWifiReachable {
 	Reachability *wifiReach = [Reachability reachabilityForInternetConnection];
@@ -148,6 +152,26 @@
 											  otherButtonTitles:nil];
 	[alertView show];
 	return -1;
+}
+
+#pragma mark GCDWebServerDelegate
+
+- (void)webServerDidStart:(GCDWebServer *)server {
+	if(self.delegate) {
+		[self.delegate webServerDidStart];
+	}
+}
+
+- (void)webServerDidCompleteBonjourRegistration:(GCDWebServer *)server {
+	if(self.delegate) {
+		[self.delegate webServerBonjourRegistered];
+	}
+}
+
+- (void)webServerDidStop:(GCDWebServer *)server {
+	if(self.delegate) {
+		[self.delegate webServerDidStop];
+	}
 }
 
 #pragma mark Private

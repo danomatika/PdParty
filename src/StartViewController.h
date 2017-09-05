@@ -11,12 +11,13 @@
 #import <UIKit/UIKit.h>
 
 #import "Midi.h"
+#include "WebServer.h"
 #import "NowPlayingTableViewController.h"
 
 @class WebServer;
 
 /// start page view
-@interface StartViewController : UITableViewController <MidiConnectionDelegate>
+@interface StartViewController : UITableViewController <MidiConnectionDelegate, WebServerDelegate>
 
 #pragma mark Connections
 
