@@ -63,10 +63,10 @@
 	app.midi.delegate = self;
 	app.server.delegate = self;
 	if(app.osc.isListening) {
-		self.oscLabel.text = [NSString stringWithFormat:@"OSC: %@", app.osc.sendHost];
+		self.oscLabel.text = app.osc.sendHost;
 	}
 	else {
-		self.oscLabel.text = @"OSC: Disabled";
+		self.oscLabel.text = @"Disabled";
 	}
 	[self updateMidiLabel];
 	self.navigationItem.rightBarButtonItem = [app nowPlayingButton];
@@ -148,11 +148,11 @@
 - (void)updateMidiLabel {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	if(app.midi.isEnabled) {
-		self.midiLabel.text = [NSString stringWithFormat:@"MIDI: In(%lu) Out(%lu)",
+		self.midiLabel.text = [NSString stringWithFormat:@"In(%lu) Out(%lu)",
 							   (unsigned long)app.midi.inputs.count, (unsigned long)app.midi.outputs.count];
 	}
 	else {
-		self.midiLabel.text = @"MIDI: Disabled";
+		self.midiLabel.text = @"Disabled";
 	}
 }
 
