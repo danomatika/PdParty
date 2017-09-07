@@ -129,7 +129,9 @@
 	// restart audio & server
 	if(!self.runsInBackground) {
 		self.pureData.audioEnabled = audioEnabledWhenBackgrounded;
-		[self.server start];
+		if(serverEnabledWhenBackgrounded) {
+			[self.server start];
+		}
 	}
 }
 
