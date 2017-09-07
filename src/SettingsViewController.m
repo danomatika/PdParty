@@ -51,6 +51,11 @@
 		}
 	}
 	[self updateLatencyLabel];
+
+	// smaller on iOS 6
+	if([Util deviceOSVersion] < 7.0) {
+		_libFolderLeading.constant = 22;
+	}
 	
     [super viewDidLoad];
 }
