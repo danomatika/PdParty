@@ -26,5 +26,3 @@
 #X restore 118 409 pd guts;
 #X obj 124 258 bng 40 250 50 0 maps-out empty maps 50 20 0 10 -262144
 -1 -1;
-#X obj 124 334 bng 40 250 50 0 pdparty-out empty pdparty 50 20 0 10
--262144 -1 -1;
