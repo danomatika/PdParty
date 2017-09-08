@@ -38,8 +38,8 @@
 		self.labelFontStyle = [[line objectAtIndex:13] intValue];
 		self.labelFontSize = [[line objectAtIndex:14] floatValue];
 		
-		self.backgroundColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:15] intValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[[line objectAtIndex:16] intValue]];
+		self.backgroundColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:15] intValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:16] intValue]];
 	}
 	return self;
 }

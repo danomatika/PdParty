@@ -26,7 +26,10 @@
 /// 2: Times
 - (NSString *)fontNameFromStyle:(int)iemFont;
 
-/// convert an IEM color to a UIColor
+/// convert an IEM color in an atom string to a UIColor (file loading)
++ (UIColor *)colorFromAtomColor:(int)iemColor;
+
+/// convert an IEM color to a UIColor (edit messages)
 + (UIColor *)colorFromIEMColor:(int)iemColor;
 
 @end

@@ -1,13 +1,13 @@
 #N canvas 663 99 249 284 10;
 #X obj 37 53 tgl 15 0 tgl1-out tgl1-in tgl1 17 7 0 10 -262144 -1 -1
 1 1;
-#X obj 38 91 tgl 15 1 tgl2-out tgl2-in tgl2 17 7 0 10 -260097 -258113
--99865 127 127;
+#X obj 38 91 tgl 15 1 tgl2-out tgl2-in tgl2 17 7 0 10 -262144 -25 -25
+127 127;
 #X obj 137 39 loadbang;
 #X obj 137 91 tgl 15 1 metro empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X msg 137 64 1;
-#N canvas 727 228 176 264 guts 0;
+#N canvas 727 228 368 253 guts 0;
 #X obj 45 58 metro 1000;
 #X obj 45 83 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
 ;
@@ -16,13 +16,24 @@
 #X obj 45 108 t b f;
 #X obj 45 132 f \$0;
 #X msg 45 186 \; tgl1-in \$2 \; \$1-tgl-in \$2;
+#X obj 137 112 sel 1;
+#X msg 138 139 -1.67772e+07;
+#X msg 199 161 -1.64036e+07;
+#X text 263 162 red;
+#X text 203 140 white;
+#X msg 138 188 \; tgl2-in color \$1 -100 -100;
 #X connect 0 0 1 0;
 #X connect 1 0 4 0;
+#X connect 1 0 7 0;
 #X connect 2 0 0 0;
 #X connect 3 0 6 0;
 #X connect 4 0 5 0;
 #X connect 4 1 3 1;
 #X connect 5 0 3 0;
+#X connect 7 0 8 0;
+#X connect 7 1 9 0;
+#X connect 8 0 12 0;
+#X connect 9 0 12 0;
 #X restore 137 124 pd guts;
 #X obj 39 126 tgl 15 0 empty \$0-tgl-in \$0-tgl 17 7 0 14 -262144 -1
 -1 1 1;
