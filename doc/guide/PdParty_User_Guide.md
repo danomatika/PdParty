@@ -636,10 +636,10 @@ Also, this is where the default PdParty libraries are copied when the app is fir
 
 ### PdParty URL Scheme
 
-As of version 1.1.0, PdParty has a custom URL scheme "pdparty://" for opening PdParty as well as PdParty from other apps on iOS. The domain portion of the URL is used as a message type and the following are supported:
+As of version 1.1.0, PdParty has a custom URL scheme "pdparty://" for opening PdParty from other apps on iOS. The domain portion of the URL is used as a message type and the following messages are supported:
 
-* pdparty://: empty, simply opens PdParty
-* pdparty://_**open**_/path/...: open a patch, scene, or folder inside the Documents folder
+* pdparty:// - empty, simply opens PdParty
+* pdparty://_**open**_/path/... - open a patch, scene, or folder inside the Documents folder
 
 To test, enter the following into the address bar in Safari and hit enter:
 
