@@ -1,15 +1,22 @@
-1.1.0: in progress
+1.1.0: 2017-09-08
 
 * added pdparty:// URL scheme so other apps can open PdParty and patches/scenes
   (suggested by Josef Novotny)
-* #pdparty openurl message now passes non-local URLS to the system os PdParty
-  can open other apps
+* #pdparty openurl message now passes non-local URLS to the system so PdParty
+  can open other apps (suggested by Josef Novotny)
 
 * fixed iOS 6 crash by making GameController linking optional as it's only
   available in iOS 7+ (reported by Marc Lingk)
+* fixed crash when receiving string OSC argument
+* fixed wrong IEM color message handling (reported by toniarnold)
+* fixed web server sometimes starting up after entering from background
+* fixed MIDI realtime messages being passed to [midiin] (they shouldn't be)
+* fixed settings view alignment issues between iOS 6 and 7+
+* fixed console auto scroll when content size < view size
 
 * replaced CocoaHTTPServer with GCDWebServer as the former is now deprecated,
-  should fix server connection issues
+  logging in now requires any username/password (not Guest)
+* updated to liblo 0.29
 * updated to CocoaLumberjack 3+, now included in it's own lib folder
 * removed dynamic log levels in favor of static const (not working with CocoaLumberjack 3) 
 
