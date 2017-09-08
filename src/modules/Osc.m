@@ -362,7 +362,6 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		
 			// strings & chars
 			case LO_STRING:
-				NSLog(@"%s", &argv[i]->s);
 				[args addObject:[NSString stringWithUTF8String:&argv[i]->s]];
 				break;
 			case LO_SYMBOL:
