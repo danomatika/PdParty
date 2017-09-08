@@ -19,6 +19,7 @@ cd $WD
 
 # get latest source
 git clone git://github.com/radarsat1/liblo.git
+cd $SRC_DIR && git checkout 0.29 && cd -
 
 # create destination dirs
 mkdir -pv $DEST_DIR/lo

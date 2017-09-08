@@ -8,6 +8,7 @@
 #include <functional>
 #include <memory>
 #include <list>
+#include <algorithm>
 #include <unordered_map>
 #include <string>
 #include <sstream>
@@ -38,20 +39,22 @@
 
 #define LO_ADD_METHOD_RT(ht, argtypes, args, rt, r, r1, r2)             \
     template <typename H>                                               \
-    auto add_method(const string_type path, const string_type types, H&& h) \
-    -> rt const                                                         \
+    Method add_method(const string_type path, const string_type types,  \
+                      H&& h, rt* _unused=0)                             \
     {                                                                   \
-        std::string key = std::string(path._s?:"") + "," + (types._s?:""); \
+        std::string key(path.s() + "," + types.s());                    \
         _handlers[key].push_front(                                      \
             std::unique_ptr<handler>(new handler_type<r ht>(h)));       \
-        _add_method(path, types,                                        \
+        lo_method m = _add_method(path, types,                          \
             [](const char *path, const char *types,                     \
                lo_arg **argv, int argc, void *msg,                      \
                void *data)->int                                         \
             {                                                           \
-                r1 (*static_cast<handler_type<r ht>*>(data)) args; \
+                r1 (*static_cast<handler_type<r ht>*>(data)) args;      \
                 r2;                                                     \
             }, _handlers[key].front().get());                           \
+        _handlers[key].front()->method = m;                             \
+        return m;                                                       \
     }
 
 #define RT_INT(argtypes) \
@@ -74,6 +77,7 @@ namespace lo {
         string_type(const char *s=0) { _s = s; }
         string_type(const std::string &s) { _s = s.c_str(); }
         operator const char*() const { return _s; }
+        std::string s() const { return _s?_s:""; }
         const char *_s;
     };
 
@@ -87,6 +91,17 @@ namespace lo {
     };
 
     class ServerThread;
+
+    /** \brief Class representing an OSC method, proxy for \ref lo_method. */
+    class Method
+    {
+      public:
+        Method(lo_method m) : method(m) {}
+        operator lo_method() const
+            { return method; }
+      protected:
+        lo_method method;
+    };
 
     /** \brief Class representing an OSC destination address, proxy
      * for \ref lo_address. */
@@ -126,7 +141,7 @@ namespace lo {
             va_list q;
             va_start(q, type);
             lo_message m = lo_message_new();
-            std::string t = std::string(type) + "$$";
+            std::string t = type.s() + "$$";
             lo_message_add_varargs(m, t.c_str(), q);
             int r = lo_send_message(address, path, m);
             lo_message_free(m);
@@ -198,25 +213,25 @@ namespace lo {
           { return lo_address_errno(address); }
 
         std::string errstr() const
-          { return std::string(lo_address_errstr(address)?:""); }
+          { auto s(lo_address_errstr(address)); return std::string(s?s:""); }
 
         std::string hostname() const
-          { return std::string(lo_address_get_hostname(address)?:""); }
+          { auto s(lo_address_get_hostname(address)); return std::string(s?s:""); }
 
         std::string port() const
-          { return std::string(lo_address_get_port(address)?:""); }
+          { auto s(lo_address_get_port(address)); return std::string(s?s:""); }
 
         int protocol() const
           { return lo_address_get_protocol(address); }
 
         std::string url() const
-          { return std::string(lo_address_get_url(address)?:""); }
+          { auto s(lo_address_get_url(address)); return std::string(s?s:""); }
 
         std::string iface() const
-          { return std::string(lo_address_get_iface(address)?:""); }
+          { auto s(lo_address_get_iface(address)); return std::string(s?s:""); }
 
         void set_iface(const string_type &iface, const string_type &ip)
-          { lo_address_set_iface(address, iface._s?:0, ip._s?:0); }
+          { lo_address_set_iface(address, iface, ip); }
 
         int set_tcp_nodelay(int enable)
           { return lo_address_set_tcp_nodelay(address, enable); }
@@ -362,7 +377,7 @@ namespace lo {
             { return lo_message_get_timestamp(message); }
 
         std::string types() const
-            { return std::string(lo_message_get_types(message)?:""); }
+            { auto s(lo_message_get_types(message)); return std::string(s?s:""); }
 
         int argc() const
             { return lo_message_get_argc(message); }
@@ -474,8 +489,7 @@ namespace lo {
                const string_type &iface="", const string_type &ip="", lo_err_handler err_h=0)
             : Server((iface._s || ip._s)
                      ? lo_server_new_multicast_iface(group, port,
-                                                     iface._s?:0,
-                                                     ip._s?:0, err_h)
+                                                     iface, ip, err_h)
                      : lo_server_new_multicast(group, port, err_h)) {}
 
         /** Destructor */
@@ -488,9 +502,9 @@ namespace lo {
 
         /** Add a method to handle a given path and type, with a
          * handler and user data pointer. */
-        void add_method(const string_type &path, const string_type &types,
+        Method add_method(const string_type &path, const string_type &types,
                         lo_method_handler h, void *data) const
-            { _add_method(path, types, h, data); }
+            { return _add_method(path, types, h, data); }
 
         // Alternative callback prototypes
 
@@ -520,11 +534,20 @@ namespace lo {
                        (Message(msg)) );
         LO_ADD_METHOD( (), (), () );
 
-        void del_method(const string_type &path, const string_type &typespec)
+        int del_method(const string_type &path, const string_type &typespec)
         {
-            _handlers.erase(std::string(path._s?:"") + ","
-                            + (typespec._s?:""));
+            _handlers.erase(path.s() + "," + typespec.s());
             lo_server_del_method(server, path, typespec);
+            return 0;
+        }
+
+        int del_method(const lo_method& m)
+        {
+          for (auto &i : _handlers) {
+            std::remove_if(i.second.begin(), i.second.end(),
+                           [&](std::unique_ptr<handler>& h){return h->method == m;});
+          }
+          return lo_server_del_lo_method(server, m);
         }
 
         int dispatch_data(void *data, size_t size)
@@ -580,7 +603,7 @@ namespace lo {
             { return lo_server_get_protocol(server); }
 
         std::string url() const
-            { return std::string(lo_server_get_url(server)?:""); }
+            { auto s(lo_server_get_url(server)); return std::string(s?s:""); }
 
         int enable_queue(int queue_enabled,
                          int dispatch_remaining=1)
@@ -602,10 +625,11 @@ namespace lo {
 
         friend class ServerThread;
 
-        class handler {};
+        struct handler { Method method; handler(Method m):method(m){} };
         template <typename T>
         class handler_type : public handler, public std::function<T> {
-          public: template<typename H>handler_type(H&& h) : std::function<T>(h) {}
+          public: template<typename H>handler_type(H&& h, Method m=0)
+            : handler(m), std::function<T>(h) {}
         };
         typedef handler_type<void(int, const char *, const char *)> handler_error;
         typedef handler_type<void(int, const std::string&, const std::string&)> handler_error_s;
@@ -619,10 +643,10 @@ namespace lo {
         std::unique_ptr<std::pair<handler_bundle_start,
                                   handler_bundle_end>> _bundle_handlers;
 
-        virtual void _add_method(const char *path, const char *types,
-                        lo_method_handler h, void *data) const
+        virtual Method _add_method(const char *path, const char *types,
+                                   lo_method_handler h, void *data) const
         {
-            lo_server_add_method(server, path, types, h, data);
+            return lo_server_add_method(server, path, types, h, data);
         }
     };
 
@@ -631,8 +655,10 @@ namespace lo {
     {
       public:
         ServerThread(const num_string_type &port, lo_err_handler err_h=0)
-            : Server(lo_server_thread_get_server(
-                  server_thread = lo_server_thread_new(port, err_h))) {}
+          : Server(0)
+        { server_thread = lo_server_thread_new(port, err_h);
+          if (server_thread)
+            server = lo_server_thread_get_server(server_thread); }
 
         template <typename E>
         ServerThread(const num_string_type &port, E&& e)
@@ -641,6 +667,8 @@ namespace lo {
                 server_thread = lo_server_thread_new(port,
                     [](int num, const char *msg, const char *where){
                     auto h = static_cast<handler_error*>(lo_error_get_context());
+                    // TODO: Can't call "e" yet since error context is not yet
+                    // provided, port unavailable errors will not be reported!
                     if (h) (*h)(num, msg, where);});
                 if (server_thread) {
                     server = lo_server_thread_get_server(server_thread);
@@ -654,8 +682,31 @@ namespace lo {
             }
 
         ServerThread(const num_string_type &port, int proto, lo_err_handler err_h)
-            : Server(lo_server_thread_get_server(
-                  server_thread = lo_server_thread_new_with_proto(port, proto, err_h))) {}
+          : Server(0)
+        { server_thread = lo_server_thread_new_with_proto(port, proto, err_h);
+          if (server_thread)
+            server = lo_server_thread_get_server(server_thread); }
+
+        template <typename E>
+        ServerThread(const num_string_type &port, int proto, E&& e)
+            : Server(0)
+            {
+                server_thread = lo_server_thread_new_with_proto(port, proto,
+                    [](int num, const char *msg, const char *where){
+                    auto h = static_cast<handler_error*>(lo_error_get_context());
+                    // TODO: Can't call "e" yet since error context is not yet
+                    // provided, port unavailable errors will not be reported!
+                    if (h) (*h)(num, msg, where);});
+                if (server_thread) {
+                    server = lo_server_thread_get_server(server_thread);
+                    auto h = new handler_error(e);
+                    _error_handler.reset(h);
+                    lo_server_thread_set_error_context(server_thread, h);
+                    lo_server_set_error_context(server,
+					    (_error_handler = std::unique_ptr<handler>(
+                            new handler_error(e))).get());
+                }
+            }
 
         virtual ~ServerThread()
             { server = 0;
@@ -714,10 +765,10 @@ namespace lo {
         std::unique_ptr<handler_cb_pair> _cb_handlers;
 
         // Regular old liblo method handlers
-        virtual void _add_method(const char *path, const char *types,
-                                 lo_method_handler h, void *data) const
+        virtual Method _add_method(const char *path, const char *types,
+                                   lo_method_handler h, void *data) const
         {
-            lo_server_thread_add_method(server_thread, path, types, h, data);
+            return lo_server_thread_add_method(server_thread, path, types, h, data);
         }
     };
 
@@ -868,13 +919,13 @@ namespace lo {
         Message get_message(int index, std::string &path) const
             { const char *p;
               lo_message m=lo_bundle_get_message(bundle, index, &p);
-              path = p?:0;
+              path = p?p:0;
               return Message(m); }
 
         PathMsg get_message(int index) const
             { const char *p;
               lo_message m = lo_bundle_get_message(bundle, index, &p);
-              return PathMsg(p?:0, m); }
+              return PathMsg(p?p:0, m); }
 
         Bundle get_bundle(int index) const
             { return lo_bundle_get_bundle(bundle, index); }

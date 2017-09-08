@@ -2,13 +2,13 @@
 #X msg 432 282 disconnect;
 #X obj 288 171 key;
 #X obj 288 197 spigot;
-#X obj 321 172 tgl 15 0 empty empty send_keys 17 7 0 10 -262144 -1
+#X obj 327 172 tgl 15 0 empty empty send_keys 17 7 0 10 -262144 -1
 -1 0 1;
 #X obj 296 251 r \$0-vsl-out;
-#X obj 400 27 vsl 15 128 0 127 0 0 \$0-vsl-out \$0-vsl-in sends_to_PdParty
-0 -9 0 10 -262144 -1 -1 5900 1;
-#X obj 68 279 s \$0-bang-in;
-#X obj 459 84 bng 15 250 50 0 \$0-bang-out \$0-bang-in recvs_from_PdParty
+#X obj 470 27 vsl 15 128 0 127 0 0 \$0-vsl-out \$0-vsl-in sends_to_PdParty
+0 -9 0 10 -262144 -1 -1 12100 1;
+#X obj 77 279 s \$0-bang-in;
+#X obj 529 84 bng 15 250 50 0 \$0-bang-out \$0-bang-in recvs_from_PdParty
 17 7 0 10 -262144 -1 -1;
 #X obj 16 340 print pdparty;
 #X msg 432 261 connect 127.0.0.1 8088;
@@ -16,7 +16,7 @@
 OSC test scene in tests/pdparty/OSC;
 #X text 10 93 the bang receives from the test running on PdParty &
 the slider sends from here to the slider on PdParty;
-#X obj 121 142 tgl 15 0 empty empty print_all_messages 17 7 0 10 -262144
+#X obj 139 142 tgl 15 0 empty empty print_all_messages 17 7 0 10 -262144
 -1 -1 1 1;
 #X obj 16 141 tgl 15 0 empty empty listen 17 7 0 10 -262144 -1 -1 1
 1;
