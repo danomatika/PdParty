@@ -1,3 +1,9 @@
+1.1.1: 2017-09-11
+
+* fixed openurl message ignoring third party apps (reported by Josef Novotny)
+
+* updated openurl message to open asynchronously on iOS 10+
+
 1.1.0: 2017-09-08
 
 * added pdparty:// URL scheme so other apps can open PdParty and patches/scenes

@@ -505,6 +505,7 @@
 		// open a url
 		else if([message isEqualToString:@"openurl"] && arguments.count > 0 && [arguments isStringAt:0]) {
 			NSURL *url = [NSURL URLWithString:[arguments objectAtIndex:0]];
+			DDLogVerbose(@"PureData: openurl %@", url);
 			// local file
 			if(!url.scheme || [url.scheme isEqualToString:@""] ||
 			   [url.scheme isEqualToString:@"file"]) {
@@ -517,13 +518,21 @@
 				[app launchWebViewForURL:url withTitle:title sceneRotationsOnly:YES];
 			}
 			else { // pass to openURL to open in Safari or some other app
-				if([[UIApplication sharedApplication] canOpenURL:url]) {
-					[[UIApplication sharedApplication] openURL:url];
+				UIApplication *application = [UIApplication sharedApplication];
+				if([application respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+					// iOS 10+ aynchronous open
+					[application openURL:url options:@{} completionHandler:^(BOOL success) {
+						if(!success) {
+							DDLogError(@"PureData: could not open url: %@", url);
+						}
+					}];
 				}
 				else {
-					DDLogError(@"PureData: could not open url: %@", url);
+					// iOS <10
+					if(![[UIApplication sharedApplication] openURL:url]) {
+						DDLogError(@"PureData: could not open url: %@", url);
+					}
 				}
-
 			}
 		}
 		

@@ -6,7 +6,7 @@
 #X text 9 16 Open a file or external link in a web view;
 #X text 9 34 by sending openurl <url> <title> to #pdparty;
 #N canvas 0 23 479 405 guts 0;
-#X obj 30 331 s #pdparty;
+#X obj 30 371 s #pdparty;
 #X obj 30 47 r google-out;
 #X obj 69 114 r local-out;
 #X msg 30 77 openurl http://google.com Google;
@@ -15,6 +15,8 @@
 #X msg 98 204 openurl maps://maps.apple.com/?q=Electronic+Music;
 #X obj 113 242 r pdparty-out;
 #X msg 113 271 openurl pdparty://open/tests/all_pd_guis.pd;
+#X msg 143 331 openurl MobMuPlat-v2.audiobus://;
+#X obj 143 302 r mmp-out;
 #X connect 1 0 3 0;
 #X connect 2 0 4 0;
 #X connect 3 0 0 0;
@@ -23,6 +25,10 @@
 #X connect 6 0 0 0;
 #X connect 7 0 8 0;
 #X connect 8 0 0 0;
+#X connect 9 0 0 0;
+#X connect 10 0 9 0;
 #X restore 118 409 pd guts;
 #X obj 124 258 bng 40 250 50 0 maps-out empty maps 50 20 0 10 -262144
+-1 -1;
+#X obj 124 329 bng 40 250 50 0 mmp-out empty mobmuplat 50 20 0 10 -262144
 -1 -1;
