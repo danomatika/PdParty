@@ -140,7 +140,7 @@
 			}
 		}
 		else if([DroidScene isDroidPartyDirectory:path]) {
-			cell.imageView.image = [UIImage imageNamed:@"android"];
+			cell.imageView.image = [UIImage imageNamed:@"droidparty"];
 		}
 		else if([PartyScene isPdPartyDirectory:path]) {
 		

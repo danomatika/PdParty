@@ -3,6 +3,8 @@
 * fixed openurl message ignoring third party apps (reported by Josef Novotny)
 
 * updated openurl message to open asynchronously on iOS 10+
+* replaced android logo with generic circuit for droidparty scenes as Apple
+  doesn't like referencing competing platforms :P
 
 1.1.0: 2017-09-08
 

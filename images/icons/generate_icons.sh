@@ -54,7 +54,7 @@ convert-icon custom/record_filled 1024 control
 convert-icon custom/record 1024 control
 
 # icons8
-convert-icon icons8/android_os_copyrighted 512 browser
+convert-icon icons8/circuit 512 browser
 convert-icon icons8/archive 512 browser
 convert-icon icons8/audio_wave 512 browser
 convert-icon icons8/console 512 control
