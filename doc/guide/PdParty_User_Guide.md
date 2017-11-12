@@ -590,7 +590,11 @@ Controller events can be read via the [r \#controller] receiver with the followi
 
 There is no direct control over enabling/disabling game controller support. This is handled by scene type detection as RjDj & DroidParty scenes do not use controller events.
 
-_Note: Game controller button & axis names are based on the [SDL 2.0 naming](https://www.libsdl.org) where "dpup" refers to digital pad up, "dpleft refers to digital pad left etc. This format is compatible with the OSC messages sent by the [joyosc](https://github.com/danomatika/joyosc) desktop HID device to OSC event daemon._
+Game controller button & axis names are based on the [SDL 2.0 GameController enumerations](http://wiki.libsdl.org/CategoryGameController) where "dpup" refers to digital pad up, "dpleft" refers to digital pad left, etc. This format is compatible with the OSC messages sent by the [joyosc](https://github.com/danomatika/joyosc) desktop HID device to OSC event daemon.
+
+Buttons: "a", "b", "x", "y", "leftshoulder", "lefttrigger", "rightshoulder", "righttrigger", "dpup", "dpdown", "dpleft", "dpright"
+
+Axes: "leftx", "lefty", "rightx", "righty"
 
 #### OSC
 
