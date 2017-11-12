@@ -66,3 +66,6 @@ convert-icon 152 152 $NAME-76@2x
 
 # iPad Pro App iOS 10
 convert-icon 167 167 $NAME-83-5@2x
+
+# App Store iOS
+convert-icon 1024 1024 $NAME-1024
