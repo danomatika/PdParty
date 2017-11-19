@@ -487,6 +487,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 			break;
 		case MIDI_PITCH_BEND: {
 			int value = (bytes[2] << 7) + bytes[1]; // msb + lsb
+			value -= 8192; // convert range from 0 - 16384 to libpd -8192 - 8192
 			[PdBase sendPitchBend:channel value:value];
 			#ifdef DEBUG_MIDI
 				DDLogVerbose(@"Midi: received PitchBend %d %d", channel, value);

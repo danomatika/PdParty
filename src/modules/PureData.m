@@ -563,6 +563,7 @@
 }
 
 - (void)receivePitchBend:(int)value forChannel:(int)channel {
+	value += 8192; // convert range from libpd -8192 - 8192 to 0 - 16384
 	[self.midi sendPitchBend:channel value:value];
 }
 
