@@ -1,7 +1,7 @@
 PdParty User Guide
 ==================
 
-Version: **1.1.1**
+Version: **1.1.1**  
 Date: 2017-09-11
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
@@ -425,7 +425,7 @@ PdParty returns the following events:
 * **[r \#speed] _speed_ _course_**: GPS speed & course heading, only sent if \#loc events are enabled
   * _speed_: instantaneous speed in meters per second, negative values are invalid
   * _course_: direction of travel, N is 0 degrees, E is 90, S is 180, etc; negative values are invalid
-* **[e \#altitude] _altitude_ _accuracy_**: GPS altitude, only sent if \#loc events are enabled
+* **[r \#altitude] _altitude_ _accuracy_**: GPS altitude, only sent if \#loc events are enabled
   * _altitude_: altitude above sea level in meters
   * _accuracy_: altitude accuracy in meters; negative values are invalid
 * **[r \#compass] _degrees_**: orientation toward magnetic north with the top of UI at 0 degrees
@@ -537,7 +537,7 @@ Timestamp events must be triggered manually by sending a message to the internal
 
 You can manually trigger recording via sending messages to the internal \#pdparty receiver in your patches:
 
-* **\#pdparty record _name_**: set the scene/file name for recording
+* **\#pdparty scene _name_**: set the scene/file name for recording
   * _name_: timestamp is appended & file is saved to the recordings dir
 * **\#pdparty record _value_**: recording control, also connected to the GUI
   * _value_: boolean to start/stop recording
