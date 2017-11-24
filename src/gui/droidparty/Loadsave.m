@@ -70,7 +70,7 @@
 		else {
 			self.extension = nil;
 		}
-		self.sendName = [self.name stringByAppendingFormat:@"-%@", message];
+		self.sendName = [self.receiveName stringByAppendingFormat:@"-%@", message];
 		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
 		
 		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -164,12 +164,13 @@
 #pragma mark Private
 
 - (void)sendPath:(NSString *)path {
-	[self sendSymbol:path];
+	DDLogVerbose(@"Loadsave %@: sending %@", self.sendName, path);
 	NSArray *detail = @[ // ext file dir
 		[path pathExtension],
 		[[path lastPathComponent] stringByDeletingPathExtension],
 		[path stringByDeletingLastPathComponent]
 	];
+	[self sendSymbol:path];
 	[PdBase sendList:detail toReceiver:[self.sendName stringByAppendingString:@"-detail"]];
 }
 
