@@ -100,44 +100,54 @@
 #pragma mark Gui
 
 // droidparty objects
-- (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine {
-	if([type isEqualToString:@"display"]) {
-		[self addDisplay:atomLine];
-		return YES;
+- (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine atLevel:(int)level {
+	if(level == 1) { // GUIs in the top level canvas
+		if([type isEqualToString:@"display"]) {
+			[self addDisplay:atomLine];
+			return YES;
+		}
+		else if([type isEqualToString:@"numberbox"]) {
+			[self addNumberbox:atomLine];
+			return YES;
+		}
+		else if([type isEqualToString:@"ribbon"]) {
+			[self addRibbon:atomLine];
+			return YES;
+		}
+		else if([type isEqualToString:@"taplist"]) {
+			[self addTaplist:atomLine];
+			return YES;
+		}
+		else if([type isEqualToString:@"touch"]) {
+			[self addTouch:atomLine];
+			return YES;
+		}
+		else if([type isEqualToString:@"wordbutton"]) {
+			[self addWordbutton:atomLine];
+			return YES;
+		}
+		if([type isEqualToString:@"loadsave"]) {
+			[self addLoadsave:atomLine];
+			return YES;
+		}
+		else if([type isEqualToString:@"mknob"]) {
+			[self addKnob:atomLine];
+			return YES;
+		}
+		else if([type isEqualToString:@"menubang"]) {
+			[self addMenubang:atomLine];
+			return YES;
+		}
+		// iem GUIs, etc
+		return [super addObjectType:type fromAtomLine:atomLine atLevel:level];
 	}
-	else if([type isEqualToString:@"numberbox"]) {
-		[self addNumberbox:atomLine];
-		return YES;
-	}
-	else if([type isEqualToString:@"ribbon"]) {
-		[self addRibbon:atomLine];
-		return YES;
-	}
-	else if([type isEqualToString:@"taplist"]) {
-		[self addTaplist:atomLine];
-		return YES;
-	}
-	else if([type isEqualToString:@"touch"]) {
-		[self addTouch:atomLine];
-		return YES;
-	}
-	else if([type isEqualToString:@"wordbutton"]) {
-		[self addWordbutton:atomLine];
-		return YES;
-	}
-	else if([type isEqualToString:@"loadsave"]) {
+
+	// non-GUIs in subpatches
+	if([type isEqualToString:@"loadsave"]) {
 		[self addLoadsave:atomLine];
 		return YES;
 	}
-	else if([type isEqualToString:@"mknob"]) {
-		[self addKnob:atomLine];
-		return YES;
-	}
-	else if([type isEqualToString:@"menubang"]) {
-		[self addMenubang:atomLine];
-		return YES;
-	}
-	return [super addObjectType:type fromAtomLine:atomLine];
+	return NO;
 }
 
 @end

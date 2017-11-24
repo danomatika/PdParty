@@ -65,7 +65,13 @@
 
 /// add a widget using the object type name, returns true if type handled
 /// subclass this to add additional type creation & don't forget to call super
-- (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine;
+///
+/// level refers to the patch canvas level where:
+///   - 1 is the top level canvas
+///   - >1 are sub patches
+///
+/// this allows for detecting non-drawable send/receive widgets in sub patches
+- (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine atLevel:(int)level;
 
 /// add widgets from an array of atom lines
 - (void)addWidgetsFromAtomLines:(NSArray *)lines;

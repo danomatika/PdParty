@@ -37,6 +37,9 @@
 @property (assign, readwrite) float scaleX;
 @property (assign, readwrite) float scaleY;
 
+// add other objects and print warnings for non-compatible objects
+- (void)addObject:(NSArray *)atomLine atLevel:(int)level;
+
 @end
 
 @implementation Gui
@@ -138,7 +141,8 @@
 }
 
 // iem gui objects
-- (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine {
+- (BOOL)addObjectType:(NSString *)type fromAtomLine:(NSArray *)atomLine atLevel:(int)level {
+	if(level != 1) {return NO;} // ignore sub patches
 	if([type isEqualToString:@"bng"]) {
 		[self addBang:atomLine];
 		return YES;
@@ -180,11 +184,8 @@
 
 - (void)addWidgetsFromAtomLines:(NSArray *)lines {
 	int level = 0;
-	
 	for(NSArray *line in lines) {
-		
 		if(line.count >= 4) {
-		
 			NSString *lineType = [line objectAtIndex:1];
 			
 			// find canvas begin and end line
@@ -215,7 +216,7 @@
 			else if([lineType isEqualToString:@"restore"]) {
 				level -= 1;
 			}
-			// find different types of UI element in the top level patch
+			// find different types of UI elements in the top level patch
 			else if(level == 1) {
 				if (line.count >= 2) {
 				
@@ -230,15 +231,16 @@
 						[self addComment:line];
 					}
 					else if([lineType isEqualToString:@"obj"] && line.count >= 5) {
-						NSString *objType = [line objectAtIndex:4];
-						
-						// look for additional built in objects
-						BOOL added = [self addObjectType:objType fromAtomLine:line];
-						
-						// print warnings on objects that aren't completely compatible
-						if(!added && ([objType isEqualToString:@"keyup"] || [objType isEqualToString:@"keyname"])) {
-							DDLogWarn(@"Gui: [keyup] & [keyname] can create, but won't return any events");
-						}
+						// iem GUIs and other objects
+						[self addObject:line atLevel:level];
+					}
+				}
+			}
+			// find non-UI elements in sub patches
+			else {
+				if (line.count >= 2) {
+					if([lineType isEqualToString:@"obj"] && line.count >= 5) {
+						[self addObject:line atLevel:level];
 					}
 				}
 			}
@@ -319,6 +321,21 @@
 
 - (void)setFontName:(NSString *)fontName {
 	_fontName = fontName == nil ? GUI_FONT_NAME : fontName;
+}
+
+#pragma mark Private
+
+// add other objects
+- (void)addObject:(NSArray *)atomLine atLevel:(int)level {
+	NSString *objType = [atomLine objectAtIndex:4];
+
+	// look for additional built in objects
+	BOOL added = [self addObjectType:objType fromAtomLine:atomLine atLevel:level];
+
+	// print warnings on objects that aren't completely compatible
+	if(!added && ([objType isEqualToString:@"keyup"] || [objType isEqualToString:@"keyname"])) {
+		DDLogWarn(@"Gui: [keyup] & [keyname] can create, but won't return any events");
+	}
 }
 
 @end
