@@ -27,6 +27,7 @@
 @interface PureData () {
 	PdAudioController *audioController;
 	PdFile *playbackPatch;
+	CADisplayLink *updateLink;
 }
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
 @property (assign, readwrite, getter=isPlayingback, nonatomic) BOOL playingback;
@@ -56,10 +57,10 @@
 		
 		// set dispatcher delegate
 		self.dispatcher = [[PureDataDispatcher alloc] init];
-		[PdBase setDelegate:self.dispatcher];
+		[PdBase setDelegate:self.dispatcher pollingEnabled:NO];
 		
 		// set midi receiver delegate
-		[PdBase setMidiDelegate:self];
+		[PdBase setMidiDelegate:self pollingEnabled:NO];
 		
 		// add this class as a receiver
 		[self.dispatcher addListener:self forSource:PD_OSC_S];
@@ -72,11 +73,25 @@
 		// open "external patches" that always run in the background
 		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/pd"]];
 	
-		// set ticks per buffer after everything else is setup, setting a tpb of 1 too early results in no audio
+		// set ticks per buffer after everything else is set up, setting a tpb of 1 too early results in no audio
 		// and feedback until it is changed ... this fixes that
 		self.ticksPerBuffer = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"ticksPerBuffer"];
+
+		// setup display link for faster message polling
+		updateLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMessages:)];
+		updateLink.preferredFramesPerSecond = 120;
+		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 	}
 	return self;
+}
+
+- (void)dealloc {
+	playbackPatch = nil;
+	audioController = nil;
+	if(updateLink) {
+		[updateLink invalidate];
+	}
+	updateLink = nil;
 }
 
 - (int)calculateBufferSize {
@@ -658,6 +673,7 @@
 - (void)setAudioEnabled:(BOOL)enabled {
 	if(audioController.active == enabled) return;
 	audioController.active = enabled;
+	updateLink.paused = !enabled;
 }
 
 - (void)setPlaying:(BOOL)playing {
@@ -796,6 +812,12 @@ static NSNumberFormatter *s_numFormatter = nil;
 }
 
 #pragma mark Private
+
+// process messages waiting in the queues
+- (void)updateMessages:(CADisplayLink *)displayLink {
+	[PdBase receiveMessages];
+	[PdBase receiveMidi];
+}
 
 // encode a libpd list of numbers into raw byte data
 - (NSData *)encodeList:(NSArray *)list {
