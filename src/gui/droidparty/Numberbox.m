@@ -96,8 +96,8 @@
 
 - (void)reshapeValueLabel {
 	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
-	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
-	self.valueLabel.preferredMaxLayoutWidth = charSize.width * (self.valueWidth == 0 ? 3 : self.valueWidth);
+	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.valueLabel.font}]; // assumes monspaced font
+	self.valueLabel.preferredMaxLayoutWidth = ceilf(charSize.width) * (self.valueWidth == 0 ? 3 : self.valueWidth);
 	[self.valueLabel sizeToFit];
 	self.valueLabel.center = CGPointMake(round(CGRectGetWidth(self.frame)/2), round(CGRectGetHeight(self.frame)/2));
 }
@@ -106,7 +106,6 @@
 
 - (void)setValue:(float)value {
 	[super setValue:value];
-	[self reshapeValueLabel];
 }
 
 - (NSString *)type {

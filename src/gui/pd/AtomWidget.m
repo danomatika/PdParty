@@ -63,7 +63,8 @@
 	
 	// value label
 	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleX];
-	CGSize charSize = [@"0" sizeWithFont:self.valueLabel.font]; // assumes monspaced font
+	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.valueLabel.font}]; // assumes monspaced font
+	charSize.width = ceilf(charSize.width);
 	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
 	[self.valueLabel sizeToFit];
 	CGRect valueLabelFrame = self.valueLabel.frame;

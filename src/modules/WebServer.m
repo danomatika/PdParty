@@ -95,7 +95,7 @@
 	if(server.isRunning) {
 		return (int)server.port;
 	}
-	return [[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"];
+	return (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"];
 }
 
 - (NSString *)hostUrl {

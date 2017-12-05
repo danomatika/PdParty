@@ -19,11 +19,13 @@
 @implementation ConsoleViewController
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+	
 	self.view.backgroundColor = [UIColor whiteColor];
 	
 	// set size in iPad popup
 	if([Util isDeviceATablet]) {
-		self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+		self.preferredContentSize = CGSizeMake(320.0, 600.0);
 	}
 	
 	// do not extend under nav bar on iOS 7

@@ -422,7 +422,8 @@
 			}
 			statusString = @"denied";
 			break;
-		case kCLAuthorizationStatusAuthorized:
+		case kCLAuthorizationStatusAuthorizedWhenInUse:
+		case kCLAuthorizationStatusAuthorizedAlways:
 			statusString = @"authorized";
 			break;
 		default:

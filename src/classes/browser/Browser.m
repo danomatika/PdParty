@@ -106,15 +106,16 @@
 			[self loadDirectory:path];
 		}
 		else { // push browser layer
-			if(!self.navigationController) { // make sure there is a nav controller for the layers
-				UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self];
+			UINavigationController *navigationController = self.navigationController;
+			if(!navigationController) { // make sure there is a nav controller for the layers
+				navigationController = [[UINavigationController alloc] initWithRootViewController:self];
 			}
 			BrowserLayer *browserLayer = [[Browser alloc] initWithStyle:UITableViewStylePlain];
 			browserLayer.root = self.root;
 			browserLayer.mode = self.mode;
 			browserLayer.title = self.title;
 			[browserLayer loadDirectory:path];
-			[self.navigationController pushViewController:browserLayer animated:NO];
+			[navigationController pushViewController:browserLayer animated:NO];
 		}
 	}
 	return YES;

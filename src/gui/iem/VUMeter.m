@@ -72,8 +72,8 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospace font
-	int yOffset = charSize.height / 2;
+	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monospace font
+	int yOffset = ceilf(charSize.height) / 2;
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
@@ -130,7 +130,7 @@
 			if(vuString.length > 0) {
 				CGPoint stringPos = CGPointMake(end, yyy);
 				CGContextSetFillColorWithColor(context, self.label.textColor.CGColor);
-				[vuString drawAtPoint:stringPos withFont:self.label.font];
+				[vuString drawAtPoint:stringPos withAttributes:@{NSFontAttributeName:self.label.font}];
 			}
 		}
 	}
@@ -142,7 +142,7 @@
 		NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
 		CGPoint stringPos = CGPointMake(end, yyy);
 		CGContextSetFillColorWithColor(context, self.label.textColor.CGColor);
-		[vuString drawAtPoint:stringPos withFont:self.label.font];
+		[vuString drawAtPoint:stringPos withAttributes:@{NSFontAttributeName:self.label.font}];
 	}
 }
 
@@ -150,8 +150,10 @@
 	
 	// reshape label first to make sure font has been set
 	[self reshapeLabel];
-	CGSize charSize = [@"0" sizeWithFont:self.label.font]; // assumes monospaced font
-	
+	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monospaced font
+	charSize.width = ceilf(charSize.width);
+	charSize.height = ceilf(charSize.height);
+
 	// bounds from meter size + optional scale width
 	if(self.showScale) {
 		self.frame = CGRectMake(

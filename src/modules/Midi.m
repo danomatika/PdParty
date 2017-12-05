@@ -290,7 +290,7 @@ uint64_t absoluteToNanos(uint64_t time) {
 
 				// next byte in the packet should be a status byte
 				statusByte = packet->data[curByte];
-				if(!statusByte & MIDI_NOTE_ON) {
+				if(!(statusByte & MIDI_NOTE_ON)) {
 					break;
 				}
 

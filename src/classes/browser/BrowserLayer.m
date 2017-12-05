@@ -74,7 +74,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	// set size in iPad popup
 	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 		self.clearsSelectionOnViewWillAppear = NO;
-		self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+		self.preferredContentSize = CGSizeMake(320.0, 600.0);
 	}
 }
 
@@ -319,8 +319,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserCell"];
-	cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"BrowserCell"];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"BrowserCell"];
 	BOOL isDir;
 	NSString *path = [_paths objectAtIndex:indexPath.row];
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {

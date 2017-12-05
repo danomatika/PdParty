@@ -172,11 +172,13 @@
 // http://stackoverflow.com/questions/2765537/how-do-i-use-the-nsstring-draw-functionality-to-create-a-uiimage-from-text#2768081
 + (UIImage *)imageFromString:(NSString *)string withFont:(UIFont*)font {
 	
-	CGSize size  = [string sizeWithFont:font];
+	CGSize size = [string sizeWithAttributes:@{NSFontAttributeName:font}];
+	size.width = ceilf(size.width);
+	size.height = ceilf(size.height);
 	UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
 
 	// draw in context, you can use also drawInRect:withFont:
-	[string drawAtPoint:CGPointMake(0.0, 0.0) withFont:font];
+	[string drawAtPoint:CGPointMake(0.0, 0.0) withAttributes:@{NSFontAttributeName:font}];
 
 	// transfer image
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
