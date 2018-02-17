@@ -68,7 +68,6 @@
 		3094B44E18C97CCF00AFE178 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44918C97CCF00AFE178 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3094B45718CBD20A00AFE178 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3094B45618CBD20A00AFE178 /* InfoViewController.m */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
-		309E33E51D53CA42004DBB0D /* libpd-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 309E33E21D53CA2C004DBB0D /* libpd-ios.a */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
 		30A319F716B61FF700C7729B /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319F016B61FF700C7729B /* Widget.m */; };
 		30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A716B5A8E500464926 /* UIKit.framework */; };
@@ -135,6 +134,7 @@
 		30F5283417D93743004736A6 /* Display.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5283317D93742004736A6 /* Display.m */; };
 		30F5283717D982AE004736A6 /* Ribbon.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F5283617D982AC004736A6 /* Ribbon.m */; };
 		30F7A19716C008A500DE265F /* BrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19616C008A500DE265F /* BrowserViewController.m */; };
+		30F96A551FC8D415002CDE3F /* libpd-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 309E33E21D53CA2C004DBB0D /* libpd-ios.a */; };
 		30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA774E16E5636A000E8D2B /* StartViewController.m */; };
 		30FA775316E68936000E8D2B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA775216E68936000E8D2B /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FA775416E69660000E8D2B /* SystemConfiguration.framework */; };
@@ -428,7 +428,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				309E33E51D53CA42004DBB0D /* libpd-ios.a in Frameworks */,
+				30F96A551FC8D415002CDE3F /* libpd-ios.a in Frameworks */,
 				3024B0901C99384E002C36DA /* GameController.framework in Frameworks */,
 				302862731C4369EA00A176C6 /* CoreText.framework in Frameworks */,
 				3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */,
@@ -1353,7 +1353,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1398,7 +1398,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
