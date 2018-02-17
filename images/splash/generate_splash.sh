@@ -43,3 +43,6 @@ convert-splash 640 1136 $NAME-iphone7-9@retina4
 # iPhone Portrait iOS 8,9
 convert-splash 1242 2208 $NAME-iphone8-9@retina-hd5-5
 convert-splash 750 1334  $NAME-iphone8-9@retina-hd4-7
+
+# iPhone X Portrait iOS 11+
+convert-splash 1125 2436 $NAME-phone11@iphone-x
