@@ -64,10 +64,8 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
-	// do not extend under nav bar on iOS 7
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-		self.edgesForExtendedLayout = UIRectEdgeNone;
-	}
+	// do not extend under nav bar
+	self.edgesForExtendedLayout = UIRectEdgeNone;
 
 	_rotation = 0;
 	activeTouches = [[NSMutableDictionary alloc] init];
@@ -305,7 +303,6 @@
 
 #pragma mark UISplitViewControllerDelegate
 
-// iOS 6 & 7
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController {
 
 	if([Util isDeviceATablet]) {
@@ -393,9 +390,7 @@
 			self.controlsPopover = nil;
 			
 			// make sure the color is black as it might have been white in a popover
-			if([Util deviceOSVersion] >= 7.0) {
-				self.controlsView.lightBackground = NO;
-			}
+			self.controlsView.lightBackground = NO;
 			
 			// create nav button if the scene has any info to show
 			if(self.sceneManager.scene.hasInfo) {
@@ -403,12 +398,7 @@
 																						  style:UIBarButtonItemStylePlain
 																						 target:self
 																						action:@selector(infoNavButtonPressed:)];
-				if([Util deviceOSVersion] >= 7.0) {
-					self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"info"];
-				}
-				else { // light button on iOS 6
-					self.navigationItem.rightBarButtonItem.image = [Util image:[UIImage imageNamed:@"info"] withTint:[UIColor whiteColor]];
-				}
+				self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"info"];
 				if(!self.navigationItem.rightBarButtonItem.image) { // fallback
 					self.navigationItem.rightBarButtonItem.title = @"Info";
 				}
@@ -436,22 +426,15 @@
 		if(!self.controlsPopover && self.sceneManager.scene) {
 			[self.controlsView removeFromSuperview];
 			
-			// white background for pop over on iOS 7, otherwise black
-			if([Util deviceOSVersion] >= 7.0) {
-				self.controlsView.lightBackground = YES;
-			}
+			// white background for popover
+			self.controlsView.lightBackground = YES;
 			
 			// create nav button
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil
 																					  style:UIBarButtonItemStylePlain
 																					 target:self
 																					 action:@selector(controlsNavButtonPressed:)];
-			if([Util deviceOSVersion] >= 7.0) {
-				self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"controls"];
-			}
-			else { // light button on iOS 6
-				self.navigationItem.rightBarButtonItem.image = [Util image:[UIImage imageNamed:@"controls"] withTint:[UIColor whiteColor]];
-			}
+			self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"controls"];
 			
 			if(!self.navigationItem.rightBarButtonItem.image) { // fallback
 				self.navigationItem.rightBarButtonItem.title = @"Controls";

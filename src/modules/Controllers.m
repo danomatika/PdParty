@@ -228,27 +228,22 @@
 }
 
 - (void)indexTimer:(NSTimer *)timer {
-	if([Util deviceOSVersion] >= 8.0) {
-		switch(self.index) {
-			case 0:
-				self.controller.playerIndex = GCControllerPlayerIndex1;
-				break;
-			case 1:
-				self.controller.playerIndex = GCControllerPlayerIndex2;
-				break;
-			case 2:
-				self.controller.playerIndex = GCControllerPlayerIndex3;
-				break;
-			case 3:
-				self.controller.playerIndex = GCControllerPlayerIndex4;
-				break;
-			default:
-				self.controller.playerIndex = GCControllerPlayerIndexUnset;
-				break;
-		}
-	}
-	else {
-		self.controller.playerIndex = index;
+	switch(self.index) {
+		case 0:
+			self.controller.playerIndex = GCControllerPlayerIndex1;
+			break;
+		case 1:
+			self.controller.playerIndex = GCControllerPlayerIndex2;
+			break;
+		case 2:
+			self.controller.playerIndex = GCControllerPlayerIndex3;
+			break;
+		case 3:
+			self.controller.playerIndex = GCControllerPlayerIndex4;
+			break;
+		default:
+			self.controller.playerIndex = GCControllerPlayerIndexUnset;
+			break;
 	}
 }
 

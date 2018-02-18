@@ -16,18 +16,6 @@
 
 #import "Util.h"
 
-// allow UIPopoverController on iPhone in iOS 6 & 7
-// from http://stackoverflow.com/questions/14787765/uipopovercontroller-for-iphone-not-working
-@interface UIPopoverController (iPhonePopover_override)
-+ (BOOL)_popoversDisabled;
-@end
-
-@implementation UIPopoverController (iPhonePopover_override)
-+ (BOOL)_popoversDisabled {
-	return NO; 
-}
-@end
-
 @interface Popover () <UIPopoverPresentationControllerDelegate> {
 	UIViewController *popover;
 }
@@ -53,82 +41,48 @@
                         inView:(UIView *)view
       permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections
                       animated:(BOOL)animated {
-	if([Util deviceOSVersion] < 8.0) {
-		UIPopoverController *p = [[UIPopoverController alloc] initWithContentViewController:self];
-		p.popoverContentSize = self.contentSize;
-		[p presentPopoverFromRect:rect inView:view permittedArrowDirections:arrowDirections animated:animated];
-		popover = (UIViewController *)p;
+	self.preferredContentSize = self.contentSize;
+	self.modalPresentationStyle = UIModalPresentationPopover;
+
+	UIPopoverPresentationController *ppc = [self popoverPresentationController];
+	ppc.permittedArrowDirections = arrowDirections;
+	ppc.sourceRect = rect;
+	ppc.sourceView = view;
+	if(self.backgroundColor) {
+		ppc.backgroundColor = self.backgroundColor;
 	}
-	else {
-		self.preferredContentSize = self.contentSize;
-		self.modalPresentationStyle = UIModalPresentationPopover;
-		
-		UIPopoverPresentationController *ppc = [self popoverPresentationController];
-		ppc.permittedArrowDirections = arrowDirections;
-		ppc.sourceRect = rect;
-		ppc.sourceView = view;
-		if(self.backgroundColor) {
-			ppc.backgroundColor = self.backgroundColor;
-		}
-		ppc.delegate = self;
-		
-		[self.sourceController presentViewController:self animated:animated completion:nil];
-		popover = self;
-	}
+	ppc.delegate = self;
+
+	[self.sourceController presentViewController:self animated:animated completion:nil];
+	popover = self;
 }
 
 - (void)presentPopoverFromBarButtonItem:(UIBarButtonItem *)item
                permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections
                                animated:(BOOL)animated {
-	if([Util deviceOSVersion] < 8.0) {
-		UIPopoverController *p = [[UIPopoverController alloc] initWithContentViewController:self];
-		p.popoverContentSize = self.contentSize;
-		[p presentPopoverFromBarButtonItem:item permittedArrowDirections:arrowDirections animated:animated];
-		popover = (UIViewController *)p;
+	self.view.frame = CGRectMake(0, 0, self.contentSize.width, self.contentSize.height);
+	self.preferredContentSize = self.contentSize;
+	self.modalPresentationStyle = UIModalPresentationPopover;
+
+	UIPopoverPresentationController *ppc = [self popoverPresentationController];
+	ppc.permittedArrowDirections = arrowDirections;
+	ppc.barButtonItem = item;
+	if(self.backgroundColor) {
+		ppc.backgroundColor = self.backgroundColor;
 	}
-	else {
-		self.view.frame = CGRectMake(0, 0, self.contentSize.width, self.contentSize.height);
-		self.preferredContentSize = self.contentSize;
-		self.modalPresentationStyle = UIModalPresentationPopover;
-		
-		UIPopoverPresentationController *ppc = [self popoverPresentationController];
-		ppc.permittedArrowDirections = arrowDirections;
-		ppc.barButtonItem = item;
-		if(self.backgroundColor) {
-			ppc.backgroundColor = self.backgroundColor;
-		}
-		ppc.delegate = self;
-		
-		[self.sourceController presentViewController:self animated:animated completion:nil];
-		popover = self;
-	}
+	ppc.delegate = self;
+
+	[self.sourceController presentViewController:self animated:animated completion:nil];
+	popover = self;
 }
 
 - (void)dismissPopoverAnimated:(BOOL)animated {
-	if([Util deviceOSVersion] < 8.0) {
-		UIPopoverController *p = (UIPopoverController *)popover;
-		if(p && p.popoverVisible) {
-			[p dismissPopoverAnimated:animated];
-		}
-	}
-	else {
-		[self dismissViewControllerAnimated:animated completion:nil];
-	}
+	[self dismissViewControllerAnimated:animated completion:nil];
 	popover = nil;
 }
 
 - (BOOL)popoverVisible {
-	BOOL ret = NO;
-	if(popover) {
-		if([Util deviceOSVersion] < 8.0) {
-			UIPopoverController *p = (UIPopoverController *)popover;
-			ret = p.popoverVisible;
-		}
-		else {
-			ret = YES;
-		}
-	}
-	return ret;
+	return (popover ? YES : NO);
 }
 
 #pragma mark UIPopoverPresentationControllerDelegate

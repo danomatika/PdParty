@@ -35,21 +35,12 @@
 	self.serverPortLabel.enabled = YES;
 	self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
 	self.serverPortTextField.enabled = YES;
-	
-	if([Util deviceOSVersion] >= 7.0) {
-		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-		                                         initWithImage:[UIImage imageNamed:@"info"]
-		                                         style:UIBarButtonItemStylePlain
-		                                         target:self
-		                                         action:@selector(infoPressed:)];
-	}
-	else { // light button on iOS 6
-		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-		                                         initWithImage:[Util image:[UIImage imageNamed:@"info"] withTint:[UIColor whiteColor]]
-		                                         style:UIBarButtonItemStylePlain
-		                                         target:self
-		                                         action:@selector(infoPressed:)];
-	}
+
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+	                                         initWithImage:[UIImage imageNamed:@"info"]
+	                                         style:UIBarButtonItemStylePlain
+	                                         target:self
+	                                         action:@selector(infoPressed:)];
 }
 
 - (void)dealloc {

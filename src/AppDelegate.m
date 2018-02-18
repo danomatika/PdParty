@@ -38,10 +38,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	
-	// light status bar text on iOS 7
-	if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-	}
+	// light status bar text
+	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 	
 	// setup split view on iPad
 	if([Util isDeviceATablet]) {

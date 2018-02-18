@@ -28,10 +28,8 @@
 		self.preferredContentSize = CGSizeMake(320.0, 600.0);
 	}
 	
-	// do not extend under nav bar on iOS 7
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-		self.edgesForExtendedLayout = UIRectEdgeNone;
-	}
+	// do not extend under nav bar
+	self.edgesForExtendedLayout = UIRectEdgeNone;
 	
 	self.textView = [[UITextView alloc] initWithFrame:CGRectZero];
 	self.textView.scrollEnabled = YES;

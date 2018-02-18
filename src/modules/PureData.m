@@ -543,7 +543,7 @@
 					}];
 				}
 				else {
-					// iOS <10
+					// iOS < 10
 					if(![[UIApplication sharedApplication] openURL:url]) {
 						DDLogError(@"PureData: could not open url: %@", url);
 					}

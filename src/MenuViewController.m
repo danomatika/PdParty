@@ -54,8 +54,8 @@
 	layout.minimumLineSpacing = PADDING;
 	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 	
-	// dark popups on iOS 6 & light popups otherwise
-	self.lightBackground = [Util deviceOSVersion] >= 7.0;
+	// light popups
+	self.lightBackground = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -152,21 +152,11 @@
 		button.layer.masksToBounds = YES;
 		button.layer.backgroundColor = [UIColor colorWithWhite:0.88 alpha:1.0].CGColor;
 		button.layer.cornerRadius = 5;
-		if([self.view respondsToSelector:@selector(setTintColor:)]) {
-			normalColor = self.view.tintColor;
-		}
-		else { // iOS 6
-			normalColor = [UIColor darkTextColor] ;
-		}
+		normalColor = self.view.tintColor;
 		selectedColor = [UIColor lightGrayColor];
 	}
 	else {
-		if([self.view respondsToSelector:@selector(setTintColor:)]) {
-			normalColor = self.view.tintColor;
-		}
-		else { // iOS 6
-			normalColor = self.lightBackground ? [UIColor darkTextColor] : [UIColor lightGrayColor];
-		}
+		normalColor = self.view.tintColor;
 		selectedColor = self.lightBackground ? [UIColor lightTextColor] : [UIColor darkGrayColor];
 	}
 	

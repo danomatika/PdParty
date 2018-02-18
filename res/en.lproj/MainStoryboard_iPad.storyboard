@@ -576,7 +576,6 @@
                         <outlet property="enableConsoleSwitch" destination="Ooa-CU-44h" id="y59-uR-Vf8"/>
                         <outlet property="latencyLabel" destination="3Re-3E-mMg" id="hgZ-jk-z57"/>
                         <outlet property="libFolderButton" destination="Fe4-TW-KH6" id="wRF-go-rRB"/>
-                        <outlet property="libFolderLeading" destination="5nT-gV-7om" id="ga9-vq-ZLT"/>
                         <outlet property="lockScreenDisabledSwitch" destination="A7k-nA-TCM" id="Qjq-la-cSW"/>
                         <outlet property="oscControllersEnabledSwitch" destination="r8E-aq-D5x" id="eEK-1v-NLU"/>
                         <outlet property="oscKeyEnabledSwitch" destination="V5i-Dw-GXW" id="Dhq-al-SFG"/>

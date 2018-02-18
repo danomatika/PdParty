@@ -227,7 +227,7 @@
 		return 320;
 	}
 	else { // smaller popups on iPhone
-		return ([Util deviceOSVersion] >= 8.0) ? 300 : 280;
+		return 300;
 	}
 }
 
@@ -401,12 +401,7 @@
 	if(!self.rightButton.image) {
 		self.rightButton.title = @"Record";
 	}
-	if([self respondsToSelector:@selector(setTintColor:)]) {
-		self.rightButton.tintColor = [self tintColor]; // should reset to global color
-	}
-	else { // iOS 6
-		self.rightButton.tintColor = [UIColor whiteColor];
-	}
+	self.rightButton.tintColor = [self tintColor]; // should reset to global color
 }
 
 - (void)rightButtonToStopRecord {

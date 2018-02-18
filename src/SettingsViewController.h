@@ -46,9 +46,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *samplesFolderButton;
 @property (weak, nonatomic) IBOutlet UIButton *testsFolderButton;
 
-// for iOS 6
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *libFolderLeading;
-
 - (IBAction)copyDefaultFolder:(id)sender;
 
 @end
