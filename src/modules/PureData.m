@@ -79,7 +79,7 @@
 
 		// setup display link for faster message polling
 		updateLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMessages:)];
-		updateLink.preferredFramesPerSecond = 120;
+		updateLink.preferredFramesPerSecond = 60;
 		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 	}
 	return self;
