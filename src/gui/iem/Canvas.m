@@ -49,10 +49,10 @@
 
 	// bounds, scale by true horz AND vert scaling as this looks better at bad aspect ratios/orientations
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
-		round(self.originalFrame.size.width * self.gui.scaleX),
-		round(self.originalFrame.size.height * self.gui.scaleY));
+		roundf(self.originalFrame.origin.x * self.gui.scaleX + self.gui.offsetX),
+		roundf(self.originalFrame.origin.y * self.gui.scaleY + self.gui.offsetY),
+		roundf(self.originalFrame.size.width * self.gui.scaleX),
+		roundf(self.originalFrame.size.height * self.gui.scaleY));
 
 	// label
 	[self reshapeLabel];

@@ -36,6 +36,10 @@
 
 @property (assign, readwrite) float scaleX;
 @property (assign, readwrite) float scaleY;
+@property (assign, readwrite) float scaleFont;
+
+//@property (assign, readwrite) int offsetX;
+//@property (assign, readwrite) int offsetY;
 
 // add other objects and print warnings for non-compatible objects
 - (void)addObject:(NSArray *)atomLine atLevel:(int)level;
@@ -48,10 +52,15 @@
 	self = [super init];
     if(self) {
 		self.widgets = [[NSMutableArray alloc] init];
+		self.patchWidth = 1;
+		self.patchHeight = 1;
 		self.fontName = nil; // sets default font
 		self.fontSize = 10;
 		self.scaleX = 1.0;
 		self.scaleY = 1.0;
+		self.scaleFont = 1.0;
+		self.offsetX = 0.0;
+		self.offsetY = 0.0;
     }
     return self;
 }
@@ -204,13 +213,8 @@
 					}
 					else {
 						// set pd gui to ios gui scale amount based on relative sizes
-						self.scaleX = self.parentViewSize.width / self.patchWidth;
-						self.scaleY = self.parentViewSize.height / self.patchHeight;
+						self.parentViewSize = _parentViewSize;
 					}
-					
-					// sanity check
-					if(self.scaleX <= 0) {self.scaleX = 1.0;}
-					if(self.scaleY <= 0) {self.scaleY = 1.0;}
 				}
 			}
 			else if([lineType isEqualToString:@"restore"]) {
@@ -315,8 +319,48 @@
 
 - (void)setParentViewSize:(CGSize)parentViewSize {
 	_parentViewSize = parentViewSize;
+
 	self.scaleX = self.parentViewSize.width / self.patchWidth;
 	self.scaleY = self.parentViewSize.height / self.patchHeight;
+	self.offsetX = 0;
+	self.offsetY = 0;
+
+	// sanity check
+	if(self.scaleX <= 0) {self.scaleX = 1.0;}
+	if(self.scaleY <= 0) {self.scaleY = 1.0;}
+	self.scaleFont = self.scaleX;
+
+	// offset and size to keep aspect ratio
+	//if(self.parentViewSize.height > self.parentViewSize.width) {
+		// portrait view
+//		if(self.patchHeight > self.patchWidth) {
+//			// portrait patch: move down
+//			self.scaleY = self.scaleX;
+//			self.scaleFont = self.scaleX;
+//			//self.offsetY = floorf((self.parentViewSize.height - (float)self.patchHeight*self.scaleY) / 2);
+//		}
+//		else {
+//			// landscape patch: rotated, move right
+//			self.scaleX = self.scaleY;
+//			self.scaleFont = self.scaleY;
+//			//self.offsetX = floorf((self.parentViewSize.height - (float)self.patchWidth*self.scaleX) / 2);
+//		}
+//	}
+//	else {
+//		// landscape view
+//		if(self.patchHeight > self.patchWidth) {
+//			// portrait patch: rotated, move down
+//			self.scaleY = self.scaleX;
+//			self.scaleFont = self.scaleX;
+//			//self.offsetY = floorf((self.parentViewSize.width - (float)self.patchHeight*self.scaleY) / 2);
+//		}
+//		else {
+//			// landscape patch: move right
+//			self.scaleX = self.scaleY;
+//			self.scaleFont = self.scaleY;
+//			//self.offsetX = floorf((self.parentViewSize.width - (float)self.patchWidth*self.scaleX) / 2);
+//		}
+//	}
 }
 
 - (void)setFontName:(NSString *)fontName {

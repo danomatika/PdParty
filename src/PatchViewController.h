@@ -27,7 +27,10 @@
 /// popup grid of menu buttons
 @property (strong, nonatomic) MenuViewController *menuViewController;
 
-/// loaded background image, used if scene didn;t load or there is no scene
+/// loaded patch canvas, contains gui widgets
+@property (strong, nonatomic) UIView *canvas;
+
+/// loaded background image, used if scene didn't load or there is no scene
 @property (strong, nonatomic) UIImageView *background;
 
 /// is the master view popover on iPad visible?

@@ -43,18 +43,18 @@
 	// bounds based on computed label size
 	if(self.centered) {
 		self.frame = CGRectMake(0, 0,
-			round(CGRectGetWidth(self.label.frame)),
-			round(CGRectGetHeight(self.label.frame)));
+			roundf(CGRectGetWidth(self.label.frame)),
+			roundf(CGRectGetHeight(self.label.frame)));
 		self.center = CGPointMake(
-			round(self.originalFrame.origin.x * self.parentScene.scale),
-			round(self.originalFrame.origin.y * self.parentScene.scale));
+			roundf(self.originalFrame.origin.x * self.parentScene.scale),
+			roundf(self.originalFrame.origin.y * self.parentScene.scale));
 	}
 	else {
 		self.frame = CGRectMake(
-			round(self.originalFrame.origin.x * self.parentScene.scale),
-			round(self.originalFrame.origin.y * self.parentScene.scale),
-			round(CGRectGetWidth(self.label.frame)),
-			round(CGRectGetHeight(self.label.frame)));
+			roundf(self.originalFrame.origin.x * self.parentScene.scale),
+			roundf(self.originalFrame.origin.y * self.parentScene.scale),
+			roundf(CGRectGetWidth(self.label.frame)),
+			roundf(CGRectGetHeight(self.label.frame)));
 	}
 	
 	// fix blurry label text

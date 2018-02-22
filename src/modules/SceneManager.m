@@ -162,7 +162,7 @@
 	if(!self.scene) {
 		return;
 	}
-		
+
 	// do animations if gui has already been setup once
 	// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
 	if(hasReshaped) {

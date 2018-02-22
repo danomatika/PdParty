@@ -62,7 +62,7 @@
 - (void)reshape {
 	
 	// value label
-	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleX];
+	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:(self.gui.fontSize * self.gui.scaleFont)];
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.valueLabel.font}]; // assumes monspaced font
 	charSize.width = ceilf(charSize.width);
 	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
@@ -77,15 +77,15 @@
 	else if(valueLabelFrame.size.width < charSize.width*3) { // min zero width of 3
 		valueLabelFrame.size.width = charSize.width*3;
 	}
-	valueLabelFrame.origin = CGPointMake(round(self.gui.scaleX), round(self.gui.scaleX));
+	valueLabelFrame.origin = CGPointMake(floorf(self.gui.scaleX), floorf(self.gui.scaleY));
 	self.valueLabel.frame = valueLabelFrame;
 	
 	// bounds from value label size, zero width atoms are slightly taller
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) + (3 * self.gui.scaleX)),
-		round(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 3 : 2) * self.gui.scaleX)));
+		floorf(self.originalFrame.origin.x * self.gui.scaleX),
+		floorf(self.originalFrame.origin.y * self.gui.scaleY),
+		floorf(CGRectGetWidth(self.valueLabel.frame) + (3 * self.gui.scaleX)),
+		floorf(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 3 : 2) * self.gui.scaleX)));
 	cornerSize = 4 * self.gui.scaleX;
 
 	// label
@@ -96,20 +96,20 @@
 	int labelPosX, labelPosY;
 	switch(self.labelPos) {
 		default: // 0 LEFT
-			labelPosX = -self.label.frame.size.width - (2 * self.gui.scaleX);
-			labelPosY = 2 * self.gui.scaleX;
+			labelPosX = floorf(-self.label.frame.size.width - (2 * self.gui.scaleX));
+			labelPosY = floorf(2 * self.gui.scaleX);
 			break;
 		case 1: // RIGHT
-			labelPosX = self.frame.size.width + (2 * self.gui.scaleX);
-			labelPosY = 2 * self.gui.scaleX;
+			labelPosX = ceilf(self.frame.size.width + (2 * self.gui.scaleX));
+			labelPosY = ceilf(2 * self.gui.scaleX);
 			break;
 		case 2: // TOP
 			labelPosX = 0;
-			labelPosY = -self.label.frame.size.height - (2 * self.gui.scaleX);
+			labelPosY = ceilf(-self.label.frame.size.height - (2 * self.gui.scaleY));
 			break;
 		case 3: // BOTTOM
 			labelPosX = 0;
-			labelPosY = self.frame.size.height + (2 * self.gui.scaleX);
+			labelPosY = floorf(self.frame.size.height  + (2 * self.gui.scaleY));
 			break;
 	}
 	

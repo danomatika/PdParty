@@ -1,4 +1,4 @@
-#N canvas 436 68 313 398 10;
+#N canvas 436 68 289 398 10;
 #X floatatom 65 16 5 0 0 0 number number-in number-out, f 5;
 #X symbolatom 65 46 10 0 0 0 symbol symbol-out -, f 10;
 #X text 62 84 comment;

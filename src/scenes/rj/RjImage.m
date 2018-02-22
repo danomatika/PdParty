@@ -50,18 +50,18 @@
 	self.transform = CGAffineTransformIdentity;
 	if(self.centered) {
 		self.frame = CGRectMake(0, 0,
-			round(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
-			round(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
+			roundf(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
+			roundf(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
 		self.center = CGPointMake(
-			round(self.originalFrame.origin.x * self.parentScene.scale),
-			round(self.originalFrame.origin.y * self.parentScene.scale));
+			roundf(self.originalFrame.origin.x * self.parentScene.scale),
+			roundf(self.originalFrame.origin.y * self.parentScene.scale));
 	}
 	else {
 		self.frame = CGRectMake(
-			round(self.originalFrame.origin.x * self.parentScene.scale),
-			round(self.originalFrame.origin.y * self.parentScene.scale),
-			round(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
-			round(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
+			roundf(self.originalFrame.origin.x * self.parentScene.scale),
+			roundf(self.originalFrame.origin.y * self.parentScene.scale),
+			roundf(self.originalFrame.size.width * self.parentScene.scale * self.scaleX),
+			roundf(self.originalFrame.size.height * self.parentScene.scale * self.scaleY));
 	}
 	self.image.frame = self.bounds;
 	self.transform = CGAffineTransformMakeRotation(self.angle * (M_PI/180.f));

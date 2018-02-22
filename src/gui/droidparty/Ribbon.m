@@ -61,11 +61,11 @@
 	CGContextStrokeRect(context, CGRectMake(0, 0, CGRectGetWidth(rect)-1, CGRectGetHeight(rect)-1));
 	
 	// control
-	float leftEdge = round(2 * self.gui.scaleX), rightEdge = round(CGRectGetWidth(rect)-1 - leftEdge);
-	float left = CLAMP(round(self.value2 * CGRectGetWidth(rect)-1), leftEdge, rightEdge);
-	float right = CLAMP(round(self.value * CGRectGetWidth(rect)-1), leftEdge, rightEdge);
+	float leftEdge = roundf(2 * self.gui.scaleX), rightEdge = roundf(CGRectGetWidth(rect)-1 - leftEdge);
+	float left = CLAMP(roundf(self.value2 * CGRectGetWidth(rect)-1), leftEdge, rightEdge);
+	float right = CLAMP(roundf(self.value * CGRectGetWidth(rect)-1), leftEdge, rightEdge);
 	CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
-	CGContextFillRect(context, CGRectMake(left, 0.5, MAX(round(fabsf(right-left)), leftEdge), CGRectGetHeight(rect)-1));
+	CGContextFillRect(context, CGRectMake(left, 0.5, MAX(roundf(fabsf(right-left)), leftEdge), CGRectGetHeight(rect)-1));
 }
 
 #pragma mark Overridden Getters / Setters

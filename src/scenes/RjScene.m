@@ -124,9 +124,9 @@
 		backgroundSize.height = backgroundSize.width;
 	}
 	else {
-		backgroundSize.width = round(viewSize.height * 0.8);
+		backgroundSize.width = roundf(viewSize.height * 0.8);
 		backgroundSize.height = backgroundSize.width;
-		xPos = round((viewSize.width - backgroundSize.width)/2);
+		xPos = roundf((viewSize.width - backgroundSize.width)/2);
 	}
 	
 	// set background

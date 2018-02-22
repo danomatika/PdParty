@@ -408,7 +408,7 @@
 			return 1;
 		}
 	}
-	angle -= floor(angle);
+	angle -= floorf(angle);
 	return angle;
 }
 
@@ -424,7 +424,7 @@
 
 // returns the fractional part of a given number
 - (float)fract:(float)f {
-	return f - floor(f);
+	return f - floorf(f);
 }
 
 @end

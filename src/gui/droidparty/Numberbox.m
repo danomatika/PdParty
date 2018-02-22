@@ -85,21 +85,21 @@
 
 	// bounds (from Widget)
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
-		round(self.originalFrame.size.width * self.gui.scaleX),
-		round(self.originalFrame.size.height * self.gui.scaleX));
+		roundf(self.originalFrame.origin.x * self.gui.scaleX + self.gui.offsetX),
+		roundf(self.originalFrame.origin.y * self.gui.scaleY + self.gui.offsetY),
+		roundf(self.originalFrame.size.width * self.gui.scaleX),
+		roundf(self.originalFrame.size.height * self.gui.scaleY));
 	
 	// value label
 	[self reshapeValueLabel];
 }
 
 - (void)reshapeValueLabel {
-	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
+	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:(int)roundf(CGRectGetHeight(self.frame) * 0.75)];
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.valueLabel.font}]; // assumes monspaced font
 	self.valueLabel.preferredMaxLayoutWidth = ceilf(charSize.width) * (self.valueWidth == 0 ? 3 : self.valueWidth);
 	[self.valueLabel sizeToFit];
-	self.valueLabel.center = CGPointMake(round(CGRectGetWidth(self.frame)/2), round(CGRectGetHeight(self.frame)/2));
+	self.valueLabel.center = CGPointMake(roundf(CGRectGetWidth(self.frame)/2), roundf(CGRectGetHeight(self.frame)/2));
 }
 
 #pragma mark Overridden Getters / Setters

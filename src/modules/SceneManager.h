@@ -42,7 +42,7 @@
 /// close the current scene
 - (void)closeScene;
 
-/// reshape the gui elements to a give size
+/// reshape the gui elements to a given size
 - (void)reshapeToParentSize:(CGSize)size;
 
 /// update view pointers in case the patch view controller has changed

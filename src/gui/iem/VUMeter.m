@@ -80,9 +80,9 @@
 	CGContextSetLineWidth(context, 1.0);
 		
 	CGRect meterRect = CGRectMake(
-		0, floor((-2 * self.gui.scaleX) + yOffset),
-		round((CGRectGetWidth(self.originalFrame)) * self.gui.scaleX),
-		round((CGRectGetHeight(self.originalFrame) + 4) * self.gui.scaleX));
+		0, floorf((-2 * self.gui.scaleX) + yOffset),
+		roundf((CGRectGetWidth(self.originalFrame)) * self.gui.scaleX),
+		roundf((CGRectGetHeight(self.originalFrame) + 4) * self.gui.scaleX));
 	
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
@@ -94,17 +94,17 @@
 	
 	// from g_vumeter.c
 	int w4 = CGRectGetWidth(self.originalFrame) / 4,
-		quad1 = ceil(w4 * self.gui.scaleX);
-	int quad3 = floor((CGRectGetWidth(self.originalFrame) - w4) * self.gui.scaleX),
-		end = floor((CGRectGetWidth(self.originalFrame) + 2) * self.gui.scaleX);
+		quad1 = ceilf(w4 * self.gui.scaleX);
+	int quad3 = floorf((CGRectGetWidth(self.originalFrame) - w4) * self.gui.scaleX),
+		end = floorf((CGRectGetWidth(self.originalFrame) + 2) * self.gui.scaleX);
 	int k1 = ledSize + 1, k2 = IEM_VU_STEPS + 1, k3 = k1 / 2;
 	int yyy, i, k4 = -k3;
 	
 	for(i = 1; i <= IEM_VU_STEPS; ++i) {
-		yyy = round(((k4 + k1 * (k2 - i)) * self.gui.scaleX) + yOffset);
+		yyy = roundf(((k4 + k1 * (k2 - i)) * self.gui.scaleX) + yOffset);
 		
 		// fat line for overlap since spacing between is not pixel perfect when scaling
-		CGContextSetLineWidth(context, ceil((ledSize + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleX));
+		CGContextSetLineWidth(context, ceilf((ledSize + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleX));
 		
 		// led bar
 		if(i == peakLed || i <= rmsLed) {
@@ -113,7 +113,7 @@
 			if(i == peakLed) {
 				CGContextMoveToPoint(context, 0, yyy);
 				CGContextAddLineToPoint(context,
-					round((CGRectGetWidth(self.originalFrame) * self.gui.scaleX)),
+					roundf((CGRectGetWidth(self.originalFrame) * self.gui.scaleX)),
 					yyy);
 			}
 			else {
@@ -125,7 +125,7 @@
 				 
 		// scale
 		if(((i + 2) & 3) && self.showScale) {
-			yyy = round((k1 * (k2 - i)) * self.gui.scaleX);
+			yyy = roundf((k1 * (k2 - i)) * self.gui.scaleX);
 			NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
 			if(vuString.length > 0) {
 				CGPoint stringPos = CGPointMake(end, yyy);
@@ -157,22 +157,22 @@
 	// bounds from meter size + optional scale width
 	if(self.showScale) {
 		self.frame = CGRectMake(
-			round((self.originalFrame.origin.x - 1) * self.gui.scaleX),
-			round(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2)),
-			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
-			round(((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleX) + charSize.height));
+			roundf((self.originalFrame.origin.x - 1) * self.gui.scaleX + self.gui.offsetX),
+			roundf(((self.originalFrame.origin.y) * self.gui.scaleY) + self.gui.offsetY - (charSize.height / 2)),
+			roundf(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
+			roundf(((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleY) + charSize.height));
 	}
 	else {
 		self.frame = CGRectMake(
-			round((self.originalFrame.origin.x - 1) * self.gui.scaleX),
-			round(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2)),
-			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + 1),
-			round((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleX) + charSize.height);
+			roundf((self.originalFrame.origin.x - 1) * self.gui.scaleX + self.gui.offsetX),
+			roundf(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2) + self.gui.offsetY),
+			roundf(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + 1),
+			roundf((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleY) + charSize.height);
 	}
 
 	// shift label down slightly
 	CGRect labelFrame = self.label.frame;
-	labelFrame.origin.y += round(charSize.height / 4) + 1;
+	labelFrame.origin.y += roundf(charSize.height / 4) + 1;
 	self.label.frame = labelFrame;
 }
 

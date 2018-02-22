@@ -99,7 +99,7 @@
 }
 
 - (int)calculateLatency {
-	return round(((float)[self calculateBufferSize] / (float)audioController.sampleRate) * 2.0 * 1000);
+	return roundf(((float)[self calculateBufferSize] / (float)audioController.sampleRate) * 2.0 * 1000);
 }
 
 - (void)setAutoLatency:(BOOL)autoLatency {

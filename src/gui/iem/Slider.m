@@ -114,8 +114,8 @@
 			controlWidth = 7; // thick line in middle
 		}
 		CGContextSetLineWidth(context, controlWidth);
-		CGContextMoveToPoint(context, x, round(rect.origin.y));
-		CGContextAddLineToPoint(context, x, round(rect.origin.y+rect.size.height-1));
+		CGContextMoveToPoint(context, x, roundf(rect.origin.y));
+		CGContextAddLineToPoint(context, x, roundf(rect.origin.y+rect.size.height-1));
 		CGContextStrokePath(context);
 	}
 	else { // vertical
@@ -133,8 +133,8 @@
 			controlWidth = 7; // thick line in middle
 		}
 		CGContextSetLineWidth(context, controlWidth);
-		CGContextMoveToPoint(context, round(rect.origin.x), y);
-		CGContextAddLineToPoint(context, round(rect.origin.x+rect.size.width-1), y);
+		CGContextMoveToPoint(context, roundf(rect.origin.x), y);
+		CGContextAddLineToPoint(context, roundf(rect.origin.x+rect.size.width-1), y);
 		CGContextStrokePath(context);
 	}
 }

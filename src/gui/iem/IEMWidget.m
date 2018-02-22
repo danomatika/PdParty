@@ -37,11 +37,11 @@ int iemgui_modulo_color(int col);
 }
 
 - (void)reshapeLabel {
-	self.label.font = [UIFont fontWithName:[self fontNameFromStyle:self.labelFontStyle] size:self.labelFontSize * self.gui.scaleX];
+	self.label.font = [UIFont fontWithName:[self fontNameFromStyle:self.labelFontStyle] size:(self.labelFontSize * self.gui.scaleFont)];
 	[self.label sizeToFit];
 	self.label.frame = CGRectMake(
-		round(self.originalLabelPos.x * self.gui.scaleX),
-		round((self.originalLabelPos.y * self.gui.scaleY) - (self.labelFontSize * 0.5 * self.gui.scaleY)),
+		floorf(self.originalLabelPos.x * self.gui.scaleX),
+		floorf((self.originalLabelPos.y * self.gui.scaleY) - (self.labelFontSize * 0.5 * self.gui.scaleY)),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }

@@ -73,7 +73,7 @@
 	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
 	
 	// cells
-	int cellSize = round(self.size * self.gui.scaleX);
+	int cellSize = roundf(self.size * self.gui.scaleX);
 	for(int i = 0; i < self.numCells; ++i) {
 	
 		// bounds
@@ -91,10 +91,10 @@
 		
 		// selected?
 		if(i == (int)self.value) {
-			int buttonSize = floor(cellSize*0.25);
-			CGRect buttonRect = CGRectMake(floor(cellRect.origin.x + buttonSize),
-			                               floor(cellRect.origin.y + buttonSize),
-			                               ceil(cellSize*0.5), ceil(cellSize*0.5));
+			int buttonSize = floorf(cellSize*0.25);
+			CGRect buttonRect = CGRectMake(floorf(cellRect.origin.x + buttonSize),
+			                               floorf(cellRect.origin.y + buttonSize),
+			                               ceilf(cellSize*0.5), ceilf(cellSize*0.5));
 			CGContextSetFillColorWithColor(context, self.controlColor.CGColor);
 			CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 			CGContextFillRect(context, buttonRect);
@@ -104,20 +104,20 @@
 }
 
 - (void)reshape {
-	float cellSize = round(self.size * self.gui.scaleX);
+	float cellSize = roundf(self.size * self.gui.scaleX);
 	
 	// bounds
 	if(self.orientation == WidgetOrientationHorizontal) {
 		self.frame = CGRectMake(
-			round(self.originalFrame.origin.x * self.gui.scaleX),
-			round(self.originalFrame.origin.y * self.gui.scaleY),
-			round(self.numCells * cellSize) + 1, cellSize);
+			roundf(self.originalFrame.origin.x * self.gui.scaleX + self.gui.offsetX),
+			roundf(self.originalFrame.origin.y * self.gui.scaleY + self.gui.offsetY),
+			roundf(self.numCells * cellSize) + 1, cellSize);
 	}
 	else {
 		self.frame = CGRectMake(
-			round(self.originalFrame.origin.x * self.gui.scaleX),
-			round(self.originalFrame.origin.y * self.gui.scaleY),
-			cellSize, round(self.numCells * cellSize) + 1);
+			roundf(self.originalFrame.origin.x * self.gui.scaleX + self.gui.offsetX),
+			roundf(self.originalFrame.origin.y * self.gui.scaleY + self.gui.offsetY),
+			cellSize, roundf(self.numCells * cellSize) + 1);
 	}
 	
 	// label
@@ -157,10 +157,10 @@
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	if(self.orientation == WidgetOrientationHorizontal) {
-		self.value = pos.x/round(self.size * self.gui.scaleX);
+		self.value = pos.x/roundf(self.size * self.gui.scaleX);
 	}
 	else {
-		self.value = pos.y/round(self.size * self.gui.scaleX);
+		self.value = pos.y/roundf(self.size * self.gui.scaleX);
 	}
 	[self sendFloat:self.value];
 }

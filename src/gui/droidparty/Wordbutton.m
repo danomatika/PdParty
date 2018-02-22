@@ -75,10 +75,10 @@
 	[super reshape];
 
 	// label
-	self.label.font = [UIFont fontWithName:self.gui.fontName size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
-	self.label.preferredMaxLayoutWidth = round(CGRectGetWidth(self.frame) * 0.75);
+	self.label.font = [UIFont fontWithName:self.gui.fontName size:(int)roundf(CGRectGetHeight(self.frame) * 0.75)];
+	self.label.preferredMaxLayoutWidth = roundf(CGRectGetWidth(self.frame) * 0.75);
 	[self.label sizeToFit];
-	self.label.center = CGPointMake(round(CGRectGetWidth(self.frame)/2), round(CGRectGetHeight(self.frame)/2));
+	self.label.center = CGPointMake(roundf(CGRectGetWidth(self.frame)/2), roundf(CGRectGetHeight(self.frame)/2));
 }
 
 #pragma mark Overridden Getters / Setters

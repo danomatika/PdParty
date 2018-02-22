@@ -27,7 +27,7 @@
 
 @property (strong, nonatomic) NSMutableArray *widgets; //< widget array
 
-/// current view size, used to determine screen scaling
+/// current view size, used to determine screen scaling and offset
 @property (assign, nonatomic) CGSize parentViewSize;
 
 /// pixel size of original pd patch
@@ -41,9 +41,17 @@
 /// font size loaded from patch
 @property (assign, readonly, nonatomic) int fontSize;
 
-/// scale amount between view bounds and original patch size, calculated when bounds is set
+/// scale amount between view bounds and original patch size,
+/// calculated when parentViewSize is set
 @property (assign, readonly, nonatomic) float scaleX;
 @property (assign, readonly, nonatomic) float scaleY;
+
+@property (assign, readonly, nonatomic) float scaleFont;
+
+/// origin offset based on scaling,
+/// calculated when parentViewSize is set
+@property (assign, readwrite, nonatomic) int offsetX;
+@property (assign, readwrite, nonatomic) int offsetY;
 
 #pragma mark Add Widgets
 

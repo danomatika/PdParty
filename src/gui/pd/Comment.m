@@ -66,7 +66,7 @@
 - (void)reshape {
 
 	// label
-	self.label.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleX];
+	self.label.font = [UIFont fontWithName:self.gui.fontName size:(self.gui.fontSize * self.gui.scaleFont)];
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monspaced font
 	charSize.width = ceilf(charSize.width);
 	charSize.height = ceilf(charSize.height);
@@ -92,8 +92,8 @@
 
 	// bounds based on computed label size
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
+		roundf(self.originalFrame.origin.x * self.gui.scaleX + self.gui.offsetX),
+		roundf(self.originalFrame.origin.y * self.gui.scaleY + self.gui.offsetY),
 		CGRectGetWidth(self.label.frame),
 		CGRectGetHeight(self.label.frame));
 }

@@ -87,11 +87,11 @@
 }
 
 - (void)reshapeLabel {
-	self.label.font = [UIFont fontWithName:self.gui.fontName size:(int)round(CGRectGetHeight(self.frame) * 0.75)];
-	self.label.preferredMaxLayoutWidth = round(CGRectGetWidth(self.frame) * 0.75);
+	self.label.font = [UIFont fontWithName:self.gui.fontName size:(int)roundf(CGRectGetHeight(self.frame) * 0.75)];
+	self.label.preferredMaxLayoutWidth = roundf(CGRectGetWidth(self.frame) * 0.75);
 	self.label.frame = CGRectMake(
-		round(CGRectGetWidth(self.frame) * 0.125), round(CGRectGetHeight(self.frame) * 0.125),
-		round(CGRectGetWidth(self.frame) * 0.75), round(CGRectGetHeight(self.frame) * 0.75));
+		roundf(CGRectGetWidth(self.frame) * 0.125), roundf(CGRectGetHeight(self.frame) * 0.125),
+		roundf(CGRectGetWidth(self.frame) * 0.75), roundf(CGRectGetHeight(self.frame) * 0.75));
 }
 
 - (void)setup {

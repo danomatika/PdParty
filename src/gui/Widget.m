@@ -94,10 +94,10 @@
 // override for custom redraw
 - (void)reshape {
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
-		round(self.originalFrame.size.width * self.gui.scaleX),
-		round(self.originalFrame.size.height * self.gui.scaleX));
+		floorf(self.originalFrame.origin.x * self.gui.scaleX + self.gui.offsetX),
+		floorf(self.originalFrame.origin.y * self.gui.scaleY +  self.gui.offsetY),
+		floorf(self.originalFrame.size.width * self.gui.scaleX),
+		floorf(self.originalFrame.size.height * self.gui.scaleY));
 }
 
 - (void)cleanup {

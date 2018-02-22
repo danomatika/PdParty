@@ -91,6 +91,10 @@
 	if(![Util isDeviceATablet]) {
 		self.navigationItem.title = self.sceneManager.scene.name;
 	}
+
+	// add widget canvas
+	self.canvas = [[UIView alloc] initWithFrame:self.view.bounds];
+	[self.view addSubview:self.canvas];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -115,16 +119,34 @@
 
 // called when view bounds change (after rotations, etc)
 - (void)viewDidLayoutSubviews {
-	
+	DDLogInfo(@"PatchViewController: did layout subviews");
 	// update background, if set
 	if(self.background) {
 		self.background.frame = self.view.bounds;
 	}
 	
 	// update parent, orient, and reshape scene
-	[self.sceneManager updateParent:self.view];
+	[self.sceneManager updateParent:self.canvas];
 	[self checkOrientation];
-	[self.sceneManager reshapeToParentSize:self.view.bounds.size];
+	if(self.sceneManager) {
+	float aspect = self.sceneManager.gui.patchWidth / self.sceneManager.gui.patchHeight;
+	if(aspect < 1) {
+		// portrait
+		self.canvas.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width/aspect);
+	}
+	else {
+		// landscape
+		self.canvas.frame = CGRectMake(0, 0, self.view.bounds.size.height/aspect, self.view.bounds.size.width);
+	}
+	}
+//	CGSize size;
+//	if(aspect > 1) {
+//		size = CGSizeMake(floorf(self.view.bounds.size.width / self.sceneManager.gui.scaleX),
+//						  floorf(self.view.bounds.size.height / self.sceneManager.gui.scaleY));
+//	}
+//	self.canvas.frame = CGRectMake(0, 0, size.width, size.height);
+	self.canvas.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
+	[self.sceneManager reshapeToParentSize:self.canvas.bounds.size];
 
 	// update on screen controls
 	[self updateControls];
@@ -161,7 +183,7 @@
 		self.sceneManager = app.sceneManager;
 	}
 	
-	if([self.sceneManager openScene:path withType:type forParent:self.view]) {
+	if([self.sceneManager openScene:path withType:type forParent:self.canvas]) {
 		
 		// does the scene need key events?
 		grabber.active = self.sceneManager.scene.requiresKeys;

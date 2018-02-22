@@ -139,17 +139,17 @@
 		valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
 	}
 	valueLabelFrame.origin = CGPointMake(
-		round((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * self.gui.scaleX),
-		round(((CGRectGetHeight(self.originalFrame) * 0.5 + 0.5) * self.gui.scaleX) -
+		roundf((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * self.gui.scaleX),
+		roundf(((CGRectGetHeight(self.originalFrame) * 0.5 + 0.5) * self.gui.scaleY) -
 			  CGRectGetHeight(self.valueLabel.frame) * 0.5));
 	self.valueLabel.frame = valueLabelFrame;
 	
 	// width from value label
 	CGRect frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) + self.valueLabel.frame.origin.x + (4 * self.gui.scaleX)),
-		round(CGRectGetHeight(self.originalFrame) * self.gui.scaleX));
+		roundf(self.originalFrame.origin.x * self.gui.scaleX + self.gui.offsetX),
+		roundf(self.originalFrame.origin.y * self.gui.scaleY + self.gui.offsetY),
+		roundf(CGRectGetWidth(self.valueLabel.frame) + self.valueLabel.frame.origin.x + (4 * self.gui.scaleX)),
+		roundf(CGRectGetHeight(self.originalFrame) * self.gui.scaleY));
 	self.frame = frame;
 	cornerSize = 4 * self.gui.scaleX;
 
