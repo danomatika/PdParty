@@ -119,7 +119,7 @@
 	if([self.scene open:path]) {
 		[self startRequiredSensors];
 		self.controllers.enabled = self.scene.requiresControllers;
-		DDLogInfo(@"SceneManager: opened %@", self.scene.name);
+		DDLogVerbose(@"SceneManager: opened %@", self.scene.name);
 	}
 	
 	// turn up volume & turn on transport, update gui
