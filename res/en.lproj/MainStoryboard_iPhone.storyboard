@@ -436,29 +436,53 @@
                             </tableViewSection>
                             <tableViewSection id="1LW-lf-t93">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="9eS-Ui-eMy">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="9eS-Ui-eMy">
                                         <rect key="frame" x="0.0" y="251" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9eS-Ui-eMy" id="Yrr-vh-Vp7">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cGG-JV-W1Z">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Play through earpiece speaker" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DeT-1q-L9Z">
+                                                    <rect key="frame" x="16" y="11" width="210" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="q94-nJ-rvJ">
+                                                    <rect key="frame" x="255" y="6" width="49" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="earpieceChanged:" destination="aTA-Ed-lni" eventType="valueChanged" id="1LC-Ng-WJ2"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Jgg-fn-1Du">
+                                        <rect key="frame" x="0.0" y="295" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jgg-fn-1Du" id="7Gg-i6-FKJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kdP-gf-Zlq">
                                                     <rect key="frame" x="112" y="7" width="97" height="30"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="tgK-au-jNG"/>
+                                                        <constraint firstAttribute="height" constant="30" id="mhy-jN-cFu"/>
                                                     </constraints>
                                                     <state key="normal" title="Restart Scene">
                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="restartScene:" destination="aTA-Ed-lni" eventType="touchUpInside" id="1gw-6B-Vkj"/>
+                                                        <action selector="restartScene:" destination="aTA-Ed-lni" eventType="touchUpInside" id="df5-nf-oal"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="cGG-JV-W1Z" secondAttribute="centerY" id="1TE-VE-moo"/>
-                                                <constraint firstAttribute="centerX" secondItem="cGG-JV-W1Z" secondAttribute="centerX" id="AbY-Xk-cO3"/>
+                                                <constraint firstAttribute="centerX" secondItem="kdP-gf-Zlq" secondAttribute="centerX" id="42y-83-GJd"/>
+                                                <constraint firstAttribute="centerY" secondItem="kdP-gf-Zlq" secondAttribute="centerY" id="skx-bv-bks"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
@@ -476,6 +500,7 @@
                         <outlet property="artistLabel" destination="jYX-jZ-IEX" id="qUo-ps-Njc"/>
                         <outlet property="categoryLabel" destination="HHF-Ix-bfj" id="G31-rC-bqb"/>
                         <outlet property="descriptionTextView" destination="Vp4-bh-ZKM" id="aju-0U-WSp"/>
+                        <outlet property="earpieceSwitch" destination="q94-nJ-rvJ" id="SYL-Nd-2Um"/>
                         <outlet property="nameLabel" destination="QBp-vd-lBY" id="1I3-c9-r89"/>
                     </connections>
                 </tableViewController>

@@ -17,17 +17,23 @@
 /// to indicate menu horizontal scroll
 @interface MenuViewController : UICollectionViewController
 
-@property (weak, nonatomic) Popover *popover; //< containing popover
+/// containing popover
+@property (weak, nonatomic) Popover *popover;
 
-@property (assign, nonatomic) int cellSize; //< width & height for a single cell
+/// width & height for a single cell
+@property (assign, nonatomic) int cellSize;
 
-@property (readonly, nonatomic) int height; //< row height including padding
+/// row height including padding
+@property (readonly, nonatomic) int height;
 
 /// use a light background?
 @property (assign, nonatomic) BOOL lightBackground;
 
 /// the current background color
 @property (readonly, nonatomic) UIColor *backgroundColor;
+
+/// how many buttons are shown by default: restart, speaker?, console?, etc
+@property (readonly, nonatomic) int numDefaultButtons;
 
 #pragma Layout
 

@@ -16,7 +16,7 @@
 #import "Osc.h"
 #import "Sensors.h"
 #import "Controllers.h"
-#import "PdAudioController.h"
+#import "PartyAudioController.h"
 #import "Externals.h"
 #import "Util.h"
 
@@ -25,7 +25,7 @@
 #import "g_canvas.h"
 
 @interface PureData () {
-	PdAudioController *audioController;
+	PartyAudioController *audioController;
 	PdFile *playbackPatch;
 	CADisplayLink *updateLink;
 }
@@ -35,13 +35,12 @@
 
 @implementation PureData
 
-@synthesize audioEnabled;
-
 - (id)init {
 	self = [super init];
 	if(self) {
-		_autoLatency = [[NSUserDefaults standardUserDefaults] floatForKey:@"autoLatency"];
-		self.micVolume = [[NSUserDefaults standardUserDefaults] floatForKey:@"micVolume"];
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		_autoLatency = [defaults floatForKey:@"autoLatency"];
+		_micVolume = [defaults floatForKey:@"micVolume"];
 		_volume = 1.0;
 		_playing = YES;
 		_recording = NO;
@@ -49,12 +48,13 @@
 		_looping = NO;
 
 		// configure a typical audio session with 2 output channels
-		audioController = [[PdAudioController alloc] init];
+		audioController = [[PartyAudioController alloc] init];
+		audioController.earpieceSpeaker = [defaults boolForKey:@"earpieceSpeakerEnabled"];
 		self.sampleRate = PARTY_SAMPLERATE;
 		if(ddLogLevel >= DDLogLevelVerbose) {
 			[audioController print];
 		}
-		
+
 		// set dispatcher delegate
 		self.dispatcher = [[PureDataDispatcher alloc] init];
 		[PdBase setDelegate:self.dispatcher pollingEnabled:NO];
@@ -73,9 +73,10 @@
 		// open "external patches" that always run in the background
 		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/pd"]];
 	
-		// set ticks per buffer after everything else is set up, setting a tpb of 1 too early results in no audio
-		// and feedback until it is changed ... this fixes that
-		self.ticksPerBuffer = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"ticksPerBuffer"];
+		// set ticks per buffer after everything else is set up, setting a tpb
+		// of 1 too early results in no audio and feedback until it is changed,
+		// this fixes that
+		self.ticksPerBuffer = (int)[defaults integerForKey:@"ticksPerBuffer"];
 
 		// setup display link for faster message polling
 		updateLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMessages:)];
@@ -636,7 +637,7 @@
 		[self setTicksPerBuffer:1];
 		DDLogVerbose(@"PureData: caught 0 ticksPerBuffer after sampleRate change, setting to 1");
 	}
-	
+
 	audioController.active = YES;
 }
 
@@ -674,6 +675,15 @@
 	if(audioController.active == enabled) return;
 	audioController.active = enabled;
 	updateLink.paused = !enabled;
+}
+
+- (BOOL)earpieceSpeaker {
+	return audioController.earpieceSpeaker;
+}
+
+- (void)setEarpieceSpeaker:(BOOL)earpieceSpeaker {
+	audioController.earpieceSpeaker = earpieceSpeaker;
+	[[NSUserDefaults standardUserDefaults] setBool:earpieceSpeaker forKey:@"earpieceSpeakerEnabled"];
 }
 
 - (void)setPlaying:(BOOL)playing {
@@ -835,6 +845,22 @@ static NSNumberFormatter *s_numFormatter = nil;
 		}
 	}
 	return data;
+}
+
+// AVAudioSessionCategoryOptionAllowBluetooth
+- (void)configureSpeakerOrReceiver:(BOOL)speaker {
+	if([Util isDeviceATablet]) {return;}
+	AVAudioSessionCategoryOptions options;
+	if(speaker) {
+		options = AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionMixWithOthers;
+	}
+	else {
+		options = AVAudioSessionCategoryOptionMixWithOthers;
+	}
+	NSError *error;
+	if(![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:options error:&error]) {
+		AU_LOG(@"error setting speaker or recceiver: %@", error.localizedDescription);
+	}
 }
 
 @end

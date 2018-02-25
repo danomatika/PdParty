@@ -28,8 +28,16 @@
 	#endif
 }
 
++ (BOOL)isDeviceAPhone {
+	return [[[UIDevice currentDevice] model] isEqualToString:@"iPhone"];
+}
+
 + (BOOL)isDeviceATablet {
 	return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+}
+
++ (BOOL)isDeviceAnIpod {
+	return [[[UIDevice currentDevice] model] isEqualToString:@"iPod touch"];
 }
 
 + (float)deviceOSVersion {

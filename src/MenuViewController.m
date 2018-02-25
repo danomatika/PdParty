@@ -25,6 +25,7 @@
 	BOOL scrolls; //< YES if there are enough buttons for the menu to scroll
 	NSMapTable *menubangButtons; //< menubangs via button id keys
 	int consoleButtonIndex;
+	int speakerButtonIndex;
 	int infoButtonIndex;
 }
 @end
@@ -67,6 +68,7 @@
 	[super viewDidDisappear:animated];
 	[menubangButtons removeAllObjects];
 	consoleButtonIndex = -1;
+	speakerButtonIndex = -1;
 	infoButtonIndex = -1;
 }
 
@@ -111,18 +113,23 @@
     return 1;
 }
 
+// restart button is always index 0
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	int index = 1; // restart button + 1
+	int num = self.numDefaultButtons + [Menubang menubangCount];
+	if([Util isDeviceAPhone]) {
+		speakerButtonIndex = index;
+		index++;
+	}
 	if([Log textViewLoggerEnabled]) {
-		consoleButtonIndex = 1;
-		if(app.sceneManager.scene.hasInfo) {
-			infoButtonIndex = 2;
-		}
+		consoleButtonIndex = index;
+		index++;
 	}
-	else if(app.sceneManager.scene.hasInfo) {
-		infoButtonIndex = 1;
+	if(app.sceneManager.scene.hasInfo) {
+		infoButtonIndex = index;
 	}
-	return 1 + (int)[Log textViewLoggerEnabled] + (int)app.sceneManager.scene.hasInfo + [Menubang menubangCount];
+	return num;;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -167,13 +174,22 @@
 	
 	switch(indexPath.row) {
 		case 0:
+			//[button setTitle:@"Restart Scene" forState:UIControlStateNormal];
 			[button setImage:[Util image:[UIImage imageNamed:@"reload"] withTint:normalColor]  forState:UIControlStateNormal];
 			[button setImage:[Util image:[UIImage imageNamed:@"reload"] withTint:selectedColor] forState:UIControlEventTouchDown];
-			//[button setTitle:@"Restart Scene" forState:UIControlStateNormal];
 			[button addTarget:self action:@selector(restartPressed:) forControlEvents:UIControlEventTouchUpInside];
 			break;
 		default:
-			if(indexPath.row == consoleButtonIndex) {
+			if(indexPath.row == speakerButtonIndex) {
+				//[button setTitle:@"Speaker Phone" forState:UIControlStateNormal];
+				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:[UIColor lightGrayColor]]  forState:UIControlStateNormal];
+				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:normalColor]  forState:UIControlStateSelected];
+				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:selectedColor] forState:UIControlEventTouchDown];
+				[button addTarget:self action:@selector(speakerPressed:) forControlEvents:UIControlEventTouchUpInside];
+				button.selected = !app.pureData.earpieceSpeaker;
+			}
+			else if(indexPath.row == consoleButtonIndex) {
 				//[button setTitle:@"Show Console" forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:normalColor]  forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:selectedColor] forState:UIControlEventTouchDown];
@@ -186,8 +202,7 @@
 				[button addTarget:self action:@selector(showInfoPressed:) forControlEvents:UIControlEventTouchUpInside];
 			}
 			else {
-				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-				NSInteger *row = indexPath.row - (1 + (int)[Log textViewLoggerEnabled] + (int)app.sceneManager.scene.hasInfo);
+				NSInteger row = indexPath.row - self.numDefaultButtons;
 				Menubang *m = [[Menubang menubangs] objectAtIndex:row];
 				[menubangButtons setObject:m forKey:button]; // store button used for menubang
 				if(m.imagePath) {
@@ -232,6 +247,13 @@
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	[app.sceneManager reloadScene];
 	[self.popover dismissPopoverAnimated:YES];
+}
+
+- (void)speakerPressed:(id)sender {
+	DDLogVerbose(@"Menu: speaker button pressed");
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app.pureData.earpieceSpeaker = !app.pureData.earpieceSpeaker;
+	[(UIButton *)sender setSelected:!app.pureData.earpieceSpeaker];
 }
 
 - (void)showConsolePressed:(id)sender {
@@ -288,6 +310,21 @@
 
 - (UIColor *)backgroundColor {
 	return self.collectionView.backgroundColor;
+}
+
+- (int)numDefaultButtons {
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	int num = 1; // restart
+	if([Util isDeviceAPhone]) { // speaker
+		num++;
+	}
+	if([Log textViewLoggerEnabled]) { // console
+		num++;
+	}
+	if(app.sceneManager.scene.hasInfo) { // info
+		num++;
+	}
+	return num;
 }
 
 @end

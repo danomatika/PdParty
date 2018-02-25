@@ -99,6 +99,7 @@
 		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
 		30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6316E8457400E5AA5B /* KeyGrabber.m */; };
 		30C9BF6716E8460700E5AA5B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6616E8460700E5AA5B /* Util.m */; };
+		30D4CFAD20435E4A00662491 /* PartyAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFA720435E4900662491 /* PartyAudioController.m */; };
 		30DBD04A1C196B0500ABE9E1 /* Externals.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD0281C196B0500ABE9E1 /* Externals.m */; };
 		30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD02A1C196B0500ABE9E1 /* getdir.c */; };
 		30DBD04C1C196B0500ABE9E1 /* moog~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD02B1C196B0500ABE9E1 /* moog~.c */; };
@@ -357,6 +358,8 @@
 		30C9BF6316E8457400E5AA5B /* KeyGrabber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyGrabber.m; sourceTree = "<group>"; };
 		30C9BF6516E8460700E5AA5B /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		30C9BF6616E8460700E5AA5B /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		30D4CFA720435E4900662491 /* PartyAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PartyAudioController.m; path = src/classes/PartyAudioController.m; sourceTree = SOURCE_ROOT; };
+		30D4CFAC20435E4A00662491 /* PartyAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyAudioController.h; path = src/classes/PartyAudioController.h; sourceTree = SOURCE_ROOT; };
 		30DBD0271C196B0500ABE9E1 /* Externals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
 		30DBD0281C196B0500ABE9E1 /* Externals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Externals.m; sourceTree = "<group>"; };
 		30DBD02A1C196B0500ABE9E1 /* getdir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getdir.c; sourceTree = "<group>"; };
@@ -865,6 +868,8 @@
 			isa = PBXGroup;
 			children = (
 				30D60AA6198A8E3A003DFA70 /* browser */,
+				30D4CFAC20435E4A00662491 /* PartyAudioController.h */,
+				30D4CFA720435E4900662491 /* PartyAudioController.m */,
 				30555CF21C25E18D009F4F9B /* PartyBrowser.h */,
 				30555CF31C25E18E009F4F9B /* PartyBrowser.m */,
 				30C9BF6216E8457400E5AA5B /* KeyGrabber.h */,
@@ -1237,6 +1242,7 @@
 				303BD3151759928D000FBEB5 /* RjWidget.m in Sources */,
 				3094B44A18C97CCF00AFE178 /* ioapi.c in Sources */,
 				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
+				30D4CFAD20435E4A00662491 /* PartyAudioController.m in Sources */,
 				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
 				3024B08E1C993769002C36DA /* Controllers.m in Sources */,
 				30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */,

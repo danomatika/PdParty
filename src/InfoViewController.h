@@ -16,7 +16,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *artistLabel;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property (weak, nonatomic) IBOutlet UISwitch *earpieceSwitch; // iPhone only
 
+- (IBAction)earpieceChanged:(id)sender; // iPhone only
 - (IBAction)restartScene:(id)sender;
 
 @end

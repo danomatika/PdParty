@@ -36,6 +36,8 @@
 	<integer>8080</integer>
 	<key>micVolume</key>
 	<integer>0</integer>
+	<key>earpieceSpeakerEnabled</key>
+	<false/>
 	<key>midiEnabled</key>
 	<false/>
 	<key>networkMidiEnabled</key>

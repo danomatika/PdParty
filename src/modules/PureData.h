@@ -86,7 +86,7 @@
 @property (weak, nonatomic) Sensors *sensors; //< pointer to sensor manager instance
 
 /// enabled / disable PD audio processing
-@property (getter=isAudioEnabled) BOOL audioEnabled;
+@property (getter=isAudioEnabled, nonatomic) BOOL audioEnabled;
 
 /// setting the sample rate re-configures the audio, 44100 by default
 /// new sample rate ignored if it is equal to the current samplerate
@@ -100,6 +100,10 @@
 /// setting the ticks per buffer sets the buffer size / audio latency
 /// range is 1 - 32, 16 by default
 @property (nonatomic) int ticksPerBuffer;
+
+/// playback audio through the phone earpiece speaker (default: NO)
+/// only has effect on iPhone, always NO on iPad
+@property (nonatomic) BOOL earpieceSpeaker;
 
 /// calculate the buffer size based on pd's block size:
 /// buffer size = ticks per buffer * block size (64)

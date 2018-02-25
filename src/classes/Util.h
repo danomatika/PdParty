@@ -22,8 +22,14 @@
 /// are we running in the simulator?
 + (BOOL)isDeviceRunningInSimulator;
 
+/// is this device an iphone?
++ (BOOL)isDeviceAPhone;
+
 /// is this device an ipad?
 + (BOOL)isDeviceATablet;
+
+/// is this device an ipod touch?
++ (BOOL)isDeviceAnIpod;
 
 /// get device iOS version as a float aka 6.1, 7.02, etc
 + (float)deviceOSVersion;
