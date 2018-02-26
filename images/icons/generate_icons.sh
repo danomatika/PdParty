@@ -34,7 +34,7 @@ function convert-icon() {
 		convert $1-$2.png -resize 96x96 $DEST/$name-96.png
 		convert $1-$2.png -resize 144x144 $DEST/$name-144.png
 	else
-		echo "unknown icon size set"
+		echo "unknown icon size set: \"$3\""
 	fi
 }
 
@@ -56,10 +56,10 @@ convert-icon custom/record 1024 control
 # icons8
 convert-icon icons8/circuit 512 browser
 convert-icon icons8/archive 512 browser
-convert-icon icons8/audio_wave 512 browser
 convert-icon icons8/console 512 control
 convert-icon icons8/folder 512 browser
 convert-icon icons8/high_volume 512 slider
+convert-icon icons8/high_volume 512 control
 convert-icon icons8/info 512 nav
 convert-icon icons8/info 512 control
 convert-icon icons8/menu 512 nav
@@ -68,3 +68,4 @@ convert-icon icons8/pause 512 control
 convert-icon icons8/play 512 control
 convert-icon icons8/reload 512 control
 convert-icon icons8/repeat 512 control
+convert-icon icons8/tape_drive 512 browser

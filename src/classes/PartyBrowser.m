@@ -177,7 +177,7 @@
 			cell.imageView.image = [UIImage imageNamed:@"archive"];
 		}
 		else if([RecordingScene isRecording:path]) {
-			cell.imageView.image = [UIImage imageNamed:@"audioFile"];
+			cell.imageView.image = [UIImage imageNamed:@"tape"];
 		}
 		else if([PatchScene isPatchFile:path]) {
 			cell.imageView.image = [UIImage imageNamed:@"patch"];
