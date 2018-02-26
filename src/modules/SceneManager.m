@@ -107,15 +107,17 @@
 		self.scene = [PartyScene sceneWithParent:parent andGui:self.gui];
 	}
 	else if([type isEqualToString:@"RecordingScene"]) {
-		self.scene = [RecordingScene sceneWithParent:parent andPureData:self.pureData];
+		self.scene = [RecordingScene sceneWithParent:parent];
 	}
 	else {
 		DDLogWarn(@"SceneManager: unknown scene type: %@", type);
 		self.scene = [[Scene alloc] init];
 	}
-	self.pureData.audioEnabled = YES;
-	self.pureData.sampleRate = self.scene.sampleRate;
-	self.pureData.playing = YES;
+	if(self.scene.requiresPd) {
+		self.pureData.audioEnabled = YES;
+		self.pureData.sampleRate = self.scene.sampleRate;
+		self.pureData.playing = YES;
+	}
 	if([self.scene open:path]) {
 		[self startRequiredSensors];
 		self.controllers.enabled = self.scene.requiresControllers;
@@ -123,7 +125,9 @@
 	}
 	
 	// turn up volume & turn on transport, update gui
-	[self.pureData sendCurrentPlayValues];
+	if(self.scene.requiresPd) {
+		[self.pureData sendCurrentPlayValues];
+	}
 	
 	// store current location
 	self.currentPath = path;
@@ -148,7 +152,9 @@
 		if(self.pureData.isRecording) {
 			[self.pureData stopRecording];
 		}
-		[PureData sendCloseBang];
+		if(self.scene.requiresPd) {
+			[PureData sendCloseBang];
+		}
 		[self.scene close];
 		self.scene = nil;
 		[self stopSensors];

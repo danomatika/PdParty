@@ -105,6 +105,14 @@
 	return NO;
 }
 
+- (BOOL)requiresPd {
+	return YES;
+}
+
+- (BOOL)requiresControls {
+	return YES;
+}
+
 - (BOOL)requiresOnscreenControls {
 	return NO;
 }

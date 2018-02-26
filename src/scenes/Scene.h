@@ -51,10 +51,16 @@ typedef enum {
 @property (readonly, nonatomic) BOOL requiresControllers; //< does the scene require controller events? (default NO)
 @property (readonly, nonatomic) BOOL requiresKeys; //< does the scene require key events? (default NO)
 
+/// does the scene require Pd for playback? (default YES)
+@property (readonly, nonatomic) BOOL requiresPd;
+
 /// preferred orientations, all by default
 @property (assign, nonatomic) UIInterfaceOrientationMask preferredOrientations;
 
-/// does the scene require on screen controls?
+/// does the scene require controls? (default YES)
+@property (readonly, nonatomic) BOOL requiresControls;
+
+/// should the controls be onscreen or in a popup? (default NO)
 @property (readonly, nonatomic) BOOL requiresOnscreenControls;
 @property (readonly, nonatomic) int contentHeight; //< used for positioning controls
 

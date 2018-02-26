@@ -11,22 +11,33 @@
 #import "RecordingScene.h"
 
 #import "ControlsView.h"
-#import <AvFoundation/AVAudioPlayer.h>
+#import <AVKit/AVPlayerViewController.h>
 #import "PureData.h"
 
 @implementation RecordingScene
 
-+ (id)sceneWithParent:(UIView *)parent andPureData:(PureData *)pureData {
++ (id)sceneWithParent:(UIView *)parent {
 	RecordingScene *s = [[RecordingScene alloc] init];
 	s.parentView = parent;
-	s.pureData = pureData;
 	return s;
 }
 
 - (BOOL)open:(NSString *)path {
 	self.file = path;
-	[self.pureData startPlaybackFrom:self.file];
-	
+
+	// load player
+	AVPlayer *sound = [AVPlayer playerWithURL:[NSURL fileURLWithPath:path]];
+	if(!sound) {
+		DDLogWarn(@"RecordingScene: couldn't create player for: %@", [self.file lastPathComponent]);
+		return NO;
+	}
+	self.player = [[AVPlayerViewController alloc] init];
+	self.player.player = sound;
+	self.player.showsPlaybackControls = YES;
+	self.player.allowsPictureInPicturePlayback = NO;
+	self.player.view.bounds = self.parentView.bounds;
+	[self.parentView addSubview:self.player.view];
+
 	// allow all orientations on iPad
 	if([Util isDeviceATablet]) {
 		self.preferredOrientations = UIInterfaceOrientationMaskAll;
@@ -34,18 +45,7 @@
 	else { // lock to portrait on iPhone
 		self.preferredOrientations = UIInterfaceOrientationMaskPortrait;
 	}
-	
-	// set samplerate based on file samplerate
-	NSError *error;
-	AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:self.file] error:&error];
-	if(!player) {
-		DDLogError(@"RecordingScene: couldn't check sample rate of %@: %@", [self.file lastPathComponent], error.localizedDescription);
-	}
-	else {
-		self.pureData.sampleRate = [[player.settings objectForKey:AVSampleRateKey] intValue];
-		player = nil;
-	}
-	
+
 	// load background
 	NSString *backgroundPath = [[Util bundlePath] stringByAppendingPathComponent:@"images/cassette_tape.jpg"];
 	if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
@@ -54,45 +54,67 @@
 			DDLogError(@"RecordingScene: couldn't load background image");
 		}
 		self.background.contentMode = UIViewContentModeScaleAspectFill;
-		[self.parentView addSubview:self.background];
+		[self.player.contentOverlayView addSubview:self.background];
 	}
 	else {
 		DDLogWarn(@"RecordingScene: no background image");
 	}
+
+	// load info label
+	self.infoLabel = [UILabel new];
+	self.infoLabel.text = [self.file lastPathComponent];
+	self.infoLabel.font = [UIFont boldSystemFontOfSize:([Util isDeviceATablet] ? 22 : 17)];
+	self.infoLabel.textColor = [UIColor whiteColor];
+	self.infoLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.parentView.bounds);
+	[self.infoLabel sizeToFit];
+	[self.player.contentOverlayView addSubview:self.infoLabel];
+
 	return YES;
 }
 
 - (void)close {
-	[self.pureData stopPlayback];
 	self.file = nil;
-	if(self.background) {
-		[self.background removeFromSuperview];
-		self.background = nil;
+	if(self.player) {
+		[self.player.player pause];
+		[self.player.view removeFromSuperview];
+		self.player = nil;
 	}
+	self.background = nil;
+	self.infoLabel = nil;
+
 	[super close];
 }
 
 - (void)reshape {
-	CGSize viewSize, backgroundSize, controlsSize;
-	CGFloat xPos = 0;
-	
-	// background is always square
-	viewSize = self.parentView.frame.size;
+	CGSize viewSize = self.parentView.bounds.size, backgroundSize;
+	CGPoint offset = CGPointZero;
+
+	// fill parent
+	if(self.player) {
+		self.player.view.frame = CGRectMake(0, 0, viewSize.width, viewSize.height);
+	}
+
+	// center background, always square
 	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
 	if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
 		backgroundSize.width = viewSize.width;
 		backgroundSize.height = backgroundSize.width;
+		offset.y = (viewSize.height - backgroundSize.height)/2;
 	}
 	else {
 		backgroundSize.width = viewSize.height * 0.8;
 		backgroundSize.height = backgroundSize.width;
-		xPos = (viewSize.width - backgroundSize.width)/2;
+		offset.x = (viewSize.width - backgroundSize.width)/2;
+		offset.y = (viewSize.height - backgroundSize.height)/2;
 	}
-	
-	// set background
 	if(self.background) {
-		self.background.frame = CGRectMake(xPos, 0, backgroundSize.width, backgroundSize.height);
+		self.background.frame = CGRectMake(offset.x, offset.y, backgroundSize.width, backgroundSize.height);
 	}
+
+	// place info above background image
+	self.infoLabel.preferredMaxLayoutWidth = viewSize.width;
+	self.infoLabel.center = CGPointMake(viewSize.width/2,
+	                                    offset.y - CGRectGetHeight(self.infoLabel.bounds)/2 - 22);
 }
 
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
@@ -100,15 +122,16 @@
 }
 
 - (void)restartPlayback {
-	if(self.file) {
-		[self.pureData startPlaybackFrom:self.file];
+	if(self.player) {
+		[self.player.player seekToTime:CMTimeMake(0, 1)];
 	}
 }
 
 #pragma mark Overridden Getters / Setters
 
+// hide nav bar title as filename is displayed in info label
 - (NSString *)name {
-	return [self.file lastPathComponent];
+	return @"";
 }
 
 - (NSString *)type {
@@ -121,21 +144,24 @@
 		if(self.parentView) {
 			// set patch view background color
 			self.parentView.backgroundColor = [UIColor blackColor];
-			
-			// add background to new parent view
-			if(self.background) {
-				[self.parentView addSubview:self.background];
+			// add player to new parent view
+			if(self.player) {
+				[self.parentView addSubview:self.player.view];
 			}
 		}
 	}
 }
 
-- (BOOL)requiresOnscreenControls {
-	return YES;
+- (BOOL)requiresPd {
+	return NO;
+}
+
+- (BOOL)requiresControls {
+	return NO;
 }
 
 - (int)contentHeight {
-	return CGRectGetHeight(self.background.bounds);
+	return CGRectGetHeight(self.parentView.bounds);
 }
 
 #pragma mark Util

@@ -100,6 +100,8 @@
 		30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6316E8457400E5AA5B /* KeyGrabber.m */; };
 		30C9BF6716E8460700E5AA5B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6616E8460700E5AA5B /* Util.m */; };
 		30D4CFAD20435E4A00662491 /* PartyAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFA720435E4900662491 /* PartyAudioController.m */; };
+		30D4CFAF2043925F00662491 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D4CFAE2043925F00662491 /* AVKit.framework */; };
+		30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D4CFB020442A4E00662491 /* CoreMedia.framework */; };
 		30DBD04A1C196B0500ABE9E1 /* Externals.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD0281C196B0500ABE9E1 /* Externals.m */; };
 		30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD02A1C196B0500ABE9E1 /* getdir.c */; };
 		30DBD04C1C196B0500ABE9E1 /* moog~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD02B1C196B0500ABE9E1 /* moog~.c */; };
@@ -360,6 +362,8 @@
 		30C9BF6616E8460700E5AA5B /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		30D4CFA720435E4900662491 /* PartyAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PartyAudioController.m; path = src/classes/PartyAudioController.m; sourceTree = SOURCE_ROOT; };
 		30D4CFAC20435E4A00662491 /* PartyAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyAudioController.h; path = src/classes/PartyAudioController.h; sourceTree = SOURCE_ROOT; };
+		30D4CFAE2043925F00662491 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		30D4CFB020442A4E00662491 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		30DBD0271C196B0500ABE9E1 /* Externals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
 		30DBD0281C196B0500ABE9E1 /* Externals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Externals.m; sourceTree = "<group>"; };
 		30DBD02A1C196B0500ABE9E1 /* getdir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getdir.c; sourceTree = "<group>"; };
@@ -431,6 +435,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */,
+				30D4CFAF2043925F00662491 /* AVKit.framework in Frameworks */,
 				30F96A551FC8D415002CDE3F /* libpd-ios.a in Frameworks */,
 				3024B0901C99384E002C36DA /* GameController.framework in Frameworks */,
 				302862731C4369EA00A176C6 /* CoreText.framework in Frameworks */,
@@ -725,6 +731,8 @@
 		30ABE2A616B5A8E500464926 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30D4CFB020442A4E00662491 /* CoreMedia.framework */,
+				30D4CFAE2043925F00662491 /* AVKit.framework */,
 				3024B08F1C99384E002C36DA /* GameController.framework */,
 				302862721C4369EA00A176C6 /* CoreText.framework */,
 				3094B43B18C975AE00AFE178 /* libz.1.2.5.dylib */,

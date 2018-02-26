@@ -11,22 +11,32 @@
 #import "Scene.h"
 
 @class PureData;
+@class AVPlayerViewController;
+@class AVPlayerLayer;
 
 /// Recording scene (wav file playback)
 /// path is to .wav file
 @interface RecordingScene : Scene
 
-@property (weak, nonatomic) PureData *pureData; //< playback handled in pd
+@property (weak, nonatomic) PureData *pureData;
 
-@property (strong, nonatomic) NSString *file; //< wav file to play
+/// wav file to play
+@property (strong, nonatomic) NSString *file;
+
+/// file player and controls
+@property (strong, nonatomic) AVPlayerViewController *player;
 
 /// square background image (nominally 320x320)
 @property (strong, nonatomic) UIImageView *background;
 
-+ (id)sceneWithParent:(UIView *)parent andPureData:(PureData *)pureData;
+/// extended info label, just filename for now
+@property (strong, nonatomic) UILabel *infoLabel;
+
+//+ (id)sceneWithParent:(UIView *)parent andPureData:(PureData *)pureData;
++ (id)sceneWithParent:(UIView *)parent;
 
 /// restart playback at the beginning
-- (void)restartPlayback;
+//- (void)restartPlayback;
 
 /// returns true if a given path is a recording file aka .wav
 + (BOOL)isRecording:(NSString *)fullpath;

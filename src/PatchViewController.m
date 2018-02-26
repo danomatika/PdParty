@@ -378,6 +378,12 @@
 }
 
 - (void)updateControls {
+	if(!self.sceneManager.scene.requiresControls) {
+		[self.controlsView removeFromSuperview];
+		[self dismissControlsPopover];
+		self.controlsPopover = nil;
+		return;
+	}
 
 	if(self.sceneManager.scene.requiresOnscreenControls) {
 	

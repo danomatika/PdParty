@@ -119,7 +119,7 @@
 				
 				// restart playback if stopped
 				if(!self.sceneManager.pureData.isPlayingback) {
-					[(RecordingScene *)self.sceneManager.scene restartPlayback];
+					//[(RecordingScene *)self.sceneManager.scene restartPlayback];
 					[self leftButtonToPause];
 				}
 				else { // pause
@@ -129,7 +129,7 @@
 			}
 			else {
 				self.sceneManager.pureData.audioEnabled = YES;
-				[(RecordingScene *)self.sceneManager.scene restartPlayback];
+				//[(RecordingScene *)self.sceneManager.scene restartPlayback];
 				[self leftButtonToPause];
 			}
 		}
