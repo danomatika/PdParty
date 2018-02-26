@@ -847,22 +847,6 @@ static NSNumberFormatter *s_numFormatter = nil;
 	return data;
 }
 
-// AVAudioSessionCategoryOptionAllowBluetooth
-- (void)configureSpeakerOrReceiver:(BOOL)speaker {
-	if([Util isDeviceATablet]) {return;}
-	AVAudioSessionCategoryOptions options;
-	if(speaker) {
-		options = AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionMixWithOthers;
-	}
-	else {
-		options = AVAudioSessionCategoryOptionMixWithOthers;
-	}
-	NSError *error;
-	if(![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:options error:&error]) {
-		AU_LOG(@"error setting speaker or recceiver: %@", error.localizedDescription);
-	}
-}
-
 @end
 
 @implementation PureDataDispatcher
