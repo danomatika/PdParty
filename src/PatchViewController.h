@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #import "SceneManager.h"
-#import "ControlsView.h"
+#import "SceneControlsView.h"
 #import "MenuViewController.h"
 #import "KeyGrabber.h"
 
@@ -21,8 +21,8 @@
 /// force a rotation of the view in degrees
 @property (assign, nonatomic) int rotation;
 
-/// on screen/popup audio controls
-@property (strong, nonatomic) ControlsView *controlsView;
+/// onscreen/popup scene controls
+@property (strong, nonatomic) SceneControlsView *controlsView;
 
 /// popup grid of menu buttons
 @property (strong, nonatomic) MenuViewController *menuViewController;

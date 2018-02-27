@@ -55,7 +55,6 @@
 		305772E71E88D9B9007F9A92 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 305772E11E88D9B9007F9A92 /* DDTTYLogger.m */; };
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
-		30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30774FA517E2A7A80060C5C6 /* ControlsView.m */; };
 		3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081A4721D615FDE006106E8 /* liblo.a */; };
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
@@ -102,6 +101,9 @@
 		30D4CFAD20435E4A00662491 /* PartyAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFA720435E4900662491 /* PartyAudioController.m */; };
 		30D4CFAF2043925F00662491 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D4CFAE2043925F00662491 /* AVKit.framework */; };
 		30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D4CFB020442A4E00662491 /* CoreMedia.framework */; };
+		30D4CFBF20446A9F00662491 /* SceneControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFBA20446A9F00662491 /* SceneControlsView.m */; };
+		30D4CFC020446A9F00662491 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFBB20446A9F00662491 /* ControlsView.m */; };
+		30D4CFC120446A9F00662491 /* PlayerControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFBC20446A9F00662491 /* PlayerControlsView.m */; };
 		30DBD04A1C196B0500ABE9E1 /* Externals.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD0281C196B0500ABE9E1 /* Externals.m */; };
 		30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD02A1C196B0500ABE9E1 /* getdir.c */; };
 		30DBD04C1C196B0500ABE9E1 /* moog~.c in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD02B1C196B0500ABE9E1 /* moog~.c */; };
@@ -271,8 +273,6 @@
 		306204721753C90400DEC1C2 /* RjScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjScene.m; sourceTree = "<group>"; };
 		306204731753C90400DEC1C2 /* PatchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchScene.h; sourceTree = "<group>"; };
 		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
-		30774FA417E2A7A70060C5C6 /* ControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlsView.h; path = src/ControlsView.h; sourceTree = "<group>"; };
-		30774FA517E2A7A80060C5C6 /* ControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ControlsView.m; path = src/ControlsView.m; sourceTree = "<group>"; };
 		3081A4721D615FDE006106E8 /* liblo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblo.a; sourceTree = "<group>"; };
 		3081A4741D615FDE006106E8 /* lo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo.h; sourceTree = "<group>"; };
 		3081A4751D615FDE006106E8 /* lo_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_cpp.h; sourceTree = "<group>"; };
@@ -364,6 +364,12 @@
 		30D4CFAC20435E4A00662491 /* PartyAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyAudioController.h; path = src/classes/PartyAudioController.h; sourceTree = SOURCE_ROOT; };
 		30D4CFAE2043925F00662491 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		30D4CFB020442A4E00662491 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		30D4CFB920446A9F00662491 /* PlayerControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerControlsView.h; sourceTree = "<group>"; };
+		30D4CFBA20446A9F00662491 /* SceneControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneControlsView.m; sourceTree = "<group>"; };
+		30D4CFBB20446A9F00662491 /* ControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlsView.m; sourceTree = "<group>"; };
+		30D4CFBC20446A9F00662491 /* PlayerControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerControlsView.m; sourceTree = "<group>"; };
+		30D4CFBD20446A9F00662491 /* SceneControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneControlsView.h; sourceTree = "<group>"; };
+		30D4CFBE20446A9F00662491 /* ControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlsView.h; sourceTree = "<group>"; };
 		30DBD0271C196B0500ABE9E1 /* Externals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
 		30DBD0281C196B0500ABE9E1 /* Externals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Externals.m; sourceTree = "<group>"; };
 		30DBD02A1C196B0500ABE9E1 /* getdir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getdir.c; sourceTree = "<group>"; };
@@ -764,8 +770,6 @@
 				30C9BF5716E8456B00E5AA5B /* modules */,
 				30ABE2E116B5D0FB00464926 /* AppDelegate.h */,
 				30ABE2E216B5D0FB00464926 /* AppDelegate.m */,
-				30774FA417E2A7A70060C5C6 /* ControlsView.h */,
-				30774FA517E2A7A80060C5C6 /* ControlsView.m */,
 				30ABE2E516B5D0FB00464926 /* main.m */,
 				302E895E17E668300004B935 /* MidiViewController.h */,
 				302E895F17E668320004B935 /* MidiViewController.m */,
@@ -876,6 +880,7 @@
 			isa = PBXGroup;
 			children = (
 				30D60AA6198A8E3A003DFA70 /* browser */,
+				30D4CFB820446A9F00662491 /* controls */,
 				30D4CFAC20435E4A00662491 /* PartyAudioController.h */,
 				30D4CFA720435E4900662491 /* PartyAudioController.m */,
 				30555CF21C25E18D009F4F9B /* PartyBrowser.h */,
@@ -895,6 +900,19 @@
 			);
 			name = classes;
 			path = src/classes;
+			sourceTree = "<group>";
+		};
+		30D4CFB820446A9F00662491 /* controls */ = {
+			isa = PBXGroup;
+			children = (
+				30D4CFBE20446A9F00662491 /* ControlsView.h */,
+				30D4CFBB20446A9F00662491 /* ControlsView.m */,
+				30D4CFBD20446A9F00662491 /* SceneControlsView.h */,
+				30D4CFBA20446A9F00662491 /* SceneControlsView.m */,
+				30D4CFB920446A9F00662491 /* PlayerControlsView.h */,
+				30D4CFBC20446A9F00662491 /* PlayerControlsView.m */,
+			);
+			path = controls;
 			sourceTree = "<group>";
 		};
 		30D60AA6198A8E3A003DFA70 /* browser */ = {
@@ -1196,6 +1214,7 @@
 				30FA775316E68936000E8D2B /* Reachability.m in Sources */,
 				30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */,
 				30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */,
+				30D4CFBF20446A9F00662491 /* SceneControlsView.m in Sources */,
 				3057729A1E88A08A007F9A92 /* GCDWebServerFileRequest.m in Sources */,
 				3057729F1E88A08A007F9A92 /* GCDWebServerFileResponse.m in Sources */,
 				305772A01E88A08A007F9A92 /* GCDWebServerStreamedResponse.m in Sources */,
@@ -1233,12 +1252,14 @@
 				3057729C1E88A08A007F9A92 /* GCDWebServerURLEncodedFormRequest.m in Sources */,
 				30DBD0631C196B0500ABE9E1 /* rj_zcr~.c in Sources */,
 				305772E21E88D9B9007F9A92 /* DDASLLogCapture.m in Sources */,
+				30D4CFC120446A9F00662491 /* PlayerControlsView.m in Sources */,
 				3028626D1C40D06C00A176C6 /* TextViewLogger.m in Sources */,
 				30DBD05F1C196B0500ABE9E1 /* rj_accum.c in Sources */,
 				306204741753C90400DEC1C2 /* RjScene.m in Sources */,
 				3028626A1C40CEBA00A176C6 /* ConsoleViewController.m in Sources */,
 				306204781753E3D200DEC1C2 /* PatchScene.m in Sources */,
 				305772951E88A08A007F9A92 /* GCDWebServerConnection.m in Sources */,
+				30D4CFC020446A9F00662491 /* ControlsView.m in Sources */,
 				303BD3001756A119000FBEB5 /* Scene.m in Sources */,
 				303BD30417570070000FBEB5 /* DroidScene.m in Sources */,
 				30DBD0601C196B0500ABE9E1 /* rj_barkflux_accum~.c in Sources */,
@@ -1263,7 +1284,6 @@
 				305772E71E88D9B9007F9A92 /* DDTTYLogger.m in Sources */,
 				30DBD04D1C196B0500ABE9E1 /* stripdir.c in Sources */,
 				30F5283717D982AE004736A6 /* Ribbon.m in Sources */,
-				30774FA617E2A7A90060C5C6 /* ControlsView.m in Sources */,
 				30B01DEB17E374800052F26F /* Log.m in Sources */,
 				30DBD04E1C196B0500ABE9E1 /* midifile.c in Sources */,
 				302E896017E668340004B935 /* MidiViewController.m in Sources */,

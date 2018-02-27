@@ -58,7 +58,6 @@ convert-icon icons8/circuit 512 browser
 convert-icon icons8/archive 512 browser
 convert-icon icons8/console 512 control
 convert-icon icons8/folder 512 browser
-convert-icon icons8/high_volume 512 slider
 convert-icon icons8/high_volume 512 control
 convert-icon icons8/info 512 nav
 convert-icon icons8/info 512 control

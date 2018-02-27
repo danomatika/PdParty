@@ -30,7 +30,6 @@
 	CADisplayLink *updateLink;
 }
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
-@property (assign, readwrite, getter=isPlayingback, nonatomic) BOOL playingback;
 @end
 
 @implementation PureData
@@ -44,8 +43,6 @@
 		_volume = 1.0;
 		_playing = YES;
 		_recording = NO;
-		_playingback = NO;
-		_looping = NO;
 
 		// configure a typical audio session with 2 output channels
 		audioController = [[PartyAudioController alloc] init];
@@ -72,7 +69,7 @@
 		
 		// open "external patches" that always run in the background
 		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/pd"]];
-	
+
 		// set ticks per buffer after everything else is set up, setting a tpb
 		// of 1 too early results in no audio and feedback until it is changed,
 		// this fixes that
@@ -114,10 +111,9 @@
 #pragma mark Current Play Values
 
 - (void)sendCurrentPlayValues {
-	[PureData sendTransportPlay:_playing];
-	[PureData sendTransportLoop:_looping];
-	[PureData sendVolume:_volume];
-	[PureData sendMicVolume:_micVolume]; // [soundinput] control
+	[PureData sendTransportPlay:_playing]; // [soundoutput] gate
+	[PureData sendVolume:_volume]; // [soundoutput] level
+	[PureData sendMicVolume:_micVolume]; // [soundinput] level
 }
 
 - (void)startRecordingTo:(NSString *)path {
@@ -160,24 +156,6 @@
 			[[path stringByDeletingPathExtension] stringByAppendingFormat:@".wav"]]];
 	}
 	return YES;
-}
-
-- (void)startPlaybackFrom:(NSString *)path {
-	if(!playbackPatch) {
-		playbackPatch = [PdFile openFileNamed:@"playback.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/pd"]];
-	}
-	[PdBase sendMessage:@"playback" withArguments:[NSArray arrayWithObject:path] toReceiver:RJ_TRANSPORT_R];
-	self.playingback = YES;
-	DDLogVerbose(@"PureData: started playing back from %@", path);
-}
-
-- (void)stopPlayback {
-	if(playbackPatch) {
-		[playbackPatch closeFile];
-		playbackPatch = nil;
-		DDLogVerbose(@"PureData: closed playback.pd");
-	}
-	self.playingback = NO;
 }
 
 #pragma mark Send Events
@@ -327,10 +305,6 @@
 	[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:play]] toReceiver:RJ_TRANSPORT_R];
 }
 
-+ (void)sendTransportLoop:(BOOL)loop {
-	[PdBase sendMessage:@"loop" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:loop]] toReceiver:RJ_TRANSPORT_R];
-}
-
 + (void)sendVolume:(float)volume {
 	[PdBase sendMessage:@"set" withArguments:[NSArray arrayWithObject:[NSNumber numberWithFloat:volume]] toReceiver:RJ_VOLUME_R];
 }
@@ -372,17 +346,6 @@
 - (void)receiveMessage:(NSString *)message withArguments:(NSArray *)arguments fromSource:(NSString *)source {
 	if([source isEqualToString:PD_OSC_S]) {
 		[self.osc sendPacket:[self encodeList:[[NSArray arrayWithObject:message] arrayByAddingObjectsFromArray:arguments]]];
-	}
-	else if([source isEqualToString:RJ_GLOBAL_S]) {
-		if([message isEqualToString:@"playback"] && arguments.count > 0 && [arguments isNumberAt:0]) {
-			if([[arguments objectAtIndex:0] floatValue] < 1) {
-				_playingback = NO;
-				if(self.recordDelegate) {
-					[self.recordDelegate playbackFinished];
-				}
-				DDLogVerbose(@"PureData: stopped playing back");
-			}
-		}
 	}
 	else if([source isEqualToString:PARTY_GLOBAL_S]) {
 		static NSString *sceneName = nil; // received scene name
@@ -690,12 +653,6 @@
 	if(_playing == playing) return;
 	_playing = playing;
 	[PureData sendTransportPlay:_playing];
-}
-
-- (void)setLooping:(BOOL)looping {
-	if(_looping == looping) return;
-	_looping = looping;
-	[PureData sendTransportLoop:_looping];
 }
 
 - (void)setVolume:(float)volume {

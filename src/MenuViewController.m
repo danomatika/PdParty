@@ -181,11 +181,11 @@
 			break;
 		default:
 			if(indexPath.row == speakerButtonIndex) {
-				//[button setTitle:@"Speaker Phone" forState:UIControlStateNormal];
+				//[button setTitle:@"Speaker" forState:UIControlStateNormal];
 				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-				[button setImage:[Util image:[UIImage imageNamed:@"speaker-big"] withTint:[UIColor lightGrayColor]]  forState:UIControlStateNormal];
-				[button setImage:[Util image:[UIImage imageNamed:@"speaker-big"] withTint:normalColor]  forState:UIControlStateSelected];
-				[button setImage:[Util image:[UIImage imageNamed:@"speaker-big"] withTint:selectedColor] forState:UIControlEventTouchDown];
+				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:[UIColor lightGrayColor]]  forState:UIControlStateNormal];
+				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:normalColor]  forState:UIControlStateSelected];
+				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:selectedColor] forState:UIControlEventTouchDown];
 				[button addTarget:self action:@selector(speakerPressed:) forControlEvents:UIControlEventTouchUpInside];
 				button.selected = !app.pureData.earpieceSpeaker;
 			}

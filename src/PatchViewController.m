@@ -75,7 +75,8 @@
 	app.patchViewController = self;
 	
 	// set up controls view
-	self.controlsView = [[ControlsView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), [ControlsView baseHeight])];
+	CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), [ControlsView baseHeight]);
+	self.controlsView = [[SceneControlsView alloc] initWithFrame:frame];
 	self.controlsView.sceneManager = app.sceneManager;
 	
 	// set up menu buttons
@@ -400,10 +401,11 @@
 			
 			// create nav button if the scene has any info to show
 			if(self.sceneManager.scene.hasInfo) {
-				self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil
-																						  style:UIBarButtonItemStylePlain
-																						 target:self
-																						action:@selector(infoNavButtonPressed:)];
+				self.navigationItem.rightBarButtonItem =
+					[[UIBarButtonItem alloc] initWithTitle:nil
+					                                 style:UIBarButtonItemStylePlain
+													target:self
+					                                action:@selector(infoNavButtonPressed:)];
 				self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"info"];
 				if(!self.navigationItem.rightBarButtonItem.image) { // fallback
 					self.navigationItem.rightBarButtonItem.title = @"Info";
@@ -436,10 +438,11 @@
 			self.controlsView.lightBackground = YES;
 			
 			// create nav button
-			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:nil
-																					  style:UIBarButtonItemStylePlain
-																					 target:self
-																					 action:@selector(controlsNavButtonPressed:)];
+			self.navigationItem.rightBarButtonItem =
+				[[UIBarButtonItem alloc] initWithTitle:nil
+				                                 style:UIBarButtonItemStylePlain
+				                                target:self
+				                                action:@selector(controlsNavButtonPressed:)];
 			self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"controls"];
 			
 			if(!self.navigationItem.rightBarButtonItem.image) { // fallback
@@ -478,7 +481,6 @@
 																				  views:@{@"view" : view}]];
 		}
 	}
-	[self.controlsView setNeedsUpdateConstraints];
 	[self.controlsView.superview setNeedsUpdateConstraints];
 	
 	[self.controlsView updateControls];

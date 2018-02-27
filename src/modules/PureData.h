@@ -75,7 +75,6 @@
 @protocol PdRecordEventDelegate <NSObject>
 - (void)remoteRecordingStarted; //< called if recording is started via a msg
 - (void)remoteRecordingFinished; //< called if recording is stopped via a msg
-- (void)playbackFinished; //< called when a wav file playback finished & looping is disabled
 @end
 
 @interface PureData : NSObject <PdReceiverDelegate, PdMidiReceiverDelegate>
@@ -85,7 +84,7 @@
 @property (weak, nonatomic) Osc *osc; //< pointer to osc instance
 @property (weak, nonatomic) Sensors *sensors; //< pointer to sensor manager instance
 
-/// enabled / disable PD audio processing
+/// enable / disable PD audio processing
 @property (getter=isAudioEnabled, nonatomic) BOOL audioEnabled;
 
 /// setting the sample rate re-configures the audio, 44100 by default
@@ -115,19 +114,22 @@
 
 #pragma mark Current Play Values
 
+/// output gate
 /// only has effect when [soundoutput] is used
 @property (assign, getter=isPlaying, nonatomic) BOOL playing;
-@property (assign, getter=isLooping, nonatomic) BOOL looping; //< playback
 
+/// currently recording to a file?
 @property (assign, readonly, getter=isRecording, nonatomic) BOOL recording;
-@property (assign, readonly, getter=isPlayingback, nonatomic) BOOL playingback;
 
-/// input/output volume, 0-1
-/// only has effect when [soundinput]/[soundoutput] are used
+/// input volume, 0-1
+/// only has effect when [soundinput] is used
 @property (assign, nonatomic) float micVolume;
+
+/// output volume, 0-1
+/// only has effect when [soundoutput] is used
 @property (assign, nonatomic) float volume;
 
-/// send the current volume & playing values
+/// send the current mic volume & play values
 - (void)sendCurrentPlayValues;
 
 /// start/stop recording, depends on [soundoutput]
@@ -137,10 +139,6 @@
 /// wrapper around startRecordingTo that creates the recording dir if needed and
 /// optionally appends a timestamp string to the filename, returns NO if not started
 - (BOOL)startedRecordingToRecordDir:(NSString *)path withTimestamp:(BOOL)timestamp;
-
-/// start/stop playback, opens playback.pd
-- (void)startPlaybackFrom:(NSString *)path;
-- (void)stopPlayback;
 
 /// receives event when playback is finished
 @property (assign, nonatomic) id<PdRecordEventDelegate> recordDelegate;
@@ -204,9 +202,7 @@
 #pragma mark Send Values
 
 + (void)sendTransportPlay:(BOOL)play;
-+ (void)sendTransportLoop:(BOOL)loop; //< playback only
-
-+ (void)sendVolume:(float)volume; //< used for playback
++ (void)sendVolume:(float)volume;       //< [soundoutput] control
 + (void)sendMicVolume:(float)micVolume; //< [soundinput] control
 
 #pragma mark Find

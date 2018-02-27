@@ -113,13 +113,14 @@
 }
 
 - (void)reshape {
-	CGSize viewSize, backgroundSize, controlsSize;
+	CGSize viewSize, backgroundSize;
 	CGFloat xPos = 0;
 	
 	// rj backgrounds are always square
 	viewSize = self.parentView.bounds.size;
 	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-	if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if(orientation == UIInterfaceOrientationPortrait ||
+	   orientation == UIInterfaceOrientationPortraitUpsideDown) {
 		backgroundSize.width = viewSize.width;
 		backgroundSize.height = backgroundSize.width;
 	}
