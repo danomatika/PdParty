@@ -772,6 +772,10 @@ static NSNumberFormatter *s_numFormatter = nil;
 	}
 	NSMutableArray *time = [NSMutableArray arrayWithArray:[[s_timeFormatter stringFromDate:[NSDate date]] componentsSeparatedByString:@" "]];
 	for(int i = 0; i < time.count; ++i) {
+		if(i == 5 && [time[i] characterAtIndex:0] == '+') {
+			// catch leading tz + which s_numFormatter can't handle
+			time[i] = [time[i] stringByReplacingOccurrencesOfString:@"+" withString:@""];
+		}
 		NSNumber *n = [s_numFormatter numberFromString:time[i]];
 		time[i] = n;
 	}
