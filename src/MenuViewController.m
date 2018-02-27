@@ -245,8 +245,13 @@
 - (void)restartPressed:(id)sender {
 	DDLogVerbose(@"Menu: restart button pressed");
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	[app.sceneManager reloadScene];
 	[self.popover dismissPopoverAnimated:YES];
+	if(![app.sceneManager reloadScene]) {
+		// didn't open so bail out
+		if(![Util isDeviceATablet]) {
+			[app.patchViewController.navigationController popViewControllerAnimated:YES];
+		}
+	}
 }
 
 - (void)speakerPressed:(id)sender {

@@ -123,6 +123,17 @@
 		self.controllers.enabled = self.scene.requiresControllers;
 		DDLogVerbose(@"SceneManager: opened %@", self.scene.name);
 	}
+	else {
+		DDLogError(@"SceneManager: couldn't open scene");
+		UIAlertView *alert = [[UIAlertView alloc]
+		                         initWithTitle:@"Opening Failed"
+		                         message:@"Couldn't open scene, file, or recording."
+		                         delegate:nil
+		                         cancelButtonTitle:@"OK"
+		                         otherButtonTitles:nil];
+		[alert show];
+		return NO;
+	}
 	
 	// turn up volume & turn on transport, update gui
 	if(self.scene.requiresPd) {

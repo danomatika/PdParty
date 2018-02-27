@@ -179,6 +179,12 @@
 			[self removeBackground];
 		}
 	}
+	else {
+		// didn't open so bail out
+		if(![Util isDeviceATablet]) {
+			[self.navigationController popViewControllerAnimated:YES];
+		}
+	}
 	
 	// hide iPad browser popover on selection 
 	if(self.masterPopoverController != nil) {
