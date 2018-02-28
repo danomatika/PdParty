@@ -62,9 +62,6 @@
 /// override to customize the slider
 - (UISlider *)createSlider;
 
-
-- (void)controlChanged:(id)sender;
-
 /// control event methods which call delegate methods,
 /// /// override to handle a control change manually
 - (void)buttonPressed:(id)sender;
