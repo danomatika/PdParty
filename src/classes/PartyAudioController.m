@@ -15,7 +15,7 @@
 
 @interface PartyAudioController () {
 	BOOL hasEarpiece;    ///< does this device have an earpiece?
-	BOOL optionsChanged; ///< have the audio session options changed>
+	BOOL optionsChanged; ///< have the audio session options changed?
 }
 @end
 
@@ -71,12 +71,7 @@
 		optionsChanged = YES;
 		return;
 	}
-	NSError *error;
-	AVAudioSessionCategoryOptions options = [self playAndRecordOptions];
-	if(![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord
-	                                     withOptions:options error:&error]) {
-		AU_LOG(@"error setting play and record options: %@", error.localizedDescription);
-	}
+	[PdAudioController setSessionOptions:[self playAndRecordOptions]];
 	optionsChanged = NO;
 }
 
