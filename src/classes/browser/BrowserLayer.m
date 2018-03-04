@@ -17,6 +17,20 @@
 // make life easier here ...
 #import "UIActionSheet+Blocks.h"
 
+#pragma mark - BrowserLayerCell
+
+// custom cell so default init sets subtitle style
+@interface BrowserLayerCell : UITableViewCell
+@end
+@implementation BrowserLayerCell
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+	self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+	return self;
+}
+@end
+
+#pragma mark - BrowserLayer
+
 static BrowserLayer *s_moveRoot; //< browser layer that invoked a move edit
 static NSMutableArray *s_movePaths; //< paths to move
 
@@ -69,7 +83,7 @@ static NSMutableArray *s_movePaths; //< paths to move
     [super viewDidLoad];
     
 	// make sure the cell class is known
-	[self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"BrowserCell"];
+	[self.tableView registerClass:BrowserLayerCell.class forCellReuseIdentifier:@"BrowserLayerCell"];
 	
 	// set size in iPad popup
 	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -130,12 +144,13 @@ static NSMutableArray *s_movePaths; //< paths to move
 	NSError *error;
 	DDLogVerbose(@"Browser: loading directory %@", dirPath);
 
-	// search for files in the given path
+	// search for files in the given path and sort
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:&error];
 	if(!contents) {
 		DDLogError(@"Browser: couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
 		return NO;
 	}
+	contents = [contents sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
 	
 	// add contents to pathArray as absolute paths
 	DDLogVerbose(@"Browser: found %d paths", (int) contents.count);
@@ -319,7 +334,11 @@ static NSMutableArray *s_movePaths; //< paths to move
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"BrowserCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserLayerCell" forIndexPath:indexPath];
+    if(!cell) {
+		cell = [[BrowserLayerCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+									   reuseIdentifier:@"BrowserLayerCell"];
+	}
 	BOOL isDir;
 	NSString *path = [_paths objectAtIndex:indexPath.row];
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
