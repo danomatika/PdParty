@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		300507B217C29CE700D1563C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 300507B117C29CE600D1563C /* SettingsViewController.m */; };
 		300507B417C2C11700D1563C /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 300507B317C2C11700D1563C /* Defaults.plist */; };
+		3005945F2049BA0F00861782 /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 3005945E2049BA0F00861782 /* Midi.m */; };
 		300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300EC0451833D74F00219F48 /* CoreLocation.framework */; };
 		302438CD1D5AC072005B15A2 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302438CC1D5AC072005B15A2 /* WebViewController.m */; };
 		3024B08E1C993769002C36DA /* Controllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3024B08D1C993769002C36DA /* Controllers.m */; };
-		3024B0901C99384E002C36DA /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024B08F1C99384E002C36DA /* GameController.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3024B0901C99384E002C36DA /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024B08F1C99384E002C36DA /* GameController.framework */; };
 		3028626A1C40CEBA00A176C6 /* ConsoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862691C40CEBA00A176C6 /* ConsoleViewController.m */; };
 		3028626D1C40D06C00A176C6 /* TextViewLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3028626C1C40D06C00A176C6 /* TextViewLogger.m */; };
 		302862711C4325B000A176C6 /* PartyGui.m in Sources */ = {isa = PBXBuildFile; fileRef = 302862701C4325B000A176C6 /* PartyGui.m */; };
@@ -78,9 +79,6 @@
 		30ABE30616B5D11D00464926 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F616B5D11D00464926 /* InfoPlist.strings */; };
 		30ABE30716B5D11D00464926 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */; };
 		30ABE30816B5D11D00464926 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30ABE2FA16B5D11D00464926 /* MainStoryboard_iPhone.storyboard */; };
-		30ABE40B16B5D15400464926 /* PGMidi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE39C16B5D15400464926 /* PGMidi.mm */; };
-		30ABE40C16B5D15400464926 /* PGMidiAllSources.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE39E16B5D15400464926 /* PGMidiAllSources.mm */; };
-		30ABE40D16B5D15400464926 /* PGMidiFind.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ABE3A016B5D15400464926 /* PGMidiFind.mm */; };
 		30ABE41016B5D54100464926 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE40F16B5D54100464926 /* AudioToolbox.framework */; };
 		30ABE41416B5D58600464926 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41316B5D58600464926 /* CoreMIDI.framework */; };
 		30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE41916B5D67800464926 /* AVFoundation.framework */; };
@@ -93,13 +91,12 @@
 		30C38D811C3868DB00A273BE /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C38D801C3868DB00A273BE /* MenuViewController.m */; };
 		30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C77BB316F1ADFB00988EB9 /* Osc.m */; };
 		30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C77BE316F1C67500988EB9 /* libicucore.dylib */; };
-		30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5916E8456B00E5AA5B /* Midi.m */; };
+		30C9BF5E16E8456B00E5AA5B /* MidiBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5916E8456B00E5AA5B /* MidiBridge.m */; };
 		30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5B16E8456B00E5AA5B /* PureData.m */; };
 		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
 		30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6316E8457400E5AA5B /* KeyGrabber.m */; };
 		30C9BF6716E8460700E5AA5B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6616E8460700E5AA5B /* Util.m */; };
 		30D4CFAD20435E4A00662491 /* PartyAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFA720435E4900662491 /* PartyAudioController.m */; };
-		30D4CFAF2043925F00662491 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D4CFAE2043925F00662491 /* AVKit.framework */; };
 		30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D4CFB020442A4E00662491 /* CoreMedia.framework */; };
 		30D4CFBF20446A9F00662491 /* SceneControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFBA20446A9F00662491 /* SceneControlsView.m */; };
 		30D4CFC020446A9F00662491 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFBB20446A9F00662491 /* ControlsView.m */; };
@@ -181,6 +178,8 @@
 		300507B017C29CE600D1563C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = src/SettingsViewController.h; sourceTree = "<group>"; };
 		300507B117C29CE600D1563C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = src/SettingsViewController.m; sourceTree = "<group>"; };
 		300507B317C2C11700D1563C /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
+		300594592049BA0E00861782 /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midi.h; sourceTree = "<group>"; };
+		3005945E2049BA0F00861782 /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Midi.m; sourceTree = "<group>"; };
 		300EC0451833D74F00219F48 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		302438CB1D5AC072005B15A2 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = src/WebViewController.h; sourceTree = "<group>"; };
 		302438CC1D5AC072005B15A2 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = src/WebViewController.m; sourceTree = "<group>"; };
@@ -323,14 +322,6 @@
 		30ABE2FB16B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		30ABE30116B5D11D00464926 /* PdParty-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PdParty-Info.plist"; sourceTree = "<group>"; };
 		30ABE30216B5D11D00464926 /* PdParty-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PdParty-Prefix.pch"; sourceTree = "<group>"; };
-		30ABE39916B5D15400464926 /* iOSVersionDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSVersionDetection.h; sourceTree = "<group>"; };
-		30ABE39A16B5D15400464926 /* PGArc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGArc.h; sourceTree = "<group>"; };
-		30ABE39B16B5D15400464926 /* PGMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidi.h; sourceTree = "<group>"; };
-		30ABE39C16B5D15400464926 /* PGMidi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidi.mm; sourceTree = "<group>"; };
-		30ABE39D16B5D15400464926 /* PGMidiAllSources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiAllSources.h; sourceTree = "<group>"; };
-		30ABE39E16B5D15400464926 /* PGMidiAllSources.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiAllSources.mm; sourceTree = "<group>"; };
-		30ABE39F16B5D15400464926 /* PGMidiFind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiFind.h; sourceTree = "<group>"; };
-		30ABE3A016B5D15400464926 /* PGMidiFind.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiFind.mm; sourceTree = "<group>"; };
 		30ABE40F16B5D54100464926 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30ABE41316B5D58600464926 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		30ABE41916B5D67800464926 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -350,8 +341,8 @@
 		30C77BB216F1ADFB00988EB9 /* Osc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Osc.h; sourceTree = "<group>"; };
 		30C77BB316F1ADFB00988EB9 /* Osc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Osc.m; sourceTree = "<group>"; };
 		30C77BE316F1C67500988EB9 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
-		30C9BF5816E8456B00E5AA5B /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midi.h; sourceTree = "<group>"; };
-		30C9BF5916E8456B00E5AA5B /* Midi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Midi.m; sourceTree = "<group>"; };
+		30C9BF5816E8456B00E5AA5B /* MidiBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiBridge.h; sourceTree = "<group>"; };
+		30C9BF5916E8456B00E5AA5B /* MidiBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MidiBridge.m; sourceTree = "<group>"; };
 		30C9BF5A16E8456B00E5AA5B /* PureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureData.h; sourceTree = "<group>"; };
 		30C9BF5B16E8456B00E5AA5B /* PureData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PureData.m; sourceTree = "<group>"; };
 		30C9BF5C16E8456B00E5AA5B /* WebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServer.h; sourceTree = "<group>"; };
@@ -441,28 +432,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */,
-				30D4CFAF2043925F00662491 /* AVKit.framework in Frameworks */,
-				30F96A551FC8D415002CDE3F /* libpd-ios.a in Frameworks */,
-				3024B0901C99384E002C36DA /* GameController.framework in Frameworks */,
-				302862731C4369EA00A176C6 /* CoreText.framework in Frameworks */,
-				3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */,
-				300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */,
-				30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */,
-				30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */,
-				30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */,
-				3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */,
-				30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */,
-				3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */,
-				3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */,
-				3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */,
-				3050823016E1998800895CB2 /* Security.framework in Frameworks */,
-				30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */,
-				30ABE41416B5D58600464926 /* CoreMIDI.framework in Frameworks */,
 				30ABE41016B5D54100464926 /* AudioToolbox.framework in Frameworks */,
-				30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */,
-				30ABE2AA16B5A8E500464926 /* Foundation.framework in Frameworks */,
+				30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */,
+				3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */,
 				30ABE2AC16B5A8E500464926 /* CoreGraphics.framework in Frameworks */,
+				300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */,
+				30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */,
+				30ABE41416B5D58600464926 /* CoreMIDI.framework in Frameworks */,
+				30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */,
+				302862731C4369EA00A176C6 /* CoreText.framework in Frameworks */,
+				30ABE2AA16B5A8E500464926 /* Foundation.framework in Frameworks */,
+				3024B0901C99384E002C36DA /* GameController.framework in Frameworks */,
+				30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */,
+				3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */,
+				30F96A551FC8D415002CDE3F /* libpd-ios.a in Frameworks */,
+				3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */,
+				3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */,
+				3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */,
+				30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */,
+				3050823016E1998800895CB2 /* Security.framework in Frameworks */,
+				30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */,
+				30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,7 +795,6 @@
 				30FA775016E68936000E8D2B /* net */,
 				30ABE31916B5D15400464926 /* pd */,
 				30DBD0261C196B0500ABE9E1 /* pd-externals */,
-				30ABE39816B5D15400464926 /* pgmidi */,
 				3094B43D18C97CCF00AFE178 /* ZipArchive */,
 			);
 			name = libs;
@@ -838,29 +827,13 @@
 			path = libs/pd;
 			sourceTree = "<group>";
 		};
-		30ABE39816B5D15400464926 /* pgmidi */ = {
-			isa = PBXGroup;
-			children = (
-				30ABE39916B5D15400464926 /* iOSVersionDetection.h */,
-				30ABE39A16B5D15400464926 /* PGArc.h */,
-				30ABE39B16B5D15400464926 /* PGMidi.h */,
-				30ABE39C16B5D15400464926 /* PGMidi.mm */,
-				30ABE39D16B5D15400464926 /* PGMidiAllSources.h */,
-				30ABE39E16B5D15400464926 /* PGMidiAllSources.mm */,
-				30ABE39F16B5D15400464926 /* PGMidiFind.h */,
-				30ABE3A016B5D15400464926 /* PGMidiFind.mm */,
-			);
-			name = pgmidi;
-			path = libs/pgmidi;
-			sourceTree = "<group>";
-		};
 		30C9BF5716E8456B00E5AA5B /* modules */ = {
 			isa = PBXGroup;
 			children = (
 				3024B08C1C993769002C36DA /* Controllers.h */,
 				3024B08D1C993769002C36DA /* Controllers.m */,
-				30C9BF5816E8456B00E5AA5B /* Midi.h */,
-				30C9BF5916E8456B00E5AA5B /* Midi.m */,
+				30C9BF5816E8456B00E5AA5B /* MidiBridge.h */,
+				30C9BF5916E8456B00E5AA5B /* MidiBridge.m */,
 				30C77BB216F1ADFB00988EB9 /* Osc.h */,
 				30C77BB316F1ADFB00988EB9 /* Osc.m */,
 				30C9BF5A16E8456B00E5AA5B /* PureData.h */,
@@ -879,6 +852,8 @@
 		30C9BF6116E8457400E5AA5B /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				300594592049BA0E00861782 /* Midi.h */,
+				3005945E2049BA0F00861782 /* Midi.m */,
 				30D60AA6198A8E3A003DFA70 /* browser */,
 				30D4CFB820446A9F00662491 /* controls */,
 				30D4CFAC20435E4A00662491 /* PartyAudioController.h */,
@@ -1190,9 +1165,6 @@
 				305772E51E88D9B9007F9A92 /* DDLog.m in Sources */,
 				30DBD0611C196B0500ABE9E1 /* rj_centroid~.c in Sources */,
 				30DBD04A1C196B0500ABE9E1 /* Externals.m in Sources */,
-				30ABE40B16B5D15400464926 /* PGMidi.mm in Sources */,
-				30ABE40C16B5D15400464926 /* PGMidiAllSources.mm in Sources */,
-				30ABE40D16B5D15400464926 /* PGMidiFind.mm in Sources */,
 				30C38D551C35B7F400A273BE /* Popover.m in Sources */,
 				30A319F416B61FF700C7729B /* Gui.m in Sources */,
 				3057729D1E88A08A007F9A92 /* GCDWebServerDataResponse.m in Sources */,
@@ -1202,6 +1174,7 @@
 				30DCC10B196CCCD700B887C5 /* Loadsave.m in Sources */,
 				30F7A19716C008A500DE265F /* BrowserViewController.m in Sources */,
 				305772981E88A08A007F9A92 /* GCDWebServerResponse.m in Sources */,
+				3005945F2049BA0F00861782 /* Midi.m in Sources */,
 				305772961E88A08A007F9A92 /* GCDWebServerFunctions.m in Sources */,
 				303CBBF01C497330000384FF /* Sensors.m in Sources */,
 				302438CD1D5AC072005B15A2 /* WebViewController.m in Sources */,
@@ -1212,7 +1185,7 @@
 				30BEF1111C2BAB5C0026C5DB /* Knob.m in Sources */,
 				30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */,
 				30FA775316E68936000E8D2B /* Reachability.m in Sources */,
-				30C9BF5E16E8456B00E5AA5B /* Midi.m in Sources */,
+				30C9BF5E16E8456B00E5AA5B /* MidiBridge.m in Sources */,
 				30C9BF5F16E8456B00E5AA5B /* PureData.m in Sources */,
 				30D4CFBF20446A9F00662491 /* SceneControlsView.m in Sources */,
 				3057729A1E88A08A007F9A92 /* GCDWebServerFileRequest.m in Sources */,

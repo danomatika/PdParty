@@ -138,9 +138,9 @@
 
 - (void)updateMidiLabel {
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	if(app.midi.isEnabled) {
+	if(app.midi.enabled) {
 		self.midiLabel.text = [NSString stringWithFormat:@"In(%lu) Out(%lu)",
-							   (unsigned long)app.midi.inputs.count, (unsigned long)app.midi.outputs.count];
+							  (unsigned long)app.midi.inputs.count, (unsigned long)app.midi.outputs.count];
 	}
 	else {
 		self.midiLabel.text = @"Disabled";
@@ -177,13 +177,9 @@
 	}
 }
 
-#pragma mark MidiConnectionDelegate
+#pragma mark MidiBridgeDelegate
 
-- (void)midiInputConnectionEvent {
-	[self updateMidiLabel];
-}
-
-- (void)midiOutputConnectionEvent {
+- (void)midiConnectionsChanged {
 	[self updateMidiLabel];
 }
 

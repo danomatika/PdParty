@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #import "PureData.h"
-#import "Midi.h"
+#import "MidiBridge.h"
 #import "Osc.h"
 #import "SceneManager.h"
 #import "WebServer.h"
@@ -30,7 +30,7 @@
 @property (weak, nonatomic) BrowserViewController *browserViewController;
 
 @property (strong, nonatomic) PureData *pureData;
-@property (strong, nonatomic) Midi *midi;
+@property (strong, nonatomic) MidiBridge *midi;
 @property (strong, nonatomic) Osc *osc;
 @property (strong, nonatomic) SceneManager *sceneManager;
 @property (strong, nonatomic) WebServer *server;

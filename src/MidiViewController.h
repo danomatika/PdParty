@@ -10,19 +10,19 @@
  */
 #import <UIKit/UIKit.h>
 
-#import "Midi.h"
+#import "MidiBridge.h"
 
 /// midi settings view
-@interface MidiViewController : UITableViewController <MidiConnectionDelegate>
+@interface MidiViewController : UITableViewController <MidiBridgeDelegate>
 
 @property (weak, nonatomic) IBOutlet UISwitch *midiEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *virtualEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *networkMidiEnabledSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *virtualInputEnabledSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *virtualOutputEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *multiDeviceModeSwitch;
 
 - (IBAction)enableMidi:(id)sender;
+- (IBAction)enableVirtual:(id)sender;
 - (IBAction)enableNetworkMidi:(id)sender;
-- (IBAction)enableVirtualInput:(id)sender;
-- (IBAction)enableVirtualOutput:(id)sender;
+- (IBAction)enableMultiDeviceMode:(id)sender;
 
 @end

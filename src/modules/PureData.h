@@ -53,7 +53,6 @@
 
 #define RECORDINGS_DIR  @"recordings" //< in the Documents dir
 
-@class Midi;
 @class Osc;
 @class Sensors;
 
@@ -80,7 +79,6 @@
 @interface PureData : NSObject <PdReceiverDelegate, PdMidiReceiverDelegate>
 
 @property (strong, nonatomic) PureDataDispatcher *dispatcher; //< message dispatcher
-@property (weak, nonatomic) Midi *midi; //< pointer to midi instance
 @property (weak, nonatomic) Osc *osc; //< pointer to osc instance
 @property (weak, nonatomic) Sensors *sensors; //< pointer to sensor manager instance
 

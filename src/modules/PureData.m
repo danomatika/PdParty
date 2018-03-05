@@ -12,7 +12,6 @@
 
 #import "AppDelegate.h"
 #import "Log.h"
-#import "Midi.h"
 #import "Osc.h"
 #import "Sensors.h"
 #import "Controllers.h"
@@ -55,9 +54,6 @@
 		// set dispatcher delegate
 		self.dispatcher = [[PureDataDispatcher alloc] init];
 		[PdBase setDelegate:self.dispatcher pollingEnabled:NO];
-		
-		// set midi receiver delegate
-		[PdBase setMidiDelegate:self pollingEnabled:NO];
 		
 		// add this class as a receiver
 		[self.dispatcher addListener:self forSource:PD_OSC_S];
@@ -525,37 +521,6 @@
 	else {
 		DDLogVerbose(@"PureData: dropped message: %@ %@", message, arguments.description);
 	}
-}
-
-#pragma mark PdMidiReceiverDelegate
-
-- (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
-	[self.midi sendNoteOn:channel pitch:pitch velocity:velocity];
-}
-
-- (void)receiveControlChange:(int)value forController:(int)controller forChannel:(int)channel {
-	[self.midi sendControlChange:channel controller:controller value:value];
-}
-
-- (void)receiveProgramChange:(int)value forChannel:(int)channel {
-	[self.midi sendProgramChange:channel value:value];
-}
-
-- (void)receivePitchBend:(int)value forChannel:(int)channel {
-	value += 8192; // convert range from libpd -8192 - 8192 to 0 - 16384
-	[self.midi sendPitchBend:channel value:value];
-}
-
-- (void)receiveAftertouch:(int)value forChannel:(int)channel {
-	[self.midi sendAftertouch:channel value:value];
-}
-
-- (void)receivePolyAftertouch:(int)value forPitch:(int)pitch forChannel:(int)channel {
-	[self.midi sendPolyAftertouch:channel pitch:pitch value:value];
-}
-
-- (void)receiveMidiByte:(int)byte forPort:(int)port {
-	[self.midi sendMidiByte:byte]; // ignoring port as message sent to all ports
 }
 
 #pragma mark Overridden Getters / Setters

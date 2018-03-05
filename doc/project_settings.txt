@@ -2,22 +2,38 @@ Header Search paths:
 
 libs
 $(SDKROOT)/usr/include/libxml2
-libs/CocoaHTTPServer/Vendor/CocoaAsyncSocket
+libs/pd/**
+libs/liblo
 
-C Flags: -DPD -DHAVE_UNISTD_H -DUSEAPI_DUMMY
+Library Search Paths:
+
+$(PROJECT_DIR)/libs/liblo
+
+C Flags: -DPD -DHAVE_UNISTD_H -DUSEAPI_DUMMY -DLIBPD_EXTRA
 
 Frameworks:
 
-CoreMIDI
-Security
-MobileCoreServices
+AudioToolbox
+AVFoundation
 CFNetwork
-libxml2.dylib
-SystemConfiguration
-CoreMotion
-libicucore.dylib
-QuartzCore
+CoreGraphics
 CoreLocation
+CoreMedia
+CoreMIDI
+CoreMotion
+CoreText
+Foundation
+GameController (optional)
+libicucore.dylib
+liblo.a (libs)
+libpd-ios.a (libs)
+libxml2.dylib
+libz.1.2.5.dylib
+MobileCoreServices
+QuartzCore
+Security
+SystemConfiguration
+UIKit
 
 Compiler flags for non-Arc libs: -fno-objc-arc
 

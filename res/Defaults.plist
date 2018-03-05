@@ -42,9 +42,9 @@
 	<false/>
 	<key>networkMidiEnabled</key>
 	<false/>
-	<key>virtualMidiInputEnabled</key>
+	<key>virtualMidiEnabled</key>
 	<false/>
-	<key>virtualMidiOutputEnabled</key>
+	<key>multiMidiDeviceMode</key>
 	<false/>
 </dict>
 </plist>

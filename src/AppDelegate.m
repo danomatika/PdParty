@@ -81,14 +81,14 @@
 	self.runsInBackground = [defaults boolForKey:@"runsInBackground"];
 	
 	// setup midi
-	self.midi = [[Midi alloc] init];
+	self.midi = [[MidiBridge alloc] init];
 	
 	// setup osc
 	self.osc = [[Osc alloc] init];
 	
 	// setup pd
 	self.pureData = [[PureData alloc] init];
-	self.pureData.midi = self.midi;
+	[PdBase setMidiDelegate:self.midi pollingEnabled:NO];
 	self.pureData.osc = self.osc;
 	[Widget setDispatcher:self.pureData.dispatcher];
 	

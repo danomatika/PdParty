@@ -189,23 +189,23 @@
 #X obj 18 408 cnv 15 154 54 empty empty ctlout 20 12 0 14 -233017 -66577
 0;
 #X obj 34 436 hsl 128 15 0 127 0 0 ctlout-val empty empty 2 8 0 10
--262144 -1 -1 9200 1;
+-262144 -1 -1 0 1;
 #X obj 18 473 cnv 15 154 54 empty empty pgmout 20 12 0 14 -233017 -66577
 0;
 #X obj 34 501 hsl 128 15 0 127 0 0 pgmout-val empty empty 2 8 0 10
--262144 -1 -1 4500 1;
+-262144 -1 -1 0 1;
 #X obj 184 409 cnv 15 154 54 empty empty bendout 20 12 0 14 -233017
 -66577 0;
 #X obj 200 437 hsl 128 15 -8192 8192 0 0 bendout-val empty empty 2
-8 0 10 -262144 -1 -1 6900 1;
+8 0 10 -262144 -1 -1 0 1;
 #X obj 184 474 cnv 15 154 54 empty empty touchout 20 12 0 14 -233017
 -66577 0;
 #X obj 200 502 hsl 128 15 0 127 0 0 touchout-val empty empty 2 8 0
-10 -262144 -1 -1 2900 1;
+10 -262144 -1 -1 0 1;
 #X obj 18 543 cnv 15 154 54 empty empty polytouchout 20 12 0 14 -233017
 -66577 0;
 #X obj 34 571 hsl 128 15 0 127 0 0 polytouchout-val empty empty 2 8
-0 10 -262144 -1 -1 2600 1;
+0 10 -262144 -1 -1 0 1;
 #X obj 265 543 cnv 15 72 54 empty empty midiout 2 12 0 14 -233017 -66577
 0;
 #X obj 185 543 cnv 15 72 54 empty empty sysexout 2 12 0 14 -233017
@@ -215,11 +215,11 @@
 #X obj 287 567 bng 25 250 50 0 midiout-bng empty empty 24 10 0 10 -262144
 -1 -1;
 #N canvas 0 23 450 196 info 0;
-#X text 42 73 Open this patch on the desktop and use OSX network midi
-for testing or plug in a usb midi adapter via the Camera Connection
-Kit (optionally through a powered usb hub).;
+#X text 42 73 Open this patch on the desktop and use macOS Network
+MIDI for testing or plug in a USB MIDI adapter via the Camera Connection
+Kit (optionally through a powered USB hub).;
 #X restore 152 266 pd info;
 #X text 127 292 Connect via USB;
 #X text 127 310 using the Camera;
 #X text 127 330 Connection Kit or;
-#X text 127 349 OSX Network MIDI.;
+#X text 121 349 macOS Network MIDI.;
