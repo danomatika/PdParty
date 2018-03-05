@@ -11,6 +11,14 @@
 #import "MidiViewController.h"
 
 #import "AppDelegate.h"
+#import <CoreAudioKit/CoreAudioKit.h>
+
+#define SETTINGS_SECTION 0
+#define CHANNELS_SECTION 1
+#define INPUTS_SECTION   2
+#define OUTPUTS_SECTION  3
+
+#define BLUETOOTH_ROW 3
 
 #pragma mark - MidiConnectionCell
 
@@ -44,6 +52,8 @@
 	self.virtualEnabledSwitch.on = midi.virtualEnabled;
 	self.networkMidiEnabledSwitch.on = midi.networkEnabled;
 	self.multiDeviceModeSwitch.on = midi.multiDeviceMode;
+
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -92,16 +102,16 @@
 // hide cells based on midi status
 // from http://code-ninja.org/blog/2012/02/29/ios-quick-tip-programmatically-hiding-sections-of-a-uitableview-with-static-cells/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if(section == 0) {
-		return (midi.enabled ? 3 : 1);
+	if(section == SETTINGS_SECTION) {
+		return (midi.enabled ? 4 : 1);
 	}
-	else if(section == 1) {
+	else if(section == CHANNELS_SECTION) {
 		return (midi.enabled ? 1 : 0);
 	}
-	else if(section == 2) {
+	else if(section == INPUTS_SECTION) {
 		return midi.inputs.count;
 	}
-	else if(section == 3) {
+	else if(section == OUTPUTS_SECTION) {
 		return midi.outputs.count;
 	}
 	
@@ -113,7 +123,7 @@
 	// Customize the appearance of table view cells.
 	
 	UITableViewCell *cell;
-	if(indexPath.section == 2 || indexPath.section == 3) { // inputs or outputs
+	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
 		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiConnectionCell" forIndexPath:indexPath];
 		if(!cell) {
 			cell = [[MidiConnectionCell alloc] initWithStyle:UITableViewCellStyleValue1
@@ -124,7 +134,7 @@
 		cell.detailTextLabel.textColor = [UIColor blackColor];
 		cell.userInteractionEnabled = NO;
 
-		MidiConnection *connection = (indexPath.section == 2 ?
+		MidiConnection *connection = (indexPath.section == INPUTS_SECTION ?
 		                              midi.inputs[indexPath.row] :
 		                              midi.outputs[indexPath.row]);
 		if(connection) {
@@ -134,6 +144,16 @@
 	}
 	else { // section 0 or 1: static cells
 		cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+		if(indexPath.section == SETTINGS_SECTION && indexPath.row == BLUETOOTH_ROW) {
+			// disable Bluetooth selection?
+			BOOL enabled = [Util deviceSupportsBluetoothLE];
+			cell.userInteractionEnabled = enabled;
+			for(UIView *view in cell.contentView.subviews) {
+				if([view isKindOfClass:UILabel.class]) {
+					[(UILabel *)view setEnabled:enabled];
+				}
+			}
+		}
 	}
 	
 	return cell;
@@ -142,15 +162,15 @@
 // hide headers when disabled
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch(section) {
-		case 1:
+		case CHANNELS_SECTION:
 			if(midi.enabled) {
 				return @"Channels";
 			}
-		case 2:
+		case INPUTS_SECTION:
 			if(midi.enabled) {
 				return @"Inputs";
 			}
-		case 3:
+		case OUTPUTS_SECTION:
 			if(midi.enabled) {
 				return @"Outputs";
 			}
@@ -162,11 +182,11 @@
 // hide footers when disabled
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
 	switch(section) {
-		case 0: // general section
+		case SETTINGS_SECTION:
 			if(midi.enabled) {
 				return @"Max 4 inputs & 4 outputs";
 			}
-		case 1: // channels section
+		case CHANNELS_SECTION:
 			if(midi.enabled) {
 				if(midi.multiDeviceMode) {
 					return @"Dev channels: 1 (1-16), 2 (17-32), 3 (33-48), 4 (49-64)";
@@ -198,7 +218,7 @@
 
 // if a dynamic section, make all rows the same height as row 0
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section == 2 || indexPath.section == 3) {
+	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
 		return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
 	}
 	else {
@@ -208,7 +228,7 @@
 
 // if dynamic section make all rows the same indentation level as row 0
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section == 2 || indexPath.section == 3) {
+	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
 		return [super tableView:tableView indentationLevelForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
 	}
 	else {
@@ -216,9 +236,15 @@
 	}
 }
 
-// shouldn't be called since nothing is selectable
+// nothing is selectable except for Bluetooth MIDI
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	if(indexPath.section == SETTINGS_SECTION && indexPath.row == BLUETOOTH_ROW) {
+		/// launch Bluetooth MIDI controller
+		/// https://developer.apple.com/library/content/qa/qa1831/_index.html
+		CABTMIDICentralViewController *controller = [CABTMIDICentralViewController new];
+    	[self.navigationController pushViewController:controller animated:YES];
+	}
 }
 
 #pragma mark MidiBridgeDelegate
@@ -227,7 +253,7 @@
 // will crash when reloading one section while the number of ports in the other
 // section has changed as well
 - (void)midiConnectionsChanged {
-	NSRange range = NSMakeRange(2, 2); // sections 2 & 3
+	NSRange range = NSMakeRange(INPUTS_SECTION, 2); // sections 2 & 3
 	NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
 	[self.tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
 }

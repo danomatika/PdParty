@@ -56,6 +56,7 @@
 		305772E71E88D9B9007F9A92 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 305772E11E88D9B9007F9A92 /* DDTTYLogger.m */; };
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
+		3078DF9A204D72F60024B673 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3078DF99204D72F50024B673 /* CoreAudioKit.framework */; };
 		3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081A4721D615FDE006106E8 /* liblo.a */; };
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
@@ -272,6 +273,7 @@
 		306204721753C90400DEC1C2 /* RjScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjScene.m; sourceTree = "<group>"; };
 		306204731753C90400DEC1C2 /* PatchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchScene.h; sourceTree = "<group>"; };
 		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
+		3078DF99204D72F50024B673 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		3081A4721D615FDE006106E8 /* liblo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblo.a; sourceTree = "<group>"; };
 		3081A4741D615FDE006106E8 /* lo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo.h; sourceTree = "<group>"; };
 		3081A4751D615FDE006106E8 /* lo_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_cpp.h; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 			files = (
 				30ABE41016B5D54100464926 /* AudioToolbox.framework in Frameworks */,
 				30ABE41A16B5D67800464926 /* AVFoundation.framework in Frameworks */,
+				3078DF9A204D72F60024B673 /* CoreAudioKit.framework in Frameworks */,
 				3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */,
 				30ABE2AC16B5A8E500464926 /* CoreGraphics.framework in Frameworks */,
 				300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */,
@@ -727,6 +730,7 @@
 		30ABE2A616B5A8E500464926 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3078DF99204D72F50024B673 /* CoreAudioKit.framework */,
 				30D4CFB020442A4E00662491 /* CoreMedia.framework */,
 				30D4CFAE2043925F00662491 /* AVKit.framework */,
 				3024B08F1C99384E002C36DA /* GameController.framework */,

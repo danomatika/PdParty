@@ -1330,12 +1330,35 @@
                                             <constraint firstItem="0eF-kn-0bp" firstAttribute="leading" secondItem="M91-gz-QgX" secondAttribute="leading" constant="30" id="V7A-UC-WpQ"/>
                                         </constraints>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hWw-vr-fQn">
+                                        <rect key="frame" x="0.0" y="167" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hWw-vr-fQn" id="FcB-ei-eyZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="286" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Bluetooth MIDI" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mzd-hU-Loy">
+                                                    <rect key="frame" x="30" y="12" width="120" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="120" id="0Gc-zK-uDL"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="mzd-hU-Loy" firstAttribute="centerY" secondItem="FcB-ei-eyZ" secondAttribute="centerY" id="WhV-Dz-ubx"/>
+                                                <constraint firstItem="mzd-hU-Loy" firstAttribute="leading" secondItem="FcB-ei-eyZ" secondAttribute="leading" constant="30" id="Z51-Cb-YnZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Channels" footerTitle="Devices share channels 1-16" id="5TD-qw-dQu">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Dw3-hH-QMM">
-                                        <rect key="frame" x="0.0" y="242.5" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="286.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dw3-hH-QMM" id="TWN-X2-VBo">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1367,7 +1390,7 @@
                             <tableViewSection headerTitle="Inputs" id="M3w-HL-Xfi">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="mUE-oc-Iuc" detailTextLabel="NAk-aI-xM9" style="IBUITableViewCellStyleValue1" id="x4v-uk-3vG">
-                                        <rect key="frame" x="0.0" y="354.5" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="398.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x4v-uk-3vG" id="p8Y-IK-OBP">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1395,7 +1418,7 @@
                             <tableViewSection headerTitle="Outputs" id="3zQ-Oh-OUi">
                                 <cells>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="uC4-AD-uS7" detailTextLabel="MFv-gk-duw" style="IBUITableViewCellStyleValue1" id="ACO-tJ-NpD">
-                                        <rect key="frame" x="0.0" y="446.5" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="490.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ACO-tJ-NpD" id="pA9-lR-ya6">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>

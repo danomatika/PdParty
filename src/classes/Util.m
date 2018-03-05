@@ -12,6 +12,7 @@
 
 #import "Log.h"
 #import <CoreText/CoreText.h>
+#import <CoreLocation/CoreLocation.h>
 
 @implementation Util
 
@@ -42,6 +43,14 @@
 
 + (float)deviceOSVersion {
 	return [[[UIDevice currentDevice] systemVersion] floatValue];
+}
+
++ (BOOL)deviceSupportsBluetoothLE {
+#if TARGET_IPHONE_SIMULATOR
+	return YES;
+#else
+	return [CLLocationManager isMonitoringAvailableForClass:CLBeaconRegion.class];
+#endif
 }
 
 #pragma mark App

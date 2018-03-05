@@ -34,6 +34,9 @@
 /// get device iOS version as a float aka 6.1, 7.02, etc
 + (float)deviceOSVersion;
 
+/// returns YES if the device supports Bluetooth Low Energy
+ +(BOOL)deviceSupportsBluetoothLE;
+
 #pragma mark App
 
 /// application pixel dimensions, does not include status bar
