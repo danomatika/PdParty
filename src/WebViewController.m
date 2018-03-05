@@ -51,6 +51,7 @@
 	
 	// create web view and load
 	UIWebView *webView = [[UIWebView alloc] init];
+	webView.dataDetectorTypes = UIDataDetectorTypeNone;
 	if([url isFileURL]) {
 		NSError *error;
 		if(![url checkResourceIsReachableAndReturnError:&error]) {
