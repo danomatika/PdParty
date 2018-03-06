@@ -98,6 +98,9 @@
 - (IBAction)enableMultiDeviceMode:(id)sender {
 	midi.multiDeviceMode = self.multiDeviceModeSwitch.isOn;
 	self.navigationItem.rightBarButtonItem.enabled = midi.multiDeviceMode;
+	if(!midi.multiDeviceMode) {
+		[self doneButtonPressed];
+	}
 	[self.tableView reloadData]; // reload footer text
 }
 
@@ -254,18 +257,18 @@
 // methods which take an indexPath in order to avoid index out of bounds exceptions with
 // the dynamic sections
 
-// non-empty inputs & outputs can be reordered when editing
+// inputs & outputs can be reordered when editing
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
-		return ![self isCellAtIndexPathEmpty:indexPath];
+		return YES;
 	}
 	return NO;
 }
 
-// non-empty inputs & outputs can be reordered when editing
+// inputs & outputs can be reordered when editing
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
-		return ![self isCellAtIndexPathEmpty:indexPath];
+		return YES;
 	}
 	return NO;
 }
@@ -279,27 +282,30 @@
 		}
     	return [NSIndexPath indexPathForRow:row inSection:sourceIndexPath.section];
 	}
-	//DDLogInfo(@"proposed: %d %d", (int)proposedDestinationIndexPath.section, (int)proposedDestinationIndexPath.row);
 	return proposedDestinationIndexPath;
 }
 
 // reorder inputs / outputs when editing
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(nonnull NSIndexPath *)sourceIndexPath toIndexPath:(nonnull NSIndexPath *)destinationIndexPath {
-	BOOL reload = YES;
 	if(sourceIndexPath.section == INPUTS_SECTION) {
-		reload = [midi moveInputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row];
+		if([midi moveInputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row]) {
+			[tableView reloadData];
+		}
 	}
 	else if(sourceIndexPath.section == OUTPUTS_SECTION) {
-		reload = [midi moveOutputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row];
+		if([midi moveOutputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row]) {
+			[tableView reloadData];
+		}
 	}
 	else {
 		// static sections, should never be called
 		return;
 	}
-	//DDLogVerbose(@"moved: %d %d to %d %d", (int)sourceIndexPath.section, (int)sourceIndexPath.row, (int)destinationIndexPath.section, (int)destinationIndexPath.row);
-	if(reload) {
-		[self.tableView reloadData];
-	}
+}
+
+// don't indent while editing
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+	return NO;
 }
 
 // only moving, so no editing style
@@ -350,15 +356,6 @@
 }
 
 #pragma mark Private
-
-/// returns YES if cell's label text is EMPTY_CELL
-- (BOOL)isCellAtIndexPathEmpty:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-	if(cell && [cell.textLabel.text isEqualToString:EMPTY_CELL]) {
-		return YES;
-	}
-	return NO;
-}
 
 - (void)rightNavToEditButton {
 	self.navigationItem.rightBarButtonItem =

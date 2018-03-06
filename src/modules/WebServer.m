@@ -29,7 +29,7 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		[GCDWebServer setLogLevel:3]; // WARNING
+		[GCDWebServer setLogLevel:4]; // ERROR
 		server = [[GCDWebDAVServer alloc] initWithUploadDirectory:[Util documentsPath]];
 		server.delegate = self;
 	}

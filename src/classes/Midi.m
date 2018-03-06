@@ -444,8 +444,8 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 
 #pragma mark Sending
 
-// try to find the requested port,
-// assumes sorted array and counts up from port index
+// TODO: make this faster by using an index lookup table, etc
+// try to find the requested port, assumes sorted array and counts up from port
 - (BOOL)sendMessage:(NSData *)message toPort:(int)port {
 	for(MidiOutput *output in self.outputs) {
 		if(output.port == port) {
@@ -605,66 +605,49 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 	[array sortUsingDescriptors:@[sortDescriptor]];
 }
 
-// move connection from one port to another, shift the port indices of any
-// affected connections and resort
+// move connection from one port to another, shift the port indices, and resort
 + (BOOL)movePort:(int)port toPort:(int)newPort inArray:(NSMutableArray *)array {
-	if(array.count == 0 || port == newPort || port < 0 || newPort < 0 ||
-	   port >= array.count || newPort >= array.count) {
+	if(array.count == 0 || port == newPort || port < 0 || newPort < 0) {
 		return NO;
 	}
 
+	int p = newPort;
 	if(port < newPort) {
-		// move port upwards
-		BOOL found = NO;
-		int p = newPort;
 		for(int i = 0; i < array.count; ++i) {
 			MidiConnection *c = array[i];
 
-			// find and set new port
+			// set new port
 			if(c.port < port) continue;
 			else if(c.port == port) {
 				c.port = newPort;
-				found = YES;
 				continue;
-			}
-			else if(!found) {
-				return NO;
-			}
-
-			// shift ports up to make space
-			if(c.port < p) continue;
-			else if(c.port == p) {
-				c.port++;
-				continue;
-			}
-			else break;
-		}
-	}
-	else {
-		// move port downwards
-		BOOL found = NO;
-		int p = newPort;
-		for(int i = (int)array.count-1; i > -1; ++i) {
-			MidiConnection *c = array[i];
-
-			// find and set new port
-			if(c.port > port) continue;
-			else if(c.port == port) {
-				c.port = newPort;
-				found = YES;
-				continue;
-			}
-			else if(!found) {
-				return NO;
 			}
 
 			// shift ports down to make space
-			if(c.port > p) continue;
-			else if(c.port == p) {
+			if(c.port > newPort) break;
+			else {
 				c.port--;
+				p++;
+			}
+		}
+	}
+	else {
+		for(int i = (int)array.count-1; i > -1; --i) {
+			MidiConnection *c = array[i];
+
+			// set new port
+			if(c.port > port) continue;
+			else if(c.port == port) {
+				c.port = newPort;
 				continue;
 			}
-			else break;
+
+			// shift ports up
+			if(c.port < newPort) break;
+			else {
+				c.port++;
+				p--;
+			}
 		}
 	}
 	[Midi sort:array];

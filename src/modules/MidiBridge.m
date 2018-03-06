@@ -21,7 +21,7 @@
 	NSMutableData *message;
 	NSTimer *connectionEventTimer;
 }
-@property (nonatomic, readwrite) Midi *midi; ///< underlying midi object
+@property (nonatomic, strong) Midi *midi; ///< underlying midi object
 @end
 
 @implementation MidiBridge

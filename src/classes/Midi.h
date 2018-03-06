@@ -183,11 +183,11 @@ enum MidiStatus {
 /// flush any remaining bytes on all output ports
 - (void)flush;
 
-/// move input at given port index to a new port index and resort input ports
+/// move input at given port index to a new port index and shift input ports
 /// does nothing if there is no input at port index, returns YES on success
 - (BOOL)moveInputPort:(int)port toPort:(int)newPort;
 
-/// move output at given port index to a new port index and resort output ports
+/// move output at given port index to a new port index and shift output ports
 /// does nothing if there is no input at port index, returns YES on success
 - (BOOL)moveOutputPort:(int)port toPort:(int)newPort;
 
