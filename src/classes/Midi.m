@@ -47,6 +47,10 @@ static BOOL isNetworkSession(MIDIEndpointRef ref) {
 	return hasMidiRtpKey;
 }
 
+@interface MidiConnection ()
+@property (nonatomic, readwrite) int port;
+@end
+
 @implementation MidiConnection
 
 - (instancetype)initWithMidi:(Midi *)midi
@@ -80,7 +84,7 @@ static BOOL isNetworkSession(MIDIEndpointRef ref) {
 	if(self) {
 		firstPacket = true;
 		continueSysex = false;
-		message = [[NSMutableData alloc] init];
+		message = [NSMutableData new];
 	}
 	return self;
 }
@@ -334,6 +338,14 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 	}
 }
 
+- (BOOL)moveInputPort:(int)port toPort:(int)newPort {
+	return [Midi movePort:port toPort:newPort inArray:self.inputs];
+}
+
+- (BOOL)moveOutputPort:(int)port toPort:(int)newPort {
+	return [Midi movePort:port toPort:newPort inArray:self.outputs];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setNetworkEnabled:(BOOL)networkEnabled {
@@ -435,8 +447,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 // try to find the requested port,
 // assumes sorted array and counts up from port index
 - (BOOL)sendMessage:(NSData *)message toPort:(int)port {
-	for(int i = 0; i < self.outputs.count; i++) {
-		MidiOutput *output = self.outputs[i];
+	for(MidiOutput *output in self.outputs) {
 		if(output.port == port) {
 			return [output sendMessage:message];
 		}
@@ -495,8 +506,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 }
 
 - (void)disconnectInput:(MIDIEndpointRef)endpoint {
-	for(int i = 0; i < self.inputs.count; ++i) {
-		MidiInput *input = self.inputs[i];
+	for(MidiInput *input in self.inputs) {
 		if(input.endpoint == endpoint) {
 			OSStatus s = MIDIPortDisconnectSource(midiInputPort, endpoint);
 			if(s != noErr) {
@@ -513,8 +523,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 }
 
 - (void)disconnectOutput:(MIDIEndpointRef)endpoint {
-	for(int i = 0; i < self.outputs.count; ++i) {
-		MidiOutput *output = self.outputs[i];
+	for(MidiOutput *output in self.outputs) {
 		if(output.endpoint == endpoint) {
 			[self.outputs removeObject:output];
 			[Midi sort:self.outputs];
@@ -594,6 +603,72 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 + (void)sort:(NSMutableArray *)array {
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"port" ascending:YES];
 	[array sortUsingDescriptors:@[sortDescriptor]];
+}
+
+// move connection from one port to another, shift the port indices of any
+// affected connections and resort
++ (BOOL)movePort:(int)port toPort:(int)newPort inArray:(NSMutableArray *)array {
+	if(array.count == 0 || port == newPort || port < 0 || newPort < 0 ||
+	   port >= array.count || newPort >= array.count) {
+		return NO;
+	}
+
+	if(port < newPort) {
+		// move port upwards
+		BOOL found = NO;
+		int p = newPort;
+		for(int i = 0; i < array.count; ++i) {
+			MidiConnection *c = array[i];
+
+			// find and set new port
+			if(c.port < port) continue;
+			else if(c.port == port) {
+				c.port = newPort;
+				found = YES;
+				continue;
+			}
+			else if(!found) {
+				return NO;
+			}
+
+			// shift ports up to make space
+			if(c.port < p) continue;
+			else if(c.port == p) {
+				c.port++;
+				continue;
+			}
+			else break;
+		}
+	}
+	else {
+		// move port downwards
+		BOOL found = NO;
+		int p = newPort;
+		for(int i = (int)array.count-1; i > -1; ++i) {
+			MidiConnection *c = array[i];
+
+			// find and set new port
+			if(c.port > port) continue;
+			else if(c.port == port) {
+				c.port = newPort;
+				found = YES;
+				continue;
+			}
+			else if(!found) {
+				return NO;
+			}
+
+			// shift ports down to make space
+			if(c.port > p) continue;
+			else if(c.port == p) {
+				c.port--;
+				continue;
+			}
+			else break;
+		}
+	}
+	[Midi sort:array];
+	return YES;
 }
 
 #pragma mark Notifications

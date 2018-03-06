@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Dan Wilcox <danomatika@gmail.com>
+ * Copyright (c) 2013, 2018 Dan Wilcox <danomatika@gmail.com>
  *
  * BSD Simplified License.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
@@ -19,6 +19,9 @@
 #define OUTPUTS_SECTION  3
 
 #define BLUETOOTH_ROW 3
+
+// placeholder string for unused i/o ports
+#define EMPTY_CELL @"none"
 
 #pragma mark - MidiConnectionCell
 
@@ -53,7 +56,7 @@
 	self.networkMidiEnabledSwitch.on = midi.networkEnabled;
 	self.multiDeviceModeSwitch.on = midi.multiDeviceMode;
 
-
+	[self rightNavToEditButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -80,6 +83,7 @@
 	self.virtualEnabledSwitch.on = midi.virtualEnabled;
 	self.networkMidiEnabledSwitch.on = midi.networkEnabled;
 	self.multiDeviceModeSwitch.on = midi.multiDeviceMode;
+	self.navigationItem.rightBarButtonItem.enabled = midi.multiDeviceMode;
 	[self.tableView reloadData];
 }
 
@@ -93,8 +97,18 @@
 
 - (IBAction)enableMultiDeviceMode:(id)sender {
 	midi.multiDeviceMode = self.multiDeviceModeSwitch.isOn;
-	// reloading the table view loads the footer text
-	[self.tableView reloadData];
+	self.navigationItem.rightBarButtonItem.enabled = midi.multiDeviceMode;
+	[self.tableView reloadData]; // reload footer text
+}
+
+- (void)editButtonPressed {
+	[self.tableView setEditing:YES animated:YES];
+	[self rightNavToDoneButton];
+}
+
+- (void)doneButtonPressed {
+	[self.tableView setEditing:NO animated:YES];
+	[self rightNavToEditButton];
 }
 
 #pragma mark UITableViewController
@@ -109,10 +123,16 @@
 		return (midi.enabled ? 1 : 0);
 	}
 	else if(section == INPUTS_SECTION) {
-		return midi.inputs.count;
+		if(midi.enabled) {
+			return (midi.multiDeviceMode ? MIDI_MAX_IO : midi.inputs.count);
+		}
+		return 0;
 	}
 	else if(section == OUTPUTS_SECTION) {
-		return midi.outputs.count;
+		if(midi.enabled) {
+			return (midi.multiDeviceMode ? MIDI_MAX_IO : midi.inputs.count);
+		}
+		return 0;
 	}
 	
 	// default, just in case
@@ -124,7 +144,7 @@
 	
 	UITableViewCell *cell;
 	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
-		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiConnectionCell" forIndexPath:indexPath];
+		cell = [tableView dequeueReusableCellWithIdentifier:@"MidiConnectionCell"];
 		if(!cell) {
 			cell = [[MidiConnectionCell alloc] initWithStyle:UITableViewCellStyleValue1
 			                                 reuseIdentifier:@"MidiConnectionCell"];
@@ -132,15 +152,44 @@
 		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
 		cell.textLabel.textColor = [UIColor blackColor];
 		cell.detailTextLabel.textColor = [UIColor blackColor];
-		cell.userInteractionEnabled = NO;
 
-		MidiConnection *connection = (indexPath.section == INPUTS_SECTION ?
-		                              midi.inputs[indexPath.row] :
-		                              midi.outputs[indexPath.row]);
-		if(connection) {
-			cell.textLabel.text = [NSString stringWithFormat:@"%d", connection.port+1];
-			cell.detailTextLabel.text = connection.name;
+		BOOL enabled = NO;
+		NSArray *array = (indexPath.section == INPUTS_SECTION ? midi.inputs : midi.outputs);
+		MidiConnection *connection;
+		if(midi.multiDeviceMode) {
+			// try to find connection with matching port
+			for(MidiConnection *c in array) {
+				if(c.port == indexPath.row) {
+					connection = c;
+					break;
+				}
+			}
+			enabled = YES;
 		}
+		else {
+			connection = array[indexPath.row];
+		}
+
+		if(connection) {
+			// existing connection
+			cell.textLabel.text = connection.name;
+			if(midi.multiDeviceMode) {
+				cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", connection.port+1];
+			}
+			else {
+				cell.detailTextLabel.text = @"";
+			}
+		}
+		else {
+			// dummy placeholder
+			cell.textLabel.text = EMPTY_CELL;
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row+1];
+			cell.textLabel.textColor = [UIColor lightGrayColor];
+			cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+		}
+		cell.textLabel.enabled = enabled;
+		cell.detailTextLabel.enabled = enabled;
+		cell.userInteractionEnabled = enabled;
 	}
 	else { // section 0 or 1: static cells
 		cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -204,14 +253,56 @@
 // on mixing static & dynamic table sections which basically requires overriding all
 // methods which take an indexPath in order to avoid index out of bounds exceptions with
 // the dynamic sections
+
+// non-empty inputs & outputs can be reordered when editing
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
+		return ![self isCellAtIndexPathEmpty:indexPath];
+	}
 	return NO;
 }
 
+// non-empty inputs & outputs can be reordered when editing
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
+		return ![self isCellAtIndexPathEmpty:indexPath];
+	}
 	return NO;
 }
 
+// only allow reordering within sections
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+	if(sourceIndexPath.section != proposedDestinationIndexPath.section) {
+		NSInteger row = 0;
+		if(sourceIndexPath.section < proposedDestinationIndexPath.section) {
+			row = [tableView numberOfRowsInSection:sourceIndexPath.section] - 1;
+		}
+    	return [NSIndexPath indexPathForRow:row inSection:sourceIndexPath.section];
+	}
+	//DDLogInfo(@"proposed: %d %d", (int)proposedDestinationIndexPath.section, (int)proposedDestinationIndexPath.row);
+	return proposedDestinationIndexPath;
+}
+
+// reorder inputs / outputs when editing
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(nonnull NSIndexPath *)sourceIndexPath toIndexPath:(nonnull NSIndexPath *)destinationIndexPath {
+	BOOL reload = YES;
+	if(sourceIndexPath.section == INPUTS_SECTION) {
+		reload = [midi moveInputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row];
+	}
+	else if(sourceIndexPath.section == OUTPUTS_SECTION) {
+		reload = [midi moveOutputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row];
+	}
+	else {
+		// static sections, should never be called
+		return;
+	}
+	//DDLogVerbose(@"moved: %d %d to %d %d", (int)sourceIndexPath.section, (int)sourceIndexPath.row, (int)destinationIndexPath.section, (int)destinationIndexPath.row);
+	if(reload) {
+		[self.tableView reloadData];
+	}
+}
+
+// only moving, so no editing style
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return UITableViewCellEditingStyleNone;
 }
@@ -256,6 +347,32 @@
 	NSRange range = NSMakeRange(INPUTS_SECTION, 2); // sections 2 & 3
 	NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
 	[self.tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+#pragma mark Private
+
+/// returns YES if cell's label text is EMPTY_CELL
+- (BOOL)isCellAtIndexPathEmpty:(NSIndexPath *)indexPath {
+	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+	if(cell && [cell.textLabel.text isEqualToString:EMPTY_CELL]) {
+		return YES;
+	}
+	return NO;
+}
+
+- (void)rightNavToEditButton {
+	self.navigationItem.rightBarButtonItem =
+		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+		                                              target:self
+		                                              action:@selector(editButtonPressed)];
+	self.navigationItem.rightBarButtonItem.enabled = (midi.enabled && midi.multiDeviceMode);
+}
+
+- (void)rightNavToDoneButton {
+	self.navigationItem.rightBarButtonItem =
+		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+		                                              target:self
+		                                              action:@selector(doneButtonPressed)];
 }
 
 @end

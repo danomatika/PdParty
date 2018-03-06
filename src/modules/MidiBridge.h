@@ -11,6 +11,8 @@
 #import "Midi.h"
 #import "PdBase.h"
 
+#define MIDI_MAX_IO 4
+
 /// midi connection event delegate
 @protocol MidiBridgeDelegate <NSObject>
 - (void)midiConnectionsChanged;  ///< MIDI inputs and/or outputs have changed
@@ -39,5 +41,9 @@
 /// MidiInput & MidiOutput array access, nil when not enabled
 @property (nonatomic, readonly) NSArray *inputs;
 @property (nonatomic, readonly) NSArray *outputs;
+
+/// move MidiInput/MidiOutput port indices
+- (BOOL)moveInputPort:(int)port toPort:(int)newPort;
+- (BOOL)moveOutputPort:(int)port toPort:(int)newPort;
 
 @end

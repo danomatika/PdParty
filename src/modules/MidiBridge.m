@@ -15,13 +15,13 @@
 #import "Util.h"
 
 // verbose prints for testing MIDI IO
-#define DEBUG_MIDI
+//#define DEBUG_MIDI
 
 @interface MidiBridge () {
 	NSMutableData *message;
 	NSTimer *connectionEventTimer;
 }
-@property (nonatomic) Midi *midi; //< underlying midi object
+@property (nonatomic, readwrite) Midi *midi; ///< underlying midi object
 @end
 
 @implementation MidiBridge
@@ -43,6 +43,14 @@
 	self.midi.delegate = nil;
 }
 
+- (BOOL)moveInputPort:(int)port toPort:(int)newPort {
+	return [self.midi moveInputPort:port toPort:newPort];
+}
+
+- (BOOL)moveOutputPort:(int)port toPort:(int)newPort {
+	return [self.midi moveOutputPort:port toPort:newPort];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setEnabled:(BOOL)enabled {
@@ -54,7 +62,7 @@
 		if([Midi available]) {
 			DDLogVerbose(@"MidiBridge: midi enabled");
 			self.midi = nil;
-			self.midi = [[Midi alloc] initWithName:@"PdParty" andMaxIO:4];
+			self.midi = [[Midi alloc] initWithName:@"PdParty" andMaxIO:MIDI_MAX_IO];
 			self.midi.delegate = self;
 			self.midi.virtualEnabled = [defaults boolForKey:@"virtualMidiEnabled"];
 			self.midi.networkEnabled = [defaults boolForKey:@"networkMidiEnabled"];
