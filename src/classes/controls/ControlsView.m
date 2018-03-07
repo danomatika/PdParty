@@ -180,9 +180,6 @@
 	else if(sender == self.rightButton) {
 		[self.delegate controlsViewRightPressed:self];
 	}
-//	else if(sender == self.slider) {
-//		[self.delegate controlsView:self sliderValueChanged:self.slider.value];
-//	}
 }
 
 - (void)sliderStartedTracking:(id)sender {
@@ -196,10 +193,7 @@
 }
 
 - (void)sliderValueChanged:(id)sender {
-	if(!self.delegate ||
-	   [self.delegate respondsToSelector:@selector(controlsView:sliderValueChanged:)]) {
-	   return;
-	}
+	if(!self.delegate) {return;}
 	[self.delegate controlsView:self sliderValueChanged:self.slider.value];
 }
 
