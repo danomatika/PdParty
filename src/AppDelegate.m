@@ -11,7 +11,8 @@
 #import "AppDelegate.h"
 
 #import "MBProgressHUD.h"
-#import "ZipArchive.h"
+#import "Unzip.h"
+//#import "ZipArchive.h"
 
 #import "Log.h"
 #import "Util.h"
@@ -218,9 +219,9 @@
 		[alert show];
 	}
 	else { // assume zip file
-		ZipArchive *zip = [[ZipArchive alloc] init];
-		if([zip UnzipOpenFile:path]) {
-			if([zip UnzipFileTo:[Util documentsPath] overWrite:YES]) {
+		Unzip *zip = [[Unzip alloc] init];
+		if([zip open:path]) {
+			if([zip unzipTo:[Util documentsPath] overwrite:YES]) {
 				if(![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) { // remove original file
 					DDLogError(@"AppDelegate: couldn't remove %@, error: %@", path, error.localizedDescription);
 				}
@@ -235,7 +236,7 @@
 			                          otherButtonTitles:nil];
 				[alert show];
 			}
-			[zip UnzipCloseFile];
+			[zip close];
 		}
 		else {
 			DDLogError(@"AppDelegate: couldn't unzip %@ to Documents", path);

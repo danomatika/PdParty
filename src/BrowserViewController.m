@@ -10,11 +10,10 @@
  */
 #import "BrowserViewController.h"
 
-#import "ZipArchive.h"
-
 #import "AppDelegate.h"
 #import "PatchViewController.h"
 #import "Log.h"
+#import "Unzip.h"
 #import "Util.h"
 
 @interface BrowserViewController () {
@@ -135,9 +134,9 @@
 	else if([BrowserViewController isZipFile:path]) { // unzip zipfiles
 		NSError *error;
 		NSString *filename = [path lastPathComponent];
-		ZipArchive *zip = [[ZipArchive alloc] init];
-		if([zip UnzipOpenFile:path]) {
-			if(![zip UnzipFileTo:[Util documentsPath] overWrite:YES]) {
+		Unzip *zip = [[Unzip alloc] init];
+		if([zip open:path]) {
+			if(![zip unzipTo:[Util documentsPath] overwrite:YES]) {
 				DDLogError(@"Browser: couldn't open zipfile: %@", path);
 				UIAlertView *alert = [[UIAlertView alloc]
                                       initWithTitle: @"Unzip Failed"
@@ -147,7 +146,7 @@
                                       otherButtonTitles:nil];
 				[alert show];
 			}
-			[zip UnzipCloseFile];
+			[zip close];
 		}
 		else {
 			DDLogError(@"Browser: couldn't unzip %@", path);

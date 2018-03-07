@@ -62,13 +62,13 @@
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		308986BE18CD195E004423AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 308986BD18CD195E004423AD /* Images.xcassets */; };
 		3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3094B43B18C975AE00AFE178 /* libz.1.2.5.dylib */; };
-		3094B44A18C97CCF00AFE178 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44018C97CCF00AFE178 /* ioapi.c */; };
-		3094B44B18C97CCF00AFE178 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44218C97CCF00AFE178 /* mztools.c */; };
-		3094B44C18C97CCF00AFE178 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44418C97CCF00AFE178 /* unzip.c */; };
-		3094B44D18C97CCF00AFE178 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44618C97CCF00AFE178 /* zip.c */; };
-		3094B44E18C97CCF00AFE178 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3094B44918C97CCF00AFE178 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3094B45718CBD20A00AFE178 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3094B45618CBD20A00AFE178 /* InfoViewController.m */; };
 		30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30960AFB16F5952400FAF2E7 /* OscViewController.m */; };
+		309EA4F420504C1900337C31 /* Unzip.m in Sources */ = {isa = PBXBuildFile; fileRef = 309EA4F320504C1800337C31 /* Unzip.m */; };
+		309EA50120509D4A00337C31 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 309EA4F620509D4A00337C31 /* unzip.c */; };
+		309EA50220509D4A00337C31 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 309EA4F720509D4A00337C31 /* zip.c */; };
+		309EA50320509D4A00337C31 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 309EA4F920509D4A00337C31 /* ioapi.c */; };
+		309EA50420509D4A00337C31 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 309EA4FA20509D4A00337C31 /* mztools.c */; };
 		30A319F416B61FF700C7729B /* Gui.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319EA16B61FF700C7729B /* Gui.m */; };
 		30A319F716B61FF700C7729B /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A319F016B61FF700C7729B /* Widget.m */; };
 		30ABE2A816B5A8E500464926 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30ABE2A716B5A8E500464926 /* UIKit.framework */; };
@@ -290,22 +290,22 @@
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
 		308986BD18CD195E004423AD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3094B43B18C975AE00AFE178 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
-		3094B43F18C97CCF00AFE178 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
-		3094B44018C97CCF00AFE178 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
-		3094B44118C97CCF00AFE178 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
-		3094B44218C97CCF00AFE178 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
-		3094B44318C97CCF00AFE178 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
-		3094B44418C97CCF00AFE178 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		3094B44518C97CCF00AFE178 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
-		3094B44618C97CCF00AFE178 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
-		3094B44718C97CCF00AFE178 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
-		3094B44818C97CCF00AFE178 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
-		3094B44918C97CCF00AFE178 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		3094B45518CBD20A00AFE178 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoViewController.h; path = src/InfoViewController.h; sourceTree = SOURCE_ROOT; };
 		3094B45618CBD20A00AFE178 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoViewController.m; path = src/InfoViewController.m; sourceTree = SOURCE_ROOT; };
 		30960AFA16F5952300FAF2E7 /* OscViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscViewController.h; path = src/OscViewController.h; sourceTree = "<group>"; };
 		30960AFB16F5952400FAF2E7 /* OscViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OscViewController.m; path = src/OscViewController.m; sourceTree = "<group>"; };
 		309E33DC1D53CA2C004DBB0D /* libpd.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = libpd.xcodeproj; sourceTree = "<group>"; };
+		309EA4EE20504C1800337C31 /* Unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unzip.h; sourceTree = "<group>"; };
+		309EA4F320504C1800337C31 /* Unzip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Unzip.m; sourceTree = "<group>"; };
+		309EA4F620509D4A00337C31 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		309EA4F720509D4A00337C31 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		309EA4F920509D4A00337C31 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		309EA4FA20509D4A00337C31 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		309EA4FB20509D4A00337C31 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		309EA4FC20509D4A00337C31 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		309EA4FD20509D4A00337C31 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		309EA4FE20509D4A00337C31 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		309EA4FF20509D4A00337C31 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
 		30A319EA16B61FF700C7729B /* Gui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gui.m; sourceTree = "<group>"; };
 		30A319EB16B61FF700C7729B /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		30A319F016B61FF700C7729B /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
@@ -653,33 +653,6 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
-		3094B43D18C97CCF00AFE178 /* ZipArchive */ = {
-			isa = PBXGroup;
-			children = (
-				3094B43E18C97CCF00AFE178 /* minizip */,
-				3094B44818C97CCF00AFE178 /* ZipArchive.h */,
-				3094B44918C97CCF00AFE178 /* ZipArchive.mm */,
-			);
-			name = ZipArchive;
-			path = libs/ZipArchive;
-			sourceTree = "<group>";
-		};
-		3094B43E18C97CCF00AFE178 /* minizip */ = {
-			isa = PBXGroup;
-			children = (
-				3094B43F18C97CCF00AFE178 /* crypt.h */,
-				3094B44018C97CCF00AFE178 /* ioapi.c */,
-				3094B44118C97CCF00AFE178 /* ioapi.h */,
-				3094B44218C97CCF00AFE178 /* mztools.c */,
-				3094B44318C97CCF00AFE178 /* mztools.h */,
-				3094B44418C97CCF00AFE178 /* unzip.c */,
-				3094B44518C97CCF00AFE178 /* unzip.h */,
-				3094B44618C97CCF00AFE178 /* zip.c */,
-				3094B44718C97CCF00AFE178 /* zip.h */,
-			);
-			path = minizip;
-			sourceTree = "<group>";
-		};
 		309E33DD1D53CA2C004DBB0D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -689,6 +662,23 @@
 				30CD96371FB3785800D37F2A /* libpd-osx-multi.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		309EA4F520509D4A00337C31 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				309EA4F620509D4A00337C31 /* unzip.c */,
+				309EA4F720509D4A00337C31 /* zip.c */,
+				309EA4F920509D4A00337C31 /* ioapi.c */,
+				309EA4FA20509D4A00337C31 /* mztools.c */,
+				309EA4FB20509D4A00337C31 /* crypt.h */,
+				309EA4FC20509D4A00337C31 /* zip.h */,
+				309EA4FD20509D4A00337C31 /* unzip.h */,
+				309EA4FE20509D4A00337C31 /* mztools.h */,
+				309EA4FF20509D4A00337C31 /* ioapi.h */,
+			);
+			name = minizip;
+			path = libs/minizip;
 			sourceTree = "<group>";
 		};
 		30A319E516B61FF700C7729B /* gui */ = {
@@ -796,10 +786,10 @@
 				3057726E1E88A08A007F9A92 /* GCDWebServer */,
 				3081A4711D615FDE006106E8 /* liblo */,
 				3083BD4517F2867400EDF587 /* MBProgressHUD */,
+				309EA4F520509D4A00337C31 /* minizip */,
 				30FA775016E68936000E8D2B /* net */,
 				30ABE31916B5D15400464926 /* pd */,
 				30DBD0261C196B0500ABE9E1 /* pd-externals */,
-				3094B43D18C97CCF00AFE178 /* ZipArchive */,
 			);
 			name = libs;
 			sourceTree = "<group>";
@@ -874,6 +864,8 @@
 				30C38D541C35B7F400A273BE /* Popover.m */,
 				3028626B1C40D06C00A176C6 /* TextViewLogger.h */,
 				3028626C1C40D06C00A176C6 /* TextViewLogger.m */,
+				309EA4EE20504C1800337C31 /* Unzip.h */,
+				309EA4F320504C1800337C31 /* Unzip.m */,
 				30C9BF6516E8460700E5AA5B /* Util.h */,
 				30C9BF6616E8460700E5AA5B /* Util.m */,
 			);
@@ -1185,7 +1177,6 @@
 				3057729B1E88A08A007F9A92 /* GCDWebServerMultiPartFormRequest.m in Sources */,
 				30555CF41C25E18E009F4F9B /* PartyBrowser.m in Sources */,
 				30555CEB1C1FAA6C009F4F9B /* UIAlertView+Blocks.m in Sources */,
-				3094B44C18C97CCF00AFE178 /* unzip.c in Sources */,
 				30BEF1111C2BAB5C0026C5DB /* Knob.m in Sources */,
 				30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */,
 				30FA775316E68936000E8D2B /* Reachability.m in Sources */,
@@ -1210,20 +1201,20 @@
 				30E89D3E16EC46CF005B40C4 /* AtomWidget.m in Sources */,
 				30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */,
 				30E89D4016EC46CF005B40C4 /* Number.m in Sources */,
-				3094B44D18C97CCF00AFE178 /* zip.c in Sources */,
 				30E89D4116EC46CF005B40C4 /* Symbol.m in Sources */,
 				30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */,
 				30AF87761C30E62C009D5C94 /* Menubang.m in Sources */,
+				309EA4F420504C1900337C31 /* Unzip.m in Sources */,
 				30E89D4716ECEDF2005B40C4 /* Number2.m in Sources */,
 				3057729E1E88A08A007F9A92 /* GCDWebServerErrorResponse.m in Sources */,
 				305772971E88A08A007F9A92 /* GCDWebServerRequest.m in Sources */,
+				309EA50320509D4A00337C31 /* ioapi.c in Sources */,
 				30E89D4A16EDB45B005B40C4 /* VUMeter.m in Sources */,
+				309EA50220509D4A00337C31 /* zip.c in Sources */,
 				30C77BB416F1ADFB00988EB9 /* Osc.m in Sources */,
 				30555CF01C24C242009F4F9B /* Browser.m in Sources */,
 				30960AFC16F5952400FAF2E7 /* OscViewController.m in Sources */,
-				3094B44B18C97CCF00AFE178 /* mztools.c in Sources */,
 				302862711C4325B000A176C6 /* PartyGui.m in Sources */,
-				3094B44E18C97CCF00AFE178 /* ZipArchive.mm in Sources */,
 				30DBD0621C196B0500ABE9E1 /* rj_senergy~.c in Sources */,
 				305772941E88A08A007F9A92 /* GCDWebServer.m in Sources */,
 				3057729C1E88A08A007F9A92 /* GCDWebServerURLEncodedFormRequest.m in Sources */,
@@ -1246,12 +1237,12 @@
 				303BD31017590275000FBEB5 /* RjText.m in Sources */,
 				30555CF11C24C242009F4F9B /* BrowserLayer.m in Sources */,
 				303BD3151759928D000FBEB5 /* RjWidget.m in Sources */,
-				3094B44A18C97CCF00AFE178 /* ioapi.c in Sources */,
 				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
 				30D4CFAD20435E4A00662491 /* PartyAudioController.m in Sources */,
 				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
 				3024B08E1C993769002C36DA /* Controllers.m in Sources */,
 				30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */,
+				309EA50420509D4A00337C31 /* mztools.c in Sources */,
 				30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */,
 				30F5282517D7B3DD004736A6 /* Wordbutton.m in Sources */,
 				30F5282817D8FA81004736A6 /* Numberbox.m in Sources */,
@@ -1259,6 +1250,7 @@
 				30F5283117D92A4A004736A6 /* Touch.m in Sources */,
 				30F5283417D93743004736A6 /* Display.m in Sources */,
 				305772E71E88D9B9007F9A92 /* DDTTYLogger.m in Sources */,
+				309EA50120509D4A00337C31 /* unzip.c in Sources */,
 				30DBD04D1C196B0500ABE9E1 /* stripdir.c in Sources */,
 				30F5283717D982AE004736A6 /* Ribbon.m in Sources */,
 				30B01DEB17E374800052F26F /* Log.m in Sources */,

@@ -61,7 +61,7 @@ This project uses:
 * [liblo](http://liblo.sourceforge.net): Open Sound Control i/o
 * [GCDWebServer](https://github.com/swisspol/GCDWebServer): WebDAV server
 * [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack): logging
-* [ZipArchive](https://code.google.com/p/ziparchive): support for decompressing zip archives
+* [minizip](http://zlib.net): support for decompressing zip archives
 * [MBProgressHUD](https://github.com/jdg/MBProgressHUD): progress spinner overlay
 * [UIAlertView+Blocks](https://github.com/ryanmaxwell/UIAlertView-Blocks)
 * [UIActionSheet+Blocks](https://github.com/ryanmaxwell/UIActionSheet-Blocks)
