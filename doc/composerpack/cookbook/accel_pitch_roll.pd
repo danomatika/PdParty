@@ -1,0 +1,37 @@
+#N canvas 0 23 644 344 10;
+#X obj 81 38 r #accelerate;
+#X obj 81 70 unpack f f f;
+#X obj 118 275 hsl 128 15 -90 90 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 6277 1;
+#X obj 350 274 hsl 128 15 -90 90 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 6372 1;
+#X floatatom 347 188 5 0 0 0 roll - -, f 5;
+#X floatatom 115 187 5 0 0 0 pitch - -, f 5;
+#X floatatom 347 246 5 0 0 0 roll - -, f 5;
+#X obj 347 158 expr atan(-$f1 / $f2);
+#X text 415 216 180 / PI;
+#X text 395 188 radians;
+#X text 396 244 degrees -90 to 90;
+#X floatatom 115 243 5 0 0 0 pitch - -, f 5;
+#X text 184 214 180 / PI;
+#X text 162 187 radians;
+#X text 163 243 degrees -90 to 90;
+#X obj 115 156 expr -atan($f1 / $f2);
+#X text 178 38 calculating roll and pitch from accelerometer x y z
+values;
+#X text 262 64 see also rjlib: m_accel_pitch & m_accel_roll;
+#X obj 347 215 * 57.2958;
+#X obj 115 214 * 57.2958;
+#X connect 0 0 1 0;
+#X connect 1 0 7 0;
+#X connect 1 1 15 0;
+#X connect 1 2 7 1;
+#X connect 1 2 15 1;
+#X connect 4 0 18 0;
+#X connect 5 0 19 0;
+#X connect 6 0 3 0;
+#X connect 7 0 4 0;
+#X connect 11 0 2 0;
+#X connect 15 0 5 0;
+#X connect 18 0 6 0;
+#X connect 19 0 11 0;

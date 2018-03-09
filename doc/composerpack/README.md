@@ -53,7 +53,7 @@ You can freely bundle [soundinput] and/or [soundoutput] within your scene folder
 Scene Types
 -----------
 
-PdParty supports running basic *.pd patches as well as the following scene types: RjDj, DroidParty, & PdParty. "Scenes" are basically folders with a specific layout that are treated as a single entity for encapsulation.
+PdParty supports running basic \*.pd patches as well as the following scene types: RjDj, DroidParty, & PdParty. "Scenes" are basically folders with a specific layout that are treated as a single entity for encapsulation.
 
 You can bundle abstractions & abstraction libraries within a scene folder and add the local path in your main patch using the [declare] object via the "-path" argument.
 
@@ -61,7 +61,7 @@ You can bundle abstractions & abstraction libraries within a scene folder and ad
   
 This scene type conforms to the original RjDj specification and has been tested with a number of the original Rj scenes.
 
-  * a folder that ends in *.rj that contains a _main.pd patch
+  * a folder that ends in \*.rj that contains a _main.pd patch
   * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
   * an optional browser icon named "thumb.jpg" and a min size of 55x55
   * an optional info xml file named "Info.plist" or "info.plist"
@@ -86,26 +86,31 @@ This scene type basically acts as a wrapper around a patch folder.
   * an optional info json file named "info.json"
   * requires all event types
   * 44100 samplerate
-  * landscape or protrait orientation is interpretted from the canvas size
+  * landscape or portrait orientation is interpreted from the canvas size
   
 Running a regular .pd patch is the same as running a PdParty scene.
 
 Samples & Tests
 ---------------
 
-The PdDarty samples & tests are included:
+The PdParty samples & tests are included:
 
 * samples: working scenes
 * tests: scene type tests for uis, osc communication, sensor events, etc; this includes the [DroidParty demos](https://github.com/chr15m/PdDroidParty/tree/master/droidparty-demos)
 
 These are the patches included with [PdParty](https://github.com/danomatika/PdParty/tree/master/res/patches).
 
-Open Sound Control Bridges
+Open Sound Control Bridge
 --------------------------
 
 The patches in the osc folder provide basic Open Sound Control (OSC) communication between PdParty and Pure Data running on your desktop. Once osc sending is enabled in PdParty, you can send and receive PdParty events which allows you to develop & test patches. For instance, you can work with #touch events generated on PdParty while patching on your computer.
 
 The rj_loc & rj_compass sensor objects are implemented using PdParty events, so they wil also work over OSC.
+
+Cookbook
+--------
+
+These are various patch examples for common problems, such as converting raw accelerometer values to detect tilt, etc.
 
 Templates
 ---------
