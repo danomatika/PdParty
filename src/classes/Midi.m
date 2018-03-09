@@ -506,7 +506,8 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 }
 
 - (void)disconnectInput:(MIDIEndpointRef)endpoint {
-	for(MidiInput *input in self.inputs) {
+	for(int i = 0; i < self.inputs.count; ++i) {
+		MidiInput *input = self.inputs[i];
 		if(input.endpoint == endpoint) {
 			OSStatus s = MIDIPortDisconnectSource(midiInputPort, endpoint);
 			if(s != noErr) {
@@ -523,7 +524,8 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 }
 
 - (void)disconnectOutput:(MIDIEndpointRef)endpoint {
-	for(MidiOutput *output in self.outputs) {
+	for(int i = 0; i < self.outputs.count; ++i) {
+		MidiOutput *output = self.outputs[i];
 		if(output.endpoint == endpoint) {
 			[self.outputs removeObject:output];
 			[Midi sort:self.outputs];
