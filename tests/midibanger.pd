@@ -1,0 +1,13 @@
+#N canvas 421 159 261 343 10;
+#X obj 112 192 noteout 1;
+#X obj 51 106 tgl 15 0 \$0-go empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 112 162 makenote 64 500;
+#X obj 112 106 metro 1000;
+#X msg 112 134 64;
+#X obj 112 78 r \$0-go;
+#X text 33 30 sends a MIDI note every second;
+#X connect 2 0 0 0;
+#X connect 3 0 4 0;
+#X connect 4 0 2 0;
+#X connect 5 0 3 0;
