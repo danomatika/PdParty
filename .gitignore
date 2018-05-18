@@ -4,6 +4,7 @@
 *.pbxuser
 *.perspectivev3
 xcuserdata
+IDEWorkspaceChecks.plist
 build
 *.app
 *.a
