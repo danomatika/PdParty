@@ -51,15 +51,19 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		
 		// should start listening if saved
 		if([defaults boolForKey:@"oscServerEnabled"]) {
-			[self startListening:nil];
+			[self start];
 		}
 	}
 	return self;
 }
 
-- (BOOL)startListening:(NSError *)error {
-	if(self.isListening) return YES; // still listening
-	
+- (void)dealloc {
+	if(self.isListening) {
+		[self stop];
+	}
+}
+
+- (BOOL)start {
 	if(![self updateSendAddress]) {
 		return NO;
 	}
@@ -69,25 +73,32 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	self.isListening = YES;
 	DDLogVerbose(@"Osc: started listening on port %d", lo_server_thread_get_port(server));
 	DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
-	
-	[[NSUserDefaults standardUserDefaults] setBool:self.isListening forKey:@"oscServerEnabled"];
 
 	return YES;
 }
 
-- (void)stopListening {
-	if(!self.isListening) return;
-	
+- (void)stop {
 	lo_server_thread_stop(server);
 	lo_server_thread_free(server);
 	server = NULL;
 	self.isListening = NO;
 	DDLogVerbose(@"OSC: stopped listening");
-	
+
 	lo_address_free(sendAddress);
 	sendAddress = NULL;
-	
+}
+
+- (BOOL)startListening {
+	if(self.isListening) return YES; // still listening
+	BOOL ret = [self start];
 	[[NSUserDefaults standardUserDefaults] setBool:self.isListening forKey:@"oscServerEnabled"];
+	return ret;
+}
+
+- (void)stopListening {
+	if(!self.isListening) return;
+	[self stop];
+	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"oscServerEnabled"];
 }
 
 #pragma mark Receive Events

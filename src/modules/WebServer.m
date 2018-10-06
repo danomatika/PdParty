@@ -36,6 +36,10 @@
 	return self;
 }
 
+- (void)dealloc {
+	[self stop];
+}
+
 - (BOOL)start:(NSString *)directory {
 	if(server.isRunning) {
 		[self stop];

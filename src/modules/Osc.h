@@ -38,9 +38,9 @@
 @property (assign, nonatomic) BOOL printSendingEnabled; //< send pd prints?
 
 /// returns YES if listening was started or the server was already listening,
-/// returns NO & sets the error if the server cannot be started
+/// returns NO if the server cannot be started
 /// note: does *not* restart, you must do that manually
-- (BOOL)startListening:(NSError *)error;
+- (BOOL)startListening;
 
 /// stops the server
 - (void)stopListening;

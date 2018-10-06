@@ -110,10 +110,9 @@
 }
 
 - (void)startOsc:(NSTimer *)theTimer {
-	NSError *error;
-	if(![osc startListening:error]) {
+	if(![osc startListening]) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Couldn't start OSC Server"
-									message:[NSString stringWithFormat:@"Check your port & address settings.\nError: %@", error]
+									message:[NSString stringWithFormat:@"Check your port & address settings."]
 								   delegate:self
 						  cancelButtonTitle:@"Ok"
 						  otherButtonTitles:nil];
