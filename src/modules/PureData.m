@@ -344,7 +344,8 @@
 		[self.osc sendPacket:[self encodeList:[[NSArray arrayWithObject:message] arrayByAddingObjectsFromArray:arguments]]];
 	}
 	else if([source isEqualToString:PARTY_GLOBAL_S]) {
-		static NSString *sceneName = nil; // received scene name
+		static NSString *sceneName = nil;  // received scene name
+		static BOOL *appendTimestamp = NO; // append timestamp to scene name?
 	
 		// accel control
 		if([message isEqualToString:@"accelerate"] && arguments.count > 0) {
@@ -455,12 +456,18 @@
 		// set the scene name for remote recording
 		else if([message isEqualToString:@"scene"] && arguments.count > 0 && [arguments isStringAt:0]) {
 			sceneName = [arguments objectAtIndex:0];
+			if(arguments.count > 1 && [arguments isNumberAt:1]) {
+				appendTimestamp = [[arguments objectAtIndex:1] boolValue];
+			}
+			else {
+				appendTimestamp = NO;
+			}
 		}
 	
 		// start/stop recording remotely, set scene name first
 		else if([message isEqualToString:@"record"] && arguments.count > 0 && [arguments isNumberAt:0]) {
 			if([[arguments objectAtIndex:0] boolValue]) {
-				if(sceneName && [self startedRecordingToRecordDir:[sceneName lastPathComponent] withTimestamp:YES]) {
+				if(sceneName && [self startedRecordingToRecordDir:[sceneName lastPathComponent] withTimestamp:appendTimestamp]) {
 					if(self.recordDelegate) {
 						[self.recordDelegate remoteRecordingStarted];
 					}

@@ -539,6 +539,8 @@ You can manually trigger recording via sending messages to the internal \#pdpart
 
 * **\#pdparty scene _name_**: set the scene/file name for recording
   * _name_: timestamp is appended & file is saved to the recordings dir
+* **\#pdparty scene _name_ _timestamp_**: same as above with additional argument
+  * _timestamp_: boolean 0-1 to enable appending timestamp to file name
 * **\#pdparty record _value_**: recording control, also connected to the GUI
   * _value_: boolean to start/stop recording
 
