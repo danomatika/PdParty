@@ -1,8 +1,8 @@
 PdParty User Guide
 ==================
 
-Version: **1.2.1**  
-Date: 2018-05-##
+Version: **1.2.0**  
+Date: 2018-10-15
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
 
@@ -128,7 +128,7 @@ On iPad, however, RjDJ scenes can be both portrait or landscape:
 
 #### On Screen Controls
 
-Simple on screen controls inspired by the RjDj app are provided to change the audio input level, enable/disable audio dsp, and start/stop recording.
+Simple on screen controls inspired by the RjDj app are provided to change the audio input level, enable/disable audio dsp, start/stop recording, switch output between headset and speakers (iPhone only), restart the scene.
 
 Patches, DroidParty, & PdParty scenes display these controls in a popover activated by the "Controls" nav bar button:
 
@@ -144,15 +144,17 @@ RjDj scenes always have a square background with the controls located below.
 
 Optionally, a button to launch a Console view to display Pd prints for the current patch/scene can be added to the Controls popover. Enable to Console view in the PdParty Settings.
 
+On iPhone, the speaker icon is added to allow for switching the audio output between the headset speaker (quiet) and the speaker-phone speakers (load). This may useful to prevent feedback between input and output in certain scenes. For Rj scenes, this control is added as a switch on the scene's info view.
+
 #### Recording Scene
 
-There is also a special scene for playing back recordings (aka .wav files). The slider now controls the playback volume and there is also a button for looping the playback.
+There is also a special scene for playing back recordings (aka .wav files). There is a button for looping the playback and the slider controls the current playback position.
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/recording_iPhone.png"/>
 </p>
 
-The cassette background is a placeholder for now. When metadata is added, it will be replaced by the scene icon, etc.
+The cassette background is a placeholder for now. When metadata is added, it may be replaced by the scene icon, etc.
 
 ### OSC Server Settings
 
@@ -160,7 +162,7 @@ The cassette background is a placeholder for now. When metadata is added, it wil
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/osc_settings_iPhone.png"/>
 </p>
 
-Enable the OSC server here and update its settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
+Enable the OSC server and update its settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
 
 Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a multicast group in the Host field such as "224.0.0.0/24."
 
@@ -170,9 +172,27 @@ Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a mu
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/midi_settings_iPhone.png"/>
 </p>
 
-Enable CoreMIDI here and optionally enable Network MIDI with a macOS machine.
+Enable CoreMIDI and optionally enable Virtual MIDI ports and/or Network MIDI with a macOS machine. There is also a convenience menu item to launch Bluetooth MIDI device discovery. Inputs & Outputs are refreshed when a MIDI device is connected or disconnected. PdParty supports a maximum of 4 Inputs and 4 Outputs.
 
-Inputs & Outputs are refreshed when a MIDI device is plugged in/out. Currently, PdParty automatically connects to all detected MIDI devices.
+As of PdParty 1.2.0, there are two MIDI port modes:
+
+* Single (Simple)
+* Multiple
+
+In **Single (Simple) Device Mode**, PdParty automatically connects to all detected MIDI devices. All devices share a single MIDI port aka channels 1-16.
+
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/midi_settings_multi_iPhone.png"/>
+</p>
+
+In **Multiple Device Mode**, PdParty mimics the behavior of the Pure Data desktop application and assigns separate MIDI ports to each device:
+
+* Port 1: channels 1-16
+* Port 2: channels 17-32
+* Port 3: channels 33-48
+* Port 4: channels 49-64
+
+Devices can be reordered to set their port number. Simply drag the device within the Input or Output table when **Multiple Device Mode** is enabled.
 
 ### App Settings
 

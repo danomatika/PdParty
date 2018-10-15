@@ -1,3 +1,37 @@
+1.2.0: 2018-10-15
+
+* MIDI overhaul:
+  - replaced PGMidi library with custom class using CoreMIDI
+  - devices are now ordered by port index
+  - added virtual port support
+  - added Bluetooth MIDI device support
+  - added Multiple Device Mode for channel offsets like desktop pd
+
+* added earpiece speaker control for iPhone (controls popup & RJ info view)
+* enabled audio session bluetooth and airplay output support
+* show error alert and exit patch view if scene (re)loading failed
+* added timestamp argument to #pdparty time message
+* added accel cookbook examples to composerpack
+* added game controller axis and button name strings to guide
+* added flood and MIDI tests
+
+* fixed crash due to timezone + character when building timestamp
+* make sure Browser back swipe gesture is actually disabled
+* fixed Browser files not being sorted
+* fixed loadsave not converting -dash arg in send name
+* fixed non-drawable widgets in subpatches not being added, ie. [loadsave]
+* fixed incorrect MIDI pitchbend range (reported by rtsound)
+
+* updated to libpd 0.11.0 (pd 0.48-2)
+* min deployment target now iOS 8.0+
+* updated to support newer device screen sizes, ex. iPhone X
+* updated RecordingScene to use AVPlayer with custom controls
+* speed up outgoing OSC by polling waiting pd messages using CVDisplayLink
+* speed up web view loading by disabling data detectors (ie. phone #, links)
+* replaced browser audio wave icon with tape
+* replaced ZipArchive library with simple minizip Unzip wrapper
+* updated MBProgressHUD library to latest version
+
 1.1.1: 2017-09-11
 
 * fixed openurl message ignoring third party apps (reported by Josef Novotny)
