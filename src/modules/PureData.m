@@ -716,7 +716,7 @@ static int canvas_dofind(t_canvas *x, int *myindexp) {
 
 + (BOOL)objectExists:(NSString *)name inPatch:(PdFile *)patch {
 	t_canvas *canvas = (t_canvas *)[patch.fileReference pointerValue];
-	t_symbol *n = gensym([name cStringUsingEncoding:NSASCIIStringEncoding]);
+	t_symbol *n = gensym([name cStringUsingEncoding:NSUTF8StringEncoding]);
 	int myindex = 0;
 	if(!canvas_findbuf) {
 		canvas_findbuf = binbuf_new();
