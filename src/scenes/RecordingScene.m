@@ -259,7 +259,7 @@
     int elapsed = duration * value;
     [self.controlsView setElapsedTime:CMTimeMake(elapsed, 1) forDuration:self.player.currentItem.duration];
 	[self.player seekToTime:CMTimeMakeWithSeconds(elapsed, 100) completionHandler:^(BOOL completed) {
-		if(rateBeforeSeek > 0) {
+		if(self->rateBeforeSeek > 0) {
 			[self.player play];
 		}
 	}];

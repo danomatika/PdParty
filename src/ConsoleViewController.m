@@ -78,9 +78,14 @@
 }
 
 // update the scenemanager if there are rotations while the PatchView is hidden
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	app.sceneManager.currentOrientation = [self interfaceOrientation];
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		app.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+	}];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 #pragma mark UI

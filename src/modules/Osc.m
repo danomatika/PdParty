@@ -14,9 +14,6 @@
 #import "Log.h"
 #import "PureData.h"
 
-// internal liblo raw data send
-static int send_data(lo_address a, lo_server from, char *data, const size_t data_len);
-
 // liblo C callbacks
 void errorCB(int num, const char *msg, const char *where);
 int messageCB(const char *path, const char *types, lo_arg **argv,
@@ -376,7 +373,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 				[args addObject:[NSString stringWithUTF8String:&argv[i]->s]];
 				break;
 			case LO_SYMBOL:
-				[args addObject:[NSString stringWithUTF8String:argv[i]->S]];
+				[args addObject:[NSString stringWithUTF8String:&argv[i]->S]];
 				break;
 			case LO_CHAR:
 				[args addObject:[NSString stringWithFormat:@"%c", argv[i]->c]];
@@ -387,7 +384,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 				[args addObject:[NSNumber numberWithInt:argv[i]->i]];
 				break;
 			case LO_INT64:
-				[args addObject:[NSNumber numberWithLong:argv[i]->h]];
+				[args addObject:[NSNumber numberWithLongLong:argv[i]->h]];
 				break;
 			case LO_FLOAT:
 				[args addObject:[NSNumber numberWithFloat:argv[i]->f]];

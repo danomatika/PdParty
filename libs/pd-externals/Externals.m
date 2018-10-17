@@ -13,19 +13,19 @@
 // explicit declarations
 
 // ggee
-void getdir_setup();
-void moog_tilde_setup();
-void stripdir_setup();
+void getdir_setup(void);
+void moog_tilde_setup(void);
+void stripdir_setup(void);
 
 // mrpeach
-void midifile_setup();
+void midifile_setup(void);
 
 // rj
-void rj_accum_setup();
-void rj_barkflux_accum_tilde_setup();
-void rj_centroid_tilde_setup();
-void rj_senergy_tilde_setup();
-void rj_zcr_tilde_setup();
+void rj_accum_setup(void);
+void rj_barkflux_accum_tilde_setup(void);
+void rj_centroid_tilde_setup(void);
+void rj_senergy_tilde_setup(void);
+void rj_zcr_tilde_setup(void);
 
 @implementation Externals
 

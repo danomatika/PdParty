@@ -168,7 +168,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 												 initWithTitle:[_directory lastPathComponent]
 												 style:UIBarButtonItemStylePlain
 												 target:self
-												 action:@selector(backButtonPressed:)];
+												 action:@selector(backButtonPressed)];
 	return YES;
 }
 

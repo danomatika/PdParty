@@ -44,6 +44,7 @@
 }
 
 - (void)dealloc {
+	[self.server stop];
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	app.midi.delegate = nil;
 	app.server.delegate = nil;
@@ -74,12 +75,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewDidUnload {
-	[self.server stop];
-	[self setServerPortLabel:nil];
-	[super viewDidUnload];
 }
 
 // lock orientation

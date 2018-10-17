@@ -62,4 +62,7 @@ typedef enum {
 /// setup resources during init, make sure to call [super setup] if overriding
 - (void)setup;
 
+/// cancel current action
+- (void)cancelButtonPressed;
+
 @end

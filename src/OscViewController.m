@@ -43,19 +43,13 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	
 	self.localHostLabel.text = [WebServer wifiInterfaceAddress];
-	
 	[super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
-}
-
-- (void)viewDidUnload {
-	[super viewDidUnload];
 }
 
 // lock orientation

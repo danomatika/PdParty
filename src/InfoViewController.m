@@ -57,8 +57,13 @@
 }
 
 // update the scenemanager if there are rotations while the PatchView is hidden
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	sceneManager.currentOrientation = [self interfaceOrientation];
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+		self->sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+	}];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 #pragma mark UI
@@ -79,15 +84,11 @@
 #pragma mark UITableViewDelegate
 
 // make sure the text view cell expands to fill the empty space in the parent view
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	if(indexPath.section == 1) { // description text view
 		int numCells = ([Util isDeviceAPhone] ? 5 : 4);
 		float size = CGRectGetHeight(self.view.bounds) - (defaultCellHeight * numCells) - 88; // 88 for space between groups
 		return MAX(size, 2 * 22); // min size is 2 lines
-	}
-	else if(indexPath.section == 2 && indexPath.row == 0 && ![Util isDeviceAPhone]) {
-		// hide earpiece speaker switch on non-phones
-		return 0;
 	}
 	return defaultCellHeight;
 }

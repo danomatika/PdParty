@@ -168,7 +168,7 @@
 	}
 	
 	[button setTitleColor:normalColor forState:UIControlStateNormal];
-	[button setTitleColor:selectedColor forState:UIControlEventTouchDown];
+	[button setTitleColor:selectedColor forState:UIControlStateSelected];
 	
 	button.showsTouchWhenHighlighted = YES;
 	
@@ -176,7 +176,7 @@
 		case 0:
 			//[button setTitle:@"Restart Scene" forState:UIControlStateNormal];
 			[button setImage:[Util image:[UIImage imageNamed:@"reload"] withTint:normalColor]  forState:UIControlStateNormal];
-			[button setImage:[Util image:[UIImage imageNamed:@"reload"] withTint:selectedColor] forState:UIControlEventTouchDown];
+			[button setImage:[Util image:[UIImage imageNamed:@"reload"] withTint:selectedColor] forState:UIControlStateSelected];
 			[button addTarget:self action:@selector(restartPressed:) forControlEvents:UIControlEventTouchUpInside];
 			break;
 		default:
@@ -185,20 +185,20 @@
 				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:[UIColor lightGrayColor]]  forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:normalColor]  forState:UIControlStateSelected];
-				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:selectedColor] forState:UIControlEventTouchDown];
+				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:selectedColor] forState:UIControlStateSelected];
 				[button addTarget:self action:@selector(speakerPressed:) forControlEvents:UIControlEventTouchUpInside];
 				button.selected = !app.pureData.earpieceSpeaker;
 			}
 			else if(indexPath.row == consoleButtonIndex) {
 				//[button setTitle:@"Show Console" forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:normalColor]  forState:UIControlStateNormal];
-				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:selectedColor] forState:UIControlEventTouchDown];
+				[button setImage:[Util image:[UIImage imageNamed:@"console"] withTint:selectedColor] forState:UIControlStateSelected];
 				[button addTarget:self action:@selector(showConsolePressed:) forControlEvents:UIControlEventTouchUpInside];
 			}
 			else if(indexPath.row == infoButtonIndex) {
 				//[button setTitle:@"Show Info" forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"info-big"] withTint:normalColor]  forState:UIControlStateNormal];
-				[button setImage:[Util image:[UIImage imageNamed:@"info-big"] withTint:selectedColor] forState:UIControlEventTouchDown];
+				[button setImage:[Util image:[UIImage imageNamed:@"info-big"] withTint:selectedColor] forState:UIControlStateSelected];
 				[button addTarget:self action:@selector(showInfoPressed:) forControlEvents:UIControlEventTouchUpInside];
 			}
 			else {
@@ -209,7 +209,7 @@
 					UIImage *image = [UIImage imageWithContentsOfFile:m.imagePath];
 					if(image) {
 						[button setImage:[Util image:image withTint:normalColor]  forState:UIControlStateNormal];
-						[button setImage:[Util image:image withTint:selectedColor] forState:UIControlEventTouchDown];
+						[button setImage:[Util image:image withTint:selectedColor] forState:UIControlStateSelected];
 						[button addTarget:self action:@selector(menubangPressed:) forControlEvents:UIControlEventTouchUpInside];
 						break;
 					}

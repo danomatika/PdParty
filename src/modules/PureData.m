@@ -345,7 +345,7 @@
 	}
 	else if([source isEqualToString:PARTY_GLOBAL_S]) {
 		static NSString *sceneName = nil;  // received scene name
-		static BOOL *appendTimestamp = NO; // append timestamp to scene name?
+		static BOOL appendTimestamp = NO; // append timestamp to scene name?
 	
 		// accel control
 		if([message isEqualToString:@"accelerate"] && arguments.count > 0) {

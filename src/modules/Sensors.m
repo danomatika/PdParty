@@ -59,8 +59,23 @@
 
 - (void)setCurrentOrientation:(UIInterfaceOrientation)currentOrientation {
 	_currentOrientation = currentOrientation;
-	// TODO: currently doesn't handle faceup / facedown UIDeviceOrientations
-	locationManager.headingOrientation = currentOrientation;
+	// TODO: currently doesn't handle faceup / facedown UIDeviceOrientations?
+	switch(currentOrientation) {
+		case UIInterfaceOrientationPortrait:
+			locationManager.headingOrientation = CLDeviceOrientationPortrait;
+			break;
+		case UIInterfaceOrientationPortraitUpsideDown:
+			locationManager.headingOrientation = CLDeviceOrientationPortraitUpsideDown;
+			break;
+		case UIInterfaceOrientationLandscapeLeft:
+			locationManager.headingOrientation = CLDeviceOrientationLandscapeLeft;
+			break;
+		case UIInterfaceOrientationLandscapeRight:
+			locationManager.headingOrientation = CLDeviceOrientationLandscapeRight;
+			break;
+		default:
+			break;
+	}
 }
 
 - (void)reset {
