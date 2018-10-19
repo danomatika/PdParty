@@ -87,9 +87,9 @@
 	grabber.active = YES;
 	grabber.delegate = self;
 	[self.view addSubview:grabber];
-	
+
 	// set title here since view hasn't been inited when opening on iPhone
-	if(![Util isDeviceATablet]) {
+	if([Util isDeviceAPhone]) {
 		self.navigationItem.title = self.sceneManager.scene.name;
 	}
 }
@@ -116,12 +116,12 @@
 
 // called when view bounds change (after rotations, etc)
 - (void)viewDidLayoutSubviews {
-	
+
 	// update background, if set
 	if(self.background) {
 		self.background.frame = self.view.bounds;
 	}
-	
+
 	// update parent, orient, and reshape scene
 	[self.sceneManager updateParent:self.view];
 	[self checkOrientation];
@@ -135,8 +135,13 @@
 	[self.view layoutSubviews];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	self.sceneManager.currentOrientation = [self interfaceOrientation];
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+		self.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+	}];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 // lock orientation based on scene's preferred orientation mask
@@ -166,11 +171,12 @@
 		
 		// does the scene need key events?
 		grabber.active = self.sceneManager.scene.requiresKeys;
-		DDLogVerbose(@"PatchViewController: %@ key grabber", grabber.active ? @"enabled" : @"disabled");
+		DDLogVerbose(@"PatchViewController: %@ key grabber",
+			(grabber.active ? @"enabled" : @"disabled"));
 	
 		// set nav controller title
 		self.navigationItem.title = self.sceneManager.scene.name;
-		
+
 		// make sure controls are updated and nav bar buttons are created
 		[self updateControls];
 		
@@ -181,15 +187,13 @@
 	}
 	else {
 		// didn't open so bail out
-		if(![Util isDeviceATablet]) {
+		if([Util isDeviceAPhone]) {
 			[self.navigationController popViewControllerAnimated:YES];
 		}
 	}
 	
-	// hide iPad browser popover on selection 
-	if(self.masterPopoverController != nil) {
-		[self.masterPopoverController dismissPopoverAnimated:YES];
-	}
+	// hide iPad browser popover on selection
+	[self dismissMasterPopover];
 	[self dismissControlsPopover]; // controls popover too
 }
 
@@ -215,17 +219,11 @@
 	[self performSegueWithIdentifier:@"showInfo" sender:self];
 }
 
-- (void)dismissMasterPopover:(BOOL)animated {
-	if(self.isMasterPopoverVisible) {
-		[self.masterPopoverController dismissPopoverAnimated:animated];
-	}
+- (void)dismissMasterPopover{
+	self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
 }
 
 #pragma mark Overridden Getters / Setters
-
-- (BOOL)isMasterPopoverVisible {
-	return (self.masterPopoverController != nil && self.masterPopoverController.isPopoverVisible);
-}
 
 - (void)setRotation:(int)rotation {
 	if(rotation == _rotation) {
@@ -253,7 +251,7 @@
 
 // persistent touch ids from ofxIPhone:
 // https://github.com/openframeworks/openFrameworks/blob/master/addons/ofxiPhone/src/core/ofxiOSEAGLView.mm
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	
 	for(UITouch *touch in touches) {
 		int touchId = 0;
@@ -310,34 +308,25 @@
 
 #pragma mark UISplitViewControllerDelegate
 
-- (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController {
-
-	if([Util isDeviceATablet]) {
-		barButtonItem.title = nil;
-		barButtonItem.image = [UIImage imageNamed:@"browser"];
-		if(!barButtonItem.image) { // fallback
-			barButtonItem.title = @"Patches";
-		}
+// toggle between hidden or overlay only
+- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc {
+	switch(svc.displayMode) {
+		case UISplitViewControllerDisplayModePrimaryHidden:
+			return UISplitViewControllerDisplayModePrimaryOverlay;
+		default:
+			return UISplitViewControllerDisplayModePrimaryHidden;
 	}
-
-	[self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
-	self.masterPopoverController = popoverController;
 }
 
-- (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-	// Called when the view is shown again in the split view, invalidating the button and popover controller.
-	[self.navigationItem setLeftBarButtonItem:nil animated:YES];
-	self.masterPopoverController = nil;
-}
-
-// hide master view controller by default on all orientations
-- (BOOL)splitViewController:(UISplitViewController *)splitController shouldHideViewController:(UIViewController *)viewController inOrientation:(UIInterfaceOrientation)orientation {
-	return YES;
-}
-
-// hide controls popover when browser is shown on iPad
-- (void)splitViewController:(UISplitViewController *)splitController popoverController:(UIPopoverController *)popoverController willPresentViewController:(UIViewController *)viewController {
-	[self dismissControlsPopover];
+// set browser back button and hide controls popover when browser is shown
+- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
+	if(displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
+		[self dismissControlsPopover];
+		self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+	}
+	else { // PrimaryOverlay
+		self.navigationItem.leftBarButtonItem = nil;
+	}
 }
 
 #pragma mark Private

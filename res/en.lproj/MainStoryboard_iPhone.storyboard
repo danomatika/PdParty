@@ -301,7 +301,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Patch" id="jS9-YK-GRw"/>
+                    <navigationItem key="navigationItem" id="jS9-YK-GRw"/>
                     <connections>
                         <segue destination="09F-iW-HZX" kind="modal" identifier="showInfo" modalTransitionStyle="flipHorizontal" id="si3-9h-wxN"/>
                     </connections>

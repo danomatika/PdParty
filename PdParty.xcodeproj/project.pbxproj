@@ -139,7 +139,7 @@
 		30F7A19716C008A500DE265F /* BrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F7A19616C008A500DE265F /* BrowserViewController.m */; };
 		30F96A551FC8D415002CDE3F /* libpd-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 309E33E21D53CA2C004DBB0D /* libpd-ios.a */; };
 		30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA774E16E5636A000E8D2B /* StartViewController.m */; };
-		30FA775316E68936000E8D2B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA775216E68936000E8D2B /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		30FA775316E68936000E8D2B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA775216E68936000E8D2B /* Reachability.m */; };
 		30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FA775416E69660000E8D2B /* SystemConfiguration.framework */; };
 		30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FAB41917C50DEE00ED10BC /* RecordingScene.m */; };
 /* End PBXBuildFile section */

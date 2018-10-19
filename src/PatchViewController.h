@@ -30,9 +30,6 @@
 /// loaded background image, used if scene didn;t load or there is no scene
 @property (strong, nonatomic) UIImageView *background;
 
-/// is the master view popover on iPad visible?
-@property (readonly, nonatomic) BOOL isMasterPopoverVisible;
-
 #pragma mark Scene Management
 
 @property (weak, nonatomic) SceneManager *sceneManager;
@@ -50,6 +47,6 @@
 - (void)infoNavButtonPressed:(id)sender;
 
 /// dismiss master popover if visible
-- (void)dismissMasterPopover:(BOOL)animated;
+- (void)dismissMasterPopover;
 
 @end

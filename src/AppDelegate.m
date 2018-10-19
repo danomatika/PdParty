@@ -48,6 +48,9 @@
 		UINavigationController *detailNavController = [splitViewController.viewControllers lastObject];
 		splitViewController.delegate = (id)detailNavController.topViewController;
 		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
+		splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+		detailNavController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+		detailNavController.navigationItem.leftItemsSupplementBackButton = NO;
 	}
 	
 	// load defaults
@@ -347,7 +350,7 @@
 
 	// present nav controller
 	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-	[self.patchViewController dismissMasterPopover:NO]; // hide master popover if visible
+	[self.patchViewController dismissMasterPopover]; // hide master popover if visible
 	[root presentViewController:nav animated:YES completion:nil];
 }
 

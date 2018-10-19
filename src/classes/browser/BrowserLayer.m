@@ -169,6 +169,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 												 style:UIBarButtonItemStylePlain
 												 target:self
 												 action:@selector(backButtonPressed)];
+	self.navigationItem.title = [_directory lastPathComponent];
 	return YES;
 }
 
