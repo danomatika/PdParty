@@ -183,11 +183,10 @@
 			if(indexPath.row == speakerButtonIndex) {
 				//[button setTitle:@"Speaker" forState:UIControlStateNormal];
 				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:[UIColor lightGrayColor]]  forState:UIControlStateNormal];
-				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:normalColor]  forState:UIControlStateSelected];
+				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:normalColor]  forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:selectedColor] forState:UIControlStateSelected];
 				[button addTarget:self action:@selector(speakerPressed:) forControlEvents:UIControlEventTouchUpInside];
-				button.selected = !app.pureData.earpieceSpeaker;
+				button.selected = app.pureData.earpieceSpeaker;
 			}
 			else if(indexPath.row == consoleButtonIndex) {
 				//[button setTitle:@"Show Console" forState:UIControlStateNormal];
@@ -258,7 +257,7 @@
 	DDLogVerbose(@"Menu: speaker button pressed");
 	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	app.pureData.earpieceSpeaker = !app.pureData.earpieceSpeaker;
-	[(UIButton *)sender setSelected:!app.pureData.earpieceSpeaker];
+	[(UIButton *)sender setSelected:app.pureData.earpieceSpeaker];
 }
 
 - (void)showConsolePressed:(id)sender {
