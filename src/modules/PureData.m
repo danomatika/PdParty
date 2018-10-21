@@ -43,10 +43,10 @@
 		_playing = YES;
 		_recording = NO;
 
-		// configure a typical audio session with 2 output channels
+		// configure a typical audio session with the current # of i/o channels
 		audioController = [[PartyAudioController alloc] init];
 		audioController.earpieceSpeaker = [defaults boolForKey:@"earpieceSpeakerEnabled"];
-		self.sampleRate = PARTY_SAMPLERATE;
+		self.sampleRate = PARTY_SAMPLERATE; //< audio unit set up here
 		if(ddLogLevel >= DDLogLevelVerbose) {
 			[audioController print];
 		}
@@ -75,11 +75,37 @@
 		updateLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMessages:)];
 		updateLink.preferredFramesPerSecond = 60;
 		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+
+		// re-configure audio unit if number of channels has changed
+		[NSNotificationCenter.defaultCenter addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *notification) {
+			NSLog(@"ka");
+			NSDictionary *info = notification.userInfo;
+			if(info && info[AVAudioSessionRouteChangeReasonKey]) {
+				BOOL check = NO;
+				AVAudioSession *session = AVAudioSession.sharedInstance;
+				unsigned int reason = [info[AVAudioSessionRouteChangeReasonKey] unsignedIntValue];
+				switch(reason) {
+					case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
+						DDLogVerbose(@"PartyAudioController: new device available, now %d inputs %d outputs",
+							(int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
+						[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
+						break;
+					case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
+						DDLogVerbose(@"PartyAudioController: old device unavailable, now %d inputs %d outputs",
+							(int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
+						[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
+						break;
+					default:
+						return;
+				}
+			}
+		}];
 	}
 	return self;
 }
 
 - (void)dealloc {
+	[NSNotificationCenter.defaultCenter removeObserver:self];
 	playbackPatch = nil;
 	audioController = nil;
 	if(updateLink) {
@@ -538,42 +564,11 @@
 
 - (void)setSampleRate:(int)sampleRate {
 	if(audioController.sampleRate == sampleRate) return;
-	
 	if(sampleRate <= 0) {
 		DDLogWarn(@"PureData: ignoring obviously bad sampleRate: %d", sampleRate);
 		return;
 	}
-
-	audioController.active = NO;
-	int tpb = audioController.ticksPerBuffer;
-	PdAudioStatus status = [audioController configurePlaybackWithSampleRate:sampleRate
-	                                                         numberChannels:2
-	                                                           inputEnabled:YES
-	                                                          mixingEnabled:YES];
-	if(status == PdAudioError) {
-		DDLogError(@"PureData: could not configure PdAudioController");
-	}
-	else if(status == PdAudioPropertyChanged) {
-		DDLogWarn(@"PureData: some of the audio parameters were not accceptable");
-	}
-	else {
-		DDLogVerbose(@"PureData: sampleRate now %d", audioController.sampleRate);
-	}
-	
-	// (re)set tpb if we're not letting the latency be chosen automatically
-	// by the audioController
-	if(!self.autoLatency && audioController.ticksPerBuffer != tpb) {
-		[self setTicksPerBuffer:tpb];
-		DDLogVerbose(@"PureData: resetting ticksPerBuffer after sampleRate change");
-	}
-	
-	// catch zero ticks per buffer
-	if(audioController.ticksPerBuffer <= 0) {
-		[self setTicksPerBuffer:1];
-		DDLogVerbose(@"PureData: caught 0 ticksPerBuffer after sampleRate change, setting to 1");
-	}
-
-	audioController.active = YES;
+	[self configureAudioUnitWithSampleRate:sampleRate];
 }
 
 - (int)ticksPerBuffer {
@@ -755,6 +750,52 @@ static NSNumberFormatter *s_numFormatter = nil;
 }
 
 #pragma mark Private
+
+// configure for playback w/ sample rate, number of channels, ticks per buffer
+- (void)configureAudioUnitWithSampleRate:(int)sampleRate {
+
+	// allow for multiple i/o by using the number of channels for the current i/o,
+	// tries to choose whichever is greater
+	AVAudioSession *session = AVAudioSession.sharedInstance;
+	int channels = MAX((int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
+	channels = MAX(channels, 2); // min channels to 2 (stereo)
+
+	// nothing to change?
+	if(audioController.sampleRate == sampleRate && audioController.numberChannels == channels) {
+		return;
+	}
+
+	audioController.active = NO;
+	int tpb = audioController.ticksPerBuffer;
+	PdAudioStatus status = [audioController configurePlaybackWithSampleRate:sampleRate
+	                                                         numberChannels:channels
+	                                                           inputEnabled:YES
+	                                                          mixingEnabled:YES];
+	if(status == PdAudioError) {
+		DDLogError(@"PureData: could not configure PdAudioController");
+	}
+	else if(status == PdAudioPropertyChanged) {
+		DDLogWarn(@"PureData: some of the audio parameters were not accceptable");
+	}
+	else {
+		DDLogVerbose(@"PureData: sampleRate %d channels %d", audioController.sampleRate, audioController.numberChannels);
+	}
+
+	// (re)set tpb if we're not letting the latency be chosen automatically
+	// by the audioController
+	if(!self.autoLatency && audioController.ticksPerBuffer != tpb) {
+		[self setTicksPerBuffer:tpb];
+		DDLogVerbose(@"PureData: resetting ticksPerBuffer");
+	}
+
+	// catch zero ticks per buffer
+	if(audioController.ticksPerBuffer <= 0) {
+		[self setTicksPerBuffer:1];
+		DDLogVerbose(@"PureData: caught 0 ticksPerBuffer, setting to 1");
+	}
+
+	audioController.active = YES;
+}
 
 // process messages waiting in the queues
 - (void)updateMessages:(CADisplayLink *)displayLink {
