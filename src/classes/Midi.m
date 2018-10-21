@@ -72,9 +72,9 @@ static BOOL isNetworkSession(MIDIEndpointRef ref) {
 #pragma mark - MidiInput
 
 @implementation MidiInput {
-	bool firstPacket;       ///< is this the first received packet?
-	bool continueSysex;     ///< is this packet part of a sysex message?
-	NSMutableData *message; ///< raw MIDI byte buffer
+	bool firstPacket;       //< is this the first received packet?
+	bool continueSysex;     //< is this packet part of a sysex message?
+	NSMutableData *message; //< raw MIDI byte buffer
 }
 
 - (instancetype)initWithMidi:(Midi *)midi

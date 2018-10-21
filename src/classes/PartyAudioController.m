@@ -14,8 +14,8 @@
 #import "Util.h"
 
 @interface PartyAudioController () {
-	BOOL hasEarpiece;    ///< does this device have an earpiece?
-	BOOL optionsChanged; ///< have the audio session options changed?
+	BOOL hasEarpiece;    //< does this device have an earpiece?
+	BOOL optionsChanged; //< have the audio session options changed?
 }
 @end
 

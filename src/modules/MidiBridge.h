@@ -15,7 +15,7 @@
 
 /// midi connection event delegate
 @protocol MidiBridgeDelegate <NSObject>
-- (void)midiConnectionsChanged;  ///< MIDI inputs and/or outputs have changed
+- (void)midiConnectionsChanged;  //< MIDI inputs and/or outputs have changed
 @end
 
 /// MIDI bridge to PureData
