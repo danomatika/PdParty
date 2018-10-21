@@ -30,7 +30,8 @@ Acknowledgments
 * [Reality Jockey](http://rjdj.me/) for proving PD + mobile devices = win
 * Chris McCormick for providing the design basis with [PdDroidParty](http://droidparty.net/)
 * Frank Barknecht and the rjlib crew for a great vanilla abstraction set
-* CMU Frank-Ratchye [Studio for Creative Inquiry](http://studioforcreativeinquiry.org) which supported various aspects of my early work on libpd
+
+This project has been supported by the CMU [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org), a visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/), and my time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab).
 
 Table of Contents
 -----------------
@@ -55,6 +56,8 @@ With PdParty, the author now has a stable low latency mobile/wearable platform w
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/belt_setup.png"/>
 </p>
+
+See the [Pure Data 2016 conference paper](http://danomatika.com/publications/pdparty_pdcon_16.pdf) for more details.
 
 App Layout
 ----------
@@ -98,7 +101,7 @@ The default layout is:
 * **samples**: example patches and scenes
 * **tests**: internal tests
 
-Feel free to delete samples and tests. The libs folder contains abstractions needed by PdParty. This folder is exposed to allow you to update/upgrade the global abstractions as well as satisfy the user upgradeability requirement for GPL licensed abstractions. If the libs folder is not found, PdParty falls back to its internal backup copy.
+Feel free to delete samples and tests. The libs folder contains abstractions needed by PdParty. This folder is exposed to allow you to update global abstractions as well as GPL-licensed abstractions which must be user upgradeable. If the libs folder is not found, PdParty falls back to its internal backup copy.
 
 The all folders within the libs folder are automatically added to the PdParty search path so this can also be a location for centralized abstraction libraries.
 
@@ -128,7 +131,7 @@ On iPad, however, RjDJ scenes can be both portrait or landscape:
 
 #### On Screen Controls
 
-Simple on screen controls inspired by the RjDj app are provided to change the audio input level, enable/disable audio dsp, start/stop recording, switch output between headset and speakers (iPhone only), restart the scene.
+Simple on screen controls inspired by the RjDj app are provided to change the audio input level, enable/disable audio dsp, start/stop recording, switch output between earpiece and speakers (iPhone only), restart the scene.
 
 Patches, DroidParty, & PdParty scenes display these controls in a popover activated by the "Controls" nav bar button:
 
@@ -144,7 +147,7 @@ RjDj scenes always have a square background with the controls located below.
 
 Optionally, a button to launch a Console view to display Pd prints for the current patch/scene can be added to the Controls popover. Enable to Console view in the PdParty Settings.
 
-On iPhone, the speaker icon is added to allow for switching the audio output between the headset speaker (quiet) and the speaker-phone speakers (load). This may useful to prevent feedback between input and output in certain scenes. For Rj scenes, this control is added as a switch on the scene's info view.
+On iPhone, the speaker icon is added to allow for switching the audio output between the headset speaker (quiet) and the speaker-phone speakers (loud). This may useful to prevent feedback between input and output in certain scenes. For Rj scenes, this control is added as a switch on the scene's info view.
 
 #### Recording Scene
 
@@ -192,7 +195,7 @@ In **Multiple Device Mode**, PdParty mimics the behavior of the Pure Data deskto
 * Port 3: channels 33-48
 * Port 4: channels 49-64
 
-Devices can be reordered to set their port number. Simply drag the device within the Input or Output table when **Multiple Device Mode** is enabled.
+Devices can be reordered to set their port number. When **Multiple Device Mode** is enabled, tap the Edit button and drag the device within the Input or Output table.
 
 ### App Settings
 
@@ -250,7 +253,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
 *Largely borrowed from [PdDroidParty](http://droidparty.net/)*
 
-1. Create a new Pd patch that will contain your GUI objects like sliders, toggles, numberboxes etc. Place your main patch logic inside a subpatch and use the [soundinput] & [soundoutput] [rjlib objects](https://github.com/rjdj/rjlib/tree/master/pd) in place of [adc~] and [dac] \(soundoutput is required for the recording controls\).
+1. Create a new Pd patch that will contain your GUI objects like sliders, toggles, numberboxes etc. Place your main patch logic inside a subpatch and use the [soundinput] & [soundoutput] [rjlib objects](https://github.com/rjdj/rjlib/tree/master/pd) in place of [adc~] and [dac~] \(soundoutput is required for the recording controls\).
 
 2. PdParty will scale GUI objects to fit the screen of the device. Your patch should have the rough dimensions of a phone/tablet in portrait or landscape mode (e.g. 3:2 aspect ratio or e.g. 480x320 should usually work well). If it is not exact it, doesn't matter - the GUI elements will be scaled.
 
@@ -262,7 +265,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
     - **iTunes File Sharing**
 
-        Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add..." and "Save to..." buttons\*.
+        Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add..." and "Save to..." buttons.
 
         *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that is simply how the iTunes file sharing system currently works.*
 
@@ -272,7 +275,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
     - **WebDAV**
 
-      1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using macOS or Linux on a local network, the *.local address should work, otherwise use the ip address (#.#.#.#). The server supports both IPv4 and IPv6.
+      1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using macOS or Linux on a local network, the \*.local address should work, otherwise use the IP address (#.#.#.#). The server supports both IPv4 and IPv6.
 
             *  **macOS**: Finder can mount WebDAV server folders: Go->Connect to Server... CMD+K. Login as "anonymous" (or anything, really) and leave the password blank:
 
@@ -290,14 +293,20 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
     - **Open in...**
 
-      PdParty registers Pd patch *.pd files and Zip archives (*.zip, *.rjz, *.pdz) with iOS as supported types. This allows for each of these file types to be opened in PdParty from another application ie. Mail, DropBox, etc. When choosing "Open in..." via the Share button, the file(s) will be copied into the main PdParty Documents folder. Zip archives can then be unpacked by clicking on them in the Patch Browser.
+      PdParty registers Pd patch \*.pd files and Zip archives (\*.zip, \*.rjz, \*.pdz) with iOS as supported types. This allows for each of these file types to be opened in PdParty from another application ie. Mail, DropBox, etc. When choosing "Open in..." via the Share button, the file(s) will be copied into the main PdParty Documents folder. Zip archives can then be unpacked by clicking on them in the Patch Browser.
+
+### Audio I/O
+
+The audio device PdParty uses for input & output is the current device used by the system. If the device changes (something was plugged-in), PdParty will switch to this new device. There is currently no method for manually selecting audio routing.
+
+Input & output are stereo (2 channel) by default. As of version 1.2.0, PdParty will attempt to use the maximum number of input or output channels supported by the current device, depending whichever is greater. As with desktop Pure Data, any extra input or output channels beyond those used by the current device are ignored. Note that the [soundinput] and [soundoutput] abstractions are stereo only, so you will need to roll your own i/o using [adc\~] & [dac\~] objects.
 
 ### Scenes
 
 PdParty also supports running "scenes" which are basically folders with a specific layout that are treated as a single entity for encapsulation and have certain event attributes:
 
 * RjDj scenes:
-  * a folder that ends in *.rj that contains a _main.pd patch
+  * a folder that ends in \*.rj that contains a _main.pd patch
   * locked to portrait on iPhone
   * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
   * an optional browser icon named "thumb.jpg" and a min size of 55x55, will fall back to "image.jpg" if not found
