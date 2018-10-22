@@ -1,31 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 792 612" style="enable-background:new 0 0 792 612;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:url(#SVGID_1_);}
-	.st1{fill:none;stroke:#010101;stroke-width:10;}
-	.st2{fill:#010101;stroke:#010101;stroke-width:7;}
-	.st3{fill:#010101;}
-	.st4{font-family:'Futura-Medium';}
-	.st5{font-size:160px;}
-</style>
-<g>
-	
-		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="150.4069" y1="131.7183" x2="804.5283" y2="131.7183" gradientTransform="matrix(-1.346898e-10 1 -1 -1.346898e-10 532.4103 20.0263)">
-		<stop  offset="5.406949e-02" style="stop-color:#FFFFFF"/>
-		<stop  offset="0.5243" style="stop-color:#000000"/>
-	</linearGradient>
-	<path class="st0" d="M289,323.3c0,24.9,20.1,45,45,45h133.3c24.9,0,45-20.1,45-45V190c0-24.9-20.1-45-45-45H334
-		c-24.9,0-45,20.1-45,45V323.3z"/>
-	<path class="st1" d="M289,323.3c0,24.9,20.1,45,45,45h133.3c24.9,0,45-20.1,45-45V190c0-24.9-20.1-45-45-45H334
-		c-24.9,0-45,20.1-45,45V323.3z"/>
-</g>
-<g>
-	<rect x="330.3" y="350.2" class="st2" width="50.4" height="16.2"/>
-	<g>
-		<rect x="330.3" y="144.3" class="st2" width="50.4" height="16.2"/>
-		<text transform="matrix(1 0 0 1 338.5684 368.0092)" class="st3 st4 st5">~</text>
-	</g>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(2.0898,0,0,1.85844,-152.555,-126.374)">
+        <g id="background">
+            <rect x="73" y="68" width="490" height="551" style="fill:white;"/>
+        </g>
+    </g>
+    <g id="icon" transform="matrix(1.01255,0,0,1,-6779.35,-6688)">
+        <g transform="matrix(4.35153,0,0,4.40613,6715.06,6906.28)">
+            <path d="M0,133.325C0,158.179 20.147,178.325 45,178.325L178.324,178.325C203.177,178.325 223.324,158.179 223.324,133.325L223.324,0C223.324,-24.853 203.177,-45 178.324,-45L45,-45C20.147,-45 0,-24.853 0,0L0,133.325Z" style="fill:rgb(255,252,252);fill-rule:nonzero;stroke:black;stroke-width:9.08px;"/>
+        </g>
+        <g transform="matrix(-4.8961,0,0,6.7734,42781,-40612.7)">
+            <rect x="7277.09" y="7118.24" width="50.428" height="16.24" style="stroke:black;stroke-width:1.53px;"/>
+        </g>
+        <g transform="matrix(-4.8961,0,0,6.15801,42780.7,-38413.9)">
+            <rect x="7277.04" y="7324.1" width="50.428" height="16.239" style="stroke:black;stroke-width:1.53px;"/>
+        </g>
+        <g transform="matrix(4.58527,0,0,4.58527,6923.96,7715.78)">
+            <text x="0px" y="0px" style="font-family:'Futura-Medium', 'Futura', sans-serif;font-weight:500;font-size:160px;">~</text>
+        </g>
+    </g>
 </svg>

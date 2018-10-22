@@ -69,3 +69,7 @@ convert-icon 167 167 $NAME-83-5@2x
 
 # App Store iOS
 convert-icon 1024 1024 $NAME-1024
+
+# browser scene icon with outline
+ICON=$NAME-outline-1024.png
+convert-icon 512 512 $NAME-512
