@@ -30,6 +30,7 @@
 * speed up outgoing OSC by polling waiting pd messages using CVDisplayLink
 * speed up web view loading by disabling data detectors (ie. phone #, links)
 * replaced browser audio wave icon with tape
+* updated app icon to borderless design as transparency is no longer allowed
 * replaced ZipArchive library with simple minizip Unzip wrapper
 * updated MBProgressHUD library to latest version
 * updated acknowledgements
