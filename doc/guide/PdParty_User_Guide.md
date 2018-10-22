@@ -43,7 +43,7 @@ Background
 
 Dan Wilcox 2016
 
-[_robotcowboy_](http://robotcowboy.com) is the author's ongoing human-computer wearable performance project. Focusing on the embodiment of computational sound, _robotcowboy_ was originally built in 2006-2007 as an [MS thesis project](http://danomatika.com/publications/robotcowboy_thesis_07.pdf) using an industrial wearable computer[^wearable] running GNU/Linux & Pure Data, external stereo USB sound & MIDI interfaces, and various input devices including HID gamepads.
+[_robotcowboy_](http://robotcowboy.com) is the author's ongoing human-computer wearable performance project. Focusing on the embodiment of computational sound, _robotcowboy_ was originally built in 2006-2007 as an [MS thesis project](http://danomatika.com/publications/robotcowboy_thesis_07.pdf) using an industrial wearable computer running GNU/Linux & Pure Data, external stereo USB sound & MIDI interfaces, and various input devices including HID gamepads.
 
 <p align="center">
 	<img src="http://farm3.staticflickr.com/2435/3632901050_ec39f575af.jpg"/>
