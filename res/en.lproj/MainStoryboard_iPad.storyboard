@@ -824,13 +824,13 @@
                                                 </switch>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="SH3-Td-jtF" firstAttribute="centerY" secondItem="NN1-yj-s3k" secondAttribute="centerY" id="1n0-zZ-UnO"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SH3-Td-jtF" secondAttribute="trailing" constant="20" symbolic="YES" id="wx9-8b-BBS"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="p9X-lw-ZdS" secondAttribute="trailing" constant="20" id="QpY-xm-mVu"/>
                                             <constraint firstItem="SH3-Td-jtF" firstAttribute="leading" secondItem="x0v-wS-PqL" secondAttribute="leading" constant="20" id="jF8-lN-lOg"/>
-                                            <constraint firstItem="SH3-Td-jtF" firstAttribute="centerY" secondItem="p9X-lw-ZdS" secondAttribute="centerY" id="vff-Fs-cDa"/>
                                             <constraint firstItem="p9X-lw-ZdS" firstAttribute="centerY" secondItem="x0v-wS-PqL" secondAttribute="centerY" id="xdm-IP-Cyd"/>
                                         </constraints>
                                     </tableViewCell>
@@ -1318,10 +1318,10 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="D2Y-qE-KTL" secondAttribute="trailing" constant="20" symbolic="YES" id="COi-AP-V1U"/>
+                                                <constraint firstItem="wTt-BQ-ws6" firstAttribute="centerY" secondItem="15m-Ln-80w" secondAttribute="centerY" id="OsT-Hk-J1k"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
-                                            <constraint firstItem="D2Y-qE-KTL" firstAttribute="centerY" secondItem="wTt-BQ-ws6" secondAttribute="centerY" id="3Zz-FN-w8a"/>
                                             <constraint firstItem="D2Y-qE-KTL" firstAttribute="leading" secondItem="J6X-j5-bfx" secondAttribute="leading" constant="20" id="WQM-uV-UQa"/>
                                             <constraint firstItem="D2Y-qE-KTL" firstAttribute="centerY" secondItem="J6X-j5-bfx" secondAttribute="centerY" id="c6l-2S-8ax"/>
                                             <constraint firstAttribute="trailing" secondItem="wTt-BQ-ws6" secondAttribute="trailing" constant="20" id="zU4-be-VEb"/>
@@ -1438,11 +1438,11 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="a5h-im-D7u" secondAttribute="trailing" constant="20" symbolic="YES" id="Gw8-VX-oPK"/>
+                                                <constraint firstItem="1V2-Co-XnJ" firstAttribute="centerY" secondItem="Tqd-Ll-fyz" secondAttribute="centerY" id="go8-sH-HZM"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
                                             <constraint firstItem="a5h-im-D7u" firstAttribute="leading" secondItem="r1C-Xi-ci8" secondAttribute="leading" constant="30" id="7Cf-FU-qA0"/>
-                                            <constraint firstItem="a5h-im-D7u" firstAttribute="centerY" secondItem="1V2-Co-XnJ" secondAttribute="centerY" id="9i8-IN-xdG"/>
                                             <constraint firstAttribute="trailing" secondItem="1V2-Co-XnJ" secondAttribute="trailing" constant="20" id="aZf-5m-Ubc"/>
                                             <constraint firstItem="a5h-im-D7u" firstAttribute="centerY" secondItem="r1C-Xi-ci8" secondAttribute="centerY" id="nZC-KT-64T"/>
                                         </constraints>

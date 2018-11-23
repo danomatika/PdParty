@@ -142,7 +142,6 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="xjL-eV-alg" firstAttribute="centerY" secondItem="g7m-ol-lIr" secondAttribute="centerY" id="Kuc-Kv-y3x"/>
-                                                <constraint firstItem="c1k-CI-s3O" firstAttribute="centerY" secondItem="g7m-ol-lIr" secondAttribute="centerY" id="azG-BX-zIu"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xjL-eV-alg" secondAttribute="trailing" constant="20" symbolic="YES" id="uxt-zJ-V8e"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -569,10 +568,10 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NZh-2W-Stv" secondAttribute="trailing" constant="20" symbolic="YES" id="UvS-cH-lti"/>
+                                                <constraint firstItem="NZh-2W-Stv" firstAttribute="centerY" secondItem="DMW-DY-7XZ" secondAttribute="centerY" id="W06-hl-TGK"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
-                                            <constraint firstItem="NZh-2W-Stv" firstAttribute="centerY" secondItem="Bsv-tn-bcV" secondAttribute="centerY" id="Ndn-t2-2d8"/>
                                             <constraint firstItem="Bsv-tn-bcV" firstAttribute="centerY" secondItem="65p-uE-2jr" secondAttribute="centerY" id="QSt-yR-76L"/>
                                             <constraint firstItem="NZh-2W-Stv" firstAttribute="leading" secondItem="65p-uE-2jr" secondAttribute="leading" constant="20" id="WDT-v4-4gR"/>
                                             <constraint firstAttribute="trailing" secondItem="Bsv-tn-bcV" secondAttribute="trailing" constant="20" id="jeF-V9-0is"/>
@@ -1297,8 +1296,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vpN-Yc-bMc" secondAttribute="trailing" constant="20" symbolic="YES" id="HtS-Ll-3ij"/>
-                                                <constraint firstItem="vpN-Yc-bMc" firstAttribute="centerY" secondItem="Fwi-VN-ioR" secondAttribute="centerY" id="NcP-dx-7tS"/>
-                                                <constraint firstItem="MJD-cx-RrL" firstAttribute="centerY" secondItem="Fwi-VN-ioR" secondAttribute="centerY" id="WzX-cc-woa"/>
+                                                <constraint firstItem="vpN-Yc-bMc" firstAttribute="centerY" secondItem="Fwi-VN-ioR" secondAttribute="centerY" id="UDY-2v-yuy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
