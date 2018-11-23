@@ -73,7 +73,9 @@
 
 		// setup display link for faster message polling
 		updateLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMessages:)];
-		updateLink.preferredFramesPerSecond = 60;
+		if([updateLink respondsToSelector:@selector(setPreferredFramesPerSecond:)]) {
+			updateLink.preferredFramesPerSecond = 60;
+		}
 		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 
 		// re-configure audio unit if number of channels has changed
