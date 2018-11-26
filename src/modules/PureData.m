@@ -80,7 +80,6 @@
 
 		// re-configure audio unit if number of channels has changed
 		[NSNotificationCenter.defaultCenter addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *notification) {
-			NSLog(@"ka");
 			NSDictionary *info = notification.userInfo;
 			if(info && info[AVAudioSessionRouteChangeReasonKey]) {
 				BOOL check = NO;
