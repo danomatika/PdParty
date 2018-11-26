@@ -382,15 +382,16 @@
 	}
 
 	if(self.sceneManager.scene.requiresOnscreenControls) {
-	
-		// controls should be on screen at the bottom of the view
-		if(self.controlsPopover || !self.controlsView.superview) {
-			[self.controlsView removeFromSuperview];
-			
-			// make sure to close popover if it's still visible on iPad
+
+		// make sure to close popover if it's still visible on iPad
+		if(self.controlsPopover) {
 			[self dismissControlsPopover];
 			self.controlsPopover = nil;
-			
+		}
+
+		// controls should be on screen at the bottom of the view
+		if(!self.controlsView.superview) {
+
 			// make sure the color is black as it might have been white in a popover
 			self.controlsView.lightBackground = NO;
 			
@@ -415,11 +416,9 @@
 				[self.controlsView defaultSize];
 			}
 			
-			// add to this view
 			[self.view addSubview:self.controlsView];
-	
-			// auto layout constraints
 			[self.controlsView alignToSuperviewBottom];
+			[self.controlsView updateControls];
 		}
 		self.controlsView.height = CGRectGetHeight(self.view.bounds) - self.sceneManager.scene.contentHeight;
 	}
@@ -474,11 +473,9 @@
 																				options:0
 																				metrics:nil
 																				  views:@{@"view" : view}]];
+			[self.controlsView updateControls];
 		}
 	}
-	[self.controlsView.superview setNeedsUpdateConstraints];
-	
-	[self.controlsView updateControls];
 }
 
 - (void)dismissControlsPopover {
