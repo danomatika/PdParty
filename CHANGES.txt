@@ -1,12 +1,14 @@
-1.2.1: TBD
+1.2.1: 2018-11-27
 
+* fixed iOS 8 & 9 crash on start (reported by Gianluca Delfino)
 * fixed virtual MIDI port not actually working (reported by Kent Finley)
 * fixed MIDI Settings sometimes not displaying all outputs
 * fixed iOS 8 RJScene hang on load due to auto layout loop
 * fixed iOS 8 RJScene controls view auto layout bug
-* fixed iOS 8 & 9 crash on start (reported by Gianluca Delfino)
 
 * added note ping to PdParty Midi test scene
+
+* various small auto layout fixes
 
 1.2.0: 2018-10-22
 
