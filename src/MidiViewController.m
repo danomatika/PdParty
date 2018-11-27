@@ -133,7 +133,7 @@
 	}
 	else if(section == OUTPUTS_SECTION) {
 		if(midi.enabled) {
-			return (midi.multiDeviceMode ? MIDI_MAX_IO : midi.inputs.count);
+			return (midi.multiDeviceMode ? MIDI_MAX_IO : midi.outputs.count);
 		}
 		return 0;
 	}
