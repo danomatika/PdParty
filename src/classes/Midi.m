@@ -72,7 +72,7 @@ static BOOL isNetworkSession(MIDIEndpointRef ref) {
 }
 
 - (NSString *)debugDescription {
-	return [NSString stringWithFormat:@"%@ %u", self.name, self.endpoint];
+	return [NSString stringWithFormat:@"%@ %u", self.name, (unsigned int)self.endpoint];
 }
 
 @end
