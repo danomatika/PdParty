@@ -27,6 +27,7 @@
 	PartyAudioController *audioController;
 	PdFile *playbackPatch;
 	CADisplayLink *updateLink;
+	id routeChangeObserver; //< opaque route change notification handle
 }
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
 @end
@@ -79,7 +80,7 @@
 		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 
 		// re-configure audio unit if number of channels has changed
-		[NSNotificationCenter.defaultCenter addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *notification) {
+		routeChangeObserver = [NSNotificationCenter.defaultCenter addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *notification) {
 			NSDictionary *info = notification.userInfo;
 			if(info && info[AVAudioSessionRouteChangeReasonKey]) {
 				BOOL check = NO;
@@ -106,7 +107,7 @@
 }
 
 - (void)dealloc {
-	[NSNotificationCenter.defaultCenter removeObserver:self];
+	[NSNotificationCenter.defaultCenter removeObserver:routeChangeObserver];
 	playbackPatch = nil;
 	audioController = nil;
 	if(updateLink) {
@@ -566,7 +567,7 @@
 - (void)setSampleRate:(int)sampleRate {
 	if(audioController.sampleRate == sampleRate) return;
 	if(sampleRate <= 0) {
-		DDLogWarn(@"PureData: ignoring obviously bad sampleRate: %d", sampleRate);
+		DDLogWarn(@"PureData: ignoring obviously bad sample rate: %d", sampleRate);
 		return;
 	}
 	[self configureAudioUnitWithSampleRate:sampleRate];
@@ -590,7 +591,7 @@
 		DDLogError(@"PureData: could not set ticks per buffer");
 	}
 	else if(status == PdAudioPropertyChanged) {
-		DDLogWarn(@"PureData: the ticks per buffer value was not accceptable");
+		DDLogWarn(@"PureData: ticks per buffer value was not acceptable, using %d instead", audioController.ticksPerBuffer);
 	}
 	else {
 		[[NSUserDefaults standardUserDefaults] setInteger:ticksPerBuffer forKey:@"ticksPerBuffer"];
@@ -773,20 +774,22 @@ static NSNumberFormatter *s_numFormatter = nil;
 	                                                           inputEnabled:YES
 	                                                          mixingEnabled:YES];
 	if(status == PdAudioError) {
-		DDLogError(@"PureData: could not configure PdAudioController");
+		DDLogError(@"PureData: could not configure audio");
 	}
 	else if(status == PdAudioPropertyChanged) {
-		DDLogWarn(@"PureData: some of the audio parameters were not accceptable");
+		DDLogWarn(@"PureData: some of the audio properties were changed during configuration");
+		[audioController print];
 	}
 	else {
-		DDLogVerbose(@"PureData: sampleRate %d channels %d", audioController.sampleRate, audioController.numberChannels);
+		DDLogVerbose(@"PureData: sampleRate %d channels %d",
+		             audioController.sampleRate, audioController.numberChannels);
 	}
 
 	// (re)set tpb if we're not letting the latency be chosen automatically
 	// by the audioController
 	if(!self.autoLatency && audioController.ticksPerBuffer != tpb) {
+		DDLogVerbose(@"PureData: resetting ticks per buffer");
 		[self setTicksPerBuffer:tpb];
-		DDLogVerbose(@"PureData: resetting ticksPerBuffer");
 	}
 
 	// catch zero ticks per buffer

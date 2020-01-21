@@ -18,6 +18,7 @@
 
 @interface RecordingScene () {
 	id timeObserver;      //< opaque player time update handle
+	id endTimeObserver;   //< opaque player end time notification handle
 	float rateBeforeSeek; //< stored player rate when seeking
 }
 @property (nonatomic) BOOL loop;    //< loop playback?
@@ -105,7 +106,7 @@
 			[wimp.controlsView setCurrentTime:elapsed forDuration:wimp.player.currentItem.duration];
 		}
 	}];
-	[[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification
+	endTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification
 													  object:self.player.currentItem
 	                                                   queue:nil // main queue
 												  usingBlock:^(NSNotification *notification) {
@@ -130,6 +131,9 @@
 		[self.player removeTimeObserver:timeObserver];
 		[self.player.currentItem removeObserver:self forKeyPath:@"status"];
 		self.player = nil;
+	}
+	if (endTimeObserver) {
+		[[NSNotificationCenter defaultCenter] removeObserver:endTimeObserver];
 	}
 	[self.infoLabel removeFromSuperview];
 	[self.background removeFromSuperview];
