@@ -97,7 +97,6 @@
 		30C9BF6016E8456B00E5AA5B /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF5D16E8456B00E5AA5B /* WebServer.m */; };
 		30C9BF6416E8457400E5AA5B /* KeyGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6316E8457400E5AA5B /* KeyGrabber.m */; };
 		30C9BF6716E8460700E5AA5B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C9BF6616E8460700E5AA5B /* Util.m */; };
-		30D4CFAD20435E4A00662491 /* PartyAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFA720435E4900662491 /* PartyAudioController.m */; };
 		30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D4CFB020442A4E00662491 /* CoreMedia.framework */; };
 		30D4CFBF20446A9F00662491 /* SceneControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFBA20446A9F00662491 /* SceneControlsView.m */; };
 		30D4CFC020446A9F00662491 /* ControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4CFBB20446A9F00662491 /* ControlsView.m */; };
@@ -306,6 +305,8 @@
 		309EA4FD20509D4A00337C31 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
 		309EA4FE20509D4A00337C31 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
 		309EA4FF20509D4A00337C31 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		309FA28623D8926E00D6ABF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		309FA28723D8926E00D6ABF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		30A319EA16B61FF700C7729B /* Gui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gui.m; sourceTree = "<group>"; };
 		30A319EB16B61FF700C7729B /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		30A319F016B61FF700C7729B /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
@@ -320,8 +321,6 @@
 		30ABE2EA16B5D0FB00464926 /* PatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatchViewController.h; path = src/PatchViewController.h; sourceTree = "<group>"; };
 		30ABE2EB16B5D0FB00464926 /* PatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PatchViewController.m; path = src/PatchViewController.m; sourceTree = "<group>"; };
 		30ABE2F716B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		30ABE2F916B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		30ABE2FB16B5D11D00464926 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		30ABE30116B5D11D00464926 /* PdParty-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PdParty-Info.plist"; sourceTree = "<group>"; };
 		30ABE30216B5D11D00464926 /* PdParty-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PdParty-Prefix.pch"; sourceTree = "<group>"; };
 		30ABE40F16B5D54100464926 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -353,8 +352,6 @@
 		30C9BF6316E8457400E5AA5B /* KeyGrabber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyGrabber.m; sourceTree = "<group>"; };
 		30C9BF6516E8460700E5AA5B /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		30C9BF6616E8460700E5AA5B /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
-		30D4CFA720435E4900662491 /* PartyAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PartyAudioController.m; path = src/classes/PartyAudioController.m; sourceTree = SOURCE_ROOT; };
-		30D4CFAC20435E4A00662491 /* PartyAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PartyAudioController.h; path = src/classes/PartyAudioController.h; sourceTree = SOURCE_ROOT; };
 		30D4CFAE2043925F00662491 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		30D4CFB020442A4E00662491 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		30D4CFB920446A9F00662491 /* PlayerControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerControlsView.h; sourceTree = "<group>"; };
@@ -848,8 +845,6 @@
 			children = (
 				30D60AA6198A8E3A003DFA70 /* browser */,
 				30D4CFB820446A9F00662491 /* controls */,
-				30D4CFAC20435E4A00662491 /* PartyAudioController.h */,
-				30D4CFA720435E4900662491 /* PartyAudioController.m */,
 				30555CF21C25E18D009F4F9B /* PartyBrowser.h */,
 				30555CF31C25E18E009F4F9B /* PartyBrowser.m */,
 				30C9BF6216E8457400E5AA5B /* KeyGrabber.h */,
@@ -1049,7 +1044,7 @@
 		30ABE29A16B5A8E500464926 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = danomatika;
 				TargetAttributes = {
 					30ABE2A216B5A8E500464926 = {
@@ -1060,10 +1055,11 @@
 			};
 			buildConfigurationList = 30ABE29D16B5A8E500464926 /* Build configuration list for PBXProject "PdParty" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 30ABE29816B5A8E500464926;
 			productRefGroup = 30ABE2A416B5A8E500464926 /* Products */;
@@ -1238,7 +1234,6 @@
 				30555CF11C24C242009F4F9B /* BrowserLayer.m in Sources */,
 				303BD3151759928D000FBEB5 /* RjWidget.m in Sources */,
 				30B4520C176290300040FFBC /* SceneManager.m in Sources */,
-				30D4CFAD20435E4A00662491 /* PartyAudioController.m in Sources */,
 				300507B217C29CE700D1563C /* SettingsViewController.m in Sources */,
 				3024B08E1C993769002C36DA /* Controllers.m in Sources */,
 				30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */,
@@ -1273,7 +1268,7 @@
 		30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				30ABE2F916B5D11D00464926 /* en */,
+				309FA28623D8926E00D6ABF2 /* Base */,
 			);
 			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
@@ -1281,7 +1276,7 @@
 		30ABE2FA16B5D11D00464926 /* MainStoryboard_iPhone.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				30ABE2FB16B5D11D00464926 /* en */,
+				309FA28723D8926E00D6ABF2 /* Base */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
 			sourceTree = "<group>";
@@ -1293,6 +1288,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1347,6 +1343,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1420,11 +1417,12 @@
 					libs/liblo,
 				);
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/liblo",
 				);
+				MARKETING_VERSION = 1.3.0;
 				OTHER_CFLAGS = (
 					"-DPD",
 					"-DHAVE_UNISTD_H",
@@ -1467,11 +1465,12 @@
 					libs/liblo,
 				);
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/liblo",
 				);
+				MARKETING_VERSION = 1.3.0;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DPD",

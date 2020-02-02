@@ -99,7 +99,7 @@
 @property (nonatomic) int ticksPerBuffer;
 
 /// playback audio through the phone earpiece speaker (default: NO)
-/// only has effect on iPhone, always NO on iPad
+/// only has effect on iPhone, always NO on iPad or iPod
 @property (nonatomic) BOOL earpieceSpeaker;
 
 /// calculate the buffer size based on pd's block size:

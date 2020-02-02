@@ -35,7 +35,7 @@
 	<key>webServerPort</key>
 	<integer>8080</integer>
 	<key>micVolume</key>
-	<integer>0</integer>
+	<real>0.25</real>
 	<key>earpieceSpeakerEnabled</key>
 	<false/>
 	<key>midiEnabled</key>
