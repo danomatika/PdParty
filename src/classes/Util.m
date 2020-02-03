@@ -56,17 +56,17 @@
 #pragma mark App
 
 + (CGFloat)appWidth {
-	return [UIScreen mainScreen].applicationFrame.size.width;
+	return [UIScreen mainScreen].bounds.size.width;
 }
 
 + (CGFloat)appHeight {
-	return [UIScreen mainScreen].applicationFrame.size.height;
+	return [UIScreen mainScreen].bounds.size.height;
 }
 
 + (CGSize)appSize {
 	return CGSizeMake(
-		[UIScreen mainScreen].applicationFrame.size.width,
-		[UIScreen mainScreen].applicationFrame.size.height);
+		[UIScreen mainScreen].bounds.size.width,
+		[UIScreen mainScreen].bounds.size.height);
 }
 
 #pragma mark Logging Shortcuts
