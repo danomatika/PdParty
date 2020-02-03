@@ -16,7 +16,7 @@ DEST_DIR=../../libs/pd-externals
 cd $WD
 
 # ggee
-git clone https://git.puredata.info/cgit/svn2git/libraries/ggee.git
+git clone https://github.com/pd-externals/ggee
 mkdir -p $DEST_DIR/ggee
 cp -v ggee/control/getdir.c $DEST_DIR/ggee
 cp -v ggee/control/stripdir.c $DEST_DIR/ggee
@@ -24,7 +24,7 @@ cp -v ggee/filters/moog~.c $DEST_DIR/ggee
 rm -rf ggee
 
 # mrpeach
-git clone https://git.puredata.info/cgit/svn2git/libraries/mrpeach.git
+git clone https://github.com/avilleret/mrpeach.git
 mkdir -p $DEST_DIR/mrpeach/midifile
 cp -Rv mrpeach/midifile/*.c $DEST_DIR/mrpeach/midifile/
 rm -rf mrpeach

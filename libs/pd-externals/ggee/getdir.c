@@ -53,4 +53,3 @@ void getdir_setup(void)
     	sizeof(t_getdir), 0, A_DEFFLOAT,0);
     class_addbang(getdir_class, getdir_bang);
 }
-

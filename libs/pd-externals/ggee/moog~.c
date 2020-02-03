@@ -52,7 +52,7 @@ static t_float calc_k(t_float f,t_float k) {
 
 t_int *moog_perform(t_int *w)
 {
-    t_moog* x = (t_moog*) (w[1]); 
+    t_moog* x = (t_moog*) (w[1]);
     t_float *in1 = (t_float *)(w[2]);
     t_float *p = (t_float *)(w[3]);
     t_float *k = (t_float *)(w[4]);
@@ -61,7 +61,7 @@ t_int *moog_perform(t_int *w)
     int n = (int)(w[6]);
     float in;
     float pt,pt1;
-    
+
     float x1 = x->x_1;
     float x2 = x->x_2;
     float x3 = x->x_3;
@@ -89,7 +89,7 @@ t_int *moog_perform(t_int *w)
      *out++ = ys4;
    }
 
-   
+
     x->y_1 = ys1;
     x->y_2 = ys2;
     x->y_3 = ys3;
@@ -107,7 +107,7 @@ t_int *moog_perform(t_int *w)
 
 t_int *moog_perf8(t_int *w)
 {
-    t_moog* x = (t_moog*) (w[1]); 
+    t_moog* x = (t_moog*) (w[1]);
     t_float *in1 = (t_float *)(w[2]);
     t_float *p = (t_float *)(w[3]);
     t_float *k = (t_float *)(w[4]);
@@ -154,7 +154,7 @@ t_int *moog_perf8(t_int *w)
     x->x_2 = x2;
     x->x_3 = x3;
     x->x_4 = x4;
-    
+
     return (w+7);
 }
 
@@ -162,7 +162,7 @@ void dsp_add_moog(t_moog *x, t_sample *in1, t_sample *in2, t_sample *in3, t_samp
 {
     if (n&7)
     	dsp_add(moog_perform, 6,(t_int)x, in1,in2,in3, out, n);
-    else	
+    else
     	dsp_add(moog_perf8, 6,(t_int) x, in1, in2, in3, out, n);
 }
 

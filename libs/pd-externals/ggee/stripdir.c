@@ -44,5 +44,3 @@ void stripdir_setup(void)
 				sizeof(t_stripdir), 0,0);
     class_addsymbol(stripdir_class,stripdir_symbol);
 }
-
-

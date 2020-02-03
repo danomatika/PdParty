@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2015, Pierre-Olivier Latour
+ Copyright (c) 2012-2019, Pierre-Olivier Latour
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  The default value is nil i.e. all file extensions are allowed.
  */
-@property(nonatomic, copy) NSArray* allowedFileExtensions;
+@property(nonatomic, copy) NSArray<NSString*>* allowedFileExtensions;
 
 /**
  *  Sets if files and directories whose name start with a period are allowed to

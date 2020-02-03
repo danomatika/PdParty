@@ -225,7 +225,12 @@ namespace lo {
           { return lo_address_get_protocol(address); }
 
         std::string url() const
-          { auto s(lo_address_get_url(address)); return std::string(s?s:""); }
+        {
+            char* s(lo_address_get_url(address));
+            std::string result(s?s:"");
+            free(s);
+            return result;
+        }
 
         std::string iface() const
           { auto s(lo_address_get_iface(address)); return std::string(s?s:""); }
@@ -603,7 +608,12 @@ namespace lo {
             { return lo_server_get_protocol(server); }
 
         std::string url() const
-            { auto s(lo_server_get_url(server)); return std::string(s?s:""); }
+        {
+            char* s(lo_server_get_url(server));
+            std::string result(s?s:"");
+            free(s);
+            return result;
+        }
 
         int enable_queue(int queue_enabled,
                          int dispatch_remaining=1)
@@ -707,6 +717,17 @@ namespace lo {
                             new handler_error(e))).get());
                 }
             }
+
+        ServerThread(const string_type &group, const num_string_type &port,
+		     const string_type &iface, const string_type &ip,
+		     lo_err_handler err_h=0) : Server(0)
+        { if (iface._s || ip._s)
+            server_thread = lo_server_thread_new_multicast_iface(group, port,
+                                                                 iface, ip, err_h);
+          else
+            server_thread = lo_server_thread_new_multicast(group, port, err_h);
+          if (server_thread)
+            server = lo_server_thread_get_server(server_thread); }
 
         virtual ~ServerThread()
             { server = 0;

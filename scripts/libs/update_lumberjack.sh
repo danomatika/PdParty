@@ -10,7 +10,7 @@
 
 WD=$(dirname $0)
 
-VER=3.1.0
+VER=3.6.0
 
 SRC_DIR=CocoaLumberjack
 DEST_DIR=../../libs/CocoaLumberjack
@@ -26,15 +26,19 @@ git clone https://github.com/CocoaLumberjack/CocoaLumberjack.git --branch $VER -
 mkdir -p $DEST_DIR
 
 # remove stuff we don't need
-rm -r $SRC_DIR/Classes/CLI
-rm -r $SRC_DIR/Classes/Extensions
-rm -r $SRC_DIR/Classes/CocoaLumberjack.swift
-rm -r $SRC_DIR/Classes/DDLog+LOGV.h
-rm -r $SRC_DIR/Classes/DDAbstractDatabaseLogger.*
+rm -r $SRC_DIR/Sources/CocoaLumberjack/CLI
+rm -r $SRC_DIR/Sources/CocoaLumberjack/Extensions
+rm -r $SRC_DIR/Sources/CocoaLumberjack/include/CocoaLumberjack
+rm -r $SRC_DIR/Sources/CocoaLumberjack/Supporting\ Files/CocoaLumberjack-Info.plist
+rm -r $SRC_DIR/Sources/CocoaLumberjack/DDAbstractDatabaseLogger.m
 
 # copy sources
-cp -Rv $SRC_DIR/Classes/* $DEST_DIR/
-cp -Rv $SRC_DIR/LICENSE.txt $DEST_DIR/
+cp -Rv $SRC_DIR/Sources/CocoaLumberjack/Extensions $DEST_DIR/
+cp -Rv $SRC_DIR/Sources/CocoaLumberjack/include/*.h $DEST_DIR/
+cp -Rv $SRC_DIR/Sources/CocoaLumberjack/Supporting\ Files/*.h $DEST_DIR/
+cp -Rv $SRC_DIR/Sources/CocoaLumberjack/*.h $DEST_DIR/
+cp -Rv $SRC_DIR/Sources/CocoaLumberjack/*.m $DEST_DIR/
+cp -Rv $SRC_DIR/LICENSE $DEST_DIR/
 
 # cleanup
 rm -rf $SRC_DIR

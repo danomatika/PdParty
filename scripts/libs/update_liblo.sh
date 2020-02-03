@@ -19,7 +19,7 @@ cd $WD
 
 # get latest source
 git clone git://github.com/radarsat1/liblo.git
-cd $SRC_DIR && git checkout 0.29 && cd -
+cd $SRC_DIR && git checkout 0.30 && cd -
 
 # create destination dirs
 mkdir -pv $DEST_DIR/lo
@@ -30,7 +30,7 @@ cd $SRC_DIR
 # generate configure
 # adapted from https://gist.github.com/mikewoz/519121
 ./autogen.sh
-MIN_IOS="6.0"
+MIN_IOS="9.0"
 CF="-pipe -std=c99 -gdwarf-2 -mthumb -fembed-bitcode -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -fmessage-length=0 -fvisibility=hidden"
 LF="-pipe -std=c99 -gdwarf-2 -mthumb"
 

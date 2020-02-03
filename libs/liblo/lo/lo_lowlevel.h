@@ -31,11 +31,10 @@ extern "C" {
 #include <stdarg.h>
 #include <sys/types.h>
 #ifdef _MSC_VER
-#define ssize_t SSIZE_T
-#define uint32_t unsigned __int32
-#else
-#include <stdint.h>
+typedef SSIZE_T ssize_t;
 #endif
+#include <stdint.h>
+
 
 #include "lo/lo_types.h"
 #include "lo/lo_errors.h"
@@ -107,7 +106,7 @@ int lo_send_bundle_from(lo_address targ, lo_server serv, lo_bundle b);
 /**
  * \brief Create a new lo_message object
  */
-lo_message lo_message_new();
+lo_message lo_message_new(void);
 
 /**
  * \brief  Add one to a message's reference count.
@@ -765,6 +764,21 @@ void lo_server_free(lo_server s);
 int lo_server_wait(lo_server s, int timeout);
 
 /**
+ * \brief Wait on multiple servers for an OSC message to be received
+ *
+ * \param s An array of servers to wait for connections on.
+ * \param status An array to receive the status of each server.
+ * \param num_servers The number of servers in the array s.
+ * \param timeout A timeout in milliseconds to wait for the incoming packet.
+ * a value of 0 will return immediately.
+ *
+ * The return value is the number of servers with a message waiting or
+ * 0 if there is no message. If there is a message waiting you can now
+ * call lo_server_recv() to receive that message.
+ */
+int lo_servers_wait(lo_server *s, int *status, int num_servers, int timeout);
+
+/**
  * \brief Look for an OSC message waiting to be received
  *
  * \param s The server to wait for connections on.
@@ -776,6 +790,22 @@ int lo_server_wait(lo_server s, int timeout);
  * if one is found.
  */
 int lo_server_recv_noblock(lo_server s, int timeout);
+
+/**
+ * \brief Look for an OSC message waiting to be received on multiple servers
+ *
+ * \param s As array of servers to wait for connections on.
+ * \param recvd An array to store the number of bytes received by each server
+ * in array s.
+ * \param num_servers The number of servers in the array s.
+ * \param timeout A timeout in milliseconds to wait for the incoming packet.
+ * a value of 0 will return immediately.
+ *
+ * The return value is the total number of bytes received by all servers.
+ * The messages will be dispatched to a matching method if one is found.
+ */
+int lo_servers_recv_noblock(lo_server *s, int *recvd, int num_servers,
+                            int timeout);
 
 /**
  * \brief Block, waiting for an OSC message to be received
