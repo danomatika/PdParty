@@ -261,7 +261,19 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
 4. All GUI elements should communicate with the main audio patches using send and receive only. You can usually set send and receive for each GUI by right clicking on the object and choosing 'properties' in Pd. Do not directly connect cables to the GUI elements as they won't work. It helps to keep the GUIs on their own in the main patch and have it include the logic of your patch as an abstraction or subpatch containing senders and receivers for interfacing with GUI elements. This is good patch design practice anyway as it is basically a model-view-controller methodology.
 
-5. Copy the patch and/or its containing directory and any needed abstractions to your iOS device using iTunes File Sharing, via WebDAV over your local network, or through "Open in..." from other apps:
+5. Copy the patch and/or its containing directory and any needed abstractions to your iOS device using AirDrop, iTunes File Sharing, via WebDAV over your local network, or through "Open in..." from other apps:
+
+    - **AirDrop/Files app**
+
+    	Open Finder on your Mac. Select files/folders you want to send to your iOS device. Press "Share" button, then "AirDrop" and select your iOS device when it appears in the list. It should be nearby, unlocked and in the same Wi-Fi network, Bluetooth must be on, too.
+
+        <p align="center">
+          <img src="https://files.catbox.moe/lah5fp.png">
+        </p>
+	
+    	You'll be asked what app to use with received files. Pick "Files" and find PdParty in the list of apps. Save your files inside PdParty folder.
+
+        Files app is basically like Finder or Explorer on desktop and allows you to manage files within apps that support it.
 
     - **iTunes File Sharing**
 
@@ -319,7 +331,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * \#touch positions are normalized from 0-320
   * optional sensors accessed by abstractions: [rj\_loc], [rj\_compass], & [rj\_time]
   * does not support game controllers
-  * 20500 samplerate
+  * 22050 samplerate
 * PdDroidParty scenes
   * a folder that contains a droidparty_main.pd patch
   * locked to landscape
@@ -600,7 +612,7 @@ On iOS 10+, non-local URLs are opened asynchronously.
 	Controller PdParty scene
 </p>
 
-Compatible iOS MiFi game controllers can be read in PdParty if your device supports them. If the controller uses Bluetooth, enable Bluetooth in your iOS settings and make sure the controller is paired to your device. Currently, iOS limits the number of simultaneous controllers to 4.
+Compatible iOS MFi game controllers can be read in PdParty if your device supports them. If the controller uses Bluetooth, enable Bluetooth in your iOS settings and make sure the controller is paired to your device. Currently, iOS limits the number of simultaneous controllers to 4.
 
 Controller events can be read via the [r \#controller] receiver with the following format:
 
