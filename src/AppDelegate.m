@@ -152,10 +152,43 @@
 
 // references:
 // http://www.infragistics.com/community/blogs/stevez/archive/2013/03/04/associate-a-file-type-with-your-ios-application.aspx
-- (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
-	// called when a registered file type is transferred via the Open With... mechanism or
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+	// called when a registered file type is opened in the Files app, transferred via the Open With... mechanism, or
 	// PdParty is invoked via the custom "pdparty://" scheme
-	DDLogVerbose(@"AppDelegate: openURL %@ from %@", url, sourceApplication);
+	DDLogVerbose(@"AppDelegate: openURL %@ from %@", url, options[UIApplicationOpenURLOptionsSourceApplicationKey]);
+
+	// open in place from Files app or other file provider (iCloud?)
+	if(options[UIApplicationOpenURLOptionsOpenInPlaceKey]) {
+		// standardize path, otherwise file URLs from the Files app may start with the /private prefix
+		NSString *path = url.URLByStandardizingPath.path;
+		if(![path hasPrefix:[Util documentsPath]]) {
+			// refuse for now, opening single patches works but there doesn;t seem to be an easy way to get permissions
+			// to access other files outside of the single security-scoped url
+			DDLogError(@"AppDelegate: refused to open path outside of sandbox: %@", path);
+			UIAlertView *alert = [[UIAlertView alloc]
+								  initWithTitle: @"Open Failed"
+								  message: [NSString stringWithFormat:@"Could not open %@ outside of the PdParty sandbox.\n\nPlease copy the patch(es) or scene directory into PdParty.", path.lastPathComponent]
+								  delegate: nil
+								  cancelButtonTitle:@"OK"
+								  otherButtonTitles:nil];
+			[alert show];
+			return NO;
+		}
+		if(![self tryOpeningPath:path]) {
+			DDLogError(@"AppDelegate: couldn't open path in place: %@", path);
+			UIAlertView *alert = [[UIAlertView alloc]
+								  initWithTitle: @"Open Failed"
+								  message: [NSString stringWithFormat:@"Could not open %@", path.lastPathComponent]
+								  delegate: nil
+								  cancelButtonTitle:@"OK"
+								  otherButtonTitles:nil];
+			[alert show];
+			return NO;
+		}
+
+		return YES;
+	}
 
 	// open patch or scene via "pdparty://" scheme with "open" domain, ie. "pdparty://open/path/to/patch.pd"
 	if([url.scheme isEqualToString:@"pdparty"]) {

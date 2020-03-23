@@ -69,7 +69,7 @@
 	return [self loadDirectory:[Util documentsPath]];
 }
 
-- (BOOL)tryOpeningPath:(NSString*)path {
+- (BOOL)tryOpeningPath:(NSString *)path {
 	BOOL isDir;
 	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
 		// open to parent directory
@@ -85,7 +85,10 @@
 				return [self loadDirectory:path relativeTo:[Util documentsPath]];
 			}
 			else {
-				return [self selectFile:path];
+				if ([self selectDirectory:path.stringByDeletingLastPathComponent]) {
+					return YES; // try to open as scene
+				}
+				return [self selectFile:path]; // otherwise file
 			}
 		}
 	}
