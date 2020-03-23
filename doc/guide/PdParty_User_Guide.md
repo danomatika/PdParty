@@ -1,8 +1,8 @@
 PdParty User Guide
 ==================
 
-Version: **1.2.1**  
-Date: 2018-11-27
+Version: **1.3.0**  
+Date: 2020-03-24
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
 
@@ -265,15 +265,13 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
     - **AirDrop/Files app**
 
-    	Open Finder on your Mac. Select files/folders you want to send to your iOS device. Press "Share" button, then "AirDrop" and select your iOS device when it appears in the list. It should be nearby, unlocked and in the same Wi-Fi network, Bluetooth must be on, too.
+    	Open Finder on your Mac. Select files/folders you want to send to your iOS device. Press the "Share" button, then AirDrop, and select your iOS device when it appears in the list. It should be nearby, unlocked, on the same Wi-Fi network, and have Bluetooth enabled.
 
         <p align="center">
-          <img src="https://files.catbox.moe/lah5fp.png">
+          <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/airdrop_open_with.png">
         </p>
 	
-    	You'll be asked what app to use with received files. Pick "Files" and find PdParty in the list of apps. Save your files inside PdParty folder.
-
-        Files app is basically like Finder or Explorer on desktop and allows you to manage files within apps that support it.
+    	You'll be asked what app to use with received files. Pick "Files" and find PdParty in the list of apps. Save your files inside the PdParty folder. The Files app is basically like Finder or Explorer on desktop and allows you to manage files within apps that support it.
 
     - **iTunes File Sharing**
 
@@ -429,10 +427,10 @@ PdParty currently supports:
   * [rj\_time]
 * RjDj externals:
   * [rj\_accum]
-  * [rj\_barkflux\_accum~]
-  * [rj\_centroid~]
-  * [rj\_senergy~]
-  * [rj\_zcr~]
+  * [rj\_barkflux\_accum\~]
+  * [rj\_centroid\~]
+  * [rj\_senergy\~]
+  * [rj\_zcr\~]
 * scene background image.jpg
 * scene browser icon thumb.jpg
 * scene Info.plist
