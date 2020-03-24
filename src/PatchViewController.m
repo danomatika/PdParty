@@ -144,17 +144,16 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
+
 // lock orientation based on scene's preferred orientation mask
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if(self.sceneManager.scene && !self.sceneManager.isRotated) {
 		return self.sceneManager.scene.preferredOrientations;
 	}
 	return UIInterfaceOrientationMaskAll;
-}
-
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
 }
 
 #pragma mark Scene Management

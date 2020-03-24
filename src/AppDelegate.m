@@ -39,9 +39,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	
-	// light status bar text
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-	
 	// setup split view on iPad
 	if([Util isDeviceATablet]) {
 		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;

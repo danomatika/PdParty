@@ -58,6 +58,10 @@
 	}
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	if([[segue identifier] isEqualToString:@"runScene"]) { // load the selected patch
 		// iPhone opens here

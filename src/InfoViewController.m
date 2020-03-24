@@ -48,14 +48,6 @@
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
 }
 
-// lock to orientations allowed by the current scene
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	if(sceneManager.scene && !sceneManager.isRotated) {
-		return sceneManager.scene.preferredOrientations;
-	}
-	return UIInterfaceOrientationMaskAll;
-}
-
 // update the scenemanager if there are rotations while the PatchView is hidden
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -64,6 +56,18 @@
 		self->sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	}];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
+
+// lock to orientations allowed by the current scene
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	if(sceneManager.scene && !sceneManager.isRotated) {
+		return sceneManager.scene.preferredOrientations;
+	}
+	return UIInterfaceOrientationMaskAll;
 }
 
 #pragma mark UI

@@ -68,13 +68,8 @@
 	[[Log textViewLogger] setTextView:nil];
 }
 
-// lock to orientations allowed by the current scene
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	if(app.sceneManager.scene && !app.sceneManager.isRotated) {
-		return app.sceneManager.scene.preferredOrientations;
-	}
-	return UIInterfaceOrientationMaskAll;
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
 }
 
 // update the scenemanager if there are rotations while the PatchView is hidden
@@ -86,6 +81,15 @@
 		app.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	}];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
+// lock to orientations allowed by the current scene
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	if(app.sceneManager.scene && !app.sceneManager.isRotated) {
+		return app.sceneManager.scene.preferredOrientations;
+	}
+	return UIInterfaceOrientationMaskAll;
 }
 
 #pragma mark UI
