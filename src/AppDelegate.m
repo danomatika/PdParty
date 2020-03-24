@@ -158,12 +158,34 @@
 	// PdParty is invoked via the custom "pdparty://" scheme
 	DDLogVerbose(@"AppDelegate: openURL %@ from %@", url, options[UIApplicationOpenURLOptionsSourceApplicationKey]);
 
+	// open patch or scene via "pdparty://" scheme with "open" domain, ie. "pdparty://open/path/to/patch.pd"
+	if([url.scheme isEqualToString:@"pdparty"]) {
+		if(!url.host || !url.path) {return YES;}  // nothing to do, just open
+		if([url.host isEqualToString:@"open"]) {
+			NSString *path = [[Util documentsPath] stringByAppendingPathComponent:url.path];
+			DDLogVerbose(@"AppDelegate: opening %@", path);
+			if(![self tryOpeningPath:path]) {
+				DDLogError(@"AppDelegate: couldn't open pdparty url: %@", url.path);
+				UIAlertView *alert = [[UIAlertView alloc]
+									  initWithTitle: @"Open Failed"
+									  message: [NSString stringWithFormat:@"%@ not found in Documents", url.path]
+									  delegate: nil
+									  cancelButtonTitle:@"OK"
+									  otherButtonTitles:nil];
+				[alert show];
+				return NO;
+			}
+		}
+		return YES;
+	}
+
 	// open in place from Files app or other file provider (iCloud?)
-	if(options[UIApplicationOpenURLOptionsOpenInPlaceKey]) {
+	if(options[UIApplicationOpenURLOptionsOpenInPlaceKey] &&
+	   [options[UIApplicationOpenURLOptionsOpenInPlaceKey] boolValue]) {
 		// standardize path, otherwise file URLs from the Files app may start with the /private prefix
 		NSString *path = url.URLByStandardizingPath.path;
 		if(![path hasPrefix:[Util documentsPath]]) {
-			// refuse for now, opening single patches works but there doesn;t seem to be an easy way to get permissions
+			// refuse for now, opening single patches works but there doesn't seem to be an easy way to get permissions
 			// to access other files outside of the single security-scoped url
 			DDLogError(@"AppDelegate: refused to open path outside of sandbox: %@", path);
 			UIAlertView *alert = [[UIAlertView alloc]
@@ -190,33 +212,11 @@
 		return YES;
 	}
 
-	// open patch or scene via "pdparty://" scheme with "open" domain, ie. "pdparty://open/path/to/patch.pd"
-	if([url.scheme isEqualToString:@"pdparty"]) {
-		if(!url.host || !url.path) {return YES;}  // nothing to do, just open
-		if([url.host isEqualToString:@"open"]) {
-			NSString *path = [[Util documentsPath] stringByAppendingPathComponent:url.path];
-			DDLogVerbose(@"AppDelegate: opening %@", path);
-			if(![self tryOpeningPath:path]) {
-				DDLogError(@"AppDelegate: couldn't open pdparty url: %@", url.path);
-				UIAlertView *alert = [[UIAlertView alloc]
-									  initWithTitle: @"Open Failed"
-									  message: [NSString stringWithFormat:@"%@ not found in Documents", url.path]
-									  delegate: nil
-									  cancelButtonTitle:@"OK"
-									  otherButtonTitles:nil];
-				[alert show];
-				return NO;
-			}
-		}
-		return YES;
-	}
-
-	// copy patch or zip file
+	// copy patch or zip file from Documents/Inbox
 	NSError *error;
 	NSString *path = [url path];
 	NSString *filename = [path lastPathComponent];
 	NSString *ext = [path pathExtension];
-	
 	DDLogVerbose(@"AppDelegate: receiving %@", filename);
 
 	// pd patch

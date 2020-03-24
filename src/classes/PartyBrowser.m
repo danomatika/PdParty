@@ -52,7 +52,7 @@
 - (BOOL)browser:(Browser *)browser shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
 	
 	// keep Documents/Inbox from paths array since we don't have permission to delete it,
-	// this is where the system copies files when using the "Open With ..." mechanism
+	// this is where the system copies files when using AirDrop or the "Open With ..." mechanism
 	if(isDir && self.isRootLayer) { // root is Documents folder
 		if([[path lastPathComponent] isEqualToString:@"Inbox"]) {
 			return NO;
