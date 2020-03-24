@@ -20,7 +20,6 @@
 	KeyGrabberView *grabber; //< for keyboard events
 }
 
-@property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) Popover *controlsPopover;
 
 /// check the current orientation against the scene's prefferred orientations &
@@ -45,7 +44,7 @@
 
 	// set here for when patch is pushed onto the nav controller manually by the
 	// Now Playing button
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	self.sceneManager = app.sceneManager;
 
 	[super awakeFromNib];
@@ -57,7 +56,7 @@
 	[self.sceneManager updateParent:nil];
 	
 	// clear instance pointer for Now Playing button on iPhone
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.patchViewController = nil;
 }
 
@@ -71,11 +70,11 @@
 	activeTouches = [[NSMutableDictionary alloc] init];
 	
 	// set instance pointer
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.patchViewController = self;
 	
 	// set up controls view
-	CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), [ControlsView baseHeight]);
+	CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), ControlsView.baseHeight);
 	self.controlsView = [[SceneControlsView alloc] initWithFrame:frame];
 	self.controlsView.sceneManager = app.sceneManager;
 	
@@ -89,7 +88,7 @@
 	[self.view addSubview:grabber];
 
 	// set title here since view hasn't been inited when opening on iPhone
-	if([Util isDeviceAPhone]) {
+	if(Util.isDeviceAPhone) {
 		self.navigationItem.title = self.sceneManager.scene.name;
 	}
 }
@@ -162,7 +161,7 @@
 
 	// set the scenemanager here since iPhone dosen't load view until *after* this is called
 	if(!self.sceneManager) {
-		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 		self.sceneManager = app.sceneManager;
 	}
 	
@@ -186,7 +185,7 @@
 	}
 	else {
 		// didn't open so bail out
-		if([Util isDeviceAPhone]) {
+		if(Util.isDeviceAPhone) {
 			[self.navigationController popViewControllerAnimated:YES];
 		}
 	}
@@ -333,7 +332,7 @@
 - (void)checkOrientation {
 
 	// rotates toward home button on bottom or left
-	int currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+	UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	if((self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAll) ||
 	   (self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAllButUpsideDown)) {
 		self.rotation = 0;
@@ -411,7 +410,7 @@
 			}
 			
 			// larger sizing for iPad
-			if([Util isDeviceATablet]) {
+			if(Util.isDeviceATablet) {
 				[self.controlsView defaultSize];
 			}
 			
@@ -444,12 +443,12 @@
 			self.navigationItem.rightBarButtonItem.enabled = YES;
 			
 			// smaller controls in iPad popover
-			if([Util isDeviceATablet]) {
+			if(Util.isDeviceATablet) {
 				[self.controlsView halfSize];
 			}
 				
 			// create popover with controls & menu
-			int width = [ControlsView baseWidth];
+			int width = ControlsView.baseWidth;
 			UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, self.controlsView.height + self.menuViewController.height)];
 			view.autoresizesSubviews = YES;
 			view.translatesAutoresizingMaskIntoConstraints = NO;

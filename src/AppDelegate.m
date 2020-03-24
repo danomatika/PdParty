@@ -12,7 +12,6 @@
 
 #import "MBProgressHUD.h"
 #import "Unzip.h"
-//#import "ZipArchive.h"
 
 #import "Log.h"
 #import "Util.h"
@@ -40,9 +39,9 @@
 	// Override point for customization after application launch.
 	
 	// setup split view on iPad
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-		UINavigationController *detailNavController = [splitViewController.viewControllers lastObject];
+		UINavigationController *detailNavController = splitViewController.viewControllers.lastObject;
 		splitViewController.delegate = (id)detailNavController.topViewController;
 		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
 		splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
@@ -51,18 +50,18 @@
 	}
 	
 	// load defaults
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 	[defaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:
-		[[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"]]];
+		[NSBundle.mainBundle pathForResource:@"Defaults" ofType:@"plist"]]];
 	
 	// init logger
 	[Log setup];
 	
-	DDLogInfo(@"App resolution: %d %d", (int)[Util appWidth], (int)[Util appHeight]);
+	DDLogInfo(@"App resolution: %g %g", Util.appWidth, Util.appHeight);
 	
 	// copy patches in the resource folder on first run only,
 	// blocks UI with progress HUD until done
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"firstRun"]) {
+	if([NSUserDefaults.standardUserDefaults boolForKey:@"firstRun"]) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:YES];
 		hud.label.text = @"Setting up for the first time...";
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -159,7 +158,7 @@
 	if([url.scheme isEqualToString:@"pdparty"]) {
 		if(!url.host || !url.path) {return YES;}  // nothing to do, just open
 		if([url.host isEqualToString:@"open"]) {
-			NSString *path = [[Util documentsPath] stringByAppendingPathComponent:url.path];
+			NSString *path = [Util.documentsPath stringByAppendingPathComponent:url.path];
 			DDLogVerbose(@"AppDelegate: opening %@", path);
 			if(![self tryOpeningPath:path]) {
 				DDLogError(@"AppDelegate: couldn't open pdparty url: %@", url.path);
@@ -181,7 +180,7 @@
 	   [options[UIApplicationOpenURLOptionsOpenInPlaceKey] boolValue]) {
 		// standardize path, otherwise file URLs from the Files app may start with the /private prefix
 		NSString *path = url.URLByStandardizingPath.path;
-		if(![path hasPrefix:[Util documentsPath]]) {
+		if(![path hasPrefix:Util.documentsPath]) {
 			// refuse for now, opening single patches works but there doesn't seem to be an easy way to get permissions
 			// to access other files outside of the single security-scoped url
 			DDLogError(@"AppDelegate: refused to open path outside of sandbox: %@", path);
@@ -211,20 +210,20 @@
 
 	// copy patch or zip file from Documents/Inbox
 	NSError *error;
-	NSString *path = [url path];
-	NSString *filename = [path lastPathComponent];
-	NSString *ext = [path pathExtension];
+	NSString *path = url.path;
+	NSString *filename = path.lastPathComponent;
+	NSString *ext = path.pathExtension;
 	DDLogVerbose(@"AppDelegate: receiving %@", filename);
 
 	// pd patch
 	if([ext isEqualToString:@"pd"]) {
-		NSString *newPath = [[Util documentsPath] stringByAppendingPathComponent:[path lastPathComponent]];
-		if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
-			if(![[NSFileManager defaultManager] removeItemAtPath:newPath error:&error]) {
+		NSString *newPath = [Util.documentsPath stringByAppendingPathComponent:path.lastPathComponent];
+		if([NSFileManager.defaultManager fileExistsAtPath:newPath]) {
+			if(![NSFileManager.defaultManager removeItemAtPath:newPath error:&error]) {
 				DDLogError(@"AppDelegate: couldn't remove %@, error: %@", newPath, error.localizedDescription);
 			}
 		}
-		if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
+		if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
 			DDLogError(@"AppDelegate: couldn't move %@, error: %@", path, error.localizedDescription);
 			UIAlertView *alert = [[UIAlertView alloc]
 			                          initWithTitle: @"Copy Failed"
@@ -235,7 +234,7 @@
 			[alert show];
 			return NO;
 		}
-		[[NSFileManager defaultManager] removeItemAtURL:url error:&error]; // remove original file
+		[NSFileManager.defaultManager removeItemAtURL:url error:&error]; // remove original file
 
 		DDLogVerbose(@"AppDelegate: copied %@ to Documents", filename);
 		UIAlertView *alert = [[UIAlertView alloc]
@@ -249,8 +248,8 @@
 	else { // assume zip file
 		Unzip *zip = [[Unzip alloc] init];
 		if([zip open:path]) {
-			if([zip unzipTo:[Util documentsPath] overwrite:YES]) {
-				if(![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) { // remove original file
+			if([zip unzipTo:Util.documentsPath overwrite:YES]) {
+				if(![NSFileManager.defaultManager removeItemAtURL:url error:&error]) { // remove original file
 					DDLogError(@"AppDelegate: couldn't remove %@, error: %@", path, error.localizedDescription);
 				}
 			}
@@ -301,7 +300,7 @@
 // * LastFM app: https://github.com/c99koder/lastfm-iphone/blob/master/Classes/UIViewController%2BNowPlayingButton.h
 
 - (UIBarButtonItem *)nowPlayingButton {
-	if(!self.sceneManager.scene || [Util isDeviceATablet]) {
+	if(!self.sceneManager.scene || Util.isDeviceATablet) {
 		return nil;
 	}
 	return [[UIBarButtonItem alloc] initWithTitle:@"Now Playing"
@@ -312,13 +311,13 @@
 
 - (void)nowPlayingPressed:(id)sender {
 	DDLogVerbose(@"AppDelegate: now playing button pressed");
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		return;
 	}
 	
 	// this should always be set on iPad since it's the detail view,
 	// so this code should only be called on iPhone
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	PatchViewController *patchView = app.patchViewController;
 	if(!patchView) {
 		// create a new patch view and push it on the stack, this occurs on low mem devices
@@ -329,8 +328,8 @@
 			return;
 		}
 	}
-	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-	if([root isKindOfClass:[UINavigationController class]]) {
+	UIViewController *root = UIApplication.sharedApplication.keyWindow.rootViewController;
+	if([root isKindOfClass:UINavigationController.class]) {
 		[(UINavigationController *)root pushViewController:(UIViewController *)patchView animated:YES];
 	}
 	else {
@@ -353,7 +352,7 @@
 	else {
 		// browser may be nil on phone, so push from start view
 		[nav popToViewController:self.startViewController animated:NO];
-		NSString *name = ([Util isDeviceATablet] ? @"MainStoryboard_iPad" : @"MainStoryboard_iPhone");
+		NSString *name = (Util.isDeviceATablet ? @"MainStoryboard_iPad" : @"MainStoryboard_iPhone");
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:name bundle:nil];
 		browser = [storyboard instantiateViewControllerWithIdentifier:@"BrowserViewController"];
 		[nav pushViewController:browser animated:NO];
@@ -379,7 +378,7 @@
 	nav.navigationBar.barStyle = UIBarStyleBlack;
 
 	// present nav controller
-	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+	UIViewController *root = UIApplication.sharedApplication.keyWindow.rootViewController;
 	[self.patchViewController dismissMasterPopover]; // hide master popover if visible
 	[root presentViewController:nav animated:YES completion:nil];
 }
@@ -429,13 +428,13 @@
 
 - (void)setLockScreenDisabled:(BOOL)lockScreenDisabled {
 	_lockScreenDisabled = lockScreenDisabled;
-	[[UIApplication sharedApplication] setIdleTimerDisabled:lockScreenDisabled];
-	[[NSUserDefaults standardUserDefaults] setBool:lockScreenDisabled forKey:@"lockScreenDisabled"];
+	[UIApplication.sharedApplication setIdleTimerDisabled:lockScreenDisabled];
+	[NSUserDefaults.standardUserDefaults setBool:lockScreenDisabled forKey:@"lockScreenDisabled"];
 }
 
 - (void)setRunsInBackground:(BOOL)runsInBackground {
 	_runsInBackground = runsInBackground;
-	[[NSUserDefaults standardUserDefaults] setBool:runsInBackground forKey:@"runsInBackground"];
+	[NSUserDefaults.standardUserDefaults setBool:runsInBackground forKey:@"runsInBackground"];
 }
 
 #pragma mark Private
@@ -444,16 +443,16 @@
 	DDLogVerbose(@"AppDelegate: copying %@ to Documents", dirPath);
 	
 	// create dest folder if it doesn't exist
-	NSString* destPath = [[Util documentsPath] stringByAppendingPathComponent:dirPath];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:destPath]) {
-		if(![[NSFileManager defaultManager] createDirectoryAtPath:destPath withIntermediateDirectories:NO attributes:NULL error:&error]) {
+	NSString* destPath = [Util.documentsPath stringByAppendingPathComponent:dirPath];
+	if(![NSFileManager.defaultManager fileExistsAtPath:destPath]) {
+		if(![NSFileManager.defaultManager createDirectoryAtPath:destPath withIntermediateDirectories:NO attributes:NULL error:&error]) {
 			DDLogError(@"AppDelegate: couldn't create %@, error: %@", destPath, error.localizedDescription);
 			return NO;
 		}
 	}
 	
 	// patch folder resources are in patches/*
-	NSString *srcPath = [[[Util bundlePath] stringByAppendingPathComponent:@"patches"] stringByAppendingPathComponent:dirPath];
+	NSString *srcPath = [[Util.bundlePath stringByAppendingPathComponent:@"patches"] stringByAppendingPathComponent:dirPath];
 	
 	// recursively copy all items within src into dest, this way we don't lose any other files or folders added by the user
 	return [Util copyContentsOfDirectory:srcPath toDirectory:destPath error:error];
@@ -466,18 +465,18 @@
 /// category to force all UINavigationControllers to do rotations
 /// based on the top view controller
 /// http://stackoverflow.com/questions/12520030/how-to-force-a-uiviewcontroller-to-portait-orientation-in-ios-6/12522119#12522119
-@implementation UINavigationController (Rotation_IOS6)
+@implementation UINavigationController (TopViewRotation)
 
 - (BOOL)shouldAutorotate {
-	return [self.topViewController shouldAutorotate];
+	return self.topViewController.shouldAutorotate;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	return [self.topViewController supportedInterfaceOrientations];
+	return self.topViewController.supportedInterfaceOrientations;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-	return [self.topViewController preferredInterfaceOrientationForPresentation];
+	return self.topViewController.preferredInterfaceOrientationForPresentation;
 }
 
 @end
@@ -485,18 +484,18 @@
 #pragma mark UISplitViewController Rotation
 
 /// needed for rotation on iPad since SplitViewController is root controller
-@implementation UISplitViewController (Rotation_IOS6)
+@implementation UISplitViewController (TopViewRotation)
 
 - (BOOL)shouldAutorotate {
-	return [[self.viewControllers lastObject] shouldAutorotate];
+	return self.viewControllers.lastObject.shouldAutorotate;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	return [[self.viewControllers lastObject] supportedInterfaceOrientations];
+	return self.viewControllers.lastObject.supportedInterfaceOrientations;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-	return [[self.viewControllers lastObject] preferredInterfaceOrientationForPresentation];
+	return self.viewControllers.lastObject.preferredInterfaceOrientationForPresentation;
 }
 
 @end

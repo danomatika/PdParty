@@ -119,14 +119,14 @@
 
 // restart button is always index 0
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	int index = 1; // restart button + 1
 	int num = self.numDefaultButtons + [Menubang menubangCount];
-	if([Util isDeviceAPhone]) {
+	if(Util.isDeviceAPhone) {
 		speakerButtonIndex = index;
 		index++;
 	}
-	if([Log textViewLoggerEnabled]) {
+	if(Log.textViewLoggerEnabled) {
 		consoleButtonIndex = index;
 		index++;
 	}
@@ -164,11 +164,11 @@
 		button.layer.backgroundColor = [UIColor colorWithWhite:0.88 alpha:1.0].CGColor;
 		button.layer.cornerRadius = 5;
 		normalColor = self.view.tintColor;
-		selectedColor = [UIColor lightGrayColor];
+		selectedColor = UIColor.lightGrayColor;
 	}
 	else {
 		normalColor = self.view.tintColor;
-		selectedColor = self.lightBackground ? [UIColor lightTextColor] : [UIColor darkGrayColor];
+		selectedColor = self.lightBackground ? UIColor.lightTextColor : UIColor.darkGrayColor;
 	}
 	
 	[button setTitleColor:normalColor forState:UIControlStateNormal];
@@ -186,7 +186,7 @@
 		default:
 			if(indexPath.row == speakerButtonIndex) {
 				//[button setTitle:@"Speaker" forState:UIControlStateNormal];
-				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+				AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:normalColor]  forState:UIControlStateNormal];
 				[button setImage:[Util image:[UIImage imageNamed:@"speaker"] withTint:selectedColor] forState:UIControlStateSelected];
 				[button addTarget:self action:@selector(speakerPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -247,11 +247,11 @@
 
 - (void)restartPressed:(id)sender {
 	DDLogVerbose(@"Menu: restart button pressed");
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	[self.popover dismissPopoverAnimated:YES];
 	if(![app.sceneManager reloadScene]) {
 		// didn't open so bail out
-		if(![Util isDeviceATablet]) {
+		if(!Util.isDeviceATablet) {
 			[app.patchViewController.navigationController popViewControllerAnimated:YES];
 		}
 	}
@@ -259,7 +259,7 @@
 
 - (void)speakerPressed:(id)sender {
 	DDLogVerbose(@"Menu: speaker button pressed");
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.pureData.earpieceSpeaker = !app.pureData.earpieceSpeaker;
 	[(UIButton *)sender setSelected:app.pureData.earpieceSpeaker];
 }
@@ -276,7 +276,7 @@
 
 - (void)showInfoPressed:(id)sender {
 	DDLogVerbose(@"Menu: show info button pressed");
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	[self.popover dismissPopoverAnimated:YES];
 	[app.patchViewController performSegueWithIdentifier:@"showInfo" sender:self];
 }
@@ -308,11 +308,11 @@
 	}
 	_lightBackground = lightBackground;
 	if(lightBackground) {
-		self.collectionView.backgroundColor = [UIColor whiteColor];
+		self.collectionView.backgroundColor = UIColor.whiteColor;
 		
 	}
 	else {
-		self.collectionView.backgroundColor = [UIColor blackColor];
+		self.collectionView.backgroundColor = UIColor.blackColor;
 	}
 }
 
@@ -321,12 +321,12 @@
 }
 
 - (int)numDefaultButtons {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	int num = 1; // restart
-	if([Util isDeviceAPhone]) { // speaker
+	if(Util.isDeviceAPhone) { // speaker
 		num++;
 	}
-	if([Log textViewLoggerEnabled]) { // console
+	if(Log.textViewLoggerEnabled) { // console
 		num++;
 	}
 	if(app.sceneManager.scene.hasInfo) { // info

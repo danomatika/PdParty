@@ -36,8 +36,8 @@
 		_interruptTimeMS = IEM_BNG_DEFAULTBREAKFLASHTIME;
 		_holdTimeMS = IEM_BNG_DEFAULTHOLDFLASHTIME;
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
+		self.sendName = [Gui filterEmptyStringValues:line[9]];
+		self.receiveName = [Gui filterEmptyStringValues:line[10]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Bang: dropping, send/receive names are empty");
@@ -45,22 +45,22 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[5] floatValue]);
 		
-		self.holdTimeMS = [[line objectAtIndex:6] intValue];
-		self.interruptTimeMS = [[line objectAtIndex:7] intValue];
-		self.inits = [[line objectAtIndex:8] boolValue];
+		self.holdTimeMS = [line[6] intValue];
+		self.interruptTimeMS = [line[7] intValue];
+		self.inits = [line[8] boolValue];
 		[self checkFlashTimes];
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-		self.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
-		self.labelFontStyle = [[line objectAtIndex:14] intValue];
-		self.labelFontSize = [[line objectAtIndex:15] floatValue];
+		self.label.text = [Gui filterEmptyStringValues:line[11]];
+		self.originalLabelPos = CGPointMake([line[12] floatValue], [line[13] floatValue]);
+		self.labelFontStyle = [line[14] intValue];
+		self.labelFontSize = [line[15] floatValue];
 		
-		self.fillColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:16] intValue]];
-		self.controlColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:17] intValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:18] intValue]];
+		self.fillColor = [IEMWidget colorFromAtomColor:[line[16] intValue]];
+		self.controlColor = [IEMWidget colorFromAtomColor:[line[17] intValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:[line[18] intValue]];
 	}
 	return self;
 }
@@ -187,16 +187,16 @@
 		// size
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
-			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
+			CLAMP([arguments[0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
+			CLAMP([arguments[0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
 		[self reshape];
 		[self setNeedsDisplay];
 	}
 	else if([message isEqualToString:@"flashtime"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// interrupt time, hold time
-		self.interruptTimeMS = [[arguments objectAtIndex:0] floatValue];
-		self.holdTimeMS = [[arguments objectAtIndex:1] floatValue];
+		self.interruptTimeMS = [arguments[0] floatValue];
+		self.holdTimeMS = [arguments[1] floatValue];
 		[self checkFlashTimes];
 	}
 	else {

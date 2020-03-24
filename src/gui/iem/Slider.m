@@ -45,8 +45,8 @@
 		self.orientation = WidgetOrientationHorizontal;
 		self.steady = YES;
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
+		self.sendName = [Gui filterEmptyStringValues:line[11]];
+		self.receiveName = [Gui filterEmptyStringValues:line[12]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Slider: dropping, send/receive names are empty");
@@ -54,29 +54,29 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[6] floatValue]);
 		
-		self.minValue = [[line objectAtIndex:7] floatValue];
-		self.maxValue = [[line objectAtIndex:8] floatValue];
-		self.log = [[line objectAtIndex:9] boolValue];
-		self.inits = [[line objectAtIndex:10] boolValue];
+		self.minValue = [line[7] floatValue];
+		self.maxValue = [line[8] floatValue];
+		self.log = [line[9] boolValue];
+		self.inits = [line[10] boolValue];
 		[self checkMinAndMax];
 		[self checkSize];
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
-		self.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
-		self.labelFontStyle = [[line objectAtIndex:16] intValue];
-		self.labelFontSize = [[line objectAtIndex:17] floatValue];
+		self.label.text = [Gui filterEmptyStringValues:line[13]];
+		self.originalLabelPos = CGPointMake([line[14] floatValue], [line[15] floatValue]);
+		self.labelFontStyle = [line[16] intValue];
+		self.labelFontSize = [line[17] floatValue];
 		
-		self.fillColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:18] intValue]];
-		self.controlColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:19] intValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:20] intValue]];
+		self.fillColor = [IEMWidget colorFromAtomColor:[line[18] intValue]];
+		self.controlColor = [IEMWidget colorFromAtomColor:[line[19] intValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:[line[20] intValue]];
 		
 		if(self.inits) {
-			self.controlValue = [[line objectAtIndex:21] intValue];
+			self.controlValue = [line[21] intValue];
 		}
-		self.steady = [[line objectAtIndex:22] boolValue];
+		self.steady = [line[22] boolValue];
 	}
 	return self;
 }
@@ -90,7 +90,7 @@
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
 	CGContextFillRect(context, rect);
-	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+	CGContextSetFillColorWithColor(context, UIColor.clearColor.CGColor);
 	
 	// border
 	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
@@ -110,7 +110,7 @@
 		else if(x > rect.size.width - (controlWidth - 1)) {
 			x = rect.size.width - controlWidth - 1;
 		}
-		else if (self.controlValue == centerValue) {
+		else if(self.controlValue == centerValue) {
 			controlWidth = 7; // thick line in middle
 		}
 		CGContextSetLineWidth(context, controlWidth);
@@ -347,22 +347,22 @@
 		// width, height
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
-			CLAMP([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
+			CLAMP([arguments[0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
+			CLAMP([arguments[1] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
 		[self checkSize];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	else if([message isEqualToString:@"steady"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
-		self.steady = [[arguments objectAtIndex:0] boolValue];
+		self.steady = [arguments[0] boolValue];
 		return YES;
 	}
 	else if([message isEqualToString:@"range"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// low, high
-		self.minValue = [[arguments objectAtIndex:0] floatValue];
-		self.maxValue = [[arguments objectAtIndex:1] floatValue];
+		self.minValue = [arguments[0] floatValue];
+		self.maxValue = [arguments[1] floatValue];
 		[self checkMinAndMax];
 		return YES;
 	}

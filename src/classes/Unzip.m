@@ -57,7 +57,7 @@
 	BOOL success = YES;
 	int ret = unzGoToFirstFile(zipFile);
 	unsigned char buffer[4096] = {0};
-	NSFileManager *fman = [NSFileManager defaultManager];
+	NSFileManager *fman = NSFileManager.defaultManager;
 	if(ret != UNZ_OK) {
 		return NO;
 	}
@@ -135,7 +135,7 @@
 
 			NSDictionary* attr = [NSDictionary dictionaryWithObject:orgDate forKey:NSFileModificationDate];
 			if(attr) {
-				[[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:fullPath error:nil];
+				[NSFileManager.defaultManager setAttributes:attr ofItemAtPath:fullPath error:nil];
 			}
 		}
 		unzCloseCurrentFile(zipFile);

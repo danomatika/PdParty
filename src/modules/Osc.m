@@ -34,7 +34,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		server = NULL;
 		sendAddress = NULL;
 		
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 		
 		_sendHost = [defaults objectForKey:@"oscSendHost"];
 		_sendPort = (int)[defaults integerForKey:@"oscSendPort"];
@@ -88,14 +88,14 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 - (BOOL)startListening {
 	if(self.isListening) return YES; // still listening
 	BOOL ret = [self start];
-	[[NSUserDefaults standardUserDefaults] setBool:self.isListening forKey:@"oscServerEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:self.isListening forKey:@"oscServerEnabled"];
 	return ret;
 }
 
 - (void)stopListening {
 	if(!self.isListening) return;
 	[self stop];
-	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"oscServerEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:NO forKey:@"oscServerEnabled"];
 }
 
 #pragma mark Receive Events
@@ -113,10 +113,10 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	if(!self.isListening) return;
 	lo_message *m = lo_message_new();
 	for(NSObject *o in arguments) {
-		if([o isKindOfClass:[NSNumber class]]) {
+		if([o isKindOfClass:NSNumber.class]) {
 			lo_message_add_float(m, [(NSNumber *)o floatValue]);
 		}
-		else if([o isKindOfClass:[NSString class]]) {
+		else if([o isKindOfClass:NSString.class]) {
 			lo_message_add_string(m, [(NSString *)o UTF8String]);
 		}
 		else {
@@ -274,7 +274,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	if([self updateSendAddress]) {
 		DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
 	}
-	[[NSUserDefaults standardUserDefaults] setObject:sendHost forKey:@"oscSendHost"];
+	[NSUserDefaults.standardUserDefaults setObject:sendHost forKey:@"oscSendHost"];
 }
 
 - (void)setSendPort:(int)sendPort {
@@ -282,7 +282,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	if([self updateSendAddress]) {
 		DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
 	}
-	[[NSUserDefaults standardUserDefaults] setInteger:sendPort forKey:@"oscSendPort"];
+	[NSUserDefaults.standardUserDefaults setInteger:sendPort forKey:@"oscSendPort"];
 }
 
 - (void)setListenPort:(int)listenPort {
@@ -290,32 +290,32 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	if([self updateServer]) {
 		DDLogVerbose(@"Osc: listening on port %d", lo_server_thread_get_port(server));
 	}
-	[[NSUserDefaults standardUserDefaults] setInteger:listenPort forKey:@"oscListenPort"];
+	[NSUserDefaults.standardUserDefaults setInteger:listenPort forKey:@"oscListenPort"];
 }
 
 - (void)setTouchSendingEnabled:(BOOL)touchSendingEnabled {
 	_touchSendingEnabled = touchSendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:touchSendingEnabled forKey:@"touchSendingEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:touchSendingEnabled forKey:@"touchSendingEnabled"];
 }
 
 - (void)setSensorSendingEnabled:(BOOL)sensorSendingEnabled {
 	_sensorSendingEnabled = sensorSendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:sensorSendingEnabled forKey:@"sensorSendingEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:sensorSendingEnabled forKey:@"sensorSendingEnabled"];
 }
 
 - (void)setControllerSendingEnabled:(BOOL)controllerSendingEnabled {
 	_controllerSendingEnabled = controllerSendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:controllerSendingEnabled forKey:@"controllerSendingEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:controllerSendingEnabled forKey:@"controllerSendingEnabled"];
 }
 
 - (void)setKeySendingEnabled:(BOOL)keySendingEnabled {
 	_keySendingEnabled = keySendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:keySendingEnabled forKey:@"keySendingEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:keySendingEnabled forKey:@"keySendingEnabled"];
 }
 
 - (void)setPrintSendingEnabled:(BOOL)printSendingEnabled {
 	_printSendingEnabled = printSendingEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:printSendingEnabled forKey:@"printSendingEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:printSendingEnabled forKey:@"printSendingEnabled"];
 }
 
 #pragma mark Private

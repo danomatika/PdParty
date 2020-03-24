@@ -29,11 +29,11 @@
 }
 
 - (BOOL)open:(NSString *)path {
-	NSString *fileName = [path lastPathComponent];
-	NSString *dirPath = [path stringByDeletingLastPathComponent];
+	NSString *fileName = path.lastPathComponent;
+	NSString *dirPath = path.stringByDeletingLastPathComponent;
 	
-	[self addSearchPathsIn:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib"]];
-	[self addSearchPathsIn:[[Util documentsPath] stringByAppendingPathComponent:@"lib"]];
+	[self addSearchPathsIn:[Util.bundlePath stringByAppendingPathComponent:@"patches/lib"]];
+	[self addSearchPathsIn:[Util.documentsPath stringByAppendingPathComponent:@"lib"]];
 	[PdBase addToSearchPath:dirPath];
 	
 	// add widgets before loading patch so dollar args can be replaced later
@@ -96,7 +96,7 @@
 }
 
 + (BOOL)isPatchFile:(NSString *)fullpath {
-	return [[fullpath pathExtension] isEqualToString:@"pd"];
+	return [fullpath.pathExtension isEqualToString:@"pd"];
 }
 
 - (BOOL)requiresSensor:(SensorType)sensor {
@@ -110,7 +110,7 @@
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
-	return [self.patch.baseName stringByDeletingPathExtension];
+	return self.patch.baseName.stringByDeletingPathExtension;
 }
 
 - (BOOL)records {
@@ -126,7 +126,7 @@
 		[super setParentView:parentView];
 		if(self.parentView) {
 			// set patch view background color
-			self.parentView.backgroundColor = [UIColor whiteColor];
+			self.parentView.backgroundColor = UIColor.whiteColor;
 			
 			// add widgets to new parent view
 			if(self.gui) {

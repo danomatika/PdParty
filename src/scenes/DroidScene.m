@@ -25,7 +25,7 @@
 	
 	// load background
 	NSString *backgroundPath = [path stringByAppendingPathComponent:@"background.png"];
-	if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
+	if([NSFileManager.defaultManager fileExistsAtPath:backgroundPath]) {
 		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
 		if(self.background.image) {
 			self.background.contentMode = UIViewContentModeScaleAspectFill;
@@ -39,7 +39,7 @@
 	// load font
 	NSArray *fontPaths = [Util whichFilenames:@[@"font.ttf", @"font-antialiased.ttf"] existInDirectory:path];
 	if(fontPaths) {
-		[self loadFont:[path stringByAppendingPathComponent:[fontPaths firstObject]]];
+		[self loadFont:[path stringByAppendingPathComponent:fontPaths.firstObject]];
 	}
 	
 	return ret;
@@ -77,7 +77,7 @@
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
-	return [self.patch.pathName lastPathComponent];
+	return self.patch.pathName.lastPathComponent;
 }
 
 - (NSString *)type {
@@ -99,13 +99,13 @@
 #pragma mark Util
 
 + (BOOL)isDroidPartyDirectory:(NSString *)fullpath {
-	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"droidparty_main.pd"]];
+	return [NSFileManager.defaultManager fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"droidparty_main.pd"]];
 }
 
 #pragma mark Private
 
 - (BOOL)loadFont:(NSString *)fontPath {
-	if([[NSFileManager defaultManager] fileExistsAtPath:fontPath]) {
+	if([NSFileManager.defaultManager fileExistsAtPath:fontPath]) {
 		NSString *fontName = [Util registerFont:fontPath];
 		if(fontName) {
 			self.fontPath = fontPath;

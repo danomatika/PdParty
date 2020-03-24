@@ -26,12 +26,12 @@
 // lock to orientations allowed by the current scene
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if(sceneRotations) {
-		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 		if(app.sceneManager.scene && !app.sceneManager.isRotated) {
 			return app.sceneManager.scene.preferredOrientations;
 		}
 	}
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		return UIInterfaceOrientationMaskAll;
 	}
 	else {
@@ -41,7 +41,7 @@
 
 - (void)openURL:(NSURL *)url withTitle:(NSString *)title sceneRotationsOnly:(BOOL)sceneRotationsOnly {
 
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	sceneRotations = sceneRotationsOnly;
 
 	// assume relative file path if no http:, file:, etc

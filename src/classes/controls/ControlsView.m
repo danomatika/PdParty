@@ -27,9 +27,9 @@
 		self.translatesAutoresizingMaskIntoConstraints = NO;
 
 		// sizing
-		self.defaultHeight = [ControlsView baseHeight];
-		self.defaultSpacing = [ControlsView baseSpacing];
-		self.defaultToolbarHeight = [ControlsView baseToolbarHeight];
+		self.defaultHeight = ControlsView.baseHeight;
+		self.defaultSpacing = ControlsView.baseSpacing;
+		self.defaultToolbarHeight = ControlsView.baseToolbarHeight;
 
 		// toolbar buttons
 		self.leftButton = [self createLeftButton];
@@ -200,7 +200,7 @@
 #pragma mark Sizing
 
 + (float)baseWidth {
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		return 320;
 	}
 	else { // smaller popups on iPhone
@@ -209,15 +209,15 @@
 }
 
 + (float)baseHeight {
-	return [Util isDeviceATablet] ? 192 : 96;
+	return Util.isDeviceATablet ? 192 : 96;
 }
 
 + (float)baseSpacing {
-	return [Util isDeviceATablet] ? 84 : 42;
+	return Util.isDeviceATablet ? 84 : 42;
 }
 
 + (float)baseToolbarHeight {
-	return [Util isDeviceATablet] ? 88 : 44;
+	return Util.isDeviceATablet ? 88 : 44;
 }
 
 - (void)halfSize {
@@ -229,7 +229,7 @@
 
 - (void)defaultSize {
 	self.height = self.defaultHeight;
-	self.spacing = [Util isDeviceATablet] ? self.defaultSpacing*2 : self.defaultSpacing;
+	self.spacing = Util.isDeviceATablet ? self.defaultSpacing*2 : self.defaultSpacing;
 	self.toolbarHeight = self.defaultToolbarHeight;
 	[self setNeedsUpdateConstraints];
 }
@@ -284,8 +284,8 @@
 	sliderTrailingConstraint.constant = -spacing;
 	
 	// assume tool bar fixed width spaces are first and last
-	[[self.toolbar.items firstObject] setWidth:spacing];
-	[[self.toolbar.items lastObject] setWidth:spacing];
+	[self.toolbar.items.firstObject setWidth:spacing];
+	[self.toolbar.items.lastObject setWidth:spacing];
 }
 
 - (float)spacing {
@@ -307,12 +307,12 @@
 	}
 	_lightBackground = lightBackground;
 	if(lightBackground) {
-		self.backgroundColor = [UIColor whiteColor];
-		self.toolbar.barTintColor = [UIColor whiteColor];
+		self.backgroundColor = UIColor.whiteColor;
+		self.toolbar.barTintColor = UIColor.whiteColor;
 	}
 	else {
-		self.backgroundColor = [UIColor blackColor];
-		self.toolbar.barTintColor = [UIColor blackColor];
+		self.backgroundColor = UIColor.blackColor;
+		self.toolbar.barTintColor = UIColor.blackColor;
 	}
 }
 

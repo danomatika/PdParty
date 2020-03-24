@@ -36,8 +36,8 @@
 		self.label.adjustsFontSizeToFitWidth = YES;
 		self.label.numberOfLines = 0;
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		self.sendName = [Gui filterEmptyStringValues:line[8]];
+		self.receiveName = [Gui filterEmptyStringValues:line[7]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Taplist: dropping, send/receive names are empty");
@@ -45,11 +45,11 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[6] floatValue]);
 		
 		for(int i = 9; i < [line count]; ++i) {
-			[self.list addObject:[line objectAtIndex:i]];
+			[self.list addObject:line[i]];
 		}
 		self.value = 0;
 	}
@@ -109,8 +109,8 @@
 - (void)setValue:(float)value {
 	if(self.list) {
 		[super setValue:value];
-		if(self.value < [self.list count]) {
-			self.label.text = [self.list objectAtIndex:(int)value];
+		if(self.value < self.list.count) {
+			self.label.text = self.list[(int)value];
 			[self reshapeLabel];
 		}
 	}
@@ -187,7 +187,7 @@
 
 - (void)sendValues {
 	if(self.value < self.list.count) {
-		[self sendSymbol:[self.list objectAtIndex:(int)self.value]];
+		[self sendSymbol:self.list[(int)self.value]];
 	}
 	[PdBase sendFloat:self.value toReceiver:[self.sendName stringByAppendingString:@"/idx"]];
 }

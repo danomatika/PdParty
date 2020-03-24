@@ -32,7 +32,7 @@
 		self.label.adjustsFontSizeToFitWidth = YES;
 		self.label.numberOfLines = 0;
 		
-		self.sendName = [@"wordbutton-" stringByAppendingString:[Gui filterEmptyStringValues:[line objectAtIndex:7]]];
+		self.sendName = [@"wordbutton-" stringByAppendingString:[Gui filterEmptyStringValues:line[7]]];
 		if(![self hasValidSendName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Wordbutton: dropping, send name is empty");
@@ -40,10 +40,10 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[6] floatValue]);
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		self.label.text = [Gui filterEmptyStringValues:line[7]];
 	}
 	return self;
 }

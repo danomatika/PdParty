@@ -25,8 +25,8 @@
 	if(self) {
 		self.nonZeroValue = 1;
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+		self.sendName = [Gui filterEmptyStringValues:line[7]];
+		self.receiveName = [Gui filterEmptyStringValues:line[8]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Toggle: dropping, send/receive names are empty");
@@ -34,23 +34,23 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[5] floatValue]);
 		
-		self.inits = [[line objectAtIndex:6] boolValue];
+		self.inits = [line[6] boolValue];
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:9]];	
-		self.originalLabelPos = CGPointMake([[line objectAtIndex:10] floatValue], [[line objectAtIndex:11] floatValue]);
-		self.labelFontStyle = [[line objectAtIndex:12] intValue];
-		self.labelFontSize = [[line objectAtIndex:13] floatValue];
+		self.label.text = [Gui filterEmptyStringValues:line[9]];	
+		self.originalLabelPos = CGPointMake([line[10] floatValue], [line[11] floatValue]);
+		self.labelFontStyle = [line[12] intValue];
+		self.labelFontSize = [line[13] floatValue];
 		
-		self.fillColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:14] intValue]];
-		self.controlColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:15] intValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:16] intValue]];
+		self.fillColor = [IEMWidget colorFromAtomColor:[line[14] intValue]];
+		self.controlColor = [IEMWidget colorFromAtomColor:[line[15] intValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:[line[16] intValue]];
 		
-		self.nonZeroValue = [[line objectAtIndex:18] floatValue];
+		self.nonZeroValue = [line[18] floatValue];
 		if(self.inits) {
-			self.value = [[line objectAtIndex:17] floatValue];
+			self.value = [line[17] floatValue];
 		}
 	}
 	return self;
@@ -164,14 +164,14 @@
 		// size
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
-			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
+			CLAMP([arguments[0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
+			CLAMP([arguments[0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
 		[self reshape];
 		[self setNeedsDisplay];
 	}
 	else if([message isEqualToString:@"nonzero"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// nonzero value
-		self.nonZeroValue = [[arguments objectAtIndex:0] integerValue];
+		self.nonZeroValue = [arguments[0] integerValue];
 		return YES;
 	}
 	else {

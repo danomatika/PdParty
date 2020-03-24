@@ -24,7 +24,7 @@
 	self = [super initWithFrame:frame];
 	if(self) {
 		looping = NO;
-		int fontSize = ([Util isDeviceATablet] ? 17 : 12);
+		int fontSize = (Util.isDeviceATablet ? 17 : 12);
 
 		self.timeElapsedLabel = [UILabel new];
 		self.timeElapsedLabel.text = @"00:00:00";
@@ -43,8 +43,7 @@
 		[self addSubview:self.timeRemainLabel];
 
 		// add labels in line with slider
-		[self removeConstraints:@[sliderLeadingConstraint,
-		                          sliderTrailingConstraint]];
+		[self removeConstraints:@[sliderLeadingConstraint, sliderTrailingConstraint]];
 		sliderLeadingConstraint =
 			[NSLayoutConstraint constraintWithItem:self.timeElapsedLabel
 			                             attribute:NSLayoutAttributeLeading
@@ -179,7 +178,7 @@
 	if(!self.rightButton.image) {
 		self.rightButton.title = @"Loop";
 	}
-	self.rightButton.tintColor = [UIColor grayColor];
+	self.rightButton.tintColor = UIColor.grayColor;
 }
 
 - (void)rightButtonToStopLoop {
@@ -187,14 +186,14 @@
 	if(!self.rightButton.image) {
 		self.rightButton.title = @"No Loop";
 	}
-	self.rightButton.tintColor = [self tintColor]; // should reset to global color
+	self.rightButton.tintColor = self.tintColor; // should reset to global color
 }
 
 #pragma mark Overridden Getters / Setters
 
 - (void)setLightBackground:(BOOL)lightBackground {
 	[super setLightBackground:lightBackground];
-	UIColor *textColor =  lightBackground ? [UIColor blackColor] : [UIColor whiteColor];
+	UIColor *textColor = lightBackground ? UIColor.blackColor : UIColor.whiteColor;
 	self.timeElapsedLabel.textColor = textColor;
 	self.timeRemainLabel.textColor = textColor;
 }

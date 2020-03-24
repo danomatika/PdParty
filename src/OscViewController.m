@@ -33,7 +33,7 @@
 	[super viewDidLoad];
 	
 	// set Osc pointer
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	osc = app.osc;
 	
 	self.connectionEnabledSwitch.on = osc.isListening;

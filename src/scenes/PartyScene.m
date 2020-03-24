@@ -42,12 +42,12 @@
 
 - (NSString *)name {
 	if(self.hasInfo) {
-		NSString *n = [info objectForKey:@"name"];
+		NSString *n = info[@"name"];
 		if(n) {
 			return n;
 		}
 	}
-	return [self.patch.pathName lastPathComponent];
+	return self.patch.pathName.lastPathComponent;
 }
 
 - (BOOL)hasInfo {
@@ -56,7 +56,7 @@
 
 - (NSString *)artist {
 	if(self.hasInfo) {
-		NSString *a = [info objectForKey:@"author"];
+		NSString *a = info[@"author"];
 		if(a) {
 			return a;
 		}
@@ -66,7 +66,7 @@
 
 - (NSString *)category {
 	if(self.hasInfo) {
-		NSString *c = [info objectForKey:@"category"];
+		NSString *c = info[@"category"];
 		if(c) {
 			return c;
 		}
@@ -76,8 +76,8 @@
 
 - (NSString *)description {
 	if(self.hasInfo) {
-		NSString *d = [info objectForKey:@"description"];
-		if (d) {
+		NSString *d = info[@"description"];
+		if(d) {
 			return d;
 		}
 	}
@@ -91,13 +91,13 @@
 #pragma mark Util
 
 + (BOOL)isPdPartyDirectory:(NSString *)fullpath {
-	return [[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]];
+	return [NSFileManager.defaultManager fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]];
 }
 
 + (UIImage*)thumbnailForSceneAt:(NSString *)fullpath {
 	NSArray *imagePaths = [Util whichFilenames:@[@"thumb.png", @"Thumb.png", @"thumb.jpg", @"Thumb.jpg"] existInDirectory:fullpath];
 	if(imagePaths) {
-		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:[imagePaths firstObject]]];
+		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:imagePaths.firstObject]];
 	}
 	return nil;
 }
@@ -105,7 +105,7 @@
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath {
 	NSArray *infoPaths = [Util whichFilenames:@[@"info.json", @"Info.json"] existInDirectory:fullpath];
 	if(infoPaths) {
-		return [Util parseJSONFromFile:[fullpath stringByAppendingPathComponent:[infoPaths firstObject]]];
+		return [Util parseJSONFromFile:[fullpath stringByAppendingPathComponent:infoPaths.firstObject]];
 	}
 	return nil;
 }

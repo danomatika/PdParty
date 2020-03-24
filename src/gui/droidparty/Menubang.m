@@ -27,7 +27,7 @@ static NSMutableArray *s_menubangs;
 	if(self) {
 		self.label = nil; // no label
 		
-		self.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
+		self.name = [Gui filterEmptyStringValues:line[5]];
 		self.sendName = [NSString stringWithFormat:@"menubang-%@", self.name];
 		if(!self.name || [self.name isEqualToString:@""]) {
 			// drop something we can't interact with
@@ -48,9 +48,9 @@ static NSMutableArray *s_menubangs;
 	[s_menubangs addObject:self];
 
 	// access the patch file path after its been loaded to get the correct image path
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	self.imagePath = [NSString stringWithFormat:@"%@/%@.png", app.sceneManager.scene.patch.pathName, self.sendName];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:self.imagePath]) {
+	if(![NSFileManager.defaultManager fileExistsAtPath:self.imagePath]) {
 		DDLogVerbose(@"Menubang %@: no image found at %@", self.name, self.imagePath);
 		self.imagePath = nil;
 	}

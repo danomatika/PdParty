@@ -186,15 +186,15 @@
 	int level = 0;
 	for(NSArray *line in lines) {
 		if(line.count >= 4) {
-			NSString *lineType = [line objectAtIndex:1];
+			NSString *lineType = line[1];
 			
 			// find canvas begin and end line
 			if([lineType isEqualToString:@"canvas"]) {
 				level++;
 				if(level == 1) {
-					self.patchWidth = [[line objectAtIndex:4] intValue];
-					self.patchHeight = [[line objectAtIndex:5] intValue];
-					self.fontSize = [[line objectAtIndex:6] intValue];
+					self.patchWidth = [line[4] intValue];
+					self.patchHeight = [line[5] intValue];
+					self.fontSize = [line[6] intValue];
 					
 					// check for bad canvas sizes
 					if(self.patchWidth < 20 || self.patchHeight < 20) {
@@ -218,7 +218,7 @@
 			}
 			// find different types of UI elements in the top level patch
 			else if(level == 1) {
-				if (line.count >= 2) {
+				if(line.count >= 2) {
 				
 					// built in pd things
 					if([lineType isEqualToString:@"floatatom"]) {
@@ -238,7 +238,7 @@
 			}
 			// find non-UI elements in sub patches
 			else {
-				if (line.count >= 2) {
+				if(line.count >= 2) {
 					if([lineType isEqualToString:@"obj"] && line.count >= 5) {
 						[self addObject:line atLevel:level];
 					}
@@ -327,7 +327,7 @@
 
 // add other objects
 - (void)addObject:(NSArray *)atomLine atLevel:(int)level {
-	NSString *objType = [atomLine objectAtIndex:4];
+	NSString *objType = atomLine[4];
 
 	// look for additional built in objects
 	BOOL added = [self addObjectType:objType fromAtomLine:atomLine atLevel:level];

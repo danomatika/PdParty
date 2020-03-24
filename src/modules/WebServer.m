@@ -30,7 +30,7 @@
 	self = [super init];
 	if(self) {
 		[GCDWebServer setLogLevel:4]; // ERROR
-		server = [[GCDWebDAVServer alloc] initWithUploadDirectory:[Util documentsPath]];
+		server = [[GCDWebDAVServer alloc] initWithUploadDirectory:Util.documentsPath];
 		server.delegate = self;
 	}
 	return self;
@@ -57,8 +57,8 @@
 	}
 	
 	// start DAV server
-	NSError* error = nil;
-	NSInteger port = [[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"];
+	NSError *error = nil;
+	NSInteger port = [NSUserDefaults.standardUserDefaults integerForKey:@"webServerPort"];
 	NSDictionary *options = @{
 		GCDWebServerOption_Port : [NSNumber numberWithInteger:port],
 		GCDWebServerOption_BonjourName : @"", // empty string to use default device name
@@ -88,10 +88,10 @@
 #pragma mark Setter/Getter Overrides
 
 - (void)setPort:(int)port {
-	if(port == [[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"]) {
+	if(port == [NSUserDefaults.standardUserDefaults integerForKey:@"webServerPort"]) {
 		return;
 	}
-	[[NSUserDefaults standardUserDefaults] setInteger:port forKey:@"webServerPort"];
+	[NSUserDefaults.standardUserDefaults setInteger:port forKey:@"webServerPort"];
 	DDLogVerbose(@"WebServer: port set to %d", port);
 }
 
@@ -99,7 +99,7 @@
 	if(server.isRunning) {
 		return (int)server.port;
 	}
-	return (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"webServerPort"];
+	return (int)[NSUserDefaults.standardUserDefaults integerForKey:@"webServerPort"];
 }
 
 - (NSString *)hostUrl {
@@ -107,7 +107,7 @@
 	if(server.publicServerURL) {
 		url = server.publicServerURL.absoluteString;
 	}
-	if (url && url.length > 0 && [url characterAtIndex:url.length-1] == '/') {
+	if(url && url.length > 0 && [url characterAtIndex:url.length-1] == '/') {
 		return [url substringToIndex:url.length-1];
 	}
 	return url;
@@ -115,7 +115,7 @@
 
 - (NSString *)bonjourUrl {
 	NSString *url = server.bonjourServerURL.absoluteString;
-	if (url && url.length > 0 && [url characterAtIndex:url.length-1] == '/') {
+	if(url && url.length > 0 && [url characterAtIndex:url.length-1] == '/') {
 		return [url substringToIndex:url.length-1];
 	}
 	return url;
@@ -135,7 +135,7 @@
 
 // from http://blog.zachwaugh.com/post/309927273/programmatically-retrieving-ip-address-of-iphone
 + (NSString *)wifiInterfaceAddress {
-	return [WebServer getIPAddressPreferIPv4:YES withCellular:NO withSimulator:[Util isDeviceRunningInSimulator]];
+	return [WebServer getIPAddressPreferIPv4:YES withCellular:NO withSimulator:Util.isDeviceRunningInSimulator];
 }
 
 + (int)checkPortValueFromTextField:(UITextField *)textField {
@@ -185,21 +185,21 @@
 + (NSString *)getIPAddressPreferIPv4:(BOOL)preferIPv4 withCellular:(BOOL)cellular withSimulator:(BOOL)simulator {
 	NSMutableArray *searchArray = [NSMutableArray new];
 	if(preferIPv4) {
-		[searchArray addObjectsFromArray:@[ @"en0/ipv4", @"en0/ipv6" ]];
+		[searchArray addObjectsFromArray:@[@"en0/ipv4", @"en0/ipv6"]];
 		if(cellular) {
-			[searchArray addObjectsFromArray:@[ @"pdp_ip0/ipv4", @"pdp_ip0/ipv6" ]];
+			[searchArray addObjectsFromArray:@[@"pdp_ip0/ipv4", @"pdp_ip0/ipv6"]];
 		}
 		if(simulator) {
-			[searchArray addObjectsFromArray:@[ @"en1/ipv4", @"en1/ipv6" ]];
+			[searchArray addObjectsFromArray:@[@"en1/ipv4", @"en1/ipv6"]];
 		}
 	}
 	else {
-		[searchArray addObjectsFromArray:@[ @"en0/ipv6", @"en0/ipv4" ]];
+		[searchArray addObjectsFromArray:@[@"en0/ipv6", @"en0/ipv4"]];
 		if(cellular) {
-			[searchArray addObjectsFromArray:@[ @"pdp_ip0/ipv6", @"pdp_ip0/ipv4" ]];
+			[searchArray addObjectsFromArray:@[@"pdp_ip0/ipv6", @"pdp_ip0/ipv4"]];
 		}
 		if(simulator) {
-			[searchArray addObjectsFromArray:@[ @"en1/ipv6", @"en1/ipv4" ]];
+			[searchArray addObjectsFromArray:@[@"en1/ipv6", @"en1/ipv4"]];
 		}
 	}
 	NSDictionary *addresses = [WebServer getIPAddresses];

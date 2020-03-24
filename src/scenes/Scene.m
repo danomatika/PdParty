@@ -125,14 +125,14 @@
 
 - (void)addSearchPathsIn:(NSString *)directory {
 	
-	if(![[NSFileManager defaultManager] fileExistsAtPath:directory]) {
+	if(![NSFileManager.defaultManager fileExistsAtPath:directory]) {
 		DDLogWarn(@"%@: search path %@ not found, skipping", self.type, directory);
 		return;
 	}
 	DDLogVerbose(@"%@: adding search paths in %@", self.type, directory);
 
 	NSError *error;
-	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:&error];
+	NSArray *contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:directory error:&error];
 	if(!contents) {
 		DDLogError(@"%@: couldn't read contents of path %@, error: %@", self.type, directory, error.localizedDescription);
 		return;

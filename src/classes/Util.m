@@ -30,19 +30,19 @@
 }
 
 + (BOOL)isDeviceAPhone {
-	return [[[UIDevice currentDevice] model] isEqualToString:@"iPhone"];
+	return [UIDevice.currentDevice.model isEqualToString:@"iPhone"];
 }
 
 + (BOOL)isDeviceATablet {
-	return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+	return (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad);
 }
 
 + (BOOL)isDeviceAnIpod {
-	return [[[UIDevice currentDevice] model] isEqualToString:@"iPod touch"];
+	return [UIDevice.currentDevice.model isEqualToString:@"iPod touch"];
 }
 
 + (float)deviceOSVersion {
-	return [[[UIDevice currentDevice] systemVersion] floatValue];
+	return UIDevice.currentDevice.systemVersion.floatValue;
 }
 
 + (BOOL)deviceSupportsBluetoothLE {
@@ -56,17 +56,17 @@
 #pragma mark App
 
 + (CGFloat)appWidth {
-	return [UIScreen mainScreen].bounds.size.width;
+	return UIScreen.mainScreen.bounds.size.width;
 }
 
 + (CGFloat)appHeight {
-	return [UIScreen mainScreen].bounds.size.height;
+	return UIScreen.mainScreen.bounds.size.height;
 }
 
 + (CGSize)appSize {
 	return CGSizeMake(
-		[UIScreen mainScreen].bounds.size.width,
-		[UIScreen mainScreen].bounds.size.height);
+		UIScreen.mainScreen.bounds.size.width,
+		UIScreen.mainScreen.bounds.size.height);
 }
 
 #pragma mark Logging Shortcuts
@@ -106,36 +106,36 @@
 #pragma mark Paths
 
 + (NSString *)bundlePath {
-	return [[NSBundle mainBundle] bundlePath];
+	return NSBundle.mainBundle.bundlePath;
 }
 
 + (NSString *)resourcePath {
-	return [[NSBundle mainBundle] resourcePath];
+	return NSBundle.mainBundle.resourcePath;
 }
 
 + (NSString *)documentsPath {
 	NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	return [searchPaths objectAtIndex:0];
+	return searchPaths.firstObject;
 }
 
 + (BOOL)isDirectory:(NSString *)path {
 	BOOL isDir = NO;
-	[[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+	[NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDir];
 	return isDir;
 }
 
 + (BOOL)copyContentsOfDirectory:(NSString *)srcDir toDirectory:(NSString *)destDir error:(NSError *)error {
 
 	// create dest folder if it doesn't exist
-	if(![[NSFileManager defaultManager] fileExistsAtPath:destDir isDirectory:nil]) {
-		if(![[NSFileManager defaultManager] createDirectoryAtPath:destDir withIntermediateDirectories:NO attributes:nil error:&error]) {
+	if(![NSFileManager.defaultManager fileExistsAtPath:destDir isDirectory:nil]) {
+		if(![NSFileManager.defaultManager createDirectoryAtPath:destDir withIntermediateDirectories:NO attributes:nil error:&error]) {
 			DDLogError(@"Util: couldn't create %@, error: %@", destDir, error.localizedDescription);
 			return NO;
 		}
 	}
 
 	// copy all items within src into dest, this way we don't lose any other files or folders added by the user
-	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:srcDir error:&error];
+	NSArray *contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:srcDir error:&error];
 	if(!contents) {
 		return YES; // no contents to copy
 	}
@@ -145,21 +145,21 @@
 		BOOL isDir = NO;
 		
 		// remove existing files in the dest folder that match those in the src folder
-		if([[NSFileManager defaultManager] fileExistsAtPath:destPath isDirectory:&isDir]) {
+		if([NSFileManager.defaultManager fileExistsAtPath:destPath isDirectory:&isDir]) {
 		
 			// remove existing file
-			if(!isDir && ![[NSFileManager defaultManager] removeItemAtPath:destPath error:&error]) {
+			if(!isDir && ![NSFileManager.defaultManager removeItemAtPath:destPath error:&error]) {
 				DDLogError(@"Util: couldn't remove %@, error: %@", destPath, error.localizedDescription);
 				return NO;
 			}
 		}
 		
-		[[NSFileManager defaultManager] fileExistsAtPath:destPath isDirectory:&isDir];
+		[NSFileManager.defaultManager fileExistsAtPath:destPath isDirectory:&isDir];
 		if(isDir) { // copy folder recursively
 			[Util copyContentsOfDirectory:srcPath toDirectory:destPath error:error];
 		}
 		else { // copy file
-			if(![[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:destPath error:&error]) {
+			if(![NSFileManager.defaultManager copyItemAtPath:srcPath toPath:destPath error:&error]) {
 				DDLogError(@"Util: couldn't copy %@ to %@, error: %@", srcPath, destPath, error.localizedDescription);
 				return NO;
 			}
@@ -169,14 +169,14 @@
 }
 
 + (NSArray *)whichFilenames:(NSArray *)filenames existInDirectory:(NSString *)dir {
-	if(![[NSFileManager defaultManager] fileExistsAtPath:dir isDirectory:nil]) {
+	if(![NSFileManager.defaultManager fileExistsAtPath:dir isDirectory:nil]) {
 		DDLogError(@"Util: couldn't check if filenames exist, dir does not exist: %@", dir);
 		return nil;
 	}
 	NSMutableArray *found = [NSMutableArray array];
 	for(NSString *file in filenames) {
 		NSString *filePath = [dir stringByAppendingPathComponent:file];
-		if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+		if([NSFileManager.defaultManager fileExistsAtPath:filePath]) {
 			[found addObject:file];
 		}
 	}
@@ -209,7 +209,7 @@
 	UIGraphicsBeginImageContextWithOptions(rect.size, NO, image.scale);
 	CGContextRef c = UIGraphicsGetCurrentContext();
 	[image drawInRect:rect];
-	CGContextSetFillColorWithColor(c, [tint CGColor]);
+	CGContextSetFillColorWithColor(c, tint.CGColor);
 	CGContextSetBlendMode(c, kCGBlendModeSourceAtop);
 	CGContextFillRect(c, rect);
 	UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
@@ -266,11 +266,11 @@
 @implementation NSArray (EasyTypeCheckArray)
 
 - (BOOL)isNumberAt:(int)index {
-	return [[self objectAtIndex:index] isKindOfClass:[NSNumber class]];
+	return [[self objectAtIndex:index] isKindOfClass:NSNumber.class];
 }
 
 - (BOOL)isStringAt:(int)index {
-	return [[self objectAtIndex:index] isKindOfClass:[NSString class]];
+	return [[self objectAtIndex:index] isKindOfClass:NSString.class];
 }
 
 @end

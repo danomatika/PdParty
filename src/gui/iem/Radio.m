@@ -28,8 +28,8 @@
 		self.size = IEM_GUI_DEFAULTSIZE;
 		self.minValue = 0;
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
+		self.sendName = [Gui filterEmptyStringValues:line[9]];
+		self.receiveName = [Gui filterEmptyStringValues:line[10]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Radio: dropping, send/receive names are empty");
@@ -37,25 +37,25 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[line[2] floatValue], [line[3] floatValue],
 			0, 0); // size based on numCells
 		
-		self.size = [[line objectAtIndex:5] intValue];
+		self.size = [line[5] intValue];
 		// index 6 is the "new_old" value which isn't currently used
-		self.inits = [[line objectAtIndex:7] boolValue];
-		self.numCells = [[line objectAtIndex:8] intValue];
+		self.inits = [line[7] boolValue];
+		self.numCells = [line[8] intValue];
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-		self.originalLabelPos = CGPointMake([[line objectAtIndex:12] floatValue], [[line objectAtIndex:13] floatValue]);
-		self.labelFontStyle = [[line objectAtIndex:14] intValue];
-		self.labelFontSize = [[line objectAtIndex:15] floatValue];
+		self.label.text = [Gui filterEmptyStringValues:line[11]];
+		self.originalLabelPos = CGPointMake([line[12] floatValue], [line[13] floatValue]);
+		self.labelFontStyle = [line[14] intValue];
+		self.labelFontSize = [line[15] floatValue];
 		
-		self.fillColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:16] intValue]];
-		self.controlColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:17] intValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:18] intValue]];
+		self.fillColor = [IEMWidget colorFromAtomColor:[line[16] intValue]];
+		self.controlColor = [IEMWidget colorFromAtomColor:[line[17] intValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:[line[18] intValue]];
 		
 		if(self.inits) {
-			self.value = [[line objectAtIndex:19] intValue];
+			self.value = [line[19] intValue];
 		}
 	}
 	return self;
@@ -70,7 +70,7 @@
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
 	CGContextFillRect(context, rect);
-	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+	CGContextSetFillColorWithColor(context, UIColor.clearColor.CGColor);
 	
 	// cells
 	int cellSize = round(self.size * self.gui.scaleX);
@@ -183,14 +183,14 @@
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// size
-		self.size = [[arguments objectAtIndex:0] intValue];
+		self.size = [arguments[0] intValue];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	if([message isEqualToString:@"number"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// number of cells
-		self.numCells = [[arguments objectAtIndex:0] intValue];
+		self.numCells = [arguments[0] intValue];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;

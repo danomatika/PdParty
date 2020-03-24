@@ -29,14 +29,14 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	sceneManager = app.sceneManager;
 	
 	self.nameLabel.text = sceneManager.scene.name;
 	self.artistLabel.text = sceneManager.scene.artist;
 	self.categoryLabel.text = sceneManager.scene.category;
 	self.descriptionTextView.text = sceneManager.scene.description;
-	if([Util isDeviceAPhone]) {
+	if(Util.isDeviceAPhone) {
 		self.earpieceSwitch.enabled = YES;
 		self.earpieceSwitch.on = app.pureData.earpieceSpeaker;
 	}
@@ -73,7 +73,7 @@
 #pragma mark UI
 
 - (IBAction)earpieceChanged:(id)sender {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.pureData.earpieceSpeaker = self.earpieceSwitch.on;
 }
 
@@ -90,7 +90,7 @@
 // make sure the text view cell expands to fill the empty space in the parent view
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	if(indexPath.section == 1) { // description text view
-		int numCells = ([Util isDeviceAPhone] ? 5 : 4);
+		int numCells = (Util.isDeviceAPhone ? 5 : 4);
 		float size = CGRectGetHeight(self.view.bounds) - (defaultCellHeight * numCells) - 88; // 88 for space between groups
 		return MAX(size, 2 * 22); // min size is 2 lines
 	}

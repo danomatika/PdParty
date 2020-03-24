@@ -41,8 +41,8 @@
 		motionManager = [[CMMotionManager alloc] init];
 		
 		// current UI orientation for accel
-		if([Util isDeviceATablet]) { // iPad can started rotated
-			self.currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+		if(Util.isDeviceATablet) { // iPad can started rotated
+			self.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 		}
 		else { // do not start rotated on iPhone
 			self.currentOrientation = UIInterfaceOrientationPortrait;
@@ -232,7 +232,7 @@
 								  cancelButtonTitle:@"OK"
 								  otherButtonTitles:nil]show];
 			}
-			else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
+			else if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
 				[PureData sendPrint:@"location restricted"];
 				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Restricted"
 											message:@"To reenable, please go to Settings and turn off the Location Service restriction for this app."

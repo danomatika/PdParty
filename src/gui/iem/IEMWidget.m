@@ -66,9 +66,9 @@ int iemgui_modulo_color(int col);
 	if([message isEqualToString:@"color"] && [arguments count] > 2 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1] && [arguments isNumberAt:2])) {
 		// background, front-color, label-color
-		self.fillColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
-		self.controlColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:2] intValue]];
+		self.fillColor = [IEMWidget colorFromIEMColor:[arguments[0] intValue]];
+		self.controlColor = [IEMWidget colorFromIEMColor:[arguments[1] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[arguments[2] intValue]];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
@@ -78,8 +78,8 @@ int iemgui_modulo_color(int col);
 		// width, height
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			CLAMP([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
-			CLAMP([[arguments objectAtIndex:1] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
+			CLAMP([arguments[0] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE),
+			CLAMP([arguments[1] floatValue], IEM_GUI_MINSIZE, IEM_GUI_MAXSIZE));
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
@@ -88,7 +88,7 @@ int iemgui_modulo_color(int col);
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// absolute pos
 		self.originalFrame = CGRectMake(
-			[[arguments objectAtIndex:0] floatValue], [[arguments objectAtIndex:1] floatValue],
+			[arguments[0] floatValue], [arguments[1] floatValue],
 			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
 		[self reshape];
 		[self setNeedsDisplay];
@@ -98,15 +98,15 @@ int iemgui_modulo_color(int col);
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// relative pos
 		self.originalFrame = CGRectMake(
-			self.originalFrame.origin.x + [[arguments objectAtIndex:0] floatValue],
-			self.originalFrame.origin.y + [[arguments objectAtIndex:1] floatValue],
+			self.originalFrame.origin.x + [arguments[0] floatValue],
+			self.originalFrame.origin.y + [arguments[1] floatValue],
 			CGRectGetWidth(self.originalFrame), CGRectGetHeight(self.originalFrame));
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	else if([message isEqualToString:@"label"] && [arguments count] > 0 && [arguments isStringAt:0]) {
-		self.label.text = [arguments objectAtIndex:0];
+		self.label.text = arguments[0];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
@@ -114,30 +114,30 @@ int iemgui_modulo_color(int col);
 	else if([message isEqualToString:@"label_pos"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// x, y
-		self.originalLabelPos = CGPointMake([[arguments objectAtIndex:0] floatValue],
-											[[arguments objectAtIndex:1] floatValue]);
+		self.originalLabelPos = CGPointMake([arguments[0] floatValue],
+											[arguments[1] floatValue]);
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	else if([message isEqualToString:@"label_font"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
-		self.labelFontStyle = [[arguments objectAtIndex:0] intValue];
-		self.labelFontSize = [[arguments objectAtIndex:1] floatValue];
+		self.labelFontStyle = [arguments[0] intValue];
+		self.labelFontSize = [arguments[1] floatValue];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	else if([message isEqualToString:@"send"] && [arguments count] > 0 && [arguments isStringAt:0]) {
-		self.sendName = [arguments objectAtIndex:0];
+		self.sendName = arguments[0];
 		return YES;
 	}
 	else if([message isEqualToString:@"receive"] && [arguments count] > 0 && [arguments isStringAt:0]) {
-		self.receiveName = [arguments objectAtIndex:0];
+		self.receiveName = arguments[0];
 		return YES;
 	}
 	else if([message isEqualToString:@"init"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
-		self.inits = [[arguments objectAtIndex:0] boolValue];
+		self.inits = [arguments[0] boolValue];
 		return YES;
 	}
 	return NO;

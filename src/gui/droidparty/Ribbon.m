@@ -32,7 +32,7 @@
 		self.multipleTouchEnabled = YES;
 		self.label = nil; // don't need label
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		self.sendName = [Gui filterEmptyStringValues:line[7]];
 		if(![self hasValidSendName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Ribbon: dropping, send name is empty");
@@ -40,8 +40,8 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[6] floatValue]);
 	}
 	return self;
 }
@@ -54,7 +54,7 @@
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
 	CGContextFillRect(context, rect);
-	CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+	CGContextSetFillColorWithColor(context, UIColor.clearColor.CGColor);
 	
 	// border
 	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
@@ -123,9 +123,7 @@
 		}
 	}
 	if(changed) {
-		[self sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:self.value],
-		[NSNumber numberWithFloat:self.value2], nil]];
+		[self sendList:@[@(self.value), @(self.value2)]];
 	}
 }
 

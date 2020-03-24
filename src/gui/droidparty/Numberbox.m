@@ -33,8 +33,8 @@
 		[self.label removeFromSuperview];
 		self.label = nil;
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		self.sendName = [Gui filterEmptyStringValues:line[8]];
+		self.receiveName = [Gui filterEmptyStringValues:line[7]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Numberbox: dropping, send/receive names are empty");
@@ -42,16 +42,16 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[6] floatValue]);
 
 		self.valueWidth = 3; // fixed width
-		self.minValue = [[line objectAtIndex:9] floatValue];
-		self.maxValue = [[line objectAtIndex:10] floatValue];
+		self.minValue = [line[9] floatValue];
+		self.maxValue = [line[10] floatValue];
 		self.inits = YES;
 		
-		if ([line count] > 10) {
-			self.value = [[line objectAtIndex:11] floatValue];
+		if([line count] > 10) {
+			self.value = [line[11] floatValue];
 		}
 		else {
 			self.value = 0; // set text in number label

@@ -45,7 +45,7 @@
 	[super viewDidLoad];
 	
 	// set midi pointer
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	midi = app.midi;
 	
 	// make sure the tableView knows about our dynamic cell type
@@ -157,8 +157,8 @@
 			                                 reuseIdentifier:@"MidiConnectionCell"];
 		}
 		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-		cell.textLabel.textColor = [UIColor blackColor];
-		cell.detailTextLabel.textColor = [UIColor blackColor];
+		cell.textLabel.textColor = UIColor.blackColor;
+		cell.detailTextLabel.textColor = UIColor.blackColor;
 
 		BOOL enabled = NO;
 		NSArray *array = (indexPath.section == INPUTS_SECTION ? midi.inputs : midi.outputs);
@@ -191,8 +191,8 @@
 			// dummy placeholder
 			cell.textLabel.text = EMPTY_CELL;
 			cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row+1];
-			cell.textLabel.textColor = [UIColor lightGrayColor];
-			cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+			cell.textLabel.textColor = UIColor.lightGrayColor;
+			cell.detailTextLabel.textColor = UIColor.lightGrayColor;
 		}
 		cell.textLabel.enabled = enabled;
 		cell.detailTextLabel.enabled = enabled;
@@ -202,7 +202,7 @@
 		cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
 		if(indexPath.section == SETTINGS_SECTION && indexPath.row == BLUETOOTH_ROW) {
 			// disable Bluetooth selection?
-			BOOL enabled = [Util deviceSupportsBluetoothLE];
+			BOOL enabled = Util.deviceSupportsBluetoothLE;
 			cell.userInteractionEnabled = enabled;
 			for(UIView *view in cell.contentView.subviews) {
 				if([view isKindOfClass:UILabel.class]) {

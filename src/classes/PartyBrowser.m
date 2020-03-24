@@ -17,7 +17,7 @@
 
 // lock orientation on iPhone
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		return UIInterfaceOrientationMaskAll;
 	}
 	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
@@ -26,9 +26,10 @@
 #pragma mark Utils
 
 + (BOOL)isZipFile:(NSString *)path {
-	return ([[path pathExtension] isEqualToString:@"zip"] ||
-			[[path pathExtension] isEqualToString:@"pdz"] ||
-			[[path pathExtension] isEqualToString:@"rjz"]);
+	NSString *ext = path.pathExtension;
+	return ([ext isEqualToString:@"zip"] ||
+			[ext isEqualToString:@"pdz"] ||
+			[ext isEqualToString:@"rjz"]);
 }
 
 #pragma mark Subclassing
@@ -36,7 +37,7 @@
 // disable swipe back gesture on iPhone as it interferes with patch view gestures
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	if(![Util isDeviceATablet]) {
+	if(!Util.isDeviceATablet) {
 		if([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
 			self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 		}
@@ -54,7 +55,7 @@
 	// keep Documents/Inbox from paths array since we don't have permission to delete it,
 	// this is where the system copies files when using AirDrop or the "Open With ..." mechanism
 	if(isDir && self.isRootLayer) { // root is Documents folder
-		if([[path lastPathComponent] isEqualToString:@"Inbox"]) {
+		if([path.lastPathComponent isEqualToString:@"Inbox"]) {
 			return NO;
 		}
 	}
@@ -64,7 +65,7 @@
 	}
 	else {
 		NSError *error;
-		NSString *file = [path lastPathComponent];
+		NSString *file = path.lastPathComponent;
 		if(self.extensions) {
 			if([self pathHasAllowedExtension:file]) { // add allowed extensions
 				return YES;
@@ -83,7 +84,7 @@
 			// remove Finder DS_Store garbage (created over WebDAV) and __MACOSX added to zip files
 			else if([file isEqualToString:@"__MACOSX"] ||
 			   [file isEqualToString:@"._.DS_Store"] || [file isEqualToString:@".DS_Store"]) {
-				if(![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) {
+				if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
 					DDLogError(@"FileBrowser: couldn't remove %@, error: %@", file, error.localizedDescription);
 				}
 				else {
@@ -93,7 +94,7 @@
 			}
 		}
 	}
-	DDLogVerbose(@"Browser: dropped path: %@", [path lastPathComponent]);
+	DDLogVerbose(@"Browser: dropped path: %@", path.lastPathComponent);
 	return NO;
 }
 
@@ -128,14 +129,14 @@
 			// info
 			NSDictionary *info = [RjScene infoForSceneAt:path];
 			if(info) {
-				if([info objectForKey:@"name"]) {
-					cell.textLabel.text = [info objectForKey:@"name"];
+				if(info[@"name"]) {
+					cell.textLabel.text = info[@"name"];
 				}
 				else {
-					cell.textLabel.text = [path lastPathComponent];
+					cell.textLabel.text = path.lastPathComponent;
 				}
-				if([info objectForKey:@"author"]) {
-					cell.detailTextLabel.text = [info objectForKey:@"author"];
+				if(info[@"author"]) {
+					cell.detailTextLabel.text = info[@"author"];
 				}
 			}
 		}
@@ -156,14 +157,14 @@
 			// info
 			NSDictionary *info = [PartyScene infoForSceneAt:path];
 			if(info) {
-				if([info objectForKey:@"name"]) {
-					cell.textLabel.text = [info objectForKey:@"name"];
+				if(info[@"name"]) {
+					cell.textLabel.text = info[@"name"];
 				}
 				else {
-					cell.textLabel.text = [path lastPathComponent];
+					cell.textLabel.text = path.lastPathComponent;
 				}
-				if([info objectForKey:@"author"]) {
-					cell.detailTextLabel.text = [info objectForKey:@"author"];
+				if(info[@"author"]) {
+					cell.detailTextLabel.text = info[@"author"];
 				}
 			}
 		}

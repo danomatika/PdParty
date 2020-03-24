@@ -42,7 +42,7 @@
 		// not interactive, so don't accept touch events
 		self.userInteractionEnabled = NO;
 	
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		self.receiveName = [Gui filterEmptyStringValues:line[7]];
 		if(![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"VUMeter: dropping, receive name is empty");
@@ -50,18 +50,18 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[6] floatValue]);
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-		self.originalLabelPos = CGPointMake([[line objectAtIndex:9] floatValue], [[line objectAtIndex:10] floatValue]);
-		self.labelFontStyle = [[line objectAtIndex:11] intValue];
-		self.labelFontSize = [[line objectAtIndex:12] floatValue];
+		self.label.text = [Gui filterEmptyStringValues:line[8]];
+		self.originalLabelPos = CGPointMake([line[9] floatValue], [line[10] floatValue]);
+		self.labelFontStyle = [line[11] intValue];
+		self.labelFontSize = [line[12] floatValue];
 
-		self.fillColor = [IEMWidget colorFromAtomColor:(int)[[line objectAtIndex:13] integerValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:(int)[[line objectAtIndex:14] integerValue]];
+		self.fillColor = [IEMWidget colorFromAtomColor:(int)[line[13] integerValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:(int)[line[14] integerValue]];
 
-		self.showScale = [[line objectAtIndex:15] boolValue];
+		self.showScale = [line[15] boolValue];
 
 		[self checkHeight];
 		self.gui = gui;
@@ -243,8 +243,8 @@
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
 	if(list.count > 1) {
 		if([list isNumberAt:0] && [list isNumberAt:1]) {
-			self.peakValue = [[list objectAtIndex:1] floatValue];
-			self.value = [[list objectAtIndex:0] floatValue];
+			self.peakValue = [list[1] floatValue];
+			self.value = [list[0] floatValue];
 		}
 	}
 	else {
@@ -257,17 +257,17 @@
 	if([message isEqualToString:@"color"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// background, label-color
-		self.fillColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
+		self.fillColor = [IEMWidget colorFromIEMColor:[arguments[0] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[arguments[1] intValue]];
 		[self reshape];
 		[self setNeedsDisplay];
 	}
 	else if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// width, height
-		float w = MAX([[arguments objectAtIndex:0] floatValue], IEM_GUI_MINSIZE);
+		float w = MAX([arguments[0] floatValue], IEM_GUI_MINSIZE);
 		float h = CGRectGetHeight(self.originalFrame);
 		if([arguments count] > 1 && [arguments isNumberAt:1]) {
-			h = [[arguments objectAtIndex:1] floatValue];
+			h = [arguments[1] floatValue];
 		}
 		self.originalFrame = CGRectMake(self.originalFrame.origin.x, self.originalFrame.origin.y, w, h);
 		[self checkHeight];
@@ -276,7 +276,7 @@
 		return YES;
 	}
 	else if([message isEqualToString:@"scale"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
-		self.showScale = [[arguments objectAtIndex:0] boolValue];
+		self.showScale = [arguments[0] boolValue];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;

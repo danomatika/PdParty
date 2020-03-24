@@ -18,7 +18,7 @@
 - (void)awakeFromNib {
 
 	// set so AppDelegate can pop view stack to beginning
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.startViewController = self;
 
 	[super awakeFromNib];
@@ -28,7 +28,7 @@
 	[super viewDidLoad];
 	
 	// set instance pointer
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	self.server = app.server;
 	
 	self.serverEnabledSwitch.on = self.server.isRunning;
@@ -45,13 +45,13 @@
 
 - (void)dealloc {
 	[self.server stop];
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.midi.delegate = nil;
 	app.server.delegate = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.midi.delegate = self;
 	app.server.delegate = self;
 	if(app.osc.isListening) {
@@ -66,7 +66,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.midi.delegate = nil;
 	app.server.delegate = nil;
 	[super viewWillDisappear:animated];
@@ -125,13 +125,13 @@
 #pragma mark UI
 
 - (void)infoPressed:(id)sender {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	NSURL *url = [NSURL fileURLWithPath:[[Util resourcePath] stringByAppendingPathComponent:@"/about/about.html"]];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
+	NSURL *url = [NSURL fileURLWithPath:[Util.resourcePath stringByAppendingPathComponent:@"/about/about.html"]];
 	[app launchWebViewForURL:url withTitle:@"About" sceneRotationsOnly:NO];
 }
 
 - (void)updateMidiLabel {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	if(app.midi.enabled) {
 		self.midiLabel.text = [NSString stringWithFormat:@"In(%lu) Out(%lu)",
 							  (unsigned long)app.midi.inputs.count, (unsigned long)app.midi.outputs.count];

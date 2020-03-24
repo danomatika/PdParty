@@ -21,8 +21,8 @@
 	}
 	self = [super initWithAtomLine:line andGui:gui];
 	if(self) {
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
+		self.sendName = [Gui filterEmptyStringValues:line[10]];
+		self.receiveName = [Gui filterEmptyStringValues:line[9]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Symbolbox: dropping, send/receive names are empty");
@@ -30,16 +30,16 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[line[2] floatValue], [line[3] floatValue],
 			0, 0); // size based on valueWidth
 
-		self.valueWidth = [[line objectAtIndex:4] intValue];
-		self.minValue = [[line objectAtIndex:5] floatValue];
-		self.maxValue = [[line objectAtIndex:6] floatValue];
+		self.valueWidth = [line[4] intValue];
+		self.minValue = [line[5] floatValue];
+		self.maxValue = [line[6] floatValue];
 		self.symbol = @"symbol";
 			
-		self.labelPos = [[line objectAtIndex:7] intValue];
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
+		self.labelPos = [line[7] intValue];
+		self.label.text = [Gui filterEmptyStringValues:line[8]];
 	}
 	return self;
 }

@@ -59,7 +59,7 @@
 		
 		#ifdef IPAD_ALLOW_LANDSCAPE
 			// allow all orientations on iPad
-			if([Util isDeviceATablet]) {
+			if(Util.isDeviceATablet) {
 				self.preferredOrientations = UIInterfaceOrientationMaskAll;
 			}
 			else { // lock to portrait on iPhone
@@ -71,9 +71,9 @@
 		
 		// load background
 		NSString *backgroundPath = [path stringByAppendingPathComponent:@"image.jpg"];
-		if(![[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
+		if(![NSFileManager.defaultManager fileExistsAtPath:backgroundPath]) {
 			DDLogWarn(@"RjScene: no background image, loading default background");
-			backgroundPath = [[Util bundlePath] stringByAppendingPathComponent:@"images/rjdj_default.jpg"];
+			backgroundPath = [Util.bundlePath stringByAppendingPathComponent:@"images/rjdj_default.jpg"];
 		}
 		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
 		if(self.background.image) { // don't smooth when scaling
@@ -118,7 +118,7 @@
 	
 	// rj backgrounds are always square
 	viewSize = self.parentView.bounds.size;
-	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+	UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
 	if(orientation == UIInterfaceOrientationPortrait ||
 	   orientation == UIInterfaceOrientationPortraitUpsideDown) {
 		backgroundSize.width = viewSize.width;
@@ -176,12 +176,12 @@
 
 - (NSString *)name {
 	if(self.hasInfo) {
-		NSString *n = [info objectForKey:@"name"];
+		NSString *n = info[@"name"];
 		if(n) {
 			return n;
 		}
 	}
-	return [[self.patch.pathName lastPathComponent] stringByDeletingPathExtension];
+	return self.patch.pathName.lastPathComponent.stringByDeletingPathExtension;
 }
 
 - (BOOL)hasInfo {
@@ -190,7 +190,7 @@
 
 - (NSString *)artist {
 	if(self.hasInfo) {
-		NSString *a = [info objectForKey:@"author"];
+		NSString *a = info[@"author"];
 		if(a) {
 			return a;
 		}
@@ -200,7 +200,7 @@
 
 - (NSString *)category {
 	if(self.hasInfo) {
-		NSString *c = [info objectForKey:@"category"];
+		NSString *c = info[@"category"];
 		if(c) {
 			return c;
 		}
@@ -210,8 +210,8 @@
 
 - (NSString *)description {
 	if(self.hasInfo) {
-		NSString *d = [info objectForKey:@"description"];
-		if (d) {
+		NSString *d = info[@"description"];
+		if(d) {
 			return d;
 		}
 	}
@@ -227,7 +227,7 @@
 		[super setParentView:parentView];
 		if(self.parentView) {
 			// set patch view background color
-			self.parentView.backgroundColor = [UIColor blackColor];
+			self.parentView.backgroundColor = UIColor.blackColor;
 			
 			// add background & rj widgets to new parent view
 			if(self.background) {
@@ -260,8 +260,8 @@
 #pragma mark Util
 
 + (BOOL)isRjDjDirectory:(NSString *)fullpath {
-	if([[fullpath pathExtension] isEqualToString:@"rj"] &&
-		[[NSFileManager defaultManager] fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]]) {
+	if([fullpath.pathExtension isEqualToString:@"rj"] &&
+		[NSFileManager.defaultManager fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]]) {
 		return YES;
 	}
 	return NO;
@@ -270,7 +270,7 @@
 + (UIImage*)thumbnailForSceneAt:(NSString *)fullpath {
 	NSArray *imagePaths = [Util whichFilenames:@[@"thumb.jpg", @"Thumb.jpg", @"image.jpg", @"Image.jpg"] existInDirectory:fullpath];
 	if(imagePaths) {
-		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:[imagePaths firstObject]]];
+		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:imagePaths.firstObject]];
 	}
 	return nil;
 }
@@ -278,7 +278,7 @@
 + (NSDictionary*)infoForSceneAt:(NSString *)fullpath {
 	NSArray *infoPaths = [Util whichFilenames:@[@"Info.plist", @"info.plist"] existInDirectory:fullpath];
 	if(infoPaths) {
-		return [[NSDictionary dictionaryWithContentsOfFile:[fullpath stringByAppendingPathComponent:[infoPaths firstObject]]] objectForKey:@"info"];
+		return [[NSDictionary dictionaryWithContentsOfFile:[fullpath stringByAppendingPathComponent:infoPaths.firstObject]] objectForKey:@"info"];
 	}
 	return nil;
 }
@@ -290,31 +290,31 @@
 	if(list.count < 2 || ![list isStringAt:0] || ![list isStringAt:1]) {
 		return;
 	}
-	NSString *key = [list objectAtIndex:0];
-	NSString *cmd = [list objectAtIndex:1];
+	NSString *key = list[0];
+	NSString *cmd = list[1];
 	
 	RjWidget *widget = [widgets valueForKey:key];
 	if(widget) {
 		if([cmd isEqualToString:@"visible"]) {
 			if(list.count < 3 || ![list isNumberAt:2]) return;
-			widget.hidden = !([[list objectAtIndex:2] floatValue] > 0.5f);
+			widget.hidden = !([list[2] floatValue] > 0.5f);
 		}
 		else if([cmd isEqualToString:@"move"]) {
 			if(list.count < 4 || ![list isNumberAt:2] || ![list isNumberAt:3]) return;
-			widget.position = CGPointMake([[list objectAtIndex:2] floatValue],
-										  [[list objectAtIndex:3] floatValue]);
+			widget.position = CGPointMake([list[2] floatValue],
+										  [list[3] floatValue]);
 		}
 		else {
-			if([widget isKindOfClass:[RjImage class]]) {
+			if([widget isKindOfClass:RjImage.class]) {
 				if(list.count < 3 || ![list isNumberAt:2]) return;
 				RjImage *image = (RjImage *) widget;
-				float val = [[list objectAtIndex:2] floatValue];
+				float val = [list[2] floatValue];
 				if([cmd isEqualToString:@"ref"]) {
 					image.centered = val > 0.5f;
 				}
 				else if([cmd isEqualToString:@"scale"]) {
 					if(list.count < 4 || ![list isNumberAt:3]) return;
-					[image setScaleX:val andY:[[list objectAtIndex:3] floatValue]];
+					[image setScaleX:val andY:[list[3] floatValue]];
 				}
 				else if([cmd isEqualToString:@"rotate"]) {
 					image.angle = val;
@@ -323,7 +323,7 @@
 					image.alpha = val;
 				}
 			}
-			else if([widget isKindOfClass:[RjText class]]) {
+			else if([widget isKindOfClass:RjText.class]) {
 				RjText *text = (RjText *) widget;
 				if([cmd isEqualToString:@"text"]) {
 					if(list.count < 3) return;
@@ -331,7 +331,7 @@
 				}
 				else if([cmd isEqualToString:@"size"]) {
 					if(list.count < 3 || ![list isNumberAt:2]) return;
-					text.fontSize = [[list objectAtIndex:2] floatValue];
+					text.fontSize = [list[2] floatValue];
 				}
 			}
 		}
@@ -362,7 +362,7 @@
 // weird little hack to avoid having our rj_image.pd and such masked by files in the scene,
 // from pd-for-android ScenePlayer
 + (void)removeRjAbstractionDuplicates:(NSString *)directory {
-	NSArray *contents = [[NSFileManager defaultManager] subpathsAtPath:directory];
+	NSArray *contents = [NSFileManager.defaultManager subpathsAtPath:directory];
 	if(!contents) {
 		return;
 	}
@@ -370,11 +370,11 @@
 	// loop through returned paths and remove any matching patches
 	NSError *error;
 	for(NSString *path in contents) {
-		NSString *file = [path lastPathComponent];
+		NSString *file = path.lastPathComponent;
 		if([file isEqualToString:@"rj_image.pd"] || [file isEqualToString:@"rj_text.pd"] ||
 		   [file isEqualToString:@"rj_compass.pd"] || [file isEqualToString:@"rj_loc.pd"] || [file isEqualToString:@"rj_time.pd"] ||
 		   [file isEqualToString:@"soundinput.pd"] || [file isEqualToString:@"soundoutput.pd"]) {
-			if(![[NSFileManager defaultManager] removeItemAtPath:[directory stringByAppendingPathComponent:path] error:&error]) {
+			if(![NSFileManager.defaultManager removeItemAtPath:[directory stringByAppendingPathComponent:path] error:&error]) {
 				DDLogError(@"RjScene: couldn't remove %@, error: %@", path, error.localizedDescription);
 			}
 			else {

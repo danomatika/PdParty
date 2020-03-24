@@ -35,7 +35,7 @@
 + (float)deviceOSVersion;
 
 /// returns YES if the device supports Bluetooth Low Energy
- +(BOOL)deviceSupportsBluetoothLE;
++ (BOOL)deviceSupportsBluetoothLE;
 
 #pragma mark App
 

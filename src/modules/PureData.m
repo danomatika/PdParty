@@ -37,7 +37,7 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 		_autoLatency = [defaults floatForKey:@"autoLatency"];
 		_micVolume = [defaults floatForKey:@"micVolume"];
 		_volume = 1.0;
@@ -67,7 +67,7 @@
 		[Externals setup];
 		
 		// open "external patches" that always run in the background
-		[PdBase openFile:@"recorder.pd" path:[[Util bundlePath] stringByAppendingPathComponent:@"patches/lib/pd"]];
+		[PdBase openFile:@"recorder.pd" path:[Util.bundlePath stringByAppendingPathComponent:@"patches/lib/pd"]];
 
 		// set ticks per buffer after everything else is set up, setting a tpb
 		// of 1 too early results in no audio and feedback until it is changed,
@@ -136,7 +136,7 @@
 		return;
 	}
 	_autoLatency = autoLatency;
-	[[NSUserDefaults standardUserDefaults] setBool:autoLatency forKey:@"autoLatency"];
+	[NSUserDefaults.standardUserDefaults setBool:autoLatency forKey:@"autoLatency"];
 }
 
 #pragma mark Current Play Values
@@ -149,15 +149,15 @@
 
 - (void)startRecordingTo:(NSString *)path {
 	if(self.isRecording) return;
-	[PdBase sendMessage:@"scene" withArguments:[NSArray arrayWithObject:path] toReceiver:RJ_TRANSPORT_R];
-	[PdBase sendMessage:@"record" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:YES]] toReceiver:RJ_TRANSPORT_R];
+	[PdBase sendMessage:@"scene" withArguments:@[path] toReceiver:RJ_TRANSPORT_R];
+	[PdBase sendMessage:@"record" withArguments:@[@YES] toReceiver:RJ_TRANSPORT_R];
 	self.recording = YES;
 	DDLogVerbose(@"PureData: started recording to %@", path);
 }
 
 - (void)stopRecording {
 	if(!self.isRecording) return;
-	[PdBase sendMessage:@"record" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:NO]] toReceiver:RJ_TRANSPORT_R];
+	[PdBase sendMessage:@"record" withArguments:@[@NO] toReceiver:RJ_TRANSPORT_R];
 	self.recording = NO;
 	DDLogVerbose(@"PureData: stopped recording");
 }
@@ -165,11 +165,11 @@
 - (BOOL)startedRecordingToRecordDir:(NSString *)path withTimestamp:(BOOL)timestamp {
 	if(self.isRecording) return NO;
 				
-	NSString *recordDir = [[Util documentsPath] stringByAppendingPathComponent:RECORDINGS_DIR];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:recordDir]) {
+	NSString *recordDir = [Util.documentsPath stringByAppendingPathComponent:RECORDINGS_DIR];
+	if(![NSFileManager.defaultManager fileExistsAtPath:recordDir]) {
 		DDLogVerbose(@"PureData: recordings dir not found, creating %@", recordDir);
 		NSError *error;
-		if(![[NSFileManager defaultManager] createDirectoryAtPath:recordDir withIntermediateDirectories:YES attributes:nil error:&error]) {
+		if(![NSFileManager.defaultManager createDirectoryAtPath:recordDir withIntermediateDirectories:YES attributes:nil error:&error]) {
 			DDLogError(@"PureData: couldn't create %@, error: %@", recordDir, error.localizedDescription);
 			return NO;
 		}
@@ -180,11 +180,11 @@
 		[formatter setDateFormat:@"yyyy-MM-dd_HHmmss"];
 		NSString *date = [formatter stringFromDate:[NSDate date]];
 		[self startRecordingTo:[recordDir stringByAppendingPathComponent:
-			[[path stringByDeletingPathExtension] stringByAppendingFormat:@"_%@.wav", date]]];
+			[path.stringByDeletingPathExtension stringByAppendingFormat:@"_%@.wav", date]]];
 	}
 	else {
 		[self startRecordingTo:[recordDir stringByAppendingPathComponent:
-			[[path stringByDeletingPathExtension] stringByAppendingFormat:@".wav"]]];
+			[path.stringByDeletingPathExtension stringByAppendingFormat:@".wav"]]];
 	}
 	return YES;
 }
@@ -192,47 +192,31 @@
 #pragma mark Send Events
 
 + (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
-	[PdBase sendMessage:eventType withArguments:[NSArray arrayWithObjects:
-		[NSNumber numberWithInt:id+1],
-		[NSNumber numberWithFloat:x],
-		[NSNumber numberWithFloat:y], nil]
-		toReceiver:RJ_TOUCH_R];
+	[PdBase sendMessage:eventType withArguments:@[@(id+1), @(x), @(y)] toReceiver:RJ_TOUCH_R];
 }
 
 + (void)sendAccel:(float)x y:(float)y z:(float)z {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:x],
-		[NSNumber numberWithFloat:y],
-		[NSNumber numberWithFloat:z], nil]
-		toReceiver:RJ_ACCELERATE_R];
+	[PdBase sendList:@[@(x), @(y), @(z)] toReceiver:RJ_ACCELERATE_R];
 }
 
 + (void)sendGyro:(float)x y:(float)y z:(float)z {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:x],
-		[NSNumber numberWithFloat:y],
-		[NSNumber numberWithFloat:z], nil]
-		toReceiver:RJ_GYRO_R];
+	[PdBase sendList:@[@(x), @(y), @(z)] toReceiver:RJ_GYRO_R];
 }
 
 + (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:lat], [NSNumber numberWithFloat:lon], [NSNumber numberWithFloat:accuracy],
-		nil] toReceiver:RJ_LOCATION_R];
+	[PdBase sendList:@[@(lat), @(lon), @(accuracy)] toReceiver:RJ_LOCATION_R];
 }
 
 + (void)sendSpeed:(float)speed course:(float)course {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:speed], [NSNumber numberWithFloat:course], nil] toReceiver:PARTY_SPEED_R];
+	[PdBase sendList:@[@(speed), @(course)] toReceiver:PARTY_SPEED_R];
 }
 
 + (void)sendAltitude:(float)altitude accuracy:(float)accuracy {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:altitude], [NSNumber numberWithFloat:accuracy], nil] toReceiver:PARTY_ALTITUDE_R];
+	[PdBase sendList:@[@(altitude), @(accuracy)] toReceiver:PARTY_ALTITUDE_R];
 }
 
 + (void)sendCompass:(float)degrees {
-	[PdBase sendList:[NSArray arrayWithObjects:[NSNumber numberWithFloat:degrees], nil] toReceiver:RJ_COMPASS_R];
+	[PdBase sendList:@[@(degrees)] toReceiver:RJ_COMPASS_R];
 }
 
 + (void)sendTime:(NSArray *)time {
@@ -240,39 +224,31 @@
 }
 
 + (void)sendMagnet:(float)x y:(float)y z:(float)z {
-	[PdBase sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:x],
-		[NSNumber numberWithFloat:y],
-		[NSNumber numberWithFloat:z], nil]
-		toReceiver:PARTY_MAGNET_R];
+	[PdBase sendList:@[@(x), @(y), @(z)] toReceiver:PARTY_MAGNET_R];
 }
 
 + (void)sendEvent:(NSString *)event forController:(NSString *)controller {
 	[PdBase sendMessage:[NSString stringWithString:event]
-		withArguments:@[[NSString stringWithString:controller]]
-		toReceiver:PARTY_CONTROLLER_R];
+		  withArguments:@[[NSString stringWithString:controller]]
+		     toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendController:(NSString *)controller button:(NSString *)button state:(BOOL)state {
 	[PdBase sendMessage:[NSString stringWithString:controller]
-		withArguments:@[@"button",
-		[NSString stringWithString:button],
-		[NSNumber numberWithFloat:state]]
-		toReceiver:PARTY_CONTROLLER_R];
+		  withArguments:@[@"button", [NSString stringWithString:button], [NSNumber numberWithFloat:state]]
+			 toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value {
 	[PdBase sendMessage:[NSString stringWithString:controller]
-		withArguments:@[@"axis",
-		[NSString stringWithString:axis],
-		[NSNumber numberWithFloat:value]]
-		toReceiver:PARTY_CONTROLLER_R];
+		  withArguments:@[@"axis", [NSString stringWithString:axis], [NSNumber numberWithFloat:value]]
+		     toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendControllerPause:(NSString *)controller {
 	[PdBase sendMessage:[NSString stringWithString:controller]
-		withArguments:@[@"pause"]
-		toReceiver:PARTY_CONTROLLER_R];
+		  withArguments:@[@"pause"]
+		     toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendKey:(int)key {
@@ -280,7 +256,7 @@
 }
 
 + (void)sendPrint:(NSString *)print {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	DDLogInfo(@"Pd: %@", print);
 	[app.osc sendPrint:print];
 }
@@ -307,15 +283,15 @@
 		return;
 	}
 	if([firstComponent isEqualToString:PARTY_OSC_R]) { // catch incoming control messages
-		if(list.count > 0 && [list.firstObject isKindOfClass:[NSString class]] ) {
+		if(list.count > 0 && [list.firstObject isKindOfClass:NSString.class] ) {
 			if([list.firstObject isEqualToString:RJ_GLOBAL_S]) { // forward rj messages
 				[PdBase sendMessage:[list firstObject]
 							 withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
-								toReceiver:[list firstObject]];
+								toReceiver:list.firstObject];
 			}
 			else { // process pdparty messages
-				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-				[app.pureData receiveMessage:[list firstObject]
+				AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
+				[app.pureData receiveMessage:list.firstObject
 							   withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
 								  fromSource:PARTY_GLOBAL_S];
 			}
@@ -333,11 +309,11 @@
 #pragma mark Send Values
 
 + (void)sendTransportPlay:(BOOL)play {
-	[PdBase sendMessage:@"play" withArguments:[NSArray arrayWithObject:[NSNumber numberWithBool:play]] toReceiver:RJ_TRANSPORT_R];
+	[PdBase sendMessage:@"play" withArguments:@[@(play)] toReceiver:RJ_TRANSPORT_R];
 }
 
 + (void)sendVolume:(float)volume {
-	[PdBase sendMessage:@"set" withArguments:[NSArray arrayWithObject:[NSNumber numberWithFloat:volume]] toReceiver:RJ_VOLUME_R];
+	[PdBase sendMessage:@"set" withArguments:@[@(volume)] toReceiver:RJ_VOLUME_R];
 }
 
 + (void)sendMicVolume:(float)micVolume {
@@ -364,7 +340,7 @@
 	}
 	else if(([source isEqualToString:RJ_GLOBAL_S] || [source isEqualToString:PARTY_GLOBAL_S])) { // catch list prepends
 		if(list.count > 0) {
-			[self receiveMessage:[list firstObject]
+			[self receiveMessage:list.firstObject
 				   withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
 					  fromSource:source];
 		}
@@ -386,12 +362,12 @@
 		if([message isEqualToString:@"accelerate"] && arguments.count > 0) {
 			if([arguments isNumberAt:0]) { // float: start/stop
 				if(self.sensorDelegate && [self.sensorDelegate supportsAccel]) {
-					self.sensors.accelEnabled = [[arguments objectAtIndex:0] boolValue];
+					self.sensors.accelEnabled = [arguments[0] boolValue];
 				}
 			}
 			else if([arguments isStringAt:0] && arguments.count > 1) {
-				if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
-					self.sensors.accelSpeed = [arguments objectAtIndex:1];
+				if([arguments[0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+					self.sensors.accelSpeed = arguments[1];
 				}
 			}
 		}
@@ -404,15 +380,15 @@
 			else {
 				if([arguments isNumberAt:0]) { // float: start/stop
 					if(self.sensorDelegate && [self.sensorDelegate supportsGyro]) {
-						self.sensors.gyroEnabled = [[arguments objectAtIndex:0] boolValue];
+						self.sensors.gyroEnabled = [arguments[0] boolValue];
 					}
 				}
 				else if([arguments isStringAt:0] && arguments.count > 1) {
-					if([[arguments objectAtIndex:0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
-						self.sensors.gyroAutoUpdates = [[arguments objectAtIndex:1] boolValue];
+					if([arguments[0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.gyroAutoUpdates = [arguments[1] boolValue];
 					}
-					else if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
-						self.sensors.gyroSpeed = [arguments objectAtIndex:1];
+					else if([arguments[0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+						self.sensors.gyroSpeed = arguments[1];
 					}
 				}
 			}
@@ -426,19 +402,18 @@
 			else {
 				if([arguments isNumberAt:0]) { // float: start/stop
 					if(self.sensorDelegate && [self.sensorDelegate supportsLocation]) {
-						self.sensors.locationEnabled = [[arguments objectAtIndex:0] boolValue];
+						self.sensors.locationEnabled = [arguments[0] boolValue];
 					}
 				}
 				else if([arguments isStringAt:0] && arguments.count > 1) {
-					if([[arguments objectAtIndex:0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
-						self.sensors.locationAutoUpdates = [[arguments objectAtIndex:1] boolValue];
+					if([arguments[0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.locationAutoUpdates = [arguments[1] boolValue];
 					}
-					else if([[arguments objectAtIndex:0] isEqualToString:@"accuracy"] && [arguments isStringAt:1]) {
-						self.sensors.locationAccuracy =
-						[arguments objectAtIndex:1];
+					else if([arguments[0] isEqualToString:@"accuracy"] && [arguments isStringAt:1]) {
+						self.sensors.locationAccuracy = arguments[1];
 					}
-					else if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
-						self.sensors.locationFilter = [[arguments objectAtIndex:1] floatValue];
+					else if([arguments[0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
+						self.sensors.locationFilter = [arguments[1] floatValue];
 					}
 				}
 			}
@@ -452,15 +427,15 @@
 			else {
 				if([arguments isNumberAt:0]) { // float: start/stop
 					if(self.sensorDelegate && [self.sensorDelegate supportsCompass]) {
-						self.sensors.compassEnabled = [[arguments objectAtIndex:0] boolValue];
+						self.sensors.compassEnabled = [arguments[0] boolValue];
 					}
 				}
 				else if([arguments isStringAt:0] && arguments.count > 1) {
-					if([[arguments objectAtIndex:0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
-						self.sensors.compassAutoUpdates = [[arguments objectAtIndex:1] boolValue];
+					if([arguments[0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.compassAutoUpdates = [arguments[1] boolValue];
 					}
-					else if([[arguments objectAtIndex:0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
-						self.sensors.compassFilter = [[arguments objectAtIndex:1] floatValue];
+					else if([arguments[0] isEqualToString:@"filter"] && [arguments isNumberAt:1]) {
+						self.sensors.compassFilter = [arguments[1] floatValue];
 					}
 				}
 			}
@@ -474,15 +449,15 @@
 			else {
 				if([arguments isNumberAt:0]) { // float: start/stop
 					if(self.sensorDelegate && [self.sensorDelegate supportsMagnet]) {
-						self.sensors.magnetEnabled = [[arguments objectAtIndex:0] boolValue];
+						self.sensors.magnetEnabled = [arguments[0] boolValue];
 					}
 				}
 				else if([arguments isStringAt:0] && arguments.count > 1) {
-					if([[arguments objectAtIndex:0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
-						self.sensors.magnetAutoUpdates = [[arguments objectAtIndex:1] boolValue];
+					if([arguments[0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.magnetAutoUpdates = [arguments[1] boolValue];
 					}
-					else if([[arguments objectAtIndex:0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
-						self.sensors.magnetSpeed = [arguments objectAtIndex:1];
+					else if([arguments[0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+						self.sensors.magnetSpeed = arguments[1];
 					}
 				}
 			}
@@ -490,9 +465,9 @@
 	
 		// set the scene name for remote recording
 		else if([message isEqualToString:@"scene"] && arguments.count > 0 && [arguments isStringAt:0]) {
-			sceneName = [arguments objectAtIndex:0];
+			sceneName = arguments[0];
 			if(arguments.count > 1 && [arguments isNumberAt:1]) {
-				appendTimestamp = [[arguments objectAtIndex:1] boolValue];
+				appendTimestamp = [arguments[1] boolValue];
 			}
 			else {
 				appendTimestamp = NO;
@@ -501,8 +476,8 @@
 	
 		// start/stop recording remotely, set scene name first
 		else if([message isEqualToString:@"record"] && arguments.count > 0 && [arguments isNumberAt:0]) {
-			if([[arguments objectAtIndex:0] boolValue]) {
-				if(sceneName && [self startedRecordingToRecordDir:[sceneName lastPathComponent] withTimestamp:appendTimestamp]) {
+			if([arguments[0] boolValue]) {
+				if(sceneName && [self startedRecordingToRecordDir:sceneName.lastPathComponent withTimestamp:appendTimestamp]) {
 					if(self.recordDelegate) {
 						[self.recordDelegate remoteRecordingStarted];
 					}
@@ -521,12 +496,12 @@
 		
 		// open a url
 		else if([message isEqualToString:@"openurl"] && arguments.count > 0 && [arguments isStringAt:0]) {
-			NSURL *url = [NSURL URLWithString:[arguments objectAtIndex:0]];
+			NSURL *url = [NSURL URLWithString:arguments[0]];
 			DDLogVerbose(@"PureData: openurl %@", url);
 			// local file
 			if(!url.scheme || [url.scheme isEqualToString:@""] ||
 			   [url.scheme isEqualToString:@"file"]) {
-				AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+				AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 				NSString *title = nil;
 				if(arguments.count > 1) { // build title
 					NSArray *array = [arguments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, arguments.count-1)]];
@@ -535,7 +510,7 @@
 				[app launchWebViewForURL:url withTitle:title sceneRotationsOnly:YES];
 			}
 			else { // pass to openURL to open in Safari or some other app
-				UIApplication *application = [UIApplication sharedApplication];
+				UIApplication *application = UIApplication.sharedApplication;
 				if([application respondsToSelector:@selector(openURL:options:completionHandler:)]) {
 					// iOS 10+ aynchronous open
 					[application openURL:url options:@{} completionHandler:^(BOOL success) {
@@ -546,7 +521,7 @@
 				}
 				else {
 					// iOS < 10
-					if(![[UIApplication sharedApplication] openURL:url]) {
+					if(![UIApplication.sharedApplication openURL:url]) {
 						DDLogError(@"PureData: could not open url: %@", url);
 					}
 				}
@@ -601,7 +576,7 @@
 		DDLogWarn(@"PureData: ticks per buffer value was not acceptable, using %d instead", audioController.ticksPerBuffer);
 	}
 	else {
-		[[NSUserDefaults standardUserDefaults] setInteger:ticksPerBuffer forKey:@"ticksPerBuffer"];
+		[NSUserDefaults.standardUserDefaults setInteger:ticksPerBuffer forKey:@"ticksPerBuffer"];
 		DDLogVerbose(@"PureData: ticks per buffer now %d", audioController.ticksPerBuffer);
 	}
 }
@@ -617,13 +592,13 @@
 }
 
 - (BOOL)earpieceSpeaker {
-	return ([Util isDeviceAPhone] ? !audioController.defaultToSpeaker : NO);
+	return (Util.isDeviceAPhone ? !audioController.defaultToSpeaker : NO);
 }
 
 - (void)setEarpieceSpeaker:(BOOL)earpieceSpeaker {
-	if(![Util isDeviceAPhone]) return;
+	if(!Util.isDeviceAPhone) return;
 	audioController.defaultToSpeaker = !earpieceSpeaker;
-	[[NSUserDefaults standardUserDefaults] setBool:earpieceSpeaker forKey:@"earpieceSpeakerEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:earpieceSpeaker forKey:@"earpieceSpeakerEnabled"];
 }
 
 - (void)setPlaying:(BOOL)playing {
@@ -639,7 +614,7 @@
 
 - (void)setMicVolume:(float)micVolume {
 	_micVolume = CLAMP(micVolume, 0.0, 1.0);
-	[[NSUserDefaults standardUserDefaults] setFloat:_micVolume forKey:@"micVolume"];
+	[NSUserDefaults.standardUserDefaults setFloat:_micVolume forKey:@"micVolume"];
 	[PureData sendMicVolume:_micVolume]; // [soundinput] control
 }
 
@@ -698,9 +673,9 @@ static int canvas_dofind(t_canvas *x, int *myindexp) {
 	t_gobj *y;
 	int findargc = binbuf_getnatom(canvas_findbuf), didit = 0;
 	t_atom *findargv = binbuf_getvec(canvas_findbuf);
-	for (y = x->gl_list; y; y = y->g_next) {
+	for(y = x->gl_list; y; y = y->g_next) {
 		t_object *ob = 0;
-		if ((ob = pd_checkobject(&y->g_pd))) {
+		if((ob = pd_checkobject(&y->g_pd))) {
 			if(atoms_match(binbuf_getnatom(ob->ob_binbuf),
 				binbuf_getvec(ob->ob_binbuf), findargc, findargv,
 					canvas_find_wholeword)) {
@@ -816,7 +791,7 @@ static NSNumberFormatter *s_numFormatter = nil;
 - (NSData *)encodeList:(NSArray *)list {
 	NSMutableData *data = [NSMutableData data];
 	for(NSObject *o in list) {
-		if([o isKindOfClass:[NSNumber class]]) {
+		if([o isKindOfClass:NSNumber.class]) {
 			unsigned char byte[1];
 			byte[0] = [(NSNumber *)o charValue];
 			[data appendBytes:byte length:1];

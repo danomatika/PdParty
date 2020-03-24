@@ -13,7 +13,7 @@
 @implementation RjImage
 
 + (id)imageWithFile:(NSString *)path andParent:(RjScene *)parent {
-	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
 		UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:path]];
 		if(!iv.image) {
 			DDLogError(@"RjImage: couldn't load: %@", path);

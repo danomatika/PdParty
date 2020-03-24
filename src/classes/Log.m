@@ -17,9 +17,9 @@
 static TextViewLogger *s_textViewLogger = nil;
 
 + (void)setup {
-	[DDLog addLogger:[DDTTYLogger sharedInstance]];
-	[DDLog addLogger:[DDASLLogger sharedInstance]];
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"logTextView"]) {
+	[DDLog addLogger:DDTTYLogger.sharedInstance];
+	[DDLog addLogger:DDASLLogger.sharedInstance];
+	if([NSUserDefaults.standardUserDefaults boolForKey:@"logTextView"]) {
 		[Log enableTextViewLogger:YES];
 	}
 	switch(ddLogLevel) {
@@ -50,7 +50,7 @@ static TextViewLogger *s_textViewLogger = nil;
 		[DDLog removeLogger:s_textViewLogger];
 		s_textViewLogger = nil;
 	}
-	[[NSUserDefaults standardUserDefaults] setBool:enable forKey:@"logTextView"];
+	[NSUserDefaults.standardUserDefaults setBool:enable forKey:@"logTextView"];
 }
 
 + (BOOL)textViewLoggerEnabled {

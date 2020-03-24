@@ -39,7 +39,7 @@
 	[super viewDidLoad];
 
 	// set instance pointer
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.browserViewController = self;
 
 	self.delegate = self;
@@ -70,15 +70,15 @@
 }
 
 - (BOOL)loadDocumentsDirectory {
-	return [self loadDirectory:[Util documentsPath]];
+	return [self loadDirectory:Util.documentsPath];
 }
 
 - (BOOL)tryOpeningPath:(NSString *)path {
 	BOOL isDir;
-	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+	if([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDir]) {
 		// open to parent directory
 		[self clearDirectory];
-		if([self loadDirectory:[path stringByDeletingLastPathComponent] relativeTo:[Util documentsPath]]) {
+		if([self loadDirectory:[path stringByDeletingLastPathComponent] relativeTo:Util.documentsPath]) {
 			// try opening
 			if(isDir) {
 				if([self selectDirectory:path]) {
@@ -86,10 +86,10 @@
 				}
 				// load regular directory
 				[self clearDirectory];
-				return [self loadDirectory:path relativeTo:[Util documentsPath]];
+				return [self loadDirectory:path relativeTo:Util.documentsPath];
 			}
 			else {
-				if ([self selectDirectory:path.stringByDeletingLastPathComponent]) {
+				if([self selectDirectory:path.stringByDeletingLastPathComponent]) {
 					return YES; // try to open as scene
 				}
 				return [self selectFile:path]; // otherwise file
@@ -102,7 +102,7 @@
 #pragma mark Browser
 
 - (UIBarButtonItem *)browsingModeRightBarItemForLayer:(BrowserLayer *)layer {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	return [app nowPlayingButton];
 }
 
@@ -121,9 +121,9 @@
 - (void)runScene:(NSString *)path withSceneType:(NSString *)sceneType {
 	selectedPatch = path;
 	selectedSceneType = sceneType;
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		// iPad opens here
-		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 		[app.patchViewController openScene:selectedPatch withType:selectedSceneType];
 	}
 	else {
@@ -132,7 +132,7 @@
 }
 
 - (BOOL)selectFile:(NSString *)path {
-	if([[path pathExtension] isEqualToString:@"pd"]) { // regular patch
+	if([path.pathExtension isEqualToString:@"pd"]) { // regular patch
 		[self runScene:path withSceneType:@"PatchScene"];
 	}
 	else if([RecordingScene isRecording:path]) { // recordings
@@ -140,10 +140,10 @@
 	}
 	else if([BrowserViewController isZipFile:path]) { // unzip zipfiles
 		NSError *error;
-		NSString *filename = [path lastPathComponent];
+		NSString *filename = path.lastPathComponent;
 		Unzip *zip = [[Unzip alloc] init];
 		if([zip open:path]) {
-			if(![zip unzipTo:[Util documentsPath] overwrite:YES]) {
+			if(![zip unzipTo:Util.documentsPath overwrite:YES]) {
 				DDLogError(@"Browser: couldn't open zipfile: %@", path);
 				UIAlertView *alert = [[UIAlertView alloc]
                                       initWithTitle: @"Unzip Failed"
@@ -166,7 +166,7 @@
 			[alert show];
 			return NO;
 		}
-		if(![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) { // remove existing file
+		if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) { // remove existing file
 			DDLogError(@"Browser: couldn't remove %@, error: %@", path, error.localizedDescription);
 		}
 		DDLogVerbose(@"Browser: unzipped %@", filename);

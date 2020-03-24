@@ -145,7 +145,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	DDLogVerbose(@"Browser: loading directory %@", dirPath);
 
 	// search for files in the given path and sort
-	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:&error];
+	NSArray *contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:dirPath error:&error];
 	if(!contents) {
 		DDLogError(@"Browser: couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
 		return NO;
@@ -165,11 +165,11 @@ static NSMutableArray *s_movePaths; //< paths to move
 	[self.tableView reloadData];
 	// custom back button with current dir to show on layer above
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-												 initWithTitle:[_directory lastPathComponent]
+												 initWithTitle:_directory.lastPathComponent
 												 style:UIBarButtonItemStylePlain
 												 target:self
 												 action:@selector(backButtonPressed)];
-	self.navigationItem.title = [_directory lastPathComponent];
+	self.navigationItem.title = _directory.lastPathComponent;
 	return YES;
 }
 
@@ -303,7 +303,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 
 // nav bar title is generated based on this value
 - (NSString *)title {
-	return (super.title ? super.title : [_directory lastPathComponent]);
+	return (super.title ? super.title : _directory.lastPathComponent);
 }
 
 // when not editing, disable multi selection to enable swipe to Delete
@@ -341,8 +341,8 @@ static NSMutableArray *s_movePaths; //< paths to move
 									   reuseIdentifier:@"BrowserLayerCell"];
 	}
 	BOOL isDir;
-	NSString *path = [_paths objectAtIndex:indexPath.row];
-	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+	NSString *path = _paths[indexPath.row];
+	if([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDir]) {
 		BOOL isSelectable = YES;
 		if(isDir) {
 			isSelectable = [self.root.dataDelegate browser:self.root isPathSelectable:path isDir:isDir];
@@ -376,15 +376,15 @@ static NSMutableArray *s_movePaths; //< paths to move
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(!self.isEditing) {
-		NSString *path = [_paths objectAtIndex:indexPath.row];
+		NSString *path = _paths[indexPath.row];
 		BOOL isDir;
-		if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+		if([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDir]) {
 			if([nonSelectableRows containsObject:[NSNumber numberWithInteger:indexPath.row]]) {
 				[tableView deselectRowAtIndexPath:indexPath animated:NO];
 				return;
 			}
 			if(isDir) {
-				DDLogVerbose(@"Browser: now selected dir %@", [path lastPathComponent]);
+				DDLogVerbose(@"Browser: now selected dir %@", path.lastPathComponent);
 				BOOL pushLayer = YES;
 				if([self.root.delegate respondsToSelector:@selector(browser:selectedDirectory:)]) {
 					pushLayer = [self.root.delegate browser:self.root selectedDirectory:path];
@@ -400,7 +400,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 				}
 			}
 			else {
-				DDLogVerbose(@"Browser: selected file %@", [path lastPathComponent]);
+				DDLogVerbose(@"Browser: selected file %@", path.lastPathComponent);
 				if([self.root.delegate respondsToSelector:@selector(browser:selectedFile:)]) {
 					[self.root.delegate browser:self.root selectedFile:path];
 				}
@@ -524,7 +524,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	s_moveRoot = self;
 	s_movePaths = [[NSMutableArray alloc] init];
 	for(NSIndexPath *indexPath in indexPaths) { // save selected paths
-		[s_movePaths addObject:[_paths objectAtIndex:indexPath.row]];
+		[s_movePaths addObject:_paths[indexPath.row]];
 	}
 	Browser *browserLayer = [self.root newBrowser]; // use subclass
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
@@ -535,7 +535,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
 	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
 	navigationController.modalInPopover = YES;
-	[browserLayer loadDirectory:_directory relativeTo:[Util documentsPath]]; // load after nav controller is set
+	[browserLayer loadDirectory:_directory relativeTo:Util.documentsPath]; // load after nav controller is set
 	[self.navigationController presentViewController:navigationController animated:YES completion:^{
 		self.mode = BrowserModeBrowse; // reset now so it's ready when move is done
 	}];
@@ -551,7 +551,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	
 	// rename paths at the selected indices, one by one
 	for(NSIndexPath *indexPath in indexPaths) {
-		NSString *path = [_paths objectAtIndex:indexPath.row];
+		NSString *path = _paths[indexPath.row];
 		[self.root showRenameDialogForPath:path];
 	}
 }
@@ -567,7 +567,7 @@ static NSMutableArray *s_movePaths; //< paths to move
 	// delete paths at the selected indices
 	NSMutableIndexSet *deletedIndices = [[NSMutableIndexSet alloc] init];
 	for(NSIndexPath *indexPath in indexPaths) {
-		if([self.root deletePath:[_paths objectAtIndex:indexPath.row]]) {
+		if([self.root deletePath:_paths[indexPath.row]]) {
 			[deletedIndices addIndex:indexPath.row];
 		}
 	}

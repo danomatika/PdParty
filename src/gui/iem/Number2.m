@@ -45,11 +45,11 @@
 		self.valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.valueLabel.textAlignment = NSTextAlignmentLeft;
 		self.valueLabel.lineBreakMode = NSLineBreakByClipping;
-		self.valueLabel.backgroundColor = [UIColor clearColor];
+		self.valueLabel.backgroundColor = UIColor.clearColor;
 		[self addSubview:self.valueLabel];
 
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
+		self.sendName = [Gui filterEmptyStringValues:line[11]];
+		self.receiveName = [Gui filterEmptyStringValues:line[12]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Numberbox2: dropping, send/receive names are empty");
@@ -57,32 +57,32 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			0, [[line objectAtIndex:6] floatValue]); // width based on valueWidth
+			[line[2] floatValue], [line[3] floatValue],
+			0, [line[6] floatValue]); // width based on valueWidth
 
-		self.valueWidth = [[line objectAtIndex:5] intValue];
-		self.minValue = [[line objectAtIndex:7] floatValue];
-		self.maxValue = [[line objectAtIndex:8] floatValue];
-		self.log = [[line objectAtIndex:9] boolValue];
-		self.inits = [[line objectAtIndex:10] boolValue];
+		self.valueWidth = [line[5] intValue];
+		self.minValue = [line[7] floatValue];
+		self.maxValue = [line[8] floatValue];
+		self.log = [line[9] boolValue];
+		self.inits = [line[10] boolValue];
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
-		self.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue], [[line objectAtIndex:15] floatValue]);
-		self.labelFontStyle = [[line objectAtIndex:16] intValue];
-		self.labelFontSize = [[line objectAtIndex:17] floatValue];
+		self.label.text = [Gui filterEmptyStringValues:line[13]];
+		self.originalLabelPos = CGPointMake([line[14] floatValue], [line[15] floatValue]);
+		self.labelFontStyle = [line[16] intValue];
+		self.labelFontSize = [line[17] floatValue];
 		
-		self.fillColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:18] intValue]];
-		self.controlColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:19] intValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:20] intValue]];
+		self.fillColor = [IEMWidget colorFromAtomColor:[line[18] intValue]];
+		self.controlColor = [IEMWidget colorFromAtomColor:[line[19] intValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:[line[20] intValue]];
 		
 		if(self.inits) {
-			self.value = [[line objectAtIndex:21] floatValue];
+			self.value = [line[21] floatValue];
 		}
 		else {
 			self.value = 0; // set label
 		}
 		if([line count] > 22 && [line isNumberAt:22]) {
-			self.logHeight = [[line objectAtIndex:22] floatValue];
+			self.logHeight = [line[22] floatValue];
 		}
 	}
 	return self;
@@ -167,7 +167,7 @@
 	
 	// set red interaction color?
 	if(touchPrevY > 0) { // assume first interaction is not at 0 (where fat fingers can't go)
-		self.valueLabel.textColor = [UIColor redColor];
+		self.valueLabel.textColor = UIColor.redColor;
 		isValueLabelRed = YES;
 	}
 	[super setValue:value];
@@ -291,12 +291,12 @@
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// value width in chars, height
-		self.valueWidth = [[arguments objectAtIndex:0] intValue];
+		self.valueWidth = [arguments[0] intValue];
 		if([arguments count] > 1 && [arguments isNumberAt:1]) {
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
 			CGRectGetWidth(self.originalFrame),
-			MAX([[arguments objectAtIndex:1] floatValue], 8));
+			MAX([arguments[1] floatValue], 8));
 		}
 		[self reshape];
 		[self setNeedsDisplay];
@@ -305,8 +305,8 @@
 	else if([message isEqualToString:@"range"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// low, high
-		self.minValue = [[arguments objectAtIndex:0] floatValue];
-		self.maxValue = [[arguments objectAtIndex:1] floatValue];
+		self.minValue = [arguments[0] floatValue];
+		self.maxValue = [arguments[1] floatValue];
 		[self checkMinAndMax];
 		return YES;
 	}

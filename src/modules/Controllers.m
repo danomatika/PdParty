@@ -28,12 +28,12 @@
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-	                                                    name:GCControllerDidConnectNotification
-                                                      object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:GCControllerDidDisconnectNotification
-												  object:nil];
+	[NSNotificationCenter.defaultCenter removeObserver:self
+												  name:GCControllerDidConnectNotification
+												object:nil];
+	[NSNotificationCenter.defaultCenter removeObserver:self
+												  name:GCControllerDidDisconnectNotification
+												object:nil];
 	[self disconnectAll:YES];
 }
 
@@ -84,7 +84,7 @@
 }
 
 + (BOOL)controllersAvailable {
-	return [Util deviceOSVersion] >= 7.0;
+	return Util.deviceOSVersion >= 7.0;
 }
 
 #pragma mark GC Notifications
@@ -102,25 +102,25 @@
 - (void)setEnabled:(BOOL)enabled {
 	_enabled = enabled;
 	if(enabled) {
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(controllerDidConnect:)
-		                                             name:GCControllerDidConnectNotification
-												   object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(controllerDidDisconnect:)
-		                                             name:GCControllerDidDisconnectNotification
-		                                           object:nil];
+		[NSNotificationCenter.defaultCenter addObserver:self
+											   selector:@selector(controllerDidConnect:)
+												   name:GCControllerDidConnectNotification
+												 object:nil];
+		[NSNotificationCenter.defaultCenter addObserver:self
+											   selector:@selector(controllerDidDisconnect:)
+												   name:GCControllerDidDisconnectNotification
+												 object:nil];
 		DDLogVerbose(@"Controllers: enabled");
 		[self updateConnectedControllers];
 	}
 	else {
 		[self disconnectAll:YES];
-		[[NSNotificationCenter defaultCenter] removeObserver:self
-	                                                    name:GCControllerDidConnectNotification
-                                                      object:nil];
-		[[NSNotificationCenter defaultCenter] removeObserver:self
-                                                        name:GCControllerDidDisconnectNotification
-												      object:nil];
+		[NSNotificationCenter.defaultCenter removeObserver:self
+													  name:GCControllerDidConnectNotification
+													object:nil];
+		[NSNotificationCenter.defaultCenter removeObserver:self
+													  name:GCControllerDidDisconnectNotification
+													object:nil];
 		DDLogVerbose(@"Controllers: disabled");
 	}
 }

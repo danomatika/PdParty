@@ -31,15 +31,15 @@
 		hasReshaped = NO;
 		
 		// current UI orientation for accel
-		if([Util isDeviceATablet]) { // iPad can started rotated
-			self.currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+		if(Util.isDeviceATablet) { // iPad can started rotated
+			self.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 		}
 		else { // do not start rotated on iPhone
 			self.currentOrientation = UIInterfaceOrientationPortrait;
 		}
 		
 		// set osc and pure data pointer
-		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 		self.osc = app.osc;
 		self.pureData = app.pureData;
 		self.pureData.sensorDelegate = self;
@@ -86,7 +86,7 @@
 	[self closeScene];
 	
 	// clear last scene's console
-	[[Log textViewLogger] clear];
+	[Log.textViewLogger clear];
 	
 	// set parent size if unset (aka first load on iPhone)
 	if(self.gui.parentViewSize.width == 0 && self.gui.parentViewSize.height == 0) {

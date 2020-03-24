@@ -28,7 +28,7 @@
 	if(self) {
 		self.label = nil; // don't need label
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:7]];
+		self.sendName = [Gui filterEmptyStringValues:line[7]];
 		if(![self hasValidSendName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Touch: dropping, send name is empty");
@@ -36,8 +36,8 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:6] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[6] floatValue]);
 	}
 	return self;
 }
@@ -74,32 +74,30 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
-	[self sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:(pos.x / CGRectGetWidth(self.frame))],
-		[NSNumber numberWithFloat:(pos.y / CGRectGetHeight(self.frame))], nil]];
+	[self sendList:@[
+		@(pos.x / CGRectGetWidth(self.frame)),
+		@(pos.y / CGRectGetHeight(self.frame))
+	]];
 	touchDown = YES;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
-	[self sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:(pos.x / CGRectGetWidth(self.frame))],
-		[NSNumber numberWithFloat:(pos.y / CGRectGetHeight(self.frame))], nil]];
+	[self sendList:@[
+		@(pos.x / CGRectGetWidth(self.frame)),
+		@(pos.y / CGRectGetHeight(self.frame))
+	]];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	touchDown = NO;
-	[self sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:-1],
-		[NSNumber numberWithFloat:-1], nil]];
+	[self sendList:@[@(-1), @(-1)]];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
 	touchDown = NO;
-	[self sendList:[NSArray arrayWithObjects:
-		[NSNumber numberWithFloat:-1],
-		[NSNumber numberWithFloat:-1], nil]];
+	[self sendList:@[@(-1), @(-1)]];
 }
 
 @end

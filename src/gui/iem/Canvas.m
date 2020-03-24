@@ -25,21 +25,21 @@
 	if(self) {
 		self.labelFontSize = 14;
 
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:8]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:9]];
+		self.sendName = [Gui filterEmptyStringValues:line[8]];
+		self.receiveName = [Gui filterEmptyStringValues:line[9]];
 		// don't check receiveName as canvas could be a simple background component, etc
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:6] floatValue], [[line objectAtIndex:7] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[6] floatValue], [line[7] floatValue]);
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:10]];
-		self.originalLabelPos = CGPointMake([[line objectAtIndex:11] floatValue], [[line objectAtIndex:12] floatValue]);
-		self.labelFontStyle = [[line objectAtIndex:13] intValue];
-		self.labelFontSize = [[line objectAtIndex:14] floatValue];
+		self.label.text = [Gui filterEmptyStringValues:line[10]];
+		self.originalLabelPos = CGPointMake([line[11] floatValue], [line[12] floatValue]);
+		self.labelFontStyle = [line[13] intValue];
+		self.labelFontSize = [line[14] floatValue];
 		
-		self.backgroundColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:15] intValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:16] intValue]];
+		self.backgroundColor = [IEMWidget colorFromAtomColor:[line[15] intValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:[line[16] intValue]];
 	}
 	return self;
 }
@@ -70,8 +70,8 @@
 	if([message isEqualToString:@"color"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// background, label-color
-		self.backgroundColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:0] intValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[[arguments objectAtIndex:1] intValue]];
+		self.backgroundColor = [IEMWidget colorFromIEMColor:[arguments[0] intValue]];
+		self.label.textColor = [IEMWidget colorFromIEMColor:[arguments[1] intValue]];
 		[self reshape];
 		[self setNeedsDisplay];
 	}
@@ -81,10 +81,10 @@
 	}
 	else if([message isEqualToString:@"vis_size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// canvas size: width, height
-		float w = MAX([[arguments objectAtIndex:0] floatValue], 1);
+		float w = MAX([arguments[0] floatValue], 1);
 		float h = CGRectGetHeight(self.originalFrame);
 		if([arguments count] > 1 && [arguments isNumberAt:1]) {
-			h = MAX([[arguments objectAtIndex:1] floatValue], 1);
+			h = MAX([arguments[1] floatValue], 1);
 		}
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y, w, h);
@@ -93,9 +93,10 @@
 	}
 	else if([message isEqualToString:@"get_pos"]) {
 		// send pos
-		[self sendList:[NSArray arrayWithObjects:
-			[NSNumber numberWithFloat:self.originalFrame.origin.x],
-			[NSNumber numberWithFloat:self.originalFrame.origin.y], nil]];
+		[self sendList:@[
+			@(self.originalFrame.origin.x),
+			@(self.originalFrame.origin.y)
+		]];
 	}
 	else {
 		return [super receiveEditMessage:message withArguments:arguments];

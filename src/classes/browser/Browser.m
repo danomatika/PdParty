@@ -45,7 +45,7 @@
 #pragma mark Present
 
 - (void)presentAnimated:(BOOL)animated {
-	UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+	UIViewController *root = UIApplication.sharedApplication.keyWindow.rootViewController;
 	[self presentFromViewController:root animated:animated];
 }
 
@@ -92,15 +92,15 @@
 		}
 		BOOL isDir = NO;
 		NSString *path = [components componentsJoinedByString:@"/"];
-		if(![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-			DDLogWarn(@"Browser: stopped loading, %@ doesn't exist", [path lastPathComponent]);
+		if(![NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDir]) {
+			DDLogWarn(@"Browser: stopped loading, %@ doesn't exist", path.lastPathComponent);
 			return NO;
 		}
 		if(!isDir) {
-			DDLogWarn(@"Browser: stopped loading, %@ is a file", [path lastPathComponent]);
+			DDLogWarn(@"Browser: stopped loading, %@ is a file", path.lastPathComponent);
 			return NO;
 		}
-		DDLogVerbose(@"Browser: now pushing folder %@", [path lastPathComponent]);
+		DDLogVerbose(@"Browser: now pushing folder %@", path.lastPathComponent);
 		if(i == count) { // load first layer, don't push
 			path = [components componentsJoinedByString:@"/"];
 			[self loadDirectory:path];
@@ -142,7 +142,7 @@
 	NSString *title = @"Create new file", *message;
 	if(self.root.extensions) {
 		if(self.root.extensions.count == 1) {
-			title = [NSString stringWithFormat:@"Create new .%@ file", [self.root.extensions objectAtIndex:0]];
+			title = [NSString stringWithFormat:@"Create new .%@ file", self.root.extensions.firstObject];
 			message = nil;
 		}
 		else {
@@ -165,12 +165,12 @@
 			}
 			if(self.root.extensions) {
 				if(self.root.extensions.count == 1) {
-					file = [[alertView textFieldAtIndex:0].text stringByAppendingPathExtension:[self.root.extensions objectAtIndex:0]];
+					file = [[alertView textFieldAtIndex:0].text stringByAppendingPathExtension:self.root.extensions.firstObject];
 				}
 				else {
-					if(![self.root.extensions containsObject:[file pathExtension]]) {
-						DDLogWarn(@"Browser: couldn't create \"%@\", missing one of the required extensions: %@", [file lastPathComponent], [self.root.extensions componentsJoinedByString:@", "]);
-						NSString *title = [NSString stringWithFormat:@"Couldn't create \"%@\"", [file lastPathComponent]];
+					if(![self.root.extensions containsObject:file.pathExtension]) {
+						DDLogWarn(@"Browser: couldn't create \"%@\", missing one of the required extensions: %@", file.lastPathComponent, [self.root.extensions componentsJoinedByString:@", "]);
+						NSString *title = [NSString stringWithFormat:@"Couldn't create \"%@\"", file.lastPathComponent];
 						NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@", [self.root.extensions componentsJoinedByString:@", ."]];
 						UIAlertView *alertView = [[UIAlertView alloc]
 												  initWithTitle:title
@@ -231,7 +231,7 @@
 		return;
 	}
 	BOOL isDir = [Util isDirectory:path];
-	NSString *title = [NSString stringWithFormat:@"Rename %@", [path lastPathComponent]];
+	NSString *title = [NSString stringWithFormat:@"Rename %@", path.lastPathComponent];
 	NSString *message = nil;
 	if(!isDir) {
 		if(self.root.extensions) {
@@ -250,12 +250,12 @@
 			NSString *newPath = [self.top.directory stringByAppendingPathComponent:[alertView textFieldAtIndex:0].text];
 			if(!isDir) {
 				if(self.root.extensions.count == 1) {
-					newPath = [newPath stringByAppendingPathExtension:[self.root.extensions objectAtIndex:0]];
+					newPath = [newPath stringByAppendingPathExtension:self.root.extensions.firstObject];
 				}
 				else {
-					if(![self.root.extensions containsObject:[newPath pathExtension]]) {
-						DDLogWarn(@"Browser: couldn't rename to \"%@\", missing one of the required extensions: %@", [newPath lastPathComponent], [self.root.extensions componentsJoinedByString:@", "]);
-						NSString *title = [NSString stringWithFormat:@"Couldn't rename to \"%@\"", [newPath lastPathComponent]];
+					if(![self.root.extensions containsObject:newPath.pathExtension]) {
+						DDLogWarn(@"Browser: couldn't rename to \"%@\", missing one of the required extensions: %@", newPath.lastPathComponent, [self.root.extensions componentsJoinedByString:@", "]);
+						NSString *title = [NSString stringWithFormat:@"Couldn't rename to \"%@\"", newPath.lastPathComponent];
 						NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@", [self.root.extensions componentsJoinedByString:@", ."]];
 						UIAlertView *alertView = [[UIAlertView alloc]
 											  initWithTitle:title
@@ -266,7 +266,7 @@
 					}
 				}
 			}
-			DDLogVerbose(@"Browser: rename %@ to %@", [path lastPathComponent], [newPath lastPathComponent]);
+			DDLogVerbose(@"Browser: rename %@ to %@", path.lastPathComponent, newPath.lastPathComponent);
 			if([self renamePath:path to:newPath]) {
 				[self.top reloadDirectory];
 			}
@@ -279,18 +279,18 @@
 
 - (BOOL)createFilePath:(NSString *)path {
 	NSError *error;
-	DDLogVerbose(@"Browser: creating file: %@", [path lastPathComponent]);
-	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+	DDLogVerbose(@"Browser: creating file: %@", path.lastPathComponent);
+	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
 		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Overwrite it?",
-							 [path lastPathComponent],
-							 [[path stringByDeletingLastPathComponent] lastPathComponent]];
+							 path.lastPathComponent,
+							 path.stringByDeletingLastPathComponent.lastPathComponent];
 		UIAlertView *alert = [[UIAlertView alloc]
 							  initWithTitle:@"Overwrite?"
 							  message:message
 							  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
 		alert.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
 			if(buttonIndex == 1) { // Ok
-				[[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+				[NSFileManager.defaultManager removeItemAtPath:path error:nil];
 				if([self _createFilePath:path]) {
 					[self.top reloadDirectory];
 					if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
@@ -307,12 +307,12 @@
 
 - (BOOL)createDirectoryPath:(NSString *)path {
 	NSError *error;
-	DDLogVerbose(@"Browser: creating dir: %@", [path lastPathComponent]);
-	if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-		if(![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:NO attributes:NULL error:&error]) {
-			DDLogError(@"Browser: couldn't create directory %@, error: %@", [path lastPathComponent], error.localizedDescription);
+	DDLogVerbose(@"Browser: creating dir: %@", path.lastPathComponent);
+	if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
+		if(![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:NULL error:&error]) {
+			DDLogError(@"Browser: couldn't create directory %@, error: %@", path.lastPathComponent, error.localizedDescription);
 			UIAlertView *alertView = [[UIAlertView alloc]
-									  initWithTitle:[NSString stringWithFormat:@"Couldn't create folder \"%@\"", [path lastPathComponent]]
+									  initWithTitle:[NSString stringWithFormat:@"Couldn't create folder \"%@\"", path.lastPathComponent]
 									  message:error.localizedDescription
 									  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 			[alertView show];
@@ -321,8 +321,8 @@
 	}
 	else {
 		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Please choose a different name.",
-							 [path lastPathComponent],
-							 [[path stringByDeletingLastPathComponent] lastPathComponent]];
+							 path.lastPathComponent,
+							 path.stringByDeletingLastPathComponent.lastPathComponent];
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:@"Folder already exists"
 								  message:message
@@ -335,10 +335,10 @@
 
 - (BOOL)renamePath:(NSString *)path to:(NSString *)newPath {
 	NSError *error;
-	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-		if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
+	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
+		if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
 			DDLogError(@"Browser: couldn't rename %@ to %@, error: %@", path, newPath, error.localizedDescription);
-			NSString *title = [NSString stringWithFormat:@"Couldn't rename %@ to \"%@\"", [path lastPathComponent], [newPath lastPathComponent]];
+			NSString *title = [NSString stringWithFormat:@"Couldn't rename %@ to \"%@\"", path.lastPathComponent, newPath.lastPathComponent];
 			UIAlertView *alertView = [[UIAlertView alloc]
 									  initWithTitle:title
 									  message:error.localizedDescription
@@ -358,15 +358,15 @@
 
 - (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir {
 	NSError *error;
-	NSString *newPath = [newDir stringByAppendingPathComponent:[path lastPathComponent]];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+	NSString *newPath = [newDir stringByAppendingPathComponent:path.lastPathComponent];
+	if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
 		DDLogWarn(@"Browser: couldn't move %@, path not found", path);
 		return NO;
 	}
-	if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
+	if([NSFileManager.defaultManager fileExistsAtPath:newPath]) {
 		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Overwrite it?",
-							 [path lastPathComponent],
-							 [[path stringByDeletingLastPathComponent] lastPathComponent]];
+							 path.lastPathComponent,
+							 path.stringByDeletingLastPathComponent.lastPathComponent];
 		UIAlertView *alert = [[UIAlertView alloc]
 							  initWithTitle:@"Overwrite?"
 							  message:message
@@ -386,11 +386,11 @@
 
 - (BOOL)deletePath:(NSString *)path {
 	NSError *error;
-	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-		if(![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) {
+	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
+		if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
 			DDLogError(@"Browser: couldn't delete %@, error: %@", path, error.localizedDescription);
 			UIAlertView *alertView = [[UIAlertView alloc]
-									  initWithTitle:[NSString stringWithFormat:@"Couldn't delete %@", [path lastPathComponent]]
+									  initWithTitle:[NSString stringWithFormat:@"Couldn't delete %@", path.lastPathComponent]
 									  message:error.localizedDescription
 									  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 			[alertView show];
@@ -409,7 +409,7 @@
 - (unsigned int)fileCountForExtension:(NSString *)extension {
 	unsigned int i = 0;
 	for(NSString *p in self.top.paths) {
-		if([[p pathExtension] isEqualToString:extension]) {
+		if([p.pathExtension isEqualToString:extension]) {
 			i++;
 		}
 	}
@@ -425,7 +425,7 @@
 }
 
 - (BOOL)pathHasAllowedExtension:(NSString *)path {
-	return self.extensions ? [self.extensions containsObject:[path pathExtension]] : NO;
+	return self.extensions ? [self.extensions containsObject:path.pathExtension] : NO;
 }
 
 #pragma mark Subclassing
@@ -453,20 +453,20 @@
 		                               isDir:(BOOL)isDir
                                 isSelectable:(BOOL)isSelectable {
 	if(isSelectable) {
-		cell.textLabel.textColor = [UIColor blackColor];
+		cell.textLabel.textColor = UIColor.blackColor;
 		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
 	}
 	else {
-		cell.textLabel.textColor = [UIColor grayColor];
+		cell.textLabel.textColor = UIColor.grayColor;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 	if(isDir) {
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-		cell.textLabel.text = [path lastPathComponent];
+		cell.textLabel.text = path.lastPathComponent;
 	}
 	else { // files
 		[cell setAccessoryType:UITableViewCellAccessoryNone];
-		cell.textLabel.text = [path lastPathComponent];
+		cell.textLabel.text = path.lastPathComponent;
 	}
 }
 
@@ -508,10 +508,10 @@
 
 - (BOOL)_createFilePath:(NSString *)path {
 	NSError *error;
-	if(![[NSFileManager defaultManager] createFileAtPath:path contents:nil attributes:NULL]) {
+	if(![NSFileManager.defaultManager createFileAtPath:path contents:nil attributes:NULL]) {
 		DDLogError(@"Browser: couldn't create file %@", path);
 		UIAlertView *alertView = [[UIAlertView alloc]
-								  initWithTitle:[NSString stringWithFormat:@"Couldn't create file \"%@\"", [path lastPathComponent]]
+								  initWithTitle:[NSString stringWithFormat:@"Couldn't create file \"%@\"", path.lastPathComponent]
 								  message:error.localizedDescription
 								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 		[alertView show];
@@ -522,10 +522,10 @@
 
 - (BOOL)_movePath:(NSString *)path toDirectory:(NSString *)newDir {
 	NSError *error;
-	NSString *newPath = [newDir stringByAppendingPathComponent:[path lastPathComponent]];
-	if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newPath error:&error]) {
+	NSString *newPath = [newDir stringByAppendingPathComponent:path.lastPathComponent];
+	if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
 		DDLogError(@"Browser: couldn't move %@ to %@, error: %@", path, newPath, error.localizedDescription);
-		NSString *title = [NSString stringWithFormat:@"Couldn't move %@ to \"%@\"", [path lastPathComponent], newDir];
+		NSString *title = [NSString stringWithFormat:@"Couldn't move %@ to \"%@\"", path.lastPathComponent, newDir];
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:title
 								  message:error.localizedDescription

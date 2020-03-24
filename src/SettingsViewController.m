@@ -25,11 +25,11 @@
 
 - (void)viewDidLoad {
 	
-	app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	
 	self.lockScreenDisabledSwitch.on = app.isLockScreenDisabled;
 	self.runInBackgroundSwitch.on = app.runsInBackground;
-	self.enableConsoleSwitch.on = [Log textViewLoggerEnabled];
+	self.enableConsoleSwitch.on = Log.textViewLoggerEnabled;
 	
 	self.oscTouchEnabledSwitch.on = app.osc.touchSendingEnabled;
 	self.oscSensorEnabledSwitch.on = app.osc.sensorSendingEnabled;
@@ -40,9 +40,7 @@
 	self.autoLatencySwitch.on = app.pureData.autoLatency;
 	self.ticksPerBufferSegmentedControl.enabled = !app.pureData.autoLatency;
 	self.ticksPerBufferSegmentedControl.userInteractionEnabled = !app.pureData.autoLatency;
-	ticksPerBufferValues = [NSArray arrayWithObjects:
-		[NSNumber numberWithInt:1], [NSNumber numberWithInt:2], [NSNumber numberWithInt:4],
-		[NSNumber numberWithInt:8], [NSNumber numberWithInt:16], [NSNumber numberWithInt:32], nil];
+	ticksPerBufferValues = @[@(1), @(2), @(4), @(8), @(16), @(32)];
 	for(int i = 0; i < (int)ticksPerBufferValues.count; ++i) {
 		NSNumber *value = [ticksPerBufferValues objectAtIndex:i];
 		if(app.pureData.ticksPerBuffer <= [value intValue]) {
@@ -117,7 +115,7 @@
 
 - (IBAction)copyDefaultFolder:(id)sender {
 	UIView *root = app.window.rootViewController.view;
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		root = self.view; // present over this view on iPad to make sure hud is not presented under detail view
 	}
 	if(sender == self.libFolderButton) {

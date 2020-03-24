@@ -40,13 +40,13 @@
 	self.player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:path]];
 	if(self.player.error) {
 		DDLogWarn(@"RecordingScene: couldn't create player for %@: %@",
-			[self.file lastPathComponent], self.player.error);
+			self.file.lastPathComponent, self.player.error);
 		self.player = nil;
 		return NO;
 	}
 
 	// allow all orientations on iPad
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		self.preferredOrientations = UIInterfaceOrientationMaskAll;
 	}
 	else { // lock to portrait on iPhone
@@ -54,11 +54,11 @@
 	}
 
 	// load info label
-	if(![Util isDeviceATablet]) {
+	if(!Util.isDeviceATablet) {
 		self.infoLabel = [UILabel new];
-		self.infoLabel.text = [self.file lastPathComponent];
+		self.infoLabel.text = self.file.lastPathComponent;
 		self.infoLabel.font = [UIFont boldSystemFontOfSize:17];
-		self.infoLabel.textColor = [UIColor whiteColor];
+		self.infoLabel.textColor = UIColor.whiteColor;
 		self.infoLabel.textAlignment = NSTextAlignmentCenter;
 		self.infoLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		self.infoLabel.adjustsFontSizeToFitWidth = YES;
@@ -67,11 +67,11 @@
 	}
 
 	// load background
-	NSString *backgroundPath = [[Util bundlePath] stringByAppendingPathComponent:@"images/tape_drive-512.png"];
-	if([[NSFileManager defaultManager] fileExistsAtPath:backgroundPath]) {
+	NSString *backgroundPath = [Util.bundlePath stringByAppendingPathComponent:@"images/tape_drive-512.png"];
+	if([NSFileManager.defaultManager fileExistsAtPath:backgroundPath]) {
 		UIImage *image = [UIImage imageWithContentsOfFile:backgroundPath];
 		if(image) {
-			image = [Util image:image withTint:[UIColor lightGrayColor]];
+			image = [Util image:image withTint:UIColor.lightGrayColor];
 			self.background = [[UIImageView alloc] initWithImage:image];
 			self.background.contentMode = UIViewContentModeScaleAspectFill;
 			[self.parentView addSubview:self.background];
@@ -85,10 +85,10 @@
 	}
 
 	// load controls
-    CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.parentView.frame), [ControlsView baseHeight]);
+    CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.parentView.frame), ControlsView.baseHeight);
 	self.controlsView = [[PlayerControlsView alloc] initWithFrame:frame];
 	self.controlsView.delegate = self;
-	if([Util isDeviceATablet]) { // larger sizing for iPad
+	if(Util.isDeviceATablet) { // larger sizing for iPad
 		[self.controlsView defaultSize];
 	}
 	[self.controlsView rightButtonToLoop];
@@ -106,7 +106,7 @@
 			[wimp.controlsView setCurrentTime:elapsed forDuration:wimp.player.currentItem.duration];
 		}
 	}];
-	endTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification
+	endTimeObserver = [NSNotificationCenter.defaultCenter addObserverForName:AVPlayerItemDidPlayToEndTimeNotification
 													  object:self.player.currentItem
 	                                                   queue:nil // main queue
 												  usingBlock:^(NSNotification *notification) {
@@ -132,8 +132,8 @@
 		[self.player.currentItem removeObserver:self forKeyPath:@"status"];
 		self.player = nil;
 	}
-	if (endTimeObserver) {
-		[[NSNotificationCenter defaultCenter] removeObserver:endTimeObserver];
+	if(endTimeObserver) {
+		[NSNotificationCenter.defaultCenter removeObserver:endTimeObserver];
 	}
 	[self.infoLabel removeFromSuperview];
 	[self.background removeFromSuperview];
@@ -168,7 +168,7 @@
 
 	// square background space to match rjdj scene,
 	// centered 1/2 size background image
-	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+	UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
 	if(orientation == UIInterfaceOrientationPortrait ||
 	   orientation == UIInterfaceOrientationPortraitUpsideDown) {
 		backgroundSize.width = roundf(viewSize.width * 0.8);
@@ -202,9 +202,9 @@
 // observe player item ready event
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
                         change:(NSDictionary *)change context:(void *)context {
-    if ([object isKindOfClass:[AVPlayerItem class]]) {
+    if([object isKindOfClass:AVPlayerItem.class]) {
         AVPlayerItem *item = (AVPlayerItem *)object;
-        if ([keyPath isEqualToString:@"status"]) {
+        if([keyPath isEqualToString:@"status"]) {
             switch(item.status) {
                 case AVPlayerItemStatusReadyToPlay:
  					// set time labels when loaded
@@ -282,7 +282,7 @@
 
 // for iPhone, hide nav bar title as filename is displayed in info label
 - (NSString *)name {
-	return ([Util isDeviceATablet] ? [self.file lastPathComponent] : @"");
+	return (Util.isDeviceATablet ? self.file.lastPathComponent : @"");
 }
 
 - (NSString *)type {
@@ -294,7 +294,7 @@
 		[super setParentView:parentView];
 		if(self.parentView) {
 			// set patch view background color
-			self.parentView.backgroundColor = [UIColor blackColor];
+			self.parentView.backgroundColor = UIColor.blackColor;
 			
 			// add views new parent view
 			if(self.infoLabel) {
@@ -325,7 +325,7 @@
 #pragma mark Util
 
 + (BOOL)isRecording:(NSString *)fullpath; {
-	NSString *ext = [fullpath pathExtension];
+	NSString *ext = fullpath.pathExtension;
 	return [ext isEqualToString:@"wav"] || [ext isEqualToString:@"wave"] ||
 	       [ext isEqualToString:@"aif"] || [ext isEqualToString:@"aiff"];
 }

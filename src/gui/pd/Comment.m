@@ -27,22 +27,22 @@
 		self.userInteractionEnabled = NO; // not interactive, so don't accept touch events
 
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
+			[line[2] floatValue], [line[3] floatValue],
 			0, 0); // size based on label size
 
 		// create the comment string, handle escaped chars
 		NSMutableString *text = [[NSMutableString alloc] init];
 		BOOL appendSpace = NO;
 		for(int i = 4; i < line.count; ++i) {
-			if([[line objectAtIndex:i] isEqualToString:@"\\,"]) {
+			if([line[i] isEqualToString:@"\\,"]) {
 				[text appendString:@","];
 			}
-			else if([[line objectAtIndex:i] isEqualToString:@"\\;"]) {
+			else if([line[i] isEqualToString:@"\\;"]) {
 				[text appendString:@";\n"]; // semi ; force a line break in pd gui
 				self.numForcedLineBreaks++;
 				appendSpace = NO;
 			}
-			else if([[line objectAtIndex:i] isEqualToString:@"\\$"]) {
+			else if([line[i] isEqualToString:@"\\$"]) {
 				[text appendString:@"$"];
 			}
 			else {
@@ -50,7 +50,7 @@
 					[text appendString:@" "];
 				}
 				appendSpace = YES;
-				[text appendString:[line objectAtIndex:i]];
+				[text appendString:line[i]];
 			}
 		}
 		// remove and stray backslashes

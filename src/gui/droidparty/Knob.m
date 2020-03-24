@@ -17,14 +17,14 @@
 #define MKNOB_MINSIZE 12
 
 @interface Knob () {
-	BOOL isReversed; // is the min value > max value?
-	double convFactor; // scaling factor for lin/log value conversion
-	UITouch *touch0; // initial touch pointer, nil if none
-	CGPoint pos0; // position of initial touch
-	float value0; // value of initial touch
-	float angle0; // angle of inital touch
+	BOOL isReversed; //< is the min value > max value?
+	double convFactor; //< scaling factor for lin/log value conversion
+	UITouch *touch0; //< initial touch pointer, nil if none
+	CGPoint pos0; //< position of initial touch
+	float value0; //< value of initial touch
+	float angle0; //< angle of inital touch
 }
-@property (nonatomic) float controlValue; // normalized value, clockwise 0 -1
+@property (nonatomic) float controlValue; //< normalized value, clockwise 0 -1
 @end
 
 @implementation Knob
@@ -47,8 +47,8 @@
 		self.log = NO;
 		self.steady = YES;
 		
-		self.sendName = [Gui filterEmptyStringValues:[line objectAtIndex:11]];
-		self.receiveName = [Gui filterEmptyStringValues:[line objectAtIndex:12]];
+		self.sendName = [Gui filterEmptyStringValues:line[11]];
+		self.receiveName = [Gui filterEmptyStringValues:line[12]];
 		if(![self hasValidSendName]  && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
 			DDLogVerbose(@"Knob: dropping, send/receive names are empty");
@@ -56,30 +56,30 @@
 		}
 		
 		self.originalFrame = CGRectMake(
-			[[line objectAtIndex:2] floatValue], [[line objectAtIndex:3] floatValue],
-			[[line objectAtIndex:5] floatValue], [[line objectAtIndex:5] floatValue]);
+			[line[2] floatValue], [line[3] floatValue],
+			[line[5] floatValue], [line[5] floatValue]);
 		
-		self.mouse = [[line objectAtIndex:6] floatValue];
-		self.minValue = [[line objectAtIndex:7] floatValue];
-		self.maxValue = [[line objectAtIndex:8] floatValue];
-		self.log = [[line objectAtIndex:9] boolValue];
-		self.inits = [[line objectAtIndex:10] boolValue];
+		self.mouse = [line[6] floatValue];
+		self.minValue = [line[7] floatValue];
+		self.maxValue = [line[8] floatValue];
+		self.log = [line[9] boolValue];
+		self.inits = [line[10] boolValue];
 		[self checkMinAndMax];
 		
-		self.label.text = [Gui filterEmptyStringValues:[line objectAtIndex:13]];
-		self.originalLabelPos = CGPointMake([[line objectAtIndex:14] floatValue],
-										 [[line objectAtIndex:15] floatValue]);
-		self.labelFontStyle = [[line objectAtIndex:16] intValue];
-		self.labelFontSize = [[line objectAtIndex:17] floatValue];
+		self.label.text = [Gui filterEmptyStringValues:line[13]];
+		self.originalLabelPos = CGPointMake([line[14] floatValue],
+										 [line[15] floatValue]);
+		self.labelFontStyle = [line[16] intValue];
+		self.labelFontSize = [line[17] floatValue];
 		
-		self.fillColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:18] intValue]];
-		self.controlColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:19] intValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:[[line objectAtIndex:20] intValue]];
+		self.fillColor = [IEMWidget colorFromAtomColor:[line[18] intValue]];
+		self.controlColor = [IEMWidget colorFromAtomColor:[line[19] intValue]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:[line[20] intValue]];
 		
 		if(self.inits) { // convert saved int to float
-			[self initValue:[[line objectAtIndex:21] intValue]];
+			[self initValue:[line[21] intValue]];
 		}
-		self.steady = [[line objectAtIndex:22] boolValue];
+		self.steady = [line[22] boolValue];
 	}
 	return self;
 }
@@ -108,7 +108,7 @@
 	
 	// control
 	float littlerad = 0.1f;
-	float length = [Util isDeviceATablet] ? 0.9 : 0.85; // slightly smaller on iPhone
+	float length = Util.isDeviceATablet ? 0.9 : 0.85; // slightly smaller on iPhone
 	float startX = [self circleX:littlerad angle:(angle-90)];
 	float startY = [self circleY:littlerad angle:(angle-90)];
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
@@ -283,22 +283,22 @@
 		// size, mouse
 		self.originalFrame = CGRectMake(
 			self.originalFrame.origin.x, self.originalFrame.origin.y,
-			MAX([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE),
-			MAX([[arguments objectAtIndex:0] floatValue], MKNOB_MINSIZE));
-		self.mouse = [[arguments objectAtIndex:1] floatValue];
+			MAX([arguments[0] floatValue], MKNOB_MINSIZE),
+			MAX([arguments[0] floatValue], MKNOB_MINSIZE));
+		self.mouse = [arguments[1] floatValue];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
 	}
 	else if([message isEqualToString:@"steady"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
-		self.steady = [[arguments objectAtIndex:0] boolValue];
+		self.steady = [arguments[0] boolValue];
 		return YES;
 	}
 	else if([message isEqualToString:@"range"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// low, high
-		self.minValue = [[arguments objectAtIndex:0] floatValue];
-		self.maxValue = [[arguments objectAtIndex:1] floatValue];
+		self.minValue = [arguments[0] floatValue];
+		self.maxValue = [arguments[1] floatValue];
 		[self checkMinAndMax];
 		return YES;
 	}

@@ -31,7 +31,7 @@
 	if(self) {
 		message = [NSMutableData new];
 
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 		_multiDeviceMode = [defaults boolForKey:@"multiMidiDeviceMode"];
 		self.enabled = [defaults boolForKey:@"midiEnabled"];
 	}
@@ -57,7 +57,7 @@
 	if(self.enabled == enabled) {
 		return;
 	}
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 	if(enabled) {
 		if([Midi available]) {
 			DDLogVerbose(@"MidiBridge: midi enabled");
@@ -89,7 +89,7 @@
 		return;
 	}
 	self.midi.networkEnabled = networkEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:self.midi.networkEnabled forKey:@"networkMidiEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:self.midi.networkEnabled forKey:@"networkMidiEnabled"];
 }
 
 - (BOOL)networkEnabled {
@@ -101,7 +101,7 @@
 		return;
 	}
 	self.midi.virtualEnabled = virtualEnabled;
-	[[NSUserDefaults standardUserDefaults] setBool:self.midi.virtualEnabled forKey:@"virtualMidiEnabled"];
+	[NSUserDefaults.standardUserDefaults setBool:self.midi.virtualEnabled forKey:@"virtualMidiEnabled"];
 }
 
 - (BOOL)virtualEnabled {
@@ -113,7 +113,7 @@
 		return;
 	}
 	_multiDeviceMode = multiDeviceMode;
-	[[NSUserDefaults standardUserDefaults] setBool:_multiDeviceMode forKey:@"multiMidiDeviceMode"];
+	[NSUserDefaults.standardUserDefaults setBool:_multiDeviceMode forKey:@"multiMidiDeviceMode"];
 }
 
 - (NSArray *)inputs {

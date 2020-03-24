@@ -81,7 +81,7 @@
 	if(!self.rightButton.image) {
 		self.rightButton.title = @"Record";
 	}
-	self.rightButton.tintColor = [self tintColor]; // should reset to global color
+	self.rightButton.tintColor = self.tintColor; // should reset to global color
 }
 
 - (void)rightButtonToStopRecord {
@@ -167,7 +167,7 @@
 		self.slider.minimumValueImage = [UIImage imageNamed:name];
 	}
 	else {
-		self.slider.minimumValueImage = [Util image:[UIImage imageNamed:name] withTint:[UIColor whiteColor]];
+		self.slider.minimumValueImage = [Util image:[UIImage imageNamed:name] withTint:UIColor.whiteColor];
 	}
 }
 

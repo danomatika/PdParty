@@ -10,23 +10,25 @@
  */
 #import "PdParser.h"
 
+#import "Util.h"
 #import "Log.h"
 
 @implementation PdParser
 
 + (void)printAtomLine:(NSArray *)line {
 	NSMutableString *string = [[NSMutableString alloc] init];
-	for(int i = 0; i < line.count; ++i) {
-		[string appendString:@"["];
-		[string appendString:[line objectAtIndex:i]];
-		[string appendString:@"] "];
+	for(NSString *s in line) {
+		[string appendFormat:@"[%@]", s];
+		if(![s isEqual:line.lastObject]) {
+			[string appendString:@" "];
+		}
 	}
 	DDLogVerbose(@"%@", string);
 }
 
 + (void)printAtomLineArray:(NSArray *)atomLines {
-	for(int i = 0; i < atomLines.count; ++i) {
-		[PdParser printAtomLine:[atomLines objectAtIndex:i]];
+	for(NSArray *line in atomLines) {
+		[PdParser printAtomLine:line];
 	}
 }
 
@@ -34,28 +36,28 @@
 	
 	NSString *absPath = patch;
 	if(![patch isAbsolutePath]) {
-		absPath = [NSString pathWithComponents:[NSArray arrayWithObjects:@"/", [[NSBundle mainBundle] bundlePath], patch, nil]];
+		absPath = [NSString pathWithComponents:[NSArray arrayWithObjects:@"/", Util.bundlePath, patch, nil]];
 	}
 	
 	// verbose
-	DDLogVerbose(@"PdParser: opening patch \"%@\"", [patch lastPathComponent]);
+	DDLogVerbose(@"PdParser: opening patch \"%@\"", patch.lastPathComponent);
 
-	if(![[NSFileManager defaultManager] isReadableFileAtPath:absPath]) {
+	if(![NSFileManager.defaultManager isReadableFileAtPath:absPath]) {
 		// error
-		DDLogError(@"PdParser: can't read patch: \"%@\"", [patch lastPathComponent]);
+		DDLogError(@"PdParser: can't read patch: \"%@\"", patch.lastPathComponent);
 		return @"";
 	}
 
 	NSError *error = NULL;
-	NSData* buffer = [NSData dataWithContentsOfFile:absPath options:NSDataReadingUncached error:&error];
+	NSData *buffer = [NSData dataWithContentsOfFile:absPath options:NSDataReadingUncached error:&error];
 	if(!buffer) {
 		// error
-		DDLogError(@"PdParser: couldn't open patch \"%@\": %@", [patch lastPathComponent], [error localizedFailureReason]);
+		DDLogError(@"PdParser: couldn't open patch \"%@\": %@", patch.lastPathComponent, error.localizedFailureReason);
 		return @"";
 	}
 	
 	// convert buffer to string
-	return [[NSString alloc] initWithBytes:[buffer bytes]
+	return [[NSString alloc] initWithBytes:buffer.bytes
                                     length:buffer.length
                                   encoding:NSUTF8StringEncoding];
 }
@@ -75,7 +77,6 @@
 		// grab matching line as a string & remove trailing ";\n"
 		NSString *line = [patchText substringWithRange:NSMakeRange(lineMatch.range.location, lineMatch.range.length-2)];
 
-		
 		// replace whitespace chars with a space
 		NSRegularExpression *atomRegexp = [NSRegularExpression regularExpressionWithPattern:@"\t|\r\n?|\n"
 																					options:NSRegularExpressionCaseInsensitive

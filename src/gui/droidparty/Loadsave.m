@@ -25,7 +25,7 @@
 	if(self) {
 		self.label = nil; // no label
 
-		self.name = [Gui filterEmptyStringValues:[line objectAtIndex:5]];
+		self.name = [Gui filterEmptyStringValues:line[5]];
 		self.receiveName = self.name;
 		if(![self hasValidReceiveName]) {
 			// drop something we can't interact with
@@ -59,13 +59,13 @@
 
 		// load variables
 		if(arguments.count > 0 && [arguments isStringAt:0]) {
-			self.directory = [arguments objectAtIndex:0];
+			self.directory = arguments[0];
 		}
 		else {
 			self.directory = nil;
 		}
 		if(arguments.count > 1 && [arguments isStringAt:1]) {
-			self.extension = [arguments objectAtIndex:1];
+			self.extension = arguments[1];
 		}
 		else {
 			self.extension = nil;
@@ -73,7 +73,7 @@
 		self.sendName = [self.receiveName stringByAppendingFormat:@"-%@", message];
 		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
 		
-		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 		if(!app.isPatchViewVisible) {
 			DDLogWarn(@"Loadsave %@: cannot open dialog when patch view is not visible", self.receiveName);
 			return YES;
@@ -107,7 +107,7 @@
 		}
 		if(self.directory) {
 			NSString *path = [app.sceneManager.currentPath stringByAppendingPathComponent:self.directory];
-			if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+			if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
 				DDLogInfo(@"LoadSave: %@ doesn't exist, create it?", self.directory);
 				UIAlertView *alertView = [[UIAlertView alloc]
 									  initWithTitle:[NSString stringWithFormat:@"%@ folder doesn't exist", self.extension]
@@ -126,7 +126,7 @@
 			}
 		}
 		else {
-			[browser loadDirectory:app.sceneManager.currentPath relativeTo:[Util documentsPath]];
+			[browser loadDirectory:app.sceneManager.currentPath relativeTo:Util.documentsPath];
 		}
 		if(self.directory && self.extension && [browser fileCountForExtensions] == 0) {
 			if([message isEqualToString:@"load"]) {
@@ -166,9 +166,9 @@
 - (void)sendPath:(NSString *)path {
 	DDLogVerbose(@"Loadsave %@: sending %@", self.sendName, path);
 	NSArray *detail = @[ // ext file dir
-		[path pathExtension],
-		[[path lastPathComponent] stringByDeletingPathExtension],
-		[path stringByDeletingLastPathComponent]
+		path.pathExtension,
+		path.lastPathComponent.stringByDeletingPathExtension,
+		path.stringByDeletingLastPathComponent
 	];
 	[self sendSymbol:path];
 	[PdBase sendList:detail toReceiver:[self.sendName stringByAppendingString:@"-detail"]];

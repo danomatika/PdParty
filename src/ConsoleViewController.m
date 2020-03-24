@@ -21,10 +21,10 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	self.view.backgroundColor = [UIColor whiteColor];
+	self.view.backgroundColor = UIColor.whiteColor;
 	
 	// set size in iPad popup
-	if([Util isDeviceATablet]) {
+	if(Util.isDeviceATablet) {
 		self.preferredContentSize = CGSizeMake(320.0, 600.0);
 	}
 	
@@ -59,13 +59,13 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[[Log textViewLogger] setTextView:self.textView];
+	Log.textViewLogger.textView = self.textView;
 	[super viewWillAppear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	[[Log textViewLogger] setTextView:nil];
+	Log.textViewLogger.textView = nil;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -77,7 +77,7 @@
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 		app.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	}];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -85,7 +85,7 @@
 
 // lock to orientations allowed by the current scene
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	if(app.sceneManager.scene && !app.sceneManager.isRotated) {
 		return app.sceneManager.scene.preferredOrientations;
 	}

@@ -24,7 +24,7 @@
 	self.fillColor = WIDGET_FILL_COLOR;
 	self.frameColor = WIDGET_FRAME_COLOR;
 	self.controlColor = WIDGET_FRAME_COLOR;
-	self.backgroundColor = [UIColor clearColor];
+	self.backgroundColor = UIColor.clearColor;
 	
 	self.minValue = 0.0;
 	self.maxValue = 1.0;
@@ -35,7 +35,7 @@
 	self.receiveName = @"";
 
 	self.label = [[UILabel alloc] initWithFrame:CGRectZero];
-	self.label.backgroundColor = [UIColor clearColor];
+	self.label.backgroundColor = UIColor.clearColor;
 	self.label.textColor = WIDGET_FRAME_COLOR;
 	self.label.textAlignment = NSTextAlignmentLeft;
 	[self addSubview:self.label];
@@ -123,19 +123,19 @@
 	
 		// pass float through, setting the value
 		if([list isNumberAt:0]) {
-			[self receiveFloat:[[list objectAtIndex:0] floatValue] fromSource:source];
+			[self receiveFloat:[list[0] floatValue] fromSource:source];
 		}
 		else if([list isStringAt:0]) {
 			// if we receive a set message
-			if([[list objectAtIndex:0] isEqualToString:@"set"]) {
+			if([list[0] isEqualToString:@"set"]) {
 				NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)];
-				[self receiveEditMessage:[list objectAtIndex:1] withArguments:[list objectsAtIndexes:set]];
+				[self receiveEditMessage:list[1] withArguments:[list objectsAtIndexes:set]];
 			}
-			else if([[list objectAtIndex:0] isEqualToString:@"bang"]) { // got a bang!
+			else if([list[0] isEqualToString:@"bang"]) { // got a bang!
 				[self receiveBangFromSource:source];
 			}
 			else { // pass symbol through, setting the value
-				[self receiveSymbol:[list objectAtIndex:0] fromSource:source];
+				[self receiveSymbol:list[0] fromSource:source];
 			}
 		}
 	}
@@ -149,10 +149,10 @@
 	// set message sets value without sending
 	if([message isEqualToString:@"set"] && arguments.count == 1) {
 		if([arguments isNumberAt:0]) {
-			[self receiveSetFloat:[[arguments objectAtIndex:0] floatValue]];
+			[self receiveSetFloat:[arguments[0] floatValue]];
 		}
 		else if([arguments isStringAt:0]) {
-			[self receiveSetSymbol:[arguments objectAtIndex:0]];
+			[self receiveSetSymbol:arguments[0]];
 		}
 	}
 	else if([message isEqualToString:@"bang"]) { // got a bang!
