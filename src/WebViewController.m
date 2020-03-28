@@ -59,11 +59,9 @@
 	if([url isFileURL]) {
 		NSError *error;
 		if(![url checkResourceIsReachableAndReturnError:&error]) {
-			UIAlertView *alert = [[UIAlertView alloc]
-			                      initWithTitle:@"Couldn't launch URL"
-			                      message:error.localizedDescription
-			                      delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-			[alert show];
+			[[UIAlertController alertControllerWithTitle:@"Couldn't launch URL"
+												 message:error.localizedDescription
+									   cancelButtonTitle:@"Ok"] show];
 			return;
 		}
 		NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];

@@ -13,9 +13,6 @@
 #import "Log.h"
 #import "Util.h"
 
-// make life easier here ...
-#import "UIAlertView+Blocks.h"
-
 @interface Browser () {}
 
 // top browser layer in the nav controller or self if none
@@ -25,7 +22,7 @@
 - (BOOL)_createFilePath:(NSString *)path;
 
 // move/overwrite a file path in to a new dir, does not check existence
-- (BOOL)_movePath:(NSString *)path toDirectory:(NSString *)newDir;
+- (BOOL)_movePath:(NSString *)path toDirectory:(NSString *)newDir completion:(void (^)(BOOL failed))completion;
 
 @end
 
@@ -129,69 +126,65 @@
 
 #pragma mark Dialogs
 
-// using UIAlertView didDimissBlock instead of tapBlock as dialogs would
-// *sometimes* disappear and leave app in non-interactive state:
-// http://stackoverflow.com/questions/6611380/uialertview-and-uiactionview-disappear-app-left-in-inconsistent-state
-
 - (void)showNewFileDialog {
 	DDLogVerbose(@"Browser: new file dialog");
 	if(!self.top.directory) {
 		DDLogWarn(@"Browser: couldn't show new file dialog, directory not set (loadDirectory first?)");
 		return;
 	}
-	NSString *title = @"Create new file", *message;
+	NSString *title = @"Create New File", *message;
 	if(self.root.extensions) {
 		if(self.root.extensions.count == 1) {
 			title = [NSString stringWithFormat:@"Create new .%@ file", self.root.extensions.firstObject];
 			message = nil;
 		}
 		else {
-			message = [NSString stringWithFormat:@"(include required extension: .%@)", [self.root.extensions componentsJoinedByString:@", ."]];
+			message = [NSString stringWithFormat:@"(include required extension: .%@)",
+					   [self.root.extensions componentsJoinedByString:@", ."]];
 		}
 	}
 	else {
 		message = @"(include extension aka \"file.txt\")";
 	}
-	UIAlertView *alertView = [[UIAlertView alloc]
-							  initWithTitle:title
-							  message:message
-							  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
-	alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-	alertView.didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-		if(buttonIndex == 1) { // Create
-			NSString *file = [alertView textFieldAtIndex:0].text;
-			if([file isEqualToString:@""]) {
-				return;
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+																   message:message
+														 cancelButtonTitle:@"Cancel"];
+	[alert addTextFieldWithConfigurationHandler:nil];
+	UIAlertAction *createAction = [UIAlertAction actionWithTitle:@"Create"
+														   style:UIAlertActionStyleDefault
+														 handler:^(UIAlertAction * _Nonnull action) {
+		NSString *file = alert.textFields.firstObject.text;
+		if([file isEqualToString:@""]) {
+			return;
+		}
+		if(self.root.extensions) {
+			if(self.root.extensions.count == 1) {
+				file = [file stringByAppendingPathExtension:self.root.extensions.firstObject];
 			}
-			if(self.root.extensions) {
-				if(self.root.extensions.count == 1) {
-					file = [[alertView textFieldAtIndex:0].text stringByAppendingPathExtension:self.root.extensions.firstObject];
-				}
-				else {
-					if(![self.root.extensions containsObject:file.pathExtension]) {
-						DDLogWarn(@"Browser: couldn't create \"%@\", missing one of the required extensions: %@", file.lastPathComponent, [self.root.extensions componentsJoinedByString:@", "]);
-						NSString *title = [NSString stringWithFormat:@"Couldn't create \"%@\"", file.lastPathComponent];
-						NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@", [self.root.extensions componentsJoinedByString:@", ."]];
-						UIAlertView *alertView = [[UIAlertView alloc]
-												  initWithTitle:title
-												  message:message
-												  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-						[alertView show];
-						return;
-					}
-				}
-			}
-			DDLogVerbose(@"Browser: new file: %@", file);
-			file = [self.top.directory stringByAppendingPathComponent:file];
-			if([self createFilePath:file]) {
-				[self.top reloadDirectory];
-				if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
-					[self.root.delegate browser:self.root createdFile:file];
+			else {
+				if(![self.root.extensions containsObject:file.pathExtension]) {
+					DDLogWarn(@"Browser: couldn't create \"%@\", missing one of the required extensions: %@",
+							  file.lastPathComponent, [self.root.extensions componentsJoinedByString:@", "]);
+					NSString *title = [NSString stringWithFormat:@"Couldn't create \"%@\"", file.lastPathComponent];
+					NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@", [self.root.extensions componentsJoinedByString:@", ."]];
+					[[UIAlertController alertControllerWithTitle:title
+														 message:message
+											   cancelButtonTitle:@"Ok"] show];
+					return;
 				}
 			}
 		}
-	};
-	[alertView show];
+		DDLogVerbose(@"Browser: new file: %@", file);
+		file = [self.top.directory stringByAppendingPathComponent:file];
+		if([self createFilePath:file]) {
+			[self.top reloadDirectory];
+			if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
+				[self.root.delegate browser:self.root createdFile:file];
+			}
+		}
+	}];
+	[alert addAction:createAction];
+	[alert show];
 }
 
 - (void)showNewDirectoryDialog {
@@ -200,31 +193,31 @@
 		DDLogWarn(@"Browser: couldn't show new dir dialog, directory not set (loadDirectory first?)");
 		return;
 	}
-	UIAlertView *alert = [[UIAlertView alloc]
-						  initWithTitle:@"Create new folder"
-						  message:nil
-						  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
-	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-	alert.didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-		if(buttonIndex == 1) { // Create
-			NSString *dir = [alertView textFieldAtIndex:0].text;
-			if([dir isEqualToString:@""]) {
-				return;
-			}
-			DDLogVerbose(@"Browser: new dir: %@", dir);
-			dir = [self.top.directory stringByAppendingPathComponent:dir];
-			if([self createDirectoryPath:dir]) {
-				[self.top reloadDirectory];
-				if([self.root.delegate respondsToSelector:@selector(browser:createdDirectory:)]) {
-					[self.root.delegate browser:self.root createdDirectory:dir];
-				}
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Create New Folder"
+																   message:nil
+														 cancelButtonTitle:@"Cancel"];
+	[alert addTextFieldWithConfigurationHandler:nil];
+	UIAlertAction *createAction = [UIAlertAction actionWithTitle:@"Create"
+														   style:UIAlertActionStyleDefault
+														 handler:^(UIAlertAction * _Nonnull action) {
+		NSString *dir = alert.textFields.firstObject.text;
+		if([dir isEqualToString:@""]) {
+			return;
+		}
+		DDLogVerbose(@"Browser: new dir: %@", dir);
+		dir = [self.top.directory stringByAppendingPathComponent:dir];
+		if([self createDirectoryPath:dir]) {
+			[self.top reloadDirectory];
+			if([self.root.delegate respondsToSelector:@selector(browser:createdDirectory:)]) {
+				[self.root.delegate browser:self.root createdDirectory:dir];
 			}
 		}
-	};
+	}];
+	[alert addAction:createAction];
 	[alert show];
 }
 
-- (void)showRenameDialogForPath:(NSString *)path {
+- (void)showRenameDialogForPath:(NSString *)path completion:(void (^)(void))completion {
 	DDLogVerbose(@"Browser: rename dialog");
 	if(!self.top.directory) {
 		DDLogWarn(@"Browser: couldn't show rename dialog, directory not set (loadDirectory first?)");
@@ -236,43 +229,73 @@
 	if(!isDir) {
 		if(self.root.extensions) {
 			if(self.root.extensions.count > 1) {
-				message = [NSString stringWithFormat:@"(include required extension: .%@)", [self.root.extensions componentsJoinedByString:@", ."]];
+				message = [NSString stringWithFormat:@"(include required extension: .%@)",
+						   [self.root.extensions componentsJoinedByString:@", ."]];
 			}
-		}
-		else {
-			message = @"(include extension aka \"file.txt\")";
 		}
 	}
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Done", nil];
-	alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-	alertView.didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-		if(buttonIndex == 1) { // Done
-			NSString *newPath = [self.top.directory stringByAppendingPathComponent:[alertView textFieldAtIndex:0].text];
-			if(!isDir) {
-				if(self.root.extensions.count == 1) {
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+																   message:message
+														 cancelButtonTitle:nil];
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+														   style:UIAlertActionStyleCancel
+														 handler:^(UIAlertAction * _Nonnull action) {
+		if(completion) {
+			completion();
+		}
+	}];
+	UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"Done"
+														 style:UIAlertActionStyleDefault
+													   handler:^(UIAlertAction * _Nonnull action) {
+		NSString *newPath = [self.top.directory stringByAppendingPathComponent:alert.textFields.firstObject.text];
+		if(!isDir) {
+			if(!self.root.extensions || self.root.extensions.count == 0) {
+				// infer using provided or existing extension
+				if([newPath.pathExtension isEqualToString:@""]) {
+					newPath = [newPath stringByAppendingPathExtension:path.pathExtension];
+				}
+			}
+			else if(self.root.extensions.count == 1) {
+				// append default extension
+				if(![newPath.pathExtension isEqualToString:self.root.extensions.firstObject]) {
 					newPath = [newPath stringByAppendingPathExtension:self.root.extensions.firstObject];
 				}
-				else {
-					if(![self.root.extensions containsObject:newPath.pathExtension]) {
-						DDLogWarn(@"Browser: couldn't rename to \"%@\", missing one of the required extensions: %@", newPath.lastPathComponent, [self.root.extensions componentsJoinedByString:@", "]);
-						NSString *title = [NSString stringWithFormat:@"Couldn't rename to \"%@\"", newPath.lastPathComponent];
-						NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@", [self.root.extensions componentsJoinedByString:@", ."]];
-						UIAlertView *alertView = [[UIAlertView alloc]
-											  initWithTitle:title
-											  message:message
-											  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-						[alertView show];
-						return;
-					}
-				}
 			}
-			DDLogVerbose(@"Browser: rename %@ to %@", path.lastPathComponent, newPath.lastPathComponent);
-			if([self renamePath:path to:newPath]) {
-				[self.top reloadDirectory];
+			else if(![self.root.extensions containsObject:newPath.pathExtension]) {
+				// check for required extension
+				DDLogWarn(@"Browser: couldn't rename to \"%@\", missing one of the required extensions: %@",
+						  newPath.lastPathComponent, [self.root.extensions componentsJoinedByString:@", "]);
+				NSString *title = [NSString stringWithFormat:@"Couldn't rename to \"%@\"", newPath.lastPathComponent];
+				NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@",
+									 [self.root.extensions componentsJoinedByString:@", ."]];
+				UIAlertController *ealert = [UIAlertController alertControllerWithTitle:title
+																				 message:message
+																	   cancelButtonTitle:nil];
+				UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok"
+																   style:UIAlertActionStyleCancel
+																 handler:^(UIAlertAction * _Nonnull action) {
+					if(completion) {
+						completion();
+					}
+				}];
+				[ealert addAction:okAction];
+				[ealert show];
+				return;
 			}
 		}
-	};
-	[alertView show];
+		DDLogVerbose(@"Browser: rename %@ to %@", path.lastPathComponent, newPath.lastPathComponent);
+		if([self renamePath:path to:newPath completion:^(BOOL failed) {
+			if(completion) {
+				completion();
+			}
+		}]) {
+			[self.top reloadDirectory];
+		}
+	}];
+	[alert addAction:cancelAction];
+	[alert addAction:doneAction];
+	[alert addTextFieldWithConfigurationHandler:nil];
+	[alert show];
 }
 
 #pragma mark Utils
@@ -284,21 +307,21 @@
 		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Overwrite it?",
 							 path.lastPathComponent,
 							 path.stringByDeletingLastPathComponent.lastPathComponent];
-		UIAlertView *alert = [[UIAlertView alloc]
-							  initWithTitle:@"Overwrite?"
-							  message:message
-							  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-		alert.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-			if(buttonIndex == 1) { // Ok
-				[NSFileManager.defaultManager removeItemAtPath:path error:nil];
-				if([self _createFilePath:path]) {
-					[self.top reloadDirectory];
-					if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
-						[self.root.delegate browser:self.root createdFile:path];
-					}
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
+																	   message:message
+															 cancelButtonTitle:@"Skip"];
+		UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Overwrite"
+														   style:UIAlertActionStyleDestructive
+														 handler:^(UIAlertAction * _Nonnull action) {
+			[NSFileManager.defaultManager removeItemAtPath:path error:nil];
+			if([self _createFilePath:path]) {
+				[self.top reloadDirectory];
+				if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
+					[self.root.delegate browser:self.root createdFile:path];
 				}
 			}
-		};
+		}];
+		[alert addAction:okAction];
 		[alert show];
 		return NO;
 	}
@@ -311,11 +334,9 @@
 	if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
 		if(![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:NULL error:&error]) {
 			DDLogError(@"Browser: couldn't create directory %@, error: %@", path.lastPathComponent, error.localizedDescription);
-			UIAlertView *alertView = [[UIAlertView alloc]
-									  initWithTitle:[NSString stringWithFormat:@"Couldn't create folder \"%@\"", path.lastPathComponent]
-									  message:error.localizedDescription
-									  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-			[alertView show];
+			[[UIAlertController alertControllerWithTitle:@"Create Failed"
+												 message:error.localizedDescription
+									   cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
 	}
@@ -323,27 +344,31 @@
 		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Please choose a different name.",
 							 path.lastPathComponent,
 							 path.stringByDeletingLastPathComponent.lastPathComponent];
-		UIAlertView *alertView = [[UIAlertView alloc]
-								  initWithTitle:@"Folder already exists"
-								  message:message
-								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-		[alertView show];
+		[[UIAlertController alertControllerWithTitle:@"Already Exists"
+											 message:message
+								   cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
 	return YES;
 }
 
-- (BOOL)renamePath:(NSString *)path to:(NSString *)newPath {
+- (BOOL)renamePath:(NSString *)path to:(NSString *)newPath completion:(void (^)(BOOL failed))completion {
 	NSError *error;
 	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
 		if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
 			DDLogError(@"Browser: couldn't rename %@ to %@, error: %@", path, newPath, error.localizedDescription);
-			NSString *title = [NSString stringWithFormat:@"Couldn't rename %@ to \"%@\"", path.lastPathComponent, newPath.lastPathComponent];
-			UIAlertView *alertView = [[UIAlertView alloc]
-									  initWithTitle:title
-									  message:error.localizedDescription
-									  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-			[alertView show];
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Rename Failed"
+																		   message:error.localizedDescription
+																 cancelButtonTitle:nil];
+			UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok"
+															   style:UIAlertActionStyleCancel
+															 handler:^(UIAlertAction * _Nonnull action) {
+				if(completion) {
+					completion(YES);
+				}
+			}];
+			[alert addAction:okAction];
+			[alert show];
 			return NO;
 		}
 		else {
@@ -353,10 +378,13 @@
 	else {
 		DDLogWarn(@"Browser: couldn't rename %@, path not found", path);
 	}
+	if(completion) {
+		completion(NO);
+	}
 	return YES;
 }
 
-- (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir {
+- (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir completion:(void (^)(BOOL failed))completion {
 	NSError *error;
 	NSString *newPath = [newDir stringByAppendingPathComponent:path.lastPathComponent];
 	if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
@@ -367,33 +395,59 @@
 		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Overwrite it?",
 							 path.lastPathComponent,
 							 path.stringByDeletingLastPathComponent.lastPathComponent];
-		UIAlertView *alert = [[UIAlertView alloc]
-							  initWithTitle:@"Overwrite?"
-							  message:message
-							  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-		alert.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-			if(buttonIndex == 1) { // Ok
-				if([self _movePath:path toDirectory:newDir]) {
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
+																	   message:message
+															 cancelButtonTitle:nil];
+		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Skip"
+															   style:UIAlertActionStyleCancel
+															 handler:^(UIAlertAction * _Nonnull action) {
+			if(completion) {
+				completion(NO);
+			}
+		}];
+		UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Overwrite"
+														   style:UIAlertActionStyleDestructive
+														 handler:^(UIAlertAction * _Nonnull action) {
+			[NSFileManager.defaultManager removeItemAtPath:newPath error:nil];
+			if([self _movePath:path toDirectory:newDir completion:^(BOOL failed) {
+				if(!failed) {
 					[self.top reloadDirectory];
 				}
+				if(completion) {
+					completion(failed);
+				}
+			}]) {
+			   return;
 			}
-		};
+			if(completion) {
+				completion(NO);
+			}
+		}];
+		[alert addAction:cancelAction];
+		[alert addAction:okAction];
 		[alert show];
 		return NO;
 	}
-	return [self _movePath:path toDirectory:newDir];
+	return [self _movePath:path toDirectory:newDir completion:completion];
 }
 
-- (BOOL)deletePath:(NSString *)path {
+- (BOOL)deletePath:(NSString *)path completion:(void (^)(BOOL failed))completion {
 	NSError *error;
 	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
 		if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
 			DDLogError(@"Browser: couldn't delete %@, error: %@", path, error.localizedDescription);
-			UIAlertView *alertView = [[UIAlertView alloc]
-									  initWithTitle:[NSString stringWithFormat:@"Couldn't delete %@", path.lastPathComponent]
-									  message:error.localizedDescription
-									  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-			[alertView show];
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Delete Failed"
+																		   message:error.localizedDescription
+																 cancelButtonTitle:nil];
+			UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok"
+															   style:UIAlertActionStyleCancel
+															 handler:^(UIAlertAction * _Nonnull action) {
+				if(completion) {
+					completion(YES);
+				}
+			}];
+			[alert addAction:okAction];
+			[alert show];
 			return NO;
 		}
 		else {
@@ -402,6 +456,9 @@
 	}
 	else {
 		DDLogWarn(@"Browser: couldn't delete %@, path not found", path);
+	}
+	if(completion) {
+		completion(NO);
 	}
 	return YES;
 }
@@ -431,7 +488,9 @@
 #pragma mark Subclassing
 
 - (UIBarButtonItem *)browsingModeRightBarItemForLayer:(BrowserLayer *)layer {
-	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:layer action:@selector(cancelButtonPressed)];
+	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+														 target:layer
+														 action:@selector(cancelButtonPressed)];
 }
 
 - (Browser *)newBrowser {
@@ -510,28 +569,35 @@
 	NSError *error;
 	if(![NSFileManager.defaultManager createFileAtPath:path contents:nil attributes:NULL]) {
 		DDLogError(@"Browser: couldn't create file %@", path);
-		UIAlertView *alertView = [[UIAlertView alloc]
-								  initWithTitle:[NSString stringWithFormat:@"Couldn't create file \"%@\"", path.lastPathComponent]
-								  message:error.localizedDescription
-								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-		[alertView show];
+		[[UIAlertController alertControllerWithTitle:@"Create Failed"
+											 message:error.localizedDescription
+								   cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
 	return YES;
 }
 
-- (BOOL)_movePath:(NSString *)path toDirectory:(NSString *)newDir {
+- (BOOL)_movePath:(NSString *)path toDirectory:(NSString *)newDir completion:(void (^)(BOOL failed))completion {
 	NSError *error;
 	NSString *newPath = [newDir stringByAppendingPathComponent:path.lastPathComponent];
 	if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
 		DDLogError(@"Browser: couldn't move %@ to %@, error: %@", path, newPath, error.localizedDescription);
-		NSString *title = [NSString stringWithFormat:@"Couldn't move %@ to \"%@\"", path.lastPathComponent, newDir];
-		UIAlertView *alertView = [[UIAlertView alloc]
-								  initWithTitle:title
-								  message:error.localizedDescription
-								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-		[alertView show];
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Move Failed"
+																	   message:error.localizedDescription
+															 cancelButtonTitle:nil];
+		UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok"
+														   style:UIAlertActionStyleCancel
+														 handler:^(UIAlertAction * _Nonnull action) {
+			if(completion) {
+				completion(YES);
+			}
+		}];
+		[alert addAction:okAction];
+		[alert show];
 		return NO;
+	}
+	if(completion) {
+		completion(NO);
 	}
 	return YES;
 }

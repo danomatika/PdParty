@@ -139,44 +139,36 @@
 		[self runScene:path withSceneType:@"RecordingScene"];
 	}
 	else if([BrowserViewController isZipFile:path]) { // unzip zipfiles
+		BOOL failed = NO;
 		NSError *error;
 		NSString *filename = path.lastPathComponent;
 		Unzip *zip = [[Unzip alloc] init];
 		if([zip open:path]) {
 			if(![zip unzipTo:Util.documentsPath overwrite:YES]) {
 				DDLogError(@"Browser: couldn't open zipfile: %@", path);
-				UIAlertView *alert = [[UIAlertView alloc]
-                                      initWithTitle: @"Unzip Failed"
-                                      message: [NSString stringWithFormat:@"Could not decompress %@", filename]
-                                      delegate: nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
-				[alert show];
+				failed = YES;
 			}
 			[zip close];
 		}
 		else {
 			DDLogError(@"Browser: couldn't unzip %@", path);
-			UIAlertView *alert = [[UIAlertView alloc]
-                                      initWithTitle: @"Unzip Failed"
-                                      message: [NSString stringWithFormat:@"Could not decompress %@", filename]
-                                      delegate: nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
-			[alert show];
+			failed = YES;
+		}
+		if(failed) {
+			NSString *message = [NSString stringWithFormat:@"Could not decompress %@", filename];
+			[[UIAlertController alertControllerWithTitle:@"Unzip Failed"
+												 message:message
+									   cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
 		if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) { // remove existing file
 			DDLogError(@"Browser: couldn't remove %@, error: %@", path, error.localizedDescription);
 		}
 		DDLogVerbose(@"Browser: unzipped %@", filename);
-		UIAlertView *alert = [[UIAlertView alloc]
-								  initWithTitle: @"Unzip Succeeded"
-								  message: [NSString stringWithFormat:@"%@ unzipped", filename]
-								  delegate: nil
-								  cancelButtonTitle:@"OK"
-								  otherButtonTitles:nil];
-		[alert show];
+		NSString *message = [NSString stringWithFormat:@"%@ unzipped", filename];
+		[[UIAlertController alertControllerWithTitle:@"Unzip Succeeded"
+											 message:message
+								   cancelButtonTitle:@"Ok"] show];
 		[self reloadDirectory];
 	}
 	return YES;

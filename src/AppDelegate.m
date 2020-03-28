@@ -150,67 +150,48 @@
 // http://www.infragistics.com/community/blogs/stevez/archive/2013/03/04/associate-a-file-type-with-your-ios-application.aspx
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-	// called when a registered file type is opened in the Files app, transferred via the Open With... mechanism, or
-	// PdParty is invoked via the custom "pdparty://" scheme
+	// Called when a registered file type is opened in the Files app, transferred via the Open With... mechanism, or
+	// PdParty is invoked via the custom "pdparty://" scheme.
+
+	NSString *path = nil;
 	DDLogVerbose(@"AppDelegate: openURL %@ from %@", url, options[UIApplicationOpenURLOptionsSourceApplicationKey]);
 
 	// open patch or scene via "pdparty://" scheme with "open" domain, ie. "pdparty://open/path/to/patch.pd"
-	if([url.scheme isEqualToString:@"pdparty"]) {
-		if(!url.host || !url.path) {return YES;}  // nothing to do, just open
-		if([url.host isEqualToString:@"open"]) {
-			NSString *path = [Util.documentsPath stringByAppendingPathComponent:url.path];
-			DDLogVerbose(@"AppDelegate: opening %@", path);
-			if(![self tryOpeningPath:path]) {
-				DDLogError(@"AppDelegate: couldn't open pdparty url: %@", url.path);
-				UIAlertView *alert = [[UIAlertView alloc]
-									  initWithTitle: @"Open Failed"
-									  message: [NSString stringWithFormat:@"%@ not found in Documents", url.path]
-									  delegate: nil
-									  cancelButtonTitle:@"OK"
-									  otherButtonTitles:nil];
-				[alert show];
-				return NO;
-			}
-		}
-		return YES;
+	if([url.scheme isEqualToString:@"pdparty"] && [url.host isEqualToString:@"open"] && url.path) {
+			path = [Util.documentsPath stringByAppendingPathComponent:url.path];
 	}
-
 	// open in place from Files app or other file provider (iCloud?)
-	if(options[UIApplicationOpenURLOptionsOpenInPlaceKey] &&
+	else if(options[UIApplicationOpenURLOptionsOpenInPlaceKey] &&
 	   [options[UIApplicationOpenURLOptionsOpenInPlaceKey] boolValue]) {
 		// standardize path, otherwise file URLs from the Files app may start with the /private prefix
-		NSString *path = url.URLByStandardizingPath.path;
+		path = url.URLByStandardizingPath.path;
+	}
+	if(path) {
+		DDLogVerbose(@"AppDelegate: opening path: %@", path);
 		if(![path hasPrefix:Util.documentsPath]) {
 			// refuse for now, opening single patches works but there doesn't seem to be an easy way to get permissions
 			// to access other files outside of the single security-scoped url
 			DDLogError(@"AppDelegate: refused to open path outside of sandbox: %@", path);
-			UIAlertView *alert = [[UIAlertView alloc]
-								  initWithTitle: @"Open Failed"
-								  message: [NSString stringWithFormat:@"Could not open %@ outside of the PdParty sandbox.\n\nPlease copy the patch(es) or scene directory into PdParty.", path.lastPathComponent]
-								  delegate: nil
-								  cancelButtonTitle:@"OK"
-								  otherButtonTitles:nil];
-			[alert show];
+			NSString *message = [NSString stringWithFormat:@"Could not open %@ outside of the PdParty sandbox.\n\nPlease copy the patch(es) or scene directory into PdParty.", path.lastPathComponent];
+			[[UIAlertController alertControllerWithTitle:@"Open Failed"
+												 message:message
+									   cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
 		if(![self tryOpeningPath:path]) {
-			DDLogError(@"AppDelegate: couldn't open path in place: %@", path);
-			UIAlertView *alert = [[UIAlertView alloc]
-								  initWithTitle: @"Open Failed"
-								  message: [NSString stringWithFormat:@"Could not open %@", path.lastPathComponent]
-								  delegate: nil
-								  cancelButtonTitle:@"OK"
-								  otherButtonTitles:nil];
-			[alert show];
+			DDLogError(@"AppDelegate: couldn't open path: %@", path);
+			NSString *message = [NSString stringWithFormat:@"Could not open %@", path.lastPathComponent];
+			[[UIAlertController alertControllerWithTitle:@"Open Failed"
+												 message:message
+									   cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
-
 		return YES;
 	}
 
 	// copy patch or zip file from Documents/Inbox
 	NSError *error;
-	NSString *path = url.path;
+	path = url.path;
 	NSString *filename = path.lastPathComponent;
 	NSString *ext = path.pathExtension;
 	DDLogVerbose(@"AppDelegate: receiving %@", filename);
@@ -225,27 +206,22 @@
 		}
 		if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
 			DDLogError(@"AppDelegate: couldn't move %@, error: %@", path, error.localizedDescription);
-			UIAlertView *alert = [[UIAlertView alloc]
-			                          initWithTitle: @"Copy Failed"
-			                          message: [NSString stringWithFormat:@"Could not copy %@ to Documents", filename]
-			                          delegate: nil
-			                          cancelButtonTitle:@"OK"
-			                          otherButtonTitles:nil];
-			[alert show];
+			NSString *message = [NSString stringWithFormat:@"Could not copy %@ to Documents", filename];
+			[[UIAlertController alertControllerWithTitle:@"Copy Failed"
+												 message:message
+									   cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
 		[NSFileManager.defaultManager removeItemAtURL:url error:&error]; // remove original file
 
 		DDLogVerbose(@"AppDelegate: copied %@ to Documents", filename);
-		UIAlertView *alert = [[UIAlertView alloc]
-			                          initWithTitle: @"Copy Succeeded"
-			                          message: [NSString stringWithFormat:@"%@ copied to Documents", filename]
-			                          delegate: nil
-			                          cancelButtonTitle:@"OK"
-			                          otherButtonTitles:nil];
-		[alert show];
+		NSString *message = [NSString stringWithFormat:@"%@ copied to Documents", filename];
+		[[UIAlertController alertControllerWithTitle:@"Copy Succeeded"
+											 message:message
+								   cancelButtonTitle:@"Ok"] show];
 	}
 	else { // assume zip file
+		BOOL failed = NO;
 		Unzip *zip = [[Unzip alloc] init];
 		if([zip open:path]) {
 			if([zip unzipTo:Util.documentsPath overwrite:YES]) {
@@ -253,38 +229,28 @@
 					DDLogError(@"AppDelegate: couldn't remove %@, error: %@", path, error.localizedDescription);
 				}
 			}
-			else{
+			else {
 				DDLogError(@"AppDelegate: couldn't open zipfile: %@", path);
-				UIAlertView *alert = [[UIAlertView alloc]
-			                          initWithTitle: @"Unzip Failed"
-			                          message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
-			                          delegate: nil
-			                          cancelButtonTitle:@"OK"
-			                          otherButtonTitles:nil];
-				[alert show];
+				failed = YES;
 			}
 			[zip close];
 		}
 		else {
 			DDLogError(@"AppDelegate: couldn't unzip %@ to Documents", path);
-			UIAlertView *alert = [[UIAlertView alloc]
-			                          initWithTitle: @"Unzip Failed"
-			                          message: [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename]
-			                          delegate: nil
-			                          cancelButtonTitle:@"OK"
-			                          otherButtonTitles:nil];
-			[alert show];
+			failed = YES;
+		}
+		if(failed) {
+			NSString *message = [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename];
+			[[UIAlertController alertControllerWithTitle:@"Unzip Failed"
+												 message:message
+									   cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
-
 		DDLogVerbose(@"AppDelegate: unzipped %@ to Documents", filename);
-		UIAlertView *alert = [[UIAlertView alloc]
-		                          initWithTitle: @"Unzip Succeeded"
-		                          message: [NSString stringWithFormat:@"%@ unzipped to Documents", filename]
-		                          delegate: nil
-		                          cancelButtonTitle:@"OK"
-		                          otherButtonTitles:nil];
-		[alert show];
+		NSString *message = [NSString stringWithFormat:@"%@ unzipped to Documents", filename];
+		[[UIAlertController alertControllerWithTitle:@"Unzip Succeeded"
+											 message:message
+								   cancelButtonTitle:@"Ok"] show];
 	}
 	
 	// reload if we're in the Documents dir
@@ -388,35 +354,27 @@
 - (void)copyLibDirectory {
 	NSError *error;
 	if(![self copyResourcePatchDirectoryToDocuments:@"lib" error:error]) {
-		UIAlertView *alertView = [[UIAlertView alloc]
-								  initWithTitle:@"Couldn't lib samples folder"
-								  message:error.localizedDescription
-								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-		[alertView show];
+		[[UIAlertController alertControllerWithTitle:@"Couldn't copy lib folder"
+											 message:error.localizedDescription
+								   cancelButtonTitle:@"Ok"] show];
 	}
 }
 
 - (void)copySamplesDirectory {
 	NSError *error;
-	UIAlertView *alertView;
 	if(![self copyResourcePatchDirectoryToDocuments:@"samples" error:error]) {
-		UIAlertView *alertView = [[UIAlertView alloc]
-								  initWithTitle:@"Couldn't copy samples folder"
-								  message:error.localizedDescription
-								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-		[alertView show];
+		[[UIAlertController alertControllerWithTitle:@"Couldn't copy samples folder"
+											 message:error.localizedDescription
+								   cancelButtonTitle:@"Ok"] show];
 	}
 }
 
 - (void)copyTestsDirectory {
 	NSError *error;
-	UIAlertView *alertView;
 	if(![self copyResourcePatchDirectoryToDocuments:@"tests" error:error]) {
-		UIAlertView *alertView = [[UIAlertView alloc]
-								  initWithTitle:@"Couldn't copy tests folder"
-								  message:error.localizedDescription
-								  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-		[alertView show];
+		[[UIAlertController alertControllerWithTitle:@"Couldn't copy tests folder"
+											 message:error.localizedDescription
+								   cancelButtonTitle:@"Ok"] show];
 	}
 }
 
@@ -443,7 +401,7 @@
 	DDLogVerbose(@"AppDelegate: copying %@ to Documents", dirPath);
 	
 	// create dest folder if it doesn't exist
-	NSString* destPath = [Util.documentsPath stringByAppendingPathComponent:dirPath];
+	NSString *destPath = [Util.documentsPath stringByAppendingPathComponent:dirPath];
 	if(![NSFileManager.defaultManager fileExistsAtPath:destPath]) {
 		if(![NSFileManager.defaultManager createDirectoryAtPath:destPath withIntermediateDirectories:NO attributes:NULL error:&error]) {
 			DDLogError(@"AppDelegate: couldn't create %@, error: %@", destPath, error.localizedDescription);

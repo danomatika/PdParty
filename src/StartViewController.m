@@ -88,12 +88,10 @@
 	
 		// check if wifi is on/reachable
 		if(![WebServer isLocalWifiReachable]) {
-			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Wifi?"
-			                                                    message:@"You need a Wifi connection in order to enable the server"
-			                                                   delegate:self
-			                                          cancelButtonTitle:@"Ok"
-			                                          otherButtonTitles:nil];
-			[alertView show];
+			NSString *message = @"You need a Wifi connection in order to enable the server.";
+			[[UIAlertController alertControllerWithTitle:@"Wifi?"
+												 message:message
+									   cancelButtonTitle:@"Ok"] show];
 			self.serverEnabledSwitch.on = NO; // reset switch
 			return;
 		}

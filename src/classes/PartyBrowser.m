@@ -51,21 +51,27 @@
 #pragma mark BrowserDataDelegate
 
 - (BOOL)browser:(Browser *)browser shouldAddPath:(NSString *)path isDir:(BOOL)isDir {
-	
-	// keep Documents/Inbox from paths array since we don't have permission to delete it,
-	// this is where the system copies files when using AirDrop or the "Open With ..." mechanism
-	if(isDir && self.isRootLayer) { // root is Documents folder
-		if([path.lastPathComponent isEqualToString:@"Inbox"]) {
+	NSError *error;
+	NSString *file = path.lastPathComponent;
+	if(isDir) {
+		// keep Documents/Inbox from paths array since we don't have permission to delete it,
+		// this is where the system copies files when using AirDrop or the "Open With ..." mechanism
+		if(self.isRootLayer && [path.lastPathComponent isEqualToString:@"Inbox"]) {
 			return NO;
 		}
-	}
-	
-	if(isDir) {
+		// remove __MACOSX added to zip files by macOS
+		if([file isEqualToString:@"__MACOSX"]) {
+			if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
+				DDLogError(@"FileBrowser: couldn't remove %@, error: %@", file, error.localizedDescription);
+			}
+			else {
+				DDLogVerbose(@"FileBrowser: removed %@", file);
+				return NO;
+			}
+		}
 		return YES;
 	}
 	else {
-		NSError *error;
-		NSString *file = path.lastPathComponent;
 		if(self.extensions) {
 			if([self pathHasAllowedExtension:file]) { // add allowed extensions
 				return YES;
@@ -81,9 +87,8 @@
 			else if([PartyBrowser isZipFile:path]) { // add zipfiles
 				return YES;
 			}
-			// remove Finder DS_Store garbage (created over WebDAV) and __MACOSX added to zip files
-			else if([file isEqualToString:@"__MACOSX"] ||
-			   [file isEqualToString:@"._.DS_Store"] || [file isEqualToString:@".DS_Store"]) {
+			// remove Finder DS_Store garbage (created over WebDAV)
+			else if([file isEqualToString:@"._.DS_Store"] || [file isEqualToString:@".DS_Store"]) {
 				if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
 					DDLogError(@"FileBrowser: couldn't remove %@, error: %@", file, error.localizedDescription);
 				}

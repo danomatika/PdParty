@@ -82,7 +82,6 @@
 }
 
 - (IBAction)setIncomingPort:(id)sender {
-	NSLog(@"setting incoming port");
 	int port = [WebServer checkPortValueFromTextField:self.incomingPortTextField];
 	if(port < 0) { // set current port on bad value
 		self.incomingPortTextField.text = [NSString stringWithFormat:@"%d", osc.listenPort];
@@ -104,12 +103,9 @@
 
 - (void)startOsc:(NSTimer *)theTimer {
 	if(![osc startListening]) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Couldn't start OSC Server"
-									message:[NSString stringWithFormat:@"Check your port & address settings."]
-								   delegate:self
-						  cancelButtonTitle:@"Ok"
-						  otherButtonTitles:nil];
-		[alertView show];
+		[[UIAlertController alertControllerWithTitle:@"Couldn't start OSC Server"
+											 message:@"Check your port & address settings."
+								   cancelButtonTitle:@"Ok"] show];
 	}
 }
 

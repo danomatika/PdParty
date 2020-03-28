@@ -141,7 +141,7 @@
 /// show rename dialog manually, uses file extensions if set
 /// if only 1 file extension is set, automatically appends extension when
 /// renaming files
-- (void)showRenameDialogForPath:(NSString *)path;
+- (void)showRenameDialogForPath:(NSString *)path completion:(void (^)(void))completion;
 
 #pragma mark Utils
 
@@ -152,13 +152,16 @@
 - (BOOL)createDirectoryPath:(NSString *)dir;
 
 /// rename full path
-- (BOOL)renamePath:(NSString *)path to:(NSString *)newPath;
+- (BOOL)renamePath:(NSString *)path to:(NSString *)newPath
+		completion:(void (^)(BOOL failed))completion;
 
 /// move path to a new directory
-- (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir;
+- (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir
+	  completion:(void (^)(BOOL failed))completion;
 
 /// delete full path
-- (BOOL)deletePath:(NSString *)path;
+- (BOOL)deletePath:(NSString *)path
+		completion:(void (^)(BOOL failed))completion;
 
 /// get the number of files for the current file extensions
 - (unsigned int)fileCountForExtensions;

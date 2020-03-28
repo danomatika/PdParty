@@ -12,7 +12,6 @@
 
 #import "AppDelegate.h"
 #import "Gui.h"
-#import "UIAlertView+Blocks.h"
 
 @implementation Loadsave
 
@@ -109,16 +108,17 @@
 			NSString *path = [app.sceneManager.currentPath stringByAppendingPathComponent:self.directory];
 			if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
 				DDLogInfo(@"LoadSave: %@ doesn't exist, create it?", self.directory);
-				UIAlertView *alertView = [[UIAlertView alloc]
-									  initWithTitle:[NSString stringWithFormat:@"%@ folder doesn't exist", self.extension]
-									  message:@"Create it?"
-									  delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Create", nil];
-				alertView.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-					if(buttonIndex == 1) { // Create
-						[browser createDirectoryPath:path];
-					}
-				};
-				[alertView show];
+				NSString *title = [NSString stringWithFormat:@"%@ folder doesn't exist", self.extension];
+				UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+																			   message:@"Create it?"
+																	 cancelButtonTitle:@"Cancel"];
+				UIAlertAction *createAction = [UIAlertAction actionWithTitle:@"Create"
+																	   style:UIAlertActionStyleDefault
+																	 handler:^(UIAlertAction *action) {
+					[browser createDirectoryPath:path];
+				}];
+				[alert addAction:createAction];
+				[alert show];
 				return YES;
 			}
 			else {
@@ -131,11 +131,13 @@
 		if(self.directory && self.extension && [browser fileCountForExtensions] == 0) {
 			if([message isEqualToString:@"load"]) {
 				DDLogVerbose(@"Loadsave: dir & extension set when loading, but no files to load");
-				UIAlertView *alertView = [[UIAlertView alloc]
-									  initWithTitle:[NSString stringWithFormat:@"No .%@ files found", self.extension]
-									  message:@"Save one first?"
-									  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-				[alertView show];
+				NSString *title = [NSString stringWithFormat:@"No .%@ files found", self.extension];
+				UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+																			   message:@"Save one first?"
+																		preferredStyle:UIAlertControllerStyleAlert];
+				UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil];
+				[alert addAction:okAction];
+				[alert show];
 			}
 			else { // @"save"
 				[browser showNewFileDialog];

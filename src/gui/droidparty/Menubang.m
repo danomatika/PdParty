@@ -12,7 +12,6 @@
 
 #import "AppDelegate.h"
 #import "Gui.h"
-#import "UIAlertView+Blocks.h"
 
 static NSMutableArray *s_menubangs;
 

@@ -126,11 +126,25 @@
 
 @end
 
-#pragma Image Category
+#pragma mark Image Category
 
 @interface UIImage (OverlayColor)
 
 /// returns a copy of the image tinted with a color
 - (UIImage *)imageWithColor:(UIColor *)color;
+
+@end
+
+#pragma mark Alert Controller Category
+
+@interface UIAlertController (AlertView)
+
+/// creates an alert controller with an optional cancel button
++ (instancetype)alertControllerWithTitle:(NSString *)title
+								 message:(NSString *)message
+					   cancelButtonTitle:(NSString *)cancelButtonTitle;
+
+/// present from the application's key window root view controller
+- (void)show;
 
 @end

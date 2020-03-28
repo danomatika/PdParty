@@ -14,9 +14,6 @@
 #import "Log.h"
 #import "Util.h"
 
-// make life easier here ...
-#import "UIActionSheet+Blocks.h"
-
 #pragma mark - BrowserLayerCell
 
 // custom cell so default init sets subtitle style
@@ -33,6 +30,7 @@
 
 static BrowserLayer *s_moveRoot; //< browser layer that invoked a move edit
 static NSMutableArray *s_movePaths; //< paths to move
+static NSOperationQueue *s_queue; //< sequential operation queue
 
 @interface BrowserLayer () {
 	// for maintaining the scroll pos when navigating back,
@@ -424,9 +422,10 @@ static NSMutableArray *s_movePaths; //< paths to move
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch(editingStyle) {
 		case UITableViewCellEditingStyleDelete:
-			[self.root deletePath:_paths[indexPath.row]];
-			[_paths removeObjectAtIndex:indexPath.row];
-			[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			if([self.root deletePath:_paths[indexPath.row] completion:nil]) {
+				[_paths removeObjectAtIndex:indexPath.row];
+				[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			}
 			break;
 		default:
 			break;
@@ -445,38 +444,40 @@ static NSMutableArray *s_movePaths; //< paths to move
 
 #pragma mark Browsing UI
 
-// https://ajnaware.wordpress.com/2011/02/26/dynamically-adding-uiactionsheet-buttons
 - (void)addButtonPressed {
 	DDLogVerbose(@"Browser: add button pressed");
 	// show action sheet
 	if(self.root.canAddFiles && self.root.canAddDirectories) {
-		UIActionSheet *sheet = [[UIActionSheet alloc]
-								initWithTitle:nil delegate:nil
-								cancelButtonTitle:nil
-								destructiveButtonTitle:nil
-								otherButtonTitles:nil];
+		UIAlertController *sheet = [UIAlertController alertControllerWithTitle:nil
+																	   message:nil
+																preferredStyle:UIAlertControllerStyleActionSheet];
 		if(self.root.canAddFiles) {
-			[sheet addButtonWithTitle:@"New File"];
-		}
-		if(self.root.canAddDirectories) {
-			[sheet addButtonWithTitle:@"New Folder"];
-		}
-		// make sure Cancel is on bottom
-		[sheet setCancelButtonIndex:[sheet addButtonWithTitle:@"Cancel"]];
-		sheet.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-			NSString *button = [actionSheet buttonTitleAtIndex:buttonIndex];
-			if([button isEqualToString:@"New File"]) {
+			UIAlertAction *action = [UIAlertAction actionWithTitle:@"New File"
+																style:UIAlertActionStyleDefault
+															  handler:^(UIAlertAction * _Nonnull action) {
 				if(self.root.canAddFiles) {
 					[self.root showNewFileDialog];
 				}
-			}
-			else if([button isEqualToString:@"New Folder"]) {
+			}];
+			[sheet addAction:action];
+		}
+		if(self.root.canAddDirectories) {
+			UIAlertAction *action = [UIAlertAction actionWithTitle:@"New Folder"
+															 style:UIAlertActionStyleDefault
+														   handler:^(UIAlertAction * _Nonnull action) {
 				if(self.root.canAddDirectories) {
 					[self.root showNewDirectoryDialog];
 				}
-			}
-		};
-		[sheet showFromToolbar:self.navigationController.toolbar];
+			}];
+			[sheet addAction:action];
+		}
+		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+															   style:UIAlertActionStyleCancel
+															 handler:nil];
+		[sheet addAction:cancelAction];
+		sheet.modalPresentationStyle = UIModalPresentationPopover;
+		sheet.popoverPresentationController.barButtonItem = self.toolbarItems.firstObject; // +
+		[sheet show];
 	}
 	else { // show dialog directly, no action sheet
 		if(self.root.canAddFiles) {
@@ -528,7 +529,8 @@ static NSMutableArray *s_movePaths; //< paths to move
 	}
 	Browser *browserLayer = [self.root newBrowser]; // use subclass
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
-	browserLayer.title = [NSString stringWithFormat:@"Moving %lu item%@", (unsigned long)s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
+	browserLayer.title = [NSString stringWithFormat:@"Moving %lu item%@",
+						  (unsigned long)s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
 	browserLayer.directoriesOnly = YES;
 	browserLayer.mode = BrowserModeMove;
 	navigationController.toolbarHidden = NO;
@@ -548,12 +550,11 @@ static NSMutableArray *s_movePaths; //< paths to move
 		return;
 	}
 	self.mode = BrowserModeBrowse;
-	
-	// rename paths at the selected indices, one by one
+	NSMutableArray *paths = [NSMutableArray new];
 	for(NSIndexPath *indexPath in indexPaths) {
-		NSString *path = _paths[indexPath.row];
-		[self.root showRenameDialogForPath:path];
+		[paths addObject:_paths[indexPath.row]];
 	}
+	[self renamePathAtIndex:0 inPaths:paths];
 }
 
 - (void)deleteButtonPressed {
@@ -563,20 +564,12 @@ static NSMutableArray *s_movePaths; //< paths to move
 		return;
 	}
 	self.mode = BrowserModeBrowse;
-	
-	// delete paths at the selected indices
-	NSMutableIndexSet *deletedIndices = [[NSMutableIndexSet alloc] init];
+	NSMutableArray *paths = [NSMutableArray array];
 	for(NSIndexPath *indexPath in indexPaths) {
-		if([self.root deletePath:_paths[indexPath.row]]) {
-			[deletedIndices addIndex:indexPath.row];
-		}
+		[paths addObject:_paths[indexPath.row]];
 	}
-	
-	// delete from model & view
-	[self.tableView beginUpdates];
-	[_paths removeObjectsAtIndexes:deletedIndices]; // do this in one go, since indices may be invalidated in loop
-	[self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-	[self.tableView endUpdates];
+	NSMutableIndexSet *deletedIndices = [NSMutableIndexSet indexSet];
+	[self deletePathAtIndex:0 inPaths:paths deletedIndices:deletedIndices];
 }
 
 - (void)doneButtonPressed {
@@ -600,13 +593,71 @@ static NSMutableArray *s_movePaths; //< paths to move
 	if(!s_movePaths || s_movePaths.count < 1) {
 		return;
 	}
-	for(NSString *path in s_movePaths) {
-		[self.root movePath:path toDirectory:self.root.directory];
-	}
-	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-	[s_moveRoot reloadDirectory]; // show changes after move
-	s_moveRoot = nil;
+	[self movePathAtIndex:0 inPaths:s_movePaths];
 	s_movePaths = nil;
+}
+
+#pragma mark Private
+
+// recursively move paths
+- (void)movePathAtIndex:(NSUInteger)index inPaths:(NSArray *)paths {
+	if(index >= paths.count) {
+		// done
+		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+		[s_moveRoot reloadDirectory]; // show changes after move
+		s_moveRoot = nil;
+		return;
+	}
+	NSString *path = paths[index];
+	index++;
+	[self.root movePath:path toDirectory:self.root.directory completion:^(BOOL failed) {
+		[self movePathAtIndex:index inPaths:paths]; // next
+	}];
+}
+
+// recursively rename paths
+- (void)renamePathAtIndex:(NSUInteger)index inPaths:(NSArray *)paths {
+	if(index >= paths.count) {
+		// done
+		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+		return;
+	}
+	NSString *path = paths[index];
+	index++;
+	[self.root showRenameDialogForPath:path completion:^{
+		[self renamePathAtIndex:index inPaths:paths]; // next
+	}];
+}
+
+// recursively delete paths
+- (void)deletePathAtIndex:(NSUInteger)index inPaths:(NSArray *)paths
+			 deletedIndices:(NSMutableIndexSet *)deletedIndices {
+	if(index >= paths.count) {
+		// done
+		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+
+		// delete from model & view
+		NSMutableArray *deletedIndexPaths = [NSMutableArray new];
+		[deletedIndices enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+			[deletedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+		}];
+		[self.tableView beginUpdates];
+		[_paths removeObjectsAtIndexes:deletedIndices]; // do this in one go
+		[self.tableView deleteRowsAtIndexPaths:deletedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+		[self.tableView endUpdates];
+		return;
+	}
+	NSUInteger currentIndex = index;
+	NSString *path = paths[currentIndex];
+	index++;
+	__block NSMutableIndexSet *currentDeletedIndices = deletedIndices;
+	[self.root deletePath:path completion:^(BOOL failed) {
+		// next
+		if(!failed) {
+			[currentDeletedIndices addIndex:currentIndex];
+		}
+		[self deletePathAtIndex:index inPaths:paths deletedIndices:currentDeletedIndices];
+	}];
 }
 
 @end

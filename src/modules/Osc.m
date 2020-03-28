@@ -357,7 +357,7 @@ void errorCB(int num, const char *msg, const char *where) {
 	NSMutableString *s = [[NSMutableString alloc] initWithFormat:@"OSC: liblo server thread error %d", num];
 	if(msg) {[s appendFormat:@" : %s", msg];}     // might be NULL
 	if(where) {[s appendFormat:@" : %s", where];} // might be NULL
-	NSLog(@"%@", s);
+	DDLogError(@"%@", s);
 }
 
 int messageCB(const char *path, const char *types, lo_arg **argv,

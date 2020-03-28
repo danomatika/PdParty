@@ -226,19 +226,17 @@
 			hasIgnoredStartingLocation = NO;
 			if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
 				[PureData sendPrint:@"location denied"];
-				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Denied"
-											message:@"To reenable, please go to Settings and turn on Location Service for this app."
-										   delegate:nil
-								  cancelButtonTitle:@"OK"
-								  otherButtonTitles:nil]show];
+				NSString *message = @"To enable, please go to Settings and turn on Location Service for PdParty.";
+				[[UIAlertController alertControllerWithTitle:@"Location Service Access Denied"
+													 message:message
+										   cancelButtonTitle:@"Ok"] show];
 			}
 			else if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
 				[PureData sendPrint:@"location restricted"];
-				[[[UIAlertView alloc] initWithTitle:@"Location Service Access Restricted"
-											message:@"To reenable, please go to Settings and turn off the Location Service restriction for this app."
-										   delegate:nil
-								  cancelButtonTitle:@"OK"
-								  otherButtonTitles:nil]show];
+				NSString *message = @"To enable, please go to Settings and turn off the Location Service restriction for PdParty.";
+				[[UIAlertController alertControllerWithTitle:@"Location Service Access Restricted"
+													 message:message
+										   cancelButtonTitle:@"Ok"] show];
 			}
 			else {
 				[locationManager startUpdatingLocation];

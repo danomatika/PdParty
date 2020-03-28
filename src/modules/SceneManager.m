@@ -125,13 +125,9 @@
 	}
 	else {
 		DDLogError(@"SceneManager: couldn't open scene");
-		UIAlertView *alert = [[UIAlertView alloc]
-		                         initWithTitle:@"Opening Failed"
-		                         message:@"Couldn't open scene, file, or recording."
-		                         delegate:nil
-		                         cancelButtonTitle:@"OK"
-		                         otherButtonTitles:nil];
-		[alert show];
+		[[UIAlertController alertControllerWithTitle:@"Open Failed"
+											 message:@"Couldn't open scene, file, or recording."
+								   cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
 	

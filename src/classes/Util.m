@@ -280,7 +280,6 @@
 @implementation NSMutableString (CharSetString)
 
 - (void)setCharacter:(unichar)c atIndex:(unsigned)i {
-	//NSLog(@"setting %c at %d in \"%@\"", c, i, self);
 	[self replaceCharactersInRange:NSMakeRange(i, 1) withString:[NSString stringWithCharacters:&c length:1]];
 }
 
@@ -304,6 +303,35 @@
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	return newImage;
+}
+
+@end
+
+#pragma mark Alert Controller Category
+
+@implementation UIAlertController (AlertView)
+
++ (instancetype)alertControllerWithTitle:(NSString *)title
+								 message:(NSString *)message
+					   cancelButtonTitle:(NSString *)cancelButtonTitle {
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+																   message:message
+															preferredStyle:UIAlertControllerStyleAlert];
+	if(cancelButtonTitle) {
+		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:cancelButtonTitle
+															   style:UIAlertActionStyleCancel
+															 handler:nil];
+		[alert addAction:cancelAction];
+	}
+	return alert;
+}
+
+- (void)show {
+	UIViewController *root = UIApplication.sharedApplication.keyWindow.rootViewController;
+	while(root.presentedViewController) {
+        root = root.presentedViewController;
+    }
+	[root presentViewController:self animated:YES completion:nil];
 }
 
 @end

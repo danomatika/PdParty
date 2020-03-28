@@ -30,8 +30,6 @@
 		3050823216E1998F00895CB2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823116E1998F00895CB2 /* CFNetwork.framework */; };
 		3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823316E1999E00895CB2 /* libxml2.dylib */; };
 		3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3050823516E199AF00895CB2 /* MobileCoreServices.framework */; };
-		30555CEA1C1FAA6C009F4F9B /* UIActionSheet+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CE61C1FAA6C009F4F9B /* UIActionSheet+Blocks.m */; };
-		30555CEB1C1FAA6C009F4F9B /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CE81C1FAA6C009F4F9B /* UIAlertView+Blocks.m */; };
 		30555CF01C24C242009F4F9B /* Browser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CED1C24C242009F4F9B /* Browser.m */; };
 		30555CF11C24C242009F4F9B /* BrowserLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CEF1C24C242009F4F9B /* BrowserLayer.m */; };
 		30555CF41C25E18E009F4F9B /* PartyBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CF31C25E18E009F4F9B /* PartyBrowser.m */; };
@@ -216,10 +214,6 @@
 		3050823116E1998F00895CB2 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3050823316E1999E00895CB2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3050823516E199AF00895CB2 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		30555CE51C1FAA6C009F4F9B /* UIActionSheet+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Blocks.h"; sourceTree = "<group>"; };
-		30555CE61C1FAA6C009F4F9B /* UIActionSheet+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Blocks.m"; sourceTree = "<group>"; };
-		30555CE71C1FAA6C009F4F9B /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
-		30555CE81C1FAA6C009F4F9B /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		30555CEC1C24C242009F4F9B /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
 		30555CED1C24C242009F4F9B /* Browser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
 		30555CEE1C24C242009F4F9B /* BrowserLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserLayer.h; sourceTree = "<group>"; };
@@ -479,17 +473,6 @@
 				303BD3141759928D000FBEB5 /* RjWidget.m */,
 			);
 			path = rj;
-			sourceTree = "<group>";
-		};
-		30555CE31C1FAA6C009F4F9B /* blocks */ = {
-			isa = PBXGroup;
-			children = (
-				30555CE51C1FAA6C009F4F9B /* UIActionSheet+Blocks.h */,
-				30555CE61C1FAA6C009F4F9B /* UIActionSheet+Blocks.m */,
-				30555CE71C1FAA6C009F4F9B /* UIAlertView+Blocks.h */,
-				30555CE81C1FAA6C009F4F9B /* UIAlertView+Blocks.m */,
-			);
-			path = blocks;
 			sourceTree = "<group>";
 		};
 		3057726E1E88A08A007F9A92 /* GCDWebServer */ = {
@@ -900,7 +883,6 @@
 		30D60AA6198A8E3A003DFA70 /* browser */ = {
 			isa = PBXGroup;
 			children = (
-				30555CE31C1FAA6C009F4F9B /* blocks */,
 				30555CEC1C24C242009F4F9B /* Browser.h */,
 				30555CED1C24C242009F4F9B /* Browser.m */,
 				30555CEE1C24C242009F4F9B /* BrowserLayer.h */,
@@ -1165,7 +1147,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				30BC823B23E7A01B00C3BDA2 /* DDLog.m in Sources */,
-				30555CEA1C1FAA6C009F4F9B /* UIActionSheet+Blocks.m in Sources */,
 				305772931E88A08A007F9A92 /* GCDWebDAVServer.m in Sources */,
 				30ABE2EC16B5D0FB00464926 /* AppDelegate.m in Sources */,
 				30ABE2EE16B5D0FB00464926 /* main.m in Sources */,
@@ -1188,7 +1169,6 @@
 				302438CD1D5AC072005B15A2 /* WebViewController.m in Sources */,
 				3057729B1E88A08A007F9A92 /* GCDWebServerMultiPartFormRequest.m in Sources */,
 				30555CF41C25E18E009F4F9B /* PartyBrowser.m in Sources */,
-				30555CEB1C1FAA6C009F4F9B /* UIAlertView+Blocks.m in Sources */,
 				30BEF1111C2BAB5C0026C5DB /* Knob.m in Sources */,
 				30FA774F16E5636A000E8D2B /* StartViewController.m in Sources */,
 				30FA775316E68936000E8D2B /* Reachability.m in Sources */,

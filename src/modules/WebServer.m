@@ -66,12 +66,9 @@
 	};
 	if(![server startWithOptions:options error:&error]) {
 		DDLogError(@"WebServer: error starting: %@", error.localizedDescription);
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Woops"
-															message:[NSString stringWithFormat:@"Couldn't start server: %@", error.localizedDescription]
-														   delegate:self
-												  cancelButtonTitle:@"Ok"
-												  otherButtonTitles:nil];
-		[alertView show];
+		[[UIAlertController alertControllerWithTitle:@"Starting Server Failed"
+											 message:error.localizedDescription
+								   cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
 	DDLogVerbose(@"WebServer: started");
@@ -149,12 +146,10 @@
 	}
 	
 	// bad value
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid Port Number"
-														message:@"Port number should be an integer greater than 1024. Set 0 to choose a random port."
-													   delegate:self
-											  cancelButtonTitle:@"Ok"
-											  otherButtonTitles:nil];
-	[alertView show];
+	NSString *message = @"Port number should be an integer greater than 1024. Set 0 to choose a random port.";
+	[[UIAlertController alertControllerWithTitle:@"Invalid Port Number"
+										 message:message
+							   cancelButtonTitle:@"Ok"] show];
 	return -1;
 }
 
