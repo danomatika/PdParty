@@ -535,12 +535,11 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 	browserLayer.mode = BrowserModeMove;
 	navigationController.toolbarHidden = NO;
 	navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
-	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+	navigationController.modalPresentationStyle = (Util.isDeviceATablet ? UIModalPresentationFormSheet : UIModalPresentationPageSheet);
 	navigationController.modalInPopover = YES;
 	[browserLayer loadDirectory:_directory relativeTo:Util.documentsPath]; // load after nav controller is set
-	[self.navigationController presentViewController:navigationController animated:YES completion:^{
-		self.mode = BrowserModeBrowse; // reset now so it's ready when move is done
-	}];
+	[self.navigationController presentViewController:navigationController animated:YES completion:nil];
+	self.mode = BrowserModeBrowse; // reset now so it's ready when move is done
 }
 
 - (void)renameButtonPressed {
