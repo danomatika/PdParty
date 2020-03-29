@@ -80,7 +80,7 @@
 }
 
 + (void)logArray:(NSArray *)array {
-	NSMutableString *arrayString = [[NSMutableString alloc] init];
+	NSMutableString *arrayString = [NSMutableString string];
 	for(NSObject *object in array) {
 		[arrayString appendFormat:@"%@ ", object.description];
 	}
@@ -89,7 +89,7 @@
 
 + (void)logData:(NSData *)data withHeader:(NSString *)header {
 	unsigned char *bytes = (unsigned char*)[data bytes];
-	NSMutableString *byteString = [[NSMutableString alloc] init];
+	NSMutableString *byteString = [NSMutableString string];
 	for(int i = 0; i < data.length; ++i) {
 		[byteString appendFormat:@"%02X ", bytes[i]];
 	}

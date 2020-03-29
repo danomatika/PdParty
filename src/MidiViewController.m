@@ -343,7 +343,7 @@
 	if(indexPath.section == SETTINGS_SECTION && indexPath.row == BLUETOOTH_ROW) {
 		/// launch Bluetooth MIDI controller
 		/// https://developer.apple.com/library/content/qa/qa1831/_index.html
-		CABTMIDICentralViewController *controller = [CABTMIDICentralViewController new];
+		CABTMIDICentralViewController *controller = [[CABTMIDICentralViewController alloc] init];
     	[self.navigationController pushViewController:controller animated:YES];
 	}
 }

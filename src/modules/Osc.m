@@ -363,7 +363,7 @@ void errorCB(int num, const char *msg, const char *where) {
 int messageCB(const char *path, const char *types, lo_arg **argv,
               int argc, lo_message msg, void *user_data) {
 	Osc *osc = (__bridge Osc *)user_data;
-	NSMutableArray *args = [NSMutableArray new];
+	NSMutableArray *args = [NSMutableArray array];
 	for(int i = 0; i < argc; ++i) {
 		char type = types[i];
 		switch (type) {

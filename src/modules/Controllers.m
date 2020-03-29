@@ -22,7 +22,7 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		self.controllers = [NSMutableArray new];
+		self.controllers = [NSMutableArray array];
 	}
 	return self;
 }
@@ -57,7 +57,7 @@
 	DDLogVerbose(@"Controllers: updating");
 	
 	// build array of currently known controllers
-	NSMutableArray *known = [NSMutableArray new];
+	NSMutableArray *known = [NSMutableArray array];
 	for(Controller *c in self.controllers) {
 		[known addObject:c.controller];
 	}
@@ -208,8 +208,8 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		buttonStates = [NSMutableDictionary new];
-		axisStates = [NSMutableDictionary new];
+		buttonStates = [NSMutableDictionary dictionary];
+		axisStates = [NSMutableDictionary dictionary];
 		_index = -1; // GCControllerPlayerIndexUnset
 	}
 	return self;

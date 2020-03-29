@@ -55,7 +55,7 @@
 
 	// load info label
 	if(!Util.isDeviceATablet) {
-		self.infoLabel = [UILabel new];
+		self.infoLabel = [[UILabel alloc] init];
 		self.infoLabel.text = self.file.lastPathComponent;
 		self.infoLabel.font = [UIFont boldSystemFontOfSize:17];
 		self.infoLabel.textColor = UIColor.whiteColor;

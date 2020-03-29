@@ -67,7 +67,7 @@
 	self.edgesForExtendedLayout = UIRectEdgeNone;
 
 	_rotation = 0;
-	activeTouches = [[NSMutableDictionary alloc] init];
+	activeTouches = [NSMutableDictionary dictionary];
 	
 	// set instance pointer
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;

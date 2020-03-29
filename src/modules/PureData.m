@@ -264,7 +264,7 @@
 // mimic [oscparse] by separating address components,
 // send as a message to avoid the "list" type prepend
 + (void)sendOscMessage:(NSString *)address withArguments:(NSArray *)arguments {
-	NSMutableArray *list = [[NSMutableArray alloc] init];
+	NSMutableArray *list = [NSMutableArray array];
 	NSString *firstComponent = NULL;
 	NSArray *components = [address componentsSeparatedByString:@"/"];
 	for(NSString *s in components) {

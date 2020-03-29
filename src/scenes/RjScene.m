@@ -43,7 +43,7 @@
 - (id)init {
 	self = [super init];
     if(self) {
-		widgets = [[NSMutableDictionary alloc] init];
+		widgets = [NSMutableDictionary dictionary];
 		self.scale = 1.0f;
     }
     return self;

@@ -31,7 +31,7 @@
 			0, 0); // size based on label size
 
 		// create the comment string, handle escaped chars
-		NSMutableString *text = [[NSMutableString alloc] init];
+		NSMutableString *text = [NSMutableString string];
 		BOOL appendSpace = NO;
 		for(int i = 4; i < line.count; ++i) {
 			if([line[i] isEqualToString:@"\\,"]) {

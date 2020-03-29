@@ -29,7 +29,7 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		message = [NSMutableData new];
+		message = [NSMutableData data];
 
 		NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 		_multiDeviceMode = [defaults boolForKey:@"multiMidiDeviceMode"];

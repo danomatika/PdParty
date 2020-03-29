@@ -92,7 +92,7 @@ static BOOL isNetworkSession(MIDIEndpointRef ref) {
 	if(self) {
 		firstPacket = true;
 		continueSysex = false;
-		message = [NSMutableData new];
+		message = [NSMutableData data];
 	}
 	return self;
 }
@@ -287,8 +287,8 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 	if(self) {
 		self.name = @"Midi";
 		self.maxIO = 16;
-		self.inputs = [NSMutableArray new];
-		self.outputs = [NSMutableArray new];
+		self.inputs = [NSMutableArray array];
+		self.outputs = [NSMutableArray array];
 		[self setup];
 	}
 	return self;
@@ -299,8 +299,8 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 	if(self) {
 		self.name = name;
 		self.maxIO = maxIO;
-		self.inputs = [NSMutableArray new];
-		self.outputs = [NSMutableArray new];
+		self.inputs = [NSMutableArray array];
+		self.outputs = [NSMutableArray array];
 		[self setup];
 	}
 	return self;

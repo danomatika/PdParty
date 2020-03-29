@@ -42,7 +42,7 @@ static NSMutableArray *s_menubangs;
 
 - (void)setup {
 	if(!s_menubangs) {
-		s_menubangs = [[NSMutableArray alloc] init];
+		s_menubangs = [NSMutableArray array];
 	}
 	[s_menubangs addObject:self];
 

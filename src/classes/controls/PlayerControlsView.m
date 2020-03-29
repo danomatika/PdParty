@@ -26,7 +26,7 @@
 		looping = NO;
 		int fontSize = (Util.isDeviceATablet ? 17 : 12);
 
-		self.timeElapsedLabel = [UILabel new];
+		self.timeElapsedLabel = [[UILabel alloc] init];
 		self.timeElapsedLabel.text = @"00:00:00";
 		self.timeElapsedLabel.textAlignment = NSTextAlignmentRight;
 		self.timeElapsedLabel.font = [UIFont fontWithName:@"Menlo" size:12];
@@ -34,7 +34,7 @@
 		[self.timeElapsedLabel sizeToFit];
 		[self addSubview:self.timeElapsedLabel];
 
-		self.timeRemainLabel = [UILabel new];
+		self.timeRemainLabel = [[UILabel alloc] init];
 		self.timeRemainLabel.text = @"00:00:00";
 		self.timeRemainLabel.textAlignment = NSTextAlignmentLeft;
 		self.timeRemainLabel.font = [UIFont fontWithName:@"Menlo" size:12];

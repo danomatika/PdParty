@@ -198,7 +198,7 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 	scrollPos = CGPointZero;
 	scrollPosSet = NO;
 	nonSelectableRows = nil;
-	_paths = [[NSMutableArray alloc] init];
+	_paths = [NSMutableArray array];
 	_mode = BrowserModeBrowse;
 }
 
@@ -208,7 +208,7 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 // it's currently set or added later on, so this works
 - (void)setMode:(BrowserMode)mode {
 	_mode = mode;
-	NSMutableArray *barButtons = [[NSMutableArray alloc] init];
+	NSMutableArray *barButtons = [NSMutableArray array];
 	switch(mode) {
 		case BrowserModeBrowse:
 			if(self.root.canAddFiles || self.root.canAddDirectories) {
@@ -358,7 +358,7 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 		}
 		if(!isSelectable) { // save set of non selectable rows
 			if(!nonSelectableRows) {
-				nonSelectableRows = [[NSMutableSet alloc] init];
+				nonSelectableRows = [NSMutableSet set];
 			}
 			[nonSelectableRows addObject:[NSNumber numberWithInteger:indexPath.row]];
 		}
@@ -523,7 +523,7 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 		return;
 	}
 	s_moveRoot = self;
-	s_movePaths = [[NSMutableArray alloc] init];
+	s_movePaths = [NSMutableArray array];
 	for(NSIndexPath *indexPath in indexPaths) { // save selected paths
 		[s_movePaths addObject:_paths[indexPath.row]];
 	}
@@ -549,7 +549,7 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 		return;
 	}
 	self.mode = BrowserModeBrowse;
-	NSMutableArray *paths = [NSMutableArray new];
+	NSMutableArray *paths = [NSMutableArray array];
 	for(NSIndexPath *indexPath in indexPaths) {
 		[paths addObject:_paths[indexPath.row]];
 	}
@@ -636,7 +636,7 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 
 		// delete from model & view
-		NSMutableArray *deletedIndexPaths = [NSMutableArray new];
+		NSMutableArray *deletedIndexPaths = [NSMutableArray array];
 		[deletedIndices enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
 			[deletedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
 		}];

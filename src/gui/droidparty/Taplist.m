@@ -30,7 +30,7 @@
 	self = [super initWithAtomLine:line andGui:gui];
 	if(self) {
 		touchDown = NO;
-		self.list = [[NSMutableArray alloc] init];
+		self.list = [NSMutableArray array];
 		self.label.textAlignment = NSTextAlignmentCenter;
 		self.label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		self.label.adjustsFontSizeToFitWidth = YES;

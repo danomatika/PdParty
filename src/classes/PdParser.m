@@ -16,7 +16,7 @@
 @implementation PdParser
 
 + (void)printAtomLine:(NSArray *)line {
-	NSMutableString *string = [[NSMutableString alloc] init];
+	NSMutableString *string = [NSMutableString string];
 	for(NSString *s in line) {
 		[string appendFormat:@"[%@]", s];
 		if(![s isEqual:line.lastObject]) {
@@ -65,7 +65,7 @@
 // icu regex doc: http://userguide.icu-project.org/strings/regexp
 + (NSArray *)getAtomLines:(NSString *)patchText {
 	
-	NSMutableArray *atomLines = [[NSMutableArray alloc] init];
+	NSMutableArray *atomLines = [NSMutableArray array];
 	
 	// break string into lines
 	NSRegularExpression *lineRegexp = [NSRegularExpression regularExpressionWithPattern:@"(#((.|\r|\n)*?)[^\\\\])\r{0,1}\n{0,1};\r{0,1}\n"

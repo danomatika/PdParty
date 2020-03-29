@@ -47,7 +47,7 @@
 - (id)init {
 	self = [super init];
     if(self) {
-		self.widgets = [[NSMutableArray alloc] init];
+		self.widgets = [NSMutableArray array];
 		self.fontName = nil; // sets default font
 		self.fontSize = 10;
 		self.scaleX = 1.0;

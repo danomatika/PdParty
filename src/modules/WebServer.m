@@ -178,7 +178,7 @@
 // find current IP address from connected interfaces (IPv4 and IPv6)
 // from http://stackoverflow.com/a/10803584/2146055
 + (NSString *)getIPAddressPreferIPv4:(BOOL)preferIPv4 withCellular:(BOOL)cellular withSimulator:(BOOL)simulator {
-	NSMutableArray *searchArray = [NSMutableArray new];
+	NSMutableArray *searchArray = [NSMutableArray array];
 	if(preferIPv4) {
 		[searchArray addObjectsFromArray:@[@"en0/ipv4", @"en0/ipv6"]];
 		if(cellular) {
