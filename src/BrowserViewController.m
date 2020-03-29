@@ -78,7 +78,7 @@
 	if([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDir]) {
 		// open to parent directory
 		[self clearDirectory];
-		if([self loadDirectory:[path stringByDeletingLastPathComponent] relativeTo:Util.documentsPath]) {
+		if([self loadDirectory:path.stringByDeletingLastPathComponent relativeTo:Util.documentsPath]) {
 			// try opening
 			if(isDir) {
 				if([self selectDirectory:path]) {
