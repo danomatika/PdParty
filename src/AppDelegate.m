@@ -75,6 +75,12 @@
 			});
 		});
 	}
+
+	// clear any Documents/Inbox leftovers
+	NSString *inboxPath = [Util.documentsPath stringByAppendingPathComponent:@"Inbox"];
+	if([NSFileManager.defaultManager fileExistsAtPath:inboxPath]) {
+		[Util deleteContentsOfDirectory:inboxPath error:nil];
+	}
 	
 	// setup app behavior
 	self.lockScreenDisabled = [defaults boolForKey:@"lockScreenDisabled"];
@@ -178,7 +184,7 @@
 									   cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
-		if(![self tryOpeningPath:path]) {
+		if(![self openPath:path]) {
 			DDLogError(@"AppDelegate: couldn't open path: %@", path);
 			NSString *message = [NSString stringWithFormat:@"Could not open %@", path.lastPathComponent];
 			[[UIAlertController alertControllerWithTitle:@"Open Failed"
@@ -193,19 +199,14 @@
 	NSError *error;
 	path = url.path;
 	NSString *filename = path.lastPathComponent;
-	NSString *ext = path.pathExtension;
 	DDLogVerbose(@"AppDelegate: receiving %@", filename);
 
 	// pd patch
-	if([ext isEqualToString:@"pd"]) {
+	if([path.pathExtension isEqualToString:@"pd"]) {
 		NSString *newPath = [Util.documentsPath stringByAppendingPathComponent:path.lastPathComponent];
-		if([NSFileManager.defaultManager fileExistsAtPath:newPath]) {
-			if(![NSFileManager.defaultManager removeItemAtPath:newPath error:&error]) {
-				DDLogError(@"AppDelegate: couldn't remove %@, error: %@", newPath, error.localizedDescription);
-			}
-		}
-		if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
-			DDLogError(@"AppDelegate: couldn't move %@, error: %@", path, error.localizedDescription);
+		newPath = [Util generateCopyPathForPath:newPath];
+		if(![NSFileManager.defaultManager copyItemAtPath:path toPath:newPath error:&error]) {
+			DDLogError(@"AppDelegate: couldn't copy %@, error: %@", path, error.localizedDescription);
 			NSString *message = [NSString stringWithFormat:@"Could not copy %@ to Documents", filename];
 			[[UIAlertController alertControllerWithTitle:@"Copy Failed"
 												 message:message
@@ -213,48 +214,31 @@
 			return NO;
 		}
 		[NSFileManager.defaultManager removeItemAtURL:url error:&error]; // remove original file
-
 		DDLogVerbose(@"AppDelegate: copied %@ to Documents", filename);
-		NSString *message = [NSString stringWithFormat:@"%@ copied to Documents", filename];
+		NSString *message = [NSString stringWithFormat:@"%@ copied to Documents", newPath.lastPathComponent];
 		[[UIAlertController alertControllerWithTitle:@"Copy Succeeded"
 											 message:message
 								   cancelButtonTitle:@"Ok"] show];
+		[self.browserViewController reloadDirectory];
 	}
 	else { // assume zip file
-		BOOL failed = NO;
-		Unzip *zip = [[Unzip alloc] init];
-		if([zip open:path]) {
-			if([zip unzipTo:Util.documentsPath overwrite:YES]) {
-				if(![NSFileManager.defaultManager removeItemAtURL:url error:&error]) { // remove original file
-					DDLogError(@"AppDelegate: couldn't remove %@, error: %@", path, error.localizedDescription);
-				}
-			}
-			else {
-				DDLogError(@"AppDelegate: couldn't open zipfile: %@", path);
-				failed = YES;
-			}
-			[zip close];
-		}
-		else {
-			DDLogError(@"AppDelegate: couldn't unzip %@ to Documents", path);
-			failed = YES;
-		}
-		if(failed) {
-			NSString *message = [NSString stringWithFormat:@"Could not decompress %@ to Documents", filename];
-			[[UIAlertController alertControllerWithTitle:@"Unzip Failed"
+		if([BrowserViewController unzipPath:path toDirectory:Util.documentsPath]) {
+			NSString *message = [NSString stringWithFormat:@"%@ unzipped to Documents", filename];
+			[[UIAlertController alertControllerWithTitle:@"Unzip Succeeded"
 												 message:message
 									   cancelButtonTitle:@"Ok"] show];
-			return NO;
 		}
-		DDLogVerbose(@"AppDelegate: unzipped %@ to Documents", filename);
-		NSString *message = [NSString stringWithFormat:@"%@ unzipped to Documents", filename];
-		[[UIAlertController alertControllerWithTitle:@"Unzip Succeeded"
-											 message:message
-								   cancelButtonTitle:@"Ok"] show];
+		else {
+			// remove original file
+			[NSFileManager.defaultManager removeItemAtURL:url error:nil];
+		}
 	}
 	
 	// reload if we're in the Documents dir
-	[self.browserViewController reloadDirectory];
+	if([self.browserViewController.directory isEqualToString:Util.documentsPath]) {
+		DDLogInfo(@"reloading Documents dir");
+		[self.browserViewController reloadDirectory];
+	}
 	
 	return YES;
 }
@@ -306,14 +290,14 @@
 #pragma mark Path
 
 /// requires full path within the Documents dir
-- (BOOL)tryOpeningPath:(NSString *)path {
+- (BOOL)openPath:(NSString *)path {
 	BOOL opened;
 	UINavigationController *nav = self.startViewController.navigationController;
 	BrowserViewController *browser = self.browserViewController;
 	if(browser) {
 		// pop view stack to browser
 		[nav popToViewController:browser animated:NO];
-		opened = [browser tryOpeningPath:path];
+		opened = [browser openPath:path];
 	}
 	else {
 		// browser may be nil on phone, so push from start view
@@ -322,7 +306,7 @@
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:name bundle:nil];
 		browser = [storyboard instantiateViewControllerWithIdentifier:@"BrowserViewController"];
 		[nav pushViewController:browser animated:NO];
-		opened = [browser tryOpeningPath:path];
+		opened = [browser openPath:path];
 	}
 	if(!opened) {
 		// reset

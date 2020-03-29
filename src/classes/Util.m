@@ -168,6 +168,23 @@
 	return YES;
 }
 
++ (NSUInteger)deleteContentsOfDirectory:(NSString *)dir error:(NSError *)error {
+	NSArray *contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:dir error:&error];
+	if(!contents) {
+		return YES; // no contents to copy
+	}
+	NSUInteger count = 0;
+	for(NSString *p in contents) {
+		NSString *path = [dir stringByAppendingPathComponent:p];
+		if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
+			DDLogError(@"Util: couldn't delete %@, error: %@", path, error.localizedDescription);
+			return count;
+		}
+		count++;
+	}
+	return count;
+}
+
 + (NSArray *)whichFilenames:(NSArray *)filenames existInDirectory:(NSString *)dir {
 	if(![NSFileManager.defaultManager fileExistsAtPath:dir isDirectory:nil]) {
 		DDLogError(@"Util: couldn't check if filenames exist, dir does not exist: %@", dir);
@@ -182,6 +199,22 @@
 	}
 	return (found.count > 0) ? found : nil;
 }
+
++ (NSString *)generateCopyPathForPath:(NSString *)path {
+    int tries = 0;
+    NSString *copy = path;
+    NSString *name = path.lastPathComponent.stringByDeletingPathExtension;
+    NSString *ext = path.lastPathComponent.pathExtension;
+    while([NSFileManager.defaultManager fileExistsAtPath:copy]) {
+		NSString *newFilename = [NSString stringWithFormat:@"%@%@%@", name,
+								 (tries > 0 ? [NSString stringWithFormat:@" %d", tries] : @""),
+								 ([ext isEqualToString:@""] ? @"" : [NSString stringWithFormat:@".%@", ext])];
+        copy = [path.stringByDeletingLastPathComponent stringByAppendingPathComponent:newFilename];
+        tries++;
+    }
+    return copy;
+}
+
 
 #pragma mark Images
 

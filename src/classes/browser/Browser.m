@@ -309,7 +309,7 @@
 							 path.stringByDeletingLastPathComponent.lastPathComponent];
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
 																	   message:message
-															 cancelButtonTitle:@"Skip"];
+															 cancelButtonTitle:@"Cancel"];
 		UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Overwrite"
 														   style:UIAlertActionStyleDestructive
 														 handler:^(UIAlertAction * _Nonnull action) {
@@ -398,7 +398,7 @@
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
 																	   message:message
 															 cancelButtonTitle:nil];
-		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Skip"
+		UIAlertAction *skipAction = [UIAlertAction actionWithTitle:@"Skip"
 															   style:UIAlertActionStyleCancel
 															 handler:^(UIAlertAction * _Nonnull action) {
 			if(completion) {
@@ -423,7 +423,7 @@
 				completion(NO);
 			}
 		}];
-		[alert addAction:cancelAction];
+		[alert addAction:skipAction];
 		[alert addAction:okAction];
 		[alert show];
 		return NO;

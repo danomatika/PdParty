@@ -25,10 +25,15 @@
 /// returns YES on success
 - (BOOL)loadDocumentsDirectory;
 
-/// try opening a path in the PatchViewController or in the browser itself,
+/// open a path in the PatchViewController or in the browser itself,
 /// requires full path within the Documents dir
 /// pushes browser layers onto the stack starting in the Documents dir
 /// returns YES on success
-- (BOOL)tryOpeningPath:(NSString *)path;
+- (BOOL)openPath:(NSString *)path;
+
+/// unzip a path to a given directory & delete original zip file
+/// if decompression succeeded
+/// returns YES on success
++ (BOOL)unzipPath:(NSString *)path toDirectory:(NSString *)directory;
 
 @end

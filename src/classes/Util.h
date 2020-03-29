@@ -76,9 +76,23 @@
 /// recursively copy srcDir's contents to destDir, overwrites existing files
 + (BOOL)copyContentsOfDirectory:(NSString *)srcDir toDirectory:(NSString *)destDir error:(NSError *)error;
 
+/// delete all items in dir, returns the number of deleted items
+/// sets optional error and stops on failure
++ (NSUInteger)deleteContentsOfDirectory:(NSString *)dir error:(NSError *)error;
+
 /// takes an array of filenames and returns those that exist in a given dir,
 /// returns nil if none are found
 + (NSArray *)whichFilenames:(NSArray *)filenames existInDirectory:(NSString *)dir;
+
+/// generate a copy file path similar to Finder's behavior when copying
+///
+/// 1. checks if the given path exists
+/// 2. tries to create a copy path in the format "NAME #.EXT"
+/// 3. if a file exists with that name, new names will be generated in the
+///    format "NAME #.EXT" until an unused one is found
+///
++ (NSString *)generateCopyPathForPath:(NSString *)path;
+
 
 #pragma mark Images
 

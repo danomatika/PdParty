@@ -73,7 +73,7 @@
 	return [self loadDirectory:Util.documentsPath];
 }
 
-- (BOOL)tryOpeningPath:(NSString *)path {
+- (BOOL)openPath:(NSString *)path {
 	BOOL isDir;
 	if([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDir]) {
 		// open to parent directory
@@ -97,6 +97,40 @@
 		}
 	}
 	return NO;
+}
+
++ (BOOL)unzipPath:(NSString *)path toDirectory:(NSString *)directory {
+	BOOL failed = NO;
+	NSError *error;
+	NSString *filename = path.lastPathComponent;
+	Unzip *zip = [[Unzip alloc] init];
+	if([zip open:path]) {
+		if([zip unzipTo:directory overwrite:YES]) {
+			// remove existing file
+			if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
+				DDLogError(@"Browser: couldn't remove %@, error: %@",
+						   path, error.localizedDescription);
+			}
+		}
+		else {
+			DDLogError(@"Browser: couldn't open zipfile: %@", path);
+			failed = YES;
+		}
+		[zip close];
+	}
+	else {
+		DDLogError(@"Browser: couldn't unzip %@ to %@", path, directory.lastPathComponent);
+		failed = YES;
+	}
+	if(failed) {
+		NSString *message = [NSString stringWithFormat:@"Could not decompress %@ to %@",
+							 filename, directory.lastPathComponent];
+		[[UIAlertController alertControllerWithTitle:@"Unzip Failed"
+											 message:message
+								   cancelButtonTitle:@"Ok"] show];
+		return NO;
+	}
+	return YES;
 }
 
 #pragma mark Browser
@@ -139,37 +173,14 @@
 		[self runScene:path withSceneType:@"RecordingScene"];
 	}
 	else if([BrowserViewController isZipFile:path]) { // unzip zipfiles
-		BOOL failed = NO;
-		NSError *error;
-		NSString *filename = path.lastPathComponent;
-		Unzip *zip = [[Unzip alloc] init];
-		if([zip open:path]) {
-			if(![zip unzipTo:Util.documentsPath overwrite:YES]) {
-				DDLogError(@"Browser: couldn't open zipfile: %@", path);
-				failed = YES;
-			}
-			[zip close];
-		}
-		else {
-			DDLogError(@"Browser: couldn't unzip %@", path);
-			failed = YES;
-		}
-		if(failed) {
-			NSString *message = [NSString stringWithFormat:@"Could not decompress %@", filename];
-			[[UIAlertController alertControllerWithTitle:@"Unzip Failed"
+		if([BrowserViewController unzipPath:path toDirectory:self.directory]) {
+			NSString *message = [NSString stringWithFormat:@"%@ unzipped to %@",
+								 path.lastPathComponent, self.directory.lastPathComponent];
+			[[UIAlertController alertControllerWithTitle:@"Unzip Succeeded"
 												 message:message
 									   cancelButtonTitle:@"Ok"] show];
-			return NO;
+			[self reloadDirectory];
 		}
-		if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) { // remove existing file
-			DDLogError(@"Browser: couldn't remove %@, error: %@", path, error.localizedDescription);
-		}
-		DDLogVerbose(@"Browser: unzipped %@", filename);
-		NSString *message = [NSString stringWithFormat:@"%@ unzipped", filename];
-		[[UIAlertController alertControllerWithTitle:@"Unzip Succeeded"
-											 message:message
-								   cancelButtonTitle:@"Ok"] show];
-		[self reloadDirectory];
 	}
 	return YES;
 }

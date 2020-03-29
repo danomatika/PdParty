@@ -60,7 +60,7 @@
 /// * navigates to parent directory
 /// * tries opening path, reloads Documents dir on failure
 /// returns YES on success
-- (BOOL)tryOpeningPath:(NSString *)path;
+- (BOOL)openPath:(NSString *)path;
 
 #pragma mark URL
 
