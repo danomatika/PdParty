@@ -174,11 +174,16 @@
 
 	// send message to appropriate object: [notein], [ctlin], [pgmin], etc
 	switch(statusByte) {
-		case MIDI_NOTE_ON :
-		case MIDI_NOTE_OFF:
+		case MIDI_NOTE_ON:
 			[PdBase sendNoteOn:channel pitch:bytes[1] velocity:bytes[2]];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received Note %d %d %d", channel, bytes[1], bytes[2]);
+				DDLogVerbose(@"MidiBridge: received Note On %d %d %d", channel, bytes[1], bytes[2]);
+			#endif
+			break;
+		case MIDI_NOTE_OFF: // ignore velocity a pd uses vel 0 to indicate note off
+			[PdBase sendNoteOn:channel pitch:bytes[1] velocity:0];
+			#ifdef DEBUG_MIDI
+				DDLogVerbose(@"MidiBridge: received Note Off %d %d %d -> 0", channel, bytes[1], bytes[2]);
 			#endif
 			break;
 		case MIDI_CONTROL_CHANGE: {

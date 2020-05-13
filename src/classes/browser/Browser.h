@@ -155,6 +155,10 @@
 - (BOOL)renamePath:(NSString *)path to:(NSString *)newPath
 		completion:(void (^)(BOOL failed))completion;
 
+/// copy path to a new directory
+- (BOOL)copyPath:(NSString *)path toDirectory:(NSString *)newDir
+	  completion:(void (^)(BOOL failed))completion;
+
 /// move path to a new directory
 - (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir
 	  completion:(void (^)(BOOL failed))completion;
