@@ -223,7 +223,7 @@ The OSC server needs to be enabled and a patch/scene must be running in order fo
 
 _Note: Most sensor events require the services to be enabled within the patch/scene before any events will be sent. Also, certain scene types do not support all events, please see "Scenes" in "Patching for PdParty" for more info._
 
-\* *requires a usb/bluetooth keyboard*
+\* *requires a USB/Bluetooth keyboard*
 
 #### Audio Latency
 
@@ -361,12 +361,13 @@ Running a regular .pd patch (a Patch scene) is the same as running a PdParty sce
 
 PdParty is built using libpd and can be compared to Pd-vanilla with the following externals:
 
+* **extra**: bundled Pd-vanilla "extras", ie. [fiddle\~], [sigmund\~], [bob\~], etc
 * **ggee**: [getdir], [stripdir]
 * **mrpeach**: [midifile]
 
 It is highly recommended that you use a vanilla-based abstraction library like [rjlib](https://github.com/rjdj/rjlib) for expanded functionality.
 
-When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that you work with Pure Data vanilla versions 0.46+. If you are working with Pd-extended, disable all externals in order to help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for pd-vanilla/libpd work.
+When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that you work with Pure Data vanilla versions 0.46+. If you are working with Pd-extended, disable all externals in order to help lessen the chance you inadvertently use an object that will not create in PdParty. I actually have separate copies of my Pd settings file, one for desktop development and another for Pd-vanilla/libpd work.
 
 #### expr
 
@@ -374,7 +375,7 @@ When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that 
 
 #### Key events
 
-[key] works with an external bluetooth or usb keyboard. [keyup] & [keyname] are not supported as there is currently no *official* way to intercept raw key events on iOS.
+[key] works with an external USB or Bluetooth or keyboard. [keyup] & [keyname] are not supported as there is currently no *official* way to intercept raw key events on iOS.
 
 #### VU Meter
 
@@ -382,7 +383,7 @@ When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that 
 
 #### MIDI
 
-All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to have a usb MIDI interface (through a USB hub connected to the Apple Camera Connection Kit) or using Network MIDI and macOS.
+All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to have a USB MIDI interface (through a USB hub connected to the Apple Camera Connection Kit) or using Network MIDI and macOS.
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_midi_scene_iPad.png" width="600"/><br/>
