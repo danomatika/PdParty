@@ -19,16 +19,17 @@
 @property (readonly, nonatomic) BrowserLayer *top;
 
 // create/overwrite a file path, does not check existence
-- (BOOL)_createFilePath:(NSString *)path;
+- (BOOL)_createFilePath:(NSString *)path completion:(void (^)(BOOL failed))completion;
 
-// copy/overwrite a file path to a new dir, generates new filename if new path already exists
+// copy/overwrite a file path to a new dir, does not check existence
 - (BOOL)_copyPath:(NSString *)path toPath:(NSString *)newPath completion:(void (^)(BOOL failed))completion;
 
 // move/overwrite a file path to a new dir, does not check existence
 - (BOOL)_movePath:(NSString *)path toPath:(NSString *)newPath completion:(void (^)(BOOL failed))completion;
 
-/// show a dialog asking to keep or overwrite a file
-- (void)_showExistsDialogForPath:(NSString *)path inDirectory:(NSString *)directory
+/// show a file exist dialog for a path in a given directory,
+/// completion block indicates button choice: 0 Skip, 1 Keep, 2 Overwrite
+- (void)showExistsDialogForPath:(NSString *)path inDirectory:(NSString *)directory
 					  completion:(void (^)(BOOL failed, NSUInteger button))completion;
 
 @end
@@ -183,12 +184,7 @@
 		}
 		DDLogVerbose(@"Browser: new file: %@", file);
 		file = [self.top.directory stringByAppendingPathComponent:file];
-		if([self createFilePath:file]) {
-			[self.top reloadDirectory];
-			if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
-				[self.root.delegate browser:self.root createdFile:file];
-			}
-		}
+		[self createFilePath:file];
 	}];
 	[alert addAction:createAction];
 	[alert show];
@@ -213,12 +209,7 @@
 		}
 		DDLogVerbose(@"Browser: new dir: %@", dir);
 		dir = [self.top.directory stringByAppendingPathComponent:dir];
-		if([self createDirectoryPath:dir]) {
-			[self.top reloadDirectory];
-			if([self.root.delegate respondsToSelector:@selector(browser:createdDirectory:)]) {
-				[self.root.delegate browser:self.root createdDirectory:dir];
-			}
-		}
+		[self createDirectoryPath:dir];
 	}];
 	[alert addAction:createAction];
 	[alert show];
@@ -311,28 +302,39 @@
 	NSError *error;
 	DDLogVerbose(@"Browser: creating file: %@", path.lastPathComponent);
 	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
-		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Overwrite it?",
-							 path.lastPathComponent,
-							 path.stringByDeletingLastPathComponent.lastPathComponent];
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
-																	   message:message
-															 cancelButtonTitle:@"Cancel"];
-		UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Overwrite"
-														   style:UIAlertActionStyleDestructive
-														 handler:^(UIAlertAction * _Nonnull action) {
-			[NSFileManager.defaultManager removeItemAtPath:path error:nil];
-			if([self _createFilePath:path]) {
-				[self.top reloadDirectory];
-				if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
-					[self.root.delegate browser:self.root createdFile:path];
-				}
+		[self showExistsDialogForPath:path inDirectory:path.stringByDeletingLastPathComponent completion:^(BOOL failed, NSUInteger button) {
+			if(failed) {
+				return;
 			}
+			NSString *newPath = path;
+			switch(button) {
+				case 0: // Skip
+					return;
+				case 2: // Overwrite
+					[NSFileManager.defaultManager removeItemAtPath:newPath error:nil];
+					break;
+				case 1: // Keep
+					newPath = [Util generateCopyPathForPath:path];
+					break;
+			}
+			[self _createFilePath:newPath completion:^(BOOL failed) {
+				[self dismissViewControllerAnimated:YES completion:^{
+					[self.top reloadDirectory];
+					if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
+						[self.root.delegate browser:self.root createdFile:newPath];
+					}
+				}];
+			}];
 		}];
-		[alert addAction:okAction];
-		[alert show];
 		return NO;
 	}
-	return [self _createFilePath:path];
+	[self _createFilePath:path completion:^(BOOL failed) {
+		[self.top reloadDirectory];
+		if([self.root.delegate respondsToSelector:@selector(browser:createdFile:)]) {
+			[self.root.delegate browser:self.root createdFile:path];
+		}
+	}];
+	return YES;
 }
 
 - (BOOL)createDirectoryPath:(NSString *)path {
@@ -355,6 +357,10 @@
 											 message:message
 								   cancelButtonTitle:@"Ok"] show];
 		return NO;
+	}
+	[self.top reloadDirectory];
+	if([self.root.delegate respondsToSelector:@selector(browser:createdDirectory:)]) {
+		[self.root.delegate browser:self.root createdDirectory:path];
 	}
 	return YES;
 }
@@ -399,11 +405,12 @@
 		return NO;
 	}
 	if([NSFileManager.defaultManager fileExistsAtPath:newPath]) {
-		[self _showExistsDialogForPath:path inDirectory:newDir completion:^(BOOL failed, NSUInteger button) {
+		[self showExistsDialogForPath:path inDirectory:newDir completion:^(BOOL failed, NSUInteger button) {
 			if(failed) {
 				if(completion) {
 					completion(YES);
 				}
+				return;
 			}
 			switch(button) {
 				case 0: // Skip
@@ -435,62 +442,9 @@
 				}
 			}
 		}];
-//		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Keep or overwrite it?",
-//							 path.lastPathComponent,
-//							 path.stringByDeletingLastPathComponent.lastPathComponent];
-//		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
-//																	   message:message
-//															 cancelButtonTitle:nil];
-//		UIAlertAction *skipAction = [UIAlertAction actionWithTitle:@"Skip"
-//															   style:UIAlertActionStyleCancel
-//															 handler:^(UIAlertAction * _Nonnull action) {
-//			if(completion) {
-//				completion(NO);
-//			}
-//		}];
-//		UIAlertAction *keepAction = [UIAlertAction actionWithTitle:@"Keep"
-//															   style:UIAlertActionStyleDefault
-//															 handler:^(UIAlertAction * _Nonnull action) {
-//			NSString *copyPath = [Util generateCopyPathForPath:path];
-//			if([self _copyPath:newPath toPath:copyPath completion:^(BOOL failed) {
-//				if(!failed) {
-//					[self.top reloadDirectory];
-//				}
-//				if(completion) {
-//					completion(failed);
-//				}
-//			}]) {
-//			   return;
-//			}
-//			if(completion) {
-//				completion(NO);
-//			}
-//		}];
-//		UIAlertAction *overwriteAction = [UIAlertAction actionWithTitle:@"Overwrite"
-//														   style:UIAlertActionStyleDestructive
-//														 handler:^(UIAlertAction * _Nonnull action) {
-//			[NSFileManager.defaultManager removeItemAtPath:newPath error:nil];
-//			if([self _copyPath:path toPath:newPath completion:^(BOOL failed) {
-//				if(!failed) {
-//					[self.top reloadDirectory];
-//				}
-//				if(completion) {
-//					completion(failed);
-//				}
-//			}]) {
-//			   return;
-//			}
-//			if(completion) {
-//				completion(NO);
-//			}
-//		}];
-//		[alert addAction:skipAction];
-//		[alert addAction:keepAction];
-//		[alert addAction:overwriteAction];
-//		[alert show];
 		return NO;
 	}
-	return [self _movePath:path toPath:newPath completion:completion];
+	return [self _copyPath:path toPath:newPath completion:completion];
 }
 
 - (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir completion:(void (^)(BOOL failed))completion {
@@ -501,11 +455,12 @@
 		return NO;
 	}
 	if([NSFileManager.defaultManager fileExistsAtPath:newPath]) {
-		[self _showExistsDialogForPath:path inDirectory:newDir completion:^(BOOL failed, NSUInteger button) {
+		[self showExistsDialogForPath:path inDirectory:newDir completion:^(BOOL failed, NSUInteger button) {
 			if(failed) {
 				if(completion) {
 					completion(YES);
 				}
+				return;
 			}
 			switch(button) {
 				case 0: // Skip
@@ -538,60 +493,6 @@
 				}
 			}
 		}];
-//		NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Keep or overwrite it?",
-//							 path.lastPathComponent,
-//							 path.stringByDeletingLastPathComponent.lastPathComponent];
-//		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
-//																	   message:message
-//															 cancelButtonTitle:nil];
-//		UIAlertAction *skipAction = [UIAlertAction actionWithTitle:@"Skip"
-//															   style:UIAlertActionStyleCancel
-//															 handler:^(UIAlertAction * _Nonnull action) {
-//			if(completion) {
-//				completion(NO);
-//			}
-//		}];
-//		UIAlertAction *keepAction = [UIAlertAction actionWithTitle:@"Keep"
-//															   style:UIAlertActionStyleDefault
-//															 handler:^(UIAlertAction * _Nonnull action) {
-//			NSString *copyPath = [Util generateCopyPathForPath:path];
-//			if([self _copyPath:copyPath toDirectory:newDir completion:^(BOOL failed) {
-//				if(!failed) {
-//					[NSFileManager.defaultManager removeItemAtPath:newPath error:nil];
-//					[self.top reloadDirectory];
-//				}
-//				if(completion) {
-//					completion(failed);
-//				}
-//			}]) {
-//			   return;
-//			}
-//			if(completion) {
-//				completion(NO);
-//			}
-//		}];
-//		UIAlertAction *overwriteAction = [UIAlertAction actionWithTitle:@"Overwrite"
-//														   style:UIAlertActionStyleDestructive
-//														 handler:^(UIAlertAction * _Nonnull action) {
-//			[NSFileManager.defaultManager removeItemAtPath:newPath error:nil];
-//			if([self _movePath:path toDirectory:newDir completion:^(BOOL failed) {
-//				if(!failed) {
-//					[self.top reloadDirectory];
-//				}
-//				if(completion) {
-//					completion(failed);
-//				}
-//			}]) {
-//			   return;
-//			}
-//			if(completion) {
-//				completion(NO);
-//			}
-//		}];
-//		[alert addAction:skipAction];
-//		[alert addAction:keepAction];
-//		[alert addAction:overwriteAction];
-//		[alert show];
 		return NO;
 	}
 	return [self _movePath:path toPath:newPath completion:completion];
@@ -731,21 +632,32 @@
 
 #pragma mark Private
 
-- (BOOL)_createFilePath:(NSString *)path {
+- (BOOL)_createFilePath:(NSString *)path completion:(void (^)(BOOL failed))completion {
 	NSError *error;
 	if(![NSFileManager.defaultManager createFileAtPath:path contents:nil attributes:NULL]) {
 		DDLogError(@"Browser: couldn't create file %@", path);
-		[[UIAlertController alertControllerWithTitle:@"Create Failed"
-											 message:error.localizedDescription
-								   cancelButtonTitle:@"Ok"] show];
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Create Failed"
+																	   message:error.localizedDescription
+															 cancelButtonTitle:nil];
+		UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok"
+														   style:UIAlertActionStyleCancel
+														 handler:^(UIAlertAction * _Nonnull action) {
+			if(completion) {
+				completion(YES);
+			}
+		}];
+		[alert addAction:okAction];
+		[alert show];
 		return NO;
+	}
+	if(completion) {
+		completion(NO);
 	}
 	return YES;
 }
 
 - (BOOL)_copyPath:(NSString *)path toPath:(NSString *)newPath completion:(void (^)(BOOL failed))completion {
 	NSError *error;
-	//NSString *newPath = [newDir stringByAppendingPathComponent:path.lastPathComponent];
 	if(![NSFileManager.defaultManager copyItemAtPath:path toPath:newPath error:&error]) {
 		DDLogError(@"Browser: couldn't copy %@ to %@, error: %@", path, newPath, error.localizedDescription);
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Copy Failed"
@@ -792,34 +704,22 @@
 	return YES;
 }
 
-- (void)_showExistsDialogForPath:(NSString *)path inDirectory:(NSString *)directory
-					  completion:(void (^)(BOOL failed, NSUInteger button))completion {
-	DDLogVerbose(@"Browser: exists dialog");
+- (void)showExistsDialogForPath:(NSString *)path inDirectory:(NSString *)directory
+					 completion:(void (^)(BOOL failed, NSUInteger button))completion {
+	DDLogVerbose(@"Browser: exists dialog for %@", path.lastPathComponent);
 	if(!self.top.directory) {
 		DDLogWarn(@"Browser: couldn't show exists dialog, directory not set (loadDirectory first?)");
 		return;
 	}
 	NSString *newPath = [directory stringByAppendingPathComponent:path.lastPathComponent];
 	NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Keep or overwrite it?",
-						 path.lastPathComponent,
-						 path.stringByDeletingLastPathComponent.lastPathComponent];
+						 path.lastPathComponent, directory.lastPathComponent];
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
 																   message:message
 														 cancelButtonTitle:nil];
 	UIAlertAction *overwriteAction = [UIAlertAction actionWithTitle:@"Overwrite"
 													   style:UIAlertActionStyleDestructive
 													 handler:^(UIAlertAction * _Nonnull action) {
-		[NSFileManager.defaultManager removeItemAtPath:newPath error:nil];
-		if([self _copyPath:path toPath:newPath completion:^(BOOL failed) {
-			if(!failed) {
-				[self.top reloadDirectory];
-			}
-			if(completion) {
-				completion(failed, 2);
-			}
-		}]) {
-		   return;
-		}
 		if(completion) {
 			completion(NO, 2);
 		}
@@ -827,17 +727,6 @@
 	UIAlertAction *keepAction = [UIAlertAction actionWithTitle:@"Keep"
 														   style:UIAlertActionStyleDefault
 														 handler:^(UIAlertAction * _Nonnull action) {
-		NSString *copyPath = [Util generateCopyPathForPath:newPath];
-		if([self _copyPath:path toPath:newPath completion:^(BOOL failed) {
-			if(!failed) {
-				[self.top reloadDirectory];
-			}
-			if(completion) {
-				completion(failed, 1);
-			}
-		}]) {
-		   return;
-		}
 		if(completion) {
 			completion(NO, 1);
 		}
@@ -854,87 +743,5 @@
 	[alert addAction:skipAction];
 	[alert show];
 }
-
-//- (BOOL)_moveOrCopy:(BOOL)move path:(NSString *)path toDirectory:(NSString *)newDir completion:(void (^)(BOOL failed))completion {
-//	if(move) {
-//		return [self _movePath:path toDirectory:newDir completion:completion];
-//	}
-//	return [self _copyPath:path toDirectory:newDir completion:completion];
-//}
-//
-//- (void)showPathAlreadyExists:(NSString *)path inDirectory:(NSString *)newDir
-//						 move:(BOOL)move completion:(void (^)(BOOL failed))completion  {
-//	NSString *message = [NSString stringWithFormat:@"\"%@\" already exists in %@. Keep or overwrite it?",
-//						 path.lastPathComponent,
-//						 path.stringByDeletingLastPathComponent.lastPathComponent];
-//	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Already Exists"
-//																   message:message
-//														 cancelButtonTitle:nil];
-//	UIAlertAction *skipAction = [UIAlertAction actionWithTitle:@"Skip"
-//														   style:UIAlertActionStyleCancel
-//														 handler:^(UIAlertAction * _Nonnull action) {
-//		if(completion) {
-//			completion(NO);
-//		}
-//	}];
-//	[alert addAction:skipAction];
-//	UIAlertAction *keepAction = [UIAlertAction actionWithTitle:@"Keep"
-//														   style:UIAlertActionStyleDefault
-//														 handler:^(UIAlertAction * _Nonnull action) {
-//		NSString *newPath = [Util generateCopyPathForPath:path];
-//		if([self _copy:move path:path toDirectory:newDir completion:^(BOOL failed) {
-//			if(!failed) {
-//				[NSFileManager.defaultManager removeItemAtPath:path error:nil];
-//				[self.top reloadDirectory];
-//			}
-//			if(completion) {
-//				completion(failed);
-//			}
-//		}]) {
-//			   return;
-//			}
-//		}
-//		if(completion) {
-//			completion(NO);
-//		}
-//	}];
-//	UIAlertAction *overwriteAction = [UIAlertAction actionWithTitle:@"Overwrite"
-//													   style:UIAlertActionStyleDestructive
-//													 handler:^(UIAlertAction * _Nonnull action) {
-//		NSString *newPath = [newDir stringByAppendingPathComponent:path.lastPathComponent];
-//		[NSFileManager.defaultManager removeItemAtPath:newPath error:nil];
-//		if(move) {
-//			if([self _movePath:path toDirectory:newDir completion:^(BOOL failed) {
-//				if(!failed) {
-//					[self.top reloadDirectory];
-//				}
-//				if(completion) {
-//					completion(failed);
-//				}
-//			}]) {
-//			   return;
-//			}
-//		}
-//		else {
-//			if([self _copyPath:path toDirectory:newDir completion:^(BOOL failed) {
-//				if(!failed) {
-//					[self.top reloadDirectory];
-//				}
-//				if(completion) {
-//					completion(failed);
-//				}
-//			}]) {
-//			   return;
-//			}
-//		}
-//		if(completion) {
-//			completion(NO);
-//		}
-//	}];
-//	[alert addAction:skipAction];
-//	[alert addAction:keepAction];
-//	[alert addAction:overwriteAction];
-//	[alert show];
-//}
 
 @end

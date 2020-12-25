@@ -16,7 +16,8 @@
 typedef enum {
 	BrowserModeBrowse,
 	BrowserModeEdit,
-	BrowserModeMove
+	BrowserModeMove,
+	BrowserModeCopy
 } BrowserMode;
 
 /// single drill-down file browser layer with basic editing functions: move,

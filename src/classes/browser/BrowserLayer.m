@@ -28,9 +28,8 @@
 
 #pragma mark - BrowserLayer
 
-static BrowserLayer *s_moveRoot; //< browser layer that invoked a move edit
-static NSMutableArray *s_movePaths; //< paths to move
-static NSOperationQueue *s_queue; //< sequential operation queue
+static BrowserLayer *s_moveRoot; //< browser layer that invoked a move/copy edit
+static NSMutableArray *s_movePaths; //< paths to move/copy
 
 @interface BrowserLayer () {
 	// for maintaining the scroll pos when navigating back,
@@ -242,13 +241,13 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 			self.navigationItem.rightBarButtonItem = [self.root browsingModeRightBarItemForLayer:self];
 			[self setEditing:NO animated:YES];
 			break;
-		case BrowserModeEdit:
+		case BrowserModeEdit: {
 			if(self.root.showMoveButton) {
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									  initWithTitle:@"Move"
-									  style:UIBarButtonItemStylePlain
-									  target:self
-									  action:@selector(moveButtonPressed)]];
+									   initWithTitle:@"Move..."
+									   style:UIBarButtonItemStylePlain
+									   target:self
+									   action:@selector(moveButtonPressed)]];
 				[barButtons addObject:[[UIBarButtonItem alloc]
 									   initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
 									   target:nil
@@ -263,11 +262,14 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 								   initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
 								   target:nil
 								   action:nil]];
-			[barButtons addObject:[[UIBarButtonItem alloc]
-								   initWithTitle:@"Delete"
-								   style:UIBarButtonItemStylePlain
-								   target:self
-								   action:@selector(deleteButtonPressed)]];
+			UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc]
+											 initWithTitle:@"Delete"
+											 style:UIBarButtonItemStylePlain
+											 target:self
+											 action:@selector(deleteButtonPressed)];
+			[deleteButton setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColor.systemRedColor}
+										forState:UIControlStateNormal];
+			[barButtons addObject:deleteButton];
 			self.toolbarItems = barButtons;
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
 													  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -275,7 +277,8 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 													  action:@selector(doneButtonPressed)];
 			[self setEditing:YES animated:YES];
 			break;
-		case BrowserModeMove:
+		}
+		case BrowserModeMove: case BrowserModeCopy:
 			[barButtons addObject:[[UIBarButtonItem alloc]
 								  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
 								  target:self
@@ -284,11 +287,20 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 								  initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
 								  target:nil
 								  action:nil]];
-			[barButtons addObject:[[UIBarButtonItem alloc]
-								  initWithTitle:@"Move Here"
-								  style:UIBarButtonItemStylePlain
-								  target:self
-								  action:@selector(moveHereButtonPressed)]];
+			if(mode == BrowserModeMove) {
+				[barButtons addObject:[[UIBarButtonItem alloc]
+									  initWithTitle:@"Move Here"
+									  style:UIBarButtonItemStylePlain
+									  target:self
+									  action:@selector(moveHereButtonPressed)]];
+			}
+			else {
+				[barButtons addObject:[[UIBarButtonItem alloc]
+									   initWithTitle:@"Copy Here"
+									   style:UIBarButtonItemStylePlain
+									   target:self
+									   action:@selector(copyHereButtonPressed)]];
+			}
 			self.toolbarItems = barButtons;
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
 													  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -518,28 +530,25 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 
 - (void)moveButtonPressed {
 	DDLogVerbose(@"Browser: move button pressed");
-	NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
-	if(indexPaths.count < 1) {
-		return;
-	}
-	s_moveRoot = self;
-	s_movePaths = [NSMutableArray array];
-	for(NSIndexPath *indexPath in indexPaths) { // save selected paths
-		[s_movePaths addObject:_paths[indexPath.row]];
-	}
-	Browser *browserLayer = [self.root newBrowser]; // use subclass
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
-	browserLayer.title = [NSString stringWithFormat:@"Moving %lu item%@",
-						  (unsigned long)s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
-	browserLayer.directoriesOnly = YES;
-	browserLayer.mode = BrowserModeMove;
-	navigationController.toolbarHidden = NO;
-	navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
-	navigationController.modalPresentationStyle = (Util.isDeviceATablet ? UIModalPresentationFormSheet : UIModalPresentationPageSheet);
-	navigationController.modalInPopover = YES;
-	[browserLayer loadDirectory:_directory relativeTo:Util.documentsPath]; // load after nav controller is set
-	[self.navigationController presentViewController:navigationController animated:YES completion:nil];
-	self.mode = BrowserModeBrowse; // reset now so it's ready when move is done
+	UIAlertController *sheet = [UIAlertController alertControllerWithTitle:nil message:nil
+															preferredStyle:UIAlertControllerStyleActionSheet];
+	UIAlertAction *moveAction = [UIAlertAction actionWithTitle:@"Move" style:UIAlertActionStyleDefault
+													   handler:^(UIAlertAction * _Nonnull action) {
+		s_moveRoot = self;
+		[self showEditBrowserForMode:BrowserModeMove];
+	}];
+	UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"Copy" style:UIAlertActionStyleDefault
+													   handler:^(UIAlertAction * _Nonnull action) {
+		s_moveRoot = self;
+		[self showEditBrowserForMode:BrowserModeCopy];
+	}];
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+	[sheet addAction:moveAction];
+	[sheet addAction:copyAction];
+	[sheet addAction:cancelAction];
+	sheet.modalPresentationStyle = UIModalPresentationPopover;
+	sheet.popoverPresentationController.barButtonItem = self.toolbarItems.firstObject; // Move...
+	[sheet show];
 }
 
 - (void)renameButtonPressed {
@@ -596,21 +605,73 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 	s_movePaths = nil;
 }
 
+- (void)copyHereButtonPressed {
+	DDLogVerbose(@"Browser: copy here button pressed");
+	if(!s_movePaths || s_movePaths.count < 1) {
+		return;
+	}
+	[self copyPathAtIndex:0 inPaths:s_movePaths];
+	s_movePaths = nil;
+}
+
 #pragma mark Private
+
+- (void)showEditBrowserForMode:(BrowserMode)mode {
+	NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
+	if(indexPaths.count < 1) {
+		return;
+	}
+	s_movePaths = [NSMutableArray array];
+	for(NSIndexPath *indexPath in indexPaths) { // save selected paths
+		[s_movePaths addObject:_paths[indexPath.row]];
+	}
+	Browser *browserLayer = [self.root newBrowser]; // use subclass
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
+	browserLayer.title = [NSString stringWithFormat:@"%@ %lu item%@",
+						  (mode == BrowserModeMove ? @"Moving" : @"Copying"),
+						  (unsigned long)s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
+	browserLayer.directoriesOnly = YES;
+	browserLayer.mode = mode;
+	navigationController.toolbarHidden = NO;
+	navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
+	navigationController.modalPresentationStyle = (Util.isDeviceATablet ? UIModalPresentationFormSheet : UIModalPresentationPageSheet);
+	navigationController.modalInPopover = YES;
+	[browserLayer loadDirectory:_directory relativeTo:Util.documentsPath]; // load after nav controller is set
+	[self.navigationController presentViewController:navigationController animated:YES completion:nil];
+	self.mode = BrowserModeBrowse; // reset now so it's ready when move is done
+}
 
 // recursively move paths
 - (void)movePathAtIndex:(NSUInteger)index inPaths:(NSArray *)paths {
 	if(index >= paths.count) {
 		// done
-		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-		[s_moveRoot reloadDirectory]; // show changes after move
-		s_moveRoot = nil;
+		[self.navigationController dismissViewControllerAnimated:YES completion:^{
+			[s_moveRoot reloadDirectory];
+			s_moveRoot = nil;
+		}];
 		return;
 	}
 	NSString *path = paths[index];
 	index++;
-	[self.root movePath:path toDirectory:self.root.directory completion:^(BOOL failed) {
+	[self.root movePath:path toDirectory:self.directory completion:^(BOOL failed) {
 		[self movePathAtIndex:index inPaths:paths]; // next
+	}];
+}
+
+// recursively copy paths
+- (void)copyPathAtIndex:(NSUInteger)index inPaths:(NSArray *)paths {
+	if(index >= paths.count) {
+		// done
+		[self.navigationController dismissViewControllerAnimated:YES completion:^{
+			[s_moveRoot reloadDirectory];
+			s_moveRoot = nil;
+		}];
+		return;
+	}
+	NSString *path = paths[index];
+	index++;
+	[self.root copyPath:path toDirectory:self.directory completion:^(BOOL failed) {
+		[self copyPathAtIndex:index inPaths:paths]; // next
 	}];
 }
 
@@ -619,6 +680,7 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 	if(index >= paths.count) {
 		// done
 		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+		[self reloadDirectory];
 		return;
 	}
 	NSString *path = paths[index];
@@ -632,9 +694,6 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 - (void)deletePathAtIndex:(NSUInteger)index inPaths:(NSArray *)paths
 			 deletedIndices:(NSMutableIndexSet *)deletedIndices {
 	if(index >= paths.count) {
-		// done
-		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-
 		// delete from model & view
 		NSMutableArray *deletedIndexPaths = [NSMutableArray array];
 		[deletedIndices enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
@@ -644,6 +703,9 @@ static NSOperationQueue *s_queue; //< sequential operation queue
 		[_paths removeObjectsAtIndexes:deletedIndices]; // do this in one go
 		[self.tableView deleteRowsAtIndexPaths:deletedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 		[self.tableView endUpdates];
+
+		// done
+		[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 		return;
 	}
 	NSUInteger currentIndex = index;

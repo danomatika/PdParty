@@ -88,7 +88,7 @@
 /// show the "Edit" button in browse mode? (default: YES)
 @property (assign, nonatomic) BOOL showEditButton;
 
-/// show the "Move" button in edit mode? (default: YES)
+/// show the "Move..." button in edit mode? (default: YES)
 @property (assign, nonatomic) BOOL showMoveButton;
 
 /// can the current directory be selected via a "Choose Folder" button? (default: NO)
