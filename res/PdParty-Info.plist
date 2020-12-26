@@ -12,7 +12,11 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>pd</string>
+			<string>Pure Data Patch</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>org.puredata.pd</string>
@@ -22,7 +26,11 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>pdz</string>
+			<string>Zipped Pure Data Project</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>org.puredata.pdz</string>
@@ -32,10 +40,28 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>rjz</string>
+			<string>Zipped RjDj Scene</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.rjdj.rjz</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>Zip File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.pkware.zip-archive</string>
 			</array>
 		</dict>
 	</array>
@@ -153,11 +179,13 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.text
-public.plain-text</string>
+				<string>public.plain-text</string>
+				<string>public.text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Pure Data Patch</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
 			<key>UTTypeIdentifier</key>
 			<string>org.puredata.pd</string>
 			<key>UTTypeTagSpecification</key>
@@ -165,8 +193,9 @@ public.plain-text</string>
 				<key>public.filename-extension</key>
 				<array>
 					<string>pd</string>
-					<string>PD</string>
 				</array>
+				<key>public.mime-type</key>
+				<string>application/pure-data</string>
 			</dict>
 		</dict>
 		<dict>
@@ -177,6 +206,8 @@ public.plain-text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Zipped Pure Data Project</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
 			<key>UTTypeIdentifier</key>
 			<string>org.puredata.pdz</string>
 			<key>UTTypeTagSpecification</key>
@@ -184,8 +215,9 @@ public.plain-text</string>
 				<key>public.filename-extension</key>
 				<array>
 					<string>pdz</string>
-					<string>PDZ</string>
 				</array>
+				<key>public.mime-type</key>
+				<string>application/zip</string>
 			</dict>
 		</dict>
 		<dict>
@@ -196,6 +228,8 @@ public.plain-text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Zipped RjDj Scene</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
 			<key>UTTypeIdentifier</key>
 			<string>com.rjdj.rjz</string>
 			<key>UTTypeTagSpecification</key>
@@ -203,8 +237,9 @@ public.plain-text</string>
 				<key>public.filename-extension</key>
 				<array>
 					<string>rjz</string>
-					<string>RJZ</string>
 				</array>
+				<key>public.mime-type</key>
+				<string>application/zip</string>
 			</dict>
 		</dict>
 		<dict>
@@ -215,6 +250,8 @@ public.plain-text</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Zip File</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
 			<key>UTTypeIdentifier</key>
 			<string>com.pkware.zip-archive</string>
 			<key>UTTypeTagSpecification</key>
@@ -222,8 +259,9 @@ public.plain-text</string>
 				<key>public.filename-extension</key>
 				<array>
 					<string>zip</string>
-					<string>ZIP</string>
 				</array>
+				<key>public.mime-type</key>
+				<string>application/zip</string>
 			</dict>
 		</dict>
 	</array>
