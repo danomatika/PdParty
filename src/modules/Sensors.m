@@ -494,32 +494,32 @@
 							  y:accel.acceleration.y
 							  z:accel.acceleration.z];
 			[self.osc sendAccel:accel.acceleration.x
-										   y:accel.acceleration.y
-										   z:accel.acceleration.z];
+			                  y:accel.acceleration.y
+			                  z:accel.acceleration.z];
 			break;
 		case UIInterfaceOrientationLandscapeRight:
 			[PureData sendAccel:-accel.acceleration.y
 							  y:accel.acceleration.x
 							  z:accel.acceleration.z];
 			[self.osc sendAccel:-accel.acceleration.y
-										   y:accel.acceleration.x
-										   z:accel.acceleration.z];
+			                  y:accel.acceleration.x
+			                  z:accel.acceleration.z];
 			break;
 		case UIInterfaceOrientationPortraitUpsideDown:
 			[PureData sendAccel:-accel.acceleration.x
 							  y:-accel.acceleration.y
 							  z:accel.acceleration.z];
 			[self.osc sendAccel:-accel.acceleration.x
-										   y:-accel.acceleration.y
-										   z:accel.acceleration.z];
+			                  y:-accel.acceleration.y
+			                  z:accel.acceleration.z];
 			break;
 		case UIInterfaceOrientationLandscapeLeft:
 			[PureData sendAccel:accel.acceleration.y
 							  y:-accel.acceleration.x
 							  z:accel.acceleration.z];
 			[self.osc sendAccel:accel.acceleration.y
-										   y:-accel.acceleration.x
-										   z:accel.acceleration.z];
+			                  y:-accel.acceleration.x
+			                  z:accel.acceleration.z];
 			break;
 		case UIInterfaceOrientationUnknown:
 			break;
