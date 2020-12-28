@@ -92,6 +92,10 @@
 	return NO;
 }
 
+- (BOOL)requiresShake {
+	return NO;
+}
+
 - (BOOL)requiresKeys {
 	return NO;
 }

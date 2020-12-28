@@ -22,6 +22,9 @@
 #import "BrowserViewController.h"
 #import "WebViewController.h"
 
+NSString *const PdPartyMotionShakeBeganNotification = @"PdPartyMotionShakeBeganNotification";
+NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedNotification";
+
 @interface AppDelegate () {
 	BOOL audioEnabledWhenBackgrounded; //< YES if the audio was on when we backgrounded
 	BOOL serverEnabledWhenBackgrounded; //< YES if the web server was on when backgrounded

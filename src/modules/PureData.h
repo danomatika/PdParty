@@ -38,6 +38,7 @@
 #define PARTY_SPEED_R      @"#speed"
 #define PARTY_ALTITUDE_R   @"#altitude"
 #define PARTY_CONTROLLER_R @"#controller"
+#define PARTY_SHAKE_R      @"#shake"
 
 // incoming event sends
 #define PD_OSC_S           @"#osc-out"
@@ -184,6 +185,9 @@
 
 /// pdparty game controller pause event (no state)
 + (void)sendControllerPause:(NSString *)controller;
+
+/// pdparty shake event: 1 - started, 0 - stopped
++ (void)sendShake:(int)state;
 
 /// pd key event
 + (void)sendKey:(int)key;

@@ -49,6 +49,7 @@
 		305772A01E88A08A007F9A92 /* GCDWebServerStreamedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 305772911E88A08A007F9A92 /* GCDWebServerStreamedResponse.m */; };
 		306204741753C90400DEC1C2 /* RjScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204721753C90400DEC1C2 /* RjScene.m */; };
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
+		3070AE4B2598D744000A5CE8 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = 3070AE4A2598D744000A5CE8 /* App.m */; };
 		3078DF9A204D72F60024B673 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3078DF99204D72F50024B673 /* CoreAudioKit.framework */; };
 		3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081A4721D615FDE006106E8 /* liblo.a */; };
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
@@ -254,6 +255,8 @@
 		306204721753C90400DEC1C2 /* RjScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RjScene.m; sourceTree = "<group>"; };
 		306204731753C90400DEC1C2 /* PatchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchScene.h; sourceTree = "<group>"; };
 		306204771753E3D200DEC1C2 /* PatchScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchScene.m; sourceTree = "<group>"; };
+		3070AE492598D744000A5CE8 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = App.h; path = src/App.h; sourceTree = "<group>"; };
+		3070AE4A2598D744000A5CE8 /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = App.m; path = src/App.m; sourceTree = "<group>"; };
 		3078DF99204D72F50024B673 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		3081A4721D615FDE006106E8 /* liblo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblo.a; sourceTree = "<group>"; };
 		3081A4741D615FDE006106E8 /* lo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo.h; sourceTree = "<group>"; };
@@ -750,6 +753,8 @@
 				30C9BF5716E8456B00E5AA5B /* modules */,
 				30ABE2E116B5D0FB00464926 /* AppDelegate.h */,
 				30ABE2E216B5D0FB00464926 /* AppDelegate.m */,
+				3070AE492598D744000A5CE8 /* App.h */,
+				3070AE4A2598D744000A5CE8 /* App.m */,
 				30ABE2E516B5D0FB00464926 /* main.m */,
 				302E895E17E668300004B935 /* MidiViewController.h */,
 				302E895F17E668320004B935 /* MidiViewController.m */,
@@ -1238,6 +1243,7 @@
 				30DBD04B1C196B0500ABE9E1 /* getdir.c in Sources */,
 				309EA50420509D4A00337C31 /* mztools.c in Sources */,
 				30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */,
+				3070AE4B2598D744000A5CE8 /* App.m in Sources */,
 				30F5282517D7B3DD004736A6 /* Wordbutton.m in Sources */,
 				30F5282817D8FA81004736A6 /* Numberbox.m in Sources */,
 				30F5282B17D90ACB004736A6 /* Taplist.m in Sources */,

@@ -147,6 +147,10 @@
 	return YES;
 }
 
+- (BOOL)requiresShake {
+	return YES;
+}
+
 - (BOOL)requiresKeys {
 	return YES;
 }

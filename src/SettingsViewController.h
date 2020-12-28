@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *oscTouchEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *oscSensorEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *oscControllersEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *oscShakeEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *oscKeyEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *oscPrintEnabledSwitch;
 

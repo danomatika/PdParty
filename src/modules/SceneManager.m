@@ -57,6 +57,13 @@
 		else {
 			DDLogVerbose(@"SceneManager: game controller support not available on this device");
 		}
+
+		// listen for shake events
+		NSNotificationCenter *center = NSNotificationCenter.defaultCenter;
+		[center addObserver:self selector:@selector(shakeBeganNotification:)
+					   name:PdPartyMotionShakeBeganNotification object:nil];
+		[center addObserver:self selector:@selector(shakeEndedNotification:)
+					   name:PdPartyMotionShakeBeganNotification object:nil];
 		
 		// create gui
 		self.gui = [[PartyGui alloc] init];
@@ -66,6 +73,12 @@
 }
 
 - (void)dealloc {
+	[NSNotificationCenter.defaultCenter removeObserver:self
+	                                              name:PdPartyMotionShakeBeganNotification
+	                                            object:nil];
+	[NSNotificationCenter.defaultCenter removeObserver:self
+	                                              name:PdPartyMotionShakeEndedNotification
+	                                            object:nil];
 	if(self.pureData) {
 		self.pureData.sensorDelegate = nil;
 	}
@@ -176,7 +189,7 @@
 		return;
 	}
 		
-	// do animations if gui has already been setup once
+	// do animations if gui has already been set up once
 	// http://www.techotopia.com/index.php/Basic_iOS_4_iPhone_Animation_using_Core_Animation
 	if(hasReshaped) {
 		[UIView beginAnimations:nil context:nil];
@@ -203,19 +216,31 @@
 	if(self.scene.requiresTouch) {
 		[PureData sendTouch:eventType forId:id atX:x andY:y];
 	}
-	if(self.osc.isListening) {
-		[self.osc sendTouch:eventType forId:id atX:x andY:y];
-	}
+	[self.osc sendTouch:eventType forId:id atX:x andY:y];
 }
 
-// pd key event
+- (void)sendShake:(int)state {
+	if(self.scene.requiresShake) {
+		[PureData sendShake:state];
+	}
+	[self.osc sendShake:state];
+}
+
 - (void)sendKey:(int)key {
 	if(self.scene.requiresKeys) {
 		[PureData sendKey:key];
 	}
-	if(self.osc.isListening) {
-		[self.osc sendKey:key];
-	}
+	[self.osc sendKey:key];
+}
+
+#pragma mark Shake Notifications
+
+- (void)shakeBeganNotification:(NSNotification *)notification {
+	[self sendShake:1];
+}
+
+- (void)shakeEndedNotification:(NSNotification *)notification {
+	[self sendShake:0];
 }
 
 #pragma mark PdSensorSupportDelegate

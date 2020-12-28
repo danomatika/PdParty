@@ -33,6 +33,9 @@
 #X text 95 214 speed_m/s course_degrees;
 #X text 196 431 name button/axis button/axis_name value;
 #X obj 21 369 route connect disconnect pause;
+#X obj 294 221 r #shake;
+#X text 293 244 1 - start \, 0 - stop;
+#X text 354 222 state;
 #X connect 0 0 4 0;
 #X connect 1 0 6 0;
 #X connect 11 0 19 0;

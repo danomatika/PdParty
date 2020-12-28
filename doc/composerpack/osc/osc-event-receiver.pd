@@ -1,13 +1,11 @@
-#N canvas 550 101 515 405 10;
-#X obj 13 373 s #touch;
-#X obj 57 348 s #accelerate;
-#X obj 415 138 print pdparty;
+#N canvas 306 80 608 354 10;
+#X obj 13 316 s #touch;
+#X obj 57 291 s #accelerate;
 #X text 137 46 receives PdParty events over OSC;
 #X text 137 72 useful for patch development & debugging;
-#X obj 370 162 s #key;
 #X obj 118 16 tgl 15 0 empty empty print_all_messages 17 7 0 10 -262144
--1 -1 1 1;
-#X obj 13 15 tgl 15 0 empty empty listen 17 7 0 10 -262144 -1 -1 1
+-1 -1 0 1;
+#X obj 13 15 tgl 15 0 empty empty listen 17 7 0 10 -262144 -1 -1 0
 1;
 #N canvas 0 23 417 316 oscreceive 0;
 #X obj 110 133 oscparse;
@@ -35,25 +33,31 @@
 #X coords 0 316 1 315 140 40 0;
 #X restore 13 45 pd oscreceive 8888;
 #X obj 13 78 route pdparty;
-#X obj 102 320 s #gyro;
-#X obj 281 212 s #magnet;
-#X obj 147 293 s #loc;
-#X obj 325 186 s #controller;
-#X obj 13 110 route touch accelerate gyro loc speed compass magnet
-controller key print, f 75;
-#X obj 236 241 s #compass;
-#X obj 191 269 s #speed;
-#X connect 6 0 8 1;
-#X connect 7 0 8 0;
-#X connect 8 0 9 0;
-#X connect 9 0 14 0;
-#X connect 14 0 0 0;
-#X connect 14 1 1 0;
-#X connect 14 2 10 0;
-#X connect 14 3 12 0;
-#X connect 14 4 16 0;
-#X connect 14 5 15 0;
-#X connect 14 6 11 0;
-#X connect 14 7 13 0;
-#X connect 14 8 5 0;
-#X connect 14 9 2 0;
+#X obj 101 263 s #gyro;
+#X obj 277 155 s #magnet;
+#X obj 145 236 s #loc;
+#X obj 233 184 s #compass;
+#X obj 189 212 s #speed;
+#X obj 508 194 print pdparty;
+#X obj 461 232 s #key;
+#X obj 367 291 s #controller;
+#X obj 414 263 s #shake;
+#X obj 367 155 route controller shake key print;
+#X obj 13 115 route touch accelerate gyro loc speed compass magnet
+;
+#X connect 4 0 6 1;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 18 0;
+#X connect 17 0 15 0;
+#X connect 17 1 16 0;
+#X connect 17 2 14 0;
+#X connect 17 3 13 0;
+#X connect 18 0 0 0;
+#X connect 18 1 1 0;
+#X connect 18 2 8 0;
+#X connect 18 3 10 0;
+#X connect 18 4 12 0;
+#X connect 18 5 11 0;
+#X connect 18 6 9 0;
+#X connect 18 7 17 0;

@@ -88,6 +88,9 @@
 	else if(sender == self.oscControllersEnabledSwitch) {
 		app.osc.controllerSendingEnabled = self.oscControllersEnabledSwitch.isOn;
 	}
+	else if(sender == self.oscShakeEnabledSwitch) {
+		app.osc.shakeSendingEnabled = self.oscShakeEnabledSwitch.isOn;
+	}
 	else if(sender == self.oscKeyEnabledSwitch) {
 		app.osc.keySendingEnabled = self.oscKeyEnabledSwitch.isOn;
 	}

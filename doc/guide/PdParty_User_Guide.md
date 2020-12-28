@@ -2,7 +2,7 @@ PdParty User Guide
 ==================
 
 Version: **1.3.0**  
-Date: 2020-03-24
+Date: 2020-12-27
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
 
@@ -473,6 +473,8 @@ PdParty returns the following events:
 * **[r \#time]**: timestamp event, see "Timestamps" section"
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
 * **[r \#controller]**: game controller event, see "Game Controllers" section
+* **[ r \#shake] _state_**: system-detected shake event
+  * _state_: 0 - started, 1 - stopped
 
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
 
@@ -490,7 +492,7 @@ Reading accelerometer, gyroscope, and/or magnetometer events will affect battery
   * _value_: boolean 0-1 to start/stop the sensor
 * **\#pdparty _sensor_ updates _value_**: sensor automatic update control
   * _value_: boolean to start/stop automatic updates (default on)
-* **\#pdparty _sensor_**: request the current sensor values if automatic updates is disabled
+* **\#pdparty _sensor_**: request the current sensor values if automatic update is disabled
 * **\#pdparty _sensor_ _speed_**: set desired update speed, this setting impacts battery life
   * _sensor_: accelerate, gyro, or magnet
   * _speed_: desired update speed as one of the following strings:
@@ -651,11 +653,14 @@ All of the PdParty events can be streamed over OSC, included Pd prints. The rece
 * /pdparty/accelerate
 * /pdparty/gyro
 * /pdparty/loc
+* /pdparty/speed
+* /pdparty/altitude
 * /pdparty/compass
 * /pdparty/magnet
 * /pdparty/time
-* /pdparty/key
 * /pdparty/controller
+* /pdparty/shake
+* /pdparty/key
 * /pdparty/print
 
 _Note: The argument number and types are equivalent with their receive counterparts, i.e. /pdparty/touch receives the same data as [r \#touch]._

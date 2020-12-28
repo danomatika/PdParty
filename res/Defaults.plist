@@ -46,5 +46,7 @@
 	<false/>
 	<key>multiMidiDeviceMode</key>
 	<false/>
+	<key>shakeSendingEnabled</key>
+	<false/>
 </dict>
 </plist>

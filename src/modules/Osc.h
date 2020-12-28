@@ -20,6 +20,7 @@
 #define OSC_TIME_ADDR        @"/pdparty/time"
 #define OSC_MAGNET_ADDR      @"/pdparty/magnet"
 #define OSC_CONTROLLER_ADDR  @"/pdparty/controller"
+#define OSC_SHAKE_ADDR       @"/pdparty/shake"
 #define OSC_KEY_ADDR         @"/pdparty/key"
 #define OSC_PRINT_ADDR       @"/pdparty/print"
 
@@ -34,6 +35,7 @@
 @property (assign, nonatomic) BOOL touchSendingEnabled; //< send touch events?
 @property (assign, nonatomic) BOOL sensorSendingEnabled; //< accel, gyro, location, compass, magnet
 @property (assign, nonatomic) BOOL controllerSendingEnabled; //< send game controller events?
+@property (assign, nonatomic) BOOL shakeSendingEnabled; //< send shake events?
 @property (assign, nonatomic) BOOL keySendingEnabled; //< send [key] events?
 @property (assign, nonatomic) BOOL printSendingEnabled; //< send pd prints?
 
@@ -91,6 +93,9 @@
 
 /// pdparty game controller pause event (no state)
 - (void)sendControllerPause:(NSString *)controller;
+
+/// pdparty shake event: 1 - started, 0 - stopped
+- (void)sendShake:(int)state;
 
 /// pd key event
 - (void)sendKey:(int)key;

@@ -53,6 +53,9 @@
 /// rj touch event
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
 
+/// pdparty shake event
+- (void)sendShake:(int)state;
+
 /// pd key event
 - (void)sendKey:(int)key;
 

@@ -16,6 +16,10 @@
 #import "SceneManager.h"
 #import "WebServer.h"
 
+// shake event notification names
+extern NSString *const PdPartyMotionShakeBeganNotification;
+extern NSString *const PdPartyMotionShakeEndedNotification;
+
 @class StartViewController;
 @class PatchViewController;
 @class BrowserViewController;
