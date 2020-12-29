@@ -335,7 +335,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * locked to landscape
   * an optional background image named "background.png" which should have a landscape aspect ratio
   * an optional font named "font.ttf" or "font-antialiased.ttf"
-  * does not require the following events (#accelerate, #touch, or [key])
+  * does not require the following events (#accelerate, #touch, or [key]/[keyup])
   * sensors are accessed by the [droidsystem] abstraction
   * does not support game controllers
   * 44100 samplerate
@@ -375,7 +375,9 @@ When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that 
 
 #### Key events
 
-[key] works with an external USB or Bluetooth or keyboard. [keyup] & [keyname] are not supported as there is currently no *official* way to intercept raw key events on iOS.
+[key] & [keyup]\* work with an external USB or Bluetooth or keyboard. [keyname] is not currently supported.
+
+\* *[keyup] is only supported on iOS 13.4+ as there is no way to receive key release events on earlier iOS versions.*
 
 #### VU Meter
 
@@ -661,6 +663,7 @@ All of the PdParty events can be streamed over OSC, included Pd prints. The rece
 * /pdparty/controller
 * /pdparty/shake
 * /pdparty/key
+* /pdparty/keyup
 * /pdparty/print
 
 _Note: The argument number and types are equivalent with their receive counterparts, i.e. /pdparty/touch receives the same data as [r \#touch]._

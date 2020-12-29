@@ -1,10 +1,8 @@
 #N canvas 524 160 361 353 10;
-#X msg 94 261 disconnect;
-#X obj 17 19 key;
-#X obj 17 45 spigot;
-#X obj 50 20 tgl 15 0 empty empty send_keys 17 7 0 10 -262144 -1 -1
+#X msg 93 250 disconnect;
+#X obj 15 21 tgl 15 0 empty empty send_keys 17 7 0 10 -262144 -1 -1
 0 1;
-#X msg 94 235 connect 127.0.0.1 8088;
+#X msg 86 224 connect 127.0.0.1 8088;
 #N canvas 0 23 356 247 oscsend 0;
 #X obj 71 59 inlet;
 #X obj 71 146 netsend -u -b;
@@ -19,13 +17,12 @@
 #X connect 5 0 1 0;
 #X restore 17 295 pd oscsend;
 #X obj 17 321 tgl 15 0 empty empty connected 17 7 0 10 -262144 -1 -1
-1 1;
-#X obj 17 75 oscformat pdparty key;
-#X symbolatom 94 186 20 0 0 0 - - -, f 20;
-#X msg 94 210 connect \$1 8088;
-#X obj 94 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+0 1;
+#X symbolatom 74 175 20 0 0 0 - - -;
+#X msg 74 199 connect \$1 8088;
+#X obj 74 148 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X text 115 160 type hostname/ip below and hit enter;
+#X text 95 149 type hostname/ip below and hit enter;
 #X text 114 47 sends PdParty events over OSC;
 #N canvas 255 212 317 180 control 0;
 #X obj 25 22 r #pdparty;
@@ -41,17 +38,33 @@
 #X connect 4 0 6 0;
 #X connect 5 0 4 0;
 #X connect 6 0 3 0;
-#X restore 35 102 pd control messages;
-#X obj 49 129 r #osc-out;
-#X connect 0 0 5 1;
+#X restore 32 80 pd control messages;
+#X obj 46 107 r #osc-out;
+#N canvas 91 27 335 186 key 0;
+#X obj 50 19 inlet;
+#X obj 17 19 key;
+#X obj 17 65 spigot;
+#X obj 17 95 oscformat pdparty key;
+#X obj 170 66 spigot;
+#X obj 170 20 keyup;
+#X obj 170 96 oscformat pdparty keyup;
+#X obj 17 147 outlet;
+#X connect 0 0 2 1;
+#X connect 0 0 4 1;
 #X connect 1 0 2 0;
-#X connect 2 0 7 0;
-#X connect 3 0 2 1;
-#X connect 4 0 5 1;
+#X connect 2 0 3 0;
+#X connect 3 0 7 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 7 0;
+#X restore 15 49 pd key messages;
+#X connect 0 0 3 1;
+#X connect 1 0 12 0;
+#X connect 2 0 3 1;
+#X connect 3 0 4 0;
 #X connect 5 0 6 0;
+#X connect 6 0 3 1;
 #X connect 7 0 5 0;
-#X connect 8 0 9 0;
-#X connect 9 0 5 1;
-#X connect 10 0 8 0;
-#X connect 13 0 5 0;
-#X connect 14 0 5 0;
+#X connect 10 0 3 0;
+#X connect 11 0 3 0;
+#X connect 12 0 3 0;

@@ -270,6 +270,14 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
+- (void)sendKeyUp:(int)key {
+	if(!self.isListening || !self.keySendingEnabled) return;
+	lo_message *m = lo_message_new();
+	lo_message_add_float(m, key);
+	lo_send_message(sendAddress, [OSC_KEYUP_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
 - (void)sendPrint:(NSString *)print {
 	if(!self.isListening || !self.printSendingEnabled) return;
 	lo_message *m = lo_message_new();

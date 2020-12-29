@@ -22,6 +22,7 @@
 #define OSC_CONTROLLER_ADDR  @"/pdparty/controller"
 #define OSC_SHAKE_ADDR       @"/pdparty/shake"
 #define OSC_KEY_ADDR         @"/pdparty/key"
+#define OSC_KEYUP_ADDR       @"/pdparty/keyup"
 #define OSC_PRINT_ADDR       @"/pdparty/print"
 
 @interface Osc : NSObject
@@ -99,6 +100,9 @@
 
 /// pd key event
 - (void)sendKey:(int)key;
+
+/// pd keyup event
+- (void)sendKeyUp:(int)key;
 
 /// pd print event
 - (void)sendPrint:(NSString *)print;

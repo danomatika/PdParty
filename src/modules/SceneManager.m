@@ -233,6 +233,13 @@
 	[self.osc sendKey:key];
 }
 
+- (void)sendKeyUp:(int)key {
+	if(self.scene.requiresKeys) {
+		[PureData sendKeyUp:key];
+	}
+	[self.osc sendKeyUp:key];
+}
+
 #pragma mark Shake Notifications
 
 - (void)shakeBeganNotification:(NSNotification *)notification {

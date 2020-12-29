@@ -14,6 +14,7 @@
 
 // PD event receivers
 #define PD_KEY_R           @"#key"
+#define PD_KEYUP_R         @"#keyup"
 #define PD_OSC_R           @"#osc-in"
 #define PD_CLOSEBANG_R     @"#closebang"
 
@@ -191,6 +192,9 @@
 
 /// pd key event
 + (void)sendKey:(int)key;
+
+/// pd keyup event
++ (void)sendKeyUp:(int)key;
 
 /// pd print event
 + (void)sendPrint:(NSString *)print;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Dan Wilcox <danomatika@gmail.com>
+ * Copyright (c) 2013,2020 Dan Wilcox <danomatika@gmail.com>
  *
  * BSD Simplified License.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
@@ -14,10 +14,14 @@
 @protocol KeyGrabberDelegate <NSObject>
 @optional
 - (void)keyPressed:(int)key;
+- (void)keyReleased:(int)key;
 @end
 
 /// a hidden view that grabs key events without showing the soft keyboard
-/// from https://github.com/scarnie/iCade-iOS/tree/master/iCadeTest/iCade
+///
+/// uses UIPress events on iOS 13.4+ (keyPressed & keyReleased)
+/// or
+/// UIKeyInput for earlier iOS versions (keyPressed only)
 ///
 /// sorry intl peeps, ASCII only
 ///
@@ -29,15 +33,12 @@
 ///	  grabber.delegate = self;
 ///	  [self.view addSubview:grabber];
 ///
-@interface KeyGrabberView : UIView<UIKeyInput>
+@interface KeyGrabberView : UIView
 
 /// enable key grabbing?
 @property (assign, nonatomic) BOOL active;
 
 /// set the delegate to receive events
 @property (assign, nonatomic) id<KeyGrabberDelegate> delegate;
-
-/// or read the latest event value here
-@property (assign, nonatomic) int key;
 
 @end

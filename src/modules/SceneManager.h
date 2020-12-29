@@ -59,4 +59,7 @@
 /// pd key event
 - (void)sendKey:(int)key;
 
+/// pd keyup event
+- (void)sendKeyUp:(int)key;
+
 @end

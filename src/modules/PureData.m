@@ -259,6 +259,10 @@
 	[PdBase sendFloat:key toReceiver:PD_KEY_R];
 }
 
++ (void)sendKeyUp:(int)key {
+	[PdBase sendFloat:key toReceiver:PD_KEYUP_R];
+}
+
 + (void)sendPrint:(NSString *)print {
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	DDLogInfo(@"Pd: %@", print);

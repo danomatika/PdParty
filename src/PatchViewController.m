@@ -17,7 +17,7 @@
 
 @interface PatchViewController () {
 	NSMutableDictionary *activeTouches; //< for persistent ids
-	KeyGrabberView *grabber; //< for keyboard events
+	KeyGrabberView *keyGrabberView; //< for keyboard events
 }
 
 @property (strong, nonatomic) Popover *controlsPopover;
@@ -82,10 +82,10 @@
 	self.menuViewController = [[MenuViewController alloc] init];
 
 	// start keygrabber
-	grabber = [[KeyGrabberView alloc] init];
-	grabber.active = YES;
-	grabber.delegate = self;
-	[self.view addSubview:grabber];
+	keyGrabberView = [[KeyGrabberView alloc] init];
+	keyGrabberView.active = YES;
+	keyGrabberView.delegate = self;
+	[self.view addSubview:keyGrabberView];
 
 	// set title here since view hasn't been inited when opening on iPhone
 	if(Util.isDeviceAPhone) {
@@ -168,9 +168,9 @@
 	if([self.sceneManager openScene:path withType:type forParent:self.view]) {
 		
 		// does the scene need key events?
-		grabber.active = self.sceneManager.scene.requiresKeys;
+		keyGrabberView.active = self.sceneManager.scene.requiresKeys;
 		DDLogVerbose(@"PatchViewController: %@ key grabber",
-			(grabber.active ? @"enabled" : @"disabled"));
+			(keyGrabberView.active ? @"enabled" : @"disabled"));
 	
 		// set nav controller title
 		self.navigationItem.title = self.sceneManager.scene.name;
@@ -302,6 +302,10 @@
 
 - (void)keyPressed:(int)key {
 	[self.sceneManager sendKey:key];
+}
+
+- (void)keyReleased:(int)key {
+	[self.sceneManager sendKeyUp:key];
 }
 
 #pragma mark UISplitViewControllerDelegate

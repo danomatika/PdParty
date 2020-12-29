@@ -1,14 +1,14 @@
 #N canvas 505 114 416 234 10;
-#X obj 39 72 cnv 15 340 60 empty empty [key] 20 12 0 14 -233017 -66577
+#X obj 42 45 cnv 15 340 60 empty empty [key] 20 12 0 14 -233017 -66577
 0;
-#X floatatom 63 103 5 0 0 1 - key -, f 5;
-#X text 158 75 try a usb/bluetooth keyboard;
-#X obj 122 96 bng 30 250 50 0 empty q q 13 15 0 10 -262144 -1 -1;
-#X obj 164 96 bng 30 250 50 0 empty w w 13 15 0 10 -262144 -1 -1;
-#X obj 208 96 bng 30 250 50 0 empty e e 13 15 0 10 -262144 -1 -1;
-#X obj 251 96 bng 30 250 50 0 empty r r 13 15 0 10 -262144 -1 -1;
-#X obj 295 96 bng 30 250 50 0 empty t t 13 15 0 10 -262144 -1 -1;
-#X obj 340 96 bng 30 250 50 0 empty y y 13 15 0 10 -262144 -1 -1;
+#X floatatom 66 76 5 0 0 1 - key -;
+#X text 201 48 try a usb/bluetooth keyboard;
+#X obj 125 69 bng 30 250 50 0 empty q q 13 15 0 10 -262144 -1 -1;
+#X obj 167 69 bng 30 250 50 0 empty w w 13 15 0 10 -262144 -1 -1;
+#X obj 211 69 bng 30 250 50 0 empty e e 13 15 0 10 -262144 -1 -1;
+#X obj 254 69 bng 30 250 50 0 empty r r 13 15 0 10 -262144 -1 -1;
+#X obj 298 69 bng 30 250 50 0 empty t t 13 15 0 10 -262144 -1 -1;
+#X obj 343 69 bng 30 250 50 0 empty y y 13 15 0 10 -262144 -1 -1;
 #N canvas 814 111 303 150 key 0;
 #X obj 21 25 key;
 #X obj 72 55 route 113 119 101 114 116 121;
@@ -28,4 +28,40 @@
 #X connect 1 4 6 0;
 #X connect 1 5 7 0;
 #X connect 9 0 1 0;
-#X restore 107 76 pd key;
+#X restore 110 49 pd key;
+#X obj 42 124 cnv 15 340 60 empty empty [keyup] 20 12 0 14 -233017
+-66577 0;
+#X obj 125 149 bng 30 250 50 0 empty qu q 13 15 0 10 -262144 -1 -1
+;
+#X obj 167 149 bng 30 250 50 0 empty wu w 13 15 0 10 -262144 -1 -1
+;
+#X obj 211 149 bng 30 250 50 0 empty eu e 13 15 0 10 -262144 -1 -1
+;
+#X obj 254 149 bng 30 250 50 0 empty ru r 13 15 0 10 -262144 -1 -1
+;
+#X obj 298 149 bng 30 250 50 0 empty tu t 13 15 0 10 -262144 -1 -1
+;
+#X obj 343 149 bng 30 250 50 0 empty yu y 13 15 0 10 -262144 -1 -1
+;
+#X floatatom 67 155 5 0 0 1 - keyup -;
+#X text 201 128 keyup supported on iOS 13.4+;
+#N canvas 814 111 303 150 keyup 0;
+#X obj 72 55 route 113 119 101 114 116 121;
+#X obj 72 25 r keyup;
+#X obj 72 106 s qu;
+#X obj 100 86 s wu;
+#X obj 129 106 s eu;
+#X obj 157 86 s ru;
+#X obj 186 106 s tu;
+#X obj 214 86 s yu;
+#X obj 21 55 s keyup;
+#X obj 21 25 keyup;
+#X connect 0 0 2 0;
+#X connect 0 1 3 0;
+#X connect 0 2 4 0;
+#X connect 0 3 5 0;
+#X connect 0 4 6 0;
+#X connect 0 5 7 0;
+#X connect 1 0 0 0;
+#X connect 9 0 8 0;
+#X restore 124 128 pd keyup;
