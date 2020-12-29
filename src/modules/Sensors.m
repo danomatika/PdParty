@@ -483,7 +483,7 @@
 
 // orient accel data to current orientation
 - (void)sendAccel:(CMAccelerometerData *)accel {
-	#ifdef DEBUG_CONTROLLERS
+	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"accel %f %f %f", accel.acceleration.x,
 										accel.acceleration.y,
 										accel.acceleration.z);
@@ -527,7 +527,7 @@
 }
 
 - (void)sendGyro:(CMGyroData *)gyro {
-	#ifdef DEBUG_CONTROLLERS
+	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"gyro %f %f %f", gyro.rotationRate.x, gyro.rotationRate.y, gyro.rotationRate.z);
 	#endif
 	[PureData sendGyro:gyro.rotationRate.x y:gyro.rotationRate.y z:gyro.rotationRate.z];
@@ -535,7 +535,7 @@
 }
 
 - (void)sendLocation:(CLLocation *)location {
-	#ifdef DEBUG_CONTROLLERS
+	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"locate %@", location.description);
 	#endif
 	[PureData sendLocation:location.coordinate.latitude
@@ -551,7 +551,7 @@
 }
 
 - (void)sendCompass:(CLHeading *)heading {
-	#ifdef DEBUG_CONTROLLERS
+	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"heading %@", heading.description);
 	#endif
 	[PureData sendCompass:heading.magneticHeading];
@@ -559,7 +559,7 @@
 }
 
 - (void)sendMagnet:(CMMagnetometerData *)magnet {
-	#ifdef DEBUG_CONTROLLERS
+	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"magnet %f %f %f", magnet.magneticField.x, magnet.magneticField.y, magnet.magneticField.z);
 	#endif
 	[PureData sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];

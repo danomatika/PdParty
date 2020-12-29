@@ -14,6 +14,8 @@
 #import "Log.h"
 #import "PureData.h"
 
+//#define DEBUG_OSC
+
 // liblo C callbacks
 void errorCB(int num, const char *msg, const char *where);
 int messageCB(const char *path, const char *types, lo_arg **argv,
@@ -102,7 +104,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 #pragma mark Receive Events
 
 - (void)receiveMessage:(NSString *)address withArguments:(NSArray *)arguments {
-	#ifdef DEBUG
+	#ifdef DEBUG_OSC
 		DDLogVerbose(@"OSC message to %@: %@", address, [arguments description]);
 	#endif
 	[PureData sendOscMessage:address withArguments:arguments];
