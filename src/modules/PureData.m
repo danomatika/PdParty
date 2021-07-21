@@ -227,6 +227,33 @@
 	[PdBase sendList:@[@(x), @(y), @(z)] toReceiver:PARTY_MAGNET_R];
 }
 
++ (void)sendOrientationEuler:(float)yaw pitch:(float)pitch roll:(float)roll {
+    [PdBase sendList:@[@(yaw), @(pitch), @(roll)] toReceiver:PARTY_ORIENTEULER_R];
+}
+
++ (void)sendOrientationMatrix:(float)m11 m12:(float)m12 m13:(float)m13
+                          m21:(float)m21 m22:(float)m22 m23:(float)m23
+                          m31:(float)m31 m32:(float)m32 m33:(float)m33
+{
+    [PdBase sendList:@[@(m11), @(m12), @(m13), @(m21), @(m22), @(m23), @(m31), @(m32), @(m33)] toReceiver:PARTY_ORIENTMATRIX_R];
+}
+
++ (void)sendOrientationQuat:(float)x y:(float)y z:(float)z w:(float)w {
+    [PdBase sendList:@[@(x), @(y), @(z), @(w)] toReceiver:PARTY_ORIENTQUAT_R];
+}
+
++ (void)sendRotationRate:(float)x y:(float)y z:(float)z {
+    [PdBase sendList:@[@(x), @(y), @(z)] toReceiver:PARTY_ROTATIONRATE_R];
+}
+
++ (void)sendGravity:(float)x y:(float)y z:(float)z {
+    [PdBase sendList:@[@(x), @(y), @(z)] toReceiver:PARTY_GRAVITY_R];
+}
+
++ (void)sendUserAcceleration:(float)x y:(float)y z:(float)z {
+    [PdBase sendList:@[@(x), @(y), @(z)] toReceiver:PARTY_USERACCEL_R];
+}
+
 + (void)sendEvent:(NSString *)event forController:(NSString *)controller {
 	[PdBase sendMessage:[NSString stringWithString:event]
 		  withArguments:@[[NSString stringWithString:controller]]
@@ -471,6 +498,80 @@
 			}
 		}
 	
+        //  Processed motion (CMDeviceMotion) control
+        //  The next types of messages (orientation, user acceleration, gravity and
+        //rotation rate) are all provenient of processed sensor data. If procesedmotion
+        //is disabled, their enabled state is ignored
+        
+        else if([message isEqualToString:@"processedmotion"]) {
+            if(arguments.count == 0) {
+                [self.sensors sendProcessedMotion];
+            }
+            else {
+                if([arguments isNumberAt:0]) { // float: start/stop
+                    if(self.sensorDelegate && [self.sensorDelegate supportsProcessedMotion]) {
+                        self.sensors.processedMotionEnabled = [arguments[0] boolValue];
+                    }
+                }
+                else if([arguments isStringAt:0] && arguments.count > 1) {
+                    if([arguments[0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+                        self.sensors.processedMotionAutoUpdates = [arguments[1] boolValue];
+                    }
+                    else if([arguments[0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+                        self.sensors.processedMotionSpeed = arguments[1];
+                    }
+                }
+            }
+        }
+        
+        else if([message isEqualToString:@"orientationeuler"]) {
+            if([arguments isNumberAt:0]) { // float: start/stop
+                if(self.sensorDelegate && [self.sensorDelegate supportsProcessedMotion]) {
+                    self.sensors.orientationEulerEnabled = [arguments[0] boolValue];
+                }
+            }
+        }
+        
+        else if([message isEqualToString:@"orientationquat"]) {
+            if([arguments isNumberAt:0]) { // float: start/stop
+                if(self.sensorDelegate && [self.sensorDelegate supportsProcessedMotion]) {
+                    self.sensors.orientationQuatEnabled = [arguments[0] boolValue];
+                }
+            }
+        }
+        
+        else if([message isEqualToString:@"orientationmatrix"]) {
+            if([arguments isNumberAt:0]) { // float: start/stop
+                if(self.sensorDelegate && [self.sensorDelegate supportsProcessedMotion]) {
+                    self.sensors.orientationMatrixEnabled = [arguments[0] boolValue];
+                }
+            }
+        }
+        
+        else if([message isEqualToString:@"useracceleration"]) {
+            if([arguments isNumberAt:0]) { // float: start/stop
+                if(self.sensorDelegate && [self.sensorDelegate supportsProcessedMotion]) {
+                    self.sensors.userAccelerationEnabled = [arguments[0] boolValue];
+                }
+            }
+        }
+        
+        else if([message isEqualToString:@"gravity"]) {
+            if([arguments isNumberAt:0]) { // float: start/stop
+                if(self.sensorDelegate && [self.sensorDelegate supportsProcessedMotion]) {
+                    self.sensors.gravityEnabled = [arguments[0] boolValue];
+                }
+            }
+        }
+        
+        else if([message isEqualToString:@"rotationrate"]) {
+            if([arguments isNumberAt:0]) { // float: start/stop
+                if(self.sensorDelegate && [self.sensorDelegate supportsProcessedMotion]) {
+                    self.sensors.rotationRateEnabled = [arguments[0] boolValue];
+                }
+            }
+        }
+        
 		// set the scene name for remote recording
 		else if([message isEqualToString:@"scene"] && arguments.count > 0 && [arguments isStringAt:0]) {
 			sceneName = arguments[0];

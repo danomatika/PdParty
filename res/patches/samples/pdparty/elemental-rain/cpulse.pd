@@ -1,0 +1,33 @@
+#N canvas 1785 23 448 220 10;
+#X obj 2 68 vline~;
+#X msg 2 48 1 \, 0 \$1 0;
+#X obj 2 194 outlet~;
+#X obj 2 2 inlet;
+#X obj 2 88 -~ 0.5;
+#X obj 2 111 *~;
+#X obj 2 131 *~ -4;
+#X obj 2 152 +~ 1;
+#X obj 53 151 sqrt;
+#X obj 2 174 *~;
+#X obj 2 22 t f f;
+#X obj 53 88 + 0.1;
+#X text 125 57 a parabolic pulse;
+#X text 62 119 the bright drops seem excessively loud. This brings
+the;
+#X text 63 136 frequencies closer to a 1/f or pink distribution.;
+#X text 62 102 compensating for the Fletcher–Munsen effect that would
+make;
+#X text 125 41 Cheap way of generating;
+#X connect 0 0 4 0;
+#X connect 1 0 0 0;
+#X connect 3 0 10 0;
+#X connect 4 0 5 0;
+#X connect 4 0 5 1;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 9 0;
+#X connect 8 0 9 1;
+#X connect 9 0 2 0;
+#X connect 10 0 1 0;
+#X connect 10 1 11 0;
+#X connect 11 0 8 0;

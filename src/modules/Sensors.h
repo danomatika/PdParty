@@ -58,6 +58,59 @@
 @property (assign, nonatomic) BOOL magnetAutoUpdates; //< set to NO if sending manually (default: YES)
 @property (nonatomic) NSString *magnetSpeed; //< magnet update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
 
-- (void)sendMagnet; //< request current gyro value manually, use this when auto updates is NO
+- (void)sendMagnet; //< request current magnet value manually, use this when auto updates is NO
+
+#pragma mark ProcessedMotion
+
+//  "Raw accelerometer and gyroscope data must be processed to remove bias
+//from other factors, such as gravity. The device-motion service does this
+//processing for you, giving you refined data" - https://developer.apple.com/documentation/coremotion/getting_processed_device-motion_data?language=objc
+
+@property (assign, nonatomic) BOOL processedMotionEnabled; //< enable new motion data from processed sensor data
+@property (assign, nonatomic) BOOL processedMotionAutoUpdates;//< set to NO if sending manually (default: YES)
+@property (nonatomic) NSString *processedMotionSpeed; //< processed motion update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
+- (void)sendProcessedMotion; //< request current orientation, rotation rate, gravity, user acceleration manually. Use this when processed motion auto updates is NO
+
+#pragma mark OrientationEuler
+
+@property (assign, nonatomic) BOOL orientationEulerEnabled;
+/*@property (assign, nonatomic) BOOL orientationEulerAutoUpdates;
+@property (nonatomic) NSString *orientationEulerSpeed;*/
+- (void)sendOrientationEuler; //< request current orientationEuler value manually, use this when processed motion auto updates is NO
+
+#pragma mark OrientationQuat
+
+@property (assign, nonatomic) BOOL orientationQuatEnabled;
+/*@property (assign, nonatomic) BOOL orientationQuatAutoUpdates;
+@property (nonatomic) NSString *orientationQuatSpeed;*/
+- (void)sendOrientationQuat; //< request current orientationQuat value manually, use this when processed motion auto updates is NO
+
+#pragma mark OrientationMatrix
+
+@property (assign, nonatomic) BOOL orientationMatrixEnabled;
+/*@property (assign, nonatomic) BOOL orientationMatrixAutoUpdates;
+@property (nonatomic) NSString *orientationMatrixSpeed;*/
+- (void)sendOrientationMatrix; //< request current orientationMatrix value manually, use this when processed motion auto updates is NO
+
+#pragma mark RotationRate
+
+@property (assign, nonatomic) BOOL rotationRateEnabled;
+/*@property (assign, nonatomic) BOOL rotationRateAutoUpdates;
+@property (nonatomic) NSString *rotationRateSpeed;*/
+- (void)sendRotationRate; //< request current rotationrate value manually, use this when processed motion auto updates is NO
+
+#pragma mark Gravity
+
+@property (assign, nonatomic) BOOL gravityEnabled;
+/*@property (assign, nonatomic) BOOL gravityAutoUpdates;
+@property (nonatomic) NSString *gravitySpeed;*/
+- (void)sendGravity; //< request current gravity value manually, use this when processed motion auto updates is NO
+
+#pragma mark UserAcceleration
+
+@property (assign, nonatomic) BOOL userAccelerationEnabled;
+/*@property (assign, nonatomic) BOOL userAccelerationAutoUpdates;
+@property (nonatomic) NSString *userAccelerationSpeed;*/
+- (void)sendUserAcceleration; //< request current userAcceleration value manually, use this when processed motion auto updates is NO
 
 @end
