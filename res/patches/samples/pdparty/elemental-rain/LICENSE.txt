@@ -1,0 +1,22 @@
+Copyright Tiago Brizolara. Please reach me at tiago.brizolara@gmail.com if you want to make any use of this code. You may want to have a look at the broader Elemental research: www.tiagobrizolara.com/Elemental, conducted during my PhD at UBS (France).
+--------
+
+PD files
+
+All .pd files, except for rain.pd and _main.pd are based in Andy Farnell's code released along his book Designing Sound. Here they contain lots of adaptations (including a bug fix in cpraingen-rel.pd).
+
+As of December 30, 2020, Andy Farnell's AAA-README.FIRST read: "All code is copyright of the author but you are free to distribute and modify it in whole or part. Polite attribution is encouraged."
+
+---------
+
+pink~.pd
+
+is part of the IEMlib, licensed under LGPL v2.1. Being used as a library here, it doesn't require Elemental-Rain to be licensed under LGPL.
+
+---------
+
+thumb.jpg
+
+is a modified version of material licensed under Creative Commons Zero (CC0), requiring link referral: https://www.maxpixel.net/Water-Beauty-Woman-Fantasy-Allegory-Elemental-6358072
+
+---------

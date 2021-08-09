@@ -10,20 +10,28 @@
  */
 #import <UIKit/UIKit.h>
 
-#define OSC_TOUCH_ADDR       @"/pdparty/touch"
-#define OSC_ACCEL_ADDR       @"/pdparty/accelerate"
-#define OSC_GYRO_ADDR        @"/pdparty/gyro"
-#define OSC_LOCATION_ADDR    @"/pdparty/loc"
-#define OSC_SPEED_ADDR       @"/pdparty/speed"
-#define OSC_ALTITUDE_ADDR    @"/pdparty/altitude"
-#define OSC_COMPASS_ADDR     @"/pdparty/compass"
-#define OSC_TIME_ADDR        @"/pdparty/time"
-#define OSC_MAGNET_ADDR      @"/pdparty/magnet"
-#define OSC_CONTROLLER_ADDR  @"/pdparty/controller"
-#define OSC_SHAKE_ADDR       @"/pdparty/shake"
-#define OSC_KEY_ADDR         @"/pdparty/key"
-#define OSC_KEYUP_ADDR       @"/pdparty/keyup"
-#define OSC_PRINT_ADDR       @"/pdparty/print"
+#define OSC_TOUCH_ADDR             @"/pdparty/touch"
+#define OSC_ACCEL_ADDR             @"/pdparty/accelerate"
+#define OSC_GYRO_ADDR              @"/pdparty/gyro"
+#define OSC_LOCATION_ADDR          @"/pdparty/loc"
+#define OSC_SPEED_ADDR             @"/pdparty/speed"
+#define OSC_ALTITUDE_ADDR          @"/pdparty/altitude"
+#define OSC_COMPASS_ADDR           @"/pdparty/compass"
+#define OSC_TIME_ADDR              @"/pdparty/time"
+#define OSC_MAGNET_ADDR            @"/pdparty/magnet"
+
+#define OSC_ORIENTATIONEULER_ADDR  @"/pdparty/orientationeuler"
+#define OSC_ORIENTATIONQUAT_ADDR   @"/pdparty/orientationquat"
+#define OSC_ORIENTATIONMATRIX_ADDR @"/pdparty/orientationmatrix"
+#define OSC_ROTATIONRATE_ADDR      @"/pdparty/rotationrate"
+#define OSC_USERACCEL_ADDR         @"/pdparty/useracceleration"
+#define OSC_GRAVITY_ADDR           @"/pdparty/gravity"
+
+#define OSC_CONTROLLER_ADDR        @"/pdparty/controller"
+#define OSC_SHAKE_ADDR             @"/pdparty/shake"
+#define OSC_KEY_ADDR               @"/pdparty/key"
+#define OSC_KEYUP_ADDR             @"/pdparty/keyup"
+#define OSC_PRINT_ADDR             @"/pdparty/print"
 
 @interface Osc : NSObject
 
@@ -82,6 +90,26 @@
 
 /// droid party magnetometer event
 - (void)sendMagnet:(float)x y:(float)y z:(float)z;
+
+/// droid party orientationEuler event
+- (void)sendOrientationEuler:(float)yaw pitch:(float)pitch roll:(float)roll;
+
+/// droid party orientationquat event
+- (void)sendOrientationQuat:(float)x y:(float)y z:(float)z w:(float)w;
+
+/// droid party orientationmatrix event
+- (void)sendOrientationMatrix:(float)m11 m12:(float)m12 m13:(float)m13
+                          m21:(float)m21 m22:(float)m22 m23:(float)m23
+                          m31:(float)m31 m32:(float)m32 m33:(float)m33;
+
+/// droid party rotationrate event
+- (void)sendRotationRate:(float)x y:(float)y z:(float)z;
+
+/// droid party gravity event
+- (void)sendGravity:(float)x y:(float)y z:(float)z;
+
+/// droid party useracceleration event
+- (void)sendUserAcceleration:(float)x y:(float)y z:(float)z;
 
 /// pdparty game controller connect/disconnect event
 - (void)sendEvent:(NSString *)event forController:(NSString *)controller;

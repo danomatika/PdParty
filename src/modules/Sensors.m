@@ -11,6 +11,10 @@
 #import "Sensors.h"
 
 #import <CoreMotion/CoreMotion.h>
+#import <CoreMotion/CMDeviceMotion.h>
+#import <Foundation/NSTimer.h>
+#import <Foundation/NSRunLoop.h>
+#import <Foundation/NSOperation.h>
 #import "PureData.h"
 #import "Osc.h"
 #import "Util.h"
@@ -25,7 +29,8 @@
 //#define DEBUG_SENSORS
 
 @interface Sensors () {
-	CMMotionManager *motionManager; //< for accel data
+	CMMotionManager *motionManager; //< for raw sensor data and processed quantities
+    NSOperationQueue *motionQueue; //< for processed motin. TODO: maybe we should remove raw sensor data from the main queue and put it here too
 	CLLocationManager *locationManager; //< for location data
 	BOOL hasIgnoredStartingLocation; //< ignore the initial, old location
 }
@@ -39,6 +44,10 @@
 		
 		// init motion manager
 		motionManager = [[CMMotionManager alloc] init];
+        
+        //  For raw and processed sensor data events, we'll use a separate
+        //queue, instead of the application's main queue
+        motionQueue = [[NSOperationQueue alloc] init];
 		
 		// current UI orientation for accel
 		if(Util.isDeviceATablet) { // iPad can started rotated
@@ -51,7 +60,7 @@
 		// init location manager
 		locationManager = [[CLLocationManager alloc] init];
 		locationManager.delegate = self;
-	
+        
 		[self reset];
 	}
 	return self;
@@ -79,16 +88,19 @@
 }
 
 - (void)reset {
-	self.accelSpeed = @"normal";
+	self.accelSpeed = @"fastest";
 	self.gyroAutoUpdates = YES;
-	self.gyroSpeed = @"normal";
+	self.gyroSpeed = @"fastest";
 	self.locationAutoUpdates = YES;
 	self.locationAccuracy = @"best";
 	self.locationFilter = 0;
 	self.compassAutoUpdates = YES;
 	self.compassFilter = 1;
 	self.magnetAutoUpdates = YES;
-	self.magnetSpeed = @"normal";
+	self.magnetSpeed = @"fastest";
+    
+    self.processedMotionSpeed = @"fastest";
+    self.processedMotionAutoUpdates = YES;
 }
 
 #pragma mark Accel
@@ -212,6 +224,141 @@
 	if(motionManager.gyroActive) {
 		[self sendGyro:motionManager.gyroData];
 	}
+}
+
+#pragma mark DeviceMotion
+
+- (void)setProcessedMotionEnabled:(BOOL)processedMotionEnabled {
+    if(self.processedMotionEnabled == processedMotionEnabled) {
+        return;
+    }
+    _processedMotionEnabled = processedMotionEnabled;
+    if(processedMotionEnabled)
+    {
+        if([motionManager isDeviceMotionAvailable])
+        {
+            if(self.processedMotionAutoUpdates)
+            {
+                [motionManager startDeviceMotionUpdatesToQueue:motionQueue
+                                withHandler:^(CMDeviceMotion *data, NSError *error) {
+                                [self sendProcessedMotion:data];
+                            }];
+            }
+            else {
+                [motionManager startDeviceMotionUpdates];
+            }
+            DDLogVerbose(@"Sensors: processed motion enabled");
+        }
+        else {
+            DDLogWarn(@"Sensors: processed motion not available on this device");
+        }
+    }
+    else { // stop
+        if([motionManager isDeviceMotionActive]) {
+            [motionManager stopDeviceMotionUpdates];
+            DDLogVerbose(@"Sensors: processed motion disabled");
+        }
+    }
+}
+
+- (void)setProcessedMotionSpeed:(NSString *)speed {
+    if([speed isEqualToString:@"slow"]) {
+        [motionManager setDeviceMotionUpdateInterval:1.0/SENSOR_UI_HZ];
+    }
+    else if([speed isEqualToString:@"normal"]) {
+        [motionManager setDeviceMotionUpdateInterval:1.0/SENSOR_NORMAL_HZ];
+    }
+    else if([speed isEqualToString:@"fast"]) {
+        [motionManager setDeviceMotionUpdateInterval:1.0/SENSOR_GAME_HZ];
+    }
+    else if([speed isEqualToString:@"fastest"]) {
+        [motionManager setDeviceMotionUpdateInterval:1.0/SENSOR_FASTEST_HZ];
+    }
+    else {
+        [PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown deviceMotionUpdateInterval speed string: %@", speed]];
+        return;
+    }
+    DDLogVerbose(@"Sensors: processedMotion speed: %@", speed);
+}
+
+- (void)setProcessedMotionAutoUpdates:(BOOL)processedMotionAutoUpdates
+{
+    if(_processedMotionAutoUpdates == processedMotionAutoUpdates) {return;}
+    _processedMotionAutoUpdates = processedMotionAutoUpdates;
+    if([motionManager isDeviceMotionActive]) {
+        [motionManager stopDeviceMotionUpdates];
+        if(self.processedMotionAutoUpdates) {
+             [motionManager startDeviceMotionUpdatesToQueue:motionQueue
+                            withHandler:^(CMDeviceMotion *data, NSError *error) {
+                            [self sendProcessedMotion:data];
+                        }];
+        }
+        else {
+            [motionManager startDeviceMotionUpdates];
+        }
+    }
+    DDLogVerbose(@"Sensors: processedMotion auto updates: %d", (int)processedMotionAutoUpdates);
+}
+
+- (void)sendProcessedMotion {
+ if(motionManager.isDeviceMotionActive) {
+     [self sendProcessedMotion:motionManager.deviceMotion];
+ }
+}
+
+- (void)sendOrientationEuler {
+    if(motionManager.isDeviceMotionActive) {
+        [self sendOrientationEuler:motionManager.deviceMotion.attitude];
+    }
+}
+- (void)sendOrientationQuat {
+    if(motionManager.isDeviceMotionActive) {
+        [self sendOrientationQuat:motionManager.deviceMotion.attitude];
+    }
+}
+- (void)sendOrientationMatrix {
+    if(motionManager.isDeviceMotionActive) {
+        [self sendOrientationMatrix:motionManager.deviceMotion.attitude];
+    }
+}
+- (void)sendRotationRate {
+    if(motionManager.isDeviceMotionActive) {
+        [self sendRotationRate:motionManager.deviceMotion];
+    }
+}
+- (void)sendGravity {
+    if(motionManager.isDeviceMotionActive) {
+        [self sendGravity:motionManager.deviceMotion];
+    }
+}
+- (void)sendUserAcceleration {
+    if(motionManager.isDeviceMotionActive) {
+        [self sendUserAcceleration:motionManager.deviceMotion];
+    }
+}
+
+- (void)setOrientationEulerEnabled:(BOOL)enabled {
+    _orientationEulerEnabled = enabled;
+}
+
+- (void)setOrientationQuatEnabled:(BOOL)enabled {
+    _orientationQuatEnabled = enabled;
+}
+
+- (void)setOrientationMatrixEnabled:(BOOL)enabled {
+    _orientationMatrixEnabled = enabled;
+}
+
+- (void)setUserAccelerationEnabled:(BOOL)enabled {
+    _userAccelerationEnabled = enabled;
+}
+
+- (void)setGravityEnabled:(BOOL)enabled {
+    _gravityEnabled = enabled;
+}
+
+- (void)setRotationRateEnabled:(BOOL)enabled {
+    _rotationRateEnabled = enabled;
 }
 
 #pragma mark Location
@@ -564,6 +711,77 @@
 	#endif
 	[PureData sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
 	[self.osc sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
+}
+
+- (void)sendProcessedMotion:(CMDeviceMotion *)processedMotion
+{
+    if(self.orientationEulerEnabled) {
+        [self sendOrientationEuler:processedMotion.attitude];
+    }
+    if(self.orientationQuatEnabled) {
+        [self sendOrientationQuat:processedMotion.attitude];
+    }
+    if(self.orientationMatrixEnabled) {
+        [self sendOrientationMatrix:processedMotion.attitude];
+    }
+    if(self.rotationRateEnabled) {
+        [self sendRotationRate:processedMotion];
+    }
+    if(self.gravityEnabled) {
+        [self sendGravity:processedMotion];
+    }
+    if(self.userAccelerationEnabled) {
+        [self sendUserAcceleration:processedMotion];
+    }
+}
+             
+- (void)sendOrientationEuler:(CMAttitude *)attitude {
+    #ifdef DEBUG_SENSORS
+        DDLogVerbose(@"orientationEuler (yaw, pitch, roll) %f %f %f", attitude.yaw, attitude.pitch, attitude.roll);
+    #endif
+    [PureData sendOrientationEuler:attitude.yaw pitch:attitude.pitch roll:attitude.roll];
+    [self.osc sendOrientationEuler:attitude.yaw pitch:attitude.pitch roll:attitude.roll];
+}
+
+- (void)sendOrientationQuat:(CMAttitude *)attitude {
+    #ifdef DEBUG_SENSORS
+        DDLogVerbose(@"orientationQuat (x, y, z, w) %f %f %f %f", attitude.quaternion.x, attitude.quaternion.y, attitude.quaternion.z, attitude.quaternion.w);
+    #endif
+    [PureData sendOrientationQuat: attitude.quaternion.x y:attitude.quaternion.y z:attitude.quaternion.z w:attitude.quaternion.w];
+    [self.osc sendOrientationQuat: attitude.quaternion.x y:attitude.quaternion.y z:attitude.quaternion.z w:attitude.quaternion.w];
+}
+
+- (void)sendOrientationMatrix:(CMAttitude *)attitude {
+    #ifdef DEBUG_SENSORS
+        DDLogVerbose(@"orientationMatrix (m11 m12 m13 m21 m22 m23 m31 m32 m33) %f %f %f %f %f %f %f %f %f",
+            attitude.rotationMatrix.m11, attitude.rotationMatrix.m12, attitude.rotationMatrix.m13, attitude.rotationMatrix.m21, attitude.rotationMatrix.m22, attitude.rotationMatrix.m23, attitude.rotationMatrix.m31, attitude.rotationMatrix.m32, attitude.rotationMatrix.m33);
+    #endif
+    [PureData sendOrientationQuat: attitude.quaternion.x y:attitude.quaternion.y z:attitude.quaternion.z w:attitude.quaternion.w];
+    [self.osc sendOrientationQuat: attitude.quaternion.x y:attitude.quaternion.y z:attitude.quaternion.z w:attitude.quaternion.w];
+}
+
+- (void)sendRotationRate:(CMDeviceMotion *)deviceMotion {
+    #ifdef DEBUG_SENSORS
+        DDLogVerbose(@"rotationRate %f %f %f", deviceMotion.rotationRate.x, deviceMotion.rotationRate.y, deviceMotion.rotationRate.z);
+    #endif
+    [PureData sendRotationRate: deviceMotion.rotationRate.x y:deviceMotion.rotationRate.y z:deviceMotion.rotationRate.z];
+    [self.osc sendRotationRate: deviceMotion.rotationRate.x y:deviceMotion.rotationRate.y z:deviceMotion.rotationRate.z];
+}
+
+- (void)sendGravity:(CMDeviceMotion *)deviceMotion {
+    #ifdef DEBUG_SENSORS
+        DDLogVerbose(@"gravity %f %f %f", deviceMotion.gravity.x, deviceMotion.gravity.y, deviceMotion.gravity.z);
+    #endif
+    [PureData sendGravity: deviceMotion.gravity.x y:deviceMotion.gravity.y z:deviceMotion.gravity.z];
+    [self.osc sendGravity: deviceMotion.gravity.x y:deviceMotion.gravity.y z:deviceMotion.gravity.z];
+}
+
+- (void)sendUserAcceleration:(CMDeviceMotion *)deviceMotion {
+    #ifdef DEBUG_SENSORS
+        DDLogVerbose(@"userAccel %f %f %f", deviceMotion.userAcceleration.x, deviceMotion.userAcceleration.y, deviceMotion.userAcceleration.z);
+    #endif
+    [PureData sendUserAcceleration: deviceMotion.userAcceleration.x y:deviceMotion.userAcceleration.y z:deviceMotion.userAcceleration.z];
+    [self.osc sendUserAcceleration: deviceMotion.userAcceleration.x y:deviceMotion.userAcceleration.y z:deviceMotion.userAcceleration.z];
 }
 
 @end

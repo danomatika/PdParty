@@ -222,6 +222,60 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
+- (void)sendOrientationEuler:(float)yaw pitch:(float)pitch roll:(float)roll {
+    if(!self.isListening || !self.sensorSendingEnabled) return;
+    lo_message *m = lo_message_new();
+    lo_message_add(m, "fff", yaw, pitch, roll);
+    lo_send_message(sendAddress, [OSC_ORIENTATIONEULER_ADDR UTF8String], m);
+    lo_message_free(m);
+}
+
+- (void)sendOrientationQuat:(float)x y:(float)y z:(float)z w:(float)w {
+    if(!self.isListening || !self.sensorSendingEnabled) return;
+    lo_message *m = lo_message_new();
+    lo_message_add(m, "ffff", x, y, z, w);
+    lo_send_message(sendAddress, [OSC_ORIENTATIONQUAT_ADDR UTF8String], m);
+    lo_message_free(m);
+}
+
+/// droid party orientationmatrix event
+- (void)sendOrientationMatrix:(float)m11 m12:(float)m12 m13:(float)m13
+                          m21:(float)m21 m22:(float)m22 m23:(float)m23
+                          m31:(float)m31 m32:(float)m32 m33:(float)m33 {
+    if(!self.isListening || !self.sensorSendingEnabled) return;
+    lo_message *m = lo_message_new();
+    lo_message_add(m, "fffffffff", m11, m12, m13, m21, m22, m23, m31, m32, m33);
+    lo_send_message(sendAddress, [OSC_ORIENTATIONMATRIX_ADDR UTF8String], m);
+    lo_message_free(m);
+}
+
+/// droid party rotationrate event
+- (void)sendRotationRate:(float)x y:(float)y z:(float)z; {
+    if(!self.isListening || !self.sensorSendingEnabled) return;
+    lo_message *m = lo_message_new();
+    lo_message_add(m, "fff", x, y, z);
+    lo_send_message(sendAddress, [OSC_ROTATIONRATE_ADDR UTF8String], m);
+    lo_message_free(m);
+}
+
+/// droid party gravity event
+- (void)sendGravity:(float)x y:(float)y z:(float)z {
+    if(!self.isListening || !self.sensorSendingEnabled) return;
+    lo_message *m = lo_message_new();
+    lo_message_add(m, "fff", x, y, z);
+    lo_send_message(sendAddress, [OSC_GRAVITY_ADDR UTF8String], m);
+    lo_message_free(m);
+}
+
+/// droid party useracceleration event
+- (void)sendUserAcceleration:(float)x y:(float)y z:(float)z {
+    if(!self.isListening || !self.sensorSendingEnabled) return;
+    lo_message *m = lo_message_new();
+    lo_message_add(m, "fff", x, y, z);
+    lo_send_message(sendAddress, [OSC_USERACCEL_ADDR UTF8String], m);
+    lo_message_free(m);
+}
+
 - (void)sendEvent:(NSString *)event forController:(NSString *)controller {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
 	lo_message *m = lo_message_new();

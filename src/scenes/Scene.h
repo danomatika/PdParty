@@ -21,7 +21,8 @@ typedef enum {
 	SensorTypeGyro,
 	SensorTypeLocation,
 	SensorTypeCompass,
-	SensorTypeMagnet
+	SensorTypeMagnet,
+    ProcessedMotion // allows for processed sensor data. TODO - is it here the best place?
 } SensorType;
 
 /// base empty scene

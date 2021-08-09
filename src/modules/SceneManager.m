@@ -272,6 +272,10 @@
 	return [self.scene supportsSensor:SensorTypeMagnet];
 }
 
+- (BOOL)supportsProcessedMotion {
+    return [self.scene supportsSensor:ProcessedMotion];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setPureData:(PureData *)pureData {
@@ -313,6 +317,19 @@
 		self.sensors.magnetAutoUpdates = NO;
 		self.sensors.magnetEnabled = YES;
 	}
+    
+    //  NOTE - if processedMotionEnabled is NO, these get ignored
+    self.sensors.gravityEnabled = YES;
+    self.sensors.orientationEulerEnabled = YES;
+    self.sensors.orientationMatrixEnabled = YES;
+    self.sensors.orientationQuatEnabled = YES;
+    self.sensors.userAccelerationEnabled = YES;
+    self.sensors.rotationRateEnabled = YES;
+    
+    if([self.scene requiresSensor:ProcessedMotion]) {
+        self.sensors.processedMotionAutoUpdates = YES;
+        self.sensors.processedMotionEnabled = YES;
+    }
 }
 
 // disable all & reset to defaults
@@ -322,6 +339,7 @@
 	self.sensors.locationEnabled = NO;
 	self.sensors.compassEnabled = NO;
 	self.sensors.magnetEnabled = NO;
+    self.sensors.processedMotionEnabled = NO;
 	[self.sensors reset];
 }
 

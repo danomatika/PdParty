@@ -35,11 +35,17 @@
 #define RJ_TOUCH_XY        @"xy"
 
 // PdParty event receivers
-#define PARTY_MAGNET_R     @"#magnet"
-#define PARTY_SPEED_R      @"#speed"
-#define PARTY_ALTITUDE_R   @"#altitude"
-#define PARTY_CONTROLLER_R @"#controller"
-#define PARTY_SHAKE_R      @"#shake"
+#define PARTY_MAGNET_R       @"#magnet"
+#define PARTY_SPEED_R        @"#speed"
+#define PARTY_ALTITUDE_R     @"#altitude"
+#define PARTY_CONTROLLER_R   @"#controller"
+#define PARTY_SHAKE_R        @"#shake"
+#define PARTY_ORIENTEULER_R  @"#orientationeuler"
+#define PARTY_ORIENTQUAT_R   @"#orientationquat"
+#define PARTY_ORIENTMATRIX_R @"#orientationmatrix"
+#define PARTY_ROTATIONRATE_R @"#rotationrate"
+#define PARTY_GRAVITY_R      @"#gravity"
+#define PARTY_USERACCEL_R    @"#useracceleration"
 
 // incoming event sends
 #define PD_OSC_S           @"#osc-out"
@@ -71,6 +77,7 @@
 - (BOOL)supportsLocation;
 - (BOOL)supportsCompass;
 - (BOOL)supportsMagnet;
+- (BOOL)supportsProcessedMotion;
 @end
 
 @protocol PdRecordEventDelegate <NSObject>
@@ -172,8 +179,28 @@
 /// rj time event
 + (void)sendTime:(NSArray *)time;
 
-/// droid party gyro event
+/// droid party magnet event
 + (void)sendMagnet:(float)x y:(float)y z:(float)z;
+
+/// droid party orientationEuler event
++ (void)sendOrientationEuler:(float)yaw pitch:(float)pitch roll:(float)roll;
+
+/// droid party orientationquat event
++ (void)sendOrientationQuat:(float)x y:(float)y z:(float)z w:(float)w;
+
+/// droid party orientationmatrix event
++ (void)sendOrientationMatrix:(float)m11 m12:(float)m12 m13:(float)m13
+                          m21:(float)m21 m22:(float)m22 m23:(float)m23
+                          m31:(float)m31 m32:(float)m32 m33:(float)m33;
+
+/// droid party rotationrate event
++ (void)sendRotationRate:(float)x y:(float)y z:(float)z;
+
+/// droid party gravity event
++ (void)sendGravity:(float)x y:(float)y z:(float)z;
+
+/// droid party useracceleration event
++ (void)sendUserAcceleration:(float)x y:(float)y z:(float)z;
 
 /// pdparty game controller connect/disconnect event
 + (void)sendEvent:(NSString *)event forController:(NSString *)controller;

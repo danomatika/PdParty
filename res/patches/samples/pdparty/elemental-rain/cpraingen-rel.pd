@@ -1,0 +1,81 @@
+#N canvas 531 23 557 498 10;
+#X obj 3 312 del;
+#X obj 91 213 / 100;
+#X obj 61 170 t b b;
+#X obj 3 3 loadbang;
+#X obj 58 3 inlet rate;
+#X obj 123 167 inlet fspread;
+#X obj 114 233 inlet fbase;
+#X obj 91 297 outlet~;
+#X obj 3 113 random;
+#X obj 40 70 f \$1;
+#X obj 3 28 t b b;
+#X obj 3 234 exp;
+#X obj 3 171 / 15;
+#X obj 3 141 + 7;
+#X obj 38 268 + 40;
+#X obj 3 199 + 2.718;
+#X obj 40 92 clip 30 90;
+#X obj 91 276 cpulse;
+#X text 5 352 (;
+#X text 163 455 P(k events in delta_time) = (lambda^k / k!) * exp(-lambda)
+;
+#X text 3 333 The exponential makes the short delays exponentially
+more frequent - and leads to a Poisson time distribution*. Probability
+of N rain drops per unit time follows a Poisson distribution \, because
+rain is approximately a Poisson process - probability of each event
+is fixed and independent.;
+#X text 163 427 *it would be nice to prove that it leads to the Poisson
+distribution:;
+#X text 162 472 (lambda = rate * delta_time);
+#X floatatom 104 36 5 0 0 0 - - -, f 5;
+#X obj 63 34 t b f;
+#X obj 3 269 - 14;
+#X text 125 1 TODO - model this rate;
+#X text 125 10 so its input value coincides;
+#X text 125 19 with actual rates;
+#X floatatom 141 256 5 0 0 0 - - -, f 5;
+#X floatatom 161 195 5 0 0 0 - - -, f 5;
+#X obj 250 197 f \$2;
+#X obj 249 248 f \$3;
+#X obj 250 182 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 249 264 5 0 0 0 - - -, f 5;
+#X floatatom 250 213 5 0 0 0 - - -, f 5;
+#X obj 91 193 random \$3;
+#X obj 91 254 + \$2;
+#X text 302 215 NOTE - fspread and fbase were;
+#X text 302 228 INVERTED in Farnell's patch...;
+#X connect 0 0 2 0;
+#X connect 1 0 37 0;
+#X connect 2 0 8 0;
+#X connect 2 1 36 0;
+#X connect 3 0 10 0;
+#X connect 4 0 9 0;
+#X connect 5 0 30 0;
+#X connect 5 0 35 0;
+#X connect 5 0 36 1;
+#X connect 6 0 29 0;
+#X connect 6 0 34 0;
+#X connect 6 0 37 1;
+#X connect 8 0 13 0;
+#X connect 9 0 16 0;
+#X connect 10 0 8 0;
+#X connect 10 1 9 0;
+#X connect 11 0 14 0;
+#X connect 11 0 25 0;
+#X connect 12 0 15 0;
+#X connect 13 0 12 0;
+#X connect 15 0 11 0;
+#X connect 16 0 8 1;
+#X connect 17 0 7 0;
+#X connect 23 0 24 0;
+#X connect 24 0 10 0;
+#X connect 24 1 9 1;
+#X connect 25 0 0 0;
+#X connect 31 0 35 0;
+#X connect 32 0 34 0;
+#X connect 33 0 31 0;
+#X connect 33 0 32 0;
+#X connect 36 0 1 0;
+#X connect 37 0 17 0;
