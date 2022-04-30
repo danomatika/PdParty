@@ -12,6 +12,7 @@
 
 #import "Util.h"
 #import "Log.h"
+#include "m_pd.h" // for binbuf
 
 @implementation PdParser
 
@@ -69,14 +70,50 @@
 	
 	// break string into lines
 	NSRegularExpression *lineRegexp = [NSRegularExpression regularExpressionWithPattern:@"(#((.|\r|\n)*?)[^\\\\])\r{0,1}\n{0,1};\r{0,1}\n"
-																				options:NSRegularExpressionCaseInsensitive
-																				  error:NULL];
+	                                                                            options:NSRegularExpressionCaseInsensitive
+	                                                                              error:NULL];
 	NSArray *lineMatches = [lineRegexp matchesInString:patchText options:0 range:NSMakeRange(0, patchText.length)];
+	t_binbuf *binbuf = binbuf_new();
 	for(NSTextCheckingResult *lineMatch in lineMatches) {
 	
 		// grab matching line as a string & remove trailing ";\n"
 		NSString *line = [patchText substringWithRange:NSMakeRange(lineMatch.range.location, lineMatch.range.length-2)];
 
+		// parse atom lines using pd's binbuf
+		NSMutableArray *atomLine = [NSMutableArray new];
+		binbuf_text(binbuf, line.UTF8String, [line lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+		int argc = binbuf_getnatom(binbuf);
+		t_atom *argv = binbuf_getvec(binbuf);
+		//binbuf_print(binbuf);
+		for(int i = 0; i < argc; i++) {
+			t_atom *a = &argv[i];
+			switch(a->a_type) {
+				// number, convert back to string for now
+				case A_FLOAT:
+				case A_DEFFLOAT:
+					[atomLine addObject:[NSString stringWithFormat:@"%g", a->a_w.w_float]];
+					break;
+				// symbol
+				case A_SYMBOL:
+				case A_DOLLSYM:
+				case A_DEFSYM:
+					[atomLine addObject:[NSString stringWithUTF8String:a->a_w.w_symbol->s_name]];
+					break;
+				// ignore, shouldn't see these in a file...
+				case A_NULL:
+				case A_POINTER:
+				case A_SEMI:
+				case A_COMMA:
+				case A_DOLLAR:
+				case A_GIMME:
+				case A_CANT:
+				default:
+					break;
+			}
+		}
+		[atomLines addObject:atomLine];
+		binbuf_clear(binbuf);
+/*
 		// replace whitespace chars with a space
 		NSRegularExpression *atomRegexp = [NSRegularExpression regularExpressionWithPattern:@"\t|\r\n?|\n"
 																					options:NSRegularExpressionCaseInsensitive
@@ -112,10 +149,12 @@
 													 options:NSMatchingWithTransparentBounds
 													   range:NSMakeRange(0, line.length)
 												withTemplate:@" , "]; // add preceding space
-		
+
 		// break line into strings delimited by spaces
 		[atomLines addObject:[atom componentsSeparatedByString:@" "]];
+*/
 	}
+	binbuf_free(binbuf);
 	
 	// verbose
 	DDLogVerbose(@"PdParser: parsed %lu atom lines", (unsigned long)atomLines.count);
