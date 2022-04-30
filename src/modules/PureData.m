@@ -745,6 +745,7 @@ static NSNumberFormatter *s_numFormatter = nil;
 #pragma mark Private
 
 // configure for playback w/ sample rate, number of channels, ticks per buffer
+// try to open a min of 2 input 2 output
 - (void)configureAudioUnitWithSampleRate:(int)sampleRate {
 
 	// allow for multiple i/o by using the session's channel numbers
@@ -758,10 +759,12 @@ static NSNumberFormatter *s_numFormatter = nil;
 	}
 
 	audioController.active = NO;
+	int inputs = (session.inputNumberOfChannels < 2 ? 2 : (int)session.inputNumberOfChannels);
+	int outputs = (session.outputNumberOfChannels < 2 ? 2 : (int)session.outputNumberOfChannels);
 	int tpb = audioController.ticksPerBuffer;
 	PdAudioStatus status = [audioController configurePlaybackWithSampleRate:sampleRate
-	                                                          inputChannels:(int)session.inputNumberOfChannels
-	                                                         outputChannels:(int)session.outputNumberOfChannels
+	                                                          inputChannels:inputs
+	                                                         outputChannels:outputs
 	                                                           inputEnabled:YES];
 	if(status == PdAudioError) {
 		DDLogError(@"PureData: could not configure audio");
