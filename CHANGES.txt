@@ -1,6 +1,17 @@
 1.3.0: TBA
 
-* updated to libpd 0.12.0 (pd 0.51-4)
+* updated to libpd 0.13.0 pre-release (pd 0.52-2)
+
+* fixed parsing of Pd 0.52+ escaped strings by replacing custom atom line parser
+  with binbuf
+* fixed iem gui colors by adding support for Pd 0.52+ hex color values
+* fixed wrong bundle id
+
+* added [keyup] support via KeyGrabberView UIPresses event backend on iOS 13.4+
+* added #shake event
+
+* prefer opening a min of 2 audio inputs and 2 audio outputs 
+* moved osc-test patch into composerpack
 
 1.2.1: 2018-11-27
 
