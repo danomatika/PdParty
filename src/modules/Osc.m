@@ -22,8 +22,8 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
               int argc, lo_message msg, void *user_data);
 
 @interface Osc () {
-	lo_server_thread *server;
-	lo_address *sendAddress;
+	lo_server_thread server;
+	lo_address sendAddress;
 }
 @property (readwrite, nonatomic) BOOL isListening;
 @end
@@ -114,7 +114,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendMessage:(NSString *)address withArguments:(NSArray *)arguments {
 	if(!self.isListening) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	for(NSObject *o in arguments) {
 		if([o isKindOfClass:NSNumber.class]) {
 			lo_message_add_float(m, [(NSNumber *)o floatValue]);
@@ -155,7 +155,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
 	if(!self.isListening || !self.touchSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "siff", [eventType UTF8String], id, x, y);
 	lo_send_message(sendAddress, [OSC_TOUCH_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -163,7 +163,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "fff", x, y, z);
 	lo_send_message(sendAddress, [OSC_ACCEL_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -171,7 +171,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendGyro:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "fff", x, y, z);
 	lo_send_message(sendAddress, [OSC_GYRO_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -179,7 +179,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendLocation:(float)lat lon:(float)lon accuracy:(float)accuracy {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "fff", lat, lon, accuracy);
 	lo_send_message(sendAddress, [OSC_LOCATION_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -187,7 +187,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendSpeed:(float)speed course:(float)course {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "ff", speed, course);
 	lo_send_message(sendAddress, [OSC_SPEED_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -195,7 +195,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendAltitude:(float)altitude accuracy:(float)accuracy {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "ff", altitude, accuracy);
 	lo_send_message(sendAddress, [OSC_ALTITUDE_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -203,7 +203,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendCompass:(float)degrees {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add_float(m, degrees);
 	lo_send_message(sendAddress, [OSC_COMPASS_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -216,7 +216,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendMagnet:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "fff", x, y, z);
 	lo_send_message(sendAddress, [OSC_MAGNET_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -224,7 +224,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendEvent:(NSString *)event forController:(NSString *)controller {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "ss", [event UTF8String], [controller UTF8String]);
 	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -232,7 +232,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendController:(NSString *)controller button:(NSString *)button state:(BOOL)state {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "sssf", [controller UTF8String], "button", [button UTF8String], (float)state);
 	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -240,7 +240,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "sssf", [controller UTF8String], "axis", [axis UTF8String], value);
 	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -248,7 +248,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendControllerPause:(NSString *)controller {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add(m, "ss", [controller UTF8String], "pause");
 	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -256,7 +256,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendShake:(int)state {
 	if(!self.isListening || !self.shakeSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add_float(m, (float)state);
 	lo_send_message(sendAddress, [OSC_SHAKE_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -264,7 +264,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendKey:(int)key {
 	if(!self.isListening || !self.keySendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add_float(m, key);
 	lo_send_message(sendAddress, [OSC_KEY_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -272,7 +272,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendKeyUp:(int)key {
 	if(!self.isListening || !self.keySendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add_float(m, key);
 	lo_send_message(sendAddress, [OSC_KEYUP_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -280,7 +280,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)sendPrint:(NSString *)print {
 	if(!self.isListening || !self.printSendingEnabled) return;
-	lo_message *m = lo_message_new();
+	lo_message m = lo_message_new();
 	lo_message_add_string(m, [print UTF8String]);
 	lo_send_message(sendAddress, [OSC_PRINT_ADDR UTF8String], m);
 	lo_message_free(m);
@@ -360,7 +360,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 - (BOOL)updateServer {
 	if(server) {
 		lo_server_thread_stop(server);
-		lo_server_free(*server);
+		lo_server_thread_free(server);
 	}
 	NSString *port = [NSString stringWithFormat:@"%d", self.listenPort];
 	server = lo_server_thread_new([port UTF8String], *errorCB);
