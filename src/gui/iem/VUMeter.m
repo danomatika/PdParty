@@ -58,8 +58,8 @@
 		self.labelFontStyle = [line[11] intValue];
 		self.labelFontSize = [line[12] floatValue];
 
-		self.fillColor = [IEMWidget colorFromAtomColor:(int)[line[13] integerValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:(int)[line[14] integerValue]];
+		self.fillColor = [IEMWidget colorFromAtomColor:line[13]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:line[14]];
 
 		self.showScale = [line[15] boolValue];
 
@@ -108,7 +108,7 @@
 		
 		// led bar
 		if(i == peakLed || i <= rmsLed) {
-			UIColor *ledColor = [IEMWidget colorFromIEMColor:iemgui_vu_col[i]];
+			UIColor *ledColor = [IEMWidget colorFromIntColor:iemgui_vu_col[i]];
 			CGContextSetStrokeColorWithColor(context, ledColor.CGColor);
 			if(i == peakLed) {
 				CGContextMoveToPoint(context, 0, yyy);
@@ -257,8 +257,8 @@
 	if([message isEqualToString:@"color"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// background, label-color
-		self.fillColor = [IEMWidget colorFromIEMColor:[arguments[0] intValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[arguments[1] intValue]];
+		self.fillColor = [IEMWidget colorFromEditColor:arguments[0]];
+		self.label.textColor = [IEMWidget colorFromEditColor:arguments[1]];
 		[self reshape];
 		[self setNeedsDisplay];
 	}

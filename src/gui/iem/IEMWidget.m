@@ -66,9 +66,9 @@ int iemgui_modulo_color(int col);
 	if([message isEqualToString:@"color"] && [arguments count] > 2 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1] && [arguments isNumberAt:2])) {
 		// background, front-color, label-color
-		self.fillColor = [IEMWidget colorFromIEMColor:[arguments[0] intValue]];
-		self.controlColor = [IEMWidget colorFromIEMColor:[arguments[1] intValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[arguments[2] intValue]];
+		self.fillColor = [IEMWidget colorFromEditColor:arguments[0]];
+		self.controlColor = [IEMWidget colorFromEditColor:arguments[1]];
+		self.label.textColor = [IEMWidget colorFromEditColor:arguments[2]];
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;
@@ -156,15 +156,22 @@ int iemgui_modulo_color(int col);
 	}
 }
 
-+ (UIColor *)colorFromAtomColor:(int)iemColor {
-	int r, g, b;
-	if(iemColor < 0) {
+// from g_all_guis.c colfromatomload()
++ (UIColor *)colorFromAtomColor:(NSString *)color {
+	// hex
+	if([color characterAtIndex:0] == '#') {
+		return [IEMWidget colorFromHexColor:color];
+	}
+	// old IEM int color
+	// from g_all_guis.c colfromatomload()
+	int r, g, b, iemColor = [color intValue];
+	if(iemColor < 0) { // pre-Pd 0.48 limited resolution
 		iemColor = -1 - iemColor;
 		r = (iemColor & 0x3F000) >> 10;
 		g = (iemColor & 0xFC0)   >> 4;
 		b = (iemColor & 0x3F)    << 2;
 	}
-	else {
+	else { // Pd 0.48 full resolution
 		iemColor = iemgui_modulo_color(iemColor);
 		iemColor = iemgui_color_hex[iemColor] << 8 | 0xFF;
 		r = ((iemColor >> 24) & 0xFF);
@@ -174,21 +181,44 @@ int iemgui_modulo_color(int col);
 	return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
 }
 
-+ (UIColor *)colorFromIEMColor:(int)iemColor {
-	int r, g, b;
-	if(iemColor < 0) {
-		iemColor = (-1 - iemColor) & 0xffffff;
-		r = (iemColor & 0xFF0000) >> 16;
-		g = (iemColor & 0xFF00) >> 8;
-		b = (iemColor & 0xFF) >> 0;
++ (UIColor *)colorFromEditColor:(NSString *)color {
+	// hex
+	if([color characterAtIndex:0] == '#') {
+		return [IEMWidget colorFromHexColor:color];
 	}
-	else {
+
+	return [IEMWidget colorFromIntColor:[color intValue]];
+}
+
+// old IEM int color
+// from g_all_guis.c iemgui_compatible_colorarg()
++ (UIColor *)colorFromIntColor:(int)iemColor {
+	int r, g, b;
+	if(iemColor < 0) { // pre-Pd 0.48 limited resolution
+		iemColor = (-1 - iemColor) & 0xFFFFFF;
+		r = (iemColor & 0xFF0000) >> 16;
+		g = (iemColor & 0xFF00)   >> 8;
+		b = (iemColor & 0xFF)     >> 0;
+	}
+	else { // Pd 0.48 full resolution
 		iemColor = iemgui_modulo_color(iemColor);
 		iemColor = iemgui_color_hex[iemColor] << 8 | 0xFF;
 		r = ((iemColor >> 24) & 0xFF);
 		g = ((iemColor >> 16) & 0xFF);
 		b = ((iemColor >> 8)  & 0xFF);
 	}
+	return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
+}
+
+// Pd 0.52 hex colors
+// from g_all_guis.c iemgui_getcolorarg()
++ (UIColor *)colorFromHexColor:(NSString *)hexColor {
+	int r, g, b;
+	NSString *c = [hexColor substringFromIndex:1];
+	int color = ((int)strtol(c.UTF8String, 0, 16)) & 0xFFFFFF;
+	r = ((color >> 16) & 0xFF);
+	g = ((color >> 8)  & 0xFF);
+	b = (color         & 0xFF);
 	return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
 }
 

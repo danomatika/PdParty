@@ -38,8 +38,8 @@
 		self.labelFontStyle = [line[13] intValue];
 		self.labelFontSize = [line[14] floatValue];
 		
-		self.backgroundColor = [IEMWidget colorFromAtomColor:[line[15] intValue]];
-		self.label.textColor = [IEMWidget colorFromAtomColor:[line[16] intValue]];
+		self.backgroundColor = [IEMWidget colorFromAtomColor:line[15]];
+		self.label.textColor = [IEMWidget colorFromAtomColor:line[16]];
 	}
 	return self;
 }
@@ -70,8 +70,8 @@
 	if([message isEqualToString:@"color"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// background, label-color
-		self.backgroundColor = [IEMWidget colorFromIEMColor:[arguments[0] intValue]];
-		self.label.textColor = [IEMWidget colorFromIEMColor:[arguments[1] intValue]];
+		self.backgroundColor = [IEMWidget colorFromEditColor:arguments[0]];
+		self.label.textColor = [IEMWidget colorFromEditColor:arguments[1]];
 		[self reshape];
 		[self setNeedsDisplay];
 	}

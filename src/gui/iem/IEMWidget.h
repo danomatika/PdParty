@@ -26,10 +26,18 @@
 /// 2: Times
 - (NSString *)fontNameFromStyle:(int)iemFont;
 
-/// convert an IEM color in an atom string to a UIColor (file loading)
-+ (UIColor *)colorFromAtomColor:(int)iemColor;
+/// convert an int or hex color to a UIColor (file loading)
+/// a hex color has '#' as first char
++ (UIColor *)colorFromAtomColor:(NSString *)color;
 
-/// convert an IEM color to a UIColor (edit messages)
-+ (UIColor *)colorFromIEMColor:(int)iemColor;
+/// convert an int or hex color to a UIColor (edit messages)
+/// a hex color has '#' as first char
++ (UIColor *)colorFromEditColor:(NSString *)color;
+
+/// convert an IEM int color in an atom string to a UIColor (edit messages)
++ (UIColor *)colorFromIntColor:(int)iemColor;
+
+/// convert a hex color
++ (UIColor *)colorFromHexColor:(NSString *)hexColor;
 
 @end
