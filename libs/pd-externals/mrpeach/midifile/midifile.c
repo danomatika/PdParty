@@ -197,11 +197,6 @@ static void *midifile_new(t_symbol *s, int argc, t_atom *argv)
     t_symbol    *pathSymbol;
     int         i;
 
-    if (x == NULL)
-    {
-        pd_error(NULL, "midifile: Could not create...");
-        return x;
-    }
     x->fP = NULL;
     x->fPath[0] = '\0';
     x->our_directory = canvas_getcurrentdir();/* get the current directory to use as the base for relative file paths */
@@ -934,12 +929,12 @@ static void midifile_list(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
     if (x->state != mfWriting) return;/* list only works for writing */
     if (x->tmpFP[x->track] == NULL)
     {
-        if (0 == warnings++) pd_error(x, "midifile: no file is open for writing");
+        if (0 == warnings++) pd_error (x, "midifile: no file is open for writing");
         return;
     }
     if (0 != x->track_chunk[x->track].track_ended)
     {
-        if (0 == warnings++) pd_error(x, "midifile: track %d is ended", x->track);
+        if (0 == warnings++) pd_error (x, "midifile: track %d is ended", x->track);
         return;
     }
     for (i = 0; i < argc; ++i)
@@ -970,7 +965,7 @@ static void midifile_list(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                         {
                             if (argv[k].a_type != A_FLOAT)
                             {
-                                pd_error(x, "midifile: sysex list must be all floats");
+                                pd_error (x, "midifile: sysex list must be all floats");
                                 x->track_chunk[x->track].chunk_length += written;
                                 return;
                             }
@@ -979,7 +974,7 @@ static void midifile_list(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                         }
                         if (m != 0xF7)
                         {
-                            pd_error(x, "midifile: sysex list terminator is 0x%X", m);
+                            pd_error (x, "midifile: sysex list terminator is 0x%X", m);
                             x->track_chunk[x->track].chunk_length += written;
                             return;
                         }
@@ -1134,7 +1129,7 @@ static int midifile_read_header_chunk(t_midifile *x)
     if (x->verbosity) post("midifile: Header chunk type: %c%c%c%c", cP[0], cP[1], cP[2], cP[3]);
     if (!(cP[0] == 'M' && cP[1] == 'T' && cP[2] == 'h' && cP[3] == 'd'))
     {
-        pd_error(x, "midifile: bad file format: bad header chunk type");
+        pd_error (x, "midifile: bad file format: bad header chunk type");
         return 0;
     }
     cP = (unsigned char *)buf;
@@ -1149,7 +1144,7 @@ static int midifile_read_header_chunk(t_midifile *x)
     if (x->verbosity) post("midifile: Header chunk length: %lu", x->header_chunk.chunk_length);
     if (x->header_chunk.chunk_length != 6L)
     {
-        pd_error(x, "midifile: bad file format: bad header chunk length");
+        pd_error (x, "midifile: bad file format: bad header chunk length");
         return 0;
     }
     n = fread(cP, 1L, 2L, x->fP);
@@ -1191,7 +1186,7 @@ static int midifile_read_header_chunk(t_midifile *x)
     outlet_anything( x->status_outlet, gensym("tracks"), 1, &output_atom);
     if (x->header_chunk.chunk_ntrks > MAX_TRACKS)
     {
-        pd_error(x, "midifile: Header chunk ntrks (%d) exceeds midifile MAX_TRACKS, set to %d",
+        pd_error (x, "midifile: Header chunk ntrks (%d) exceeds midifile MAX_TRACKS, set to %d",
             x->header_chunk.chunk_ntrks, MAX_TRACKS);
         x->header_chunk.chunk_ntrks = MAX_TRACKS;
     }
@@ -1252,7 +1247,7 @@ static int midifile_read_track_chunk(t_midifile *x, int mfTrack)
     }
     if (!(cP[0] == 'M' && cP[1] == 'T' && cP[2] == 'r' && cP[3] == 'k'))
     {
-        pd_error(x, "midifile: bad file format: bad track chunk type");
+        pd_error (x, "midifile: bad file format: bad track chunk type");
         return 0;
     }
     type[0] = cP[0];
@@ -1273,7 +1268,7 @@ static int midifile_read_track_chunk(t_midifile *x, int mfTrack)
     if (x->verbosity) post("midifile: Track chunk %d type: %s, length %d", mfTrack, type, len);
     if ((cP = getbytes(len)) == NULL)
     {
-        pd_error(x, "midifile: Unable to allocate %d bytes for track data", len);
+        pd_error (x, "midifile: Unable to allocate %d bytes for track data", len);
         return 0;
     }
     x->track_chunk[mfTrack].track_data = (unsigned char*)cP;	
@@ -1511,7 +1506,7 @@ static void midifile_output_long_list (t_outlet *outlet, unsigned char *cP, uint
     slist = getbytes (slen);
     if (slist == NULL)
     {
-        pd_error(NULL, "midifile: no memory for long list");
+        pd_error (NULL, "midifile: no memory for long list");
         return;
     }
     slist[0].a_type = A_FLOAT;
@@ -2060,7 +2055,7 @@ static void midifile_get_next_track_chunk_data(t_midifile *x, int mfTrack)
             x->midi_data[2].a_w.w_float	= (n == 3)?d:0;
             if (x->midi_data[0].a_w.w_float != 0) outlet_list(x->midi_list_outlet, &s_list, n, x->midi_data);
             if (x->track_chunk[mfTrack].running_status == 0)
-                pd_error(x, "midifile: No running status on track %d at %d",
+                pd_error (x, "midifile: No running status on track %d at %d",
                     mfTrack, x->track_chunk[mfTrack].total_time + delta_time);
         }
     }
