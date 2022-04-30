@@ -293,7 +293,7 @@
 - (NSString *)replaceDollarZeroStringsIn:(NSString *)string fromPatch:(PdFile *)patch {
 	if(!string || !patch) {return string;}
 	NSMutableString *newString = [NSMutableString stringWithString:string];
-	[newString replaceOccurrencesOfString:@"\\$0"
+	[newString replaceOccurrencesOfString:@"$0"
 							   withString:[[NSNumber numberWithInt:patch.dollarZero] stringValue]
 								  options:NSCaseInsensitiveSearch
 									range:NSMakeRange(0, newString.length)];

@@ -88,15 +88,10 @@
 		for(int i = 0; i < argc; i++) {
 			t_atom *a = &argv[i];
 			switch(a->a_type) {
-				// number, convert back to string for now
-				case A_FLOAT:
-				case A_DEFFLOAT:
+				case A_FLOAT: // FIXME: convert back to string for now
 					[atomLine addObject:[NSString stringWithFormat:@"%g", a->a_w.w_float]];
 					break;
-				// symbol
 				case A_SYMBOL:
-				case A_DOLLSYM:
-				case A_DEFSYM:
 					[atomLine addObject:[NSString stringWithUTF8String:a->a_w.w_symbol->s_name]];
 					break;
 				// ignore, shouldn't see these in a file...
@@ -104,7 +99,10 @@
 				case A_POINTER:
 				case A_SEMI:
 				case A_COMMA:
+				case A_DEFFLOAT:
+				case A_DEFSYM:
 				case A_DOLLAR:
+				case A_DOLLSYM:
 				case A_GIMME:
 				case A_CANT:
 				default:
