@@ -430,6 +430,8 @@
 		30FA775416E69660000E8D2B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		30FAB41817C50DEE00ED10BC /* RecordingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingScene.h; sourceTree = "<group>"; };
 		30FAB41917C50DEE00ED10BC /* RecordingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingScene.m; sourceTree = "<group>"; };
+		7EB18881281D78790099A401 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
+		7EB1888A281D79F40099A401 /* DDContextFilterLogFormatter+Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDContextFilterLogFormatter+Deprecated.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -559,6 +561,8 @@
 		305772A21E88C54A007F9A92 /* CocoaLumberjack */ = {
 			isa = PBXGroup;
 			children = (
+				7EB1888A281D79F40099A401 /* DDContextFilterLogFormatter+Deprecated.h */,
+				7EB18881281D78790099A401 /* DDContextFilterLogFormatter.h */,
 				30BC823123E7A01B00C3BDA2 /* CLIColor.h */,
 				30BC822423E7A01A00C3BDA2 /* CocoaLumberjack.h */,
 				30BC822D23E7A01B00C3BDA2 /* DDAbstractDatabaseLogger.h */,
@@ -1439,6 +1443,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USER_HEADER_SEARCH_PATHS = "";
+				VALIDATE_WORKSPACE = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1487,6 +1492,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				USER_HEADER_SEARCH_PATHS = "";
+				VALIDATE_WORKSPACE = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

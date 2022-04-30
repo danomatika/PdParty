@@ -1,18 +1,21 @@
-#! /bin/bash
+#! /bin/sh
 #
 # Dan Wilcox <danomatika@gmail.com> 2014
 #
 
-WD=$(dirname $0)
+# stop on error
+set -e
+
 SRC_DIR=PdDroidParty
 DEST_DIR=../../res/patches
 
 ###
 
-cd $WD
+# move to this scripts dir
+cd $(dirname $0)
 
 # get latest source
-git clone git://github.com/chr15m/PdDroidParty.git
+git clone https://github.com/chr15m/PdDroidParty.git
 
 # remove things we don't need
 rm -rf $SRC_DIR/droidparty-demos/vocoder-rjdj

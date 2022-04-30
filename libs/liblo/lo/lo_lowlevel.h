@@ -31,6 +31,7 @@ extern "C" {
 #include <stdarg.h>
 #include <sys/types.h>
 #ifdef _MSC_VER
+#include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 #endif
 #include <stdint.h>
@@ -55,7 +56,37 @@ typedef SSIZE_T ssize_t;
 typedef long double lo_hires;
 
 
+/**
+ * \brief A configuration struct for initializing \ref lo_server using lo_server_new_from_config().
+ *
+ * User code is responsible for allocating and deallocating memory
+ * pointed to by this struct, including strings for group, port,
+ * iface, ip, etc.  The struct and relevant fields will be copied by
+ * liblo when necessary, therefore it can be deallocated after use.
+ * The size field should be set to sizeof(lo_server_config).  Fields
+ * set to 0 shall be ignored.
+ */
+typedef struct {
+    size_t size;
+    const char *group;
+    const char *port;
+    const char *iface;
+    const char *ip;
+    int proto;
+    lo_err_handler err_handler;
+    void *err_handler_context;
+} lo_server_config;
 
+/**
+ * \brief Used with \ref lo_address_set_stream_slip() to specify whether sent
+ *        messages should be encoded with SLIP, and whether the encoding should
+ *        be single- or double-ENDed.
+ */
+typedef enum {
+	LO_SLIP_NONE   = 0,
+	LO_SLIP_SINGLE = 1,
+	LO_SLIP_DOUBLE = 2
+} lo_slip_encoding;
 
 /**
  * \brief Send a lo_message object to target targ
@@ -289,9 +320,12 @@ int lo_message_add_nil(lo_message m);
 int lo_message_add_infinitum(lo_message m);
 
 /**
- * \brief  Returns the source (lo_address) of an incoming message.
+ * \brief  Returns the source (\ref lo_address) of an incoming message.
  *
- * Returns NULL if the message is outgoing. Do not free the returned address.
+ * Returns NULL if the message is outgoing. Do not free the returned
+ * address. This is usually called on the \ref lo_message passed to
+ * \ref lo_method_handler, to set up bidirectional communication.  See
+ * \ref example_tcp_echo_server.c for an example of this.
  */
 lo_address lo_message_get_source(lo_message m);
 
@@ -473,10 +507,10 @@ int lo_address_set_tcp_nodelay(lo_address t, int enable);
  * \brief Set outgoing stream connections (e.g., TCP) to be
  *        transmitted using the SLIP packetizing protocol.
  * \param t The address to set this flag for.
- * \param enable Non-zero to set the flag, zero to unset it.
+ * \param encoding Specify single- or double-ENDed SLIP, or disable SLIP.
  * \return the previous value of this flag.
  */
-int lo_address_set_stream_slip(lo_address t, int enable);
+int lo_address_set_stream_slip(lo_address t, lo_slip_encoding encoding);
 
 /**
  * \brief  Create a new bundle object.
@@ -736,6 +770,14 @@ lo_server lo_server_new_multicast_iface(const char *group, const char *port,
  */
 lo_server lo_server_new_from_url(const char *url,
                                  lo_err_handler err_h);
+
+/**
+ * \brief Create a new server instance, using a configuration struct.
+ *
+ * \param config A pre-initialized config struct.  A pointer to it will not be kept.
+ * \return A new lo_server instance.
+ */
+lo_server lo_server_new_from_config(lo_server_config *config);
 
 /**
  * \brief Enables or disables type coercion during message dispatch.
@@ -1027,8 +1069,17 @@ uint32_t lo_blobsize(lo_blob b);
  *
  * \param str The string to test
  * \param p   The pattern to test against
+ * \return 1 if true, 0 otherwise.
  */
 int lo_pattern_match(const char *str, const char *p);
+
+/**
+ * \brief Test if a string contains any OSC pattern characters
+ *
+ * \param str The string to test
+ * \return 1 if true, 0 otherwise.
+ */
+int lo_string_contains_pattern(const char *str);
 
 /** \internal \brief the real send function (don't call directly) */
 int lo_send_internal(lo_address t, const char *file, const int line,

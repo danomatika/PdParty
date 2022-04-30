@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 #
 # this script automatically updates the sources for the GCDWebServer ios library
 #
@@ -8,13 +8,16 @@
 # Dan Wilcox <danomatika@gmail.com> 2017
 #
 
-WD=$(dirname $0)
+# stop on error
+set -e
+
 SRC_DIR=GCDWebServer
 DEST_DIR=../../libs/GCDWebServer
 
 ###
 
-cd $WD
+# move to this scripts dir
+cd $(dirname $0)
 
 # get latest source
 git clone https://github.com/swisspol/GCDWebServer.git

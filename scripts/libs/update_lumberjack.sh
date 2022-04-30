@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 #
 # this script automatically updates the sources for the CocoaLumberjack library
 #
@@ -8,16 +8,18 @@
 # Dan Wilcox <danomatika@gmail.com> 2017
 #
 
-WD=$(dirname $0)
+# stop on error
+set -e
 
-VER=3.6.0
+VER=3.7.4
 
 SRC_DIR=CocoaLumberjack
 DEST_DIR=../../libs/CocoaLumberjack
 
 ###
 
-cd $WD
+# move to this scripts dir
+cd $(dirname $0)
 
 # get latest source
 git clone https://github.com/CocoaLumberjack/CocoaLumberjack.git --branch $VER --single-branch
@@ -27,14 +29,14 @@ mkdir -p $DEST_DIR
 
 # remove stuff we don't need
 rm -r $SRC_DIR/Sources/CocoaLumberjack/CLI
-rm -r $SRC_DIR/Sources/CocoaLumberjack/Extensions
-rm -r $SRC_DIR/Sources/CocoaLumberjack/include/CocoaLumberjack
+#rm -r $SRC_DIR/Sources/CocoaLumberjack/Extensions
+#rm -r $SRC_DIR/Sources/CocoaLumberjack/include/CocoaLumberjack
 rm -r $SRC_DIR/Sources/CocoaLumberjack/Supporting\ Files/CocoaLumberjack-Info.plist
 rm -r $SRC_DIR/Sources/CocoaLumberjack/DDAbstractDatabaseLogger.m
 
 # copy sources
-cp -Rv $SRC_DIR/Sources/CocoaLumberjack/Extensions $DEST_DIR/
-cp -Rv $SRC_DIR/Sources/CocoaLumberjack/include/*.h $DEST_DIR/
+#cp -Rv $SRC_DIR/Sources/CocoaLumberjack/Extensions $DEST_DIR/
+cp -Rv $SRC_DIR/Sources/CocoaLumberjack/include/CocoaLumberjack/*.h $DEST_DIR/
 cp -Rv $SRC_DIR/Sources/CocoaLumberjack/Supporting\ Files/*.h $DEST_DIR/
 cp -Rv $SRC_DIR/Sources/CocoaLumberjack/*.h $DEST_DIR/
 cp -Rv $SRC_DIR/Sources/CocoaLumberjack/*.m $DEST_DIR/

@@ -1,7 +1,10 @@
-#! /bin/bash
+#! /bin/sh
 #
 # builds composer pack as a ZIP
 #
+
+# stop on error
+set -e
 
 TEMP=PdParty_composerpack
 
@@ -10,11 +13,10 @@ RES_DIR=../res/patches
 
 ZIP=PdParty_composerpack
 
-WD=$(dirname $0)
-
 ###
 
-cd $WD
+# move to this scripts dir
+cd $(dirname $0)
 
 mkdir -p $TEMP
 cp -Rv $CP_DIR/* $TEMP

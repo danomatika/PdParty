@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 #
 # clones and copies externals sources/patches from git.puredata.info
 #
@@ -7,13 +7,15 @@
 # Dan Wilcox <danomatika@gmail.com> 2012
 #
 
-WD=$(dirname $0)
+# stop on error
+set -e
 
 DEST_DIR=../../libs/pd-externals
 
 ###
 
-cd $WD
+# move to this scripts dir
+cd $(dirname $0)
 
 # ggee
 git clone https://github.com/pd-externals/ggee

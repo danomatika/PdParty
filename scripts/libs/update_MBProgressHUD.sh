@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 #
 # this script automatically updates the sources for the MBProgressHUD ios library
 #
@@ -8,14 +8,16 @@
 # Dan Wilcox <danomatika@gmail.com> 2012
 #
 
-WD=$(dirname $0)
+# stop on error
+set -e
+
 SRC_DIR=MBProgressHUD
 DEST_DIR=../../libs/MBProgressHUD
 
 ###
 
 # move to this scripts dir
-cd $WD
+cd $(dirname $0)
 
 # get latest source
 git clone https://github.com/jdg/MBProgressHUD.git

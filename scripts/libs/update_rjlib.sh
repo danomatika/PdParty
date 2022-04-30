@@ -1,22 +1,25 @@
-#! /bin/bash
+#! /bin/sh
 #
 # updates rjlib sources & abstractions
 #
 # Dan Wilcox <danomatika@gmail.com> 2014
 #
 
-WD=$(dirname $0)
+# stop on error
+set -e
+
 SRC_DIR=rjlib
 DEST_DIR=../../res/patches/lib
 EXT_DIR=../../libs/pd-externals/rj/
 
 ###
 
-cd $WD
+# move to this scripts dir
+cd $(dirname $0)
 
 # get latest source
-#git clone git://github.com/rjdj/rjlib.git rjlib
-git clone git://github.com/danomatika/rjlib.git rjlib
+git clone https://github.com/rjdj/rjlib.git rjlib
+#git clone https://github.com/danomatika/rjlib.git rjlib
 
 # remove stuff we don't need
 rm $SRC_DIR/deprecated/hilbert~.pd

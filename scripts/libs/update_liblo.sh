@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 #
 # this script automatically downloads and the liblo OSC library for ios+simulator
 #
@@ -8,18 +8,22 @@
 # Dan Wilcox <danomatika@gmail.com> 2016
 #
 
-WD=$(dirname $0)
+# stop on error
+set -e
+
+VER=master
+
 SRC_DIR=liblo
 DEST_DIR=../../libs/liblo
 
 ###
 
 # move to this scripts dir
-cd $WD
+cd $(dirname $0)
 
 # get latest source
-git clone git://github.com/radarsat1/liblo.git
-cd $SRC_DIR && git checkout 0.30 && cd -
+git clone https://github.com/radarsat1/liblo.git
+cd $SRC_DIR && git checkout $VER && cd -
 
 # create destination dirs
 mkdir -pv $DEST_DIR/lo
@@ -39,6 +43,7 @@ LF="-pipe -std=c99 -gdwarf-2 -mthumb"
 	--host="arm-apple-darwin" \
 	--enable-static --disable-shared --disable-dependency-tracking \
 	--disable-tests --disable-network-tests --disable-tools --disable-examples \
+	--enable-ipv6 \
 	CC=`xcrun -f --sdk iphoneos clang` \
 	AR=`xcrun -f --sdk iphoneos ar` \
 	RANLIB=`xcrun -f --sdk iphoneos ranlib` \
@@ -54,12 +59,13 @@ make clean
 	--host="arm-apple-darwin" \
 	--enable-static --disable-shared --disable-dependency-tracking \
 	--disable-tests --disable-network-tests --disable-tools --disable-examples \
+	--enable-ipv6 \
 	CC=`xcrun -f --sdk iphonesimulator clang` \
 	AR=`xcrun -f --sdk iphonesimulator ar` \
 	RANLIB=`xcrun -f --sdk iphonesimulator ranlib` \
 	NM=`xcrun -f --sdk iphonesimulator nm` \
-	CFLAGS="-arch i386 -arch x86_64 $CF -miphoneos-version-min=$MIN_IOS -I`xcrun --sdk iphonesimulator --show-sdk-path`/usr/include -isysroot `xcrun --sdk iphonesimulator --show-sdk-path`" \
-	LDFLAGS="-arch i386 -arch x86_64 $LD -isysroot `xcrun --sdk iphonesimulator --show-sdk-path`"
+	CFLAGS="-arch x86_64 $CF -miphoneos-version-min=$MIN_IOS -I`xcrun --sdk iphonesimulator --show-sdk-path`/usr/include -isysroot `xcrun --sdk iphonesimulator --show-sdk-path`" \
+	LDFLAGS="-arch x86_64 $LD -isysroot `xcrun --sdk iphonesimulator --show-sdk-path`"
 make
 cp src/.libs/liblo.a liblo-sim.a
 make clean

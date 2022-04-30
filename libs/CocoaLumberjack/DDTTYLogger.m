@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2019, Deusty, LLC
+// Copyright (c) 2010-2021, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -13,13 +13,13 @@
 //   to endorse or promote products derived from this software without specific
 //   prior written permission of Deusty, LLC.
 
-#import <CocoaLumberjack/DDTTYLogger.h>
-
-#import <sys/uio.h>
-
 #if !__has_feature(objc_arc)
 #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
+
+#import <sys/uio.h>
+
+#import <CocoaLumberjack/DDTTYLogger.h>
 
 // We probably shouldn't be using DDLog() statements within the DDLog implementation.
 // But we still want to leave our log statements for any future debugging,
@@ -113,7 +113,7 @@ typedef struct {
     size_t resetCodeLen;
 }
 
-- (instancetype)initWithForegroundColor:(DDColor *)fgColor backgroundColor:(DDColor *)bgColor flag:(DDLogFlag)mask context:(NSInteger)ctxt;
+- (nullable instancetype)initWithForegroundColor:(nullable DDColor *)fgColor backgroundColor:(nullable DDColor *)bgColor flag:(DDLogFlag)mask context:(NSInteger)ctxt;
 
 @end
 
@@ -821,7 +821,7 @@ static DDTTYLogger *sharedInstance;
         NSLogInfo(@"DDTTYLogger: isaColor256TTY: %@", (isaColor256TTY ? @"YES" : @"NO"));
         NSLogInfo(@"DDTTYLogger: isaXcodeColorTTY: %@", (isaXcodeColorTTY ? @"YES" : @"NO"));
 
-        sharedInstance = [[[self class] alloc] init];
+        sharedInstance = [[self alloc] init];
     });
 
     return sharedInstance;
@@ -831,6 +831,12 @@ static DDTTYLogger *sharedInstance;
     if (sharedInstance != nil) {
         return nil;
     }
+
+#if !defined(DD_CLI) || __has_include(<AppKit/NSColor.h>)
+    if (@available(iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0, *)) {
+        NSLogWarn(@"CocoaLumberjack: Warning: Usage of DDTTYLogger detected when DDOSLogger is available and can be used! Please consider migrating to DDOSLogger.");
+    }
+#endif
 
     if ((self = [super init])) {
         // Initialize 'app' variable (char *)
@@ -887,6 +893,10 @@ static DDTTYLogger *sharedInstance;
     }
 
     return self;
+}
+
+- (DDLoggerName)loggerName {
+    return DDLoggerNameTTY;
 }
 
 - (void)loadDefaultColorProfiles {
@@ -1176,8 +1186,8 @@ static DDTTYLogger *sharedInstance;
         DDTTYLoggerColorProfile *colorProfile = nil;
 
         if (_colorsEnabled) {
-            if (logMessage->_tag) {
-                colorProfile = _colorProfilesDict[logMessage->_tag];
+            if (logMessage->_representedObject) {
+                colorProfile = _colorProfilesDict[logMessage->_representedObject];
             }
 
             if (colorProfile == nil) {
@@ -1210,20 +1220,21 @@ static DDTTYLogger *sharedInstance;
         NSUInteger msgLen = [logMsg lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
         const BOOL useStack = msgLen < (1024 * 4);
 
-        char msgStack[useStack ? (msgLen + 1) : 1]; // Analyzer doesn't like zero-size array, hence the 1
-        char *msg = useStack ? msgStack : (char *)calloc(msgLen + 1, sizeof(char));
-
+        char *msg;
+        if (useStack) {
+            msg = (char *)alloca(msgLen + 1);
+        } else {
+            msg = (char *)calloc(msgLen + 1, sizeof(char));
+        }
         if (msg == NULL) {
             return;
         }
 
         BOOL logMsgEnc = [logMsg getCString:msg maxLength:(msgLen + 1) encoding:NSUTF8StringEncoding];
-
         if (!logMsgEnc) {
-            if (!useStack && msg != NULL) {
+            if (!useStack) {
                 free(msg);
             }
-
             return;
         }
 
@@ -1231,7 +1242,7 @@ static DDTTYLogger *sharedInstance;
 
         if (isFormatted) {
             // The log message has already been formatted.
-            int iovec_len = (_automaticallyAppendNewlineForCustomFormatters) ? 5 : 4;
+            const int iovec_len = (_automaticallyAppendNewlineForCustomFormatters) ? 5 : 4;
             struct iovec v[iovec_len];
 
             if (colorProfile) {
@@ -1254,7 +1265,7 @@ static DDTTYLogger *sharedInstance;
                 v[iovec_len - 1].iov_len = 0;
             }
 
-            v[2].iov_base = (char *)msg;
+            v[2].iov_base = msg;
             v[2].iov_len = msgLen;
 
             if (iovec_len == 5) {
@@ -1364,10 +1375,6 @@ static DDTTYLogger *sharedInstance;
             free(msg);
         }
     }
-}
-
-- (DDLoggerName)loggerName {
-    return DDLoggerNameTTY;
 }
 
 @end

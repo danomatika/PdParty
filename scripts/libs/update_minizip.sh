@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 #
 # this script automatically updates the sources for the minizip C library
 #
@@ -10,9 +10,10 @@
 # Dan Wilcox <danomatika@gmail.com> 2016, 2018
 #
 
-WD=$(dirname $0)
+# stop on error
+set -e
 
-VER=v1.2.11
+VER=v1.2.12
 
 SRC_DIR=zlib
 DEST_DIR=../../libs/minizip
@@ -20,7 +21,7 @@ DEST_DIR=../../libs/minizip
 ###
 
 # move to this scripts dir
-cd $WD
+cd $(dirname $0)
 
 # get latest source
 git clone https://github.com/madler/zlib.git --branch $VER --depth 1
