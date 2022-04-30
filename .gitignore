@@ -1,25 +1,12 @@
-*.mode1v3
 
 # xcode
-*.pbxuser
-*.perspectivev3
 xcuserdata
-IDEWorkspaceChecks.plist
 build
 *.app
 *.a
 
-# OSX
+# macOS
 .DS_Store
-
-# codeblocks
-*.layout
-example/obj
-
-# Win
-*.exe
-*.dll
 
 # patches
 /res/patches/tests/droidparty/loadsave/savedir/
-
