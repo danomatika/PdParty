@@ -1,20 +1,21 @@
-#N canvas 0 23 620 266 10;
+#N canvas 125 412 620 266 10;
 #X msg 78 159 connect 127.0.0.1 8088;
 #X msg 83 184 disconnect;
-#X obj 342 94 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#X obj 339 67 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 368 67 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X obj 342 94 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X obj 339 67 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
+#X obj 368 67 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X text 265 37 open gui help patches and use the edit subpatch;
 #X obj 399 68 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
-#X obj 340 124 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
--1 -1 0;
-#X obj 355 156 cnv 15 100 60 empty empty empty 20 12 0 14 -233017 -66577
+#fcfcfc #000000 #000000 0 256;
+#X obj 340 124 hradio 15 1 0 8 empty empty empty 0 -8 0 10 #fcfcfc
+#000000 #000000 0;
+#X obj 355 156 cnv 15 100 60 empty empty empty 20 12 0 14 #e0e0e0 #404040
 0;
-#X obj 490 85 vu 15 120 empty empty -1 -8 0 10 -66577 -1 1 0;
+#X obj 490 85 vu 15 120 empty empty -1 -8 0 10 #404040 #000000 1 0
+;
 #N canvas 178 108 267 251 receives 0;
 #X obj 12 22 r goo2_rcv;
 #X obj 12 214 outlet;
@@ -44,7 +45,6 @@
 #X connect 15 0 1 0;
 #X connect 16 0 14 0;
 #X restore 13 54 pd receives;
-#X text 12 13 for use with the iem gui edit tests;
 #N canvas 0 23 356 247 oscsend 0;
 #X obj 71 59 inlet;
 #X obj 71 146 netsend -u -b;
@@ -58,28 +58,28 @@
 #X connect 3 0 2 0;
 #X connect 5 0 1 0;
 #X restore 13 213 pd oscsend;
-#X symbolatom 70 109 20 0 0 0 - - -, f 20;
+#X symbolatom 70 109 20 0 0 0 - - - 0;
 #X msg 70 133 connect \$1 8088;
-#X obj 70 82 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 70 82 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 88 82 type hostname/ip below and hit enter;
 #N canvas 414 233 674 536 knob 0;
 #X obj 32 220 f;
 #X msg 10 199 bang;
-#X floatatom 48 198 3 63 88 0 - - -, f 3;
-#X floatatom 83 220 3 0 37 0 - - -, f 3;
+#X floatatom 48 198 3 63 88 0 - - - 0;
+#X floatatom 83 220 3 0 37 0 - - - 0;
 #X obj 32 243 pack 0 0;
 #X text 110 220 y-label;
 #X text 76 198 x-label;
 #X obj 279 246 f;
 #X msg 257 225 bang;
-#X floatatom 295 224 3 -10 10 0 - - -, f 3;
-#X floatatom 330 246 3 -10 10 0 - - -, f 3;
+#X floatatom 295 224 3 -10 10 0 - - - 0;
+#X floatatom 330 246 3 -10 10 0 - - - 0;
 #X obj 279 269 pack 0 0;
 #X obj 292 358 f;
 #X msg 270 337 bang;
-#X floatatom 308 336 3 20 60 0 - - -, f 3;
-#X floatatom 343 358 3 150 200 0 - - -, f 3;
+#X floatatom 308 336 3 20 60 0 - - - 0;
+#X floatatom 343 358 3 150 200 0 - - - 0;
 #X obj 292 381 pack 0 0;
 #X text 323 224 x-delta;
 #X text 357 246 y-delta;
@@ -87,34 +87,34 @@
 #X text 370 358 y-position;
 #X obj 52 335 f;
 #X msg 30 314 bang;
-#X floatatom 68 313 3 0 2 0 - - -, f 3;
-#X floatatom 103 335 3 4 36 0 - - -, f 3;
+#X floatatom 68 313 3 0 2 0 - - - 0;
+#X floatatom 103 335 3 4 36 0 - - - 0;
 #X obj 52 358 pack 0 0;
 #X text 96 313 font;
 #X text 132 335 height;
-#X floatatom 476 188 1 0 1 0 - - -, f 1;
+#X floatatom 476 188 1 0 1 0 - - - 0;
 #X text 523 401 no init;
 #X text 493 453 init value on loadbang;
 #X text 520 188 steady;
 #X obj 486 291 f;
 #X msg 464 270 bang;
-#X floatatom 502 269 3 55 440 0 - - -, f 3;
-#X floatatom 537 291 6 440 3520 0 - - -, f 6;
+#X floatatom 502 269 3 55 440 0 - - - 0;
+#X floatatom 537 291 6 440 3520 0 - - - 0;
 #X obj 486 314 pack 0 0;
 #X text 530 269 left-range-bound;
 #X text 586 291 right-range-bound;
 #X text 269 448 linear / logarithmical;
 #X obj 275 133 f;
 #X msg 250 112 bang;
-#X floatatom 291 111 3 15 73 0 - - -, f 3;
-#X floatatom 326 133 3 8 50 0 - - -, f 3;
+#X floatatom 291 111 3 15 73 0 - - - 0;
+#X floatatom 326 133 3 8 50 0 - - - 0;
 #X obj 275 156 pack 0 0;
 #X obj 47 100 pack 0 0 0;
 #X obj 47 72 f;
 #X msg 24 24 bang;
-#X floatatom 63 22 3 0 29 0 - - -, f 3;
-#X floatatom 79 42 3 0 29 0 - - -, f 3;
-#X floatatom 112 58 3 0 29 0 - - -, f 3;
+#X floatatom 63 22 3 0 29 0 - - - 0;
+#X floatatom 79 42 3 0 29 0 - - - 0;
+#X floatatom 112 58 3 0 29 0 - - - 0;
 #X text 91 22 background;
 #X text 106 42 front-color;
 #X text 140 59 label-color;
@@ -207,9 +207,9 @@
 #X connect 36 2 29 0;
 #X connect 36 3 35 0;
 #X restore 277 82 pd RGB_____________;
-#X floatatom 319 52 3 0 255 0 - - -, f 3;
-#X floatatom 362 52 3 0 255 0 - - -, f 3;
-#X floatatom 405 53 3 0 255 0 - - -, f 3;
+#X floatatom 319 52 3 0 255 0 - - - 0;
+#X floatatom 362 52 3 0 255 0 - - - 0;
+#X floatatom 405 53 3 0 255 0 - - - 0;
 #X text 34 -1 preset-colors;
 #X text 290 1 RGB-colors;
 #X text 319 34 red;
@@ -283,9 +283,11 @@
 #X connect 60 0 58 2;
 #X connect 61 0 58 3;
 #X restore 488 221 pd knob;
-#X connect 0 0 12 1;
-#X connect 1 0 12 1;
-#X connect 10 0 12 0;
-#X connect 13 0 14 0;
-#X connect 14 0 12 1;
-#X connect 15 0 13 0;
+#X text 12 13 for use with the iem gui edit tests scenes in tests/gui
+;
+#X connect 0 0 11 1;
+#X connect 1 0 11 1;
+#X connect 10 0 11 0;
+#X connect 12 0 13 0;
+#X connect 13 0 11 1;
+#X connect 14 0 12 0;

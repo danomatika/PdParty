@@ -1,6 +1,6 @@
 #N canvas 372 274 236 362 10;
 #X obj 40 43 vsl 30 200 0 127 0 0 \$0-vsl-out \$0-vsl-in empty 0 -9
-0 10 -262144 -1 -1 0 1;
+0 10 #fcfcfc #000000 #000000 0 1;
 #N canvas 0 23 424 283 guts 0;
 #X obj 182 34 r \$0-run-out;
 #X obj 42 192 s #osc-out;
@@ -23,9 +23,9 @@
 #X connect 9 0 6 0;
 #X connect 10 0 4 1;
 #X restore 126 228 pd guts;
-#X obj 130 47 tgl 40 0 \$0-run-out empty run 17 7 0 10 -262144 -1 -1
-0 1;
+#X obj 130 47 tgl 40 0 \$0-run-out empty run 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X obj 108 120 hsl 100 15 0 127 0 0 \$0-speed-out \$0-speed-in speed
--2 -8 0 10 -262144 -1 -1 0 1;
-#X text 13 11 sned out a flood of OSC messages;
+-2 -8 0 10 #fcfcfc #000000 #000000 0 1;
 #X text 21 269 used for performance testing;
+#X text 13 11 send out a flood of OSC messages;
