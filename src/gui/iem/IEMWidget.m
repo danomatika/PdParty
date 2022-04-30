@@ -63,8 +63,7 @@ int iemgui_modulo_color(int col);
 #pragma mark WidgetListener
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-	if([message isEqualToString:@"color"] && [arguments count] > 2 &&
-		([arguments isNumberAt:0] && [arguments isNumberAt:1] && [arguments isNumberAt:2])) {
+	if([message isEqualToString:@"color"] && [arguments count] > 2) {
 		// background, front-color, label-color
 		self.fillColor = [IEMWidget colorFromEditColor:arguments[0]];
 		self.controlColor = [IEMWidget colorFromEditColor:arguments[1]];
@@ -181,13 +180,19 @@ int iemgui_modulo_color(int col);
 	return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
 }
 
-+ (UIColor *)colorFromEditColor:(NSString *)color {
++ (UIColor *)colorFromEditColor:(id)color {
 	// hex
-	if([color characterAtIndex:0] == '#') {
-		return [IEMWidget colorFromHexColor:color];
+	if([color isKindOfClass:NSString.class]) {
+		if([color characterAtIndex:0] == '#') {
+			return [IEMWidget colorFromHexColor:color];
+		}
+		return UIColor.blackColor;
 	}
-
-	return [IEMWidget colorFromIntColor:[color intValue]];
+	// int
+	if([color isKindOfClass:NSNumber.class]) {
+		return [IEMWidget colorFromIntColor:[color intValue]];
+	}
+	return UIColor.blackColor;
 }
 
 // old IEM int color

@@ -30,9 +30,9 @@
 /// a hex color has '#' as first char
 + (UIColor *)colorFromAtomColor:(NSString *)color;
 
-/// convert an int or hex color to a UIColor (edit messages)
-/// a hex color has '#' as first char
-+ (UIColor *)colorFromEditColor:(NSString *)color;
+/// convert an int (NSNumber) or hex (NSString) color to a UIColor (edit messages)
+/// a hex color has '#' as first char, returns black on error
++ (UIColor *)colorFromEditColor:(id)color;
 
 /// convert an IEM int color in an atom string to a UIColor (edit messages)
 + (UIColor *)colorFromIntColor:(int)iemColor;
