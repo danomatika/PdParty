@@ -22,7 +22,7 @@ DEST_DIR=../../libs/CocoaLumberjack
 cd $(dirname $0)
 
 # get latest source
-git clone https://github.com/CocoaLumberjack/CocoaLumberjack.git --branch $VER --single-branch
+git clone https://github.com/CocoaLumberjack/CocoaLumberjack.git --branch $VER --depth 1
 
 # make folder
 mkdir -p $DEST_DIR

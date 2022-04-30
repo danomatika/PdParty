@@ -26,7 +26,7 @@ cp -v ggee/filters/moog~.c $DEST_DIR/ggee
 rm -rf ggee
 
 # mrpeach
-git clone https://github.com/avilleret/mrpeach.git
+git clone https://github.com/pd-externals/mrpeach.git --branch split --depth 1
 mkdir -p $DEST_DIR/mrpeach/midifile
 cp -Rv mrpeach/midifile/*.c $DEST_DIR/mrpeach/midifile/
 rm -rf mrpeach
