@@ -51,7 +51,6 @@
 		306204781753E3D200DEC1C2 /* PatchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 306204771753E3D200DEC1C2 /* PatchScene.m */; };
 		3070AE4B2598D744000A5CE8 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = 3070AE4A2598D744000A5CE8 /* App.m */; };
 		3078DF9A204D72F60024B673 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3078DF99204D72F50024B673 /* CoreAudioKit.framework */; };
-		3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081A4721D615FDE006106E8 /* liblo.a */; };
 		3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3083BD4817F2867400EDF587 /* MBProgressHUD.m */; };
 		3088883E16BF062700781682 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3088883D16BF062700781682 /* DejaVuSansMono.ttf */; };
 		308986BE18CD195E004423AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 308986BD18CD195E004423AD /* Images.xcassets */; };
@@ -142,6 +141,7 @@
 		30FA775316E68936000E8D2B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA775216E68936000E8D2B /* Reachability.m */; };
 		30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FA775416E69660000E8D2B /* SystemConfiguration.framework */; };
 		30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FAB41917C50DEE00ED10BC /* RecordingScene.m */; };
+		7EA5A3D2284AAFFF009585C9 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA5A3D0284A9785009585C9 /* liblo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -172,6 +172,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 30C3D2FA1FAA1FCC00C67F08;
 			remoteInfo = "libpd-osx-multi";
+		};
+		7EA5A3CF284A9785009585C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EA5A3CB284A9785009585C9 /* liblo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7EB1572128436EB9005E4AB3;
+			remoteInfo = liblo;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -258,7 +265,6 @@
 		3070AE492598D744000A5CE8 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = App.h; path = src/App.h; sourceTree = "<group>"; };
 		3070AE4A2598D744000A5CE8 /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = App.m; path = src/App.m; sourceTree = "<group>"; };
 		3078DF99204D72F50024B673 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
-		3081A4721D615FDE006106E8 /* liblo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblo.a; sourceTree = "<group>"; };
 		3081A4741D615FDE006106E8 /* lo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo.h; sourceTree = "<group>"; };
 		3081A4751D615FDE006106E8 /* lo_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_cpp.h; sourceTree = "<group>"; };
 		3081A4761D615FDE006106E8 /* lo_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_endian.h; sourceTree = "<group>"; };
@@ -430,6 +436,7 @@
 		30FA775416E69660000E8D2B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		30FAB41817C50DEE00ED10BC /* RecordingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingScene.h; sourceTree = "<group>"; };
 		30FAB41917C50DEE00ED10BC /* RecordingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingScene.m; sourceTree = "<group>"; };
+		7EA5A3CB284A9785009585C9 /* liblo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = liblo.xcodeproj; sourceTree = "<group>"; };
 		7EB18881281D78790099A401 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
 		7EB1888A281D79F40099A401 /* DDContextFilterLogFormatter+Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDContextFilterLogFormatter+Deprecated.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -447,12 +454,12 @@
 				300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */,
 				30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */,
 				30ABE41416B5D58600464926 /* CoreMIDI.framework in Frameworks */,
+				7EA5A3D2284AAFFF009585C9 /* liblo.a in Frameworks */,
 				30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */,
 				302862731C4369EA00A176C6 /* CoreText.framework in Frameworks */,
 				30ABE2AA16B5A8E500464926 /* Foundation.framework in Frameworks */,
 				3024B0901C99384E002C36DA /* GameController.framework in Frameworks */,
 				30C77BE416F1C67600988EB9 /* libicucore.dylib in Frameworks */,
-				3081A47E1D615FDE006106E8 /* liblo.a in Frameworks */,
 				30F96A551FC8D415002CDE3F /* libpd-ios.a in Frameworks */,
 				3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */,
 				3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */,
@@ -614,7 +621,7 @@
 		3081A4711D615FDE006106E8 /* liblo */ = {
 			isa = PBXGroup;
 			children = (
-				3081A4721D615FDE006106E8 /* liblo.a */,
+				7EA5A3CB284A9785009585C9 /* liblo.xcodeproj */,
 				3081A4731D615FDE006106E8 /* lo */,
 			);
 			name = liblo;
@@ -1024,6 +1031,14 @@
 			path = libs/net;
 			sourceTree = "<group>";
 		};
+		7EA5A3CC284A9785009585C9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7EA5A3D0284A9785009585C9 /* liblo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1073,6 +1088,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 7EA5A3CC284A9785009585C9 /* Products */;
+					ProjectRef = 7EA5A3CB284A9785009585C9 /* liblo.xcodeproj */;
+				},
+				{
 					ProductGroup = 309E33DD1D53CA2C004DBB0D /* Products */;
 					ProjectRef = 309E33DC1D53CA2C004DBB0D /* libpd.xcodeproj */;
 				},
@@ -1111,6 +1130,13 @@
 			fileType = archive.ar;
 			path = "libpd-osx-multi.a";
 			remoteRef = 30CD96361FB3785800D37F2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EA5A3D0284A9785009585C9 /* liblo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = liblo.a;
+			remoteRef = 7EA5A3CF284A9785009585C9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1409,6 +1435,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3567T5L8KK;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					libs,
@@ -1459,6 +1486,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3567T5L8KK;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					libs,

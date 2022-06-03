@@ -1,18 +1,29 @@
+# PdParty.xcodeproj
+
 Header Search paths:
 
+~~~
 libs
 $(SDKROOT)/usr/include/libxml2
 libs/pd/**
 libs/liblo
+~~~
 
 Library Search Paths:
 
+~~~
 $(PROJECT_DIR)/libs/liblo
+~~~
 
-C Flags: -DPD -DHAVE_UNISTD_H -DUSEAPI_DUMMY -DLIBPD_EXTRA
+Other C Flags:
+
+~~~
+-DPD -DHAVE_UNISTD_H -DUSEAPI_DUMMY -DLIBPD_EXTRA
+~~~
 
 Frameworks:
 
+~~~
 AudioToolbox
 AVFoundation
 CFNetwork
@@ -34,7 +45,22 @@ QuartzCore
 Security
 SystemConfiguration
 UIKit
+~~~
 
-Compiler flags for non-Arc libs: -fno-objc-arc
+Compiler flags for non-Arc libs: `-fno-objc-arc` (no longer required)
 
 Testing IPv6 support: https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/NetworkingOverview/UnderstandingandPreparingfortheIPv6Transition/UnderstandingandPreparingfortheIPv6Transition.html#//apple_ref/doc/uid/TP40010220-CH213-SW1
+
+# libs/liblo.xcodeproj
+
+Header Search paths:
+
+~~~
+$(PROJECT_DIR)
+~~~
+
+Other C Flags:
+
+~~~
+-DHAVE_CONFIG_H -Qunused-arguments -fno-common -DPIC
+~~~

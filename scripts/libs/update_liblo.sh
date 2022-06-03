@@ -1,11 +1,32 @@
 #! /bin/sh
 #
-# this script automatically downloads and the liblo OSC library for ios+simulator
+# Note: As of 2022, this script is no longer used! liblo is now built via a
+#       static library Xcode project: libs/liblo/liblo.xcodeproj.
+#
+# Building a fat static lib for iOS no longer works with Xcode 12+ as the system
+# cannot tell the arm64 slices for iOS and simulator apart on M1 macs. Bascially,
+# adding -arch arm64 to the liblo-ios.a build *works* for app builds running on
+# an iOS device, however the app will not link when running in the Simulator on
+# an Apple arm mac.
+#
+# From what I've read, the preferred approach is to build an XCFramework ala
+# something like:
+#
+#   xcodebuild -create-xcframework \
+#              -library liblo-ios.a -library liblo-sim.a \
+#              -output liblo.xcframework
+#
+# after added -arch arm64 to the liblo-ios.a build ...however I was not able to
+# get this to work as the xcodebuild command always failed.
+#
+# ---
+#
+# this script automatically downloads and builds the liblo OSC library for ios+simulator
 #
 # as long as the download link is formatted in the same way and folder
 # structure are the same, this script should *just work*
 #
-# Dan Wilcox <danomatika@gmail.com> 2016
+# Dan Wilcox <danomatika@gmail.com> 2016, 2022
 #
 
 # stop on error
