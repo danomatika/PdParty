@@ -10,7 +10,7 @@
  */
 #import "Osc.h"
 
-#import "lo.h"
+#import "lo/lo.h"
 #import "Log.h"
 #import "PureData.h"
 

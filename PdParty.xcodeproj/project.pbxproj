@@ -265,16 +265,6 @@
 		3070AE492598D744000A5CE8 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = App.h; path = src/App.h; sourceTree = "<group>"; };
 		3070AE4A2598D744000A5CE8 /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = App.m; path = src/App.m; sourceTree = "<group>"; };
 		3078DF99204D72F50024B673 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
-		3081A4741D615FDE006106E8 /* lo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo.h; sourceTree = "<group>"; };
-		3081A4751D615FDE006106E8 /* lo_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_cpp.h; sourceTree = "<group>"; };
-		3081A4761D615FDE006106E8 /* lo_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_endian.h; sourceTree = "<group>"; };
-		3081A4771D615FDE006106E8 /* lo_errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_errors.h; sourceTree = "<group>"; };
-		3081A4781D615FDE006106E8 /* lo_lowlevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_lowlevel.h; sourceTree = "<group>"; };
-		3081A4791D615FDE006106E8 /* lo_macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_macros.h; sourceTree = "<group>"; };
-		3081A47A1D615FDE006106E8 /* lo_osc_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_osc_types.h; sourceTree = "<group>"; };
-		3081A47B1D615FDE006106E8 /* lo_serverthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_serverthread.h; sourceTree = "<group>"; };
-		3081A47C1D615FDE006106E8 /* lo_throw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_throw.h; sourceTree = "<group>"; };
-		3081A47D1D615FDE006106E8 /* lo_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lo_types.h; sourceTree = "<group>"; };
 		3083BD4717F2867400EDF587 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3083BD4817F2867400EDF587 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3088883D16BF062700781682 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DejaVuSansMono.ttf; sourceTree = "<group>"; };
@@ -622,27 +612,9 @@
 			isa = PBXGroup;
 			children = (
 				7EA5A3CB284A9785009585C9 /* liblo.xcodeproj */,
-				3081A4731D615FDE006106E8 /* lo */,
 			);
 			name = liblo;
 			path = libs/liblo;
-			sourceTree = "<group>";
-		};
-		3081A4731D615FDE006106E8 /* lo */ = {
-			isa = PBXGroup;
-			children = (
-				3081A4741D615FDE006106E8 /* lo.h */,
-				3081A4751D615FDE006106E8 /* lo_cpp.h */,
-				3081A4761D615FDE006106E8 /* lo_endian.h */,
-				3081A4771D615FDE006106E8 /* lo_errors.h */,
-				3081A4781D615FDE006106E8 /* lo_lowlevel.h */,
-				3081A4791D615FDE006106E8 /* lo_macros.h */,
-				3081A47A1D615FDE006106E8 /* lo_osc_types.h */,
-				3081A47B1D615FDE006106E8 /* lo_serverthread.h */,
-				3081A47C1D615FDE006106E8 /* lo_throw.h */,
-				3081A47D1D615FDE006106E8 /* lo_types.h */,
-			);
-			path = lo;
 			sourceTree = "<group>";
 		};
 		3083BD4517F2867400EDF587 /* MBProgressHUD */ = {

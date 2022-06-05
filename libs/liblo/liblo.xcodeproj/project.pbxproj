@@ -258,6 +258,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
+					"-DAC_APPLE_UNIVERSAL_BUILD",
 					"-Qunused-arguments",
 					"-fno-common",
 					"-DPIC",
@@ -317,6 +318,7 @@
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
+					"-DAC_APPLE_UNIVERSAL_BUILD",
 					"-Qunused-arguments",
 					"-fno-common",
 					"-DPIC",

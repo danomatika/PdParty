@@ -62,5 +62,5 @@ $(PROJECT_DIR)
 Other C Flags:
 
 ~~~
--DHAVE_CONFIG_H -Qunused-arguments -fno-common -DPIC
+-DHAVE_CONFIG_H -DAC_APPLE_UNIVERSAL_BUILD -Qunused-arguments -fno-common -DPIC
 ~~~
