@@ -6,7 +6,11 @@ Update version in:
 * about page: res/about/about.html
 * user guide: doc/guide/PdParty_User_Guide.md
 
-Update CHANGES.txt.
+Update CHANGES.txt from commit log (if not up to date). Helpful:
+
+    git log --color --graph --pretty=format:'%Cred%h%Creset \
+    -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
+    --abbrev-commit --
 
 Update user guide with any new documentation.
 
