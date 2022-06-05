@@ -6,4 +6,4 @@
 #X restore 93 263 pd guts;
 #X obj 91 104 bng 50 250 50 0 empty \$0-shake shaken 0 -8 0 10 #fcfcfc
 #000000 #000000;
-#X text 52 26 system #shake event;
+#X text 27 25 system #shake (aka cancel) event;
