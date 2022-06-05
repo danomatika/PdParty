@@ -2,16 +2,41 @@
 
 * updated to libpd 0.13.0 pre-release (pd 0.52-2)
 
+* major audio updates via the Obj-C audio overhaul in libpd 0.12+:
+  - fixed sample rate handling on newer devices, now independent of hardware
+  - Bluetooth and AirPlay output should now work as expected
+  - multi-channel I/O should also work (not fully tested beyond 2 in / 2 out)
+
 * fixed parsing of Pd 0.52+ escaped strings by replacing custom atom line parser
   with binbuf
 * fixed iem gui colors by adding support for Pd 0.52+ hex color values
+* fixed note ghosting from some devices by forcing midi note off vel to 0 for pd
+* fixed failure to reload Browser after rename action
 * fixed wrong bundle id
 
+* added support for receiving patches and zip files via AirDrop
+* added support for managing PdParty Documents folder in the Files app (fomalsd)
 * added [keyup] support via KeyGrabberView UIPresses event backend on iOS 13.4+
 * added #shake event
+* added Browser copy action to Move... menu
+* added location update background mode to help keep GPS events (more) alive
 
+* replace launch screen image asset with launch screen storyboard to fix iOS 13
+  deprecation warning
 * prefer opening a min of 2 audio inputs and 2 audio outputs 
-* moved osc-test patch into composerpack
+* set default mic volume to 0.25
+* increased controls height for better toolbar spacing on newer iOS versions
+* ignore dark mode for now, proper support requires updates to the GUI rendering
+* Browser Delete action now red
+* moved osc-test patch into composerpack (requested by Peter Gahn)
+* now build liblo as a static lib xcode project since old method of manually
+  building and linking archs is no longer valid for m1 machines (simulator will
+  not link)
+* updated user guide for AirDrop / Files app (fomalsd)
+* updates and clarifications to readme and User Guide
+* various deprecation and bug fixes
+
+* removed prebuilt static liblo.a
 
 1.2.1: 2018-11-27
 
