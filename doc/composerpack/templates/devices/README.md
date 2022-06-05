@@ -3,7 +3,7 @@ Device Patch Size Templates
 
 This is a small set of empty patches that are pre-sized to match specific device types and orientations. If you want your patch to be rendered as exact as possible, it's best to work off of these.
 
-The current templates are named in order of device release following the conventions on [iosref.com](https://iosref.com/res):
+The current templates are named in order of device release following the conventions on iosref.com https://iosref.com/res
 
 iPhone
 * iphone-13-pro-max: 13 Pro Max, 12 Pro Max
@@ -36,4 +36,9 @@ For example, the ipad-6-landscape patch is basically:
 
 The 5th & 6th items in the list are the width & height: 384 & 448. Doubling both of these to 768 & 896 will preserve the aspect ratio.
 
-For a list of device screen sizes, see the Apple developer doc [Displays page](https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html) or external sites such as [iosref.com](https://iosref.com/res). Note: the sizing values used by PdParty are in logical points, not the native resolution.
+For a list of device screen sizes, see:
+
+* Apple developer doc Displays page: https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html
+* external sites such as iosref.com: https://iosref.com/res
+
+Note: the sizing values used by PdParty are in logical points, not the native resolution.

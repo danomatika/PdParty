@@ -63,6 +63,10 @@ cp -v $RES_DIR/lib/pd/soundoutput.pd $TEMP/templates/scenes/DroidTemplate/pd
 cp -v $RES_DIR/lib/pd/playback.pd $TEMP/templates/scenes/DroidTemplate/pd
 cp -v $RES_DIR/lib/pd/recorder.pd $TEMP/templates/scenes/DroidTemplate/pd
 
+# rename .md to .txt as most OS have no default way to open them
+mv -v $TEMP/README.md $TEMP/README.txt
+mv -v $TEMP/templates/devices/README.md $TEMP/templates/devices/README.txt
+
 # zip
 zip -r $ZIP $TEMP
 

@@ -3,7 +3,7 @@ Howdy
 
 This folder contains the basics you need in order to start creating scenes for the PdParty iOS app using Pure Data 0.46+ (vanilla).
 
-Copyright (c) [Dan Wilcox](danomatika.com) 2011-16
+Copyright (c) [Dan Wilcox](danomatika.com) 2011-22
 
 User Guide
 ----------
@@ -27,7 +27,7 @@ Abstraction Folders
 The following abstraction folders are required for patching for PdParty:
 
 * lib/pd: stereo soundinput & soundoutput wrappers (important!)
-* lib/droidparty: [PdDroidParty](http://www.droidparty.net) UI abstractions
+* lib/droidparty: PdDroidParty http://www.droidparty.net UI abstractions
 * lib/pdparty: RjDj-specific message wrappers and other abstractions for use with PdParty
 
 Add these to your Pure Data path settings via so they can be found:
@@ -43,8 +43,8 @@ You only need to do this once as Pd will remember these path settings. If you mo
 
 Also included are two useful vanilla-only abstraction libraries that make working with vanilla/libpd-based projects easier:
 
-* lib/rj: [rjlib](https://github.com/rjdj/rjlib), developed for the RjDj ecosystem
-* lib/rc: [rc-patches](https://github.com/danomatika/rc-patches), extended patch set from the [robotcowboy project](http://robotcowboy.com), designed to work with rjlib
+* lib/rj: rjlib https://github.com/rjdj/rjlib, developed for the RjDj ecosystem
+* lib/rc: rc-patches https://github.com/danomatika/rc-patches, extended patch set from the robotcowboy project http://robotcowboy.com, designed to work with rjlib
 
 There are two ways you can utilize either of these in your scenes: include a copy of the rj and/or rc folder within your scene folder or add a copy to the libs PdParty folder using the WebDAV server. 
 
@@ -103,9 +103,9 @@ Samples & Tests
 The PdParty samples & tests are included:
 
 * samples: working scenes
-* tests: scene type tests for uis, osc communication, sensor events, etc; this includes the [DroidParty demos](https://github.com/chr15m/PdDroidParty/tree/master/droidparty-demos)
+* tests: scene type tests for uis, osc communication, sensor events, etc; this includes the DroidParty demos https://github.com/chr15m/PdDroidParty/tree/master/droidparty-demos
 
-These are the patches included with [PdParty](https://github.com/danomatika/PdParty/tree/master/res/patches).
+These are the patches included with PdParty https://github.com/danomatika/PdParty/tree/master/res/patches
 
 Open Sound Control Bridge
 --------------------------
@@ -129,8 +129,8 @@ Also, pre-sized patches for specific devices and orientations are also provided 
 Resources & Examples
 --------------------
 
-* [rjlib example RjDj scenes](https://github.com/rjdj/rjlib/tree/master/examplescenes)
-* [DroidParty webpage](http://droidparty.net)
+* rjlib example RjDj scenes: https://github.com/rjdj/rjlib/tree/master/examplescenes
+* DroidParty webpage: http://droidparty.net
 
 Developing
 ----------
