@@ -141,8 +141,8 @@
 		30FA775316E68936000E8D2B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA775216E68936000E8D2B /* Reachability.m */; };
 		30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FA775416E69660000E8D2B /* SystemConfiguration.framework */; };
 		30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FAB41917C50DEE00ED10BC /* RecordingScene.m */; };
-		7EA5A3D2284AAFFF009585C9 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA5A3D0284A9785009585C9 /* liblo.a */; };
 		7EF040D9284CE5E300906906 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EF040D7284CE5E300906906 /* Launch Screen.storyboard */; };
+		7EF040DB284D147200906906 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA5A3D0284A9785009585C9 /* liblo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -446,7 +446,6 @@
 				300EC0461833D74F00219F48 /* CoreLocation.framework in Frameworks */,
 				30D4CFB120442A4F00662491 /* CoreMedia.framework in Frameworks */,
 				30ABE41416B5D58600464926 /* CoreMIDI.framework in Frameworks */,
-				7EA5A3D2284AAFFF009585C9 /* liblo.a in Frameworks */,
 				30E89D0616E8758A005B40C4 /* CoreMotion.framework in Frameworks */,
 				302862731C4369EA00A176C6 /* CoreText.framework in Frameworks */,
 				30ABE2AA16B5A8E500464926 /* Foundation.framework in Frameworks */,
@@ -455,6 +454,7 @@
 				30F96A551FC8D415002CDE3F /* libpd-ios.a in Frameworks */,
 				3050823416E1999E00895CB2 /* libxml2.dylib in Frameworks */,
 				3094B43C18C975AE00AFE178 /* libz.1.2.5.dylib in Frameworks */,
+				7EF040DB284D147200906906 /* liblo.a in Frameworks */,
 				3050823616E199AF00895CB2 /* MobileCoreServices.framework in Frameworks */,
 				30F3E79717CAA1BD00117305 /* QuartzCore.framework in Frameworks */,
 				3050823016E1998800895CB2 /* Security.framework in Frameworks */,
@@ -1350,7 +1350,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "res/PdParty-Info.pist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1400,7 +1400,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "res/PdParty-Info.pist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
