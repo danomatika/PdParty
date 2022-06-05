@@ -1,5 +1,8 @@
 #! /bin/bash
 #
+# note: As of PdParty 1.3.0, this is no longer used in favor of splash.pdf on
+#       a the Launch Screen.storyboard.
+#
 # Dan Wilcox <danomatika@gmail.com> 2016
 #
 

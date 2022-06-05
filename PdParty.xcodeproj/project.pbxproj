@@ -142,6 +142,7 @@
 		30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FA775416E69660000E8D2B /* SystemConfiguration.framework */; };
 		30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FAB41917C50DEE00ED10BC /* RecordingScene.m */; };
 		7EA5A3D2284AAFFF009585C9 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA5A3D0284A9785009585C9 /* liblo.a */; };
+		7EF040D9284CE5E300906906 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EF040D7284CE5E300906906 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -429,6 +430,7 @@
 		7EA5A3CB284A9785009585C9 /* liblo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = liblo.xcodeproj; sourceTree = "<group>"; };
 		7EB18881281D78790099A401 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
 		7EB1888A281D79F40099A401 /* DDContextFilterLogFormatter+Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDContextFilterLogFormatter+Deprecated.h"; sourceTree = "<group>"; };
+		7EF040D8284CE5E300906906 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "res/Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -788,6 +790,7 @@
 				3088883C16BF062700781682 /* fonts */,
 				308986BD18CD195E004423AD /* Images.xcassets */,
 				30ABE2F616B5D11D00464926 /* InfoPlist.strings */,
+				7EF040D7284CE5E300906906 /* Launch Screen.storyboard */,
 				30ABE2F816B5D11D00464926 /* MainStoryboard_iPad.storyboard */,
 				30ABE2FA16B5D11D00464926 /* MainStoryboard_iPhone.storyboard */,
 				30ABE30116B5D11D00464926 /* PdParty-Info.plist */,
@@ -1126,6 +1129,7 @@
 				30ACA10D16D1866000B50B73 /* patches in Resources */,
 				300507B417C2C11700D1563C /* Defaults.plist in Resources */,
 				30E92A841C44A44900C75380 /* about in Resources */,
+				7EF040D9284CE5E300906906 /* Launch Screen.storyboard in Resources */,
 				30F3E79517C5491100117305 /* images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1287,6 +1291,14 @@
 			name = MainStoryboard_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
+		7EF040D7284CE5E300906906 /* Launch Screen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7EF040D8284CE5E300906906 /* Base */,
+			);
+			name = "Launch Screen.storyboard";
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1400,7 +1412,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1451,7 +1463,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
