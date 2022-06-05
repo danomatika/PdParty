@@ -95,8 +95,8 @@
 /// pdparty game controller pause event (no state)
 - (void)sendControllerPause:(NSString *)controller;
 
-/// pdparty shake event: 1 - started, 0 - stopped
-- (void)sendShake:(int)state;
+/// pdparty shake event
+- (void)sendShake;
 
 /// pd key event
 - (void)sendKey:(int)key;

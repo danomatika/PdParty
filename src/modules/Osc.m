@@ -254,10 +254,9 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
-- (void)sendShake:(int)state {
+- (void)sendShake {
 	if(!self.isListening || !self.shakeSendingEnabled) return;
 	lo_message m = lo_message_new();
-	lo_message_add_float(m, (float)state);
 	lo_send_message(sendAddress, [OSC_SHAKE_ADDR UTF8String], m);
 	lo_message_free(m);
 }

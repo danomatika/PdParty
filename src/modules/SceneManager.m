@@ -60,10 +60,8 @@
 
 		// listen for shake events
 		NSNotificationCenter *center = NSNotificationCenter.defaultCenter;
-		[center addObserver:self selector:@selector(shakeBeganNotification:)
-					   name:PdPartyMotionShakeBeganNotification object:nil];
 		[center addObserver:self selector:@selector(shakeEndedNotification:)
-					   name:PdPartyMotionShakeBeganNotification object:nil];
+					   name:PdPartyMotionShakeEndedNotification object:nil];
 		
 		// create gui
 		self.gui = [[PartyGui alloc] init];
@@ -73,9 +71,6 @@
 }
 
 - (void)dealloc {
-	[NSNotificationCenter.defaultCenter removeObserver:self
-	                                              name:PdPartyMotionShakeBeganNotification
-	                                            object:nil];
 	[NSNotificationCenter.defaultCenter removeObserver:self
 	                                              name:PdPartyMotionShakeEndedNotification
 	                                            object:nil];
@@ -219,11 +214,11 @@
 	[self.osc sendTouch:eventType forId:id atX:x andY:y];
 }
 
-- (void)sendShake:(int)state {
+- (void)sendShake {
 	if(self.scene.requiresShake) {
-		[PureData sendShake:state];
+		[PureData sendShake];
 	}
-	[self.osc sendShake:state];
+	[self.osc sendShake];
 }
 
 - (void)sendKey:(int)key {
@@ -242,12 +237,9 @@
 
 #pragma mark Shake Notifications
 
-- (void)shakeBeganNotification:(NSNotification *)notification {
-	[self sendShake:1];
-}
-
 - (void)shakeEndedNotification:(NSNotification *)notification {
-	[self sendShake:0];
+	DDLogInfo(@"shake");
+	[self sendShake];
 }
 
 #pragma mark PdSensorSupportDelegate

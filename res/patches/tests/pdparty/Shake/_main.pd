@@ -1,15 +1,9 @@
 #N canvas 505 114 250 336 10;
-#X obj 89 70 tgl 50 0 empty \$0-shake shaking 0 -8 0 10 -262144 -1
--1 0 1;
-#N canvas 388 274 322 228 guts 0;
+#N canvas 388 274 201 229 guts 0;
 #X obj 56 50 r #shake;
 #X obj 56 144 s \$0-shake;
-#X obj 158 113 sel 1;
-#X obj 158 144 s \$0-shake-simple;
 #X connect 0 0 1 0;
-#X connect 0 0 2 0;
-#X connect 2 0 3 0;
-#X restore 89 264 pd guts;
-#X obj 95 184 bng 30 250 50 0 empty \$0-shake-simple shaken 0 -8 0
-10 -262144 -1 -1;
-#X text 36 21 system #shake event: on or off;
+#X restore 93 263 pd guts;
+#X obj 91 104 bng 50 250 50 0 empty \$0-shake shaken 0 -8 0 10 #fcfcfc
+#000000 #000000;
+#X text 52 26 system #shake event;

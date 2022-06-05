@@ -16,13 +16,6 @@
 
 #pragma mark Motion
 
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-	if(motion == UIEventSubtypeMotionShake) {
-		[NSNotificationCenter.defaultCenter postNotificationName:PdPartyMotionShakeBeganNotification
-														  object:self];
-	}
-}
-
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if(motion == UIEventSubtypeMotionShake) {
 		[NSNotificationCenter.defaultCenter postNotificationName:PdPartyMotionShakeEndedNotification

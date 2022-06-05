@@ -251,8 +251,8 @@
 		     toReceiver:PARTY_CONTROLLER_R];
 }
 
-+ (void)sendShake:(int)state {
-	[PdBase sendFloat:state toReceiver:PARTY_SHAKE_R];
++ (void)sendShake {
+	[PdBase sendBangToReceiver:PARTY_SHAKE_R];
 }
 
 + (void)sendKey:(int)key {

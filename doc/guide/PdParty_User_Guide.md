@@ -475,8 +475,7 @@ PdParty returns the following events:
 * **[r \#time]**: timestamp event, see "Timestamps" section"
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
 * **[r \#controller]**: game controller event, see "Game Controllers" section
-* **[ r \#shake] _state_**: system-detected shake event
-  * _state_: 0 - started, 1 - stopped
+* **[ r \#shake]**: system-detected shake event
 
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
 
