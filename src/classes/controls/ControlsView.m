@@ -132,7 +132,7 @@
 			                                toItem:self
 			                             attribute:NSLayoutAttributeTop
 										multiplier:1.0
-										  constant:0],
+										  constant:10],
 			
 			// slider
 			sliderLeadingConstraint, sliderTrailingConstraint, sliderCenterYConstraint]
@@ -209,7 +209,7 @@
 }
 
 + (float)baseHeight {
-	return Util.isDeviceATablet ? 192 : 96;
+	return Util.isDeviceATablet ? 222 : 126;
 }
 
 + (float)baseSpacing {
@@ -217,11 +217,11 @@
 }
 
 + (float)baseToolbarHeight {
-	return Util.isDeviceATablet ? 88 : 44;
+	return Util.isDeviceATablet ? 128 : 84;
 }
 
 - (void)halfSize {
-	self.height = 96;
+	self.height = 126;
 	self.spacing = self.defaultSpacing/2;
 	self.toolbarHeight = self.defaultToolbarHeight/2;
 	[self setNeedsUpdateConstraints];
