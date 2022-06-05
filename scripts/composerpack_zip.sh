@@ -40,19 +40,19 @@ cp -Rv $RES_DIR/lib/droidparty/droidsystem.pd $TEMP/lib/droidparty
 cp -Rv $RES_DIR/lib/droidparty/mknob.pd $TEMP/lib/droidparty
 
 # droidparty
-git clone git://github.com/chr15m/PdDroidParty.git
+git clone https://github.com/chr15m/PdDroidParty.git --depth 1
 mkdir -p $TEMP/lib/droidparty
 cp -Rv PdDroidParty/droidparty-abstractions/* $TEMP/lib/droidparty
 rm -rf PdDroidParty
 
 # rj
-#git clone git://github.com/rjdj/rjlib.git
-git clone git://github.com/danomatika/rjlib.git
+git clone https://github.com/rjdj/rjlib.git --depth 1
+#git clone git://github.com/danomatika/rjlib.git --depth 1
 cp -Rv rjlib/rj $TEMP/lib
 rm -rf rjlib
 
 # rc
-git clone https://github.com/danomatika/rc-patches.git
+git clone https://github.com/danomatika/rc-patches.git --depth 1
 cp -Rv rc-patches/rc $TEMP/lib
 rm -rf rc-patches
 

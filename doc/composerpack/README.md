@@ -24,13 +24,20 @@ Download Pd vanilla here: http://msp.ucsd.edu/software.html
 Abstraction Folders
 -------------------
 
-The following abstraction folders are provided:
+The following abstraction folders are required for patching for PdParty:
 
-* lib/pd: stereo soundinput & soundoutput wrappers
+* lib/pd: stereo soundinput & soundoutput wrappers (important!)
 * lib/droidparty: [PdDroidParty](http://www.droidparty.net) UI abstractions
 * lib/pdparty: RjDj-specific message wrappers and other abstractions for use with PdParty
 
-Add these to your Pure Data path settings.
+Add these to your Pure Data path settings via so they can be found:
+
+1. (Optional but recommended) Copy or move this folder to your Pd Documents directory: ~/Documents/Pd 
+1. Open Pd (Mac) or File (Win/Linux) -> Preferences -> Path...
+2. Click New... and navigate to PdParty_composerpack/lib/ and choose the first lib directory aka "pd"
+3. Repeat for each directory you want to add with lib
+
+You only need to do this once as Pd will remember these path settings. If you move the PdParty_composerpack directory or the lib subdirectory, then you will need to Edit the paths to the new locations.
 
 ### Useful Abstraction Libraries
 
@@ -61,32 +68,32 @@ You can bundle abstractions & abstraction libraries within a scene folder and ad
   
 This scene type conforms to the original RjDj specification and has been tested with a number of the original Rj scenes.
 
-  * a folder that ends in \*.rj that contains a _main.pd patch
-  * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
-  * an optional browser icon named "thumb.jpg" and a min size of 55x55
-  * an optional info xml file named "Info.plist" or "info.plist"
-  * 20500 samplerate
-  * portrait orientation only
+* a folder that ends in \*.rj that contains a _main.pd patch
+* an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
+* an optional browser icon named "thumb.jpg" and a min size of 55x55
+* an optional info xml file named "Info.plist" or "info.plist"
+* 20500 samplerate
+* portrait orientation only
 
 ### DroidParty scene
 
 This scene type provided compatibility with PdDroidParty on Android, except for svg theming. Functionally, you should be able to run the same scene on both PdParty (iOS) and DroidParty (Android).
 
-  * a folder that contains a droidparty_main.pd patch
-  * an optional background image named "background.png" which should have a landscape aspect ratio
-  * an optional font named "font.ttf" or "font-antialiased.ttf"
-  * 44100 samplerate
-  * landscape orientation only
+* a folder that contains a droidparty_main.pd patch
+* an optional background image named "background.png" which should have a landscape aspect ratio
+* an optional font named "font.ttf" or "font-antialiased.ttf"
+* 44100 samplerate
+* landscape orientation only
   
 ### PdParty scene
 
 This scene type basically acts as a wrapper around a patch folder.
 
-  * a folder that contains a _main.pd patch
-  * an optional info json file named "info.json"
-  * requires all event types
-  * 44100 samplerate
-  * landscape or portrait orientation is interpreted from the canvas size
+* a folder that contains a _main.pd patch
+* an optional info json file named "info.json"
+* requires all event types
+* 44100 samplerate
+* landscape or portrait orientation is interpreted from the canvas size
   
 Running a regular .pd patch is the same as running a PdParty scene.
 
