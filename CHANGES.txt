@@ -20,6 +20,7 @@
 * added #shake event
 * added Browser copy action to Move... menu
 * added location update background mode to help keep GPS events (more) alive
+* added numerous device template patches to composerpack
 
 * replace launch screen image asset with launch screen storyboard to fix iOS 13
   deprecation warning
