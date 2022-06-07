@@ -16,7 +16,10 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 <a href="http://danomatika.com/code/pdparty"><b>PdParty website</b></a> | <a href="https://itunes.apple.com/app/id970528308"><b>PdParty on the App Store</b></a>
 </a>
 
-This project has been supported by the CMU [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org), a visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/), and my time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab).
+This project has been supported, in part, by:
+* The CMU [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org)
+* A visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/)* My time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab)
+* A pair of workshops given at the [LEONARDO – Zentrum für Kreativität und Innovation Nürnberg](https://leonardo-zentrum.de)
 
 Description
 -----------
