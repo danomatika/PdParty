@@ -12,7 +12,6 @@
 * fixed iem gui colors by adding support for Pd 0.52+ hex color values
 * fixed note ghosting from some devices by forcing midi note off vel to 0 for pd
 * fixed failure to reload Browser after rename action
-* fixed wrong bundle id
 
 * added support for receiving patches and zip files via AirDrop
 * added support for managing PdParty Documents folder in the Files app (fomalsd)
