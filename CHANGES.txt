@@ -1,5 +1,11 @@
 1.3.0: TBA
 
+beta2
+
+* fixed open via pdparty:// url null path handling (reported by Josef Novotny)
+
+beta1
+
 * updated to libpd 0.13.0 pre-release (pd 0.52-2)
 
 * major audio updates via the Obj-C audio overhaul in libpd 0.12+:

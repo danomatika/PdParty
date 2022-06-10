@@ -166,11 +166,11 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 
 	// open patch or scene via "pdparty://" scheme with "open" domain, ie. "pdparty://open/path/to/patch.pd"
 	if([url.scheme isEqualToString:@"pdparty"] && [url.host isEqualToString:@"open"] && url.path) {
-			path = [Util.documentsPath stringByAppendingPathComponent:url.path];
+		path = [Util.documentsPath stringByAppendingPathComponent:url.path];
 	}
 	// open in place from Files app or other file provider (iCloud?)
 	else if(options[UIApplicationOpenURLOptionsOpenInPlaceKey] &&
-	   [options[UIApplicationOpenURLOptionsOpenInPlaceKey] boolValue]) {
+	        [options[UIApplicationOpenURLOptionsOpenInPlaceKey] boolValue]) {
 		// standardize path, otherwise file URLs from the Files app may start with the /private prefix
 		path = url.URLByStandardizingPath.path;
 	}
@@ -195,6 +195,9 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 			return NO;
 		}
 		return YES;
+	}
+	if(!url.path) { // nothing to open?
+		return NO;
 	}
 
 	// copy patch or zip file from Documents/Inbox
