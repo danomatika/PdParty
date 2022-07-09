@@ -2,6 +2,9 @@
 
 beta3
 
+* fixed crash when using Bluetooth MIDI device due to missing privacy message
+  (reported by Jonathan Pivar via TestFlight crashlog)
+
 * added List widget
 
 beta2
