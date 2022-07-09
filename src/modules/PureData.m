@@ -48,6 +48,9 @@
 		audioController = [[PdAudioController alloc] init];
 		audioController.mixWithOthers = YES;
 		audioController.preferStereo = YES;
+		audioController.allowBluetooth = YES;
+		audioController.allowBluetoothA2DP = YES;
+		audioController.allowAirPlay = YES;
 		audioController.defaultToSpeaker = ![defaults boolForKey:@"earpieceSpeakerEnabled"];
 		self.sampleRate = PARTY_SAMPLERATE; //< audio unit set up here
 		if(ddLogLevel >= DDLogLevelVerbose) {
@@ -81,7 +84,8 @@
 		}
 		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 
-		// re-configure audio unit if number of channels has changed
+		// TODO: remove or deprecate this to debugging only?
+		// observe audio route changes(?)
 		routeChangeObserver = [NSNotificationCenter.defaultCenter addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *notification) {
 			NSDictionary *info = notification.userInfo;
 			if(info && info[AVAudioSessionRouteChangeReasonKey]) {
@@ -103,10 +107,15 @@
 					default:
 						return;
 				}
+				DDLogVerbose(@"PartyAudioController: input \"%@\" output \"%@\"",
+						  [session.currentRoute.inputs.firstObject portName],
+						  [session.currentRoute.outputs.firstObject portName]);
+
+				// TODO: remove this? doesn't seem needed as pd audio unit now handles this internally
 				// delay to let audio unit handle max frames change
-				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-					[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
-				});
+//				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+//					[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
+//				});
 			}
 		}];
 	}
