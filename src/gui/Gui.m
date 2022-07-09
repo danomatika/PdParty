@@ -16,6 +16,7 @@
 // pd
 #import "Number.h"
 #import "Symbol.h"
+#import "List.h"
 #import "Comment.h"
 
 // iem
@@ -71,6 +72,14 @@
 	if(s) {
 		[self.widgets addObject:s];
 		DDLogVerbose(@"Gui: added %@", s.type);
+	}
+}
+
+- (void)addList:(NSArray *)atomLine {
+	List *l = [[List alloc] initWithAtomLine:atomLine andGui:self];
+	if(l) {
+		[self.widgets addObject:l];
+		DDLogVerbose(@"Gui: added %@", l.type);
 	}
 }
 
@@ -226,6 +235,9 @@
 					}
 					else if([lineType isEqualToString:@"symbolatom"]) {
 						[self addSymbol:line];
+					}
+					else if([lineType isEqualToString:@"listbox"]) {
+						[self addList:line];
 					}
 					else if([lineType isEqualToString:@"text"]) {
 						[self addComment:line];

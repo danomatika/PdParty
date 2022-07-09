@@ -1,5 +1,9 @@
 1.3.0: TBA
 
+beta3
+
+* added List widget
+
 beta2
 
 * fixed Bluetooth and AirPlay not actually enabled (reported by Peter Gahn)

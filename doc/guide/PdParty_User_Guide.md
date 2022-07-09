@@ -379,6 +379,10 @@ When patching for PdParty (as with RjDj & PdDroidParty), it is recommended that 
 
 \* *[keyup] is only supported on iOS 13.4+ as there is no way to receive key release events on earlier iOS versions.*
 
+#### Symbol and List
+
+The symbol and list boxes currently only show their contents and cannot be interacted with.
+
 #### VU Meter
 
 [vu] gui objects do *not* have a sending name in PdParty, so make sure you're patch doesn't rely on passing values through any meters.

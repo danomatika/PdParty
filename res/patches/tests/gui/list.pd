@@ -1,0 +1,42 @@
+#N canvas 301 109 314 411 12;
+#X listbox 72 112 20 0 0 0 list \$0-list-in \$0-list-out 0;
+#N canvas 179 204 619 285 guts 0;
+#X obj 44 219 s \$0-list-in;
+#X obj 44 70 metro 2000;
+#X obj 44 102 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 44 127 sel 0 1;
+#X msg 174 173 1 2 3 4 5;
+#X msg 44 173 list foo bar 123;
+#X obj 473 217 print;
+#X obj 473 180 r \$0-list-out;
+#X obj 44 41 loadbang;
+#X obj 254 220 s \$0-list-in;
+#X obj 253 63 r \$0-set-list;
+#X msg 253 110 set 4 dog 5 6 donkey;
+#X obj 395 66 r \$0-set-empty;
+#X msg 422 115 set;
+#X msg 470 115 bang;
+#X obj 519 66 r \$0-bang;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 3 1 4 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 7 0 6 0;
+#X connect 8 0 1 0;
+#X connect 10 0 11 0;
+#X connect 11 0 9 0;
+#X connect 12 0 13 0;
+#X connect 13 0 9 0;
+#X connect 14 0 9 0;
+#X connect 15 0 14 0;
+#X restore 158 176 pd guts;
+#X obj 71 36 bng 15 250 50 0 \$0-set-list empty set\ list 17 7 0 10
+#fcfcfc #000000 #000000;
+#X obj 161 36 bng 15 250 50 0 \$0-set-empty empty set\ empty 17 7 0
+10 #fcfcfc #000000 #000000;
+#X obj 161 68 bng 15 250 50 0 \$0-bang empty bang 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X listbox 75 224 0 0 0 2 zero-width \$0-list-in \$0-list-out 0;

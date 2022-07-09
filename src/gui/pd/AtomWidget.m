@@ -12,11 +12,6 @@
 
 #import "Gui.h"
 
-@interface AtomWidget () {
-	int cornerSize; //< bent corner pixel size
-}
-@end
-
 @implementation AtomWidget
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {

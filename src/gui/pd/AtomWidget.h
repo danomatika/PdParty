@@ -11,7 +11,9 @@
 #import "Widget.h"
 
 /// a pd atom gui baseclass
-@interface AtomWidget : Widget
+@interface AtomWidget : Widget {
+	int cornerSize; //< bent corner pixel size
+}
 
 @property (assign, nonatomic) int labelPos; //< LRUD positioning
 

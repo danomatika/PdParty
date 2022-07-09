@@ -1,24 +1,24 @@
 #N canvas 436 68 313 398 10;
-#X floatatom 65 16 5 0 0 0 number number-in number-out, f 5;
-#X symbolatom 65 46 10 0 0 0 symbol symbol-out -, f 10;
-#X text 62 84 comment;
-#X obj 210 16 bng 15 250 50 0 bang-in empty bang 17 7 0 10 -262144
--1 -1;
-#X obj 210 46 tgl 15 0 empty toggle-in toggle 17 7 0 10 -262144 -1
--1 0 1;
+#X floatatom 65 16 5 0 0 0 number number-in number-out 0;
+#X symbolatom 65 46 10 0 0 0 symbol symbol-in - 0;
+#X text 28 279 comment;
+#X obj 210 16 bng 15 250 50 0 empty bang-in bang 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 210 46 tgl 15 0 empty toggle-in toggle 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X obj 210 88 nbx 5 14 -1e+37 1e+37 0 0 number2-out number2-in number2
-0 -8 0 10 -262144 -1 -1 0 256;
+0 -8 0 10 #fcfcfc #000000 #000000 0 256;
 #X obj 44 125 vsl 15 128 0 127 0 0 vslider-out vslider-in vslider 0
--9 0 10 -262144 -1 -1 0 1;
+-9 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 14 325 hsl 128 15 0 127 0 0 hslider-out hslider-in hslider -2
--8 0 10 -262144 -1 -1 0 1;
+-8 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 118 127 vradio 15 1 0 8 vradio-out vradio-in vradio 0 -8 0 10
--262144 -1 -1 0;
+#fcfcfc #000000 #000000 0;
 #X obj 99 364 hradio 15 1 0 8 hradio-out hradio-in hradio 0 -8 0 10
--262144 -1 -1 0;
-#X obj 210 126 vu 15 120 vu-in vu -1 -8 0 10 -66577 -1 1 0;
-#X obj 175 280 cnv 15 100 60 empty empty canvas 20 12 0 14 -233017
--66577 0;
+#fcfcfc #000000 #000000 0;
+#X obj 210 126 vu 15 120 vu-in vu -1 -8 0 10 #404040 #000000 1 0;
+#X obj 175 280 cnv 15 100 60 empty empty canvas 20 12 0 14 #e0e0e0
+#404040 0;
 #N canvas 786 272 341 123 guts 0;
 #X obj 36 21 r hslider-out;
 #X obj 36 65 s number-in;
@@ -31,4 +31,5 @@
 #X connect 2 0 3 0;
 #X connect 4 0 2 0;
 #X connect 5 0 6 0;
-#X restore 24 279 pd guts;
+#X restore 98 279 pd guts;
+#X listbox 65 74 20 0 0 0 list list-in - 0;
