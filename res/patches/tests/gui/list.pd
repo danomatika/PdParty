@@ -33,10 +33,10 @@
 #X connect 14 0 9 0;
 #X connect 15 0 14 0;
 #X restore 158 176 pd guts;
-#X obj 71 36 bng 15 250 50 0 \$0-set-list empty set\ list 17 7 0 10
-#fcfcfc #000000 #000000;
-#X obj 161 36 bng 15 250 50 0 \$0-set-empty empty set\ empty 17 7 0
+#X obj 71 36 bng 15 250 50 0 \$0-set-list empty set\\\ list 17 7 0
 10 #fcfcfc #000000 #000000;
+#X obj 161 36 bng 15 250 50 0 \$0-set-empty empty set\\\ empty 17 7
+0 10 #fcfcfc #000000 #000000;
 #X obj 161 68 bng 15 250 50 0 \$0-bang empty bang 17 7 0 10 #fcfcfc
 #000000 #000000;
-#X listbox 75 224 0 0 0 2 zero-width \$0-list-in \$0-list-out 0;
+#X listbox 75 224 0 0 0 2 zero-width \$0-list-in - 0;
