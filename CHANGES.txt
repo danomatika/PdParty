@@ -2,6 +2,7 @@
 
 beta2
 
+* fixed Bluetooth and AirPlay not actually enabled (reported by Peter Gahn)
 * fixed open via pdparty:// url null path handling (reported by Josef Novotny)
 
 beta1
@@ -27,7 +28,7 @@ beta1
 * added location update background mode to help keep GPS events (more) alive
 * added numerous device template patches to composerpack
 
-* replace launch screen image asset with launch screen storyboard to fix iOS 13
+* replaced launch screen image asset with launch screen storyboard to fix iOS 13
   deprecation warning
 * prefer opening a min of 2 audio inputs and 2 audio outputs 
 * set default mic volume to 0.25
