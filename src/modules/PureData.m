@@ -48,7 +48,6 @@
 		audioController = [[PdAudioController alloc] init];
 		audioController.mixWithOthers = YES;
 		audioController.preferStereo = YES;
-		audioController.allowBluetooth = YES;
 		audioController.allowBluetoothA2DP = YES;
 		audioController.allowAirPlay = YES;
 		audioController.defaultToSpeaker = ![defaults boolForKey:@"earpieceSpeakerEnabled"];
