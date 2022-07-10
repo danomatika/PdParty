@@ -685,15 +685,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="704" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nEa-Ve-3Nt">
-                                                    <rect key="frame" x="20" y="11" width="100" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nEa-Ve-3Nt">
+                                                    <rect key="frame" x="20" y="11" width="47.5" height="22"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h87-hL-Oxm">
-                                                    <rect key="frame" x="354" y="11.5" width="330" height="21"/>
+                                                    <rect key="frame" x="354" y="12.5" width="330" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="330" id="7NX-0K-JHO"/>
                                                     </constraints>
@@ -702,8 +701,13 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="nEa-Ve-3Nt" firstAttribute="centerY" secondItem="h87-hL-Oxm" secondAttribute="centerY" id="9kr-C1-FAo"/>
                                                 <constraint firstItem="h87-hL-Oxm" firstAttribute="centerY" secondItem="IWq-2f-SUN" secondAttribute="centerY" id="INp-w1-sTR"/>
+                                                <constraint firstItem="nEa-Ve-3Nt" firstAttribute="leading" secondItem="IWq-2f-SUN" secondAttribute="leadingMargin" id="IrE-6n-Of1"/>
+                                                <constraint firstItem="nEa-Ve-3Nt" firstAttribute="baseline" secondItem="h87-hL-Oxm" secondAttribute="firstBaseline" id="Oqh-Su-fEI"/>
+                                                <constraint firstItem="nEa-Ve-3Nt" firstAttribute="top" secondItem="IWq-2f-SUN" secondAttribute="topMargin" id="Qk3-Ba-bGh"/>
                                                 <constraint firstItem="h87-hL-Oxm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IWq-2f-SUN" secondAttribute="leading" constant="20" symbolic="YES" id="RFP-RF-VpY"/>
+                                                <constraint firstItem="h87-hL-Oxm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nEa-Ve-3Nt" secondAttribute="trailing" constant="8" symbolic="YES" id="dOQ-wf-hMt"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
@@ -718,14 +722,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="704" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Artist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSd-FY-OZs">
-                                                    <rect key="frame" x="20" y="11" width="100" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSd-FY-OZs">
+                                                    <rect key="frame" x="20" y="11" width="46" height="22"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="af4-4f-cok">
-                                                    <rect key="frame" x="354" y="11.5" width="330" height="21"/>
+                                                    <rect key="frame" x="354" y="12.5" width="330" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="330" id="9f2-4c-4xt"/>
                                                     </constraints>
@@ -735,6 +738,11 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="af4-4f-cok" firstAttribute="centerY" secondItem="yCc-V5-Bx3" secondAttribute="centerY" id="4ge-oH-nJc"/>
+                                                <constraint firstItem="af4-4f-cok" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eSd-FY-OZs" secondAttribute="trailing" constant="8" symbolic="YES" id="MNg-MH-OxO"/>
+                                                <constraint firstItem="eSd-FY-OZs" firstAttribute="baseline" secondItem="af4-4f-cok" secondAttribute="firstBaseline" id="Oxd-Te-Mi0"/>
+                                                <constraint firstItem="eSd-FY-OZs" firstAttribute="top" secondItem="yCc-V5-Bx3" secondAttribute="topMargin" id="ZP1-yY-Dpc"/>
+                                                <constraint firstItem="eSd-FY-OZs" firstAttribute="centerY" secondItem="af4-4f-cok" secondAttribute="centerY" id="aR2-cm-6lU"/>
+                                                <constraint firstItem="eSd-FY-OZs" firstAttribute="leading" secondItem="yCc-V5-Bx3" secondAttribute="leadingMargin" id="uSq-9Y-dGs"/>
                                                 <constraint firstItem="af4-4f-cok" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yCc-V5-Bx3" secondAttribute="leading" constant="20" symbolic="YES" id="xqC-8P-GkB"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -750,14 +758,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="704" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Category" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2j-S3-IU8">
-                                                    <rect key="frame" x="20" y="11" width="100" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2j-S3-IU8">
+                                                    <rect key="frame" x="20" y="11" width="76" height="22"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8TW-Pi-jCo">
-                                                    <rect key="frame" x="354" y="11.5" width="330" height="21"/>
+                                                    <rect key="frame" x="354" y="12.5" width="330" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="330" id="IFm-cz-zxp"/>
                                                     </constraints>
@@ -766,8 +773,13 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="X2j-S3-IU8" firstAttribute="baseline" secondItem="8TW-Pi-jCo" secondAttribute="firstBaseline" id="2vI-7O-OQi"/>
+                                                <constraint firstItem="X2j-S3-IU8" firstAttribute="centerY" secondItem="8TW-Pi-jCo" secondAttribute="centerY" id="3zL-7P-HH4"/>
                                                 <constraint firstItem="8TW-Pi-jCo" firstAttribute="centerY" secondItem="tNQ-5g-AOX" secondAttribute="centerY" id="6VH-8e-YIk"/>
+                                                <constraint firstItem="X2j-S3-IU8" firstAttribute="top" secondItem="tNQ-5g-AOX" secondAttribute="topMargin" id="CsZ-gS-ae9"/>
                                                 <constraint firstItem="8TW-Pi-jCo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tNQ-5g-AOX" secondAttribute="leading" constant="20" symbolic="YES" id="GqW-wA-xKE"/>
+                                                <constraint firstItem="8TW-Pi-jCo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="X2j-S3-IU8" secondAttribute="trailing" constant="8" symbolic="YES" id="T5f-cW-OiZ"/>
+                                                <constraint firstItem="X2j-S3-IU8" firstAttribute="leading" secondItem="tNQ-5g-AOX" secondAttribute="leadingMargin" id="xf6-QU-Znz"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
