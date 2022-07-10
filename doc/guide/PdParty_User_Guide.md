@@ -311,6 +311,8 @@ The audio device PdParty uses for input & output is the current device used by t
 
 Input & output are stereo (2 channel) by default. As of version 1.2.0, PdParty will attempt to use the maximum number of input or output channels supported by the current device, depending whichever is greater. As with desktop Pure Data, any extra input or output channels beyond those used by the current device are ignored. Note that the [soundinput] and [soundoutput] abstractions are stereo only, so you will need to roll your own i/o using [adc\~] & [dac\~] objects.
 
+As of version 1.3.0, the audio samplerate for non-RjDj scenes is selectable between 48000 (default), 41000, and 96000.
+
 ### Scenes
 
 PdParty also supports running "scenes" which are basically folders with a specific layout that are treated as a single entity for encapsulation and have certain event attributes:
@@ -329,7 +331,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * \#touch positions are normalized from 0-320
   * optional sensors accessed by abstractions: [rj\_loc], [rj\_compass], & [rj\_time]
   * does not support game controllers
-  * 22050 samplerate
+  * fixed 22050 samplerate
 * PdDroidParty scenes
   * a folder that contains a droidparty_main.pd patch
   * locked to landscape
@@ -338,7 +340,6 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * does not require the following events (#accelerate, #touch, or [key]/[keyup])
   * sensors are accessed by the [droidsystem] abstraction
   * does not support game controllers
-  * 44100 samplerate
 * PdParty scenes
   * a folder that contains a _main.pd patch
   * portrait or landscape
@@ -353,7 +354,6 @@ PdParty also supports running "scenes" which are basically folders with a specif
   * sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, & \#time
   * sensors are enabled & updated via control messages to \#pdparty
   * supports game controllers
-  * 44100 samplerate
 
 Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene.
 

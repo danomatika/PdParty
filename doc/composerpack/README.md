@@ -82,7 +82,6 @@ This scene type provided compatibility with PdDroidParty on Android, except for 
 * a folder that contains a droidparty_main.pd patch
 * an optional background image named "background.png" which should have a landscape aspect ratio
 * an optional font named "font.ttf" or "font-antialiased.ttf"
-* 44100 samplerate
 * landscape orientation only
   
 ### PdParty scene
@@ -92,7 +91,6 @@ This scene type basically acts as a wrapper around a patch folder.
 * a folder that contains a _main.pd patch
 * an optional info json file named "info.json"
 * requires all event types
-* 44100 samplerate
 * landscape or portrait orientation is interpreted from the canvas size
   
 Running a regular .pd patch is the same as running a PdParty scene.
