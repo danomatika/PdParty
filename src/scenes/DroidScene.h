@@ -22,7 +22,7 @@
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
-/// returns true if a given path is a DroidParty scene dir
+/// returns YES if a given path is a DroidParty scene dir
 + (BOOL)isDroidPartyDirectory:(NSString *)fullpath;
 
 @end

@@ -16,7 +16,7 @@
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
-/// returns true if the given path is a PdParty scene dir
+/// returns YES if the given path is a PdParty scene dir
 + (BOOL)isPdPartyDirectory:(NSString *)fullpath;
 
 /// returns a thumbnail.jpg for a given RjDj scene dir, falls back to image.jpg

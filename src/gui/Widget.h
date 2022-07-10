@@ -107,7 +107,7 @@ typedef enum {
 
 #pragma mark Sending
 
-/// returns true if the widget has a non empty send or recieve name
+/// returns YES if the widget has a non empty send or recieve name
 - (BOOL)hasValidSendName;
 - (BOOL)hasValidReceiveName;
 

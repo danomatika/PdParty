@@ -63,7 +63,7 @@
 - (void)addVUMeter:(NSArray *)atomLine;
 - (void)addCanvas:(NSArray *)atomLine;
 
-/// add a widget using the object type name, returns true if type handled
+/// add a widget using the object type name, returns YES if type handled
 /// subclass this to add additional type creation & don't forget to call super
 ///
 /// level refers to the patch canvas level where:

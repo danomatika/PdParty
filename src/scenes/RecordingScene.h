@@ -34,7 +34,7 @@
 
 + (id)sceneWithParent:(UIView *)parent;
 
-/// returns true if a given path is a recording file aka .wav/.wave/.aif/.aiff
+/// returns YES if a given path is a recording file aka .wav/.wave/.aif/.aiff
 + (BOOL)isRecording:(NSString *)fullpath;
 
 @end

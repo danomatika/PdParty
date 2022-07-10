@@ -25,7 +25,7 @@
 
 + (id)sceneWithParent:(UIView *)parent andDispatcher:(PdDispatcher *)dispatcher;
 
-/// returns true if the given path is an RjDj scene dir
+/// returns YES if the given path is an RjDj scene dir
 + (BOOL)isRjDjDirectory:(NSString *)fullpath;
 
 /// returns a thumbnail.jpg for a given RjDj scene dir, falls back to image.jpg

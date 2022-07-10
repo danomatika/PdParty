@@ -16,7 +16,7 @@
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
-/// returns true if the given path is an patch file
+/// returns YES if the given path is an patch file
 + (BOOL)isPatchFile:(NSString *)fullpath;
 
 @end

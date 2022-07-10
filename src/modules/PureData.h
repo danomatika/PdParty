@@ -217,7 +217,7 @@
 
 #pragma mark Find
 
-/// returns true if an object of a given name current exists in a patch
+/// returns YES if an object of a given name current exists in a patch
 /// or it's subpatches/abstraction instances, this is using the Pd Find guts
 + (BOOL)objectExists:(NSString *)name inPatch:(PdFile *)patch;
 
