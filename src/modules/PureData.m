@@ -131,10 +131,6 @@
 	updateLink = nil;
 }
 
-- (int)userSampleRate {
-	return (int)[NSUserDefaults.standardUserDefaults integerForKey:@"sampleRate"];
-}
-
 - (int)calculateBufferSize {
 	return audioController.ticksPerBuffer * [PdBase getBlockSize];
 }
@@ -601,16 +597,6 @@
 	}
 }
 
-- (BOOL)isAudioEnabled {
-	return audioController.active;
-}
-
-- (void)setAudioEnabled:(BOOL)enabled {
-	if(audioController.active == enabled) return;
-	audioController.active = enabled;
-	updateLink.paused = !enabled;
-}
-
 - (BOOL)earpieceSpeaker {
 	return (Util.isDeviceAPhone ? !audioController.defaultToSpeaker : NO);
 }
@@ -619,6 +605,24 @@
 	if(!Util.isDeviceAPhone) return;
 	audioController.defaultToSpeaker = !earpieceSpeaker;
 	[NSUserDefaults.standardUserDefaults setBool:earpieceSpeaker forKey:@"earpieceSpeakerEnabled"];
+}
+
+- (int)userSampleRate {
+	return (int)[NSUserDefaults.standardUserDefaults integerForKey:@"sampleRate"];
+}
+
+- (void)setUserSampleRate:(int)userSampleRate {
+	[NSUserDefaults.standardUserDefaults setInteger:userSampleRate forKey:@"sampleRate"];
+}
+
+- (BOOL)isAudioEnabled {
+	return audioController.active;
+}
+
+- (void)setAudioEnabled:(BOOL)enabled {
+	if(audioController.active == enabled) return;
+	audioController.active = enabled;
+	updateLink.paused = !enabled;
 }
 
 - (void)setPlaying:(BOOL)playing {

@@ -17,6 +17,7 @@
 
 @interface SettingsViewController () {
 	AppDelegate *app;
+	NSArray *sampleRateValues;
 	NSArray *ticksPerBufferValues;
 }
 @end
@@ -36,13 +37,23 @@
 	self.oscControllersEnabledSwitch.on = app.osc.controllerSendingEnabled;
 	self.oscKeyEnabledSwitch.on = app.osc.keySendingEnabled;
 	self.oscPrintEnabledSwitch.on = app.osc.printSendingEnabled;
-	
+
+	sampleRateValues = @[@(48000), @(41000), @(96000)];
+	int userSampleRate = [app.pureData userSampleRate];
+	for(int i = 0; i < (int)sampleRateValues.count; ++i) {
+		NSNumber *value = sampleRateValues[i];
+		if(userSampleRate == [value intValue]) {
+			self.sampleRateSegmentedControl.selectedSegmentIndex = i;
+			break;
+		}
+	}
+
 	self.autoLatencySwitch.on = app.pureData.autoLatency;
 	self.ticksPerBufferSegmentedControl.enabled = !app.pureData.autoLatency;
 	self.ticksPerBufferSegmentedControl.userInteractionEnabled = !app.pureData.autoLatency;
 	ticksPerBufferValues = @[@(1), @(2), @(4), @(8), @(16), @(32)];
 	for(int i = 0; i < (int)ticksPerBufferValues.count; ++i) {
-		NSNumber *value = [ticksPerBufferValues objectAtIndex:i];
+		NSNumber *value = ticksPerBufferValues[i];
 		if(app.pureData.ticksPerBuffer <= [value intValue]) {
 			self.ticksPerBufferSegmentedControl.selectedSegmentIndex = i;
 			break;
@@ -99,6 +110,18 @@
 	}
 }
 
+#pragma mark Audio Sample Rate
+
+- (IBAction)sampleRateChanged:(id)sender {
+	// get value from array
+	int index = (int)self.sampleRateSegmentedControl.selectedSegmentIndex;
+	int sampleRate = [sampleRateValues[index] intValue];
+	app.pureData.userSampleRate = sampleRate;
+	if(app.sceneManager.scene.sampleRate == USER_SAMPLERATE) {
+		app.pureData.sampleRate = sampleRate;
+	}
+}
+
 #pragma mark Audio Latency
 
 - (IBAction)autoLatencyChanged:(id)sender {
@@ -110,7 +133,7 @@
 - (IBAction)ticksPerBufferChanged:(id)sender {
 	// get value from array
 	int index = (int)self.ticksPerBufferSegmentedControl.selectedSegmentIndex;
-	app.pureData.ticksPerBuffer = [[ticksPerBufferValues objectAtIndex:index] intValue];
+	app.pureData.ticksPerBuffer = [ticksPerBufferValues[index] intValue];
 	[self updateLatencyLabel];
 }
 

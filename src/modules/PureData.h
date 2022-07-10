@@ -104,8 +104,9 @@
 /// only has effect on iPhone, always NO on iPad or iPod
 @property (nonatomic) BOOL earpieceSpeaker;
 
-/// retrieve saved sample rate from current user defaults
-- (int)userSampleRate;
+/// preferred sample rate from current user defaults (default: 48000)
+/// does not affect or reflect current sampleRate value
+@property (nonatomic) int userSampleRate;
 
 /// calculate the buffer size based on pd's block size:
 /// buffer size = ticks per buffer * block size (64)

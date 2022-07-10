@@ -32,6 +32,12 @@
 
 - (IBAction)oscEventTypeChanged:(id)sender;
 
+#pragma mark Audio Sample Rate
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *sampleRateSegmentedControl;
+
+- (IBAction)sampleRateChanged:(id)sender;
+
 #pragma mark Audio Latency
 
 @property (weak, nonatomic) IBOutlet UISwitch *autoLatencySwitch;
