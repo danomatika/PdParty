@@ -1,7 +1,7 @@
 #N canvas 729 201 166 195 10;
-#X symbolatom 32 34 10 0 0 1 sym1 sym1-in sym1-out, f 10;
-#X obj 33 66 tgl 15 0 sym1-change empty sym1_change 17 7 0 10 -262144
--1 -1 0 1;
+#X symbolatom 32 34 10 0 0 1 sym1 sym1-in sym1-out 0;
+#X obj 33 66 tgl 15 0 sym1-change empty sym1_change 17 7 0 10 #fcfcfc
+#000000 #000000 0 1;
 #N canvas 413 345 335 205 guts 0;
 #X obj 33 60 sel 0;
 #X msg 33 101 hello;
@@ -11,6 +11,10 @@
 #X obj 33 171 s sym1-in;
 #X obj 132 16 loadbang;
 #X msg 132 49 \; sym2-in symbol test12345678910;
+#X obj 135 140 r sym1-out;
+#X obj 135 173 print sym1;
+#X obj 220 172 print sym2;
+#X obj 220 140 r sym2-out;
 #X connect 0 0 1 0;
 #X connect 0 1 2 0;
 #X connect 1 0 4 0;
@@ -18,6 +22,8 @@
 #X connect 3 0 0 0;
 #X connect 4 0 5 0;
 #X connect 6 0 7 0;
+#X connect 8 0 9 0;
+#X connect 11 0 10 0;
 #X restore 6 8 pd guts;
-#X symbolatom 33 116 15 0 0 0 sym2 sym2-in -, f 15;
-#X symbolatom 35 164 0 0 0 2 zero-width sym1-in -;
+#X symbolatom 33 116 15 0 0 0 sym2 sym2-in sym2-out 0;
+#X symbolatom 35 164 0 0 0 2 zero-width sym1-in - 0;

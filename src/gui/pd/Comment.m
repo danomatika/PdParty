@@ -30,6 +30,7 @@
 			[line[2] floatValue], [line[3] floatValue],
 			0, 0); // size based on label size
 
+		// TODO: is this needed with the binbuf reader?
 		// create the comment string, handle escaped chars
 		NSMutableString *text = [NSMutableString string];
 		BOOL appendSpace = NO;

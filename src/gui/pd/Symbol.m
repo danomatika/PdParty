@@ -16,7 +16,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 11) { // sanity check
-		DDLogWarn(@"Symbolbox: cannot create, atom line length < 11");
+		DDLogWarn(@"Symbol: cannot create, atom line length < 11");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -25,7 +25,7 @@
 		self.receiveName = [Gui filterEmptyStringValues:line[9]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Symbolbox: dropping, send/receive names are empty");
+			DDLogVerbose(@"Symbol: dropping, send/receive names are empty");
 			return nil;
 		}
 		
@@ -36,7 +36,7 @@
 		self.valueWidth = [line[4] intValue];
 		self.minValue = [line[5] floatValue];
 		self.maxValue = [line[6] floatValue];
-		self.symbol = @"symbol";
+		self.symbol = @"";
 			
 		self.labelPos = [line[7] intValue];
 		self.label.text = [Gui filterEmptyStringValues:line[8]];
@@ -46,8 +46,9 @@
 
 #pragma mark Overridden Getters / Setters
 
+// catch empty string to keep label height
 - (void)setSymbol:(NSString *)symbol {
-	self.valueLabel.text = symbol;
+	self.valueLabel.text = ([symbol isEqualToString:@""] ? @" " : symbol);
 	if(self.valueWidth == 0) {
 		[self reshape];
 	}

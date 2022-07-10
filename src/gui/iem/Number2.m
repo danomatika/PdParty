@@ -27,7 +27,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 23) { // sanity check
-		DDLogWarn(@"Numberbox2: cannot create, atom line length < 23");
+		DDLogWarn(@"Number2: cannot create, atom line length < 23");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
