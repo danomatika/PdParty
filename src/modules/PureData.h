@@ -50,8 +50,8 @@
 #define PARTY_OSC_R        @"pdparty"
 
 // sample rates
-#define PARTY_SAMPLERATE 44100
-#define RJ_SAMPLERATE    22050
+#define USER_SAMPLERATE     -1 // user defaults sample rate
+#define RJ_SAMPLERATE    22050 // fixed sample rate
 
 #define RECORDINGS_DIR  @"recordings" //< in the Documents dir
 
@@ -103,6 +103,9 @@
 /// playback audio through the phone earpiece speaker (default: NO)
 /// only has effect on iPhone, always NO on iPad or iPod
 @property (nonatomic) BOOL earpieceSpeaker;
+
+/// retrieve saved sample rate from current user defaults
+- (int)userSampleRate;
 
 /// calculate the buffer size based on pd's block size:
 /// buffer size = ticks per buffer * block size (64)

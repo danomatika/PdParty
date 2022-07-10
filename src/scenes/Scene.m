@@ -90,7 +90,7 @@
 }
 
 - (int)sampleRate {
-	return PARTY_SAMPLERATE;
+	return USER_SAMPLERATE;
 }
 
 - (BOOL)requiresTouch {

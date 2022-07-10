@@ -51,7 +51,7 @@
 		audioController.allowBluetoothA2DP = YES;
 		audioController.allowAirPlay = YES;
 		audioController.defaultToSpeaker = ![defaults boolForKey:@"earpieceSpeakerEnabled"];
-		self.sampleRate = PARTY_SAMPLERATE; //< audio unit set up here
+		self.sampleRate = (int)[defaults integerForKey:@"sampleRate"]; //< audio unit set up here
 		if(ddLogLevel >= DDLogLevelVerbose) {
 			[audioController print];
 		}
@@ -129,6 +129,10 @@
 		[updateLink invalidate];
 	}
 	updateLink = nil;
+}
+
+- (int)userSampleRate {
+	return (int)[NSUserDefaults.standardUserDefaults integerForKey:@"sampleRate"];
 }
 
 - (int)calculateBufferSize {

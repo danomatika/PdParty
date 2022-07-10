@@ -123,7 +123,12 @@
 	}
 	if(self.scene.requiresPd) {
 		self.pureData.audioEnabled = YES;
-		self.pureData.sampleRate = self.scene.sampleRate;
+		if(self.scene.sampleRate == USER_SAMPLERATE) {
+			self.pureData.sampleRate = [self.pureData userSampleRate];
+		}
+		else {
+			self.pureData.sampleRate = self.scene.sampleRate;
+		}
 		self.pureData.playing = YES;
 	}
 	if([self.scene open:path]) {

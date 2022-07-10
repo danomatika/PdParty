@@ -24,6 +24,8 @@
 	<true/>
 	<key>ticksPerBuffer</key>
 	<integer>16</integer>
+	<key>sampleRate</key>
+	<integer>48000</integer>
 	<key>oscSendHost</key>
 	<string>localhost</string>
 	<key>oscSendPort</key>

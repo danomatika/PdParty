@@ -44,7 +44,7 @@ typedef enum {
 @property (weak, nonatomic) UIView *parentView; //< parent UIView
 @property (weak, nonatomic) Gui *gui; //< PD gui (optional, leave nil if not used)
 
-/// desired scene sample rate (default PARTY_SAMPLERATE)
+/// desired scene sample rate (default USER_SAMPLERATE)
 @property (readonly, nonatomic) int sampleRate;
 
 @property (readonly, nonatomic) BOOL requiresTouch; //< does the scene require touch events? (default NO)
