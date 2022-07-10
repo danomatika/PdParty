@@ -17,18 +17,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="HlN-Os-uBv">
-                                <rect key="frame" x="20" y="80" width="280" height="408"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="HlN-Os-uBv" secondAttribute="trailing" constant="20" id="1Ab-Os-Q1V"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="HlN-Os-uBv" secondAttribute="bottom" constant="80" id="2p6-nj-tQu"/>
-                            <constraint firstItem="HlN-Os-uBv" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="20" id="6tk-zr-7IA"/>
-                            <constraint firstItem="HlN-Os-uBv" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="80" id="wyr-YY-PJ8"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="HlN-Os-uBv" secondAttribute="trailing" id="1Ab-Os-Q1V"/>
+                            <constraint firstItem="HlN-Os-uBv" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="6tk-zr-7IA"/>
+                            <constraint firstAttribute="bottom" secondItem="HlN-Os-uBv" secondAttribute="bottom" id="hCx-Ru-kuY"/>
+                            <constraint firstItem="HlN-Os-uBv" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="wyr-YY-PJ8"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="splashTopConstraint" destination="wyr-YY-PJ8" id="MTh-CI-UgC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

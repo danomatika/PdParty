@@ -21,12 +21,10 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	self.view.backgroundColor = UIColor.whiteColor;
-	
 	// set size in iPad popup
-	if(Util.isDeviceATablet) {
-		self.preferredContentSize = CGSizeMake(320.0, 600.0);
-	}
+//	if(Util.isDeviceATablet) {
+//		self.preferredContentSize = CGSizeMake(320.0, 600.0);
+//	}
 	
 	// do not extend under nav bar
 	self.edgesForExtendedLayout = UIRectEdgeNone;

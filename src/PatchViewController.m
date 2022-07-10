@@ -487,7 +487,7 @@
 }
 
 - (void)addBackground {
-	self.background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"patchview_bg"]];
+	self.background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash"]];
 	self.background.contentMode = UIViewContentModeScaleAspectFit;
 	[self.view addSubview:self.background];
 }

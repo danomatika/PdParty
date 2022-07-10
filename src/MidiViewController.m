@@ -157,8 +157,14 @@
 			                                 reuseIdentifier:@"MidiConnectionCell"];
 		}
 		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-		cell.textLabel.textColor = UIColor.blackColor;
-		cell.detailTextLabel.textColor = UIColor.blackColor;
+		if(@available(iOS 13.0, *)) {
+			cell.textLabel.textColor = UIColor.labelColor;
+			cell.detailTextLabel.textColor = UIColor.labelColor;
+		}
+		else {
+			cell.textLabel.textColor = UIColor.blackColor;
+			cell.detailTextLabel.textColor = UIColor.blackColor;
+		}
 
 		BOOL enabled = NO;
 		NSArray *array = (indexPath.section == INPUTS_SECTION ? midi.inputs : midi.outputs);

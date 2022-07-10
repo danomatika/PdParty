@@ -579,11 +579,16 @@
 		                               isDir:(BOOL)isDir
                                 isSelectable:(BOOL)isSelectable {
 	if(isSelectable) {
-		cell.textLabel.textColor = UIColor.blackColor;
+		if(@available(iOS 13.0, *)) {
+			cell.textLabel.textColor = UIColor.labelColor;
+		}
+		else {
+			cell.textLabel.textColor = UIColor.blackColor;
+		}
 		cell.selectionStyle = UITableViewCellSelectionStyleDefault;
 	}
 	else {
-		cell.textLabel.textColor = UIColor.grayColor;
+		cell.textLabel.textColor = UIColor.systemGrayColor;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 	if(isDir) {
@@ -593,6 +598,14 @@
 	else { // files
 		[cell setAccessoryType:UITableViewCellAccessoryNone];
 		cell.textLabel.text = path.lastPathComponent;
+	}
+
+	// tint applied to template images
+	if(@available(iOS 13.0, *)) {
+		cell.imageView.tintColor = UIColor.labelColor;
+	}
+	else {
+		cell.imageView.tintColor = UIColor.blackColor;
 	}
 }
 

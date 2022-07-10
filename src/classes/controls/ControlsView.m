@@ -139,7 +139,7 @@
 		];
 
 		// colors
-		self.lightBackground = false;
+		self.lightBackground = NO;
 	}
     return self;
 }
