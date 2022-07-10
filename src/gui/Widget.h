@@ -17,8 +17,8 @@
 @class PdFile;
 
 /// defaults
-#define WIDGET_FILL_COLOR [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]
-#define WIDGET_FRAME_COLOR [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]
+#define WIDGET_FILL_COLOR UIColor.whiteColor
+#define WIDGET_FRAME_COLOR UIColor.blackColor
 
 /// for widgets supporting orientation
 typedef enum {

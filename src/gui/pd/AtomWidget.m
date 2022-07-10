@@ -20,6 +20,7 @@
 		self.valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.valueLabel.textAlignment = NSTextAlignmentLeft;
 		self.valueLabel.lineBreakMode = NSLineBreakByClipping;
+		self.valueLabel.textColor = WIDGET_FRAME_COLOR;
 		self.valueLabel.backgroundColor = UIColor.clearColor;
 		[self addSubview:self.valueLabel];
 	}
