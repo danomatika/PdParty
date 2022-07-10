@@ -193,9 +193,8 @@
                                                         <action selector="behaviorChanged:" destination="iuf-Pb-1Gb" eventType="valueChanged" id="iRt-QL-qtc"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Activated via controls menu button" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="slc-6v-5bV">
-                                                    <rect key="frame" x="20" y="22" width="181" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activated via controls menu button" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="slc-6v-5bV">
+                                                    <rect key="frame" x="20" y="22" width="280" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -210,6 +209,10 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="l6t-Xs-WH0" secondAttribute="trailing" constant="20" symbolic="YES" id="4Az-Az-TNl"/>
                                                 <constraint firstItem="l6t-Xs-WH0" firstAttribute="centerY" secondItem="7sz-0k-Jpx" secondAttribute="centerY" constant="-6" id="9wR-Yx-ut2"/>
+                                                <constraint firstItem="slc-6v-5bV" firstAttribute="leading" secondItem="7sz-0k-Jpx" secondAttribute="leading" constant="20" symbolic="YES" id="CJ2-Cv-uIf"/>
+                                                <constraint firstItem="Ooa-CU-44h" firstAttribute="trailing" secondItem="slc-6v-5bV" secondAttribute="trailing" id="N7I-wj-4dC"/>
+                                                <constraint firstItem="slc-6v-5bV" firstAttribute="top" secondItem="7sz-0k-Jpx" secondAttribute="top" constant="22" id="Nb8-JN-v7Z"/>
+                                                <constraint firstAttribute="bottom" secondItem="slc-6v-5bV" secondAttribute="bottom" constant="1" id="WQO-7p-YNY"/>
                                                 <constraint firstItem="Ooa-CU-44h" firstAttribute="centerY" secondItem="7sz-0k-Jpx" secondAttribute="centerY" id="q1p-f2-Eg2"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -538,10 +541,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fe4-TW-KH6">
-                                                    <rect key="frame" x="248" y="7" width="52" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="52" id="b1b-d2-55G"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="264" y="7" width="36" height="30"/>
                                                     <state key="normal" title="Copy">
                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
@@ -580,10 +580,7 @@
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeK-Qm-BfY">
-                                                    <rect key="frame" x="248" y="7" width="52" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="52" id="1dr-dW-R9z"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="264" y="7" width="36" height="30"/>
                                                     <state key="normal" title="Copy">
                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
@@ -609,17 +606,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" text="tests" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wol-MO-6aa">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="tests" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wol-MO-6aa">
                                                     <rect key="frame" x="20" y="11.5" width="38" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLz-sA-Ugt">
-                                                    <rect key="frame" x="248" y="7" width="52" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="52" id="v5E-m0-1rs"/>
-                                                    </constraints>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLz-sA-Ugt">
+                                                    <rect key="frame" x="264" y="7" width="36" height="30"/>
                                                     <state key="normal" title="Copy">
                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
@@ -631,8 +625,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wol-MO-6aa" secondAttribute="trailing" constant="20" symbolic="YES" id="2UG-aT-9a4"/>
                                                 <constraint firstItem="fLz-sA-Ugt" firstAttribute="centerY" secondItem="J2v-5N-iP2" secondAttribute="centerY" id="3RA-LM-HTw"/>
+                                                <constraint firstItem="fLz-sA-Ugt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="J2v-5N-iP2" secondAttribute="trailing" constant="-56" id="4fF-wT-uRN"/>
                                                 <constraint firstItem="wol-MO-6aa" firstAttribute="leading" secondItem="J2v-5N-iP2" secondAttribute="leading" constant="20" id="QxO-er-0jG"/>
-                                                <constraint firstItem="fLz-sA-Ugt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="J2v-5N-iP2" secondAttribute="leading" constant="20" symbolic="YES" id="dEs-PO-k1s"/>
                                                 <constraint firstAttribute="trailing" secondItem="fLz-sA-Ugt" secondAttribute="trailing" constant="20" id="mXi-il-YR3"/>
                                                 <constraint firstItem="wol-MO-6aa" firstAttribute="centerY" secondItem="J2v-5N-iP2" secondAttribute="centerY" id="utR-EB-B7Z"/>
                                             </constraints>
