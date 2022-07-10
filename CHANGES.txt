@@ -4,8 +4,18 @@ beta3
 
 * fixed crash when using Bluetooth MIDI device due to missing privacy message
   (reported by Jonathan Pivar via TestFlight crashlog)
+* fixed TriSamp sample rate handling
 
-* added List widget
+* added List widget for pd 0.52
+* added dark mode support for native ui (not patch canvas)
+
+* non-rjdj scenes now use selectable sample rate in settings: 48k, 44.1k, or 96k 
+* default sample rate now 48000 to match modern devices
+* improved empty symbol handling and no longer require default 'symbol' text
+* various auto layout fixes
+
+* removed console view size constraint on ipad
+* removed unneeded patchview_bg
 
 beta2
 
