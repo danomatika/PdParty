@@ -19,6 +19,7 @@
 #define OSC_COMPASS_ADDR     @"/pdparty/compass"
 #define OSC_TIME_ADDR        @"/pdparty/time"
 #define OSC_MAGNET_ADDR      @"/pdparty/magnet"
+#define OSC_MOTION_ADDR      @"/pdparty/motion"
 #define OSC_CONTROLLER_ADDR  @"/pdparty/controller"
 #define OSC_SHAKE_ADDR       @"/pdparty/shake"
 #define OSC_KEY_ADDR         @"/pdparty/key"
@@ -82,6 +83,18 @@
 
 /// droid party magnetometer event
 - (void)sendMagnet:(float)x y:(float)y z:(float)z;
+
+/// pdparty motion attitude event
+- (void)sendMotionAttitude:(float)pitch roll:(float)roll yaw:(float)yaw;
+
+/// pdparty motion rotation rate event
+- (void)sendMotionRotation:(float)x y:(float)y z:(float)z;
+
+/// pdparty motion gravity acceleration event
+- (void)sendMotionGravity:(float)x y:(float)y z:(float)z;
+
+/// pdparty motion user acceleration event
+- (void)sendMotionUser:(float)x y:(float)y z:(float)z;
 
 /// pdparty game controller connect/disconnect event
 - (void)sendEvent:(NSString *)event forController:(NSString *)controller;

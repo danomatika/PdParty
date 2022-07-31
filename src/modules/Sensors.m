@@ -11,6 +11,7 @@
 #import "Sensors.h"
 
 #import <CoreMotion/CoreMotion.h>
+#import <CoreMotion/CMDeviceMotion.h>
 #import "PureData.h"
 #import "Osc.h"
 #import "Util.h"
@@ -22,10 +23,11 @@
 #define SENSOR_GAME_HZ    60.0
 #define SENSOR_FASTEST_HZ 100.0
 
-//#define DEBUG_SENSORS
+#define DEBUG_SENSORS
 
 @interface Sensors () {
-	CMMotionManager *motionManager; //< for accel data
+	CMMotionManager *motionManager; //< for sensor data
+	NSOperationQueue *motionQueue; //< processed motion queue
 	CLLocationManager *locationManager; //< for location data
 	BOOL hasIgnoredStartingLocation; //< ignore the initial, old location
 }
@@ -39,6 +41,7 @@
 		
 		// init motion manager
 		motionManager = [[CMMotionManager alloc] init];
+		motionQueue = [[NSOperationQueue alloc] init];
 		
 		// current UI orientation for accel
 		if(Util.isDeviceATablet) { // iPad can started rotated
@@ -89,6 +92,8 @@
 	self.compassFilter = 1;
 	self.magnetAutoUpdates = YES;
 	self.magnetSpeed = @"normal";
+	self.motionSpeed = @"normal";
+	self.motionAutoUpdates = YES;
 }
 
 #pragma mark Accel
@@ -100,7 +105,7 @@
 	_accelEnabled = accelEnabled;
 	if(accelEnabled) { // start
 		if([motionManager isAccelerometerAvailable]) {
-			[motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue]
+			[motionManager startAccelerometerUpdatesToQueue:motionQueue
 				withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
 					[self sendAccel:accelerometerData];
 			}];
@@ -148,7 +153,7 @@
 	if(gyroEnabled) { // start
 		if([motionManager isGyroAvailable]) {
 			if(self.gyroAutoUpdates) {
-				[motionManager startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
+				[motionManager startGyroUpdatesToQueue:motionQueue//[NSOperationQueue mainQueue]
 					withHandler:^(CMGyroData *data, NSError *error) {
 					[self sendGyro:data];
 				}];
@@ -196,7 +201,7 @@
 	if(motionManager.gyroActive) {
 		[motionManager stopGyroUpdates];
 		if(self.gyroAutoUpdates) {
-			[motionManager startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
+			[motionManager startGyroUpdatesToQueue:motionQueue
 				withHandler:^(CMGyroData *data, NSError *error) {
 				[self sendGyro:data];
 			}];
@@ -352,7 +357,7 @@
 	if(magnetEnabled) { // start
 		if([motionManager isMagnetometerAvailable]) {
 			if(self.magnetAutoUpdates) {
-				[motionManager startMagnetometerUpdatesToQueue:[NSOperationQueue mainQueue]
+				[motionManager startMagnetometerUpdatesToQueue:motionQueue
 					withHandler:^(CMMagnetometerData *data, NSError *error) {
 					[self sendMagnet:data];
 				}];
@@ -400,7 +405,7 @@
 	if(motionManager.magnetometerActive) {
 		[motionManager stopMagnetometerUpdates];
 		if(self.magnetAutoUpdates) {
-			[motionManager startMagnetometerUpdatesToQueue:[NSOperationQueue mainQueue]
+			[motionManager startMagnetometerUpdatesToQueue:motionQueue
 				withHandler:^(CMMagnetometerData *data, NSError *error) {
 				[self sendMagnet:data];
 			}];
@@ -415,6 +420,82 @@
 - (void)sendMagnet {
 	if(motionManager.magnetometerActive) {
 		[self sendMagnet:motionManager.magnetometerData];
+	}
+}
+
+#pragma mark Motion
+
+ - (void)setMotionEnabled:(BOOL)motionEnabled {
+	if(self.motionEnabled == motionEnabled) {
+		return;
+	}
+	_motionEnabled = motionEnabled;
+	if(motionEnabled) {
+		if([motionManager isDeviceMotionAvailable]) {
+			if(self.motionAutoUpdates) {
+				[motionManager startDeviceMotionUpdatesToQueue:motionQueue
+				                                   withHandler:^(CMDeviceMotion *data, NSError *error) {
+					[self sendMotion:data];
+				}];
+			}
+			else {
+				[motionManager startDeviceMotionUpdates];
+			}
+			DDLogVerbose(@"Sensors: motion enabled");
+		}
+		else {
+			DDLogWarn(@"Sensors: motion not available on this device");
+		}
+	}
+	else { // stop
+		if([motionManager isDeviceMotionActive]) {
+			[motionManager stopDeviceMotionUpdates];
+			DDLogVerbose(@"Sensors: motion disabled");
+		}
+	}
+}
+
+- (void)setMotionSpeed:(NSString *)speed {
+	if([speed isEqualToString:@"slow"]) {
+		[motionManager setDeviceMotionUpdateInterval:1.0/SENSOR_UI_HZ];
+	}
+	else if([speed isEqualToString:@"normal"]) {
+		[motionManager setDeviceMotionUpdateInterval:1.0/SENSOR_NORMAL_HZ];
+	}
+	else if([speed isEqualToString:@"fast"]) {
+		[motionManager setDeviceMotionUpdateInterval:1.0/SENSOR_GAME_HZ];
+	}
+	else if([speed isEqualToString:@"fastest"]) {
+		[motionManager setDeviceMotionUpdateInterval:1.0/SENSOR_FASTEST_HZ];
+	}
+	else {
+		[PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown motion speed string: %@", speed]];
+		return;
+	}
+	DDLogVerbose(@"Sensors: motion speed: %@", speed);
+}
+
+- (void)setMotionAutoUpdates:(BOOL)motionAutoUpdates {
+	if(_motionAutoUpdates == motionAutoUpdates) {return;}
+	_motionAutoUpdates = motionAutoUpdates;
+	if(motionManager.deviceMotionActive) {
+		[motionManager stopDeviceMotionUpdates];
+		if(self.motionAutoUpdates) {
+			[motionManager startDeviceMotionUpdatesToQueue:motionQueue
+											   withHandler:^(CMDeviceMotion *data, NSError *error) {
+				[self sendMotion:data];
+			}];
+		}
+		else {
+			[motionManager startDeviceMotionUpdates];
+		}
+	}
+	DDLogVerbose(@"Sensors: motion updates: %d", (int)motionAutoUpdates);
+}
+
+- (void)sendMotion {
+	if(motionManager.isDeviceMotionAvailable) {
+		[self sendMotion:motionManager.deviceMotion];
 	}
 }
 
@@ -564,6 +645,50 @@
 	#endif
 	[PureData sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
 	[self.osc sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
+}
+
+- (void)sendMotion:(CMDeviceMotion *)motion {
+
+	#ifdef DEBUG_SENSORS
+		DDLogVerbose(@"motion attitude %f %f %f",
+					motion.attitude.pitch, motion.attitude.roll, motion.attitude.yaw);
+	#endif
+	[PureData sendMotionAttitude:motion.attitude.pitch roll:motion.attitude.roll yaw:motion.attitude.yaw];
+	[self.osc sendMotionAttitude:motion.attitude.pitch roll:motion.attitude.roll yaw:motion.attitude.yaw];
+
+//	#ifdef DEBUG_SENSORS
+//		DDLogVerbose(@"motion quaternion %f %f %f %f",
+//					 motion.attitude.quaternion.x, motion.attitude.quaternion.y,
+//					 motion.attitude.quaternion.z, motion.attitude.quaternion.w);
+//	#endif
+
+//	#ifdef DEBUG_SENSORS
+//		DDLogVerbose(@"motion matrix\n%f %f %f\n%f %f %f\n%f %f %f",
+//					 motion.attitude.rotationMatrix.m11, motion.attitude.rotationMatrix.m12, motion.attitude.rotationMatrix.m13,
+//					 motion.attitude.rotationMatrix.m21, motion.attitude.rotationMatrix.m22, motion.attitude.rotationMatrix.m23,
+//					 motion.attitude.rotationMatrix.m31, motion.attitude.rotationMatrix.m32, motion.attitude.rotationMatrix.m33);
+//	#endif
+
+	#ifdef DEBUG_SENSORS
+	DDLogVerbose(@"motion rotation %f %f %f",
+					 motion.rotationRate.x, motion.rotationRate.y, motion.rotationRate.z);
+	#endif
+	[PureData sendMotionRotation:motion.rotationRate.x y:motion.rotationRate.y z:motion.rotationRate.z];
+	[self.osc sendMotionRotation:motion.rotationRate.x y:motion.rotationRate.y z:motion.rotationRate.z];
+
+	#ifdef DEBUG_SENSORS
+	DDLogVerbose(@"motion gravity %f %f %f",
+					 motion.gravity.x, motion.gravity.y, motion.gravity.z);
+	#endif
+	[PureData sendMotionGravity:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
+	[self.osc sendMotionGravity:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
+
+	#ifdef DEBUG_SENSORS
+		DDLogVerbose(@"motion user %f %f %f",
+					 motion.userAcceleration.x, motion.userAcceleration.y, motion.userAcceleration.z);
+	#endif
+	[PureData sendMotionUser:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
+	[self.osc sendMotionUser:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
 }
 
 @end

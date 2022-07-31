@@ -351,7 +351,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
     * _category_
   * requires all event types
   * \#touch positions are normalized from 0-1
-  * sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, & \#time
+  * sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, \#motion, & \#time
   * sensors are enabled & updated via control messages to \#pdparty
   * supports game controllers
 
@@ -476,14 +476,19 @@ PdParty returns the following events:
   * _accuracy_: altitude accuracy in meters; negative values are invalid
 * **[r \#compass] _degrees_**: orientation toward magnetic north with the top of UI at 0 degrees
   * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E
-* **[r \#time]**: timestamp event, see "Timestamps" section"
+* **[r \#motion] _eventType_ ...**: processed motion events relative to a reference frame
+  - **attitude** _pitch_ _roll_ _yaw_: attitude in radians
+  - **rotation** _x_ _y_ _z_: 3 axis rate of rotation in radians/s
+  - **gravity** _x_ _y_ _z_: gravity vector
+  - **user** _x_ _y_ _z_: user-initiated acceleration (without gravity)
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
+* **[r \#time]**: timestamp event, see "Timestamps" section"
 * **[r \#controller]**: game controller event, see "Game Controllers" section
 * **[ r \#shake]**: system-detected shake event (aka cancel)
 
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
 
-#### Accelerate, Gyro, & Magnet Control
+#### Accelerate, Gyro, Magnet, & Motion Control
 
 <p align="center">
   <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_events_scene_iPhone.png"/><br/>
@@ -493,13 +498,13 @@ _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, Droid
 Reading accelerometer, gyroscope, and/or magnetometer events will affect battery life, so these must be manually started after the scene is loaded by sending messages to the internal #pdparty receiver:
 
 * **\#pdparty _sensor_ _value_**: sensor run control
-  * _sensor_: accelerate, gyro, or magnet
+  * _sensor_: accelerate, gyro, magnet, or motion
   * _value_: boolean 0-1 to start/stop the sensor
 * **\#pdparty _sensor_ updates _value_**: sensor automatic update control
   * _value_: boolean to start/stop automatic updates (default on)
 * **\#pdparty _sensor_**: request the current sensor values if automatic update is disabled
 * **\#pdparty _sensor_ _speed_**: set desired update speed, this setting impacts battery life
-  * _sensor_: accelerate, gyro, or magnet
+  * _sensor_: accelerate, gyro, magnet, or motion
   * _speed_: desired update speed as one of the following strings:
     * slow: 10 Hz, user interface orientation speed
     * normal: 30 Hz, normal movement (default)
@@ -507,6 +512,21 @@ Reading accelerometer, gyroscope, and/or magnetometer events will affect battery
     * fastest: 100 Hz, maximum firehose
 
 _Note: \#touch & \#accelerate events are automatically started for RjDj scenes for backward compatibility._
+
+The accelerometer, gyroscope, and magnetometer values are instantaneous raw values.
+
+Motion events are pre-processed orientation values using the accelerometer, gyroscope, and magnetometer relative to a default reference frame:
+* attitude: current orientation in space (pitch, roll, yaw)
+* rotation: rotation with gyroscope bias removed
+* gravity: gravity acceleration vector
+* user: user-initiated acceleration
+
+As [described on NSHipster](https://nshipster.com/cmdevicemotion/), motion event orientation is:
+> * pitch is rotation around the X-axis, increasing as the device tilts toward you, decreasing as it tilts away
+> * roll is rotation around the Y-axis, decreasing as the device rotates to the left, increasing to the right
+> * yaw is rotation around the (vertical) Z-axis, decreasing clockwise, increasing counter-clockwise
+
+The reference frame is set whenever the motion service is started, so for detecting relative motion save the first set of values. These can then be subtracted from newer values for a relative difference, ie. detection when a rotation crosses a certain amount of degrees for use as a trigger. 
 
 #### Loc (GPS) Control
 

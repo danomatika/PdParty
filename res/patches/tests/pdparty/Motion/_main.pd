@@ -1,0 +1,117 @@
+#N canvas 200 200 375 623 10;
+#X obj 16 88 cnv 15 340 70 empty empty attitude 20 12 0 14 #e0e0e0
+#404040 0;
+#X floatatom 38 123 10 0 0 1 pitch ap - 0;
+#X floatatom 141 123 10 0 0 1 roll ar - 0;
+#X floatatom 246 123 10 0 0 1 yaw ay - 0;
+#N canvas 342 138 522 288 guts 0;
+#X obj 40 218 unpack f f f;
+#X obj 392 25 loadbang;
+#N canvas 651 529 253 199 type 0;
+#X obj 16 9 inlet;
+#X obj 16 133 symbol;
+#X obj 16 167 outlet;
+#X msg 16 84 fastest;
+#X msg 83 84 fast;
+#X msg 132 83 normal;
+#X msg 191 83 slow;
+#X obj 16 38 sel 0 1 2 3;
+#X connect 0 0 7 0;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 7 3 6 0;
+#X restore 135 59 pd type;
+#X obj 135 27 r speed-out;
+#X obj 135 122 s #pdparty;
+#X obj 93 158 r #motion;
+#X obj 40 247 s ap;
+#X obj 74 247 s ar;
+#X obj 109 247 s ay;
+#X obj 41 27 r runmotion;
+#X msg 41 58 motion \$1;
+#X msg 135 89 motion speed \$1;
+#X obj 170 218 unpack f f f;
+#X obj 405 218 unpack f f f;
+#X obj 170 247 s rx;
+#X obj 204 247 s ry;
+#X obj 239 247 s rz;
+#X obj 405 247 s ux;
+#X obj 439 247 s uy;
+#X obj 474 247 s uz;
+#X msg 392 57 \; speed-in set 1 \; updates-in set 1;
+#X obj 246 27 r updates;
+#X msg 246 60 motion updates \$1;
+#X obj 257 89 r update;
+#X msg 257 112 motion;
+#X obj 93 188 route attitude rotation gravity user;
+#X obj 291 218 unpack f f f;
+#X obj 291 247 s gx;
+#X obj 325 247 s gy;
+#X obj 360 247 s gz;
+#X connect 0 0 6 0;
+#X connect 0 1 7 0;
+#X connect 0 2 8 0;
+#X connect 1 0 20 0;
+#X connect 2 0 11 0;
+#X connect 3 0 2 0;
+#X connect 5 0 25 0;
+#X connect 9 0 10 0;
+#X connect 10 0 4 0;
+#X connect 11 0 4 0;
+#X connect 12 0 14 0;
+#X connect 12 1 15 0;
+#X connect 12 2 16 0;
+#X connect 13 0 17 0;
+#X connect 13 1 18 0;
+#X connect 13 2 19 0;
+#X connect 21 0 22 0;
+#X connect 22 0 4 0;
+#X connect 23 0 24 0;
+#X connect 24 0 4 0;
+#X connect 25 0 0 0;
+#X connect 25 1 12 0;
+#X connect 25 2 26 0;
+#X connect 25 3 13 0;
+#X connect 26 0 27 0;
+#X connect 26 1 28 0;
+#X connect 26 2 29 0;
+#X restore 307 93 pd guts;
+#X obj 18 39 tgl 30 0 runmotion empty run 7 15 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 71 530 hradio 54 1 0 4 speed-out speed-in empty 0 -8 0 10 #fcfcfc
+#000000 #000000 0;
+#X text 72 592 fastest;
+#X text 187 592 normal;
+#X text 139 592 fast;
+#X text 248 592 slow;
+#X text 30 505 speed (default "normal") \, "fastest" is *intensive*
+;
+#X text 57 47 turn on by sending a msg to #pdparty: motion 1;
+#X text 16 7 motion events relative to default reference frame;
+#X obj 16 170 cnv 15 340 70 empty empty rotation 20 12 0 14 #e0e0e0
+#404040 0;
+#X floatatom 38 205 10 0 0 1 x rx - 0;
+#X floatatom 141 205 10 0 0 1 y ry - 0;
+#X floatatom 246 205 10 0 0 1 z rz - 0;
+#X obj 16 334 cnv 15 340 70 empty empty user 20 12 0 14 #e0e0e0 #404040
+0;
+#X floatatom 38 369 10 0 0 1 x ux - 0;
+#X floatatom 141 369 10 0 0 1 y uy - 0;
+#X floatatom 246 369 10 0 0 1 z uz - 0;
+#X obj 26 446 tgl 30 1 updates updates-in updates 32 15 0 10 #fcfcfc
+#000000 #000000 1 1;
+#X obj 243 445 bng 30 250 50 0 update empty manual\ update 32 15 0
+10 #fcfcfc #000000 #000000;
+#X text 17 423 enable auto updates to receive event stream (default:
+on);
+#X obj 16 252 cnv 15 340 70 empty empty gravity 20 12 0 14 #e0e0e0
+#404040 0;
+#X floatatom 38 287 10 0 0 1 x gx - 0;
+#X floatatom 141 287 10 0 0 1 y gy - 0;
+#X floatatom 246 287 10 0 0 1 z gz - 0;

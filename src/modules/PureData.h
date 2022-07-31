@@ -36,6 +36,7 @@
 
 // PdParty event receivers
 #define PARTY_MAGNET_R     @"#magnet"
+#define PARTY_MOTION_R     @"#motion"
 #define PARTY_SPEED_R      @"#speed"
 #define PARTY_ALTITUDE_R   @"#altitude"
 #define PARTY_CONTROLLER_R @"#controller"
@@ -71,6 +72,7 @@
 - (BOOL)supportsLocation;
 - (BOOL)supportsCompass;
 - (BOOL)supportsMagnet;
+- (BOOL)supportsMotion; //< process motion!dee
 @end
 
 @protocol PdRecordEventDelegate <NSObject>
@@ -176,8 +178,20 @@
 /// rj time event
 + (void)sendTime:(NSArray *)time;
 
-/// droid party gyro event
+/// droid party magnet event
 + (void)sendMagnet:(float)x y:(float)y z:(float)z;
+
+/// pdparty motion attitude event
++ (void)sendMotionAttitude:(float)pitch roll:(float)roll yaw:(float)yaw;
+
+/// pdparty motion rotation rate event
++ (void)sendMotionRotation:(float)x y:(float)y z:(float)z;
+
+/// pdparty motion gravity acceleration event
++ (void)sendMotionGravity:(float)x y:(float)y z:(float)z;
+
+/// pdparty motion user acceleration event
++ (void)sendMotionUser:(float)x y:(float)y z:(float)z;
 
 /// pdparty game controller connect/disconnect event
 + (void)sendEvent:(NSString *)event forController:(NSString *)controller;

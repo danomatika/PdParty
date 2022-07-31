@@ -21,7 +21,8 @@ typedef enum {
 	SensorTypeGyro,
 	SensorTypeLocation,
 	SensorTypeCompass,
-	SensorTypeMagnet
+	SensorTypeMagnet,
+	SensorTypeMotion //< process motion
 } SensorType;
 
 /// base empty scene

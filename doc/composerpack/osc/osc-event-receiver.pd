@@ -1,12 +1,12 @@
-#N canvas 306 80 650 355 10;
-#X obj 13 316 s #touch;
-#X obj 57 291 s #accelerate;
-#X text 137 46 receives PdParty events over OSC;
-#X text 137 72 useful for patch development & debugging;
-#X obj 118 16 tgl 15 0 empty empty print_all_messages 17 7 0 10 -262144
--1 -1 0 1;
-#X obj 13 15 tgl 15 0 empty empty listen 17 7 0 10 -262144 -1 -1 0
-1;
+#N canvas 306 80 723 370 10;
+#X obj 23 336 s #touch;
+#X obj 66 311 s #accelerate;
+#X text 147 46 receives PdParty events over OSC;
+#X text 147 72 useful for patch development & debugging;
+#X obj 128 16 tgl 15 0 empty empty print_all_messages 17 7 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X obj 23 15 tgl 15 0 empty empty listen 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #N canvas 0 23 417 316 oscreceive 0;
 #X obj 110 133 oscparse;
 #X obj 110 162 list trim;
@@ -31,35 +31,37 @@
 #X connect 9 0 7 0;
 #X connect 10 0 8 0;
 #X coords 0 316 1 315 140 40 0;
-#X restore 13 45 pd oscreceive 8888;
-#X obj 13 78 route pdparty;
-#X obj 101 263 s #gyro;
-#X obj 277 155 s #magnet;
-#X obj 145 236 s #loc;
-#X obj 233 184 s #compass;
-#X obj 189 212 s #speed;
-#X obj 546 192 print pdparty;
-#X obj 456 256 s #key;
-#X obj 366 315 s #controller;
-#X obj 411 287 s #shake;
-#X obj 13 115 route touch accelerate gyro loc speed compass magnet
-;
-#X obj 366 155 route controller shake key keyup print;
-#X obj 501 220 s #keyup;
+#X restore 23 45 pd oscreceive 8888;
+#X obj 23 78 route pdparty;
+#X obj 110 283 s #gyro;
+#X obj 286 175 s #magnet;
+#X obj 154 256 s #loc;
+#X obj 242 204 s #compass;
+#X obj 198 232 s #speed;
+#X obj 616 185 print pdparty;
+#X obj 526 249 s #key;
+#X obj 436 308 s #controller;
+#X obj 481 280 s #shake;
+#X obj 436 148 route controller shake key keyup print;
+#X obj 571 213 s #keyup;
+#X obj 23 115 route touch accelerate gyro loc speed compass magnet
+motion;
+#X obj 330 147 s #motion;
 #X connect 4 0 6 1;
 #X connect 5 0 6 0;
 #X connect 6 0 7 0;
-#X connect 7 0 17 0;
-#X connect 17 0 0 0;
-#X connect 17 1 1 0;
-#X connect 17 2 8 0;
-#X connect 17 3 10 0;
-#X connect 17 4 12 0;
-#X connect 17 5 11 0;
-#X connect 17 6 9 0;
-#X connect 17 7 18 0;
-#X connect 18 0 15 0;
-#X connect 18 1 16 0;
-#X connect 18 2 14 0;
-#X connect 18 3 19 0;
-#X connect 18 4 13 0;
+#X connect 7 0 19 0;
+#X connect 17 0 15 0;
+#X connect 17 1 16 0;
+#X connect 17 2 14 0;
+#X connect 17 3 18 0;
+#X connect 17 4 13 0;
+#X connect 19 0 0 0;
+#X connect 19 1 1 0;
+#X connect 19 2 8 0;
+#X connect 19 3 10 0;
+#X connect 19 4 12 0;
+#X connect 19 5 11 0;
+#X connect 19 6 9 0;
+#X connect 19 7 20 0;
+#X connect 19 8 17 0;

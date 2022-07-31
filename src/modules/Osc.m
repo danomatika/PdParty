@@ -222,6 +222,38 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
+- (void)sendMotionAttitude:(float)pitch roll:(float)roll yaw:(float)yaw {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "sfff", "attitude", pitch, roll, yaw);
+	lo_send_message(sendAddress, [OSC_MOTION_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
+- (void)sendMotionRotation:(float)x y:(float)y z:(float)z {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "sfff", "rotation", x, y, z);
+	lo_send_message(sendAddress, [OSC_MOTION_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
+- (void)sendMotionGravity:(float)x y:(float)y z:(float)z {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "sfff", "gravity", x, y, z);
+	lo_send_message(sendAddress, [OSC_MOTION_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
+- (void)sendMotionUser:(float)x y:(float)y z:(float)z {
+	if(!self.isListening || !self.sensorSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "sfff", "user", x, y, z);
+	lo_send_message(sendAddress, [OSC_MOTION_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
 - (void)sendEvent:(NSString *)event forController:(NSString *)controller {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
 	lo_message m = lo_message_new();

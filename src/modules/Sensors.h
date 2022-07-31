@@ -60,4 +60,14 @@
 
 - (void)sendMagnet; //< request current gyro value manually, use this when auto updates is NO
 
+#pragma mark Motion
+
+// process motion: attitude, rotation rate, gravity accel, and user accel relative to a reference frame
+
+@property (assign, nonatomic) BOOL motionEnabled; //< enabled process motion service
+@property (assign, nonatomic) BOOL motionAutoUpdates; //< set to NO if sending manually (default: YES)
+@property (nonatomic) NSString *motionSpeed; //< process motion update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
+
+- (void)sendMotion; //< request current motion values manually, use this when auto updates is NO
+
 @end

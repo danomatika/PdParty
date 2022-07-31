@@ -269,6 +269,10 @@
 	return [self.scene supportsSensor:SensorTypeMagnet];
 }
 
+- (BOOL)supportsMotion {
+	return [self.scene supportsSensor:SensorTypeMotion];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setPureData:(PureData *)pureData {
@@ -310,6 +314,10 @@
 		self.sensors.magnetAutoUpdates = NO;
 		self.sensors.magnetEnabled = YES;
 	}
+	if([self.scene requiresSensor:SensorTypeMotion]) {
+		self.sensors.magnetAutoUpdates = YES;
+		self.sensors.motionEnabled = YES;
+	}
 }
 
 // disable all & reset to defaults
@@ -319,6 +327,7 @@
 	self.sensors.locationEnabled = NO;
 	self.sensors.compassEnabled = NO;
 	self.sensors.magnetEnabled = NO;
+	self.sensors.motionEnabled = NO;
 	[self.sensors reset];
 }
 

@@ -235,6 +235,30 @@
 	[PdBase sendList:@[@(x), @(y), @(z)] toReceiver:PARTY_MAGNET_R];
 }
 
++ (void)sendMotionAttitude:(float)pitch roll:(float)roll yaw:(float)yaw {
+	[PdBase sendMessage:@"attitude"
+		  withArguments:@[@(pitch), @(roll), @(yaw)]
+			 toReceiver:PARTY_MOTION_R];
+}
+
++ (void)sendMotionRotation:(float)x y:(float)y z:(float)z {
+	[PdBase sendMessage:@"rotation"
+		  withArguments:@[@(x), @(y), @(z)]
+			 toReceiver:PARTY_MOTION_R];
+}
+
++ (void)sendMotionGravity:(float)x y:(float)y z:(float)z {
+	[PdBase sendMessage:@"gravity"
+		  withArguments:@[@(x), @(y), @(z)]
+			 toReceiver:PARTY_MOTION_R];
+}
+
++ (void)sendMotionUser:(float)x y:(float)y z:(float)z {
+	[PdBase sendMessage:@"user"
+		  withArguments:@[@(x), @(y), @(z)]
+			 toReceiver:PARTY_MOTION_R];
+}
+
 + (void)sendEvent:(NSString *)event forController:(NSString *)controller {
 	[PdBase sendMessage:[NSString stringWithString:event]
 		  withArguments:@[[NSString stringWithString:controller]]
@@ -371,7 +395,7 @@
 		[self.osc sendPacket:[self encodeList:[[NSArray arrayWithObject:message] arrayByAddingObjectsFromArray:arguments]]];
 	}
 	else if([source isEqualToString:PARTY_GLOBAL_S]) {
-		static NSString *sceneName = nil;  // received scene name
+		static NSString *sceneName = nil; // received scene name
 		static BOOL appendTimestamp = NO; // append timestamp to scene name?
 	
 		// accel control
@@ -474,6 +498,28 @@
 					}
 					else if([arguments[0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
 						self.sensors.magnetSpeed = arguments[1];
+					}
+				}
+			}
+		}
+
+		// motion control
+		if([message isEqualToString:@"motion"]) {
+			if(arguments.count == 0) {
+				[self.sensors sendMotion];
+			}
+			else {
+				if([arguments isNumberAt:0]) { // float: start/stop
+					if(self.sensorDelegate && [self.sensorDelegate supportsMotion]) {
+						self.sensors.motionEnabled = [arguments[0] boolValue];
+					}
+				}
+				else if([arguments isStringAt:0] && arguments.count > 1) {
+					if([arguments[0] isEqualToString:@"updates"] && [arguments isNumberAt:1]) {
+						self.sensors.motionAutoUpdates = [arguments[1] boolValue];
+					}
+					else if([arguments[0] isEqualToString:@"speed"] && [arguments isStringAt:1]) {
+						self.sensors.motionSpeed = arguments[1];
 					}
 				}
 			}
