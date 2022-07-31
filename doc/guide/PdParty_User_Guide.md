@@ -479,8 +479,8 @@ PdParty returns the following events:
 * **[r \#motion] _eventType_ ...**: processed motion events relative to a reference frame
   - **attitude** _pitch_ _roll_ _yaw_: attitude in radians
   - **rotation** _x_ _y_ _z_: 3 axis rate of rotation in radians/s
-  - **gravity** _x_ _y_ _z_: gravity vector
-  - **user** _x_ _y_ _z_: user-initiated acceleration (without gravity)
+  - **gravity** _x_ _y_ _z_: gravity in Gs
+  - **user** _x_ _y_ _z_: user-initiated acceleration in Gs (without gravity)
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
 * **[r \#time]**: timestamp event, see "Timestamps" section"
 * **[r \#controller]**: game controller event, see "Game Controllers" section
