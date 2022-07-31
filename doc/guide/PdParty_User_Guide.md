@@ -2,7 +2,7 @@ PdParty User Guide
 ==================
 
 Version: **1.3.0**  
-Date: 2020-12-27
+Date: 2022-07-31
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
 
@@ -263,7 +263,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
 5. Copy the patch and/or its containing directory and any needed abstractions to your iOS device using AirDrop, iTunes File Sharing, via WebDAV over your local network, or through "Open in..." from other apps:
 
-    - **AirDrop/Files app**
+    * **AirDrop/Files app**
 
     	Open Finder on your Mac. Select files/folders you want to send to your iOS device. Press the "Share" button, then AirDrop, and select your iOS device when it appears in the list. It should be nearby, unlocked, on the same Wi-Fi network, and have Bluetooth enabled.
 
@@ -273,7 +273,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 	
     	You'll be asked what app to use with received files. Pick "Files" and find PdParty in the list of apps. Save your files inside the PdParty folder. The Files app is basically like Finder or Explorer on desktop and allows you to manage files within apps that support it.
 
-    - **iTunes File Sharing**
+    * **iTunes File Sharing**
 
         Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add..." and "Save to..." buttons.
 
@@ -283,7 +283,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
           <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/itunes_file_sharing.png"/>
         </p>
 
-    - **WebDAV**
+    * **WebDAV**
 
       1. Enable the WebDAV server on the PdParty start screen on the device and connect to it using a file transfer program or the built in WebDAV support in some operating systems using the address below the WebDAV controls on the Start Screen. If you're using macOS or Linux on a local network, the \*.local address should work, otherwise use the IP address (#.#.#.#). The server supports both IPv4 and IPv6.
 
@@ -301,7 +301,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
       3. Transfer performance may be low if you are transferring *lots of files*. If you experience this, try zipping the project folder and transferring the zip file. You can then unpack the zip in the PdParty browser by selecting it.
 
-    - **Open in...**
+    * **Open in...**
 
       PdParty registers Pd patch \*.pd files and Zip archives (\*.zip, \*.rjz, \*.pdz) with iOS as supported types. This allows for each of these file types to be opened in PdParty from another application ie. Mail, DropBox, etc. When choosing "Open in..." via the Share button, the file(s) will be copied into the main PdParty Documents folder. Zip archives can then be unpacked by clicking on them in the Patch Browser.
 
@@ -318,42 +318,42 @@ As of version 1.3.0, the audio samplerate for non-RjDj scenes is selectable betw
 PdParty also supports running "scenes" which are basically folders with a specific layout that are treated as a single entity for encapsulation and have certain event attributes:
 
 * RjDj scenes:
-  * a folder that ends in \*.rj that contains a _main.pd patch
-  * locked to portrait on iPhone
-  * an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
-  * an optional browser icon named "thumb.jpg" and a min size of 55x55, will fall back to "image.jpg" if not found
-  * an optional info xml file named "Info.plist" or "info.plist" with the following string keys:
-    * _author_
-    * _description_
-    * _name_
-    * _category_
-  * requires #touch, #accelerate & #gyro events
-  * \#touch positions are normalized from 0-320
-  * optional sensors accessed by abstractions: [rj\_loc], [rj\_compass], & [rj\_time]
-  * does not support game controllers
-  * fixed 22050 samplerate
+  - a folder that ends in \*.rj that contains a _main.pd patch
+  - locked to portrait on iPhone
+  - an optional background image named "image.jpg" which must have a square aspect ratio and a min size of 320x320
+  - an optional browser icon named "thumb.jpg" and a min size of 55x55, will fall back to "image.jpg" if not found
+  - an optional info xml file named "Info.plist" or "info.plist" with the following string keys:
+    + _author_
+    + _description_
+    + _name_
+    + _category_
+  - requires #touch, #accelerate & #gyro events
+  - \#touch positions are normalized from 0-320
+  - optional sensors accessed by abstractions: [rj\_loc], [rj\_compass], & [rj\_time]
+  - does not support game controllers
+  - fixed 22050 samplerate
 * PdDroidParty scenes
-  * a folder that contains a droidparty_main.pd patch
-  * locked to landscape
-  * an optional background image named "background.png" which should have a landscape aspect ratio
-  * an optional font named "font.ttf" or "font-antialiased.ttf"
-  * does not require the following events (#accelerate, #touch, or [key]/[keyup])
-  * sensors are accessed by the [droidsystem] abstraction
-  * does not support game controllers
+  - a folder that contains a droidparty_main.pd patch
+  - locked to landscape
+  - an optional background image named "background.png" which should have a landscape aspect ratio
+  - an optional font named "font.ttf" or "font-antialiased.ttf"
+  - does not require the following events (#accelerate, #touch, or [key]/[keyup])
+  - sensors are accessed by the [droidsystem] abstraction
+  - does not support game controllers
 * PdParty scenes
-  * a folder that contains a _main.pd patch
-  * portrait or landscape
-  * an optional browser icon named "thumb.png" or "thumb.jpg" and a min size of 55x55
-  * an optional info json file named "info.json" with a dictionary & the following keys:
-    * _author_
-    * _description_
-    * _name_
-    * _category_
-  * requires all event types
-  * \#touch positions are normalized from 0-1
-  * sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, \#motion, & \#time
-  * sensors are enabled & updated via control messages to \#pdparty
-  * supports game controllers
+  - a folder that contains a _main.pd patch
+  - portrait or landscape
+  - an optional browser icon named "thumb.png" or "thumb.jpg" and a min size of 55x55
+  - an optional info json file named "info.json" with a dictionary & the following keys:
+    + _author_
+    + _description_
+    + _name_
+    + _category_
+  - requires all event types
+  - \#touch positions are normalized from 0-1
+  - sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, \#motion, & \#time
+  - sensors are enabled & updated via control messages to \#pdparty
+  - supports game controllers
 
 Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene.
 
@@ -401,18 +401,18 @@ All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to
 PdParty currently supports:
 
 * PdDroidParty abstractions:
-  * [loadsave]
-  * [menubang]: buttons are added to the controls popup menu
-  * [display]
-  * [droidsystem]:
-    * receive messages: sensors, & openurl (vibrate\* is ignored)
-    * send messages: accel, gyro, & magnet
-  * [knob]: implementation of the moonlib external [mknob]
-  * [numberbox]
-  * [ribbon]
-  * [taplist]
-  * [touch]
-  * [wordbutton]
+  - [loadsave]
+  - [menubang]: buttons are added to the controls popup menu
+  - [display]
+  - [droidsystem]:
+    + receive messages: sensors, & openurl (vibrate\* is ignored)
+    + send messages: accel, gyro, & magnet
+  - [knob]: implementation of the moonlib external [mknob]
+  - [numberbox]
+  - [ribbon]
+  - [taplist]
+  - [touch]
+  - [wordbutton]
 * scene folder background.png loading
 * scene foldder font.ttf & font-antialiased.ttf loading
 
@@ -427,17 +427,17 @@ SVG widget styling support is planned, but not an immediate priority as there is
 PdParty currently supports:
 
 * RjDj abstractions/objects:
-  * [rj\_image]: implemented internally
-  * [rj\_text]: implemented internally
-  * [rj\_loc]
-  * [rj\_compass]
-  * [rj\_time]
+  - [rj\_image]: implemented internally
+  - [rj\_text]: implemented internally
+  - [rj\_loc]
+  - [rj\_compass]
+  - [rj\_time]
 * RjDj externals:
-  * [rj\_accum]
-  * [rj\_barkflux\_accum\~]
-  * [rj\_centroid\~]
-  * [rj\_senergy\~]
-  * [rj\_zcr\~]
+  - [rj\_accum]
+  - [rj\_barkflux\_accum\~]
+  - [rj\_centroid\~]
+  - [rj\_senergy\~]
+  - [rj\_zcr\~]
 * scene background image.jpg
 * scene browser icon thumb.jpg
 * scene Info.plist
@@ -458,24 +458,24 @@ Also, thanks to Joe White for providing a copy of the RjDj _get\_sensors.pd_ pat
 PdParty returns the following events:
 
 * **[r \#touch] _eventType_ _id_ _x_ _y_**: multitouch event
-  * _eventType_: symbol "down", "xy" (move), or "up"
-  * _id_: persistent touch id
-  * _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
-  * _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
+  - _eventType_: symbol "down", "xy" (move), or "up"
+  - _id_: persistent touch id
+  - _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
+  - _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
 * **[r \#accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
 * **[r \#gyro] _x_ _y_ _z_**: 3 axis gyroscope rotation rate in radians/s
 * **[r \#loc] _lat_ _lon_ _accuracy_**: GPS location
-  * _lat_: latitude in degrees
-  * _lon_: longitude in degrees
-  * _accuracy_: lat & lon accuracy in meters; negative values are invalid
+  - _lat_: latitude in degrees
+  - _lon_: longitude in degrees
+  - _accuracy_: lat & lon accuracy in meters; negative values are invalid
 * **[r \#speed] _speed_ _course_**: GPS speed & course heading, only sent if \#loc events are enabled
-  * _speed_: instantaneous speed in meters per second, negative values are invalid
-  * _course_: direction of travel, N is 0 degrees, E is 90, S is 180, etc; negative values are invalid
+  - _speed_: instantaneous speed in meters per second, negative values are invalid
+  - _course_: direction of travel, N is 0 degrees, E is 90, S is 180, etc; negative values are invalid
 * **[r \#altitude] _altitude_ _accuracy_**: GPS altitude, only sent if \#loc events are enabled
-  * _altitude_: altitude above sea level in meters
-  * _accuracy_: altitude accuracy in meters; negative values are invalid
+  - _altitude_: altitude above sea level in meters
+  - _accuracy_: altitude accuracy in meters; negative values are invalid
 * **[r \#compass] _degrees_**: orientation toward magnetic north with the top of UI at 0 degrees
-  * _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E
+  - _degrees_: heading toward magnetic north -> 0 N, 90 S, 180 S, 270 E
 * **[r \#motion] _eventType_ ...**: processed motion events relative to a reference frame
   - **attitude** _pitch_ _roll_ _yaw_: attitude in radians
   - **rotation** _x_ _y_ _z_: 3 axis rate of rotation in radians/s
@@ -498,18 +498,18 @@ _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, Droid
 Reading accelerometer, gyroscope, and/or magnetometer events will affect battery life, so these must be manually started after the scene is loaded by sending messages to the internal #pdparty receiver:
 
 * **\#pdparty _sensor_ _value_**: sensor run control
-  * _sensor_: accelerate, gyro, magnet, or motion
-  * _value_: boolean 0-1 to start/stop the sensor
+  - _sensor_: accelerate, gyro, magnet, or motion
+  - _value_: boolean 0-1 to start/stop the sensor
 * **\#pdparty _sensor_ updates _value_**: sensor automatic update control
-  * _value_: boolean to start/stop automatic updates (default on)
+  - _value_: boolean to start/stop automatic updates (default on)
 * **\#pdparty _sensor_**: request the current sensor values if automatic update is disabled
 * **\#pdparty _sensor_ _speed_**: set desired update speed, this setting impacts battery life
-  * _sensor_: accelerate, gyro, magnet, or motion
-  * _speed_: desired update speed as one of the following strings:
-    * slow: 10 Hz, user interface orientation speed
-    * normal: 30 Hz, normal movement (default)
-    * fast: 60 Hz, suitable for gaming
-    * fastest: 100 Hz, maximum firehose
+  - _sensor_: accelerate, gyro, magnet, or motion
+  - _speed_: desired update speed as one of the following strings:
+    + slow: 10 Hz, user interface orientation speed
+    + normal: 30 Hz, normal movement (default)
+    + fast: 60 Hz, suitable for gaming
+    + fastest: 100 Hz, maximum firehose
 
 _Note: \#touch & \#accelerate events are automatically started for RjDj scenes for backward compatibility._
 
@@ -540,20 +540,20 @@ Loc events are essentially GPS location events, dependent on your device's senso
 Since running the GPS location service will affect battery life in most cases, it must be manually started and configured after the scene is loaded by sending messages to the internal #pdparty receiver:
 
 * **\#pdparty loc _value_**: location service run control
-  * _value_: boolean to start/stop the location service
+  - _value_: boolean to start/stop the location service
 * **\#pdparty loc updates _value_**: location automatic update control
-  * _value_: boolean to start/stop automatic updates (default on)
+  - _value_: boolean to start/stop automatic updates (default on)
 * **\#pdparty loc**: request the current location if automatic updates is disabled
 * **\#pdparty loc accuracy _type_**: set desired accuracy, this setting impacts battery life
-  * _type_: desired accuracy as one of the following strings:
-    * navigation: highest possible accuracy using additional sensors at all times, intended to be used only while the device is plugged in
-    * best: highest accuracy on battery (default)
-    * 10m: accurate to within 10 meters
-    * 100m: accurate to within 100 meters
-    * 1km: accurate to the nearest kilometer
-    * 3km: accurate to the nearest 3 kilometers
+  - _type_: desired accuracy as one of the following strings:
+    + navigation: highest possible accuracy using additional sensors at all times, intended to be used only while the device is plugged in
+    + best: highest accuracy on battery (default)
+    + 10m: accurate to within 10 meters
+    + 100m: accurate to within 100 meters
+    + 1km: accurate to the nearest kilometer
+    + 3km: accurate to the nearest 3 kilometers
 * **\#pdparty loc filter _distance_**: set the distance filter for locate events
-  * _distance_: the minimum distance in meters of horizontal movement required before a locate event is generated (default 0), a value of 0 indicates no filtering, negative values are clipped to 0
+  - _distance_: the minimum distance in meters of horizontal movement required before a locate event is generated (default 0), a value of 0 indicates no filtering, negative values are clipped to 0
 
 It usually takes a few seconds to fix your position after enabling the location services.
 
@@ -572,7 +572,7 @@ Like location events, the tracking the compass requires extra resources so it mu
 
 * **\#pdparty compass _value_**: compass service run control
 * **\#pdparty compass updates _value_**: compass automatic update control
-  * _value_: boolean to start/stop automatic updates (default on)
+  - _value_: boolean to start/stop automatic updates (default on)
 * **\#pdparty compass**: request the current compass heading if automatic updates is disabled
 * **\#pdparty compass filter _degrees_**: the minimum amount of change in degrees required before a compass event is generated (default 1), a value of 0 indicates no filtering, negative values are clipped to 0
 
@@ -583,16 +583,16 @@ _Note: Compass events are only available in PdParty & Patch scene types by defau
 Timestamps are sent to the [r \#time] receiver with the following argument format:
 
 * **[r \#time]**: timestamp event
-  * _year_: year
-  * _month_: month
-  * _day_month_: day of the month
-  * _day_week_: day of the week
-  * _day_year_: day of the year
-  * _tz_: deviation from GMT, ex. "-700" is US MT which is 7 hours behind GMT
-  * _hour_: hour (in 24 hour format)
-  * _min_: minute
-  * _sec_: second
-  * _msec_: millisecond
+  - _year_: year
+  - _month_: month
+  - _day_month_: day of the month
+  - _day_week_: day of the week
+  - _day_year_: day of the year
+  - _tz_: deviation from GMT, ex. "-700" is US MT which is 7 hours behind GMT
+  - _hour_: hour (in 24 hour format)
+  - _min_: minute
+  - _sec_: second
+  - _msec_: millisecond
 
 _This is the same format that the RjDj [rj\_time] object returns._
 
@@ -605,11 +605,11 @@ Timestamp events must be triggered manually by sending a message to the internal
 You can manually trigger recording via sending messages to the internal \#pdparty receiver in your patches:
 
 * **\#pdparty scene _name_**: set the scene/file name for recording
-  * _name_: timestamp is appended & file is saved to the recordings dir
+  - _name_: timestamp is appended & file is saved to the recordings dir
 * **\#pdparty scene _name_ _timestamp_**: same as above with additional argument
-  * _timestamp_: boolean 0-1 to enable appending timestamp to file name
+  - _timestamp_: boolean 0-1 to enable appending timestamp to file name
 * **\#pdparty record _value_**: recording control, also connected to the GUI
-  * _value_: boolean to start/stop recording
+  - _value_: boolean to start/stop recording
 
 _Note: Recording will only work if you are using the rjlib [soundoutput] patch instead of [dac~]._
 
@@ -643,19 +643,19 @@ Compatible iOS MFi game controllers can be read in PdParty if your device suppor
 Controller events can be read via the [r \#controller] receiver with the following format:
 
 * **[r \#controller] _name_ button _buttonname_ _state_**: button event
-  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-  * _buttonname_: symbol "a", "b", "x", "y", "dpleft", "dpright", "dpup", "dpdown", "leftshoulder", "rightshoulder", "lefttrigger", "righttrigger"
-  * _state_: boolean 0 or 1
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _buttonname_: symbol "a", "b", "x", "y", "dpleft", "dpright", "dpup", "dpdown", "leftshoulder", "rightshoulder", "lefttrigger", "righttrigger"
+  - _state_: boolean 0 or 1
 * **[r \#controller] _name_ axis _axisname_ _value_**: axis event
-  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-  * _axisname_: symbol "leftx", "lefty", "rightx", or "righty"
-  * _value_: -1 to 1 with 0 centered
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _axisname_: symbol "leftx", "lefty", "rightx", or "righty"
+  - _value_: -1 to 1 with 0 centered
 * **[r \#controller] _name_ pause**: pause event
-  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 * **[r \#controller] connect _name_**: connect event
-  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 * **[r \#controller] disconnect _name_**: disconnect event
-  * _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 
 There is no direct control over enabling/disabling game controller support. This is handled by scene type detection as RjDj & DroidParty scenes do not use controller events.
 
