@@ -104,3 +104,32 @@
 }
 
 @end
+
+#pragma mark - ViewPortCanvas
+
+@implementation ViewPortCanvas
+
+- (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
+	BOOL ret = [super receiveEditMessage:message withArguments:arguments];
+	if([message isEqualToString:@"pos"]) {
+		DDLogInfo(@"ViewPortCanvas: pos %g %g", self.originalFrame.origin.x, self.originalFrame.origin.y);
+		if(self.delegate) {
+			[self.delegate receivePositionX:self.frame.origin.x Y:self.frame.origin.y];
+		}
+	}
+	else if([message isEqualToString:@"vis_size"]) {
+		DDLogInfo(@"ViewPortCanvas: vis_size %g %g", self.originalFrame.size.height, self.originalFrame.size.width);
+		if(self.delegate) {
+			[self.delegate receiveSizeW:self.frame.size.width H:self.frame.size.height];
+		}
+	}
+	return ret;
+}
+
+#pragma mark Overridden Getters / Setters
+
+- (NSString *)type {
+	return @"ViewPortCanvas";
+}
+
+@end

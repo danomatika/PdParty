@@ -287,7 +287,7 @@
 	return nil;
 }
 
-#pragma mark WidgetListener
+#pragma mark PdListener
 
 // mostly borrowed from the pd-for-android ScenePlayer
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {

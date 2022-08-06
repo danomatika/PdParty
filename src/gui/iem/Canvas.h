@@ -12,3 +12,14 @@
 
 @interface Canvas : IEMWidget
 @end
+
+@class Gui;
+
+@protocol ViewPortDelegate <NSObject>
+- (void)receivePositionX:(float)x Y:(float)y;
+- (void)receiveSizeW:(float)w H:(float)h;
+@end
+
+@interface ViewPortCanvas : Canvas
+@property (assign, nonatomic) id<ViewPortDelegate> delegate;
+@end

@@ -15,6 +15,8 @@
 #import "Log.h"
 #import "Util.h"
 
+@class SceneManager;
+
 // sensor type for querying scene info
 typedef enum {
 	SensorTypeAccel,
@@ -44,6 +46,7 @@ typedef enum {
 /// set these before calling the open method
 @property (weak, nonatomic) UIView *parentView; //< parent UIView
 @property (weak, nonatomic) Gui *gui; //< PD gui (optional, leave nil if not used)
+@property (weak, nonatomic) SceneManager *manager; //< parent manager
 
 /// desired scene sample rate (default USER_SAMPLERATE)
 @property (readonly, nonatomic) int sampleRate;

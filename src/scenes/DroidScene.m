@@ -10,6 +10,9 @@
  */
 #import "DroidScene.h"
 
+#import "Canvas.h"
+#import "SceneManager.h"
+
 @implementation DroidScene
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui {
@@ -41,6 +44,14 @@
 	if(fontPaths) {
 		[self loadFont:[path stringByAppendingPathComponent:fontPaths.firstObject]];
 	}
+
+	for(Widget *w in self.gui.widgets) {
+		if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
+			ViewPortCanvas *cnv = (ViewPortCanvas *)w;
+			cnv.delegate = self;
+			DDLogInfo(@"found ViewPort");
+		}
+	}
 	
 	return ret;
 }
@@ -54,6 +65,14 @@
 		[Util unregisterFont:self.fontPath];
 		self.fontPath = nil;
 	}
+
+	for(Widget *w in self.gui.widgets) {
+		if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
+			ViewPortCanvas *cnv = (ViewPortCanvas *)w;
+			cnv.delegate = nil;
+		}
+	}
+
 	[super close];
 }
 
@@ -104,6 +123,33 @@
 
 + (BOOL)isDroidPartyDirectory:(NSString *)fullpath {
 	return [NSFileManager.defaultManager fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"droidparty_main.pd"]];
+}
+
+/*
+#pragma mark WidgetListener
+
+// mostly borrowed from the pd-for-android ScenePlayer
+- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
+//	if(list.count < 2 || ![list isStringAt:0] || ![list isStringAt:1]) {
+//		return;
+//	}
+	DDLogInfo(@"%@ %@", source, list);
+}
+*/
+
+#pragma mark ViewPortDelegate
+
+- (void)receivePositionX:(float)x Y:(float)y {
+	self.parentView.bounds = CGRectMake(x*self.gui.scaleX, y*self.gui.scaleY, self.parentView.bounds.size.width, self.parentView.bounds.size.height);
+	[self.parentView setNeedsDisplay];
+}
+
+- (void)receiveSizeW:(float)w H:(float)h {
+	//[self.manager reshapeToParentSize:CGSizeMake(w, h)];
+	float sx = self.parentView.frame.size.width / w;
+	float sy = self.parentView.frame.size.height / h;
+	self.parentView.bounds = CGRectMake(self.parentView.bounds.origin.x, self.parentView.bounds.origin.y, w*self.gui.scaleX, h*self.gui.scaleY);
+	[self.parentView setNeedsDisplay];
 }
 
 #pragma mark Private

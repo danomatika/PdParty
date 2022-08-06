@@ -21,6 +21,8 @@
 #import "Knob.h"
 #import "Menubang.h"
 
+#import "Canvas.h"
+
 @implementation PartyGui
 
 #pragma mark Add Widgets
@@ -97,6 +99,14 @@
 	}
 }
 
+- (void)addViewPortCanvas:(NSArray *)atomLine {
+	ViewPortCanvas *c = [[ViewPortCanvas alloc] initWithAtomLine:atomLine andGui:self];
+	if(c) {
+		[self.widgets addObject:c];
+		DDLogVerbose(@"Gui: added %@", c.type);
+	}
+}
+
 #pragma mark Gui
 
 // droidparty objects
@@ -137,6 +147,11 @@
 		else if([type isEqualToString:@"menubang"]) {
 			[self addMenubang:atomLine];
 			return YES;
+		}
+		else if([type isEqualToString:@"cnv"] && atomLine.count > 9 && [atomLine[9] isEqualToString:@"ViewPort"]) {
+			// special ViewPort canvas
+			[self addViewPortCanvas:atomLine];
+			return  YES;
 		}
 		// iem GUIs, etc
 		return [super addObjectType:type fromAtomLine:atomLine atLevel:level];

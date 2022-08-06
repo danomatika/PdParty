@@ -121,6 +121,7 @@
 		DDLogWarn(@"SceneManager: unknown scene type: %@", type);
 		self.scene = [[Scene alloc] init];
 	}
+	self.scene.manager = self;
 	if(self.scene.requiresPd) {
 		self.pureData.audioEnabled = YES;
 		if(self.scene.sampleRate == USER_SAMPLERATE) {
