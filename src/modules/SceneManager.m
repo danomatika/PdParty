@@ -100,6 +100,7 @@
 	if(self.gui.parentViewSize.width == 0 && self.gui.parentViewSize.height == 0) {
 		[self reshapeToParentSize:parent.bounds.size];
 	}
+	[self.gui resetViewport];
 	
 	// open new scene
 	if([type isEqualToString:@"PatchScene"]) {

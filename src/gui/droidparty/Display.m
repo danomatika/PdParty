@@ -44,14 +44,13 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 	
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
 	CGContextFillRect(context, rect);
 	
 	// border
-	CGContextSetLineWidth(context, 1.0);
 	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
 	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));
 }

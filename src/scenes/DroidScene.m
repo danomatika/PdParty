@@ -140,15 +140,15 @@
 #pragma mark ViewPortDelegate
 
 - (void)receivePositionX:(float)x Y:(float)y {
-	self.parentView.bounds = CGRectMake(x*self.gui.scaleX, y*self.gui.scaleY, self.parentView.bounds.size.width, self.parentView.bounds.size.height);
+	self.gui.viewport = CGRectMake(x, y,
+		CGRectGetWidth(self.gui.viewport), CGRectGetHeight(self.gui.viewport));
+	[self.gui reshapeWidgets];
 	[self.parentView setNeedsDisplay];
 }
 
 - (void)receiveSizeW:(float)w H:(float)h {
-	//[self.manager reshapeToParentSize:CGSizeMake(w, h)];
-	float sx = self.parentView.frame.size.width / w;
-	float sy = self.parentView.frame.size.height / h;
-	self.parentView.bounds = CGRectMake(self.parentView.bounds.origin.x, self.parentView.bounds.origin.y, w*self.gui.scaleX, h*self.gui.scaleY);
+	self.gui.viewport = CGRectMake(self.gui.viewport.origin.x, self.gui.viewport.origin.y, w, h);
+	[self.gui reshapeWidgets];
 	[self.parentView setNeedsDisplay];
 }
 

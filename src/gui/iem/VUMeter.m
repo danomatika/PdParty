@@ -77,12 +77,12 @@
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 		
 	CGRect meterRect = CGRectMake(
 		0, floor((-2 * self.gui.scaleX) + yOffset),
 		round((CGRectGetWidth(self.originalFrame)) * self.gui.scaleX),
-		round((CGRectGetHeight(self.originalFrame) + 4) * self.gui.scaleX));
+		round((CGRectGetHeight(self.originalFrame) + 4) * self.gui.scaleHeight));
 	
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
@@ -101,10 +101,10 @@
 	int yyy, i, k4 = -k3;
 	
 	for(i = 1; i <= IEM_VU_STEPS; ++i) {
-		yyy = round(((k4 + k1 * (k2 - i)) * self.gui.scaleX) + yOffset);
+		yyy = round(((k4 + k1 * (k2 - i)) * self.gui.scaleHeight) + yOffset);
 		
 		// fat line for overlap since spacing between is not pixel perfect when scaling
-		CGContextSetLineWidth(context, ceil((ledSize + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleX));
+		CGContextSetLineWidth(context, self.gui.lineWidth * (ceil((ledSize + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleX)));
 		
 		// led bar
 		if(i == peakLed || i <= rmsLed) {
@@ -125,7 +125,7 @@
 				 
 		// scale
 		if(((i + 2) & 3) && self.showScale) {
-			yyy = round((k1 * (k2 - i)) * self.gui.scaleX);
+			yyy = round((k1 * (k2 - i)) * self.gui.scaleHeight);
 			NSString * vuString = [NSString stringWithUTF8String:iemgui_vu_scale_str[i]];
 			if(vuString.length > 0) {
 				CGPoint stringPos = CGPointMake(end, yyy);
@@ -160,14 +160,14 @@
 			round((self.originalFrame.origin.x - 1) * self.gui.scaleX),
 			round(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2)),
 			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
-			round(((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleX) + charSize.height));
+			round(((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleHeight) + charSize.height));
 	}
 	else {
 		self.frame = CGRectMake(
 			round((self.originalFrame.origin.x - 1) * self.gui.scaleX),
 			round(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2)),
 			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + 1),
-			round((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleX) + charSize.height);
+			round((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleHeight) + charSize.height);
 	}
 
 	// shift label down slightly

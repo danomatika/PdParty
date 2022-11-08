@@ -49,8 +49,8 @@
 
 	// bounds, scale by true horz AND vert scaling as this looks better at bad aspect ratios/orientations
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round((self.originalFrame.origin.x - self.gui.viewport.origin.x) * self.gui.scaleX),
+		round((self.originalFrame.origin.y - self.gui.viewport.origin.y) * self.gui.scaleY),
 		round(self.originalFrame.size.width * self.gui.scaleX),
 		round(self.originalFrame.size.height * self.gui.scaleY));
 
@@ -109,18 +109,19 @@
 
 @implementation ViewPortCanvas
 
+// FIXME: this ends up calling reshape on the cnv twice
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	BOOL ret = [super receiveEditMessage:message withArguments:arguments];
 	if([message isEqualToString:@"pos"]) {
 		DDLogInfo(@"ViewPortCanvas: pos %g %g", self.originalFrame.origin.x, self.originalFrame.origin.y);
 		if(self.delegate) {
-			[self.delegate receivePositionX:self.frame.origin.x Y:self.frame.origin.y];
+			[self.delegate receivePositionX:self.originalFrame.origin.x Y:self.originalFrame.origin.y];
 		}
 	}
 	else if([message isEqualToString:@"vis_size"]) {
-		DDLogInfo(@"ViewPortCanvas: vis_size %g %g", self.originalFrame.size.height, self.originalFrame.size.width);
+		DDLogInfo(@"ViewPortCanvas: vis_size %g %g", self.originalFrame.size.width, self.originalFrame.size.height);
 		if(self.delegate) {
-			[self.delegate receiveSizeW:self.frame.size.width H:self.frame.size.height];
+			[self.delegate receiveSizeW:self.originalFrame.size.width H:self.originalFrame.size.height];
 		}
 	}
 	return ret;

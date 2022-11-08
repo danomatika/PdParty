@@ -35,8 +35,11 @@
 
 @property (assign, readwrite) int fontSize;
 
-@property (assign, readwrite) float scaleX;
-@property (assign, readwrite) float scaleY;
+@property (assign, readwrite) float patchScaleX;
+@property (assign, readwrite) float patchScaleY;
+
+@property (assign, readwrite) float viewportScaleX;
+@property (assign, readwrite) float viewportScaleY;
 
 // add other objects and print warnings for non-compatible objects
 - (void)addObject:(NSArray *)atomLine atLevel:(int)level;
@@ -51,10 +54,17 @@
 		self.widgets = [NSMutableArray array];
 		self.fontName = nil; // sets default font
 		self.fontSize = 10;
-		self.scaleX = 1.0;
-		self.scaleY = 1.0;
+		self.patchScaleX = 1.0;
+		self.patchScaleY = 1.0;
+		[self resetViewport];
     }
     return self;
+}
+
+- (void)resetViewport {
+	_viewport = CGRectZero;
+	_viewportScaleX = 1;
+	_viewportScaleY = 1;
 }
 
 #pragma mark Add Widgets
@@ -213,13 +223,13 @@
 					}
 					else {
 						// set pd gui to ios gui scale amount based on relative sizes
-						self.scaleX = self.parentViewSize.width / self.patchWidth;
-						self.scaleY = self.parentViewSize.height / self.patchHeight;
+						self.patchScaleX = self.parentViewSize.width / self.patchWidth;
+						self.patchScaleY = self.parentViewSize.height / self.patchHeight;
 					}
 					
 					// sanity check
-					if(self.scaleX <= 0) {self.scaleX = 1.0;}
-					if(self.scaleY <= 0) {self.scaleY = 1.0;}
+					if(self.patchScaleX <= 0) {self.patchScaleX = 1.0;}
+					if(self.patchScaleY <= 0) {self.patchScaleY = 1.0;}
 				}
 			}
 			else if([lineType isEqualToString:@"restore"]) {
@@ -327,12 +337,34 @@
 
 - (void)setParentViewSize:(CGSize)parentViewSize {
 	_parentViewSize = parentViewSize;
-	self.scaleX = self.parentViewSize.width / self.patchWidth;
-	self.scaleY = self.parentViewSize.height / self.patchHeight;
+	self.patchScaleX = self.parentViewSize.width / self.patchWidth;
+	self.patchScaleY = self.parentViewSize.height / self.patchHeight;
 }
 
 - (void)setFontName:(NSString *)fontName {
 	_fontName = fontName == nil ? GUI_FONT_NAME : fontName;
+}
+
+- (float)lineWidth {
+	return MAX(floorf(self.scaleX), 1.0);
+}
+
+- (float)scaleX {
+	return self.patchScaleX * self.viewportScaleX;
+}
+
+- (float)scaleY {
+	return self.patchScaleY * self.viewportScaleY;
+}
+
+- (float)scaleHeight {
+	return self.scaleY;
+}
+
+- (void)setViewport:(CGRect)viewport {
+	_viewport = viewport;
+	self.viewportScaleX = self.patchWidth / MAX(self.viewport.size.width, 1.0f);
+	self.viewportScaleY = self.patchHeight / MAX(self.viewport.size.height, 1.0f);
 }
 
 #pragma mark Private

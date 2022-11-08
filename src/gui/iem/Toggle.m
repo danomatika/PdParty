@@ -60,7 +60,7 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 	
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
@@ -82,7 +82,7 @@
 		else if(CGRectGetWidth(self.originalFrame) >= 30) {
 			w = 2;
 		}
-		CGContextSetLineWidth(context, w);
+		CGContextSetLineWidth(context, self.gui.lineWidth * w);
 		
 		CGContextBeginPath(context);
 		CGContextMoveToPoint(context, w, w);
@@ -99,10 +99,10 @@
 
 	// bounds
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round((self.originalFrame.origin.x - self.gui.viewport.origin.x) * self.gui.scaleX),
+		round((self.originalFrame.origin.y - self.gui.viewport.origin.y) * self.gui.scaleY),
 		round(self.originalFrame.size.width * self.gui.scaleX),
-		round(self.originalFrame.size.height * self.gui.scaleX));
+		round(self.originalFrame.size.height * self.gui.scaleHeight));
 
 	// label
 	[self reshapeLabel];

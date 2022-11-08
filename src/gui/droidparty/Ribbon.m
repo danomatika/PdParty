@@ -49,7 +49,7 @@
 - (void)drawRect:(CGRect)rect {
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-    CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);

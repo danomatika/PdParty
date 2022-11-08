@@ -65,7 +65,7 @@
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 	
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
@@ -109,14 +109,14 @@
 	// bounds
 	if(self.orientation == WidgetOrientationHorizontal) {
 		self.frame = CGRectMake(
-			round(self.originalFrame.origin.x * self.gui.scaleX),
-			round(self.originalFrame.origin.y * self.gui.scaleY),
+			round((self.originalFrame.origin.x - self.gui.viewport.origin.x) * self.gui.scaleX),
+			round((self.originalFrame.origin.y - self.gui.viewport.origin.y) * self.gui.scaleY),
 			round(self.numCells * cellSize) + 1, cellSize);
 	}
 	else {
 		self.frame = CGRectMake(
-			round(self.originalFrame.origin.x * self.gui.scaleX),
-			round(self.originalFrame.origin.y * self.gui.scaleY),
+			round((self.originalFrame.origin.x - self.gui.viewport.origin.x) * self.gui.scaleX),
+			round((self.originalFrame.origin.y - self.gui.viewport.origin.y) * self.gui.scaleY),
 			cellSize, round(self.numCells * cellSize) + 1);
 	}
 	

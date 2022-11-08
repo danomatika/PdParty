@@ -92,7 +92,7 @@
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 	
 	// bounds as path
 	CGMutablePathRef path = CGPathCreateMutable();
@@ -140,16 +140,16 @@
 	}
 	valueLabelFrame.origin = CGPointMake(
 		round((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * self.gui.scaleX),
-		round(((CGRectGetHeight(self.originalFrame) * 0.5 + 0.5) * self.gui.scaleX) -
+		round(((CGRectGetHeight(self.originalFrame) * 0.5 + 0.5) * self.gui.scaleHeight) -
 			  CGRectGetHeight(self.valueLabel.frame) * 0.5));
 	self.valueLabel.frame = valueLabelFrame;
 	
 	// width from value label
 	CGRect frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round((self.originalFrame.origin.x - self.gui.viewport.origin.x) * self.gui.scaleX),
+		round((self.originalFrame.origin.y - self.gui.viewport.origin.y) * self.gui.scaleY),
 		round(CGRectGetWidth(self.valueLabel.frame) + self.valueLabel.frame.origin.x + (4 * self.gui.scaleX)),
-		round(CGRectGetHeight(self.originalFrame) * self.gui.scaleX));
+		round(CGRectGetHeight(self.originalFrame) * self.gui.scaleHeight));
 	self.frame = frame;
 	cornerSize = 4 * self.gui.scaleX;
 

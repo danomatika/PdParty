@@ -42,8 +42,27 @@
 @property (assign, readonly, nonatomic) int fontSize;
 
 /// scale amount between view bounds and original patch size, calculated when bounds is set
+@property (assign, readonly, nonatomic) float patchScaleX;
+@property (assign, readonly, nonatomic) float patchScaleY;
+
+/// scale amount between view bounds and original patch size, calculated when bounds is set
 @property (assign, readonly, nonatomic) float scaleX;
 @property (assign, readonly, nonatomic) float scaleY;
+
+/// widget height scaling
+/// TODO: make this aspect ratio aware?
+@property (assign, readonly, nonatomic) float scaleHeight;
+
+/// line width based on current scale values
+@property (assign, readonly, nonatomic) float lineWidth;
+
+/// optional patch (sub) viewport in pixel size of original pd patch
+@property (assign, nonatomic) CGRect viewport;
+@property (assign, readonly, nonatomic) float viewportScaleX;
+@property (assign, readonly, nonatomic) float viewportScaleY;
+
+/// reset viewport back to patch size
+- (void)resetViewport;
 
 #pragma mark Add Widgets
 
