@@ -13,6 +13,12 @@
 #import "Log.h"
 #import "Util.h"
 
+@interface SceneControlsView () {
+	UITapGestureRecognizer *sliderTapRecognizer;
+	float prevSliderValue; // prev value on non-zero double-tap
+}
+@end
+
 @implementation SceneControlsView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -43,6 +49,15 @@
 											style:UIBarButtonItemStylePlain
 										   target:self
 										   action:@selector(buttonPressed:)];
+}
+
+- (UISlider *)createSlider {
+	UISlider *slider = [super createSlider];
+	sliderTapRecognizer = [[UITapGestureRecognizer alloc] init];
+	[sliderTapRecognizer addTarget:self action:@selector(sliderDoubleTapped:)];
+	sliderTapRecognizer.numberOfTapsRequired = 2; // double-tap
+	[slider addGestureRecognizer:sliderTapRecognizer];
+	return slider;
 }
 
 - (void)updateControls {
@@ -161,6 +176,21 @@
 }
 
 #pragma mark Private
+
+// double-tap microphone image to toggle mic input value
+- (void)sliderDoubleTapped:(id)sender {
+	CGPoint location = [sliderTapRecognizer locationInView:self.slider];
+	CGRect rect = [self.slider minimumValueImageRectForBounds:self.slider.bounds];
+	if(CGRectContainsPoint(rect, location)) {
+		if(self.slider.value > 0) {
+			prevSliderValue = self.slider.value;
+			self.slider.value = 0;
+		}
+		else {
+			self.slider.value = (prevSliderValue > 0 ? prevSliderValue : 1);
+		}
+	}
+}
 
 - (void)levelIconTo:(NSString *)name {
 	if(self.lightBackground) {
