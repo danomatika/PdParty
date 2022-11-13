@@ -165,9 +165,13 @@ The cassette background is a placeholder for now. When metadata is added, it may
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/osc_settings_iPhone.png"/>
 </p>
 
-Enable the OSC server and update its settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
+Enable the OSC server and update its send and receive settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
 
-Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a multicast group in the Host field such as "224.0.0.0/24."
+Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a multicast group in the Send Host field such as "239.200.200.200"
+
+Receive multicast by setting a multicast group in the Recieve Multicast Group field. To disable multicast, clear the field.
+
+_Note: Receiving multicast is currently limited to IPv4 only._ 
 
 ### MIDI Settings
 
@@ -402,12 +406,12 @@ PdParty currently supports:
 
 * PdDroidParty abstractions:
   - [loadsave]
-  - [menubang]: buttons are added to the controls popup menu
+  - [menubang]\: buttons are added to the controls popup menu
   - [display]
-  - [droidsystem]:
+  - [droidsystem]\:
     + receive messages: sensors, & openurl (vibrate\* is ignored)
     + send messages: accel, gyro, & magnet
-  - [knob]: implementation of the moonlib external [mknob]
+  - [knob]\: implementation of the moonlib external [mknob]
   - [numberbox]
   - [ribbon]
   - [taplist]
@@ -427,8 +431,8 @@ SVG widget styling support is planned, but not an immediate priority as there is
 PdParty currently supports:
 
 * RjDj abstractions/objects:
-  - [rj\_image]: implemented internally
-  - [rj\_text]: implemented internally
+  - [rj\_image]\: implemented internally
+  - [rj\_text]\: implemented internally
   - [rj\_loc]
   - [rj\_compass]
   - [rj\_time]

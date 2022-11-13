@@ -626,15 +626,17 @@ lo_server lo_server_new_with_proto_internal(const char *group,
         }
 
 #ifdef ENABLE_IPV6
-    unsigned int v6only_off = 0;
-    if (setsockopt(s->sockets[0].fd, IPPROTO_IPV6, IPV6_V6ONLY,
-                   &v6only_off, sizeof(v6only_off)) < 0) {
-        err = geterror();
-        /* Ignore the error if the option is simply not supported. */
-        if (err!=ENOPROTOOPT) {
-            lo_throw(s, err, strerror(err), "setsockopt(IPV6_V6ONLY)");
-            lo_server_free(s);
-            return NULL;
+    if (ai->ai_family==AF_INET6) {
+        unsigned int v6only_off = 0;
+        if (setsockopt(s->sockets[0].fd, IPPROTO_IPV6, IPV6_V6ONLY,
+                       &v6only_off, sizeof(v6only_off)) < 0) {
+            err = geterror();
+            /* Ignore the error if the option is simply not supported. */
+            if (err!=ENOPROTOOPT) {
+                lo_throw(s, err, strerror(err), "setsockopt(IPV6_V6ONLY)");
+                lo_server_free(s);
+                return NULL;
+            }
         }
     }
 #endif

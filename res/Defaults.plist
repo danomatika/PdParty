@@ -32,6 +32,8 @@
 	<integer>8888</integer>
 	<key>oscListenPort</key>
 	<integer>8088</integer>
+	<key>oscListenGroup</key>
+	<string></string>
 	<key>oscServerEnabled</key>
 	<false/>
 	<key>webServerPort</key>

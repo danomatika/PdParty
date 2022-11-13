@@ -1,5 +1,12 @@
 1.3.0: TBA
 
+* fixed OSC restart timer retrigger due to missing invalidation
+* don't hide settings on OSC server error so bad values can be fixed
+
+* added OSC multicast receiving support (IPv4 only for now)
+
+* updated OSC settings view with separate send and receive sections
+
 beta4
 
 * added #motion events for processed device orientation, rotation, and separate
