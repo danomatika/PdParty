@@ -269,5 +269,7 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>PdParty uses network sockets to send &amp; receive OSC messages.</string>
 </dict>
 </plist>
