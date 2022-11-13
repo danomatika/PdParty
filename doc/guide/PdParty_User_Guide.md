@@ -171,7 +171,7 @@ Enable the OSC server and update its send and receive settings: ports, host (des
 
 Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a multicast group in the Send Host field such as "239.200.200.200"
 
-Receive multicast by setting a multicast group in the Recieve Multicast Group field. To disable multicast, clear the field.
+As of PdParty 1.3.0, receive multicast by setting a multicast group in the Recieve Multicast Group field. To disable multicast, clear the field.
 
 _Note: Receiving multicast is currently limited to IPv4 only._ 
 
