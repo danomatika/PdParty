@@ -10,6 +10,9 @@
 
 * added double-tap microphone image to toggle mic input value
 
+* record timestamp now prepended and format now MM-dd-yyyy_HH-mm-ss to nominally
+  match original robotcowboy project file naming 
+
 beta4
 
 * added #motion events for processed device orientation, rotation, and separate

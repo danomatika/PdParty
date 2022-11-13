@@ -185,10 +185,10 @@
 	
 	if(timestamp) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-		[formatter setDateFormat:@"yyyy-MM-dd_HHmmss"];
+		[formatter setDateFormat:@"MM-dd-yyyy_HH-mm-ss"];
 		NSString *date = [formatter stringFromDate:[NSDate date]];
-		[self startRecordingTo:[recordDir stringByAppendingPathComponent:
-			[path.stringByDeletingPathExtension stringByAppendingFormat:@"_%@.wav", date]]];
+		NSString *filename = [NSString stringWithFormat:@"%@_%@.wav", date, path.stringByDeletingPathExtension];
+		[self startRecordingTo:[recordDir stringByAppendingPathComponent:filename]];
 	}
 	else {
 		[self startRecordingTo:[recordDir stringByAppendingPathComponent:

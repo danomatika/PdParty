@@ -611,9 +611,9 @@ Timestamp events must be triggered manually by sending a message to the internal
 You can manually trigger recording via sending messages to the internal \#pdparty receiver in your patches:
 
 * **\#pdparty scene _name_**: set the scene/file name for recording
-  - _name_: timestamp is appended & file is saved to the recordings dir
+  - _name_: timestamp is prepended & file is saved to the recordings dir
 * **\#pdparty scene _name_ _timestamp_**: same as above with additional argument
-  - _timestamp_: boolean 0-1 to enable appending timestamp to file name
+  - _timestamp_: boolean 0-1 to enable prepending timestamp to file name, format "MM-dd-yyyy_HH-mm-ss_NAME.wav"
 * **\#pdparty record _value_**: recording control, also connected to the GUI
   - _value_: boolean to start/stop recording
 
