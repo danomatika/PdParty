@@ -169,11 +169,17 @@ The cassette background is a placeholder for now. When metadata is added, it may
 
 Enable the OSC server and update its send and receive settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
 
+If you have trouble sending or receiving OSC messages on iOS 14+, double check that PdParty has permission to access the local network: Settings->Privacy->Local Network.
+
+#### Multicast
+
 Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a multicast group in the Send Host field such as "239.200.200.200"
 
-As of PdParty 1.3.0, receive multicast by setting a multicast group in the Recieve Multicast Group field. To disable multicast, clear the field.
+As of PdParty 1.3.0, receive multicast by setting a multicast group in the Receive Multicast Group field. To disable multicast, clear the field.
 
-_Note: Receiving multicast is currently limited to IPv4 only._ 
+Depending upon the LAN setup, multicast messaging may be slower or blocked as compared to unicast. Most large organizations block multicast messages by default, so it is recommended to only use this feature within your own private subnetwork.
+
+_Note: Receiving multicast is currently limited to IPv4 only._
 
 ### MIDI Settings
 
@@ -688,6 +694,7 @@ All of the PdParty events can be streamed over OSC, included Pd prints. The rece
 * /pdparty/altitude
 * /pdparty/compass
 * /pdparty/magnet
+* /pdparty/motion
 * /pdparty/time
 * /pdparty/controller
 * /pdparty/shake
