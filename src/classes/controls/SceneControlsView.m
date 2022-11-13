@@ -187,7 +187,7 @@
 			self.slider.value = 0;
 		}
 		else {
-			self.slider.value = (prevSliderValue > 0 ? prevSliderValue : 1);
+			self.slider.value = (prevSliderValue > 0 ? prevSliderValue : 0.25);
 		}
 	}
 }
