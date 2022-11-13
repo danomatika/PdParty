@@ -149,6 +149,8 @@ Optionally, a button to launch a Console view to display Pd prints for the curre
 
 On iPhone, the speaker icon is added to allow for switching the audio output between the headset speaker (quiet) and the speaker-phone speakers (loud). This may useful to prevent feedback between input and output in certain scenes. For Rj scenes, this control is added as a switch on the scene's info view.
 
+Double-tap the microphone icon to quickly mute/unmute audio input. _Note: The original unmuted value is not saved when PdParty is closed._
+
 #### Recording Scene
 
 There is also a special scene for playing back recordings (aka .wav files). There is a button for looping the playback and the slider controls the current playback position.
