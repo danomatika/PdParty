@@ -14,7 +14,7 @@
 #import "Log.h"
 #import "PureData.h"
 
-#define DEBUG_OSC
+//#define DEBUG_OSC
 
 // liblo C callbacks
 void errorCB(int num, const char *msg, const char *where);

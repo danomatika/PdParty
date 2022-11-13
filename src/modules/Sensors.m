@@ -23,7 +23,7 @@
 #define SENSOR_GAME_HZ    60.0
 #define SENSOR_FASTEST_HZ 100.0
 
-#define DEBUG_SENSORS
+//#define DEBUG_SENSORS
 
 @interface Sensors () {
 	CMMotionManager *motionManager; //< for sensor data
