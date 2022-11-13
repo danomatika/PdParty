@@ -1,0 +1,44 @@
+#N canvas 829 273 446 296 10;
+#X obj 4 1 noise~;
+#X obj 103 175 noise~;
+#X obj 39 237 *~;
+#X obj 39 178 *~ -2;
+#X obj 39 257 outlet~;
+#X obj 102 53 sig~ 1;
+#X obj 102 78 -~;
+#X obj 39 111 *~;
+#X obj 39 135 +~;
+#X obj 4 32 max~ 0;
+#X obj 55 32 min~ 0;
+#X obj 55 54 *~ -1;
+#X obj 39 85 +~;
+#X obj 118 26 sig~ \$1;
+#X obj 103 198 cos~;
+#X obj 39 199 sqrt~;
+#X text 157 106 Approximation for when \$1 = 0.4;
+#X text 64 140 <--------------;
+#X text 159 129 Well \, \; these values \; are confined between [0.6
+\, 1] for \$1 = 0.4 \; So \, we'll do a little trick and approximate
+ln \; by it's Taylor series around 0.8...;
+#X obj 201 66 expr~ -0.223144 + 1.25*($v1 - 0.8) - 0.78125*($v1-0.8)*($v1-0.8)
++ 0.651042*($v1-0.8)*($v1-0.8)*($v1-0.8);
+#X obj 39 157 log~;
+#X text 69 157 was: motex/ln~;
+#X connect 0 0 9 0;
+#X connect 0 0 10 0;
+#X connect 1 0 14 0;
+#X connect 2 0 4 0;
+#X connect 3 0 15 0;
+#X connect 5 0 6 0;
+#X connect 6 0 8 1;
+#X connect 7 0 8 0;
+#X connect 8 0 19 0;
+#X connect 9 0 12 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 1;
+#X connect 12 0 7 0;
+#X connect 13 0 7 1;
+#X connect 13 0 6 1;
+#X connect 14 0 2 1;
+#X connect 15 0 2 0;
+#X connect 19 0 3 0;

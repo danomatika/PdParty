@@ -1,0 +1,256 @@
+#N canvas 119 268 671 281 10;
+#X declare -path pd;
+#X declare -path pdparty;
+#X obj 32 44 cnv 15 596 42 empty empty empty 20 12 0 14 #dcdcdc #404040
+0;
+#X obj 56 54 hsl 128 25 0 1 0 0 rain_amount r_amount Rain_Amount 6
+8 0 10 #fcfcfc #000000 #000000 0 1;
+#N canvas 108 288 427 326 logic 0;
+#X obj 106 7 loadbang;
+#X obj 221 259 declare -path pd;
+#X obj 221 278 declare -path pdparty;
+#X obj 19 264 soundoutput;
+#X obj 26 222 r \$0-master-vol;
+#X obj 19 245 *~;
+#X obj 122 245 *~;
+#X obj 19 201 catch~ L;
+#X obj 122 201 catch~ R;
+#X obj 163 7 r RESET;
+#N canvas 26 208 823 581 sensors_mapping 0;
+#X obj 333 13 cnv 15 140 80 empty empty empty 20 12 0 14 #fce0c4 #404040
+0;
+#X obj 343 86 s #pdparty;
+#X obj 343 37 r s-processedmotion;
+#X text 341 17 Processed sensor data ON/OFF;
+#X obj 333 122 cnv 15 200 140 empty empty empty 20 12 0 14 #c4fcc4
+#404040 0;
+#N canvas 61 453 253 197 type 0;
+#X obj 16 9 inlet;
+#X obj 16 133 symbol;
+#X obj 16 167 outlet;
+#X msg 16 84 fastest;
+#X msg 83 84 fast;
+#X msg 132 83 normal;
+#X msg 191 83 slow;
+#X obj 16 38 sel 0 1 2 3;
+#X connect 0 0 7 0;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 7 3 6 0;
+#X restore 340 192 pd type;
+#X obj 340 160 r s-speed-sensors;
+#X obj 340 252 s #pdparty;
+#X text 338 125 Speed of retrieval of processed sensor data;
+#X text 338 139 (0: fastest --> 3: slowest);
+#X obj 153 14 cnv 15 100 148 empty empty empty 20 12 0 14 #e0e0e0 #404040
+0;
+#X obj 23 13 cnv 15 100 148 empty empty empty 20 12 0 14 #fcfcc4 #404040
+0;
+#X msg 162 99 orientationeuler \$1;
+#X obj 162 136 s #pdparty;
+#X obj 162 68 r s-run-orientEuler;
+#X text 160 47 Turning ON/OFF;
+#X obj 42 204 unpack f f f;
+#X text 27 47 Receiving from sensor;
+#X text 106 28 Orientation;
+#X obj 21 285 cnv 15 620 240 empty empty empty 20 12 0 14 #e0c4fc #404040
+0;
+#X text 20 524 https://developer.apple.com/documentation/coremotion/getting_processed_device-motion_data/understanding_reference_frames_and_device_attitude
+;
+#X obj 35 332 expr ((5.*$f1)+3.14159)/6.283185;
+#X obj 292 352 min 1.01;
+#X obj 292 331 expr 0.5789 + 0.5263*$f1;
+#X obj 292 374 max 0;
+#X obj 288 435 cnv 15 70 60 empty empty empty 20 12 0 14 #b8b8b8 #404040
+0;
+#X obj 292 451 s r_amount;
+#X obj 29 434 cnv 15 70 60 empty empty empty 20 12 0 14 #fc8000 #404040
+0;
+#X obj 35 452 s r_color;
+#X text 33 305 Roll;
+#X text 380 452 0;
+#X text 477 390 Arm up* = max rain;
+#X text 478 512 * in fact \, a little sooner;
+#X text 477 454 Arm down = no rain;
+#X text 374 394 ~1;
+#X text 477 417 Arm horizontal ~= mid rain;
+#X text 379 422 == ARM =>;
+#X text 476 429 0.5789;
+#X text 44 406 The other way around = thin rain;
+#X text 44 375 Palm up = bassy rain;
+#X text 44 390 Palm down = "normal" rain;
+#X text 290 305 Pitch;
+#X obj 600 234 timer;
+#X msg 642 209 bang;
+#X obj 600 153 f 0;
+#X obj 600 172 % 2;
+#X obj 629 153 + 1;
+#X obj 600 193 sel 0;
+#X msg 600 132 bang;
+#X text 597 100 Inspecting time between consecutive;
+#X obj 600 255 s r-time_between_ori_events;
+#X text 598 114 orientationeuler incoming values;
+#X text 40 241 To the Debug panel;
+#X obj 664 337 unpack f f f;
+#X text 662 376 To the Debug panel;
+#X obj 664 361 s r-ax;
+#X obj 704 361 s r-ay;
+#X obj 744 361 s r-az;
+#X obj 664 458 unpack f f f;
+#X text 662 497 To the Debug panel;
+#X obj 664 482 s r-rrx;
+#X obj 710 482 s r-rry;
+#X obj 756 482 s r-rrz;
+#X obj 664 318 spigot;
+#X obj 709 318 r s-debug-acc;
+#X obj 664 438 spigot;
+#X obj 42 184 spigot;
+#X obj 709 438 r s-debug-rr;
+#X obj 75 166 r s-debug-orientEuler;
+#X obj 28 108 unpack f f f;
+#X obj 200 204 s euler-event;
+#X obj 600 81 r euler-event;
+#X text 34 86 (pitch \, roll \, yaw);
+#X msg 343 62 motion \$1;
+#X obj 42 226 s r-pitch;
+#X obj 106 226 s r-roll;
+#X obj 164 226 s r-yaw;
+#N canvas 121 146 381 184 sensor 0;
+#X obj 37 38 r #motion;
+#X obj 113 113 s rotationrate;
+#X obj 219 113 s useracceleration;
+#X obj 37 68 route attitude rotation gravity user;
+#X obj 37 143 s orientationeuler;
+#X connect 0 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 1 1 0;
+#X connect 3 3 2 0;
+#X restore 598 17 pd sensor receivers;
+#X msg 340 222 motion speed \$1;
+#X obj 664 300 r useracceleration;
+#X obj 664 417 r rotationrate;
+#X obj 27 67 r orientationeuler;
+#X connect 2 0 73 0;
+#X connect 5 0 78 0;
+#X connect 6 0 5 0;
+#X connect 12 0 13 0;
+#X connect 16 0 74 0;
+#X connect 16 1 75 0;
+#X connect 16 1 70 0;
+#X connect 16 2 76 0;
+#X connect 21 0 28 0;
+#X connect 22 0 24 0;
+#X connect 23 0 22 0;
+#X connect 24 0 26 0;
+#X connect 42 0 50 0;
+#X connect 43 0 42 1;
+#X connect 44 0 45 0;
+#X connect 44 0 46 0;
+#X connect 45 0 47 0;
+#X connect 46 0 44 1;
+#X connect 47 0 42 0;
+#X connect 47 1 43 0;
+#X connect 48 0 44 0;
+#X connect 53 0 55 0;
+#X connect 53 1 56 0;
+#X connect 53 2 57 0;
+#X connect 58 0 60 0;
+#X connect 58 1 61 0;
+#X connect 58 2 62 0;
+#X connect 63 0 53 0;
+#X connect 64 0 63 1;
+#X connect 65 0 58 0;
+#X connect 66 0 16 0;
+#X connect 67 0 65 1;
+#X connect 68 0 66 1;
+#X connect 69 0 23 0;
+#X connect 69 1 21 0;
+#X connect 71 0 48 0;
+#X connect 73 0 1 0;
+#X connect 78 0 7 0;
+#X connect 79 0 63 0;
+#X connect 80 0 65 0;
+#X connect 81 0 69 0;
+#X connect 81 0 66 0;
+#X restore 220 231 pd sensors_mapping;
+#X text 113 124 (IEM lib). We had 0.129 for Cooper Baker's [pink~]
+;
+#X msg 17 33 \; d2_f0 20 \; d2_q 0.023 \; d2_threshold 0.16 \; d2_factor
+3 \; d2_level 0.016 \; d2_hip 2000 \; rlight_level 0.15 \; rdetail_level
+0.03 \; rpink_level 0.01 \; r_amount 0.58 \; r_color 0.5 \; r_rain-ON-all
+set 1 \; rain-ON-all 1 \; master 3;
+#X msg 205 33 \; #volume set 1 \; r-speed-sensors 0 \; r-processedmotion
+1;
+#X connect 0 0 12 0;
+#X connect 0 0 13 0;
+#X connect 4 0 6 1;
+#X connect 4 0 5 1;
+#X connect 5 0 3 0;
+#X connect 6 0 3 1;
+#X connect 7 0 5 0;
+#X connect 8 0 6 0;
+#X connect 9 0 12 0;
+#X connect 9 0 13 0;
+#X restore 250 61 pd logic;
+#X obj 211 61 rain;
+#X obj 48 155 tgl 25 0 rain-ON-all r_rain-ON-all ON/OFF 30 12 0 10
+#00fc04 #000000 #000000 0 1;
+#X obj 129 155 bng 25 250 50 0 RESET r_RESET RESET 32 12 0 10 #f8fc00
+#000000 #000000;
+#X obj 35 14 cnv 15 1 1 empty empty Elemental_-_Rain 0 12 0 14 #e0e0e0
+#404040 0;
+#X obj 208 150 cnv 15 420 90 empty empty Debug 20 12 0 14 #e0c4fc #404040
+0;
+#X floatatom 387 219 5 0 0 2 - r-time_between_ori_events s-time_between_ori_events
+0;
+#X floatatom 251 185 4 0 0 0 - r-ax s-ax 0;
+#X floatatom 277 185 4 0 0 0 - r-ay s-ay 0;
+#X floatatom 303 185 4 0 0 0 - r-az s-az 0;
+#X obj 250 166 cnv 15 1 1 empty empty UserAccel 0 12 0 12 #e0e0e0 #404040
+0;
+#X floatatom 372 185 4 0 0 0 - r-rrx s-rrx 0;
+#X floatatom 398 185 4 0 0 0 - r-rry s-rry 0;
+#X floatatom 424 185 4 0 0 0 - r-rrz s-rrz 0;
+#X obj 371 166 cnv 15 1 1 empty empty RotationRate 0 12 0 12 #e0e0e0
+#404040 0;
+#X obj 331 185 tgl 15 0 s-debug-acc r-debug-acc empty 17 7 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X obj 452 185 tgl 15 0 s-debug-rr r-debug-rr empty 17 7 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X text 424 220 (inspect);
+#X text 334 219 (set);
+#X obj 491 165 cnv 15 1 1 empty empty OrientationEuler 0 12 0 12 #e0e0e0
+#404040 0;
+#X floatatom 492 185 4 0 0 0 - r-roll s-roll 0;
+#X floatatom 518 185 4 0 0 0 - r-pitch s-pitch 0;
+#X floatatom 544 185 4 0 0 0 - r-roll s-roll 0;
+#X obj 276 155 tgl 15 0 s-processedmotion r-processedmotion ProcessedMotion
+17 7 0 10 #b8b8b8 #000000 #000000 0 1;
+#X obj 572 185 tgl 15 0 s-debug-orientEuler r-debug-orientEuler empty
+17 7 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 250 219 hradio 15 1 0 4 s-speed-sensors r-speed-sensors Speed_sensor_polling
+0 -8 0 10 #fcfcfc #000000 #000000 0;
+#X text 243 232 fast <-- slow;
+#X text 356 21 Attach your iphone to your arm!;
+#X text 357 58 Your arm Pitch angle will control rain amount;
+#X obj 32 91 cnv 15 596 42 empty empty empty 20 12 0 14 #fcfcc4 #404040
+0;
+#X obj 208 96 hsl 128 15 10 4000 0 0 s-r_color_Hz r_color_Hz 10_to_4000
+2 8 0 10 #fc8000 #000000 #000000 0 1;
+#X obj 208 111 hsl 128 15 4000 9000 0 0 s-r_color_Hz r_color_Hz 4000_to_9000
+2 8 0 10 #fc8000 #000000 #000000 0 1;
+#X obj 56 99 hsl 128 25 0 1 0 0 rcolor-0-1 r_color Rain_Color 6 8 0
+10 #0c4044 #b8b8b8 #fcfcfc 0 1;
+#X text 357 105 And your arm Roll angle will control rain "color";
+#X obj 51 207 hsl 100 26 0 5 0 0 \$0-master-vol master LEVEL 110 12
+0 10 #fc0400 #000000 #000000 0 1;
+#X text 320 260 Check the whole thing at www.tiagobrizolara.com/Elemental
+;
+#X text 386 205 ms between consecutive Euler events;
+#X connect 32 0 33 0;
