@@ -128,10 +128,15 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 			lo_message_add_string(m, [(NSString *)o UTF8String]);
 		}
 		else {
-			DDLogWarn(@"Osc: sendMessage dropping non-numeric/string argument: %@", o);
+			DDLogWarn(@"Osc: dropping non-numeric/string argument: %@", o);
 		}
 	}
-	lo_send_message(sendAddress, [address UTF8String], m);
+	if(lo_send_message(sendAddress, [address UTF8String], m) < 0) {
+		int err = lo_address_errno(sendAddress);
+		const char *errstr = lo_address_errstr(sendAddress);
+		DDLogError(@"OSC: couldn't send message: %d %s", err, errstr);
+	}
+	lo_message_free(m);
 }
 
 - (void)sendPacket:(NSData *)data {
@@ -144,10 +149,16 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		int res = 0;
 		lo_message m = lo_message_deserialise((void *)data.bytes, data.length, &res);
 		if(res != 0) {
-			DDLogError(@"Osc: couldn't send packet: message parsing failed, error %d", res);
+			DDLogError(@"Osc: couldn't send packet: parsing failed, error %d", res);
+			lo_message_free(m);
+			return;
 		}
 		char *path = lo_get_path((void *)data.bytes, data.length);
-		lo_send_message(sendAddress, path, m);
+		if(lo_send_message(sendAddress, path, m) < 0) {
+			int err = lo_address_errno(sendAddress);
+			const char *errstr = lo_address_errstr(sendAddress);
+			DDLogError(@"OSC: couldn't send packet: %d %s", err, errstr);
+		}
 		lo_message_free(m);
 	}
 	else if(firstByte == '#') {
