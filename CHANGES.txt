@@ -1,5 +1,7 @@
 1.3.0: TBA
 
+* fixed [key] & [keyup] using HID keycodes instead of ASCII values
+
 beta 5
 
 * updated to libpd 0.13.1 (pd 0.53-0)

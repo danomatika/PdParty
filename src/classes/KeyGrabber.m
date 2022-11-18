@@ -12,7 +12,7 @@
 
 #import "Log.h"
 
-#define DEBUG_KEYGRABBER
+//#define DEBUG_KEYGRABBER
 
 // add PressGrabber when compiling with iOS 13.4+ SDK
 #ifdef __IPHONE_13_4
@@ -129,7 +129,7 @@
 - (void)pressesBegan:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event {
 	if(self.parent.delegate) {
 		for(UIPress *press in presses) {
-			unichar key = press.key.keyCode;
+			unichar key = [self characterForPress:press];
 			#ifdef DEBUG_KEYGRABBER
 				DDLogVerbose(@"KeyGrabberView: presses began %d", (int)key);
 			#endif
@@ -142,7 +142,7 @@
 - (void)pressesEnded:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event {
 	if(self.parent.delegate) {
 		for(UIPress *press in presses) {
-			unichar key = press.key.keyCode;
+			unichar key = [self characterForPress:press];
 			#ifdef DEBUG_KEYGRABBER
 				DDLogVerbose(@"KeyGrabberView: presses ended %d", (int)key);
 			#endif
@@ -155,7 +155,7 @@
 - (void)pressesCancelled:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event {
 	if(self.parent.delegate) {
 		for(UIPress *press in presses) {
-			unichar key = press.key.keyCode;
+			unichar key = [self characterForPress:press];
 			#ifdef DEBUG_KEYGRABBER
 				DDLogVerbose(@"KeyGrabberView: presses cancelled %d", (int)key);
 			#endif
@@ -163,6 +163,16 @@
 		}
 	}
 	[super pressesCancelled:presses withEvent:event];
+}
+
+// TODO: replace this with press.key.keyCode + lookup table to match Tk?
+- (unichar)characterForPress:(UIPress *)press {
+	unichar key = 0;
+	NSString *chars = press.key.characters;
+	if(chars && ![chars isEqualToString:@""]) {
+		key = [chars characterAtIndex:0];
+	}
+	return key;
 }
 
 @end
