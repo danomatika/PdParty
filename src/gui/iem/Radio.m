@@ -25,7 +25,7 @@
 	if(self) {
 		_numCells = 8; // don't trigger redraw yet
 		self.orientation = WidgetOrientationHorizontal;
-		self.size = IEM_GUI_DEFAULTSIZE;
+		self.size = 15; // was IEM_GUI_DEFAULTSIZE until 0.53-0 changed macro
 		self.minValue = 0;
 		
 		self.sendName = [Gui filterEmptyStringValues:line[9]];

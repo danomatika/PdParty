@@ -141,6 +141,8 @@
 		30FA775316E68936000E8D2B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA775216E68936000E8D2B /* Reachability.m */; };
 		30FA775516E69660000E8D2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FA775416E69660000E8D2B /* SystemConfiguration.framework */; };
 		30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FAB41917C50DEE00ED10BC /* RecordingScene.m */; };
+		7E3FBB3E292C49A900F00CC0 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FBB3D292C49A900F00CC0 /* NavigationController.m */; };
+		7E3FBB41292C559600F00CC0 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FBB40292C559600F00CC0 /* SplitViewController.m */; };
 		7ED022E32879218D00069FFD /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED022E12879218D00069FFD /* List.m */; };
 		7EF040D9284CE5E300906906 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EF040D7284CE5E300906906 /* Launch Screen.storyboard */; };
 		7EF040DB284D147200906906 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA5A3D0284A9785009585C9 /* liblo.a */; };
@@ -428,6 +430,10 @@
 		30FA775416E69660000E8D2B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		30FAB41817C50DEE00ED10BC /* RecordingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingScene.h; sourceTree = "<group>"; };
 		30FAB41917C50DEE00ED10BC /* RecordingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingScene.m; sourceTree = "<group>"; };
+		7E3FBB37292C49A900F00CC0 /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavigationController.h; path = src/NavigationController.h; sourceTree = "<group>"; };
+		7E3FBB3D292C49A900F00CC0 /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavigationController.m; path = src/NavigationController.m; sourceTree = "<group>"; };
+		7E3FBB3F292C559600F00CC0 /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplitViewController.h; path = src/SplitViewController.h; sourceTree = "<group>"; };
+		7E3FBB40292C559600F00CC0 /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SplitViewController.m; path = src/SplitViewController.m; sourceTree = "<group>"; };
 		7EA5A3CB284A9785009585C9 /* liblo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = liblo.xcodeproj; sourceTree = "<group>"; };
 		7EB18881281D78790099A401 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
 		7EB1888A281D79F40099A401 /* DDContextFilterLogFormatter+Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDContextFilterLogFormatter+Deprecated.h"; sourceTree = "<group>"; };
@@ -746,6 +752,8 @@
 				30ABE2E516B5D0FB00464926 /* main.m */,
 				302E895E17E668300004B935 /* MidiViewController.h */,
 				302E895F17E668320004B935 /* MidiViewController.m */,
+				7E3FBB37292C49A900F00CC0 /* NavigationController.h */,
+				7E3FBB3D292C49A900F00CC0 /* NavigationController.m */,
 				30F7A19516C008A400DE265F /* BrowserViewController.h */,
 				30F7A19616C008A500DE265F /* BrowserViewController.m */,
 				3094B45518CBD20A00AFE178 /* InfoViewController.h */,
@@ -760,6 +768,8 @@
 				30ABE2EB16B5D0FB00464926 /* PatchViewController.m */,
 				300507B017C29CE600D1563C /* SettingsViewController.h */,
 				300507B117C29CE600D1563C /* SettingsViewController.m */,
+				7E3FBB3F292C559600F00CC0 /* SplitViewController.h */,
+				7E3FBB40292C559600F00CC0 /* SplitViewController.m */,
 				30FA774D16E5636A000E8D2B /* StartViewController.h */,
 				30FA774E16E5636A000E8D2B /* StartViewController.m */,
 				302438CB1D5AC072005B15A2 /* WebViewController.h */,
@@ -1175,6 +1185,7 @@
 				3057729D1E88A08A007F9A92 /* GCDWebServerDataResponse.m in Sources */,
 				30BC823A23E7A01B00C3BDA2 /* DDASLLogCapture.m in Sources */,
 				3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */,
+				7E3FBB41292C559600F00CC0 /* SplitViewController.m in Sources */,
 				30DBD04C1C196B0500ABE9E1 /* moog~.c in Sources */,
 				30A319F716B61FF700C7729B /* Widget.m in Sources */,
 				30DCC10B196CCCD700B887C5 /* Loadsave.m in Sources */,
@@ -1209,6 +1220,7 @@
 				30E89D3D16EC46CF005B40C4 /* Toggle.m in Sources */,
 				30E89D3E16EC46CF005B40C4 /* AtomWidget.m in Sources */,
 				30E89D3F16EC46CF005B40C4 /* Comment.m in Sources */,
+				7E3FBB3E292C49A900F00CC0 /* NavigationController.m in Sources */,
 				30E89D4016EC46CF005B40C4 /* Number.m in Sources */,
 				30E89D4116EC46CF005B40C4 /* Symbol.m in Sources */,
 				30E89D4416EC4748005B40C4 /* IEMWidget.m in Sources */,
@@ -1424,7 +1436,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 3567T5L8KK;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1476,7 +1488,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 3567T5L8KK;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (

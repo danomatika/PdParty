@@ -1,9 +1,27 @@
 1.3.0: TBA
 
+* fixed [key] & [keyup] using HID keycodes instead of ASCII values
+
+beta 5
+
+* updated to libpd 0.13.1 (pd 0.53-0)
+
+* OSC multicast update:
+  - added OSC multicast receiving support (IPv4 only for now)
+  - updated OSC settings view with separate send and receive sections
+  - fixed OSC restart timer retrigger due to missing invalidation
+  - don't hide settings on OSC server error so bad values can be fixed
+
+* added double-tap microphone image to toggle mic input value
+* added Elemental - Rain PdParty sample by Tiago Brizolara
+
+* record timestamp now prepended and format now MM-dd-yyyy_HH-mm-ss to nominally
+  match original robotcowboy project file naming 
+
 beta4
 
 * added #motion events for processed device orientation, rotation, and separate
-  gravity/user accel (developed from contribution by Tiago Brizolara da Rosa)
+  gravity/user accel (developed from contribution by Tiago Brizolara)
 * added Motion pdparty test (run copy tests in settings to update)
 
 beta3

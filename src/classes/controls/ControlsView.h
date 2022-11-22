@@ -63,7 +63,7 @@
 - (UISlider *)createSlider;
 
 /// control event methods which call delegate methods,
-/// /// override to handle a control change manually
+/// override to handle a control change manually
 - (void)buttonPressed:(id)sender;
 - (void)sliderStartedTracking:(id)sender;
 - (void)sliderStoppedTracking:(id)sender;

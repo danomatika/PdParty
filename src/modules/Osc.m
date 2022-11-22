@@ -41,7 +41,8 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		_sendHost = [defaults objectForKey:@"oscSendHost"];
 		_sendPort = (int)[defaults integerForKey:@"oscSendPort"];
 		_listenPort = (int)[defaults integerForKey:@"oscListenPort"];
-		
+		_listenGroup = [defaults objectForKey:@"oscListenGroup"];
+
 		self.touchSendingEnabled = [defaults boolForKey:@"touchSendingEnabled"];
 		self.sensorSendingEnabled = [defaults boolForKey:@"sensorSendingEnabled"];
 		self.controllerSendingEnabled = [defaults boolForKey:@"controllerSendingEnabled"];
@@ -78,14 +79,18 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 }
 
 - (void)stop {
-	lo_server_thread_stop(server);
-	lo_server_thread_free(server);
-	server = NULL;
+	if(server) {
+		lo_server_thread_stop(server);
+		lo_server_thread_free(server);
+		server = NULL;
+		DDLogVerbose(@"OSC: stopped listening");
+	}
 	self.isListening = NO;
-	DDLogVerbose(@"OSC: stopped listening");
 
-	lo_address_free(sendAddress);
-	sendAddress = NULL;
+	if(sendAddress) {
+		lo_address_free(sendAddress);
+		sendAddress = NULL;
+	}
 }
 
 - (BOOL)startListening {
@@ -123,10 +128,15 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 			lo_message_add_string(m, [(NSString *)o UTF8String]);
 		}
 		else {
-			DDLogWarn(@"Osc: sendMessage dropping non-numeric/string argument: %@", o);
+			DDLogWarn(@"Osc: dropping non-numeric/string argument: %@", o);
 		}
 	}
-	lo_send_message(sendAddress, [address UTF8String], m);
+	if(lo_send_message(sendAddress, [address UTF8String], m) < 0) {
+		int err = lo_address_errno(sendAddress);
+		const char *errstr = lo_address_errstr(sendAddress);
+		DDLogError(@"OSC: couldn't send message: %d %s", err, errstr);
+	}
+	lo_message_free(m);
 }
 
 - (void)sendPacket:(NSData *)data {
@@ -139,10 +149,16 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		int res = 0;
 		lo_message m = lo_message_deserialise((void *)data.bytes, data.length, &res);
 		if(res != 0) {
-			DDLogError(@"Osc: couldn't send packet: message parsing failed, error %d", res);
+			DDLogError(@"Osc: couldn't send packet: parsing failed, error %d", res);
+			lo_message_free(m);
+			return;
 		}
 		char *path = lo_get_path((void *)data.bytes, data.length);
-		lo_send_message(sendAddress, path, m);
+		if(lo_send_message(sendAddress, path, m) < 0) {
+			int err = lo_address_errno(sendAddress);
+			const char *errstr = lo_address_errstr(sendAddress);
+			DDLogError(@"OSC: couldn't send packet: %d %s", err, errstr);
+		}
 		lo_message_free(m);
 	}
 	else if(firstByte == '#') {
@@ -343,6 +359,16 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	[NSUserDefaults.standardUserDefaults setInteger:listenPort forKey:@"oscListenPort"];
 }
 
+- (void)setListenGroup:(NSString *)listenGroup {
+	_listenGroup = listenGroup;
+	if([self updateServer]) {
+		if(![listenGroup isEqualToString:@""]) {
+			DDLogVerbose(@"Osc: listening on multicast group %@", listenGroup);
+		}
+	}
+	[NSUserDefaults.standardUserDefaults setObject:listenGroup forKey:@"oscListenGroup"];
+}
+
 - (void)setTouchSendingEnabled:(BOOL)touchSendingEnabled {
 	_touchSendingEnabled = touchSendingEnabled;
 	[NSUserDefaults.standardUserDefaults setBool:touchSendingEnabled forKey:@"touchSendingEnabled"];
@@ -394,7 +420,12 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		lo_server_thread_free(server);
 	}
 	NSString *port = [NSString stringWithFormat:@"%d", self.listenPort];
-	server = lo_server_thread_new([port UTF8String], *errorCB);
+	if([self.listenGroup isEqualToString:@""]) {
+		server = lo_server_thread_new([port UTF8String], *errorCB);
+	}
+	else {
+		server = lo_server_thread_new_multicast([self.listenGroup UTF8String], [port UTF8String], *errorCB);
+	}
 	if(!server) {
 		DDLogError(@"Osc: could not create server");
 		return NO;

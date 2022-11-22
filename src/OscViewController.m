@@ -20,7 +20,7 @@
 }
 
 /// restart the osc server
-- (void) restart;
+- (void)restart;
 
 /// timer function to start the server after a gui change
 - (void)startOsc:(NSTimer *)theTimer;
@@ -36,10 +36,11 @@
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	osc = app.osc;
 	
-	self.connectionEnabledSwitch.on = osc.isListening;
-	self.hostTextField.text = osc.sendHost;
-	self.outgoingPortTextField.text = [NSString stringWithFormat:@"%d", osc.sendPort];
-	self.incomingPortTextField.text = [NSString stringWithFormat:@"%d", osc.listenPort];
+	self.oscEnabledSwitch.on = osc.isListening;
+	self.sendHostTextField.text = osc.sendHost;
+	self.sendPortTextField.text = [NSString stringWithFormat:@"%d", osc.sendPort];
+	self.listenPortTextField.text = [NSString stringWithFormat:@"%d", osc.listenPort];
+	self.listenGroupTextField.text = osc.listenGroup;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -58,8 +59,8 @@
 
 #pragma mark Settings
 
-- (IBAction)enableOscConnection:(id)sender {
-	if(self.connectionEnabledSwitch.isOn) {
+- (IBAction)enableOsc:(id)sender {
+	if(self.oscEnabledSwitch.isOn) {
 		[self startOsc:nil];
 	}
 	else {
@@ -68,35 +69,43 @@
 	[self.tableView reloadData];
 }
 
-- (IBAction)setHost:(id)sender {
-	osc.sendHost = self.hostTextField.text;
+- (IBAction)setSendHost:(id)sender {
+	if([self.sendHostTextField.text isEqualToString:@""]) {
+		self.sendHostTextField.text = @"localhost";
+	}
+	osc.sendHost = self.sendHostTextField.text;
 }
 
-- (IBAction)setOutgoingPort:(id)sender {
-	int port = [WebServer checkPortValueFromTextField:self.outgoingPortTextField];
+- (IBAction)setSendPort:(id)sender {
+	int port = [WebServer checkPortValueFromTextField:self.sendPortTextField];
 	if(port < 0) { // set current port on bad value
-		self.outgoingPortTextField.text = [NSString stringWithFormat:@"%d", osc.sendPort];
+		self.sendPortTextField.text = [NSString stringWithFormat:@"%d", osc.sendPort];
 		return;
 	}
 	osc.sendPort = port;
 }
 
-- (IBAction)setIncomingPort:(id)sender {
-	int port = [WebServer checkPortValueFromTextField:self.incomingPortTextField];
+- (IBAction)setListenPort:(id)sender {
+	int port = [WebServer checkPortValueFromTextField:self.listenPortTextField];
 	if(port < 0) { // set current port on bad value
-		self.incomingPortTextField.text = [NSString stringWithFormat:@"%d", osc.listenPort];
+		self.listenPortTextField.text = [NSString stringWithFormat:@"%d", osc.listenPort];
 		return;
 	}
 	osc.listenPort = port;
-	if(osc.isListening) {
-		[self restart];
-	}
+	[self restart];
+}
+
+- (IBAction)setListenGroup:(id)sender {
+	osc.listenGroup = self.listenGroupTextField.text;
+	[self restart];
 }
 
 - (void)restart {
 	[osc stopListening];
 	
 	// launch timer to make sure osc has enough time to disconnect
+	[oscRestartTimer invalidate];
+	oscRestartTimer = nil;
 	oscRestartTimer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(startOsc:) userInfo:nil repeats:NO];
 	[[NSRunLoop mainRunLoop] addTimer:oscRestartTimer forMode:NSDefaultRunLoopMode];
 }
@@ -104,19 +113,17 @@
 - (void)startOsc:(NSTimer *)theTimer {
 	if(![osc startListening]) {
 		[[UIAlertController alertControllerWithTitle:@"Couldn't start OSC Server"
-											 message:@"Check your port & address settings."
-								   cancelButtonTitle:@"Ok"] show];
+		                                     message:@"Check your port, host, & group settings."
+		                           cancelButtonTitle:@"Ok"] show];
 	}
+	oscRestartTimer = nil;
 }
 
 #pragma mark UITableViewController
 
-// from http://code-ninja.org/blog/2012/02/29/ios-quick-tip-programmatically-hiding-sections-of-a-uitableview-with-static-cells/
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if(section == 0 && osc.isListening) {
-		return 5;	// hide cells based on listening status
-	}
-	return 1;
+// hide sections based on osc status
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return self.oscEnabledSwitch.on ? 3 : 1;
 }
 
 @end

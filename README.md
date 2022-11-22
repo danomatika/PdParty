@@ -76,6 +76,7 @@ This project uses:
 * Atsuke: Frank Barknecht
 * Eargasm: Damian Stewart
 * bouncy: Georg Bosch
+* Elemental - Rain: Tiago Brizolara
 
 ### 3rd Party Resources
 

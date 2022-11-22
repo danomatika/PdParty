@@ -33,6 +33,10 @@
 @property (nonatomic) int sendPort; //< do not set when listening
 @property (nonatomic) int listenPort; //< listening port
 
+/// listening multicast group, set @"" to disable multicast
+/// TODO: IPv4 only until liblo implements IPv6 add group socketopt
+@property (strong, nonatomic) NSString *listenGroup;
+
 /// should the following events be sent automatically? (default NO)
 @property (assign, nonatomic) BOOL touchSendingEnabled; //< send touch events?
 @property (assign, nonatomic) BOOL sensorSendingEnabled; //< accel, gyro, location, compass, magnet

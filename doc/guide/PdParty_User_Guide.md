@@ -149,6 +149,8 @@ Optionally, a button to launch a Console view to display Pd prints for the curre
 
 On iPhone, the speaker icon is added to allow for switching the audio output between the headset speaker (quiet) and the speaker-phone speakers (loud). This may useful to prevent feedback between input and output in certain scenes. For Rj scenes, this control is added as a switch on the scene's info view.
 
+Double-tap the microphone icon to quickly mute/unmute audio input. _Note: The original unmuted value is not saved when PdParty is closed._
+
 #### Recording Scene
 
 There is also a special scene for playing back recordings (aka .wav files). There is a button for looping the playback and the slider controls the current playback position.
@@ -165,9 +167,19 @@ The cassette background is a placeholder for now. When metadata is added, it may
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/osc_settings_iPhone.png"/>
 </p>
 
-Enable the OSC server and update its settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
+Enable the OSC server and update its send and receive settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
 
-Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a multicast group in the Host field such as "224.0.0.0/24."
+If you have trouble sending or receiving OSC messages on iOS 14+, double check that PdParty has permission to access the local network: Settings->Privacy->Local Network.
+
+#### Multicast
+
+Send via [multicast](https://en.wikipedia.org/wiki/IP_multicast) by setting a multicast group in the Send Host field such as "239.200.200.200"
+
+As of PdParty 1.3.0, receive multicast by setting a multicast group in the Receive Multicast Group field. To disable multicast, clear the field.
+
+Depending upon the LAN setup, multicast messaging may be slower or blocked as compared to unicast. Most large organizations block multicast messages by default, so it is recommended to only use this feature within your own private subnetwork.
+
+_Note: Receiving multicast is currently limited to IPv4 only._
 
 ### MIDI Settings
 
@@ -402,12 +414,12 @@ PdParty currently supports:
 
 * PdDroidParty abstractions:
   - [loadsave]
-  - [menubang]: buttons are added to the controls popup menu
+  - [menubang]\: buttons are added to the controls popup menu
   - [display]
-  - [droidsystem]:
+  - [droidsystem]\:
     + receive messages: sensors, & openurl (vibrate\* is ignored)
     + send messages: accel, gyro, & magnet
-  - [knob]: implementation of the moonlib external [mknob]
+  - [knob]\: implementation of the moonlib external [mknob]
   - [numberbox]
   - [ribbon]
   - [taplist]
@@ -427,8 +439,8 @@ SVG widget styling support is planned, but not an immediate priority as there is
 PdParty currently supports:
 
 * RjDj abstractions/objects:
-  - [rj\_image]: implemented internally
-  - [rj\_text]: implemented internally
+  - [rj\_image]\: implemented internally
+  - [rj\_text]\: implemented internally
   - [rj\_loc]
   - [rj\_compass]
   - [rj\_time]
@@ -605,9 +617,9 @@ Timestamp events must be triggered manually by sending a message to the internal
 You can manually trigger recording via sending messages to the internal \#pdparty receiver in your patches:
 
 * **\#pdparty scene _name_**: set the scene/file name for recording
-  - _name_: timestamp is appended & file is saved to the recordings dir
+  - _name_: timestamp is prepended & file is saved to the recordings dir
 * **\#pdparty scene _name_ _timestamp_**: same as above with additional argument
-  - _timestamp_: boolean 0-1 to enable appending timestamp to file name
+  - _timestamp_: boolean 0-1 to enable prepending timestamp to file name, format "MM-dd-yyyy_HH-mm-ss_NAME.wav"
 * **\#pdparty record _value_**: recording control, also connected to the GUI
   - _value_: boolean to start/stop recording
 
@@ -682,6 +694,7 @@ All of the PdParty events can be streamed over OSC, included Pd prints. The rece
 * /pdparty/altitude
 * /pdparty/compass
 * /pdparty/magnet
+* /pdparty/motion
 * /pdparty/time
 * /pdparty/controller
 * /pdparty/shake

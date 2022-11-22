@@ -113,6 +113,8 @@
 	<string>PdParty can use Bluetooth audio and MIDI devices when backgrounded.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>PdParty can use Bluetooth audio and MIDI devices.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>PdParty uses network sockets to send and receive OSC messages.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>PdParty uses your location when backgrounded for sound scenes or patches that use geolocation such as soundwalks.</string>
 	<key>NSLocationUsageDescription</key>
