@@ -11,7 +11,7 @@
         <!--Navigation Controller-->
         <scene sceneID="WBu-uu-jLA">
             <objects>
-                <navigationController id="lr4-tg-Uup" sceneMemberID="viewController">
+                <navigationController id="lr4-tg-Uup" customClass="NavigationController" sceneMemberID="viewController">
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" barStyle="black" translucent="NO" id="caj-0s-G5c">
@@ -520,7 +520,7 @@
         <!--Navigation Controller-->
         <scene sceneID="egp-oX-r02">
             <objects>
-                <navigationController id="09F-iW-HZX" sceneMemberID="viewController">
+                <navigationController id="09F-iW-HZX" customClass="NavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="xA4-6f-C8P">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
