@@ -426,7 +426,8 @@ PdParty currently supports:
   - [touch]
   - [wordbutton]
 * scene folder background.png loading
-* scene foldder font.ttf & font-antialiased.ttf loading
+* scene folder font.ttf & font-antialiased.ttf loading
+* special ViewPort canvas to set area of main patch to show
 
 <small>\* doesn't do much as audio has to be off for vibrate to happen on iOS</small>
 
@@ -496,7 +497,7 @@ PdParty returns the following events:
 * **[r \#magnet] _x_ _y_ _z_**: 3 axis magnetometer values in microteslas
 * **[r \#time]**: timestamp event, see "Timestamps" section"
 * **[r \#controller]**: game controller event, see "Game Controllers" section
-* **[ r \#shake]**: system-detected shake event (aka cancel)
+* **[r \#shake]**: system-detected shake event (aka cancel)
 
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
 
@@ -742,6 +743,30 @@ This should open PdParty. To open the `all_pd_guis.pd` test patch in the `tests`
     pdparty://open/tests/all_pd_guis.pd
 
 Further message types may be added in the future.
+
+### ViewPort
+
+PdParty supports the special ViewPort canvas from DroidParty in patches as well as DroidParty and PdParty scenes. The `pos` and `vis_size` messages send to the canvas with the "ViewPort" receive name are used to set the viewport within the main patch. This allows for segmenting complicated GUIs into separate areas whose large widgets should easier to control with "fat" multi-touch fingers.
+
+From the PdDroidParty documentation on <http://droidparty.net>:
+~~~
+It is possible to map only a part of the main Pd window to the actual device screen, 
+by using a specially configured canvas GUI:
+
+- In the main pd window, create a canvas gui (menu Put -> Canvas)
+
+- Make sure the canvas is in the background (select all the objects but the canvas, cut and paste)
+
+- Edit the canvas properties, set the receive name to "ViewPort" and configure its size and position 
+    to select the part of the window you want to display on the PdDroidParty screen
+
+- You can dynamically change the viewport by sending "pos" and "vis_size" messages to "ViewPort", 
+    so you have visual indication of the portion of the screen that will be displayed on PdDroidParty
+
+The selected viewport area will be rescaled in order to fill the screen of the device.
+~~~
+
+See the DroidParty `pure-widgets-demo` sample and the PdParty `ViewPort` test.
 
 TODOs
 -----
