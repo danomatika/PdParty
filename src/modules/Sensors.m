@@ -656,19 +656,6 @@
 	[PureData sendMotionAttitude:motion.attitude.pitch roll:motion.attitude.roll yaw:motion.attitude.yaw];
 	[self.osc sendMotionAttitude:motion.attitude.pitch roll:motion.attitude.roll yaw:motion.attitude.yaw];
 
-//	#ifdef DEBUG_SENSORS
-//		DDLogVerbose(@"motion quaternion %f %f %f %f",
-//					 motion.attitude.quaternion.x, motion.attitude.quaternion.y,
-//					 motion.attitude.quaternion.z, motion.attitude.quaternion.w);
-//	#endif
-
-//	#ifdef DEBUG_SENSORS
-//		DDLogVerbose(@"motion matrix\n%f %f %f\n%f %f %f\n%f %f %f",
-//					 motion.attitude.rotationMatrix.m11, motion.attitude.rotationMatrix.m12, motion.attitude.rotationMatrix.m13,
-//					 motion.attitude.rotationMatrix.m21, motion.attitude.rotationMatrix.m22, motion.attitude.rotationMatrix.m23,
-//					 motion.attitude.rotationMatrix.m31, motion.attitude.rotationMatrix.m32, motion.attitude.rotationMatrix.m33);
-//	#endif
-
 	#ifdef DEBUG_SENSORS
 	DDLogVerbose(@"motion rotation %f %f %f",
 					 motion.rotationRate.x, motion.rotationRate.y, motion.rotationRate.z);
