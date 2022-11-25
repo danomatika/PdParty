@@ -21,7 +21,6 @@
 #X msg 44 216 pos 170 10 \, vis_size 150 200 \, label tab\ 2;
 #X msg 66 244 pos 10 220 \, vis_size 150 200 \, label tab\ 3;
 #X msg 88 274 pos 170 220 \, vis_size 150 200 \, label settings;
-#X obj 138 313 print;
 #X connect 0 0 10 0;
 #X connect 1 0 10 1;
 #X connect 3 0 12 0;
@@ -35,13 +34,9 @@
 #X connect 10 0 3 0;
 #X connect 11 0 10 0;
 #X connect 12 0 2 0;
-#X connect 12 0 16 0;
 #X connect 13 0 2 0;
-#X connect 13 0 16 0;
 #X connect 14 0 2 0;
-#X connect 14 0 16 0;
 #X connect 15 0 2 0;
-#X connect 15 0 16 0;
 #X restore 27 25 pd ViewPort;
 #X text 113 24 <--;
 #X connect 0 0 2 0;
