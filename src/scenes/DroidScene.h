@@ -9,11 +9,10 @@
  *
  */
 #import "PatchScene.h"
-#import "Canvas.h"
 
 /// DroidParty scene (folder with droidparty_main.pd), landscape only
 /// path is to scene folder
-@interface DroidScene : PatchScene <ViewPortDelegate>
+@interface DroidScene : PatchScene
 
 /// loaded custom font, if one
 @property (strong, nonatomic) NSString *fontPath;

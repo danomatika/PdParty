@@ -47,6 +47,10 @@
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	self.sceneManager = app.sceneManager;
 
+	// clip anything outside of the current bounds, this is mostly applicable
+	// to scenes which change the gui viewport
+	self.view.clipsToBounds = YES;
+
 	[super awakeFromNib];
 }
 

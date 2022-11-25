@@ -9,10 +9,11 @@
  *
  */
 #import "Scene.h"
+#import "Canvas.h"
 
 /// basic pd patch
 /// path is to patch file, requires all event types
-@interface PatchScene : Scene
+@interface PatchScene : Scene <ViewPortDelegate>
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 

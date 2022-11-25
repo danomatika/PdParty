@@ -125,6 +125,10 @@
 	return CGRectGetHeight(self.parentView.bounds);
 }
 
+- (BOOL)requiresViewport {
+	return NO;
+}
+
 #pragma mark Util
 
 - (void)addSearchPathsIn:(NSString *)directory {

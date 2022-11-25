@@ -372,7 +372,6 @@
 }
 
 - (void)updateScaleValues {
-	DDLogInfo(@"GUI updating scale, aspect");
 	_scaleX = patchScaleX * viewportScaleX;
 	_scaleY = patchScaleY * viewportScaleY;
 	switch(self.scaleMode) {

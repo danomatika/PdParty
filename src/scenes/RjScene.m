@@ -261,6 +261,10 @@
 	return CGRectGetHeight(self.background.bounds);
 }
 
+- (BOOL)requiresViewport {
+	return NO;
+}
+
 #pragma mark Util
 
 + (BOOL)isRjDjDirectory:(NSString *)fullpath {

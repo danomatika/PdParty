@@ -44,14 +44,6 @@
 	if(fontPaths) {
 		[self loadFont:[path stringByAppendingPathComponent:fontPaths.firstObject]];
 	}
-
-	for(Widget *w in self.gui.widgets) {
-		if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
-			ViewPortCanvas *cnv = (ViewPortCanvas *)w;
-			cnv.delegate = self;
-			DDLogInfo(@"found ViewPort");
-		}
-	}
 	
 	return ret;
 }
@@ -65,14 +57,6 @@
 		[Util unregisterFont:self.fontPath];
 		self.fontPath = nil;
 	}
-
-	for(Widget *w in self.gui.widgets) {
-		if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
-			ViewPortCanvas *cnv = (ViewPortCanvas *)w;
-			cnv.delegate = nil;
-		}
-	}
-
 	[super close];
 }
 
@@ -86,7 +70,7 @@
 
 - (BOOL)supportsSensor:(SensorType)sensor {
 	switch(sensor) {
-	case SensorTypeLocation: case SensorTypeCompass: case SensorTypeMotion:
+		case SensorTypeLocation: case SensorTypeCompass: case SensorTypeMotion:
 			return NO;
 		default:
 			return YES;
@@ -123,33 +107,6 @@
 
 + (BOOL)isDroidPartyDirectory:(NSString *)fullpath {
 	return [NSFileManager.defaultManager fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"droidparty_main.pd"]];
-}
-
-/*
-#pragma mark WidgetListener
-
-// mostly borrowed from the pd-for-android ScenePlayer
-- (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
-//	if(list.count < 2 || ![list isStringAt:0] || ![list isStringAt:1]) {
-//		return;
-//	}
-	DDLogInfo(@"%@ %@", source, list);
-}
-*/
-
-#pragma mark ViewPortDelegate
-
-- (void)receivePositionX:(float)x Y:(float)y {
-	self.gui.viewport = CGRectMake(x, y,
-		CGRectGetWidth(self.gui.viewport), CGRectGetHeight(self.gui.viewport));
-	[self.gui reshapeWidgets];
-	[self.parentView setNeedsDisplay];
-}
-
-- (void)receiveSizeW:(float)w H:(float)h {
-	self.gui.viewport = CGRectMake(self.gui.viewport.origin.x, self.gui.viewport.origin.y, w, h);
-	[self.gui reshapeWidgets];
-	[self.parentView setNeedsDisplay];
 }
 
 #pragma mark Private

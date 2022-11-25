@@ -78,8 +78,8 @@
 	
 	// bounds from value label size, zero width atoms are slightly taller
 	self.frame = CGRectMake(
-		round(self.originalFrame.origin.x * self.gui.scaleX),
-		round(self.originalFrame.origin.y * self.gui.scaleY),
+		round((self.originalFrame.origin.x - self.gui.viewport.origin.x) * self.gui.scaleX),
+		round((self.originalFrame.origin.y - self.gui.viewport.origin.y) * self.gui.scaleY),
 		round(CGRectGetWidth(self.valueLabel.frame) + (3 * self.gui.scaleWidth)),
 		round(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 3 : 2) * self.gui.scaleHeight)));
 	cornerSize = 4 * self.gui.scaleWidth;
