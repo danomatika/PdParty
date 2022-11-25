@@ -73,7 +73,7 @@
 	CGContextSetFillColorWithColor(context, UIColor.clearColor.CGColor);
 	
 	// cells
-	int cellSize = round(self.size * self.gui.scaleX);
+	int cellSize = round(self.size * self.gui.scaleWidth);
 	for(int i = 0; i < self.numCells; ++i) {
 	
 		// bounds
@@ -104,7 +104,7 @@
 }
 
 - (void)reshape {
-	float cellSize = round(self.size * self.gui.scaleX);
+	float cellSize = round(self.size * self.gui.scaleWidth);
 	
 	// bounds
 	if(self.orientation == WidgetOrientationHorizontal) {
@@ -157,10 +157,10 @@
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	if(self.orientation == WidgetOrientationHorizontal) {
-		self.value = pos.x/round(self.size * self.gui.scaleX);
+		self.value = pos.x/round(self.size * self.gui.scaleWidth);
 	}
 	else {
-		self.value = pos.y/round(self.size * self.gui.scaleX);
+		self.value = pos.y/round(self.size * self.gui.scaleWidth);
 	}
 	[self sendFloat:self.value];
 }

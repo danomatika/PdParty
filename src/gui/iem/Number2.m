@@ -127,11 +127,11 @@
 - (void)reshape {
 	
 	// value label
-	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:self.labelFontSize * self.gui.scaleX];
+	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:self.labelFontSize * self.gui.scaleHeight];
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.valueLabel.font}]; // assumes monspaced font
 	self.valueLabel.preferredMaxLayoutWidth =
 		(ceilf(charSize.width) * self.valueWidth) +
-		((CGRectGetHeight(self.originalFrame) / 2) + 4) * self.gui.scaleX;
+		((CGRectGetHeight(self.originalFrame) / 2) + 4) * self.gui.scaleWidth;
 	[self.valueLabel sizeToFit];
 	CGRect valueLabelFrame = self.valueLabel.frame;
 	if(valueLabelFrame.size.width < self.valueLabel.preferredMaxLayoutWidth) {
@@ -139,7 +139,7 @@
 		valueLabelFrame.size.width = self.valueLabel.preferredMaxLayoutWidth;
 	}
 	valueLabelFrame.origin = CGPointMake(
-		round((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * self.gui.scaleX),
+		round((CGRectGetHeight(self.originalFrame) * 0.5 + 1) * self.gui.scaleWidth),
 		round(((CGRectGetHeight(self.originalFrame) * 0.5 + 0.5) * self.gui.scaleHeight) -
 			  CGRectGetHeight(self.valueLabel.frame) * 0.5));
 	self.valueLabel.frame = valueLabelFrame;
@@ -148,10 +148,10 @@
 	CGRect frame = CGRectMake(
 		round((self.originalFrame.origin.x - self.gui.viewport.origin.x) * self.gui.scaleX),
 		round((self.originalFrame.origin.y - self.gui.viewport.origin.y) * self.gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) + self.valueLabel.frame.origin.x + (4 * self.gui.scaleX)),
+		round(CGRectGetWidth(self.valueLabel.frame) + self.valueLabel.frame.origin.x + (4 * self.gui.scaleWidth)),
 		round(CGRectGetHeight(self.originalFrame) * self.gui.scaleHeight));
 	self.frame = frame;
-	cornerSize = 4 * self.gui.scaleX;
+	cornerSize = 4 * self.gui.scaleWidth;
 
 	// label
 	[self reshapeLabel];

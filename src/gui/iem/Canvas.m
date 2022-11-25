@@ -46,7 +46,6 @@
 
 // override for custom redraw
 - (void)reshape {
-
 	// bounds, scale by true horz AND vert scaling as this looks better at bad aspect ratios/orientations
 	self.frame = CGRectMake(
 		round((self.originalFrame.origin.x - self.gui.viewport.origin.x) * self.gui.scaleX),
@@ -56,6 +55,10 @@
 
 	// label
 	[self reshapeLabel];
+}
+
+- (void)setNeedsDisplay {
+	[super setNeedsDisplay];
 }
 
 #pragma mark Overridden Getters / Setters

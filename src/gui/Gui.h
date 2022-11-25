@@ -20,12 +20,31 @@
 /// pd gui wraps lines at 60 chars
 #define GUI_LINE_WRAP 60
 
+/// widget size scaling modes
+typedef enum {
+	/// simple fit using scaleX for both width & height
+	/// this is the original scale mode, may have issues on wide landscape views
+	GuiScaleModeHorz = 0,
+	/// fit by scaling widget width & height based on view aspect ratio:
+	/// * portrait: scaleX
+	/// * landscape: scaleY
+	/// * square: scaleX & scaleY
+	/// this will scale widgets down to fit view which preserving widget aspect
+	GuiScaleModeAspect = 1,
+	/// fill by stretching to fit to view
+	/// scale widget width by scaleX & widget height by scaleY
+	GuiScaleModeFill = 2
+} GuiScaleMode;
+
 @class PdFile;
 
 /// Widget array wrapper, loads Widgets from atom line string arrays
 @interface Gui : NSObject
 
-@property (strong, nonatomic) NSMutableArray *widgets; //< widget array
+/// widget array
+@property (strong, nonatomic) NSMutableArray *widgets;
+
+#pragma mark Patch Properties
 
 /// current view size, used to determine screen scaling
 @property (assign, nonatomic) CGSize parentViewSize;
@@ -41,25 +60,32 @@
 /// font size loaded from patch
 @property (assign, readonly, nonatomic) int fontSize;
 
-/// scale amount between view bounds and original patch size, calculated when bounds is set
-@property (assign, readonly, nonatomic) float patchScaleX;
-@property (assign, readonly, nonatomic) float patchScaleY;
+#pragma mark Scaling Properties
 
-/// scale amount between view bounds and original patch size, calculated when bounds is set
+/// scale mode, default GuiScaleModeAspect
+@property (assign, nonatomic) GuiScaleMode scaleMode;
+
+/// x axis scale amount between parent view size and original patch size,
+/// calculated when view size is set
 @property (assign, readonly, nonatomic) float scaleX;
+
+/// y axis scale amount between parent view size and original patch size,
+/// calculated when view size is set
 @property (assign, readonly, nonatomic) float scaleY;
 
-/// widget height scaling
-/// TODO: make this aspect ratio aware?
+/// widget width scaling, depending on scale mode
+@property (assign, readonly, nonatomic) float scaleWidth;
+
+/// widget height scaling, depending on scale mode
 @property (assign, readonly, nonatomic) float scaleHeight;
 
 /// line width based on current scale values
 @property (assign, readonly, nonatomic) float lineWidth;
 
+#pragma mark ViewPort Properties
+
 /// optional patch (sub) viewport in pixel size of original pd patch
 @property (assign, nonatomic) CGRect viewport;
-@property (assign, readonly, nonatomic) float viewportScaleX;
-@property (assign, readonly, nonatomic) float viewportScaleY;
 
 /// reset viewport back to patch size
 - (void)resetViewport;

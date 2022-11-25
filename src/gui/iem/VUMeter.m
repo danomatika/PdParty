@@ -81,7 +81,7 @@
 		
 	CGRect meterRect = CGRectMake(
 		0, floor((-2 * self.gui.scaleX) + yOffset),
-		round((CGRectGetWidth(self.originalFrame)) * self.gui.scaleX),
+		round((CGRectGetWidth(self.originalFrame)) * self.gui.scaleWidth),
 		round((CGRectGetHeight(self.originalFrame) + 4) * self.gui.scaleHeight));
 	
 	// background
@@ -159,14 +159,14 @@
 		self.frame = CGRectMake(
 			round((self.originalFrame.origin.x - 1) * self.gui.scaleX),
 			round(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2)),
-			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
+			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleWidth) + ((charSize.width + 1) * VU_MAX_SCALE_CHAR_WIDTH)),
 			round(((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleHeight) + charSize.height));
 	}
 	else {
 		self.frame = CGRectMake(
 			round((self.originalFrame.origin.x - 1) * self.gui.scaleX),
 			round(((self.originalFrame.origin.y) * self.gui.scaleY) - (charSize.height / 2)),
-			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleX) + 1),
+			round(((CGRectGetWidth(self.originalFrame) + 1) * self.gui.scaleWidth) + 1),
 			round((CGRectGetHeight(self.originalFrame) + 2) * self.gui.scaleHeight) + charSize.height);
 	}
 

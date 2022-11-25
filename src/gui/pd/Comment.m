@@ -67,7 +67,7 @@
 - (void)reshape {
 
 	// label
-	self.label.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleX];
+	self.label.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleHeight];
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monspaced font
 	charSize.width = ceilf(charSize.width);
 	charSize.height = ceilf(charSize.height);

@@ -58,7 +58,7 @@
 - (void)reshape {
 	
 	// value label
-	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleX];
+	self.valueLabel.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleHeight];
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.valueLabel.font}]; // assumes monspaced font
 	charSize.width = ceilf(charSize.width);
 	self.valueLabel.preferredMaxLayoutWidth = charSize.width * self.valueWidth;
@@ -80,23 +80,23 @@
 	self.frame = CGRectMake(
 		round(self.originalFrame.origin.x * self.gui.scaleX),
 		round(self.originalFrame.origin.y * self.gui.scaleY),
-		round(CGRectGetWidth(self.valueLabel.frame) + (3 * self.gui.scaleX)),
+		round(CGRectGetWidth(self.valueLabel.frame) + (3 * self.gui.scaleWidth)),
 		round(CGRectGetHeight(self.valueLabel.frame) + ((self.valueWidth == 0 ? 3 : 2) * self.gui.scaleHeight)));
-	cornerSize = 4 * self.gui.scaleX;
+	cornerSize = 4 * self.gui.scaleWidth;
 
 	// label
-	self.label.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleX];
+	self.label.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleHeight];
 	[self.label sizeToFit];
 		
 	// set the label pos from the LRUD setting
 	int labelPosX, labelPosY;
 	switch(self.labelPos) {
 		default: // 0 LEFT
-			labelPosX = -self.label.frame.size.width - (2 * self.gui.scaleX);
+			labelPosX = -self.label.frame.size.width - (2 * self.gui.scaleWidth);
 			labelPosY = 2 * self.gui.scaleHeight;
 			break;
 		case 1: // RIGHT
-			labelPosX = self.frame.size.width + (2 * self.gui.scaleX);
+			labelPosX = self.frame.size.width + (2 * self.gui.scaleWidth);
 			labelPosY = 2 * self.gui.scaleHeight;
 			break;
 		case 2: // TOP
