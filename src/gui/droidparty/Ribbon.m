@@ -90,9 +90,9 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	for(UITouch *touch in touches) {
 		CGPoint pos = [touch locationInView:self];
-		float controlWidth = 3 * self.gui.scaleWidth;
-		float left = self.value2 * CGRectGetWidth(self.frame);
+		float controlWidth = MAX(5 * self.gui.scaleWidth, 10); // ensure grabbable control
 		float right = self.value * CGRectGetWidth(self.frame);
+		float left = self.value2 * CGRectGetWidth(self.frame);
 		if(!rightTouch && pos.x >= right - controlWidth && pos.x <= right + controlWidth) {
 			rightTouch = touch;
 		}
