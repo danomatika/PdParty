@@ -1,10 +1,8 @@
 #N canvas 119 268 671 281 10;
 #X declare -path pd;
 #X declare -path pdparty;
-#X obj 32 44 cnv 15 596 42 empty empty empty 20 12 0 14 #dcdcdc #404040
-0;
-#X obj 56 54 hsl 128 25 0 1 0 0 rain_amount r_amount Rain_Amount 6
-8 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 32 44 cnv 15 596 42 empty empty empty 20 12 0 14 #dcdcdc #404040 0;
+#X obj 56 54 hsl 128 25 0 1 0 0 rain_amount r_amount Rain_Amount 6 8 0 10 #fcfcfc #000000 #000000 0 1;
 #N canvas 108 288 427 326 logic 0;
 #X obj 106 7 loadbang;
 #X obj 221 259 declare -path pd;
@@ -17,13 +15,11 @@
 #X obj 122 201 catch~ R;
 #X obj 163 7 r RESET;
 #N canvas 26 208 823 581 sensors_mapping 0;
-#X obj 333 13 cnv 15 140 80 empty empty empty 20 12 0 14 #fce0c4 #404040
-0;
+#X obj 333 13 cnv 15 140 80 empty empty empty 20 12 0 14 #fce0c4 #404040 0;
 #X obj 343 86 s #pdparty;
 #X obj 343 37 r s-processedmotion;
 #X text 341 17 Processed sensor data ON/OFF;
-#X obj 333 122 cnv 15 200 140 empty empty empty 20 12 0 14 #c4fcc4
-#404040 0;
+#X obj 333 122 cnv 15 200 140 empty empty empty 20 12 0 14 #c4fcc4 #404040 0;
 #N canvas 61 453 253 197 type 0;
 #X obj 16 9 inlet;
 #X obj 16 133 symbol;
@@ -48,10 +44,8 @@
 #X obj 340 252 s #pdparty;
 #X text 338 125 Speed of retrieval of processed sensor data;
 #X text 338 139 (0: fastest --> 3: slowest);
-#X obj 153 14 cnv 15 100 148 empty empty empty 20 12 0 14 #e0e0e0 #404040
-0;
-#X obj 23 13 cnv 15 100 148 empty empty empty 20 12 0 14 #fcfcc4 #404040
-0;
+#X obj 153 14 cnv 15 100 148 empty empty empty 20 12 0 14 #e0e0e0 #404040 0;
+#X obj 23 13 cnv 15 100 148 empty empty empty 20 12 0 14 #fcfcc4 #404040 0;
 #X msg 162 99 orientationeuler \$1;
 #X obj 162 136 s #pdparty;
 #X obj 162 68 r s-run-orientEuler;
@@ -59,19 +53,15 @@
 #X obj 42 204 unpack f f f;
 #X text 27 47 Receiving from sensor;
 #X text 106 28 Orientation;
-#X obj 21 285 cnv 15 620 240 empty empty empty 20 12 0 14 #e0c4fc #404040
-0;
-#X text 20 524 https://developer.apple.com/documentation/coremotion/getting_processed_device-motion_data/understanding_reference_frames_and_device_attitude
-;
+#X obj 21 285 cnv 15 620 240 empty empty empty 20 12 0 14 #e0c4fc #404040 0;
+#X text 20 524 https://developer.apple.com/documentation/coremotion/getting_processed_device-motion_data/understanding_reference_frames_and_device_attitude;
 #X obj 35 332 expr ((5.*$f1)+3.14159)/6.283185;
 #X obj 292 352 min 1.01;
 #X obj 292 331 expr 0.5789 + 0.5263*$f1;
 #X obj 292 374 max 0;
-#X obj 288 435 cnv 15 70 60 empty empty empty 20 12 0 14 #b8b8b8 #404040
-0;
+#X obj 288 435 cnv 15 70 60 empty empty empty 20 12 0 14 #b8b8b8 #404040 0;
 #X obj 292 451 s r_amount;
-#X obj 29 434 cnv 15 70 60 empty empty empty 20 12 0 14 #fc8000 #404040
-0;
+#X obj 29 434 cnv 15 70 60 empty empty empty 20 12 0 14 #fc8000 #404040 0;
 #X obj 35 452 s r_color;
 #X text 33 305 Roll;
 #X text 380 452 0;
@@ -179,14 +169,9 @@
 #X connect 81 0 69 0;
 #X connect 81 0 66 0;
 #X restore 220 231 pd sensors_mapping;
-#X text 113 124 (IEM lib). We had 0.129 for Cooper Baker's [pink~]
-;
-#X msg 17 33 \; d2_f0 20 \; d2_q 0.023 \; d2_threshold 0.16 \; d2_factor
-3 \; d2_level 0.016 \; d2_hip 2000 \; rlight_level 0.15 \; rdetail_level
-0.03 \; rpink_level 0.01 \; r_amount 0.58 \; r_color 0.5 \; r_rain-ON-all
-set 1 \; rain-ON-all 1 \; master 3;
-#X msg 205 33 \; #volume set 1 \; r-speed-sensors 0 \; r-processedmotion
-1;
+#X text 113 124 (IEM lib). We had 0.129 for Cooper Baker's [pink~];
+#X msg 17 33 \; d2_f0 20 \; d2_q 0.023 \; d2_threshold 0.16 \; d2_factor 3 \; d2_level 0.016 \; d2_hip 2000 \; rlight_level 0.15 \; rdetail_level 0.03 \; rpink_level 0.01 \; r_amount 0.58 \; r_color 0.5 \; r_rain-ON-all set 1 \; rain-ON-all 1 \; master 3;
+#X msg 205 33 \; #volume set 1 \; r-speed-sensors 0 \; r-processedmotion 1;
 #X connect 0 0 12 0;
 #X connect 0 0 13 0;
 #X connect 4 0 6 1;
@@ -199,58 +184,39 @@ set 1 \; rain-ON-all 1 \; master 3;
 #X connect 9 0 13 0;
 #X restore 250 61 pd logic;
 #X obj 211 61 rain;
-#X obj 48 155 tgl 25 0 rain-ON-all r_rain-ON-all ON/OFF 30 12 0 10
-#00fc04 #000000 #000000 0 1;
-#X obj 129 155 bng 25 250 50 0 RESET r_RESET RESET 32 12 0 10 #f8fc00
-#000000 #000000;
-#X obj 35 14 cnv 15 1 1 empty empty Elemental_-_Rain 0 12 0 14 #e0e0e0
-#404040 0;
-#X obj 208 150 cnv 15 420 90 empty empty Debug 20 12 0 14 #e0c4fc #404040
-0;
-#X floatatom 387 219 5 0 0 2 - r-time_between_ori_events s-time_between_ori_events
-0;
+#X obj 48 155 tgl 25 0 rain-ON-all r_rain-ON-all ON/OFF 30 12 0 10 #00fc04 #000000 #000000 0 1;
+#X obj 129 155 bng 25 250 50 0 RESET r_RESET RESET 32 12 0 10 #f8fc00 #000000 #000000;
+#X obj 35 14 cnv 15 1 1 empty empty Elemental_-_Rain 0 12 0 14 #e0e0e0 #404040 0;
+#X obj 208 150 cnv 15 420 100 empty empty Debug 20 12 0 14 #e0c4fc #404040 0;
+#X floatatom 387 219 5 0 0 2 - r-time_between_ori_events s-time_between_ori_events 0;
 #X floatatom 251 185 4 0 0 0 - r-ax s-ax 0;
 #X floatatom 277 185 4 0 0 0 - r-ay s-ay 0;
 #X floatatom 303 185 4 0 0 0 - r-az s-az 0;
-#X obj 250 166 cnv 15 1 1 empty empty UserAccel 0 12 0 12 #e0e0e0 #404040
-0;
+#X obj 250 166 cnv 15 1 1 empty empty UserAccel 0 12 0 12 #e0e0e0 #404040 0;
 #X floatatom 372 185 4 0 0 0 - r-rrx s-rrx 0;
 #X floatatom 398 185 4 0 0 0 - r-rry s-rry 0;
 #X floatatom 424 185 4 0 0 0 - r-rrz s-rrz 0;
-#X obj 371 166 cnv 15 1 1 empty empty RotationRate 0 12 0 12 #e0e0e0
-#404040 0;
-#X obj 331 185 tgl 15 0 s-debug-acc r-debug-acc empty 17 7 0 10 #fcfcfc
-#000000 #000000 0 1;
-#X obj 452 185 tgl 15 0 s-debug-rr r-debug-rr empty 17 7 0 10 #fcfcfc
-#000000 #000000 0 1;
+#X obj 371 166 cnv 15 1 1 empty empty RotationRate 0 12 0 12 #e0e0e0 #404040 0;
+#X obj 331 185 tgl 15 0 s-debug-acc r-debug-acc empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 452 185 tgl 15 0 s-debug-rr r-debug-rr empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X text 424 220 (inspect);
 #X text 334 219 (set);
-#X obj 491 165 cnv 15 1 1 empty empty OrientationEuler 0 12 0 12 #e0e0e0
-#404040 0;
+#X obj 491 165 cnv 15 1 1 empty empty OrientationEuler 0 12 0 12 #e0e0e0 #404040 0;
 #X floatatom 492 185 4 0 0 0 - r-roll s-roll 0;
 #X floatatom 518 185 4 0 0 0 - r-pitch s-pitch 0;
 #X floatatom 544 185 4 0 0 0 - r-roll s-roll 0;
-#X obj 276 155 tgl 15 0 s-processedmotion r-processedmotion ProcessedMotion
-17 7 0 10 #b8b8b8 #000000 #000000 0 1;
-#X obj 572 185 tgl 15 0 s-debug-orientEuler r-debug-orientEuler empty
-17 7 0 10 #fcfcfc #000000 #000000 0 1;
-#X obj 250 219 hradio 15 1 0 4 s-speed-sensors r-speed-sensors Speed_sensor_polling
-0 -8 0 10 #fcfcfc #000000 #000000 0;
+#X obj 276 155 tgl 15 0 s-processedmotion r-processedmotion ProcessedMotion 17 7 0 10 #b8b8b8 #000000 #000000 0 1;
+#X obj 572 185 tgl 15 0 s-debug-orientEuler r-debug-orientEuler empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 250 219 hradio 15 1 0 4 s-speed-sensors r-speed-sensors Speed_sensor_polling 0 -8 0 10 #fcfcfc #000000 #000000 0;
 #X text 243 232 fast <-- slow;
 #X text 356 21 Attach your iphone to your arm!;
-#X text 357 58 Your arm Pitch angle will control rain amount;
-#X obj 32 91 cnv 15 596 42 empty empty empty 20 12 0 14 #fcfcc4 #404040
-0;
-#X obj 208 96 hsl 128 15 10 4000 0 0 s-r_color_Hz r_color_Hz 10_to_4000
-2 8 0 10 #fc8000 #000000 #000000 0 1;
-#X obj 208 111 hsl 128 15 4000 9000 0 0 s-r_color_Hz r_color_Hz 4000_to_9000
-2 8 0 10 #fc8000 #000000 #000000 0 1;
-#X obj 56 99 hsl 128 25 0 1 0 0 rcolor-0-1 r_color Rain_Color 6 8 0
-10 #0c4044 #b8b8b8 #fcfcfc 0 1;
-#X text 357 105 And your arm Roll angle will control rain "color";
-#X obj 51 207 hsl 100 26 0 5 0 0 \$0-master-vol master LEVEL 110 12
-0 10 #fc0400 #000000 #000000 0 1;
-#X text 320 260 Check the whole thing at www.tiagobrizolara.com/Elemental
-;
+#X text 353 58 Your arm Pitch angle will control rain amount;
+#X obj 32 91 cnv 15 596 42 empty empty empty 20 12 0 14 #fcfcc4 #404040 0;
+#X obj 208 96 hsl 128 15 10 4000 0 0 s-r_color_Hz r_color_Hz 10_to_4000 2 8 0 10 #fc8000 #000000 #000000 0 1;
+#X obj 208 111 hsl 128 15 4000 9000 0 0 s-r_color_Hz r_color_Hz 4000_to_9000 2 8 0 10 #fc8000 #000000 #000000 0 1;
+#X obj 56 99 hsl 128 25 0 1 0 0 rcolor-0-1 r_color Rain_Color 6 8 0 10 #0c4044 #b8b8b8 #fcfcfc 0 1;
+#X obj 51 207 hsl 100 26 0 5 0 0 \$0-master-vol master LEVEL 110 12 0 10 #fc0400 #000000 #000000 0 1;
+#X text 280 260 Check the whole thing at www.tiagobrizolara.com/Elemental;
 #X text 386 205 ms between consecutive Euler events;
+#X text 353 105 Your arm Roll angle will control rain "color";
 #X connect 32 0 33 0;
