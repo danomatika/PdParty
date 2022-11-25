@@ -2,7 +2,7 @@ PdParty User Guide
 ==================
 
 Version: **1.3.0**  
-Date: 2022-07-31
+Date: 2022-11-25
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
 
@@ -31,7 +31,11 @@ Acknowledgments
 * Chris McCormick for providing the design basis with [PdDroidParty](http://droidparty.net/)
 * Frank Barknecht and the rjlib crew for a great vanilla abstraction set
 
-This project has been supported by the CMU [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org), a visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/), and my time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab).
+This project has been supported, in part, by:
+* The CMU [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org)
+* A visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/)
+* My time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab)
+* A pair of workshops given at the [LEONARDO – Zentrum für Kreativität und Innovation Nürnberg](https://leonardo-zentrum.de)
 
 Table of Contents
 -----------------
@@ -746,7 +750,7 @@ Further message types may be added in the future.
 
 ### ViewPort
 
-PdParty versions 1.3.0+ support the special ViewPort canvas from DroidParty in patches as well as DroidParty and PdParty scenes. The `pos` and `vis_size` messages send to the canvas with the "ViewPort" receive name are used to set the viewport within the main patch. This allows for segmenting complicated GUIs into separate areas whose large widgets should easier to control with "fat" multi-touch fingers.
+PdParty versions 1.3.0+ support the special ViewPort canvas from DroidParty in patches as well as DroidParty and PdParty scenes. The `pos` and `vis_size` messages send to the canvas with the "ViewPort" receive name are used to set the viewport within the main patch. This allows for segmenting complicated GUIs into separate areas whose large widgets should easier to control with "fat" multitouch fingers.
 
 From the PdDroidParty documentation on <http://droidparty.net>:
 ~~~

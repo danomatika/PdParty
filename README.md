@@ -18,7 +18,8 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
 This project has been supported, in part, by:
 * The CMU [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org)
-* A visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/)* My time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab)
+* A visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/)
+* My time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab)
 * A pair of workshops given at the [LEONARDO – Zentrum für Kreativität und Innovation Nürnberg](https://leonardo-zentrum.de)
 
 Description
