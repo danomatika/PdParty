@@ -65,6 +65,17 @@
 		}
 		[self.gui initWidgetsFromPatch:self.patch andAddToView:self.parentView];
 	}
+
+	// find ViewPort cnv and set as delegate
+	if(self.requiresViewport) {
+		for(Widget *w in self.gui.widgets) {
+			if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
+				ViewPortCanvas *cnv = (ViewPortCanvas *)w;
+				cnv.delegate = self;
+				DDLogInfo(@"DroidScene: found ViewPort canvas");
+			}
+		}
+	}
 	
 	return YES;
 }
@@ -153,6 +164,25 @@
 
 - (BOOL)requiresKeys {
 	return YES;
+}
+
+- (BOOL)requiresViewport {
+	return YES;
+}
+
+#pragma mark ViewPortDelegate
+
+- (void)receivePositionX:(float)x Y:(float)y {
+	self.gui.viewport = CGRectMake(x, y,
+		CGRectGetWidth(self.gui.viewport), CGRectGetHeight(self.gui.viewport));
+	[self.gui reshapeWidgets];
+	[self.parentView setNeedsDisplay];
+}
+
+- (void)receiveSizeW:(float)w H:(float)h {
+	self.gui.viewport = CGRectMake(self.gui.viewport.origin.x, self.gui.viewport.origin.y, w, h);
+	[self.gui reshapeWidgets];
+	[self.parentView setNeedsDisplay];
 }
 
 @end

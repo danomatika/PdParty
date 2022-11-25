@@ -12,3 +12,16 @@
 
 @interface Canvas : IEMWidget
 @end
+
+@class Gui;
+
+/// ViewPort canvas pos and vis_size event handler
+@protocol ViewPortDelegate <NSObject>
+- (void)receivePositionX:(float)x Y:(float)y;
+- (void)receiveSizeW:(float)w H:(float)h;
+@end
+
+/// special canvas with "ViewPort" receive name
+@interface ViewPortCanvas : Canvas
+@property (assign, nonatomic) id<ViewPortDelegate> delegate;
+@end

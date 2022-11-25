@@ -48,7 +48,7 @@
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 
 	// bounds as path
 	CGMutablePathRef path = CGPathCreateMutable();

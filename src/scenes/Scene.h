@@ -66,6 +66,9 @@ typedef enum {
 @property (readonly, nonatomic) BOOL requiresOnscreenControls;
 @property (readonly, nonatomic) int contentHeight; //< used for positioning controls
 
+/// does the scene require droidparty-style ViewPort cnv support? (default NO)
+@property (readonly, nonatomic) BOOL requiresViewport;
+
 - (BOOL)open:(NSString *)path; //< expects full path
 - (void)close;
 

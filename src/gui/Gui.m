@@ -28,15 +28,16 @@
 #import "VUMeter.h"
 #import "Canvas.h"
 
-@interface Gui ()
+@interface Gui () {
+	float patchScaleX; ///< x scale between viewport and original patch
+	float patchScaleY; ///< y scale between viewport and original patch
+	float viewportScaleX; ///< x scale between parent view and viewport
+	float viewportScaleY; ///< y scale between parent view and viewport
+}
 
 @property (assign, readwrite) int patchWidth;
 @property (assign, readwrite) int patchHeight;
-
 @property (assign, readwrite) int fontSize;
-
-@property (assign, readwrite) float scaleX;
-@property (assign, readwrite) float scaleY;
 
 // add other objects and print warnings for non-compatible objects
 - (void)addObject:(NSArray *)atomLine atLevel:(int)level;
@@ -49,12 +50,24 @@
 	self = [super init];
     if(self) {
 		self.widgets = [NSMutableArray array];
+		self.patchWidth = 1;
+		self.patchHeight = 1;
 		self.fontName = nil; // sets default font
 		self.fontSize = 10;
-		self.scaleX = 1.0;
-		self.scaleY = 1.0;
+		_scaleMode = GuiScaleModeAspect;
+		_lineWidth = 1.0;
+		patchScaleX = 1.0;
+		patchScaleY = 1.0;
+		[self resetViewport];
     }
     return self;
+}
+
+- (void)resetViewport {
+	_viewport = CGRectZero;
+	viewportScaleX = 1.0;
+	viewportScaleY = 1.0;
+	[self updateScaleValues];
 }
 
 #pragma mark Add Widgets
@@ -213,13 +226,13 @@
 					}
 					else {
 						// set pd gui to ios gui scale amount based on relative sizes
-						self.scaleX = self.parentViewSize.width / self.patchWidth;
-						self.scaleY = self.parentViewSize.height / self.patchHeight;
+						patchScaleX = self.parentViewSize.width / self.patchWidth;
+						patchScaleY = self.parentViewSize.height / self.patchHeight;
 					}
 					
 					// sanity check
-					if(self.scaleX <= 0) {self.scaleX = 1.0;}
-					if(self.scaleY <= 0) {self.scaleY = 1.0;}
+					if(patchScaleX <= 0) {patchScaleX = 1.0;}
+					if(patchScaleY <= 0) {patchScaleY = 1.0;}
 				}
 			}
 			else if([lineType isEqualToString:@"restore"]) {
@@ -327,12 +340,20 @@
 
 - (void)setParentViewSize:(CGSize)parentViewSize {
 	_parentViewSize = parentViewSize;
-	self.scaleX = self.parentViewSize.width / self.patchWidth;
-	self.scaleY = self.parentViewSize.height / self.patchHeight;
+	patchScaleX = self.parentViewSize.width / self.patchWidth;
+	patchScaleY = self.parentViewSize.height / self.patchHeight;
+	[self updateScaleValues];
 }
 
 - (void)setFontName:(NSString *)fontName {
-	_fontName = fontName == nil ? GUI_FONT_NAME : fontName;
+	_fontName = (fontName == nil ? GUI_FONT_NAME : fontName);
+}
+
+- (void)setViewport:(CGRect)viewport {
+	_viewport = viewport;
+	viewportScaleX = self.patchWidth / MAX(self.viewport.size.width, 1.0f);
+	viewportScaleY = self.patchHeight / MAX(self.viewport.size.height, 1.0f);
+	[self updateScaleValues];
 }
 
 #pragma mark Private
@@ -345,9 +366,37 @@
 	BOOL added = [self addObjectType:objType fromAtomLine:atomLine atLevel:level];
 
 	// print warnings on objects that aren't completely compatible
-	if(!added && ([objType isEqualToString:@"keyup"] || [objType isEqualToString:@"keyname"])) {
-		DDLogWarn(@"Gui: [keyup] & [keyname] can create, but won't return any events");
+	if(!added && [objType isEqualToString:@"keyname"]) {
+		DDLogWarn(@"Gui: [keyname] can create, but won't return any events");
 	}
+}
+
+- (void)updateScaleValues {
+	_scaleX = patchScaleX * viewportScaleX;
+	_scaleY = patchScaleY * viewportScaleY;
+	switch(self.scaleMode) {
+		case GuiScaleModeHorz:
+			_scaleWidth = _scaleX;
+			_scaleHeight = _scaleX;
+			break;
+		case GuiScaleModeAspect: default:
+			_scaleWidth = _scaleX;
+			_scaleHeight = _scaleY;
+			if((float)self.patchWidth / (float)self.patchHeight < 1.0) { // portrait
+				_scaleWidth = _scaleX;
+				_scaleHeight = _scaleX;
+			}
+			else { // landscape
+				_scaleWidth = _scaleY;
+				_scaleHeight = _scaleY;
+			}
+			break;
+		case GuiScaleModeFill:
+			_scaleWidth = _scaleX;
+			_scaleHeight = _scaleY;
+			break;
+	}
+	_lineWidth = MAX(_scaleWidth, 1.0);
 }
 
 @end

@@ -85,7 +85,7 @@
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 	
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
@@ -100,7 +100,7 @@
 	CGContextSetStrokeColorWithColor(context, self.controlColor.CGColor);
 	CGContextSetShouldAntialias(context, NO); // no fuzzy straight lines
 	if(self.orientation == WidgetOrientationHorizontal) {
-		float x = (self.controlValue + 50) * 0.01 * self.gui.scaleX;
+		float x = (self.controlValue + 50) * 0.01 * self.gui.scaleWidth;
 		int controlWidth = 3;
 		// constrain pos at edges
 		if(x < controlWidth) {
@@ -113,13 +113,13 @@
 		else if(self.controlValue == centerValue) {
 			controlWidth = 7; // thick line in middle
 		}
-		CGContextSetLineWidth(context, controlWidth);
+		CGContextSetLineWidth(context, self.gui.lineWidth * controlWidth);
 		CGContextMoveToPoint(context, x, round(rect.origin.y));
 		CGContextAddLineToPoint(context, x, round(rect.origin.y+rect.size.height-1));
 		CGContextStrokePath(context);
 	}
 	else { // vertical
-		float y = CGRectGetHeight(rect) - ((self.controlValue + 50) * 0.01 * self.gui.scaleX);
+		float y = CGRectGetHeight(rect) - ((self.controlValue + 50) * 0.01 * self.gui.scaleHeight);
 		int controlWidth = 3;
 		// constrain pos at edges
 		if(y < controlWidth) {
@@ -132,7 +132,7 @@
 		else if(self.controlValue == centerValue) {
 			controlWidth = 7; // thick line in middle
 		}
-		CGContextSetLineWidth(context, controlWidth);
+		CGContextSetLineWidth(context, self.gui.lineWidth * controlWidth);
 		CGContextMoveToPoint(context, round(rect.origin.x), y);
 		CGContextAddLineToPoint(context, round(rect.origin.x+rect.size.width-1), y);
 		CGContextStrokePath(context);
@@ -225,7 +225,7 @@
 	if(self.orientation == WidgetOrientationHorizontal) {
 		
 		if(!self.steady) {
-			int v = (int)(100.0 * (pos.x / self.gui.scaleX));
+			int v = (int)(100.0 * (pos.x / self.gui.scaleWidth));
 			v = CLAMP(v, 0, (100 * CGRectGetWidth(self.originalFrame) - 100));
 			self.controlValue = v;
 		}
@@ -236,7 +236,7 @@
 	else if(self.orientation == WidgetOrientationVertical) {
 		
 		if(!self.steady) {
-			int v = (int)(100.0 * ((CGRectGetHeight(self.frame)-pos.y) / self.gui.scaleX));
+			int v = (int)(100.0 * ((CGRectGetHeight(self.frame)-pos.y) / self.gui.scaleHeight));
 			v = CLAMP(v, 0, (100 * CGRectGetHeight(self.originalFrame) - 100));
 			self.controlValue = v;
 		}
@@ -252,7 +252,7 @@
 	CGPoint pos = [touch locationInView:self];
 	
 	if(self.orientation == WidgetOrientationHorizontal) {
-		float delta = (pos.x - prevPos) / self.gui.scaleX;
+		float delta = (pos.x - prevPos) / self.gui.scaleWidth;
 		float old = self.controlValue;
 	
 		int v = 0;
@@ -284,7 +284,7 @@
 		prevPos = pos.x;
 	}
 	else if(self.orientation == WidgetOrientationVertical) {
-		float delta = (pos.y - prevPos) / self.gui.scaleX;
+		float delta = (pos.y - prevPos) / self.gui.scaleHeight;
 		float old = self.controlValue;
 	
 		int v = 0;

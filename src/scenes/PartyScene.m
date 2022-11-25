@@ -38,6 +38,19 @@
 	return NO;
 }
 
+- (void)close {
+	// disconnect ViewPort cnv
+	if(self.requiresViewport) {
+		for(Widget *w in self.gui.widgets) {
+			if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
+				ViewPortCanvas *cnv = (ViewPortCanvas *)w;
+				cnv.delegate = nil;
+			}
+		}
+	}
+	[super close];
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {

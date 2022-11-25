@@ -10,6 +10,9 @@
  */
 #import "DroidScene.h"
 
+#import "Canvas.h"
+#import "SceneManager.h"
+
 @implementation DroidScene
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui {
@@ -67,7 +70,7 @@
 
 - (BOOL)supportsSensor:(SensorType)sensor {
 	switch(sensor) {
-	case SensorTypeLocation: case SensorTypeCompass: case SensorTypeMotion:
+		case SensorTypeLocation: case SensorTypeCompass: case SensorTypeMotion:
 			return NO;
 		default:
 			return YES;

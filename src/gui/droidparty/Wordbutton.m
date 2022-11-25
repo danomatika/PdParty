@@ -52,7 +52,7 @@
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
-	CGContextSetLineWidth(context, 1.0);
+	CGContextSetLineWidth(context, self.gui.lineWidth);
 	
 	// background
 	CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
@@ -60,10 +60,7 @@
 	
 	// border
 	if(touchDown) {
-		CGContextSetLineWidth(context, 2.0);
-	}
-	else {
-		CGContextSetLineWidth(context, 1.0);
+		CGContextSetLineWidth(context, self.gui.lineWidth * 2.0);
 	}
 	CGContextSetStrokeColorWithColor(context, self.frameColor.CGColor);
 	CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width-1, rect.size.height-1));

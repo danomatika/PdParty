@@ -261,6 +261,10 @@
 	return CGRectGetHeight(self.background.bounds);
 }
 
+- (BOOL)requiresViewport {
+	return NO;
+}
+
 #pragma mark Util
 
 + (BOOL)isRjDjDirectory:(NSString *)fullpath {
@@ -287,7 +291,7 @@
 	return nil;
 }
 
-#pragma mark WidgetListener
+#pragma mark PdListener
 
 // mostly borrowed from the pd-for-android ScenePlayer
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
