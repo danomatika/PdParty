@@ -82,7 +82,7 @@ typedef enum {
 /// line width based on current scale values
 @property (assign, readonly, nonatomic) float lineWidth;
 
-#pragma mark ViewPort Properties
+#pragma mark Viewport Properties
 
 /// optional patch (sub) viewport in pixel size of original pd patch
 @property (assign, nonatomic) CGRect viewport;

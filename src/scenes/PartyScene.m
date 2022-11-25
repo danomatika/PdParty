@@ -39,7 +39,7 @@
 }
 
 - (void)close {
-	// disconnect ViewPort
+	// disconnect ViewPort cnv
 	if(self.requiresViewport) {
 		for(Widget *w in self.gui.widgets) {
 			if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {

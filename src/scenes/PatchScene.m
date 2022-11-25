@@ -66,13 +66,13 @@
 		[self.gui initWidgetsFromPatch:self.patch andAddToView:self.parentView];
 	}
 
-	// find ViewPort and set as delegate
+	// find ViewPort cnv and set as delegate
 	if(self.requiresViewport) {
 		for(Widget *w in self.gui.widgets) {
 			if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
 				ViewPortCanvas *cnv = (ViewPortCanvas *)w;
 				cnv.delegate = self;
-				DDLogInfo(@"DroidScene: found ViewPort cnv");
+				DDLogInfo(@"DroidScene: found ViewPort canvas");
 			}
 		}
 	}
