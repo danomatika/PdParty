@@ -146,7 +146,7 @@
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
 		self.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	}];
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -210,8 +210,8 @@
 - (void)controlsNavButtonPressed:(id)sender {
 	if(!self.controlsPopover.popoverVisible) {
 		[self.controlsPopover presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
-									 permittedArrowDirections:UIPopoverArrowDirectionUp
-													 animated:YES];
+		                             permittedArrowDirections:UIPopoverArrowDirectionUp
+		                                             animated:YES];
 	}
 	else {
 		[self.controlsPopover dismissPopoverAnimated:YES];
@@ -263,7 +263,7 @@
 			touchIndex++;
 		}
 		[activeTouches setObject:[NSNumber numberWithInt:touchIndex]
-						  forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
+		                  forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
@@ -423,7 +423,7 @@
 				self.navigationItem.rightBarButtonItem =
 					[[UIBarButtonItem alloc] initWithTitle:nil
 					                                 style:UIBarButtonItemStylePlain
-													target:self
+					                                target:self
 					                                action:@selector(infoNavButtonPressed:)];
 				self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"info"];
 				if(!self.navigationItem.rightBarButtonItem.image) { // fallback
@@ -489,13 +489,13 @@
 			[self.controlsView alignToSuperviewTop];
 			[self.menuViewController alignToSuperviewBottom];
 			[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : view}]];
+			                                                                       options:0
+			                                                                       metrics:nil
+			                                                                         views:@{@"view" : view}]];
 			[view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : view}]];
+			                                                                    options:0
+			                                                                    metrics:nil
+			                                                                      views:@{@"view" : view}]];
 			[self.controlsView updateControls];
 		}
 	}

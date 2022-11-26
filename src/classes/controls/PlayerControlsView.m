@@ -48,7 +48,7 @@
 			[NSLayoutConstraint constraintWithItem:self.timeElapsedLabel
 			                             attribute:NSLayoutAttributeLeading
 			                             relatedBy:NSLayoutRelationEqual
-										    toItem:self
+			                                toItem:self
 			                             attribute:NSLayoutAttributeLeading
 			                            multiplier:1.0
 			                              constant:self.defaultSpacing/2];
@@ -56,7 +56,7 @@
 			[NSLayoutConstraint constraintWithItem:self.timeElapsedLabel
 			                             attribute:NSLayoutAttributeLeading
 			                             relatedBy:NSLayoutRelationEqual
-										    toItem:self.slider
+			                                toItem:self.slider
 			                             attribute:NSLayoutAttributeLeading
 			                            multiplier:1.0
 			                              constant:-CGRectGetWidth(self.timeElapsedLabel.bounds)*1.1];
@@ -64,7 +64,7 @@
 			[NSLayoutConstraint constraintWithItem:self.timeRemainLabel
 			                             attribute:NSLayoutAttributeTrailing
 			                             relatedBy:NSLayoutRelationEqual
-										    toItem:self.slider
+			                                toItem:self.slider
 			                             attribute:NSLayoutAttributeTrailing
 			                            multiplier:1.0
 			                              constant:CGRectGetWidth(self.timeRemainLabel.bounds)*1.1];
@@ -72,7 +72,7 @@
 			[NSLayoutConstraint constraintWithItem:self.timeRemainLabel
 			                             attribute:NSLayoutAttributeTrailing
 			                             relatedBy:NSLayoutRelationEqual
-											toItem:self
+			                                toItem:self
 			                             attribute:NSLayoutAttributeTrailing
 			                            multiplier:1.0
 			                              constant:-self.defaultSpacing/2];
@@ -83,14 +83,14 @@
 			                             relatedBy:NSLayoutRelationEqual
 			                                toItem:self
 			                             attribute:NSLayoutAttributeCenterY
-										multiplier:1.0
+			                            multiplier:1.0
 			                              constant:self.defaultToolbarHeight/2],
 			[NSLayoutConstraint constraintWithItem:self.timeRemainLabel
 			                             attribute:NSLayoutAttributeCenterY
 			                             relatedBy:NSLayoutRelationEqual
 			                                toItem:self
 			                             attribute:NSLayoutAttributeCenterY
-										multiplier:1.0
+			                            multiplier:1.0
 			                              constant:self.defaultToolbarHeight/2]
 		]];
 		[self setNeedsUpdateConstraints];
@@ -103,16 +103,16 @@
 
 - (UIBarButtonItem *)createLeftButton {
 	return [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"play"]
-											style:UIBarButtonItemStylePlain
-										   target:self
-										   action:@selector(buttonPressed:)];
+	                                        style:UIBarButtonItemStylePlain
+	                                       target:self
+	                                       action:@selector(buttonPressed:)];
 }
 
 - (UIBarButtonItem *)createRightButton {
 	return [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"loop"]
-											style:UIBarButtonItemStylePlain
-										   target:self
-										   action:@selector(buttonPressed:)];
+	                                        style:UIBarButtonItemStylePlain
+	                                       target:self
+	                                       action:@selector(buttonPressed:)];
 }
 
 // avoid showing hours time component unless duration is long enough

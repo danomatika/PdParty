@@ -60,8 +60,8 @@
 		NSError *error;
 		if(![url checkResourceIsReachableAndReturnError:&error]) {
 			[[UIAlertController alertControllerWithTitle:@"Couldn't launch URL"
-												 message:error.localizedDescription
-									   cancelButtonTitle:@"Ok"] show];
+			                                     message:error.localizedDescription
+			                           cancelButtonTitle:@"Ok"] show];
 			return;
 		}
 		NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
@@ -76,9 +76,9 @@
 	self.title = (title ? title : @"URL");
 	self.modalPresentationStyle = UIModalPresentationPageSheet;
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-											  initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-											  target:self
-											  action:@selector(donePressed:)];
+	                                           initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+	                                           target:self
+	                                           action:@selector(donePressed:)];
 }
 
 #pragma mark UI

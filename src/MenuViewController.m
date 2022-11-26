@@ -80,41 +80,41 @@
 
 - (void)alignToSuperview {
 	[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : self.view}]];
+	                                                                            options:0
+	                                                                            metrics:nil
+	                                                                              views:@{@"view" : self.view}]];
 	[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : self.view}]];
+	                                                                            options:0
+	                                                                            metrics:nil
+	                                                                              views:@{@"view" : self.view}]];
 }
 
 - (void)alignToSuperviewBottom {
 	[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : self.view}]];
+	                                                                            options:0
+	                                                                            metrics:nil
+	                                                                              views:@{@"view" : self.view}]];
 	[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : self.view}]];
+	                                                                            options:0
+	                                                                            metrics:nil
+	                                                                              views:@{@"view" : self.view}]];
 }
 
 - (void)alignToSuperviewTop {
 	[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : self.view}]];
+	                                                                            options:0
+	                                                                            metrics:nil
+	                                                                              views:@{@"view" : self.view}]];
 	[self.view.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : self.view}]];
+	                                                                            options:0
+	                                                                            metrics:nil
+	                                                                              views:@{@"view" : self.view}]];
 }
 
 #pragma mark UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+	return 1;
 }
 
 // restart button is always index 0

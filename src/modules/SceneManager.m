@@ -61,7 +61,7 @@
 		// listen for shake events
 		NSNotificationCenter *center = NSNotificationCenter.defaultCenter;
 		[center addObserver:self selector:@selector(shakeEndedNotification:)
-					   name:PdPartyMotionShakeEndedNotification object:nil];
+		               name:PdPartyMotionShakeEndedNotification object:nil];
 		
 		// create gui
 		self.gui = [[PartyGui alloc] init];
@@ -140,8 +140,8 @@
 	else {
 		DDLogError(@"SceneManager: couldn't open scene");
 		[[UIAlertController alertControllerWithTitle:@"Open Failed"
-											 message:@"Couldn't open scene, file, or recording."
-								   cancelButtonTitle:@"Ok"] show];
+		                                     message:@"Couldn't open scene, file, or recording."
+		                           cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
 	

@@ -10,7 +10,7 @@
  */
 #import "RjWidget.h"
 
-// rj_text
+/// rj_text
 @interface RjText : RjWidget
 
 @property (assign, nonatomic) NSString *text; ///< text to draw

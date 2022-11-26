@@ -95,9 +95,9 @@
 		maxLabelSize.height += charSize.height * self.numForcedLineBreaks;
 	}
 	CGRect labelFrame = [self.label.text boundingRectWithSize:maxLabelSize
-													  options:NSStringDrawingUsesLineFragmentOrigin
-												   attributes:@{NSFontAttributeName:self.label.font}
-													  context:nil];
+	                                                  options:NSStringDrawingUsesLineFragmentOrigin
+	                                               attributes:@{NSFontAttributeName:self.label.font}
+	                                                  context:nil];
 	labelFrame.size.width = ceil(labelFrame.size.width);
 	labelFrame.size.height = ceil(labelFrame.size.height);
 	self.label.frame = labelFrame;

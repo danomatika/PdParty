@@ -42,11 +42,11 @@
 
 - (id)init {
 	self = [super init];
-    if(self) {
+	if(self) {
 		widgets = [NSMutableDictionary dictionary];
 		self.scale = 1.0f;
-    }
-    return self;
+	}
+	return self;
 }
 
 - (BOOL)open:(NSString *)path {
@@ -311,8 +311,8 @@
 		}
 		else if([cmd isEqualToString:@"move"]) {
 			if(list.count < 4 || ![list isNumberAt:2] || ![list isNumberAt:3]) return;
-			widget.position = CGPointMake([list[2] floatValue],
-										  [list[3] floatValue]);
+			widget.position = CGPointMake(
+				[list[2] floatValue], [list[3] floatValue]);
 		}
 		else {
 			if([widget isKindOfClass:RjImage.class]) {

@@ -157,8 +157,8 @@
 
 /// creates an alert controller with an optional cancel button
 + (instancetype)alertControllerWithTitle:(NSString *)title
-								 message:(NSString *)message
-					   cancelButtonTitle:(NSString *)cancelButtonTitle;
+                                 message:(NSString *)message
+                       cancelButtonTitle:(NSString *)cancelButtonTitle;
 
 /// present from the application's key window root view controller
 - (void)show;

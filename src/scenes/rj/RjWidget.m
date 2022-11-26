@@ -34,8 +34,8 @@
 
 - (void)setPosition:(CGPoint)p {
 	self.originalFrame = CGRectMake(p.x, p.y,
-							CGRectGetWidth(self.originalFrame),
-							CGRectGetHeight(self.originalFrame));
+		CGRectGetWidth(self.originalFrame),
+		CGRectGetHeight(self.originalFrame));
 	[self reshape];
 }
 

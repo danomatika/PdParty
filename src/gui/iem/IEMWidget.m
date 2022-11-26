@@ -113,8 +113,8 @@ int iemgui_modulo_color(int col);
 	else if([message isEqualToString:@"label_pos"] && [arguments count] > 1 &&
 		([arguments isNumberAt:0] && [arguments isNumberAt:1])) {
 		// x, y
-		self.originalLabelPos = CGPointMake([arguments[0] floatValue],
-											[arguments[1] floatValue]);
+		self.originalLabelPos = CGPointMake(
+			[arguments[0] floatValue], [arguments[1] floatValue]);
 		[self reshape];
 		[self setNeedsDisplay];
 		return YES;

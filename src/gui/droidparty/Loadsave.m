@@ -110,11 +110,11 @@
 				DDLogInfo(@"LoadSave: %@ doesn't exist, create it?", self.directory);
 				NSString *title = [NSString stringWithFormat:@"%@ folder doesn't exist", self.extension];
 				UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
-																			   message:@"Create it?"
-																	 cancelButtonTitle:@"Cancel"];
+				                                                               message:@"Create it?"
+				                                                     cancelButtonTitle:@"Cancel"];
 				UIAlertAction *createAction = [UIAlertAction actionWithTitle:@"Create"
-																	   style:UIAlertActionStyleDefault
-																	 handler:^(UIAlertAction *action) {
+				                                                       style:UIAlertActionStyleDefault
+				                                                     handler:^(UIAlertAction *action) {
 					[browser createDirectoryPath:path];
 				}];
 				[alert addAction:createAction];
@@ -133,8 +133,8 @@
 				DDLogVerbose(@"Loadsave: dir & extension set when loading, but no files to load");
 				NSString *title = [NSString stringWithFormat:@"No .%@ files found", self.extension];
 				UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
-																			   message:@"Save one first?"
-																		preferredStyle:UIAlertControllerStyleAlert];
+				                                                               message:@"Save one first?"
+				                                                        preferredStyle:UIAlertControllerStyleAlert];
 				UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil];
 				[alert addAction:okAction];
 				[alert show];

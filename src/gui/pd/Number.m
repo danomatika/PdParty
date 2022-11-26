@@ -73,7 +73,7 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
-    UITouch *touch = [touches anyObject];
+	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	touchPrevY = pos.y;
 	if(touches.count > 1) {

@@ -55,7 +55,7 @@
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
 		self->sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	}];
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

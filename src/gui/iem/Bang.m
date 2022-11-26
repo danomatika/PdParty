@@ -120,10 +120,10 @@
 		// start flash with full hold time
 		timestamp = CACurrentMediaTime();
 		flashTimer = [NSTimer scheduledTimerWithTimeInterval:((float)self.holdTimeMS/1000.f)
-													  target:self
-													selector:@selector(stopFlash:)
-													userInfo:nil
-													 repeats:NO];
+		                                              target:self
+		                                            selector:@selector(stopFlash:)
+		                                            userInfo:nil
+		                                             repeats:NO];
 		self.value = 1;
 		elapsedHoldTimeMS = 0;
 	}
@@ -135,10 +135,10 @@
 		
 		// retrigger flash after interrupt time
 		flashTimer = [NSTimer scheduledTimerWithTimeInterval:((float)self.interruptTimeMS/1000.f)
-													  target:self
-													selector:@selector(resumeFlash:)
-													userInfo:nil
-													 repeats:NO];
+		                                              target:self
+		                                            selector:@selector(resumeFlash:)
+		                                            userInfo:nil
+		                                             repeats:NO];
 		self.value = 0;
 	}
 }
@@ -234,10 +234,10 @@
 	double resumeHoldTime = self.holdTimeMS - (elapsedHoldTimeMS);
 	if(resumeHoldTime > 0) {
 		flashTimer = [NSTimer scheduledTimerWithTimeInterval:(resumeHoldTime/1000.f)
-												  target:self
-												selector:@selector(stopFlash:)
-												userInfo:nil
-												 repeats:NO];
+		                                              target:self
+		                                            selector:@selector(stopFlash:)
+		                                            userInfo:nil
+		                                             repeats:NO];
 		self.value = 1;
 	}
 	else { // stop if there is no time left to show

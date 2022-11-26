@@ -34,7 +34,7 @@
 /// returns YES on success
 - (BOOL)start:(NSString *)directory;
 - (BOOL)start; ///< start with the Documents folder as the root
-- (void)stop;
+- (void)stop; ///< stop the server
 
 /// is wifi enabled and the local network reachable?
 + (BOOL)isLocalWifiReachable;

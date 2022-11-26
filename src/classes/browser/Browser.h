@@ -57,8 +57,8 @@
 ///
 /// override to customize cell with file icons, etc for certain paths
 - (void)browser:(Browser *)browser styleCell:(UITableViewCell *)cell
-		                             forPath:(NSString *)path
-		                               isDir:(BOOL)isDir
+                                     forPath:(NSString *)path
+                                       isDir:(BOOL)isDir
                                 isSelectable:(BOOL)isSelectable;
 
 @end
@@ -153,19 +153,19 @@
 
 /// rename full path
 - (BOOL)renamePath:(NSString *)path to:(NSString *)newPath
-		completion:(void (^)(BOOL failed))completion;
+        completion:(void (^)(BOOL failed))completion;
 
 /// copy path to a new directory
 - (BOOL)copyPath:(NSString *)path toDirectory:(NSString *)newDir
-	  completion:(void (^)(BOOL failed))completion;
+      completion:(void (^)(BOOL failed))completion;
 
 /// move path to a new directory
 - (BOOL)movePath:(NSString *)path toDirectory:(NSString *)newDir
-	  completion:(void (^)(BOOL failed))completion;
+      completion:(void (^)(BOOL failed))completion;
 
 /// delete full path
 - (BOOL)deletePath:(NSString *)path
-		completion:(void (^)(BOOL failed))completion;
+        completion:(void (^)(BOOL failed))completion;
 
 /// get the number of files for the current file extensions
 - (unsigned int)fileCountForExtensions;

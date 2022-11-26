@@ -290,7 +290,7 @@
 		if(sourceIndexPath.section < proposedDestinationIndexPath.section) {
 			row = [tableView numberOfRowsInSection:sourceIndexPath.section] - 1;
 		}
-    	return [NSIndexPath indexPathForRow:row inSection:sourceIndexPath.section];
+		return [NSIndexPath indexPathForRow:row inSection:sourceIndexPath.section];
 	}
 	return proposedDestinationIndexPath;
 }
@@ -350,7 +350,7 @@
 		/// launch Bluetooth MIDI controller
 		/// https://developer.apple.com/library/content/qa/qa1831/_index.html
 		CABTMIDICentralViewController *controller = [[CABTMIDICentralViewController alloc] init];
-    	[self.navigationController pushViewController:controller animated:YES];
+		[self.navigationController pushViewController:controller animated:YES];
 	}
 }
 

@@ -39,16 +39,16 @@
 
 - (UIBarButtonItem *)createLeftButton {
 	return [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"pause"]
-											style:UIBarButtonItemStylePlain
-										   target:self
-										   action:@selector(buttonPressed:)];
+	                                        style:UIBarButtonItemStylePlain
+	                                       target:self
+	                                       action:@selector(buttonPressed:)];
 }
 
 - (UIBarButtonItem *)createRightButton {
 	return [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"record"]
-											style:UIBarButtonItemStylePlain
-										   target:self
-										   action:@selector(buttonPressed:)];
+	                                        style:UIBarButtonItemStylePlain
+	                                       target:self
+	                                       action:@selector(buttonPressed:)];
 }
 
 - (UISlider *)createSlider {

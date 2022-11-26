@@ -45,7 +45,7 @@
 			                                              action:nil];
 		UIBarButtonItem *rightSpace =
 			[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-														  target:nil
+			                                              target:nil
 			                                              action:nil];
 		rightSpace.width = self.defaultSpacing;
 
@@ -65,29 +65,29 @@
 		// keep overall height from getting too small
 		heightConstraint =
 			[NSLayoutConstraint constraintWithItem:self
-										 attribute:NSLayoutAttributeHeight
-										 relatedBy:NSLayoutRelationGreaterThanOrEqual
-										    toItem:nil
-										 attribute:NSLayoutAttributeNotAnAttribute
-									    multiplier:1.0
-										  constant:self.defaultHeight];
+			                             attribute:NSLayoutAttributeHeight
+			                             relatedBy:NSLayoutRelationGreaterThanOrEqual
+			                                toItem:nil
+			                             attribute:NSLayoutAttributeNotAnAttribute
+			                            multiplier:1.0
+			                              constant:self.defaultHeight];
 		
 		// lock toolbar height to given size
 		toolbarHeightConstraint =
 			[NSLayoutConstraint constraintWithItem:self.toolbar
-									     attribute:NSLayoutAttributeHeight
-									     relatedBy:NSLayoutRelationEqual
-										    toItem:nil
-		                                 attribute:NSLayoutAttributeNotAnAttribute
-		                                multiplier:1.0
-		                                  constant:self.defaultToolbarHeight];
+			                             attribute:NSLayoutAttributeHeight
+			                             relatedBy:NSLayoutRelationEqual
+			                                toItem:nil
+			                             attribute:NSLayoutAttributeNotAnAttribute
+			                            multiplier:1.0
+			                              constant:self.defaultToolbarHeight];
 		
 		// keep slider centered within space under toolbar
 		sliderLeadingConstraint =
 			[NSLayoutConstraint constraintWithItem:self.slider
 			                             attribute:NSLayoutAttributeLeading
 			                             relatedBy:NSLayoutRelationEqual
-										    toItem:self
+			                                toItem:self
 			                             attribute:NSLayoutAttributeLeading
 			                            multiplier:1.0
 			                              constant:self.defaultSpacing];
@@ -95,7 +95,7 @@
 			[NSLayoutConstraint constraintWithItem:self.slider
 			                             attribute:NSLayoutAttributeTrailing
 			                             relatedBy:NSLayoutRelationEqual
-											toItem:self
+			                                toItem:self
 			                             attribute:NSLayoutAttributeTrailing
 			                            multiplier:1.0
 			                              constant:-self.defaultSpacing];
@@ -105,7 +105,7 @@
 			                             relatedBy:NSLayoutRelationEqual
 			                                toItem:self
 			                             attribute:NSLayoutAttributeCenterY
-										multiplier:1.0
+			                            multiplier:1.0
 			                              constant:self.defaultToolbarHeight/2];
 		
 		[self addConstraints:@[heightConstraint, toolbarHeightConstraint,
@@ -113,25 +113,25 @@
 			// keep toolbar at top with full width
 			[NSLayoutConstraint constraintWithItem:self.toolbar
 			                             attribute:NSLayoutAttributeLeading
-										 relatedBy:NSLayoutRelationEqual
-										    toItem:self
+			                             relatedBy:NSLayoutRelationEqual
+			                                toItem:self
 			                             attribute:NSLayoutAttributeLeading
-										multiplier:1.0
-										  constant:0],
+			                            multiplier:1.0
+			                              constant:0],
 			[NSLayoutConstraint constraintWithItem:self.toolbar
 			                             attribute:NSLayoutAttributeTrailing
 			                             relatedBy:NSLayoutRelationEqual
-											toItem:self
+			                                toItem:self
 			                             attribute:NSLayoutAttributeTrailing
-										multiplier:1.0
-										  constant:0],
+			                            multiplier:1.0
+			                              constant:0],
 			[NSLayoutConstraint constraintWithItem:self.toolbar
 			                             attribute:NSLayoutAttributeTop
 			                             relatedBy:NSLayoutRelationEqual
 			                                toItem:self
 			                             attribute:NSLayoutAttributeTop
-										multiplier:1.0
-										  constant:10],
+			                            multiplier:1.0
+			                              constant:10],
 			
 			// slider
 			sliderLeadingConstraint, sliderTrailingConstraint, sliderCenterYConstraint]
@@ -237,35 +237,35 @@
 
 - (void)alignToSuperview {
 	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-																		   options:0
-																		   metrics:nil
-																			 views:@{@"view" : self}]];
+	                                                                       options:0
+	                                                                       metrics:nil
+	                                                                         views:@{@"view" : self}]];
 	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
-																		   options:0
-																		   metrics:nil
-																			 views:@{@"view" : self}]];
+	                                                                       options:0
+	                                                                       metrics:nil
+	                                                                         views:@{@"view" : self}]];
 }
 
 - (void)alignToSuperviewBottom {
 	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-																		   options:0
-																		   metrics:nil
-																			 views:@{@"view" : self}]];
+	                                                                       options:0
+	                                                                       metrics:nil
+	                                                                         views:@{@"view" : self}]];
 	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]|"
-																		   options:0
-																		   metrics:nil
-																			 views:@{@"view" : self}]];
+	                                                                       options:0
+	                                                                       metrics:nil
+	                                                                         views:@{@"view" : self}]];
 }
 
 - (void)alignToSuperviewTop {
 	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-																		   options:0
-																		   metrics:nil
-																			 views:@{@"view" : self}]];
+	                                                                       options:0
+	                                                                       metrics:nil
+	                                                                         views:@{@"view" : self}]];
 	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]"
-																		   options:0
-																		   metrics:nil
-																			 views:@{@"view" : self}]];
+	                                                                       options:0
+	                                                                       metrics:nil
+	                                                                         views:@{@"view" : self}]];
 }
 
 #pragma mark Overridden Getters / Setters

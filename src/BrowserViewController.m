@@ -35,7 +35,7 @@
 @implementation BrowserViewController
 
 - (void)viewDidLoad {
-    // Do any additional setup after loading the view, typically from a nib.
+	// Do any additional setup after loading the view, typically from a nib.
 	[super viewDidLoad];
 
 	// set instance pointer
@@ -109,7 +109,7 @@
 			// remove existing file
 			if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
 				DDLogError(@"Browser: couldn't remove %@, error: %@",
-						   path, error.localizedDescription);
+					path, error.localizedDescription);
 			}
 		}
 		else {
@@ -124,10 +124,10 @@
 	}
 	if(failed) {
 		NSString *message = [NSString stringWithFormat:@"Could not decompress %@ to %@",
-							 filename, directory.lastPathComponent];
+			filename, directory.lastPathComponent];
 		[[UIAlertController alertControllerWithTitle:@"Unzip Failed"
-											 message:message
-								   cancelButtonTitle:@"Ok"] show];
+		                                     message:message
+		                           cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
 	return YES;
@@ -175,10 +175,10 @@
 	else if([BrowserViewController isZipFile:path]) { // unzip zipfiles
 		if([BrowserViewController unzipPath:path toDirectory:self.directory]) {
 			NSString *message = [NSString stringWithFormat:@"%@ unzipped to %@",
-								 path.lastPathComponent, self.directory.lastPathComponent];
+				path.lastPathComponent, self.directory.lastPathComponent];
 			[[UIAlertController alertControllerWithTitle:@"Unzip Succeeded"
-												 message:message
-									   cancelButtonTitle:@"Ok"] show];
+			                                     message:message
+			                           cancelButtonTitle:@"Ok"] show];
 			[self reloadDirectory];
 		}
 	}

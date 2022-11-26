@@ -337,14 +337,14 @@
 		if(list.count > 0 && [list.firstObject isKindOfClass:NSString.class] ) {
 			if([list.firstObject isEqualToString:RJ_GLOBAL_S]) { // forward rj messages
 				[PdBase sendMessage:[list firstObject]
-							 withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
-								toReceiver:list.firstObject];
+				      withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
+				         toReceiver:list.firstObject];
 			}
 			else { // process pdparty messages
 				AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 				[app.pureData receiveMessage:list.firstObject
-							   withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
-								  fromSource:PARTY_GLOBAL_S];
+				               withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
+				                  fromSource:PARTY_GLOBAL_S];
 			}
 		}
 	}
@@ -392,8 +392,8 @@
 	else if(([source isEqualToString:RJ_GLOBAL_S] || [source isEqualToString:PARTY_GLOBAL_S])) { // catch list prepends
 		if(list.count > 0) {
 			[self receiveMessage:list.firstObject
-				   withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
-					  fromSource:source];
+			       withArguments:[list objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, list.count-1)]]
+			          fromSource:source];
 		}
 	}
 	else {

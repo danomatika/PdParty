@@ -201,18 +201,18 @@
 }
 
 + (NSString *)generateCopyPathForPath:(NSString *)path {
-    int tries = 0;
-    NSString *copy = path;
-    NSString *name = path.lastPathComponent.stringByDeletingPathExtension;
-    NSString *ext = path.lastPathComponent.pathExtension;
-    while([NSFileManager.defaultManager fileExistsAtPath:copy]) {
+	int tries = 0;
+	NSString *copy = path;
+	NSString *name = path.lastPathComponent.stringByDeletingPathExtension;
+	NSString *ext = path.lastPathComponent.pathExtension;
+	while([NSFileManager.defaultManager fileExistsAtPath:copy]) {
 		NSString *newFilename = [NSString stringWithFormat:@"%@%@%@", name,
-								 (tries > 0 ? [NSString stringWithFormat:@" %d", tries] : @""),
-								 ([ext isEqualToString:@""] ? @"" : [NSString stringWithFormat:@".%@", ext])];
-        copy = [path.stringByDeletingLastPathComponent stringByAppendingPathComponent:newFilename];
-        tries++;
-    }
-    return copy;
+		                         (tries > 0 ? [NSString stringWithFormat:@" %d", tries] : @""),
+		                         ([ext isEqualToString:@""] ? @"" : [NSString stringWithFormat:@".%@", ext])];
+		copy = [path.stringByDeletingLastPathComponent stringByAppendingPathComponent:newFilename];
+		tries++;
+	}
+	return copy;
 }
 
 
@@ -345,15 +345,15 @@
 @implementation UIAlertController (AlertView)
 
 + (instancetype)alertControllerWithTitle:(NSString *)title
-								 message:(NSString *)message
-					   cancelButtonTitle:(NSString *)cancelButtonTitle {
+                                 message:(NSString *)message
+                       cancelButtonTitle:(NSString *)cancelButtonTitle {
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
-																   message:message
-															preferredStyle:UIAlertControllerStyleAlert];
+	                                                               message:message
+	                                                        preferredStyle:UIAlertControllerStyleAlert];
 	if(cancelButtonTitle) {
 		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:cancelButtonTitle
-															   style:UIAlertActionStyleCancel
-															 handler:nil];
+		                                                       style:UIAlertActionStyleCancel
+		                                                     handler:nil];
 		[alert addAction:cancelAction];
 	}
 	return alert;
@@ -362,8 +362,8 @@
 - (void)show {
 	UIViewController *root = UIApplication.sharedApplication.keyWindow.rootViewController;
 	while(root.presentedViewController) {
-        root = root.presentedViewController;
-    }
+		root = root.presentedViewController;
+	}
 	[root presentViewController:self animated:YES completion:nil];
 }
 

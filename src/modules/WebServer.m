@@ -67,8 +67,8 @@
 	if(![server startWithOptions:options error:&error]) {
 		DDLogError(@"WebServer: error starting: %@", error.localizedDescription);
 		[[UIAlertController alertControllerWithTitle:@"Starting Server Failed"
-											 message:error.localizedDescription
-								   cancelButtonTitle:@"Ok"] show];
+		                                     message:error.localizedDescription
+		                           cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
 	DDLogVerbose(@"WebServer: started");
@@ -148,8 +148,8 @@
 	// bad value
 	NSString *message = @"Port number should be an integer greater than 1024. Set 0 to choose a random port.";
 	[[UIAlertController alertControllerWithTitle:@"Invalid Port Number"
-										 message:message
-							   cancelButtonTitle:@"Ok"] show];
+	                                     message:message
+	                           cancelButtonTitle:@"Ok"] show];
 	return -1;
 }
 

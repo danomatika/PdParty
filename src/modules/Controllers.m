@@ -29,11 +29,11 @@
 
 - (void)dealloc {
 	[NSNotificationCenter.defaultCenter removeObserver:self
-												  name:GCControllerDidConnectNotification
-												object:nil];
+	                                              name:GCControllerDidConnectNotification
+	                                            object:nil];
 	[NSNotificationCenter.defaultCenter removeObserver:self
-												  name:GCControllerDidDisconnectNotification
-												object:nil];
+	                                              name:GCControllerDidDisconnectNotification
+	                                            object:nil];
 	[self disconnectAll:YES];
 }
 
@@ -103,24 +103,24 @@
 	_enabled = enabled;
 	if(enabled) {
 		[NSNotificationCenter.defaultCenter addObserver:self
-											   selector:@selector(controllerDidConnect:)
-												   name:GCControllerDidConnectNotification
-												 object:nil];
+		                                       selector:@selector(controllerDidConnect:)
+		                                           name:GCControllerDidConnectNotification
+		                                         object:nil];
 		[NSNotificationCenter.defaultCenter addObserver:self
-											   selector:@selector(controllerDidDisconnect:)
-												   name:GCControllerDidDisconnectNotification
-												 object:nil];
+		                                       selector:@selector(controllerDidDisconnect:)
+		                                           name:GCControllerDidDisconnectNotification
+		                                         object:nil];
 		DDLogVerbose(@"Controllers: enabled");
 		[self updateConnectedControllers];
 	}
 	else {
 		[self disconnectAll:YES];
 		[NSNotificationCenter.defaultCenter removeObserver:self
-													  name:GCControllerDidConnectNotification
-													object:nil];
+		                                              name:GCControllerDidConnectNotification
+		                                            object:nil];
 		[NSNotificationCenter.defaultCenter removeObserver:self
-													  name:GCControllerDidDisconnectNotification
-													object:nil];
+		                                              name:GCControllerDidDisconnectNotification
+		                                            object:nil];
 		DDLogVerbose(@"Controllers: disabled");
 	}
 }

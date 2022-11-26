@@ -90,8 +90,8 @@
 		if(![WebServer isLocalWifiReachable]) {
 			NSString *message = @"You need a Wifi connection in order to enable the server.";
 			[[UIAlertController alertControllerWithTitle:@"Wifi?"
-												 message:message
-									   cancelButtonTitle:@"Ok"] show];
+			                                     message:message
+			                           cancelButtonTitle:@"Ok"] show];
 			self.serverEnabledSwitch.on = NO; // reset switch
 			return;
 		}
@@ -132,7 +132,7 @@
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	if(app.midi.enabled) {
 		self.midiLabel.text = [NSString stringWithFormat:@"In(%lu) Out(%lu)",
-							  (unsigned long)app.midi.inputs.count, (unsigned long)app.midi.outputs.count];
+			(unsigned long)app.midi.inputs.count, (unsigned long)app.midi.outputs.count];
 	}
 	else {
 		self.midiLabel.text = @"Disabled";

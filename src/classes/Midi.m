@@ -125,7 +125,7 @@ static void MIDIReadVirtualInput(const MIDIPacketList *pktlist, void *readProcRe
 // adapted from ofxMidi iOS & RTMidi CoreMIDI message parsing
 // called on the MIDI thread, not the main run loop
 - (void)midiReceived:(const MIDIPacketList *)packetList {
-    const MIDIPacket *packet = &packetList->packet[0];
+	const MIDIPacket *packet = &packetList->packet[0];
 	unsigned char statusByte;
 	unsigned short nBytes, curByte, msgSize;
 
@@ -208,7 +208,7 @@ static void MIDIReadVirtualInput(const MIDIPacketList *pktlist, void *readProcRe
 			}
 		}
 		packet = MIDIPacketNext(packet);
-    }
+	}
 }
 
 @end
@@ -504,7 +504,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 		if(s != noErr) {
 			DDLogWarn(@"Midi: could not connect input %@: %d", input.name, (int)s);
 		}
-    }
+	}
 	return input;
 }
 

@@ -67,8 +67,7 @@
 		[self checkMinAndMax];
 		
 		self.label.text = [Gui filterEmptyStringValues:line[13]];
-		self.originalLabelPos = CGPointMake([line[14] floatValue],
-										 [line[15] floatValue]);
+		self.originalLabelPos = CGPointMake([line[14] floatValue], [line[15] floatValue]);
 		self.labelFontStyle = [line[16] intValue];
 		self.labelFontSize = [line[17] floatValue];
 		
@@ -116,11 +115,11 @@
 	CGMutablePathRef path = CGPathCreateMutable();
 	CGPathMoveToPoint(path, NULL, startX, startY);
 	CGPathAddLineToPoint(path, NULL,
-						 ([self circleX:littlerad angle:(angle+90)]),
-						 ([self circleY:littlerad angle:(angle+90)]));
+		[self circleX:littlerad angle:(angle+90)],
+		[self circleY:littlerad angle:(angle+90)]);
 	CGPathAddLineToPoint(path, NULL,
-						 ([self circleX:length angle:angle]),
-						 ([self circleY:length angle:angle]));
+		[self circleX:length angle:angle],
+		[self circleY:length angle:angle]);
 	CGPathAddLineToPoint(path, NULL, startX, startY);
 	CGContextAddPath(context, path);
 	CGContextDrawPath(context, kCGPathFillStroke);
@@ -139,18 +138,18 @@
 	
 	if(isReversed) {
 		f = CLAMP(f, self.maxValue, self.minValue);
-    }
-    else {
+	}
+	else {
 		f = CLAMP(f, self.minValue, self.maxValue);
-    }
+	}
 	[super setValue:f];
 
 	if(self.log) { // normalize
-        g = log(f / self.minValue) / convFactor;
+		g = log(f / self.minValue) / convFactor;
 	}
-    else {
-        g = (f - self.minValue) / convFactor;
-    }
+	else {
+		g = (f - self.minValue) / convFactor;
+	}
 	_controlValue = g;
 }
 
@@ -158,14 +157,14 @@
 	_controlValue = f;
 
 	if(self.log) { // denormalize
-        f = self.minValue * exp(convFactor * (double)(f));
-    }
+		f = self.minValue * exp(convFactor * (double)(f));
+	}
 	else {
-        f = (double)(f) * convFactor + self.minValue;
+		f = (double)(f) * convFactor + self.minValue;
 	}
 	
-    if((f < 1.0e-10) && (f > -1.0e-10)) {
-        f = 0.0;
+	if((f < 1.0e-10) && (f > -1.0e-10)) {
+		f = 0.0;
 	}
 	[super setValue:f];
 }
@@ -323,11 +322,11 @@
 - (void)initValue:(int)val {
 
 	int H;
-    H = self.mouse;
-    if(H < 0) {
+	H = self.mouse;
+	if(H < 0) {
 		H = 360;
 	}
-    if(H == 0) {
+	if(H == 0) {
 		H = 270;
 	}
 
@@ -351,33 +350,33 @@
 // adapted from g_hslider.c & g_vslider.c
 - (void)checkMinAndMax {
 	if(self.log) {
-        if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
+		if((self.minValue == 0.0) && (self.maxValue == 0.0)) {
 			self.maxValue = 1.0;
 		}
-        if(self.maxValue > 0.0) {
-            if(self.minValue <= 0.0) {
-                self.minValue = 0.01 * self.maxValue;
+		if(self.maxValue > 0.0) {
+			if(self.minValue <= 0.0) {
+				self.minValue = 0.01 * self.maxValue;
 			}
-        }
-        else {
-            if(self.minValue > 0.0) {
-                self.maxValue = 0.01 * self.minValue;
+		}
+		else {
+			if(self.minValue > 0.0) {
+				self.maxValue = 0.01 * self.minValue;
 			}
-        }
-    }
+		}
+	}
 	
 	if(self.minValue > self.maxValue) {
-        isReversed = YES;
+		isReversed = YES;
 	}
-    else {
-        isReversed = NO;
+	else {
+		isReversed = NO;
 	}
 	
 	if(self.log) {
 		convFactor = log(self.maxValue / self.minValue);
-    }
+	}
 	else {
-        convFactor = (self.maxValue - self.minValue);
+		convFactor = (self.maxValue - self.minValue);
 	}
 }
 

@@ -108,9 +108,9 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	// setup webserver
 	self.server = [[WebServer alloc] init];
 	
-    return YES;
+	return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application {
 	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
 	// Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -181,16 +181,16 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 			DDLogError(@"AppDelegate: refused to open path outside of sandbox: %@", path);
 			NSString *message = [NSString stringWithFormat:@"Could not open %@ outside of the PdParty sandbox.\n\nPlease copy the patch(es) or scene directory into PdParty.", path.lastPathComponent];
 			[[UIAlertController alertControllerWithTitle:@"Open Failed"
-												 message:message
-									   cancelButtonTitle:@"Ok"] show];
+			                                     message:message
+			                           cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
 		if(![self openPath:path]) {
 			DDLogError(@"AppDelegate: couldn't open path: %@", path);
 			NSString *message = [NSString stringWithFormat:@"Could not open %@", path.lastPathComponent];
 			[[UIAlertController alertControllerWithTitle:@"Open Failed"
-												 message:message
-									   cancelButtonTitle:@"Ok"] show];
+			                                     message:message
+			                           cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
 		return YES;
@@ -213,24 +213,24 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 			DDLogError(@"AppDelegate: couldn't copy %@, error: %@", path, error.localizedDescription);
 			NSString *message = [NSString stringWithFormat:@"Could not copy %@ to Documents", filename];
 			[[UIAlertController alertControllerWithTitle:@"Copy Failed"
-												 message:message
-									   cancelButtonTitle:@"Ok"] show];
+			                                     message:message
+			                           cancelButtonTitle:@"Ok"] show];
 			return NO;
 		}
 		[NSFileManager.defaultManager removeItemAtURL:url error:&error]; // remove original file
 		DDLogVerbose(@"AppDelegate: copied %@ to Documents", filename);
 		NSString *message = [NSString stringWithFormat:@"%@ copied to Documents", newPath.lastPathComponent];
 		[[UIAlertController alertControllerWithTitle:@"Copy Succeeded"
-											 message:message
-								   cancelButtonTitle:@"Ok"] show];
+		                                     message:message
+		                           cancelButtonTitle:@"Ok"] show];
 		[self.browserViewController reloadDirectory];
 	}
 	else { // assume zip file
 		if([BrowserViewController unzipPath:path toDirectory:Util.documentsPath]) {
 			NSString *message = [NSString stringWithFormat:@"%@ unzipped to Documents", filename];
 			[[UIAlertController alertControllerWithTitle:@"Unzip Succeeded"
-												 message:message
-									   cancelButtonTitle:@"Ok"] show];
+			                                     message:message
+			                           cancelButtonTitle:@"Ok"] show];
 		}
 		else {
 			// remove original file
@@ -343,8 +343,8 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	NSError *error;
 	if(![self copyResourcePatchDirectoryToDocuments:@"lib" error:error]) {
 		[[UIAlertController alertControllerWithTitle:@"Couldn't copy lib folder"
-											 message:error.localizedDescription
-								   cancelButtonTitle:@"Ok"] show];
+		                                     message:error.localizedDescription
+		                           cancelButtonTitle:@"Ok"] show];
 	}
 }
 
@@ -352,8 +352,8 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	NSError *error;
 	if(![self copyResourcePatchDirectoryToDocuments:@"samples" error:error]) {
 		[[UIAlertController alertControllerWithTitle:@"Couldn't copy samples folder"
-											 message:error.localizedDescription
-								   cancelButtonTitle:@"Ok"] show];
+		                                     message:error.localizedDescription
+		                           cancelButtonTitle:@"Ok"] show];
 	}
 }
 
@@ -361,8 +361,8 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	NSError *error;
 	if(![self copyResourcePatchDirectoryToDocuments:@"tests" error:error]) {
 		[[UIAlertController alertControllerWithTitle:@"Couldn't copy tests folder"
-											 message:error.localizedDescription
-								   cancelButtonTitle:@"Ok"] show];
+		                                     message:error.localizedDescription
+		                           cancelButtonTitle:@"Ok"] show];
 	}
 }
 

@@ -12,6 +12,7 @@
 
 #import "RjScene.h"
 
+/// rj widget base class
 @interface RjWidget : UIView
 
 /// get the widget type as a string

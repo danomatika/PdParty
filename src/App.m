@@ -19,7 +19,7 @@
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if(motion == UIEventSubtypeMotionShake) {
 		[NSNotificationCenter.defaultCenter postNotificationName:PdPartyMotionShakeEndedNotification
-														  object:self];
+		                                                  object:self];
 	}
 }
 

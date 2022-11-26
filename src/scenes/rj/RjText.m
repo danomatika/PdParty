@@ -30,8 +30,8 @@
 		self.label.textColor = WIDGET_FRAME_COLOR;
 		self.label.textAlignment = NSTextAlignmentLeft;
 		[self addSubview:self.label];
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)reshape {

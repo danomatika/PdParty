@@ -28,8 +28,8 @@
 + (BOOL)isZipFile:(NSString *)path {
 	NSString *ext = path.pathExtension;
 	return ([ext isEqualToString:@"zip"] ||
-			[ext isEqualToString:@"pdz"] ||
-			[ext isEqualToString:@"rjz"]);
+	        [ext isEqualToString:@"pdz"] ||
+	        [ext isEqualToString:@"rjz"]);
 }
 
 #pragma mark Subclassing

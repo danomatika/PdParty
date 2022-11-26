@@ -10,7 +10,7 @@
  */
 #import <UIKit/UIKit.h>
 
-// osc settings view
+/// osc settings view
 @interface OscViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet UISwitch *oscEnabledSwitch;

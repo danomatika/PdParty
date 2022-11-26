@@ -43,13 +43,13 @@
 	[self.view addSubview:self.textView];
 	self.textView.translatesAutoresizingMaskIntoConstraints = NO;
 	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : self.textView}]];
+	                                                                  options:0
+	                                                                  metrics:nil
+	                                                                    views:@{@"view" : self.textView}]];
 	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|"
-																				options:0
-																				metrics:nil
-																				  views:@{@"view" : self.textView}]];
+	                                                                  options:0
+	                                                                  metrics:nil
+	                                                                    views:@{@"view" : self.textView}]];
 
 	self.navigationItem.title = @"Console";
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
@@ -78,7 +78,7 @@
 		AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 		app.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	}];
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 // lock to orientations allowed by the current scene

@@ -493,7 +493,7 @@
 		[motionManager stopDeviceMotionUpdates];
 		if(self.motionAutoUpdates) {
 			[motionManager startDeviceMotionUpdatesToQueue:motionQueue
-											   withHandler:^(CMDeviceMotion *data, NSError *error) {
+			                                   withHandler:^(CMDeviceMotion *data, NSError *error) {
 				[self sendMotion:data];
 			}];
 		}
@@ -576,39 +576,38 @@
 // orient accel data to current orientation
 - (void)sendAccel:(CMAccelerometerData *)accel {
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"accel %f %f %f", accel.acceleration.x,
-										accel.acceleration.y,
-										accel.acceleration.z);
+		DDLogVerbose(@"accel %f %f %f",
+			accel.acceleration.x, accel.acceleration.y, accel.acceleration.z);
 	#endif
 	switch(self.currentOrientation) {
 		case UIInterfaceOrientationPortrait:
 			[PureData sendAccel:accel.acceleration.x
-							  y:accel.acceleration.y
-							  z:accel.acceleration.z];
+			                  y:accel.acceleration.y
+			                  z:accel.acceleration.z];
 			[self.osc sendAccel:accel.acceleration.x
 			                  y:accel.acceleration.y
 			                  z:accel.acceleration.z];
 			break;
 		case UIInterfaceOrientationLandscapeRight:
 			[PureData sendAccel:-accel.acceleration.y
-							  y:accel.acceleration.x
-							  z:accel.acceleration.z];
+			                  y:accel.acceleration.x
+			                  z:accel.acceleration.z];
 			[self.osc sendAccel:-accel.acceleration.y
 			                  y:accel.acceleration.x
 			                  z:accel.acceleration.z];
 			break;
 		case UIInterfaceOrientationPortraitUpsideDown:
 			[PureData sendAccel:-accel.acceleration.x
-							  y:-accel.acceleration.y
-							  z:accel.acceleration.z];
+			                  y:-accel.acceleration.y
+			                  z:accel.acceleration.z];
 			[self.osc sendAccel:-accel.acceleration.x
 			                  y:-accel.acceleration.y
 			                  z:accel.acceleration.z];
 			break;
 		case UIInterfaceOrientationLandscapeLeft:
 			[PureData sendAccel:accel.acceleration.y
-							  y:-accel.acceleration.x
-							  z:accel.acceleration.z];
+			                  y:-accel.acceleration.x
+			                  z:accel.acceleration.z];
 			[self.osc sendAccel:accel.acceleration.y
 			                  y:-accel.acceleration.x
 			                  z:accel.acceleration.z];
@@ -631,13 +630,13 @@
 		DDLogVerbose(@"locate %@", location.description);
 	#endif
 	[PureData sendLocation:location.coordinate.latitude
-					   lon:location.coordinate.longitude
-				  accuracy:location.horizontalAccuracy];
+	                   lon:location.coordinate.longitude
+	              accuracy:location.horizontalAccuracy];
 	[PureData sendSpeed:location.speed course:location.course];
 	[PureData sendAltitude:location.altitude accuracy:location.verticalAccuracy];
 	[self.osc sendLocation:location.coordinate.latitude
-									lon:location.coordinate.longitude
-							   accuracy:location.horizontalAccuracy];
+	                   lon:location.coordinate.longitude
+	              accuracy:location.horizontalAccuracy];
 	[self.osc sendSpeed:location.speed course:location.course];
 	[self.osc sendAltitude:location.altitude accuracy:location.verticalAccuracy];
 }
@@ -662,28 +661,28 @@
 
 	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"motion attitude %f %f %f",
-					motion.attitude.pitch, motion.attitude.roll, motion.attitude.yaw);
+			motion.attitude.pitch, motion.attitude.roll, motion.attitude.yaw);
 	#endif
 	[PureData sendMotionAttitude:motion.attitude.pitch roll:motion.attitude.roll yaw:motion.attitude.yaw];
 	[self.osc sendMotionAttitude:motion.attitude.pitch roll:motion.attitude.roll yaw:motion.attitude.yaw];
 
 	#ifdef DEBUG_SENSORS
-	DDLogVerbose(@"motion rotation %f %f %f",
-					 motion.rotationRate.x, motion.rotationRate.y, motion.rotationRate.z);
+		DDLogVerbose(@"motion rotation %f %f %f",
+			motion.rotationRate.x, motion.rotationRate.y, motion.rotationRate.z);
 	#endif
 	[PureData sendMotionRotation:motion.rotationRate.x y:motion.rotationRate.y z:motion.rotationRate.z];
 	[self.osc sendMotionRotation:motion.rotationRate.x y:motion.rotationRate.y z:motion.rotationRate.z];
 
 	#ifdef DEBUG_SENSORS
-	DDLogVerbose(@"motion gravity %f %f %f",
-					 motion.gravity.x, motion.gravity.y, motion.gravity.z);
+		DDLogVerbose(@"motion gravity %f %f %f",
+			motion.gravity.x, motion.gravity.y, motion.gravity.z);
 	#endif
 	[PureData sendMotionGravity:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
 	[self.osc sendMotionGravity:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
 
 	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"motion user %f %f %f",
-					 motion.userAcceleration.x, motion.userAcceleration.y, motion.userAcceleration.z);
+			motion.userAcceleration.x, motion.userAcceleration.y, motion.userAcceleration.z);
 	#endif
 	[PureData sendMotionUser:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
 	[self.osc sendMotionUser:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];

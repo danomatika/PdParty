@@ -69,16 +69,16 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 }
 
 - (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if(self) {
+	self = [super initWithStyle:style];
+	if(self) {
 		[self setup];
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    
+	[super viewDidLoad];
+
 	// make sure the cell class is known
 	[self.tableView registerClass:BrowserLayerCell.class forCellReuseIdentifier:@"BrowserLayerCell"];
 	
@@ -162,10 +162,10 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 	[self.tableView reloadData];
 	// custom back button with current dir to show on layer above
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-												 initWithTitle:_directory.lastPathComponent
-												 style:UIBarButtonItemStylePlain
-												 target:self
-												 action:@selector(backButtonPressed)];
+	                                     initWithTitle:_directory.lastPathComponent
+	                                             style:UIBarButtonItemStylePlain
+	                                            target:self
+	                                            action:@selector(backButtonPressed)];
 	self.navigationItem.title = _directory.lastPathComponent;
 	return YES;
 }
@@ -212,30 +212,30 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 		case BrowserModeBrowse:
 			if(self.root.canAddFiles || self.root.canAddDirectories) {
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									   initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-									   target:self
-									   action:@selector(addButtonPressed)]];
+				                       initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+				                       target:self
+				                       action:@selector(addButtonPressed)]];
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									   initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-									   target:nil
-									   action:nil]];
+				                       initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+				                       target:nil
+				                       action:nil]];
 			}
 			if(self.root.directoriesOnly && self.root.canSelectDirectories) {
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									   initWithTitle:@"Choose Folder"
-									   style:UIBarButtonItemStylePlain
-									   target:self
-									   action:@selector(chooseFolderButtonPressed)]];
+				                       initWithTitle:@"Choose Folder"
+				                       style:UIBarButtonItemStylePlain
+				                       target:self
+				                       action:@selector(chooseFolderButtonPressed)]];
 			}
 			if(self.root.showEditButton) {
 				[barButtons addObject:[[UIBarButtonItem alloc]
-								   initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-								   target:nil
-								   action:nil]];
+				                      initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+				                      target:nil
+				                      action:nil]];
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									   initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-									   target:self
-									   action:@selector(editButtonPressed)]];
+				                      initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+				                      target:self
+				                      action:@selector(editButtonPressed)]];
 			}
 			self.toolbarItems = barButtons;
 			self.navigationItem.rightBarButtonItem = [self.root browsingModeRightBarItemForLayer:self];
@@ -244,68 +244,68 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 		case BrowserModeEdit: {
 			if(self.root.showMoveButton) {
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									   initWithTitle:@"Move..."
-									   style:UIBarButtonItemStylePlain
-									   target:self
-									   action:@selector(moveButtonPressed)]];
+				                       initWithTitle:@"Move..."
+				                       style:UIBarButtonItemStylePlain
+				                       target:self
+				                       action:@selector(moveButtonPressed)]];
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									   initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-									   target:nil
-									   action:nil]];
+				                       initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+				                       target:nil
+				                       action:nil]];
 			}
 			[barButtons addObject:[[UIBarButtonItem alloc]
-								   initWithTitle:@"Rename"
-								   style:UIBarButtonItemStylePlain
-								   target:self
-								   action:@selector(renameButtonPressed)]];
+			                       initWithTitle:@"Rename"
+			                       style:UIBarButtonItemStylePlain
+			                       target:self
+			                       action:@selector(renameButtonPressed)]];
 			[barButtons addObject:[[UIBarButtonItem alloc]
-								   initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-								   target:nil
-								   action:nil]];
+			                       initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+			                       target:nil
+			                       action:nil]];
 			UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc]
-											 initWithTitle:@"Delete"
-											 style:UIBarButtonItemStylePlain
-											 target:self
-											 action:@selector(deleteButtonPressed)];
+			                                 initWithTitle:@"Delete"
+			                                 style:UIBarButtonItemStylePlain
+			                                 target:self
+			                                 action:@selector(deleteButtonPressed)];
 			[deleteButton setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColor.systemRedColor}
-										forState:UIControlStateNormal];
+			                            forState:UIControlStateNormal];
 			[barButtons addObject:deleteButton];
 			self.toolbarItems = barButtons;
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-													  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-													  target:self
-													  action:@selector(doneButtonPressed)];
+			                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+			                                          target:self
+			                                          action:@selector(doneButtonPressed)];
 			[self setEditing:YES animated:YES];
 			break;
 		}
 		case BrowserModeMove: case BrowserModeCopy:
 			[barButtons addObject:[[UIBarButtonItem alloc]
-								  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-								  target:self
-								  action:@selector(newFolderButtonPressed)]];
+			                      initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+			                      target:self
+			                      action:@selector(newFolderButtonPressed)]];
 			[barButtons addObject:[[UIBarButtonItem alloc]
-								  initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-								  target:nil
-								  action:nil]];
+			                      initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+			                      target:nil
+			                      action:nil]];
 			if(mode == BrowserModeMove) {
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									  initWithTitle:@"Move Here"
-									  style:UIBarButtonItemStylePlain
-									  target:self
-									  action:@selector(moveHereButtonPressed)]];
+				                      initWithTitle:@"Move Here"
+				                      style:UIBarButtonItemStylePlain
+				                      target:self
+				                      action:@selector(moveHereButtonPressed)]];
 			}
 			else {
 				[barButtons addObject:[[UIBarButtonItem alloc]
-									   initWithTitle:@"Copy Here"
-									   style:UIBarButtonItemStylePlain
-									   target:self
-									   action:@selector(copyHereButtonPressed)]];
+				                       initWithTitle:@"Copy Here"
+				                       style:UIBarButtonItemStylePlain
+				                       target:self
+				                       action:@selector(copyHereButtonPressed)]];
 			}
 			self.toolbarItems = barButtons;
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-													  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-													  target:self
-													  action:@selector(doneButtonPressed)];
+			                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+			                                          target:self
+			                                          action:@selector(doneButtonPressed)];
 			[self setEditing:NO animated:YES];
 			break;
 	}
@@ -320,24 +320,24 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 - (void)setEditing:(BOOL)editing {
 	if(self.isEditing == editing) return;
 	self.tableView.allowsMultipleSelectionDuringEditing = editing;
-    [super setEditing:editing];
+	[super setEditing:editing];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
 	if(self.isEditing == editing) return;
 	self.tableView.allowsMultipleSelectionDuringEditing = editing;
-    [super setEditing:editing animated:animated];
+	[super setEditing:editing animated:animated];
 }
 
 #pragma mark UITableViewController
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
+	// Return the number of sections.
+	return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
+	// Return the number of rows in the section.
 	if(section == 0) {
 		return _paths.count;
 	}
@@ -345,10 +345,10 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserLayerCell" forIndexPath:indexPath];
-    if(!cell) {
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowserLayerCell" forIndexPath:indexPath];
+	if(!cell) {
 		cell = [[BrowserLayerCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-									   reuseIdentifier:@"BrowserLayerCell"];
+		                               reuseIdentifier:@"BrowserLayerCell"];
 	}
 	BOOL isDir;
 	NSString *path = _paths[indexPath.row];
@@ -381,7 +381,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 		DDLogWarn(@"Browser: couldn't customize cell, path doesn't exist: %@", path);
 		[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	}
-    return cell;
+	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -428,7 +428,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 
 // cells must be editable for mass Move & Delete actions
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+	return YES;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -461,12 +461,12 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 	// show action sheet
 	if(self.root.canAddFiles && self.root.canAddDirectories) {
 		UIAlertController *sheet = [UIAlertController alertControllerWithTitle:nil
-																	   message:nil
-																preferredStyle:UIAlertControllerStyleActionSheet];
+		                                                               message:nil
+		                                                        preferredStyle:UIAlertControllerStyleActionSheet];
 		if(self.root.canAddFiles) {
 			UIAlertAction *action = [UIAlertAction actionWithTitle:@"New File"
-																style:UIAlertActionStyleDefault
-															  handler:^(UIAlertAction * _Nonnull action) {
+			                                                 style:UIAlertActionStyleDefault
+			                                               handler:^(UIAlertAction * _Nonnull action) {
 				if(self.root.canAddFiles) {
 					[self.root showNewFileDialog];
 				}
@@ -475,8 +475,8 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 		}
 		if(self.root.canAddDirectories) {
 			UIAlertAction *action = [UIAlertAction actionWithTitle:@"New Folder"
-															 style:UIAlertActionStyleDefault
-														   handler:^(UIAlertAction * _Nonnull action) {
+			                                                 style:UIAlertActionStyleDefault
+			                                               handler:^(UIAlertAction * _Nonnull action) {
 				if(self.root.canAddDirectories) {
 					[self.root showNewDirectoryDialog];
 				}
@@ -484,8 +484,8 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 			[sheet addAction:action];
 		}
 		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-															   style:UIAlertActionStyleCancel
-															 handler:nil];
+		                                                       style:UIAlertActionStyleCancel
+		                                                     handler:nil];
 		[sheet addAction:cancelAction];
 		sheet.modalPresentationStyle = UIModalPresentationPopover;
 		sheet.popoverPresentationController.barButtonItem = self.toolbarItems.firstObject; // +
@@ -531,14 +531,14 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 - (void)moveButtonPressed {
 	DDLogVerbose(@"Browser: move button pressed");
 	UIAlertController *sheet = [UIAlertController alertControllerWithTitle:nil message:nil
-															preferredStyle:UIAlertControllerStyleActionSheet];
+	                                                        preferredStyle:UIAlertControllerStyleActionSheet];
 	UIAlertAction *moveAction = [UIAlertAction actionWithTitle:@"Move" style:UIAlertActionStyleDefault
-													   handler:^(UIAlertAction * _Nonnull action) {
+	                                                   handler:^(UIAlertAction * _Nonnull action) {
 		s_moveRoot = self;
 		[self showEditBrowserForMode:BrowserModeMove];
 	}];
 	UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"Copy" style:UIAlertActionStyleDefault
-													   handler:^(UIAlertAction * _Nonnull action) {
+	                                                   handler:^(UIAlertAction * _Nonnull action) {
 		s_moveRoot = self;
 		[self showEditBrowserForMode:BrowserModeCopy];
 	}];
@@ -628,8 +628,8 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 	Browser *browserLayer = [self.root newBrowser]; // use subclass
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browserLayer];
 	browserLayer.title = [NSString stringWithFormat:@"%@ %lu item%@",
-						  (mode == BrowserModeMove ? @"Moving" : @"Copying"),
-						  (unsigned long)s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
+		(mode == BrowserModeMove ? @"Moving" : @"Copying"),
+		(unsigned long)s_movePaths.count, (s_movePaths.count > 1 ? @"s" : @"")];
 	browserLayer.directoriesOnly = YES;
 	browserLayer.mode = mode;
 	navigationController.toolbarHidden = NO;

@@ -102,7 +102,7 @@
 		// update control labels and slider when playing
 		if(!wimp.seeking) {
 			[wimp.controlsView setElapsedTime:elapsed
-							      forDuration:wimp.player.currentItem.duration];
+			                      forDuration:wimp.player.currentItem.duration];
 			[wimp.controlsView setCurrentTime:elapsed forDuration:wimp.player.currentItem.duration];
 		}
 	}];
@@ -161,8 +161,9 @@
 			frame.size.width = self.infoLabel.preferredMaxLayoutWidth;
 			self.infoLabel.frame = frame;
 		}
-		self.infoLabel.center = CGPointMake(viewSize.width/2,
-		                                    CGRectGetHeight(self.infoLabel.frame)/2 + lineHeight);
+		self.infoLabel.center = CGPointMake(
+			viewSize.width/2,
+			CGRectGetHeight(self.infoLabel.frame)/2 + lineHeight);
 		offset.y = CGRectGetHeight(self.infoLabel.frame) + lineHeight;
 	}
 
@@ -181,10 +182,11 @@
 		offset.x = round((viewSize.width - backgroundSize.width) / 2);
 	}
 	if(self.background) {
-		self.background.frame = CGRectMake(offset.x + backgroundSize.width * 0.25,
-		                                   offset.y + backgroundSize.height * 0.25,
-		                                   backgroundSize.width * 0.5,
-		                                   backgroundSize.height * 0.5);
+		self.background.frame = CGRectMake(
+			offset.x + backgroundSize.width * 0.25,
+			offset.y + backgroundSize.height * 0.25,
+			backgroundSize.width * 0.5,
+			backgroundSize.height * 0.5);
 	}
 
 	// place controls below background space
@@ -260,8 +262,8 @@
 - (void)controlsView:(ControlsView *)controlsView sliderStoppedTracking:(float)value {
 	if(!self.player) {return;}
 	int duration = CMTimeGetSeconds(self.player.currentItem.duration);
-    int elapsed = duration * value;
-    [self.controlsView setElapsedTime:CMTimeMake(elapsed, 1) forDuration:self.player.currentItem.duration];
+	int elapsed = duration * value;
+	[self.controlsView setElapsedTime:CMTimeMake(elapsed, 1) forDuration:self.player.currentItem.duration];
 	[self.player seekToTime:CMTimeMakeWithSeconds(elapsed, 100) completionHandler:^(BOOL completed) {
 		if(self->rateBeforeSeek > 0) {
 			[self.player play];

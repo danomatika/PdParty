@@ -61,7 +61,7 @@
 	}
 	[self updateLatencyLabel];
 	
-    [super viewDidLoad];
+	[super viewDidLoad];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
