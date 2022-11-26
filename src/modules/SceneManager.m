@@ -185,6 +185,7 @@
 }
 
 - (void)reshapeToParentSize:(CGSize)size {
+	self.gui.isRotated = self.isRotated;
 	self.gui.parentViewSize = size;
 	if(!self.scene) {
 		return;

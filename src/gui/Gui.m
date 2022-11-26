@@ -379,18 +379,17 @@
 			_scaleWidth = _scaleX;
 			_scaleHeight = _scaleX;
 			break;
-		case GuiScaleModeAspect: default:
+		case GuiScaleModeAspect: default: {
 			_scaleWidth = _scaleX;
 			_scaleHeight = _scaleY;
 			if((float)self.patchWidth / (float)self.patchHeight < 1.0) { // portrait
-				_scaleWidth = _scaleX;
-				_scaleHeight = _scaleX;
+				_scaleWidth = _scaleHeight = self.isRotated ? _scaleY : _scaleX;
 			}
 			else { // landscape
-				_scaleWidth = _scaleY;
-				_scaleHeight = _scaleY;
+				_scaleWidth = _scaleHeight = self.isRotated ? _scaleX : _scaleY;
 			}
 			break;
+		}
 		case GuiScaleModeFill:
 			_scaleWidth = _scaleX;
 			_scaleHeight = _scaleY;

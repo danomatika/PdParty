@@ -44,7 +44,7 @@
 		motionQueue = [[NSOperationQueue alloc] init];
 		
 		// current UI orientation for accel
-		if(Util.isDeviceATablet) { // iPad can started rotated
+		if(Util.isDeviceATablet) { // iPad can start rotated
 			self.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 		}
 		else { // do not start rotated on iPhone
