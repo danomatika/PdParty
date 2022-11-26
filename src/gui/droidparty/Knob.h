@@ -19,7 +19,7 @@
 /// -1: full angular rotation without stops
 @property (assign, nonatomic) float mouse;
 
-@property (assign, nonatomic) BOOL log; //< linear or logarithmic scale?
-@property (assign, nonatomic) BOOL steady; //< steady on click?
+@property (assign, nonatomic) BOOL log; ///< linear or logarithmic scale?
+@property (assign, nonatomic) BOOL steady; ///< steady on click?
 
 @end

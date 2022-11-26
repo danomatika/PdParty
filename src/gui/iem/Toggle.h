@@ -15,6 +15,6 @@
 /// value when on (default 1), cannot be 0
 @property (assign, nonatomic) float nonZeroValue;
 
-- (void)toggle; //< flip the toggle
+- (void)toggle; ///< flip the toggle
 
 @end

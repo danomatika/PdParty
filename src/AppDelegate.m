@@ -25,8 +25,8 @@
 NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedNotification";
 
 @interface AppDelegate () {
-	BOOL audioEnabledWhenBackgrounded; //< YES if the audio was on when we backgrounded
-	BOOL serverEnabledWhenBackgrounded; //< YES if the web server was on when backgrounded
+	BOOL audioEnabledWhenBackgrounded; ///< YES if the audio was on when we backgrounded
+	BOOL serverEnabledWhenBackgrounded; ///< YES if the web server was on when backgrounded
 }
 
 /// recursively copy a given dir in the resource patches dir to the

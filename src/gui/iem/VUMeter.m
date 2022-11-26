@@ -20,7 +20,7 @@
 
 @interface VUMeter () {
 	BOOL isDefaultFillColor;
-	int rmsLed, peakLed; //< led bar indices
+	int rmsLed, peakLed; ///< led bar indices
 	int ledSize;
 }
 - (void)checkHeight;

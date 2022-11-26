@@ -13,10 +13,10 @@
 // rj_text
 @interface RjText : RjWidget
 
-@property (assign, nonatomic) NSString *text; //< text to draw
-@property (assign, nonatomic) float fontSize; //< current font size
+@property (assign, nonatomic) NSString *text; ///< text to draw
+@property (assign, nonatomic) float fontSize; ///< current font size
 
-@property (strong, nonatomic) UILabel *label; //< hanled drawing
+@property (strong, nonatomic) UILabel *label; ///< handles drawing
 
 + (id)textWithText:(NSString *)text andParent:(RjScene *)parent;
 

@@ -27,7 +27,7 @@
 	PdAudioController *audioController;
 	PdFile *playbackPatch;
 	CADisplayLink *updateLink;
-	id routeChangeObserver; //< opaque route change notification handle
+	id routeChangeObserver; ///< opaque route change notification handle
 }
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
 @end
@@ -51,7 +51,7 @@
 		audioController.allowBluetoothA2DP = YES;
 		audioController.allowAirPlay = YES;
 		audioController.defaultToSpeaker = ![defaults boolForKey:@"earpieceSpeakerEnabled"];
-		self.sampleRate = (int)[defaults integerForKey:@"sampleRate"]; //< audio unit set up here
+		self.sampleRate = (int)[defaults integerForKey:@"sampleRate"]; ///< audio unit set up here
 		if(ddLogLevel >= DDLogLevelVerbose) {
 			[audioController print];
 		}

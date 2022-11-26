@@ -17,14 +17,14 @@
 #define MKNOB_MINSIZE 12
 
 @interface Knob () {
-	BOOL isReversed; //< is the min value > max value?
-	double convFactor; //< scaling factor for lin/log value conversion
-	UITouch *touch0; //< initial touch pointer, nil if none
-	CGPoint pos0; //< position of initial touch
-	float value0; //< value of initial touch
-	float angle0; //< angle of inital touch
+	BOOL isReversed; ///< is the min value > max value?
+	double convFactor; ///< scaling factor for lin/log value conversion
+	UITouch *touch0; ///< initial touch pointer, nil if none
+	CGPoint pos0; ///< position of initial touch
+	float value0; ///< value of initial touch
+	float angle0; ///< angle of inital touch
 }
-@property (nonatomic) float controlValue; //< normalized value, clockwise 0 -1
+@property (nonatomic) float controlValue; ///< normalized value, clockwise 0 -1
 @end
 
 @implementation Knob

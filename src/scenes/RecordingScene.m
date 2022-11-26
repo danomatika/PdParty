@@ -17,12 +17,12 @@
 #import <AVFoundation/AVPlayerItem.h>
 
 @interface RecordingScene () {
-	id timeObserver;      //< opaque player time update handle
-	id endTimeObserver;   //< opaque player end time notification handle
-	float rateBeforeSeek; //< stored player rate when seeking
+	id timeObserver;      ///< opaque player time update handle
+	id endTimeObserver;   ///< opaque player end time notification handle
+	float rateBeforeSeek; ///< stored player rate when seeking
 }
-@property (nonatomic) BOOL loop;    //< loop playback?
-@property (nonatomic) BOOL seeking; //< is the time slider seeking?
+@property (nonatomic) BOOL loop;    ///< loop playback?
+@property (nonatomic) BOOL seeking; ///< is the time slider seeking?
 @end
 
 @implementation RecordingScene

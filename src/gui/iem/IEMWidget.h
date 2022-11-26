@@ -12,8 +12,8 @@
 
 @interface IEMWidget : Widget
 
-@property (assign, nonatomic) int labelFontStyle; //< loaded font style
-@property (assign, nonatomic) int labelFontSize; //< loaded font size
+@property (assign, nonatomic) int labelFontStyle; ///< loaded font style
+@property (assign, nonatomic) int labelFontSize; ///< loaded font size
 
 /// reshape label based on gui bounds & scale changes
 - (void)reshapeLabel;

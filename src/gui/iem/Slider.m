@@ -15,14 +15,14 @@
 #include "g_all_guis.h" // iem gui
 
 @interface Slider () {
-	BOOL isReversed; //< is the min value > max value?
-	double sizeConvFactor; //< scaling factor for lin/log value conversion
-	int centerValue; //< for detecting when to draw thicker control
-	int controlPos; //< control movement calc
-	BOOL isOneFinger; //< one finger or two?
-	float prevPos; //< prev pos for delta calc
+	BOOL isReversed; ///< is the min value > max value?
+	double sizeConvFactor; ///< scaling factor for lin/log value conversion
+	int centerValue; ///< for detecting when to draw thicker control
+	int controlPos; ///< control movement calc
+	BOOL isOneFinger; ///< one finger or two?
+	float prevPos; ///< prev pos for delta calc
 }
-@property (readonly, nonatomic) int controlValue; //< slider int value, related to pos
+@property (readonly, nonatomic) int controlValue; ///< slider int value, related to pos
 - (void)checkSize;
 - (void)checkMinAndMax;
 @end

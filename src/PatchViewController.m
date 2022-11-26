@@ -16,8 +16,8 @@
 #import "Popover.h"
 
 @interface PatchViewController () {
-	NSMutableDictionary *activeTouches; //< for persistent ids
-	KeyGrabberView *keyGrabberView; //< for keyboard events
+	NSMutableDictionary *activeTouches; ///< for persistent ids
+	KeyGrabberView *keyGrabberView; ///< for keyboard events
 }
 
 @property (strong, nonatomic) Popover *controlsPopover;

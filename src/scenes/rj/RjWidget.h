@@ -17,11 +17,11 @@
 /// get the widget type as a string
 @property (assign, readonly, nonatomic) NSString *type;
 
-@property (weak, nonatomic) RjScene *parentScene; //< parent rj scene
+@property (weak, nonatomic) RjScene *parentScene; ///< parent rj scene
 
-@property (assign, nonatomic) CGRect originalFrame; //< in 320x320 coord system
-@property (assign, nonatomic) CGPoint position; //< in Rj background image coord system
-@property (assign, nonatomic) BOOL centered; //< is position the center? (defalt YES)
+@property (assign, nonatomic) CGRect originalFrame; ///< in 320x320 coord system
+@property (assign, nonatomic) CGPoint position; ///< in Rj background image coord system
+@property (assign, nonatomic) BOOL centered; ///< is position the center? (defalt YES)
 
 /// reposition/resize widgets based on background scale amounts, etc
 - (void)reshape;

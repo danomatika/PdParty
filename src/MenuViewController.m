@@ -22,8 +22,8 @@
 #define PADDING   10
 
 @interface MenuViewController () {
-	BOOL scrolls; //< YES if there are enough buttons for the menu to scroll
-	NSMapTable *menubangButtons; //< menubangs via button id keys
+	BOOL scrolls; ///< YES if there are enough buttons for the menu to scroll
+	NSMapTable *menubangButtons; ///< menubangs via button id keys
 	int consoleButtonIndex;
 	int speakerButtonIndex;
 	int infoButtonIndex;

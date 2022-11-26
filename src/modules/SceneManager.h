@@ -18,16 +18,16 @@
 
 @interface SceneManager : NSObject <PdSensorSupportDelegate>
 
-@property (strong, nonatomic) Gui *gui; //< pd gui widgets
-@property (strong, nonatomic) Scene* scene; //< current scene
-@property (strong, readonly, nonatomic) NSString* currentPath; //< the current given path
+@property (strong, nonatomic) Gui *gui; ///< pd gui widgets
+@property (strong, nonatomic) Scene* scene; ///< current scene
+@property (strong, readonly, nonatomic) NSString* currentPath; ///< the current given path
 
 @property (weak, nonatomic) PureData *pureData;
 @property (weak, nonatomic) Osc *osc;
-@property (strong, nonatomic) Sensors *sensors; //< internal sensor manager
-@property (strong, nonatomic) Controllers *controllers; //< internal game controller manager
+@property (strong, nonatomic) Sensors *sensors; ///< internal sensor manager
+@property (strong, nonatomic) Controllers *controllers; ///< internal game controller manager
 
-@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; //< accel orientation based on this
+@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; ///< accel orientation based on this
 
 /// is the scene being displayed rotated from it's preferred orientation?
 @property (assign, nonatomic) BOOL isRotated;

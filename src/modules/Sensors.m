@@ -26,10 +26,10 @@
 //#define DEBUG_SENSORS
 
 @interface Sensors () {
-	CMMotionManager *motionManager; //< for sensor data
-	NSOperationQueue *motionQueue; //< processed motion queue
-	CLLocationManager *locationManager; //< for location data
-	BOOL hasIgnoredStartingLocation; //< ignore the initial, old location
+	CMMotionManager *motionManager; ///< for sensor data
+	NSOperationQueue *motionQueue; ///< processed motion queue
+	CLLocationManager *locationManager; ///< for location data
+	BOOL hasIgnoredStartingLocation; ///< ignore the initial, old location
 }
 @end
 

@@ -10,9 +10,9 @@
  */
 #import <Foundation/Foundation.h>
 
-#define CLAMP(val, min, max) MIN(MAX(val, min), max) //< clamp between a min & max
-#define RADIANS(degrees) ((degrees)*(M_PI/180)) //< degrees to radians
-#define DEGREES(radians) ((radians)*(180/M_PI)) //< radians to degrees
+#define CLAMP(val, min, max) MIN(MAX(val, min), max) ///< clamp between a min & max
+#define RADIANS(degrees) ((degrees)*(M_PI/180)) ///< degrees to radians
+#define DEGREES(radians) ((radians)*(180/M_PI)) ///< radians to degrees
 
 /// utility static methods class
 @interface Util : NSObject
@@ -48,7 +48,9 @@
 
 /// print the pos & size of a CGRect
 + (void)logRect:(CGRect)rect;
-+ (void)logRect:(CGRect)rect withHeader:(NSString *)header; //< print CGRect prepended by header
+
+/// print CGRect prepended by header
++ (void)logRect:(CGRect)rect withHeader:(NSString *)header;
 
 /// print an NSArray, uses object description strings
 + (void)logArray:(NSArray *)array;

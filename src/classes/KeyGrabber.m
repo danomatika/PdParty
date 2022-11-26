@@ -36,7 +36,7 @@
 #pragma mark KeyGrabberView
 
 @interface KeyGrabberView ()
-@property (strong, nonatomic) UIView *inputView; //< key input subview
+@property (strong, nonatomic) UIView *inputView; ///< key input subview
 @end
 
 @implementation KeyGrabberView

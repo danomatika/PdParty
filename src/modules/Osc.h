@@ -28,22 +28,22 @@
 
 @interface Osc : NSObject
 
-@property (readonly, nonatomic) BOOL isListening; //< is the listener running
-@property (strong, nonatomic) NSString *sendHost; //< do not set when listening
-@property (nonatomic) int sendPort; //< do not set when listening
-@property (nonatomic) int listenPort; //< listening port
+@property (readonly, nonatomic) BOOL isListening; ///< is the listener running
+@property (strong, nonatomic) NSString *sendHost; ///< do not set when listening
+@property (nonatomic) int sendPort; ///< do not set when listening
+@property (nonatomic) int listenPort; ///< listening port
 
 /// listening multicast group, set @"" to disable multicast
 /// TODO: IPv4 only until liblo implements IPv6 add group socketopt
 @property (strong, nonatomic) NSString *listenGroup;
 
 /// should the following events be sent automatically? (default NO)
-@property (assign, nonatomic) BOOL touchSendingEnabled; //< send touch events?
-@property (assign, nonatomic) BOOL sensorSendingEnabled; //< accel, gyro, location, compass, magnet
-@property (assign, nonatomic) BOOL controllerSendingEnabled; //< send game controller events?
-@property (assign, nonatomic) BOOL shakeSendingEnabled; //< send shake events?
-@property (assign, nonatomic) BOOL keySendingEnabled; //< send [key] events?
-@property (assign, nonatomic) BOOL printSendingEnabled; //< send pd prints?
+@property (assign, nonatomic) BOOL touchSendingEnabled; ///< send touch events?
+@property (assign, nonatomic) BOOL sensorSendingEnabled; ///< accel, gyro, location, compass, magnet
+@property (assign, nonatomic) BOOL controllerSendingEnabled; ///< send game controller events?
+@property (assign, nonatomic) BOOL shakeSendingEnabled; ///< send shake events?
+@property (assign, nonatomic) BOOL keySendingEnabled; ///< send [key] events?
+@property (assign, nonatomic) BOOL printSendingEnabled; ///< send pd prints?
 
 /// returns YES if listening was started or the server was already listening,
 /// returns NO if the server cannot be started

@@ -28,8 +28,8 @@
 
 #pragma mark - BrowserLayer
 
-static BrowserLayer *s_moveRoot; //< browser layer that invoked a move/copy edit
-static NSMutableArray *s_movePaths; //< paths to move/copy
+static BrowserLayer *s_moveRoot; ///< browser layer that invoked a move/copy edit
+static NSMutableArray *s_movePaths; ///< paths to move/copy
 
 @interface BrowserLayer () {
 	// for maintaining the scroll pos when navigating back,

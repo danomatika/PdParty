@@ -17,7 +17,7 @@
 #import "TextViewLogger.h"
 
 @interface SceneManager () {
-	BOOL hasReshaped; //< has the gui been reshaped?
+	BOOL hasReshaped; ///< has the gui been reshaped?
 }
 @property (strong, readwrite, nonatomic) NSString* currentPath;
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;

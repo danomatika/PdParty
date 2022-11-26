@@ -14,17 +14,17 @@
 
 /// webdav server event delegate
 @protocol WebServerDelegate <NSObject>
-- (void)webServerDidStart; //< server has successfully started
-- (void)webServerBonjourRegistered; //< Bojour host ulr is registered
-- (void)webServerDidStop;  //< server has shut down
+- (void)webServerDidStart; ///< server has successfully started
+- (void)webServerBonjourRegistered; ///< Bojour host ulr is registered
+- (void)webServerDidStop; ///< server has shut down
 @end
 
 /// webdav server
 @interface WebServer : NSObject <GCDWebDAVServerDelegate>
 
-@property (assign, nonatomic) int port; //< change only takes effect on server restart
-@property (weak, readonly, nonatomic) NSString *hostUrl; //> host url, nil if server not running
-@property (weak, readonly, nonatomic) NSString *bonjourUrl; //> Bonjour host url, nil if server not running
+@property (assign, nonatomic) int port; ///< change only takes effect on server restart
+@property (weak, readonly, nonatomic) NSString *hostUrl; ///< host url, nil if server not running
+@property (weak, readonly, nonatomic) NSString *bonjourUrl; ///< Bonjour host url, nil if server not running
 @property (assign, readonly, getter=isRunning, nonatomic) BOOL running;
 
 /// called when server starts or stops
@@ -33,7 +33,7 @@
 /// start the server with the given dir as the server root
 /// returns YES on success
 - (BOOL)start:(NSString *)directory;
-- (BOOL)start; //< start with the Documents folder as the root
+- (BOOL)start; ///< start with the Documents folder as the root
 - (void)stop;
 
 /// is wifi enabled and the local network reachable?

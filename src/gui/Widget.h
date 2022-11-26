@@ -43,20 +43,20 @@ typedef enum {
 /// a widget baseclass
 @interface Widget : UIView <WidgetListener>
 
-@property (weak, nonatomic) Gui *gui; //< parent gui pointer
+@property (weak, nonatomic) Gui *gui; ///< parent gui pointer
 
-@property (assign, nonatomic) CGRect originalFrame; //< original pd gui object pos & size
-@property (assign, nonatomic) CGPoint originalLabelPos; //< origin pd label pos (rel to object pos)
+@property (assign, nonatomic) CGRect originalFrame; ///< original pd gui object pos & size
+@property (assign, nonatomic) CGPoint originalLabelPos; ///< origin pd label pos (rel to object pos)
 
-@property (strong, nonatomic) UIColor *fillColor; //< IEM gui background
-@property (strong, nonatomic) UIColor *frameColor; //< widget outline
-@property (strong, nonatomic) UIColor *controlColor; //< IEM gui foreground
-/// IEM gui label color is at label.textColor
+@property (strong, nonatomic) UIColor *fillColor; ///< IEM gui background
+@property (strong, nonatomic) UIColor *frameColor; ///< widget outline
+@property (strong, nonatomic) UIColor *controlColor; ///< IEM gui foreground
+// IEM gui label color is at label.textColor
 
-@property (assign, nonatomic) float minValue; /// min display value
-@property (assign, nonatomic) float maxValue; /// max display value
-@property (assign, nonatomic) float value; /// base value, Widget is redrawn when set
-@property (assign, nonatomic) BOOL inits; /// sends value when initing?
+@property (assign, nonatomic) float minValue; ///< min display value
+@property (assign, nonatomic) float maxValue; ///< max display value
+@property (assign, nonatomic) float value; ///< base value, Widget is redrawn when set
+@property (assign, nonatomic) BOOL inits; ///< sends value when initing?
 
 /// pd sender name
 @property (strong, nonatomic) NSString *sendName;

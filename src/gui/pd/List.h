@@ -12,6 +12,6 @@
 
 @interface List : AtomWidget
 
-@property (strong, nonatomic) NSArray *list; //< current list values
+@property (strong, nonatomic) NSArray *list; ///< current list values
 
 @end

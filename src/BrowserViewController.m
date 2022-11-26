@@ -19,7 +19,7 @@
 @interface BrowserViewController () {
 	/// temp variables required for segues on iPhone since PatchViewController
 	/// may not exist yet when opening first scene
-	NSString *selectedPatch; //< maybe subpatch in the case of Rj Scenes, etc
+	NSString *selectedPatch; ///< maybe subpatch in the case of Rj Scenes, etc
 	NSString *selectedSceneType;
 }
 
@@ -27,8 +27,8 @@
 - (void)runScene:(NSString *)fullpath withSceneType:(NSString *)sceneType;
 
 /// called when a patch is selected, return NO if the path was not handled
-- (BOOL)selectFile:(NSString *)path; //< assumes full path
-- (BOOL)selectDirectory:(NSString *)path; //< assumes full path
+- (BOOL)selectFile:(NSString *)path; ///< assumes full path
+- (BOOL)selectDirectory:(NSString *)path; ///< assumes full path
 
 @end
 

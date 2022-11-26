@@ -54,14 +54,14 @@
 #define USER_SAMPLERATE     -1 // user defaults sample rate
 #define RJ_SAMPLERATE    22050 // fixed sample rate
 
-#define RECORDINGS_DIR  @"recordings" //< in the Documents dir
+#define RECORDINGS_DIR  @"recordings" // in the Documents dir
 
 @class Osc;
 @class Sensors;
 
 /// custom dispatcher to grab print events
 @interface PureDataDispatcher : PdDispatcher
-@property (weak, nonatomic) Osc *osc; //< pointer to osc instance
+@property (weak, nonatomic) Osc *osc; ///< pointer to osc instance
 @end
 
 /// sensor delegate used to query whether a sensor is supported & can be started
@@ -72,19 +72,19 @@
 - (BOOL)supportsLocation;
 - (BOOL)supportsCompass;
 - (BOOL)supportsMagnet;
-- (BOOL)supportsMotion; //< process motion!dee
+- (BOOL)supportsMotion; ///< process motion!dee
 @end
 
 @protocol PdRecordEventDelegate <NSObject>
-- (void)remoteRecordingStarted; //< called if recording is started via a msg
-- (void)remoteRecordingFinished; //< called if recording is stopped via a msg
+- (void)remoteRecordingStarted; ///< called if recording is started via a msg
+- (void)remoteRecordingFinished; ///< called if recording is stopped via a msg
 @end
 
 @interface PureData : NSObject <PdReceiverDelegate, PdMidiReceiverDelegate>
 
-@property (strong, nonatomic) PureDataDispatcher *dispatcher; //< message dispatcher
-@property (weak, nonatomic) Osc *osc; //< pointer to osc instance
-@property (weak, nonatomic) Sensors *sensors; //< pointer to sensor manager instance
+@property (strong, nonatomic) PureDataDispatcher *dispatcher; ///< message dispatcher
+@property (weak, nonatomic) Osc *osc; ///< pointer to osc instance
+@property (weak, nonatomic) Sensors *sensors; ///< pointer to sensor manager instance
 
 /// enable / disable PD audio processing
 @property (getter=isAudioEnabled, nonatomic) BOOL audioEnabled;
@@ -226,8 +226,8 @@
 #pragma mark Send Values
 
 + (void)sendTransportPlay:(BOOL)play;
-+ (void)sendVolume:(float)volume;       //< [soundoutput] control
-+ (void)sendMicVolume:(float)micVolume; //< [soundinput] control
++ (void)sendVolume:(float)volume;       ///< [soundoutput] control
++ (void)sendMicVolume:(float)micVolume; ///< [soundinput] control
 
 #pragma mark Find
 
