@@ -156,7 +156,6 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 
 // references:
 // http://www.infragistics.com/community/blogs/stevez/archive/2013/03/04/associate-a-file-type-with-your-ios-application.aspx
-
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
 	// Called when a registered file type is opened in the Files app, transferred via the Open With... mechanism, or
 	// PdParty is invoked via the custom "pdparty://" scheme.
@@ -241,7 +240,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	
 	// reload if we're in the Documents dir
 	if([self.browserViewController.directory isEqualToString:Util.documentsPath]) {
-		DDLogInfo(@"reloading Documents dir");
+		DDLogInfo(@"AppDelegate: reloading Documents dir");
 		[self.browserViewController reloadDirectory];
 	}
 	

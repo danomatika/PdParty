@@ -289,6 +289,8 @@ Naturally, you can also download the PdParty source and open the test patches & 
 	
     	You'll be asked what app to use with received files. Pick "Files" and find PdParty in the list of apps. Save your files inside the PdParty folder. The Files app is basically like Finder or Explorer on desktop and allows you to manage files within apps that support it.
 
+    	For zip files, the device will ask if you want to open in PdParty. CHosing this option will automatically copy the zip file into the PdParty where you can then unzip it by selecting it in the PdParty file browser.
+
     * **iTunes File Sharing**
 
         Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add..." and "Save to..." buttons.

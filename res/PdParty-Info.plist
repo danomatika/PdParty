@@ -12,7 +12,7 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>Pure Data Patch</string>
+			<string>Pure Data patch</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -26,7 +26,7 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>Zipped Pure Data Project</string>
+			<string>Zipped Pure Data project</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -40,7 +40,7 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>Zipped RjDj Scene</string>
+			<string>Zipped RjDj scene</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -54,7 +54,7 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>Zip File</string>
+			<string>Zip archive</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -180,16 +180,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UTImportedTypeDeclarations</key>
+	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.plain-text</string>
+				<string>public.content</string>
 				<string>public.text</string>
+				<string>public.plain-text</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Pure Data Patch</string>
+			<string>Pure Data patch</string>
 			<key>UTTypeIconFiles</key>
 			<array/>
 			<key>UTTypeIdentifier</key>
@@ -199,9 +200,12 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>pd</string>
+					<string>PD</string>
 				</array>
 				<key>public.mime-type</key>
-				<string>application/pure-data</string>
+				<array>
+					<string>text/plain</string>
+				</array>
 			</dict>
 		</dict>
 		<dict>
@@ -211,7 +215,7 @@
 				<string>public.archive</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Zipped Pure Data Project</string>
+			<string>Zipped Pure Data project</string>
 			<key>UTTypeIconFiles</key>
 			<array/>
 			<key>UTTypeIdentifier</key>
@@ -221,6 +225,7 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>pdz</string>
+					<string>PDZ</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/zip</string>
@@ -233,7 +238,7 @@
 				<string>public.archive</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Zipped RjDj Scene</string>
+			<string>Zipped RjDj scene</string>
 			<key>UTTypeIconFiles</key>
 			<array/>
 			<key>UTTypeIdentifier</key>
@@ -243,11 +248,15 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>rjz</string>
+					<string>RJZ</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/zip</string>
 			</dict>
 		</dict>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
@@ -255,7 +264,7 @@
 				<string>public.archive</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Zip File</string>
+			<string>Zip archive</string>
 			<key>UTTypeIconFiles</key>
 			<array/>
 			<key>UTTypeIdentifier</key>
@@ -265,6 +274,7 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>zip</string>
+					<string>ZIP</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/zip</string>
