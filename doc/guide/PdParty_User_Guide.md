@@ -281,15 +281,15 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
     * **AirDrop/Files app**
 
-    	Open Finder on your Mac. Select files/folders you want to send to your iOS device. Press the "Share" button, then AirDrop, and select your iOS device when it appears in the list. It should be nearby, unlocked, on the same Wi-Fi network, and have Bluetooth enabled.
+        Open Finder on your Mac. Select files/folders you want to send to your iOS device. Press the "Share" button, then AirDrop, and select your iOS device when it appears in the list. It should be nearby, unlocked, on the same Wi-Fi network, and have Bluetooth enabled.
 
         <p align="center">
           <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/airdrop_open_with.png">
         </p>
-	
-    	You'll be asked what app to use with received files. Pick "Files" and find PdParty in the list of apps. Save your files inside the PdParty folder. The Files app is basically like Finder or Explorer on desktop and allows you to manage files within apps that support it.
 
-    	For zip files, the device will ask if you want to open in PdParty. CHosing this option will automatically copy the zip file into the PdParty where you can then unzip it by selecting it in the PdParty file browser.
+        You'll be asked what app to use with received files. Pick "Files" and find PdParty in the list of apps. Save your files inside the PdParty folder. The Files app is basically like Finder or Explorer on desktop and allows you to manage files within apps that support it.
+
+        For zip files, the device will ask if you want to open in PdParty. Choosing this option will automatically copy the zip file into the PdParty where you can then unzip it by selecting it in the PdParty file browser.
 
     * **iTunes File Sharing**
 
@@ -308,7 +308,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
             *  **macOS**: Finder can mount WebDAV server folders: Go->Connect to Server... CMD+K. Login as "anonymous" (or anything, really) and leave the password blank:
 
             <p align="center">
-	            <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/finder_connect_to_server.png"/>
+                <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/finder_connect_to_server.png"/>
             </p>
 
             * **Linux**: both Nautilus (Gnome) & Konqueror (KDE) support mounting WebDAV folders, also [FileZilla](https://filezilla-project.org) and other file transfer applications should work
@@ -322,6 +322,10 @@ Naturally, you can also download the PdParty source and open the test patches & 
     * **Open in...**
 
       PdParty registers Pd patch \*.pd files and Zip archives (\*.zip, \*.rjz, \*.pdz) with iOS as supported types. This allows for each of these file types to be opened in PdParty from another application ie. Mail, DropBox, etc. When choosing "Open in..." via the Share button, the file(s) will be copied into the main PdParty Documents folder. Zip archives can then be unpacked by clicking on them in the Patch Browser.
+
+    * **Sharing recordings**
+
+      Sharing recordings or other files created by a patch or scene can be done either through the WebDAV server or the Files app. If connected to the WebDAV server on a desktop computer, files can be copied from the device running PdParty back to the computer. If the Files app is available, files in the PdParty folder can be selected and shared, either to other apps, email, or AirDrop.
 
 ### Audio I/O
 
