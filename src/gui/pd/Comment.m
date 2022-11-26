@@ -12,6 +12,11 @@
 
 #import "Gui.h"
 
+@interface Comment () {
+	int lineWrap; ///< max char width before wrapping to next line
+}
+@end
+
 @implementation Comment
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
@@ -21,6 +26,7 @@
 	}
 	self = [super initWithAtomLine:line andGui:gui];
 	if(self) {
+		lineWrap = GUI_LINE_WRAP;
 		self.numForcedLineBreaks = 0;
 		self.label.numberOfLines = 0;
 		self.label.lineBreakMode = NSLineBreakByWordWrapping;
@@ -30,35 +36,40 @@
 			[line[2] floatValue], [line[3] floatValue],
 			0, 0); // size based on label size
 
-		// TODO: is this needed with the binbuf reader?
-		// create the comment string, handle escaped chars
+		// create the comment string, handle options at end
 		NSMutableString *text = [NSMutableString string];
 		BOOL appendSpace = NO;
-		for(int i = 4; i < line.count; ++i) {
-			if([line[i] isEqualToString:@"\\,"]) {
-				[text appendString:@","];
+		BOOL optionsFound = NO;
+		for(int i = 4; i < (int)line.count; i++) {
+			if([line[i] isKindOfClass:NSNull.class]) {
+				optionsFound = YES;
+				i++;
+				if(i == line.count) {break;}
 			}
-			else if([line[i] isEqualToString:@"\\;"]) {
-				[text appendString:@";\n"]; // semi ; force a line break in pd gui
-				self.numForcedLineBreaks++;
-				appendSpace = NO;
-			}
-			else if([line[i] isEqualToString:@"\\$"]) {
-				[text appendString:@"$"];
-			}
-			else {
-				if(appendSpace) {
-					[text appendString:@" "];
+			if(optionsFound) { // options
+				if([line[i] isEqualToString:@"f"]) {
+					// manual width
+					i++;
+					if(i == line.count) {break;}
+					lineWrap = [line[i] intValue];
 				}
-				appendSpace = YES;
-				[text appendString:line[i]];
+			}
+			else { // space-separated text
+				if([line[i] isEqualToString:@";"]) {
+					// semi ; force a line break in pd gui
+					[text appendString:@";\n"];
+					self.numForcedLineBreaks++;
+					appendSpace = NO;
+				}
+				else {
+					if(appendSpace) {
+						[text appendString:@" "];
+					}
+					appendSpace = YES;
+					[text appendString:line[i]];
+				}
 			}
 		}
-		// remove and stray backslashes
-		[text replaceOccurrencesOfString:@"\\"
-							   withString:@""
-								  options:NSCaseInsensitiveSearch
-									range:NSMakeRange(0, text.length)];
 		self.label.text = text;
 	}
 	return self;
@@ -71,11 +82,11 @@
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monspaced font
 	charSize.width = ceilf(charSize.width);
 	charSize.height = ceilf(charSize.height);
-	self.label.preferredMaxLayoutWidth = charSize.width * (GUI_LINE_WRAP - 1);
+	self.label.preferredMaxLayoutWidth = charSize.width * (lineWrap - 1);
 	CGSize maxLabelSize;
-	maxLabelSize.width = charSize.width * (GUI_LINE_WRAP - 1);
-	if(self.label.text.length > GUI_LINE_WRAP) { // force line wrapping based on size
-		maxLabelSize.height = charSize.height * ((self.label.text.length / (GUI_LINE_WRAP - 1) + 1));
+	maxLabelSize.width = charSize.width * lineWrap;
+	if(self.label.text.length > lineWrap) { // force line wrapping based on size
+		maxLabelSize.height = charSize.height * ((self.label.text.length / lineWrap + 1));
 	}
 	else {
 		maxLabelSize.height = charSize.height;

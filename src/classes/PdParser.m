@@ -65,7 +65,7 @@
 
 // icu regex doc: http://userguide.icu-project.org/strings/regexp
 + (NSArray *)getAtomLines:(NSString *)patchText {
-	
+
 	NSMutableArray *atomLines = [NSMutableArray array];
 	
 	// break string into lines
@@ -75,9 +75,7 @@
 	NSArray *lineMatches = [lineRegexp matchesInString:patchText options:0 range:NSMakeRange(0, patchText.length)];
 	t_binbuf *binbuf = binbuf_new();
 	for(NSTextCheckingResult *lineMatch in lineMatches) {
-	
-		// grab matching line as a string & remove trailing ";\n"
-		NSString *line = [patchText substringWithRange:NSMakeRange(lineMatch.range.location, lineMatch.range.length-2)];
+		NSString *line = [patchText substringWithRange:lineMatch.range];
 
 		// parse atom lines using pd's binbuf
 		NSMutableArray *atomLine = [NSMutableArray new];
@@ -94,11 +92,13 @@
 				case A_SYMBOL:
 					[atomLine addObject:[NSString stringWithUTF8String:a->a_w.w_symbol->s_name]];
 					break;
+				case A_COMMA: // separates main list from options afterward
+					[atomLine addObject:[NSNull null]];
+					break;
 				// ignore, shouldn't see these in a file...
 				case A_NULL:
 				case A_POINTER:
 				case A_SEMI:
-				case A_COMMA:
 				case A_DEFFLOAT:
 				case A_DEFSYM:
 				case A_DOLLAR:
@@ -112,6 +112,11 @@
 		[atomLines addObject:atomLine];
 		binbuf_clear(binbuf);
 /*
+		// grab matching line as a string & remove trailing ";\n"
+		NSString *line = [patchText substringWithRange:NSMakeRange(lineMatch.range.location, lineMatch.range.length-2)];
+
+		...
+
 		// replace whitespace chars with a space
 		NSRegularExpression *atomRegexp = [NSRegularExpression regularExpressionWithPattern:@"\t|\r\n?|\n"
 																					options:NSRegularExpressionCaseInsensitive
