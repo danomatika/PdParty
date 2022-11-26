@@ -148,13 +148,15 @@
 		return NO;
 	}
 	// rj scenes require 320x320 coord system
-	pos->x = (int) (p.x/CGRectGetWidth(self.background.frame) * 320);
-	pos->y = (int) (p.y/CGRectGetHeight(self.background.frame) * 320);
+	pos->x = (int) (p.x / CGRectGetWidth(self.background.frame) * 320);
+	pos->y = (int) (p.y / CGRectGetHeight(self.background.frame) * 320);
 	return YES;
 }
 
 - (BOOL)requiresSensor:(SensorType)sensor {
 	switch(sensor) {
+		case SensorTypeExtendedTouch:
+			return NO;
 		case SensorTypeAccel:
 			return YES;
 		case SensorTypeGyro:

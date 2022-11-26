@@ -172,7 +172,7 @@
 
 - (BOOL)startedRecordingToRecordDir:(NSString *)path withTimestamp:(BOOL)timestamp {
 	if(self.isRecording) return NO;
-				
+
 	NSString *recordDir = [Util.documentsPath stringByAppendingPathComponent:RECORDINGS_DIR];
 	if(![NSFileManager.defaultManager fileExistsAtPath:recordDir]) {
 		DDLogVerbose(@"PureData: recordings dir not found, creating %@", recordDir);
@@ -182,7 +182,7 @@
 			return NO;
 		}
 	}
-	
+
 	if(timestamp) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		[formatter setDateFormat:@"MM-dd-yyyy_HH-mm-ss"];
@@ -199,9 +199,16 @@
 
 #pragma mark Send Events
 
-+ (void)sendTouch:(NSString *)eventType forIndex:(int)index
-       atPosition:(CGPoint)position
-       withRadius:(float)radius andForce:(float)force; {
+
++ (void)sendTouch:(NSString *)eventType forIndex:(int)index atPosition:(CGPoint)position {
+	[PdBase sendMessage:eventType
+	      withArguments:@[@(index+1), @(position.x), @(position.y)]
+	         toReceiver:RJ_TOUCH_R];
+}
+
++ (void)sendExtendedTouch:(NSString *)eventType forIndex:(int)index
+               atPosition:(CGPoint)position
+               withRadius:(float)radius andForce:(float)force; {
 	[PdBase sendMessage:eventType
 	      withArguments:@[@(index+1), @(position.x), @(position.y), @(radius), @(force)]
 	         toReceiver:RJ_TOUCH_R];
@@ -241,50 +248,50 @@
 
 + (void)sendMotionAttitude:(float)pitch roll:(float)roll yaw:(float)yaw {
 	[PdBase sendMessage:@"attitude"
-		  withArguments:@[@(pitch), @(roll), @(yaw)]
-			 toReceiver:PARTY_MOTION_R];
+	      withArguments:@[@(pitch), @(roll), @(yaw)]
+	         toReceiver:PARTY_MOTION_R];
 }
 
 + (void)sendMotionRotation:(float)x y:(float)y z:(float)z {
 	[PdBase sendMessage:@"rotation"
-		  withArguments:@[@(x), @(y), @(z)]
-			 toReceiver:PARTY_MOTION_R];
+	      withArguments:@[@(x), @(y), @(z)]
+	         toReceiver:PARTY_MOTION_R];
 }
 
 + (void)sendMotionGravity:(float)x y:(float)y z:(float)z {
 	[PdBase sendMessage:@"gravity"
-		  withArguments:@[@(x), @(y), @(z)]
-			 toReceiver:PARTY_MOTION_R];
+	      withArguments:@[@(x), @(y), @(z)]
+	         toReceiver:PARTY_MOTION_R];
 }
 
 + (void)sendMotionUser:(float)x y:(float)y z:(float)z {
 	[PdBase sendMessage:@"user"
-		  withArguments:@[@(x), @(y), @(z)]
-			 toReceiver:PARTY_MOTION_R];
+	      withArguments:@[@(x), @(y), @(z)]
+	         toReceiver:PARTY_MOTION_R];
 }
 
 + (void)sendEvent:(NSString *)event forController:(NSString *)controller {
 	[PdBase sendMessage:[NSString stringWithString:event]
-		  withArguments:@[[NSString stringWithString:controller]]
-		     toReceiver:PARTY_CONTROLLER_R];
+	      withArguments:@[[NSString stringWithString:controller]]
+	         toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendController:(NSString *)controller button:(NSString *)button state:(BOOL)state {
 	[PdBase sendMessage:[NSString stringWithString:controller]
-		  withArguments:@[@"button", [NSString stringWithString:button], [NSNumber numberWithFloat:state]]
-			 toReceiver:PARTY_CONTROLLER_R];
+	      withArguments:@[@"button", [NSString stringWithString:button], [NSNumber numberWithFloat:state]]
+	         toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value {
 	[PdBase sendMessage:[NSString stringWithString:controller]
-		  withArguments:@[@"axis", [NSString stringWithString:axis], [NSNumber numberWithFloat:value]]
-		     toReceiver:PARTY_CONTROLLER_R];
+	      withArguments:@[@"axis", [NSString stringWithString:axis], [NSNumber numberWithFloat:value]]
+	         toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendControllerPause:(NSString *)controller {
 	[PdBase sendMessage:[NSString stringWithString:controller]
-		  withArguments:@[@"pause"]
-		     toReceiver:PARTY_CONTROLLER_R];
+	      withArguments:@[@"pause"]
+	         toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendShake {
@@ -401,9 +408,18 @@
 	else if([source isEqualToString:PARTY_GLOBAL_S]) {
 		static NSString *sceneName = nil; // received scene name
 		static BOOL appendTimestamp = NO; // append timestamp to scene name?
-	
+
+		// extended touch control
+		if([message isEqualToString:@"touch"] && arguments.count > 1) {
+			if([arguments[0] isEqualToString:@"extended"] && [arguments isNumberAt:1]) {
+				if(self.sensorDelegate && [self.sensorDelegate supportsExtendedTouch]) {
+					self.sensors.extendedTouchEnabled = [arguments[1] boolValue];
+				}
+			}
+		}
+
 		// accel control
-		if([message isEqualToString:@"accelerate"] && arguments.count > 0) {
+		else if([message isEqualToString:@"accelerate"] && arguments.count > 0) {
 			if([arguments isNumberAt:0]) { // float: start/stop
 				if(self.sensorDelegate && [self.sensorDelegate supportsAccel]) {
 					self.sensors.accelEnabled = [arguments[0] boolValue];

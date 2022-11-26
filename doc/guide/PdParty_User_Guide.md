@@ -372,7 +372,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
     + _name_
     + _category_
   - requires all event types
-  - \#touch positions are normalized from 0-1
+  - \#touch positions are normalized from 0-1, extended touch supported
   - sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, \#motion, & \#time
   - sensors are enabled & updated via control messages to \#pdparty
   - supports game controllers
@@ -480,12 +480,17 @@ Also, thanks to Joe White for providing a copy of the RjDj _get\_sensors.pd_ pat
 
 PdParty returns the following events:
 
-* **[r \#touch] _eventType_ _id_ _x_ _y_ _radius_ _force_**: multitouch event\*
+* **[r \#touch] _eventType_ _id_ _x_ _y_**: multitouch event (default)
   - _eventType_: symbol "down", "xy" (move), or "up"
   - _id_: persistent touch id
   - _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
   - _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
-  - _radius_: finger/stylus radius in points (pixels)
+* **[r \#touch] _eventType_ _id_ _x_ _y_ _radius_ _force_**: extended multitouch event
+  - _eventType_: symbol "down", "xy" (move), or "up"
+  - _id_: persistent touch id
+  - _x_: x position, normalized 0-1 except
+  - _y_: y position, normalized 0-1 except
+  - _radius_: radius in points (pixels)
   - _force_: force into screen, normalized 0-1
 * **[r \#accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
 * **[r \#gyro] _x_ _y_ _z_**: 3 axis gyroscope rotation rate in radians/s
@@ -513,7 +518,18 @@ PdParty returns the following events:
 
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
 
-\*The original RjDj touch event consisted only of the x & y position. In PdParty 1.3.0, the radius and force arguments were added. This should not affect existing patches which use [unpack] to split the event message, however OSC handling may need to be updated.
+#### Touch
+
+For compatibility, multitouch `#touch` events conform to the original RjDj format by default: `eventType id x y`.
+
+As of PdParty 1.3.0, extended multitouch information `eventType id x y radius force` can be enabled sending a message to the internal #pdparty receiver:
+
+*** \#pdparty touch extended _value_**: extended multitouch control
+  - _value_: boolean 0-1 to enable/disable extended info
+
+The extended information consists of:
+* radius: touch radius in points (pixels)
+* force: touch force into screen, normalized 0-1
 
 #### Accelerate, Gyro, Magnet, & Motion Control
 

@@ -101,8 +101,8 @@
 
 // normalize to whole view
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
-	pos->x = pos->x/CGRectGetWidth(self.parentView.frame);
-	pos->y = pos->y/CGRectGetHeight(self.parentView.frame);
+	pos->x = pos->x / CGRectGetWidth(self.parentView.frame);
+	pos->y = pos->y / CGRectGetHeight(self.parentView.frame);
 	return YES;
 }
 

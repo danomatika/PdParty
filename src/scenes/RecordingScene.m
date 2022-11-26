@@ -85,7 +85,7 @@
 	}
 
 	// load controls
-    CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.parentView.frame), ControlsView.baseHeight);
+	CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.parentView.frame), ControlsView.baseHeight);
 	self.controlsView = [[PlayerControlsView alloc] initWithFrame:frame];
 	self.controlsView.delegate = self;
 	if(Util.isDeviceATablet) { // larger sizing for iPad
@@ -97,7 +97,7 @@
 	// update controls view on playback events
 	__weak RecordingScene *wimp = self;
 	timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1)
-                                                             queue:nil // main queue
+	                                                         queue:nil // main queue
 	                                                    usingBlock:^(CMTime elapsed) {
 		// update control labels and slider when playing
 		if(!wimp.seeking) {
@@ -107,9 +107,9 @@
 		}
 	}];
 	endTimeObserver = [NSNotificationCenter.defaultCenter addObserverForName:AVPlayerItemDidPlayToEndTimeNotification
-													  object:self.player.currentItem
-	                                                   queue:nil // main queue
-												  usingBlock:^(NSNotification *notification) {
+		            object:self.player.currentItem
+		             queue:nil // main queue
+		        usingBlock:^(NSNotification *notification) {
 		if(wimp.loop) { // restart playback at end
 			[wimp.player seekToTime:CMTimeMake(0, 1)];
 			[wimp.player play];
@@ -162,7 +162,7 @@
 			self.infoLabel.frame = frame;
 		}
 		self.infoLabel.center = CGPointMake(viewSize.width/2,
-											CGRectGetHeight(self.infoLabel.frame)/2 + lineHeight);
+		                                    CGRectGetHeight(self.infoLabel.frame)/2 + lineHeight);
 		offset.y = CGRectGetHeight(self.infoLabel.frame) + lineHeight;
 	}
 
@@ -183,7 +183,7 @@
 	if(self.background) {
 		self.background.frame = CGRectMake(offset.x + backgroundSize.width * 0.25,
 		                                   offset.y + backgroundSize.height * 0.25,
-										   backgroundSize.width * 0.5,
+		                                   backgroundSize.width * 0.5,
 		                                   backgroundSize.height * 0.5);
 	}
 
@@ -202,23 +202,23 @@
 // observe player item ready event
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
                         change:(NSDictionary *)change context:(void *)context {
-    if([object isKindOfClass:AVPlayerItem.class]) {
-        AVPlayerItem *item = (AVPlayerItem *)object;
-        if([keyPath isEqualToString:@"status"]) {
-            switch(item.status) {
-                case AVPlayerItemStatusReadyToPlay:
- 					// set time labels when loaded
+	if([object isKindOfClass:AVPlayerItem.class]) {
+		AVPlayerItem *item = (AVPlayerItem *)object;
+		if([keyPath isEqualToString:@"status"]) {
+			switch(item.status) {
+				case AVPlayerItemStatusReadyToPlay:
+					// set time labels when loaded
 					if(CMTimeCompare(self.player.currentTime, kCMTimeZero) == 0) {
 						[self.controlsView resetForDuration:self.player.currentItem.duration];
 					}
-                	break;
-                case AVPlayerItemStatusFailed:
-                case AVPlayerItemStatusUnknown:
-                default:
-                	break;
-            }
-        }
-    }
+					break;
+				case AVPlayerItemStatusFailed:
+				case AVPlayerItemStatusUnknown:
+				default:
+					break;
+			}
+		}
+	}
 }
 
 #pragma mark ControlsViewDelegate
@@ -274,8 +274,8 @@
 - (void)controlsView:(ControlsView *)controlsView sliderValueChanged:(float)value {
 	if(!self.player) {return;}
 	int duration = CMTimeGetSeconds(self.player.currentItem.duration);
-    int elapsed = duration * value;
-    [self.controlsView setElapsedTime:CMTimeMake(elapsed, 1) forDuration:self.player.currentItem.duration];
+	int elapsed = duration * value;
+	[self.controlsView setElapsedTime:CMTimeMake(elapsed, 1) forDuration:self.player.currentItem.duration];
 }
 
 #pragma mark Overridden Getters / Setters

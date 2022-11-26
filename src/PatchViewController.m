@@ -15,6 +15,8 @@
 #import "AppDelegate.h"
 #import "Popover.h"
 
+//#define DEBUG_TOUCH
+
 @interface PatchViewController () {
 	NSMutableDictionary *activeTouches; ///< for persistent ids
 	KeyGrabberView *keyGrabberView; ///< for keyboard events
@@ -265,11 +267,13 @@
 		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
-			//DDLogVerbose(@"touch %d: down %.4f %.4f %.4f %.4f", touchIndex+1,
-			//pos.x, pos.y, touch.majorRadius, touch.force/touch.maximumPossibleForce);
-			[self.sceneManager sendTouch:RJ_TOUCH_DOWN forIndex:touchIndex
-			                  atPosition:pos withRadius:touch.majorRadius
-			                    andForce:(touch.force/touch.maximumPossibleForce)];
+			#ifdef DEBUG_TOUCH
+				DDLogVerbose(@"touch %d: down %d %d %.4f %.4f",
+					touchIndex+1, (int)pos.x, (int)pos.y, touch.majorRadius,
+					touch.force/touch.maximumPossibleForce);
+			#endif
+			[self.sceneManager sendEvent:RJ_TOUCH_DOWN forTouch:touch
+			                   withIndex:touchIndex atPosition:pos];
 		}
 	}
 }
@@ -281,11 +285,13 @@
 		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
-			//DDLogVerbose(@"touch %d: moved %d %d %.4f %.4f", touchIndex+1,
-			//(int)pos.x, (int)pos.y, touch.majorRadius, touch.force/touch.maximumPossibleForce);
-			[self.sceneManager sendTouch:RJ_TOUCH_XY forIndex:touchIndex
-			                  atPosition:pos withRadius:touch.majorRadius
-			                    andForce:(touch.force/touch.maximumPossibleForce)];
+			#ifdef DEBUG_TOUCH
+				DDLogVerbose(@"touch %d: moved %d %d %.4f %.4f",
+				touchIndex+1, (int)pos.x, (int)pos.y, touch.majorRadius,
+				touch.force/touch.maximumPossibleForce);
+			#endif
+			[self.sceneManager sendEvent:RJ_TOUCH_XY forTouch:touch
+			                   withIndex:touchIndex atPosition:pos];
 		}
 	}
 }
@@ -298,11 +304,13 @@
 		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
-			//DDLogVerbose(@"touch %d: up %d %d %.4f %.4f", touchIndex+1,
-			//(int)pos.x, (int)pos.y, touch.majorRadius, touch.force/touch.maximumPossibleForce);
-			[self.sceneManager sendTouch:RJ_TOUCH_UP forIndex:touchIndex
-			                  atPosition:pos withRadius:touch.majorRadius
-			                    andForce:(touch.force/touch.maximumPossibleForce)];
+			#ifdef DEBUG_TOUCH
+				DDLogVerbose(@"touch %d: up %d %d %.4f %.4f",
+				touchIndex+1, (int)pos.x, (int)pos.y, touch.majorRadius,
+				touch.force/touch.maximumPossibleForce);
+			#endif
+			[self.sceneManager sendEvent:RJ_TOUCH_UP forTouch:touch
+			                   withIndex:touchIndex atPosition:pos];
 		}
 	}
 }

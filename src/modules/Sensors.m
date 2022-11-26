@@ -96,6 +96,17 @@
 	self.motionAutoUpdates = YES;
 }
 
+#pragma mark ExtendedTouch
+
+- (void)setExtendedTouchEnabled:(BOOL)extendedTouchEnabled {
+	if(self.extendedTouchEnabled == extendedTouchEnabled) {
+		return;
+	}
+	_extendedTouchEnabled = extendedTouchEnabled;
+	DDLogVerbose(@"Sensors: extended touch %@",
+	             (_extendedTouchEnabled ? @"enabled" : @"disabled"));
+}
+
 #pragma mark Accel
 
 - (void)setAccelEnabled:(BOOL)accelEnabled {

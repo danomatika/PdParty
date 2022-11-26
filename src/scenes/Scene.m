@@ -19,11 +19,11 @@
 }
 
 - (id)init {
-    self = [super init];
-    if(self) {
+	self = [super init];
+	if(self) {
 		self.preferredOrientations = UIInterfaceOrientationMaskAll;
 	}
-    return self;
+	return self;
 }
 
 - (void)dealloc {

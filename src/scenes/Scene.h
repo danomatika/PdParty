@@ -17,12 +17,13 @@
 
 // sensor type for querying scene info
 typedef enum {
+	SensorTypeExtendedTouch,
 	SensorTypeAccel,
 	SensorTypeGyro,
 	SensorTypeLocation,
 	SensorTypeCompass,
 	SensorTypeMagnet,
-	SensorTypeMotion ///< process motion
+	SensorTypeMotion
 } SensorType;
 
 /// base empty scene

@@ -70,7 +70,8 @@
 
 - (BOOL)supportsSensor:(SensorType)sensor {
 	switch(sensor) {
-		case SensorTypeLocation: case SensorTypeCompass: case SensorTypeMotion:
+		case SensorTypeExtendedTouch: case SensorTypeLocation:
+		case SensorTypeCompass: case SensorTypeMotion:
 			return NO;
 		default:
 			return YES;

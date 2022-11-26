@@ -170,8 +170,17 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 }
 
 - (void)sendTouch:(NSString *)eventType forIndex:(int)index
-       atPosition:(CGPoint)position
-       withRadius:(float)radius andForce:(float)force {
+       atPosition:(CGPoint)position {
+	if(!self.isListening || !self.touchSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "siff", [eventType UTF8String], index, position.x, position.y);
+	lo_send_message(sendAddress, [OSC_TOUCH_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
+- (void)sendExtendedTouch:(NSString *)eventType forIndex:(int)index
+               atPosition:(CGPoint)position
+               withRadius:(float)radius andForce:(float)force {
 	if(!self.isListening || !self.touchSendingEnabled) return;
 	lo_message m = lo_message_new();
 	lo_message_add(m, "siffff", [eventType UTF8String], index, position.x, position.y, radius, force);

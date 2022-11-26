@@ -67,12 +67,13 @@
 /// sensor delegate used to query whether a sensor is supported & can be started
 /// via a #pdparty message
 @protocol PdSensorSupportDelegate <NSObject>
+- (BOOL)supportsExtendedTouch; ///< not a sensor, per se...
 - (BOOL)supportsAccel;
 - (BOOL)supportsGyro;
 - (BOOL)supportsLocation;
 - (BOOL)supportsCompass;
 - (BOOL)supportsMagnet;
-- (BOOL)supportsMotion; ///< process motion!dee
+- (BOOL)supportsMotion;
 @end
 
 @protocol PdRecordEventDelegate <NSObject>
@@ -156,8 +157,12 @@
 
 /// rj touch event
 + (void)sendTouch:(NSString *)eventType forIndex:(int)index
-       atPosition:(CGPoint)position
-       withRadius:(float)radius andForce:(float)force;;
+       atPosition:(CGPoint)position;
+
+/// pdparty extended touch event
++ (void)sendExtendedTouch:(NSString *)eventType forIndex:(int)index
+               atPosition:(CGPoint)position
+               withRadius:(float)radius andForce:(float)force;;
 
 /// rj accel event
 + (void)sendAccel:(float)x y:(float)y z:(float)z;

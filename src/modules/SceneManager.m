@@ -214,15 +214,23 @@
 
 #pragma mark Send Events
 
-- (void)sendTouch:(NSString *)eventType forIndex:(int)index
-       atPosition:(CGPoint)position
-       withRadius:(float)radius andForce:(float)force {
-	if(self.scene.requiresTouch) {
-		[PureData sendTouch:eventType forIndex:index atPosition:position
-		         withRadius:radius andForce:force];
+- (void)sendEvent:(NSString *)eventType forTouch:(UITouch *)touch
+        withIndex:(int)index atPosition:(CGPoint)position {
+	if(self.sensors.extendedTouchEnabled) {
+		float force = touch.force / touch.maximumPossibleForce;
+		if(self.scene.requiresTouch) {
+			[PureData sendExtendedTouch:eventType forIndex:index atPosition:position
+			                 withRadius:touch.majorRadius andForce:force];
+		}
+		[self.osc sendExtendedTouch:eventType forIndex:index atPosition:position
+		                 withRadius:touch.majorRadius andForce:force];
 	}
-	[self.osc sendTouch:eventType forIndex:index atPosition:position
-	         withRadius:radius andForce:force];
+	else {
+		if(self.scene.requiresTouch) {
+			[PureData sendTouch:eventType forIndex:index atPosition:position];
+		}
+		[self.osc sendTouch:eventType forIndex:index atPosition:position];
+	}
 }
 
 - (void)sendShake {
@@ -254,6 +262,10 @@
 }
 
 #pragma mark PdSensorSupportDelegate
+
+- (BOOL)supportsExtendedTouch {
+	return [self.scene supportsSensor:SensorTypeExtendedTouch];
+}
 
 - (BOOL)supportsAccel {
 	return [self.scene supportsSensor:SensorTypeAccel];

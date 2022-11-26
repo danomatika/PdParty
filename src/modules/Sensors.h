@@ -24,6 +24,11 @@
 /// reset sensors back to default values
 - (void)reset;
 
+#pragma mark ExtendedTouch
+
+/// enable extended touch?
+@property (assign, nonatomic) BOOL extendedTouchEnabled;
+
 #pragma mark Accel
 
 /// enable accelerometer service?

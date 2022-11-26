@@ -63,8 +63,12 @@
 
 /// rj touch event
 - (void)sendTouch:(NSString *)eventType forIndex:(int)index
-       atPosition:(CGPoint)position
-       withRadius:(float)radius andForce:(float)force;
+       atPosition:(CGPoint)position;
+
+/// pdparty extended touch event
+- (void)sendExtendedTouch:(NSString *)eventType forIndex:(int)index
+               atPosition:(CGPoint)position
+               withRadius:(float)radius andForce:(float)force;
 
 /// rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;
