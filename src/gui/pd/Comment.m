@@ -80,8 +80,8 @@
 	// label
 	self.label.font = [UIFont fontWithName:self.gui.fontName size:self.gui.fontSize * self.gui.scaleHeight];
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monspaced font
-	charSize.width = ceilf(charSize.width);
-	charSize.height = ceilf(charSize.height);
+	charSize.width = ceil(charSize.width);
+	charSize.height = ceil(charSize.height);
 	self.label.preferredMaxLayoutWidth = charSize.width * (lineWrap - 1);
 	CGSize maxLabelSize;
 	maxLabelSize.width = charSize.width * lineWrap;
@@ -98,8 +98,8 @@
 													  options:NSStringDrawingUsesLineFragmentOrigin
 												   attributes:@{NSFontAttributeName:self.label.font}
 													  context:nil];
-	labelFrame.size.width = ceilf(labelFrame.size.width);
-	labelFrame.size.height = ceilf(labelFrame.size.height);
+	labelFrame.size.width = ceil(labelFrame.size.width);
+	labelFrame.size.height = ceil(labelFrame.size.height);
 	self.label.frame = labelFrame;
 
 	// bounds based on computed label size

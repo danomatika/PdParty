@@ -73,7 +73,7 @@
 
 - (void)drawRect:(CGRect)rect {
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monospace font
-	int yOffset = ceilf(charSize.height / 2);
+	int yOffset = ceil(charSize.height / 2);
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
@@ -101,10 +101,10 @@
 	int yyy, i, k4 = -k3 - 1;
 	
 	for(i = 1; i <= IEM_VU_STEPS; ++i) {
-		yyy = floorf(((k4 + k1 * (k2 - i)) * self.gui.scaleHeight) + yOffset);
+		yyy = floor(((k4 + k1 * (k2 - i)) * self.gui.scaleHeight) + yOffset);
 		
 		// fat line for overlap since spacing between is not pixel perfect when scaling
-		CGContextSetLineWidth(context, self.gui.lineWidth * (ceilf((ledSize - 1 + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleWidth)));
+		CGContextSetLineWidth(context, self.gui.lineWidth * (ceil((ledSize - 1 + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleWidth)));
 		
 		// led bar
 		if(i == peakLed || i <= rmsLed) {
@@ -151,8 +151,8 @@
 	// reshape label first to make sure font has been set
 	[self reshapeLabel];
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monospaced font
-	charSize.width = ceilf(charSize.width);
-	charSize.height = ceilf(charSize.height);
+	charSize.width = ceil(charSize.width);
+	charSize.height = ceil(charSize.height);
 
 	// bounds from meter size + optional scale width
 	if(self.showScale) {

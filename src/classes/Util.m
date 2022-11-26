@@ -223,8 +223,8 @@
 + (UIImage *)imageFromString:(NSString *)string withFont:(UIFont*)font {
 	
 	CGSize size = [string sizeWithAttributes:@{NSFontAttributeName:font}];
-	size.width = ceilf(size.width);
-	size.height = ceilf(size.height);
+	size.width = ceil(size.width);
+	size.height = ceil(size.height);
 	UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
 
 	// draw in context, you can use also drawInRect:withFont:

@@ -171,14 +171,14 @@
 	UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
 	if(orientation == UIInterfaceOrientationPortrait ||
 	   orientation == UIInterfaceOrientationPortraitUpsideDown) {
-		backgroundSize.width = roundf(viewSize.width * 0.8);
+		backgroundSize.width = round(viewSize.width * 0.8);
 		backgroundSize.height = backgroundSize.width;
-		offset.x = roundf((viewSize.width - backgroundSize.width) / 2);
+		offset.x = round((viewSize.width - backgroundSize.width) / 2);
 	}
 	else {
-		backgroundSize.width = roundf(viewSize.height * 0.8);
+		backgroundSize.width = round(viewSize.height * 0.8);
 		backgroundSize.height = backgroundSize.width;
-		offset.x = roundf((viewSize.width - backgroundSize.width) / 2);
+		offset.x = round((viewSize.width - backgroundSize.width) / 2);
 	}
 	if(self.background) {
 		self.background.frame = CGRectMake(offset.x + backgroundSize.width * 0.25,
