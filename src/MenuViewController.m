@@ -161,7 +161,12 @@
 	// add background when scrolling so you can see there are more buttons off the edge
 	if(scrolls) {
 		button.layer.masksToBounds = YES;
-		button.layer.backgroundColor = [UIColor colorWithWhite:0.88 alpha:1.0].CGColor;
+		if(@available(iOS 13.0, *)) {
+			button.layer.backgroundColor = UIColor.systemGray2Color.CGColor;
+		}
+		else {
+			button.layer.backgroundColor = [UIColor colorWithWhite:0.88 alpha:1.0].CGColor;
+		}
 		button.layer.cornerRadius = 5;
 		normalColor = self.view.tintColor;
 		selectedColor = UIColor.lightGrayColor;
@@ -308,8 +313,12 @@
 	}
 	_lightBackground = lightBackground;
 	if(lightBackground) {
-		self.collectionView.backgroundColor = UIColor.whiteColor;
-		
+		if(@available(iOS 13.0, *)) {
+			self.collectionView.backgroundColor = UIColor.systemBackgroundColor;
+		}
+		else {
+			self.collectionView.backgroundColor = UIColor.whiteColor;
+		}
 	}
 	else {
 		self.collectionView.backgroundColor = UIColor.blackColor;

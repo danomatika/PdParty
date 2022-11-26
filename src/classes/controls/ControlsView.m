@@ -52,7 +52,6 @@
 		// toolbar
 		self.toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), self.toolbarHeight)];
 		self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
-		self.toolbar.barStyle = UIBarStyleBlack;
 		self.toolbar.translucent = NO;
 		[self.toolbar setItems:@[leftSpace, self.leftButton, middleSpace, self.rightButton, rightSpace]];
 		[self addSubview:self.toolbar];
@@ -302,16 +301,22 @@
 }
 
 - (void)setLightBackground:(BOOL)lightBackground {
-	if(_lightBackground == lightBackground) {
-		return;
-	}
 	_lightBackground = lightBackground;
 	if(lightBackground) {
-		self.backgroundColor = UIColor.whiteColor;
-		self.toolbar.barTintColor = UIColor.whiteColor;
+		if(@available(iOS 13.0, *)) {
+			self.backgroundColor = UIColor.systemBackgroundColor;
+			self.toolbar.backgroundColor = UIColor.systemBackgroundColor;
+			self.toolbar.barTintColor = UIColor.systemBackgroundColor;
+		}
+		else {
+			self.backgroundColor = UIColor.whiteColor;
+			self.toolbar.backgroundColor = UIColor.whiteColor;
+			self.toolbar.barTintColor = UIColor.whiteColor;
+		}
 	}
 	else {
 		self.backgroundColor = UIColor.blackColor;
+		self.toolbar.backgroundColor = UIColor.blackColor;
 		self.toolbar.barTintColor = UIColor.blackColor;
 	}
 }

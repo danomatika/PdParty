@@ -51,6 +51,7 @@
 @property (strong, nonatomic) UISlider *slider;
 
 /// use a light background?
+/// if YES view is light/dark mode aware, if NO view is black
 @property (assign, nonatomic) BOOL lightBackground;
 
 /// override to customize the left toolbar button

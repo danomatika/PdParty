@@ -193,7 +193,13 @@
 
 - (void)setLightBackground:(BOOL)lightBackground {
 	[super setLightBackground:lightBackground];
-	UIColor *textColor = lightBackground ? UIColor.blackColor : UIColor.whiteColor;
+	UIColor *textColor;
+	if(@available(iOS 13.0, *)) {
+		textColor = lightBackground ? UIColor.labelColor : UIColor.whiteColor;
+	}
+	else {
+		textColor = lightBackground ? UIColor.blackColor : UIColor.whiteColor;
+	}
 	self.timeElapsedLabel.textColor = textColor;
 	self.timeRemainLabel.textColor = textColor;
 }
