@@ -256,17 +256,20 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	
 	for(UITouch *touch in touches) {
-		int touchId = 0;
-		while([[activeTouches allValues] containsObject:[NSNumber numberWithInt:touchId]]) {
-			touchId++;
+		int touchIndex = 0;
+		while([[activeTouches allValues] containsObject:[NSNumber numberWithInt:touchIndex]]) {
+			touchIndex++;
 		}
-		[activeTouches setObject:[NSNumber numberWithInt:touchId]
+		[activeTouches setObject:[NSNumber numberWithInt:touchIndex]
 						  forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
-			//DDLogVerbose(@"touch %d: down %.4f %.4f", touchId+1, pos.x, pos.y);
-			[self.sceneManager sendTouch:RJ_TOUCH_DOWN forId:touchId atX:pos.x andY:pos.y];
+			//DDLogVerbose(@"touch %d: down %.4f %.4f %.4f %.4f", touchIndex+1,
+			//pos.x, pos.y, touch.majorRadius, touch.force/touch.maximumPossibleForce);
+			[self.sceneManager sendTouch:RJ_TOUCH_DOWN forIndex:touchIndex
+			                  atPosition:pos withRadius:touch.majorRadius
+			                    andForce:(touch.force/touch.maximumPossibleForce)];
 		}
 	}
 }
@@ -274,12 +277,15 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 
 	for(UITouch *touch in touches) {
-		int touchId = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
+		int touchIndex = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
 		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
-			//DDLogVerbose(@"touch %d: moved %d %d", touchId+1, (int) pos.x, (int) pos.y);
-			[self.sceneManager sendTouch:RJ_TOUCH_XY forId:touchId atX:pos.x andY:pos.y];
+			//DDLogVerbose(@"touch %d: moved %d %d %.4f %.4f", touchIndex+1,
+			//(int)pos.x, (int)pos.y, touch.majorRadius, touch.force/touch.maximumPossibleForce);
+			[self.sceneManager sendTouch:RJ_TOUCH_XY forIndex:touchIndex
+			                  atPosition:pos withRadius:touch.majorRadius
+			                    andForce:(touch.force/touch.maximumPossibleForce)];
 		}
 	}
 }
@@ -287,13 +293,16 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 
 	for(UITouch *touch in touches) {
-		int touchId = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
+		int touchIndex = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
 		[activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
 		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
-			//DDLogVerbose(@"touch %d: up %d %d", touchId+1, (int) pos.x, (int) pos.y);
-			[self.sceneManager sendTouch:RJ_TOUCH_UP forId:touchId atX:pos.x andY:pos.y];
+			//DDLogVerbose(@"touch %d: up %d %d %.4f %.4f", touchIndex+1,
+			//(int)pos.x, (int)pos.y, touch.majorRadius, touch.force/touch.maximumPossibleForce);
+			[self.sceneManager sendTouch:RJ_TOUCH_UP forIndex:touchIndex
+			                  atPosition:pos withRadius:touch.majorRadius
+			                    andForce:(touch.force/touch.maximumPossibleForce)];
 		}
 	}
 }

@@ -480,11 +480,13 @@ Also, thanks to Joe White for providing a copy of the RjDj _get\_sensors.pd_ pat
 
 PdParty returns the following events:
 
-* **[r \#touch] _eventType_ _id_ _x_ _y_**: multitouch event
+* **[r \#touch] _eventType_ _id_ _x_ _y_ _radius_ _force_**: multitouch event\*
   - _eventType_: symbol "down", "xy" (move), or "up"
   - _id_: persistent touch id
   - _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
   - _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
+  - _radius_: finger/stylus radius in points (pixels)
+  - _force_: force into screen, normalized 0-1
 * **[r \#accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
 * **[r \#gyro] _x_ _y_ _z_**: 3 axis gyroscope rotation rate in radians/s
 * **[r \#loc] _lat_ _lon_ _accuracy_**: GPS location
@@ -510,6 +512,8 @@ PdParty returns the following events:
 * **[r \#shake]**: system-detected shake event (aka cancel)
 
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
+
+\*The original RjDj touch event consisted only of the x & y position. In PdParty 1.3.0, the radius and force arguments were added. This should not affect existing patches which use [unpack] to split the event message, however OSC handling may need to be updated.
 
 #### Accelerate, Gyro, Magnet, & Motion Control
 
@@ -777,10 +781,3 @@ The selected viewport area will be rescaled in order to fill the screen of the d
 ~~~
 
 See the DroidParty `pure-widgets-demo` sample and the PdParty `ViewPort` test.
-
-TODOs
------
-
-* full screen / nav bar hiding
-* paging and/or TouchOSC style page buttons
-* allow alternate styling for gui elements (i.e. PdDroidParty & TouchOSC)

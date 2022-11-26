@@ -155,7 +155,9 @@
 #pragma mark Send Events
 
 /// rj touch event
-+ (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
++ (void)sendTouch:(NSString *)eventType forIndex:(int)index
+       atPosition:(CGPoint)position
+       withRadius:(float)radius andForce:(float)force;;
 
 /// rj accel event
 + (void)sendAccel:(float)x y:(float)y z:(float)z;
@@ -178,7 +180,7 @@
 /// rj time event
 + (void)sendTime:(NSArray *)time;
 
-/// droid party magnet event
+/// droidparty magnet event
 + (void)sendMagnet:(float)x y:(float)y z:(float)z;
 
 /// pdparty motion attitude event

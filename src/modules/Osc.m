@@ -169,10 +169,12 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	}
 }
 
-- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
+- (void)sendTouch:(NSString *)eventType forIndex:(int)index
+       atPosition:(CGPoint)position
+       withRadius:(float)radius andForce:(float)force {
 	if(!self.isListening || !self.touchSendingEnabled) return;
 	lo_message m = lo_message_new();
-	lo_message_add(m, "siff", [eventType UTF8String], id, x, y);
+	lo_message_add(m, "siffff", [eventType UTF8String], index, position.x, position.y, radius, force);
 	lo_send_message(sendAddress, [OSC_TOUCH_ADDR UTF8String], m);
 	lo_message_free(m);
 }

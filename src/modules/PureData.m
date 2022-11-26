@@ -199,8 +199,12 @@
 
 #pragma mark Send Events
 
-+ (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
-	[PdBase sendMessage:eventType withArguments:@[@(id+1), @(x), @(y)] toReceiver:RJ_TOUCH_R];
++ (void)sendTouch:(NSString *)eventType forIndex:(int)index
+       atPosition:(CGPoint)position
+       withRadius:(float)radius andForce:(float)force; {
+	[PdBase sendMessage:eventType
+	      withArguments:@[@(index+1), @(position.x), @(position.y), @(radius), @(force)]
+	         toReceiver:RJ_TOUCH_R];
 }
 
 + (void)sendAccel:(float)x y:(float)y z:(float)z {

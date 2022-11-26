@@ -51,7 +51,9 @@
 #pragma mark Send Events
 
 /// rj touch event
-- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y;
+- (void)sendTouch:(NSString *)eventType forIndex:(int)index
+       atPosition:(CGPoint)position
+       withRadius:(float)radius andForce:(float)force;
 
 /// pdparty shake event
 - (void)sendShake;

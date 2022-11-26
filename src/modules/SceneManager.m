@@ -214,11 +214,15 @@
 
 #pragma mark Send Events
 
-- (void)sendTouch:(NSString *)eventType forId:(int)id atX:(float)x andY:(float)y {
+- (void)sendTouch:(NSString *)eventType forIndex:(int)index
+       atPosition:(CGPoint)position
+       withRadius:(float)radius andForce:(float)force {
 	if(self.scene.requiresTouch) {
-		[PureData sendTouch:eventType forId:id atX:x andY:y];
+		[PureData sendTouch:eventType forIndex:index atPosition:position
+		         withRadius:radius andForce:force];
 	}
-	[self.osc sendTouch:eventType forId:id atX:x andY:y];
+	[self.osc sendTouch:eventType forIndex:index atPosition:position
+	         withRadius:radius andForce:force];
 }
 
 - (void)sendShake {
