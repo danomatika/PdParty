@@ -1,13 +1,10 @@
-#N canvas 63 330 386 478 10;
+#N canvas 63 294 386 478 10;
 #X declare -path rc;
-#X text 27 68 switch between two patches by opening and closing them
-;
-#X obj 125 152 hradio 60 1 0 2 \$0-switcher-out empty switcher 0 -8
-0 10 -262144 -1 -1 0;
+#X text 27 68 switch between two patches by opening and closing them;
+#X obj 125 152 hradio 60 1 0 2 \$0-switcher-out empty switcher 0 -8 0 10 #fcfcfc #000000 #000000 0;
 #X text 36 170 low tone ->;
 #X text 267 171 <- high tone;
-#X obj 169 259 bng 30 250 50 0 \$0-close-out empty close 1 -8 0 10
--262144 -1 -1;
+#X obj 169 259 bng 30 250 50 0 \$0-close-out empty close 1 -8 0 10 #fcfcfc #000000 #000000;
 #N canvas 484 442 249 265 guts 0;
 #X obj 28 58 sel 0 1;
 #X obj 28 215 u_openclose;
@@ -17,6 +14,8 @@
 #X obj 134 143 r \$0-close-out;
 #X obj 28 29 r \$0-switcher-out;
 #X obj 131 216 declare -path rc;
+#X obj 169 29 loadbang;
+#X obj 169 58 delay 100;
 #X connect 0 0 4 0;
 #X connect 0 1 3 0;
 #X connect 2 0 1 0;
@@ -24,12 +23,8 @@
 #X connect 4 0 1 0;
 #X connect 5 0 2 0;
 #X connect 6 0 0 0;
+#X connect 8 0 9 0;
+#X connect 9 0 4 0;
 #X restore 162 29 pd guts;
-#X text 19 325 see Pure Data->manuals->pd-msg->2.ms_and_pd->2.open_close
-;
-#X text 18 350 in the PureData help browser for info on how this works
-;
-#X text 20 399 note: this currently requires ggee [getdir] external
-in;
-#X text 20 439;
-#X text 20 420 order to get the full path to the dir of the patch;
+#X text 19 325 see Pure Data->manuals->pd-msg->2.ms_and_pd->2.open_close;
+#X text 18 350 in the PureData help browser for info on how this works;
