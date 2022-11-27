@@ -217,7 +217,11 @@
 - (void)sendEvent:(NSString *)eventType forTouch:(UITouch *)touch
         withIndex:(int)index atPosition:(CGPoint)position {
 	if(self.sensors.extendedTouchEnabled) {
-		float force = touch.force / touch.maximumPossibleForce;
+		#if TARGET_IPHONE_SIMULATOR
+			float force = 0; // avoid nan
+		#else
+			float force = touch.force / touch.maximumPossibleForce;
+		#endif
 		if(@available(iOS 9.1, *)) {
 			if(touch.type == UITouchTypePencil) { // stylus
 				float azimuth = [touch azimuthAngleInView:nil]; // docs note this is expensive
