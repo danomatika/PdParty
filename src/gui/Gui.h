@@ -17,7 +17,7 @@
 /// http://stackoverflow.com/questions/11047900/cant-load-custom-font-on-ios
 #define GUI_FONT_NAME @"DejaVu Sans Mono"
 
-/// pd gui wraps lines at 60 chars
+/// pd gui wraps lines at 60 chars unless width is set
 #define GUI_LINE_WRAP 60
 
 /// widget size scaling modes
@@ -96,14 +96,14 @@ typedef enum {
 
 #pragma mark Add Widgets
 
-/// add a widget using a given atom line (array of NSStrings)
+// add a widget using a given atom line (array of NSStrings)
 
-/// pd
+// pd
 - (void)addNumber:(NSArray *)atomLine;
 - (void)addSymbol:(NSArray *)atomLine;
 - (void)addComment:(NSArray *)atomLine;
 
-/// iem
+// iem
 - (void)addBang:(NSArray *)atomLine;
 - (void)addToggle:(NSArray *)atomLine;
 - (void)addSlider:(NSArray *)atomLine withOrientation:(WidgetOrientation)orientation;
