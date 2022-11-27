@@ -142,3 +142,10 @@
 #X text 126 112 ...;
 #X restore 136 164 pd midi;
 #X text 67 18 event reference;
+#N canvas 266 291 278 180 key 0;
+#X obj 33 57 key;
+#X obj 81 125 keyname;
+#X obj 34 125 keyup;
+#X text 30 18 key events use the normal objects;
+#X text 31 98 these are available on iOS 13.4+;
+#X restore 135 137 pd key;

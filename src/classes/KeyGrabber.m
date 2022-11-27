@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013,2020 Dan Wilcox <danomatika@gmail.com>
+ * Copyright (c) 2013,2020-22 Dan Wilcox <danomatika@gmail.com>
  *
  * BSD Simplified License.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
@@ -12,7 +12,7 @@
 
 #import "Log.h"
 
-//#define DEBUG_KEYGRABBER
+#define DEBUG_KEYGRABBER
 
 // add PressGrabber when compiling with iOS 13.4+ SDK
 #ifdef __IPHONE_13_4
@@ -104,15 +104,17 @@
 	} else {
 		[self.inputView resignFirstResponder];
 	}
-//#ifdef KEYGRABBER_PRESSES
-//	if(self.inputView isKindOfClass:PressesGrabber) {
-//		DDLogVerbose(@"KeyGrabberView: Presses backend");
-//	}
-//	else
-//#endif
-//	{
-//		DDLogVerbose(@"KeyGrabberView: UIKeyInput backend");
-//	}
+#ifdef DEBUG_KEYGRABBER
+	#ifdef KEYGRABBER_PRESSES
+	if([self.inputView isKindOfClass:PressesGrabber.class] ) {
+		DDLogVerbose(@"KeyGrabberView: Presses backend");
+	}
+	else
+	#endif
+	{
+		DDLogVerbose(@"KeyGrabberView: UIKeyInput backend");
+	}
+#endif
 }
 
 @end
@@ -129,11 +131,15 @@
 - (void)pressesBegan:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event {
 	if(self.parent.delegate) {
 		for(UIPress *press in presses) {
-			unichar key = [self characterForPress:press];
+			unichar key = [PressesGrabber characterForPress:press];
+			NSString *name = [PressesGrabber nameForPress:press];
 			#ifdef DEBUG_KEYGRABBER
-				DDLogVerbose(@"KeyGrabberView: presses began %d", (int)key);
+				DDLogVerbose(@"KeyGrabberView: presses began %d %@", (int)key, name);
+				DDLogVerbose(@"KeyGrabberView: code %ldl chars \"%@\"",
+					(long)press.key.keyCode, press.key.characters);
 			#endif
 			[self.parent.delegate keyPressed:(int)key];
+			[self.parent.delegate keyName:name pressed:YES];
 		}
 	}
 	[super pressesBegan:presses withEvent:event];
@@ -142,11 +148,15 @@
 - (void)pressesEnded:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event {
 	if(self.parent.delegate) {
 		for(UIPress *press in presses) {
-			unichar key = [self characterForPress:press];
+			unichar key = [PressesGrabber characterForPress:press];
+			NSString *name = [PressesGrabber nameForPress:press];
 			#ifdef DEBUG_KEYGRABBER
-				DDLogVerbose(@"KeyGrabberView: presses ended %d", (int)key);
+				DDLogVerbose(@"KeyGrabberView: presses ended %d %@", (int)key, name);
+				DDLogVerbose(@"KeyGrabberView: code %ldl chars %@",
+					(long)press.key.keyCode, press.key.characters);
 			#endif
 			[self.parent.delegate keyReleased:(int)key];
+			[self.parent.delegate keyName:name pressed:NO];
 		}
 	}
 	[super pressesEnded:presses withEvent:event];
@@ -155,24 +165,98 @@
 - (void)pressesCancelled:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event {
 	if(self.parent.delegate) {
 		for(UIPress *press in presses) {
-			unichar key = [self characterForPress:press];
+			unichar key = [PressesGrabber characterForPress:press];
+			NSString *name = [PressesGrabber nameForPress:press];
 			#ifdef DEBUG_KEYGRABBER
-				DDLogVerbose(@"KeyGrabberView: presses cancelled %d", (int)key);
+				DDLogVerbose(@"KeyGrabberView: presses cancelled %d %@", (int)key, name);
+				DDLogVerbose(@"KeyGrabberView: code %ldl chars %@",
+					(long)press.key.keyCode, press.key.characters);
 			#endif
 			[self.parent.delegate keyReleased:(int)key];
+			[self.parent.delegate keyName:name pressed:NO];
 		}
 	}
 	[super pressesCancelled:presses withEvent:event];
 }
 
-// TODO: replace this with press.key.keyCode + lookup table to match Tk?
-- (unichar)characterForPress:(UIPress *)press {
++ (unichar)characterForPress:(UIPress *)press {
 	unichar key = 0;
 	NSString *chars = press.key.characters;
 	if(chars && ![chars isEqualToString:@""]) {
 		key = [chars characterAtIndex:0];
 	}
 	return key;
+}
+
+// set names to match Tk https://tcl.tk/man/tcl8.6/TkCmd/keysyms.html
++ (NSString *)nameForPress:(UIPress *)press {
+
+	// known key codes from UIKeyConstants.h
+	switch(press.key.keyCode) {
+
+		// main
+		case UIKeyboardHIDUsageKeyboardReturnOrEnter     : return @"Return";
+		case UIKeyboardHIDUsageKeyboardEscape            : return @"Escape";
+		case UIKeyboardHIDUsageKeyboardDeleteOrBackspace : return @"BackSpace";
+		case UIKeyboardHIDUsageKeyboardTab               : return @"Tab";
+		case UIKeyboardHIDUsageKeyboardSpacebar          : return @"Space";
+		case UIKeyboardHIDUsageKeyboardCapsLock          : return @"Caps Lock";
+
+		// function keys
+		case UIKeyboardHIDUsageKeyboardF1            : return @"F1";
+		case UIKeyboardHIDUsageKeyboardF2            : return @"F2";
+		case UIKeyboardHIDUsageKeyboardF3            : return @"F3";
+		case UIKeyboardHIDUsageKeyboardF4            : return @"F4";
+		case UIKeyboardHIDUsageKeyboardF5            : return @"F5";
+		case UIKeyboardHIDUsageKeyboardF6            : return @"F6";
+		case UIKeyboardHIDUsageKeyboardF7            : return @"F7";
+		case UIKeyboardHIDUsageKeyboardF8            : return @"F8";
+		case UIKeyboardHIDUsageKeyboardF9            : return @"F9";
+		case UIKeyboardHIDUsageKeyboardF10           : return @"F10";
+		case UIKeyboardHIDUsageKeyboardF11           : return @"F11";
+		case UIKeyboardHIDUsageKeyboardF12           : return @"F12";
+		case UIKeyboardHIDUsageKeyboardPrintScreen   : return @"Print";
+		case UIKeyboardHIDUsageKeyboardScrollLock    : return @"Scroll_Lock";
+		case UIKeyboardHIDUsageKeyboardPause         : return @"Pause";
+		case UIKeyboardHIDUsageKeyboardInsert        : return @"Insert";
+		case UIKeyboardHIDUsageKeyboardHome          : return @"Home";
+		case UIKeyboardHIDUsageKeyboardPageUp        : return @"Next";
+		case UIKeyboardHIDUsageKeyboardDeleteForward : return @"Delete";
+		case UIKeyboardHIDUsageKeyboardEnd           : return @"End";
+		case UIKeyboardHIDUsageKeyboardPageDown      : return @"Prior";
+		case UIKeyboardHIDUsageKeyboardRightArrow    : return @"Right";
+		case UIKeyboardHIDUsageKeyboardLeftArrow     : return @"Left";
+		case UIKeyboardHIDUsageKeyboardDownArrow     : return @"Down";
+		case UIKeyboardHIDUsageKeyboardUpArrow       : return @"Up";
+
+		// keypad / numpad
+		case UIKeyboardHIDUsageKeypadNumLock         : return @"Clear";
+		case UIKeyboardHIDUsageKeypadEnter           : return @"Return";
+
+		// additional keys
+		case UIKeyboardHIDUsageKeyboardF13           : return @"F13";
+		case UIKeyboardHIDUsageKeyboardF14           : return @"F14";
+		case UIKeyboardHIDUsageKeyboardF15           : return @"F15";
+		case UIKeyboardHIDUsageKeyboardF16           : return @"F16";
+		case UIKeyboardHIDUsageKeyboardF17           : return @"F17";
+		case UIKeyboardHIDUsageKeyboardF18           : return @"F18";
+		case UIKeyboardHIDUsageKeyboardF19           : return @"F19";
+		case UIKeyboardHIDUsageKeyboardF20           : return @"F20";
+
+		// modifiers
+		case UIKeyboardHIDUsageKeyboardLeftControl   : return @"Control_L";
+		case UIKeyboardHIDUsageKeyboardLeftShift     : return @"Shift_L";
+		case UIKeyboardHIDUsageKeyboardLeftAlt       : return @"Alt_L";
+		case UIKeyboardHIDUsageKeyboardLeftGUI       : return @"Meta_L";
+		case UIKeyboardHIDUsageKeyboardRightControl  : return @"Control_R";
+		case UIKeyboardHIDUsageKeyboardRightShift    : return @"Shift_R";
+		case UIKeyboardHIDUsageKeyboardRightAlt      : return @"Alt_R";
+		case UIKeyboardHIDUsageKeyboardRightGUI      : return @"Meta_R";
+
+		// pass the rest through, ie. printable "a", "A", etc
+		// non-printable characters will already be an empty string
+		default: return press.key.characters;
+	}
 }
 
 @end

@@ -329,6 +329,10 @@
 	[self.sceneManager sendKeyUp:key];
 }
 
+- (void)keyName:(NSString *)name pressed:(BOOL)pressed {
+	[self.sceneManager sendKeyName:name pressed:pressed];
+}
+
 #pragma mark UISplitViewControllerDelegate
 
 // toggle between hidden or overlay only

@@ -1,14 +1,13 @@
-#N canvas 505 114 416 234 10;
-#X obj 42 45 cnv 15 340 60 empty empty [key] 20 12 0 14 -233017 -66577
-0;
-#X floatatom 66 76 5 0 0 1 - key -;
-#X text 201 48 try a usb/bluetooth keyboard;
-#X obj 125 69 bng 30 250 50 0 empty q q 13 15 0 10 -262144 -1 -1;
-#X obj 167 69 bng 30 250 50 0 empty w w 13 15 0 10 -262144 -1 -1;
-#X obj 211 69 bng 30 250 50 0 empty e e 13 15 0 10 -262144 -1 -1;
-#X obj 254 69 bng 30 250 50 0 empty r r 13 15 0 10 -262144 -1 -1;
-#X obj 298 69 bng 30 250 50 0 empty t t 13 15 0 10 -262144 -1 -1;
-#X obj 343 69 bng 30 250 50 0 empty y y 13 15 0 10 -262144 -1 -1;
+#N canvas 362 270 416 234 10;
+#X obj 37 18 cnv 15 340 60 empty empty [key] 20 12 0 14 #e0e0e0 #404040 0;
+#X floatatom 61 49 5 0 0 1 - key - 0;
+#X text 196 21 try a usb/bluetooth keyboard;
+#X obj 120 42 bng 30 250 50 0 empty q q 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 162 42 bng 30 250 50 0 empty w w 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 206 42 bng 30 250 50 0 empty e e 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 249 42 bng 30 250 50 0 empty r r 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 293 42 bng 30 250 50 0 empty t t 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 338 42 bng 30 250 50 0 empty y y 13 15 0 10 #fcfcfc #000000 #000000;
 #N canvas 814 111 303 150 key 0;
 #X obj 21 25 key;
 #X obj 72 55 route 113 119 101 114 116 121;
@@ -28,23 +27,15 @@
 #X connect 1 4 6 0;
 #X connect 1 5 7 0;
 #X connect 9 0 1 0;
-#X restore 110 49 pd key;
-#X obj 42 124 cnv 15 340 60 empty empty [keyup] 20 12 0 14 -233017
--66577 0;
-#X obj 125 149 bng 30 250 50 0 empty qu q 13 15 0 10 -262144 -1 -1
-;
-#X obj 167 149 bng 30 250 50 0 empty wu w 13 15 0 10 -262144 -1 -1
-;
-#X obj 211 149 bng 30 250 50 0 empty eu e 13 15 0 10 -262144 -1 -1
-;
-#X obj 254 149 bng 30 250 50 0 empty ru r 13 15 0 10 -262144 -1 -1
-;
-#X obj 298 149 bng 30 250 50 0 empty tu t 13 15 0 10 -262144 -1 -1
-;
-#X obj 343 149 bng 30 250 50 0 empty yu y 13 15 0 10 -262144 -1 -1
-;
-#X floatatom 67 155 5 0 0 1 - keyup -;
-#X text 201 128 keyup supported on iOS 13.4+;
+#X restore 105 22 pd key;
+#X obj 37 88 cnv 15 340 60 empty empty [keyup] 20 12 0 14 #e0e0e0 #404040 0;
+#X obj 120 113 bng 30 250 50 0 empty qu q 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 162 113 bng 30 250 50 0 empty wu w 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 206 113 bng 30 250 50 0 empty eu e 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 249 113 bng 30 250 50 0 empty ru r 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 293 113 bng 30 250 50 0 empty tu t 13 15 0 10 #fcfcfc #000000 #000000;
+#X obj 338 113 bng 30 250 50 0 empty yu y 13 15 0 10 #fcfcfc #000000 #000000;
+#X floatatom 62 119 5 0 0 1 - keyup - 0;
 #N canvas 814 111 303 150 keyup 0;
 #X obj 72 55 route 113 119 101 114 116 121;
 #X obj 72 25 r keyup;
@@ -64,4 +55,16 @@
 #X connect 0 5 7 0;
 #X connect 1 0 0 0;
 #X connect 9 0 8 0;
-#X restore 124 128 pd keyup;
+#X restore 119 92 pd keyup;
+#X obj 37 158 cnv 15 340 60 empty empty [keyname] 20 12 0 14 #e0e0e0 #404040 0;
+#X floatatom 62 189 5 0 0 1 - keyname-value - 0;
+#N canvas 814 111 303 150 keyname 0;
+#X obj 21 25 keyname;
+#X obj 21 89 s keynane-value;
+#X obj 60 56 s keyname-symbol;
+#X connect 0 0 1 0;
+#X connect 0 1 2 0;
+#X restore 305 188 pd keyname;
+#X symbolatom 120 189 15 0 0 0 - keyname-symbol - 0;
+#X text 231 92 supported on iOS 13.4+;
+#X text 231 162 supported on iOS 13.4+;

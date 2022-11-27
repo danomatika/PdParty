@@ -63,4 +63,7 @@
 /// pd keyup event
 - (void)sendKeyUp:(int)key;
 
+/// pd keyname event
+- (void)sendKeyName:(NSString *)name pressed:(BOOL)pressed;
+
 @end

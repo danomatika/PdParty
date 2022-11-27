@@ -25,6 +25,7 @@
 #define OSC_SHAKE_ADDR       @"/pdparty/shake"
 #define OSC_KEY_ADDR         @"/pdparty/key"
 #define OSC_KEYUP_ADDR       @"/pdparty/keyup"
+#define OSC_KEYNAME_ADDR     @"/pdparty/keyname"
 #define OSC_PRINT_ADDR       @"/pdparty/print"
 
 @interface Osc : NSObject
@@ -43,7 +44,7 @@
 @property (assign, nonatomic) BOOL sensorSendingEnabled; ///< accel, gyro, location, compass, magnet
 @property (assign, nonatomic) BOOL controllerSendingEnabled; ///< send game controller events?
 @property (assign, nonatomic) BOOL shakeSendingEnabled; ///< send shake events?
-@property (assign, nonatomic) BOOL keySendingEnabled; ///< send [key] events?
+@property (assign, nonatomic) BOOL keySendingEnabled; ///< send key events?
 @property (assign, nonatomic) BOOL printSendingEnabled; ///< send pd prints?
 
 /// returns YES if listening was started or the server was already listening,
@@ -131,6 +132,9 @@
 
 /// pd keyup event
 - (void)sendKeyUp:(int)key;
+
+/// pd keyname event
+- (void)sendKeyName:(NSString *)name pressed:(BOOL)pressed;
 
 /// pd print event
 - (void)sendPrint:(NSString *)print;

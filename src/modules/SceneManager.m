@@ -271,6 +271,13 @@
 	[self.osc sendKeyUp:key];
 }
 
+- (void)sendKeyName:(NSString *)name pressed:(BOOL)pressed {
+	if(self.scene.requiresKeys) {
+		[PureData sendKeyName:name pressed:(BOOL)pressed];
+	}
+	[self.osc sendKeyName:name pressed:(BOOL)pressed];
+}
+
 #pragma mark Shake Notifications
 
 - (void)shakeEndedNotification:(NSNotification *)notification {

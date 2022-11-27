@@ -314,6 +314,10 @@
 	[PdBase sendFloat:key toReceiver:PD_KEYUP_R];
 }
 
++ (void)sendKeyName:(NSString *)name pressed:(BOOL)pressed {
+	[PdBase sendList:@[@((int)pressed), name] toReceiver:PD_KEYNAME_R];
+}
+
 + (void)sendPrint:(NSString *)print {
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	DDLogInfo(@"Pd: %@", print);
