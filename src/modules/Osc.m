@@ -188,6 +188,17 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
+- (void)sendStylus:(NSString *)eventType forIndex:(int)index
+        atPosition:(CGPoint)position withArguments:(NSArray *)arguments {
+	if(!self.isListening || !self.touchSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "siffffff", [eventType UTF8String], index, position.x, position.y,
+		[arguments[0] floatValue], [arguments[1] floatValue],
+		[arguments[2] floatValue], [arguments[3] floatValue]);
+	lo_send_message(sendAddress, [OSC_STYLUS_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.sensorSendingEnabled) return;
 	lo_message m = lo_message_new();

@@ -1,21 +1,18 @@
-#N canvas 259 23 868 377 10;
+#N canvas 259 25 868 377 10;
 #X obj 328 35 r #accelerate;
 #X obj 328 62 unpack f f f;
-#X obj 46 108 expr if($f1 > 0 && $f2 > 0 \, 2 - $f1 \, if($f1 < 0 &&
-$f2 > 0 \, -2 - $f1 \, $f1));
-#X floatatom 46 189 5 0 0 0 tiltx - -, f 5;
+#X obj 46 108 expr if($f1 > 0 && $f2 > 0 \, 2 - $f1 \, if($f1 < 0 && $f2 > 0 \, -2 - $f1 \, $f1));
+#X floatatom 46 189 5 0 0 0 tiltx - - 0;
 #X obj 46 153 clip -1 1;
-#X obj 456 109 expr if($f1 > 0 && $f2 > 0 \, 2 - $f1 \, if($f1 < 0
-&& $f2 > 0 \, -2 - $f1 \, $f1));
+#X obj 456 109 expr if($f1 > 0 && $f2 > 0 \, 2 - $f1 \, if($f1 < 0 && $f2 > 0 \, -2 - $f1 \, $f1));
 #X obj 456 153 clip -1 1;
-#X floatatom 456 184 5 0 0 0 tilty - -, f 5;
-#X obj 49 217 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 8822 1;
-#X obj 456 211 vsl 15 128 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2619 1;
-#X text 428 34 calculating tilt from accelerometer x y z values;
+#X floatatom 456 184 5 0 0 0 tilty - - 0;
+#X obj 49 217 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 456 211 vsl 15 128 -1 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc #000000 #000000 0 1;
 #X text 86 189 -1 to 1;
 #X text 505 185 -1 to 1;
+#X text 428 34 calculating tilt from raw accelerometer x y z values;
+#X text 458 54 also try #motion events which calc this for you;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 1 1 5 0;

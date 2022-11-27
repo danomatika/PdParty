@@ -214,6 +214,14 @@
 	         toReceiver:RJ_TOUCH_R];
 }
 
++ (void)sendStylus:(NSString *)eventType forIndex:(int)index
+        atPosition:(CGPoint)position withArguments:(NSArray *)arguments {
+	[PdBase sendMessage:eventType
+	      withArguments:@[@(index+1), @(position.x), @(position.y),
+	                      arguments[0], arguments[1], arguments[2], arguments[3]]
+	         toReceiver:PARTY_STYLUS_R];
+}
+
 + (void)sendAccel:(float)x y:(float)y z:(float)z {
 	[PdBase sendList:@[@(x), @(y), @(z)] toReceiver:RJ_ACCELERATE_R];
 }

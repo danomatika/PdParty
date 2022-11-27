@@ -19,7 +19,7 @@
 @interface SceneManager () {
 	BOOL hasReshaped; ///< has the gui been reshaped?
 }
-@property (strong, readwrite, nonatomic) NSString* currentPath;
+@property (strong, readwrite, nonatomic) NSString *currentPath;
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
 @end
 
@@ -218,6 +218,19 @@
         withIndex:(int)index atPosition:(CGPoint)position {
 	if(self.sensors.extendedTouchEnabled) {
 		float force = touch.force / touch.maximumPossibleForce;
+		if(@available(iOS 9.1, *)) {
+			if(touch.type == UITouchTypePencil) { // stylus
+				float azimuth = [touch azimuthAngleInView:nil]; // docs note this is expensive
+				if(self.scene.requiresTouch) {
+					[PureData sendStylus:eventType forIndex:index atPosition:position
+					       withArguments:@[@(touch.majorRadius), @(force), @(azimuth), @(touch.altitudeAngle)]];
+				}
+				[self.osc sendStylus:eventType forIndex:index atPosition:position
+				       withArguments:@[@(touch.majorRadius), @(force), @(azimuth), @(touch.altitudeAngle)]];
+				return;
+			}
+		}
+		// extended touch
 		if(self.scene.requiresTouch) {
 			[PureData sendExtendedTouch:eventType forIndex:index atPosition:position
 			                 withRadius:touch.majorRadius andForce:force];
@@ -225,7 +238,7 @@
 		[self.osc sendExtendedTouch:eventType forIndex:index atPosition:position
 		                 withRadius:touch.majorRadius andForce:force];
 	}
-	else {
+	else { // touch
 		if(self.scene.requiresTouch) {
 			[PureData sendTouch:eventType forIndex:index atPosition:position];
 		}

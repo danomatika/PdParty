@@ -20,7 +20,7 @@
 
 @property (strong, nonatomic) Gui *gui; ///< pd gui widgets
 @property (strong, nonatomic) Scene* scene; ///< current scene
-@property (strong, readonly, nonatomic) NSString* currentPath; ///< the current given path
+@property (strong, readonly, nonatomic) NSString *currentPath; ///< the current given path
 
 @property (weak, nonatomic) PureData *pureData;
 @property (weak, nonatomic) Osc *osc;

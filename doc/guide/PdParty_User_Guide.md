@@ -480,18 +480,27 @@ Also, thanks to Joe White for providing a copy of the RjDj _get\_sensors.pd_ pat
 
 PdParty returns the following events:
 
-* **[r \#touch] _eventType_ _id_ _x_ _y_**: multitouch event (default)
+* **[r \#touch] _eventType_ _id_ _x_ _y_**: touch event (default)
   - _eventType_: symbol "down", "xy" (move), or "up"
   - _id_: persistent touch id
   - _x_: x position, normalized 0-1 except for RjDj scenes which use 0-320
   - _y_: y position, normalized 0-1 except for RjDj scenes which use 0-320
-* **[r \#touch] _eventType_ _id_ _x_ _y_ _radius_ _force_**: extended multitouch event
+* **[r \#touch] _eventType_ _id_ _x_ _y_ _radius_ _force_**: extended touch event
   - _eventType_: symbol "down", "xy" (move), or "up"
   - _id_: persistent touch id
-  - _x_: x position, normalized 0-1 except
-  - _y_: y position, normalized 0-1 except
+  - _x_: x position, normalized 0-1
+  - _y_: y position, normalized 0-1
   - _radius_: radius in points (pixels)
   - _force_: force into screen, normalized 0-1
+* **[r \#stylus] _eventType_ _id_ _x_ _y_ _radius_ _force_ _azimuth_ _elevation_**: extended touch stylus event
+  - _eventType_: symbol "down", "xy" (move), or "up"
+  - _id_: persistent touch id
+  - _x_: x position, normalized 0-1
+  - _y_: y position, normalized 0-1
+  - _radius_: radius in points (pixels)
+  - _force_: force into screen, normalized 0-1
+  - _azimuth_: clockwise rotation angle in radians of cap end around tip -> 0 screen +X axis, 90 -Y, 180 -X, 270 +Y
+  - _elevation_: elevation angle in radians above screen -> 0 parallel (down), 90 perpendicular (up)
 * **[r \#accelerate] _x_ _y_ _z_**: 3 axis accelerometer values in Gs
 * **[r \#gyro] _x_ _y_ _z_**: 3 axis gyroscope rotation rate in radians/s
 * **[r \#loc] _lat_ _lon_ _accuracy_**: GPS location
@@ -518,18 +527,24 @@ PdParty returns the following events:
 
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
 
-#### Touch
+#### Touch and Stylus
 
-For compatibility, multitouch `#touch` events conform to the original RjDj format by default: `eventType id x y`.
+For compatibility, multi-touch `#touch` events conform to the original RjDj format by default: `eventType id x y`.
 
-As of PdParty 1.3.0, extended multitouch information `eventType id x y radius force` can be enabled sending a message to the internal #pdparty receiver:
+As of PdParty 1.3.0, extended ouch information `eventType id x y radius force` can be enabled sending a message to the internal #pdparty receiver:
 
-*** \#pdparty touch extended _value_**: extended multitouch control
+*** \#pdparty touch extended _value_**: extended touch control
   - _value_: boolean 0-1 to enable/disable extended info
 
 The extended information consists of:
 * radius: touch radius in points (pixels)
 * force: touch force into screen, normalized 0-1
+
+Additionally, enabling extended touch also enables separate `#stylus` events for the Apple Pencil (or similar devices supported by the Apple APIs) which include:
+* azimuth: rotation angle in degrees of cap end around tip
+* elevation: elevation angle in degrees above screen
+
+_Note: Extended touch events and stylus events are separate: finger events go to `#touch` and stylus events go to `#stylus`._
 
 #### Accelerate, Gyro, Magnet, & Motion Control
 

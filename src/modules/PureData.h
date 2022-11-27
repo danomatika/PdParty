@@ -35,6 +35,7 @@
 #define RJ_TOUCH_XY        @"xy"
 
 // PdParty event receivers
+#define PARTY_STYLUS_R     @"#stylus"
 #define PARTY_MAGNET_R     @"#magnet"
 #define PARTY_MOTION_R     @"#motion"
 #define PARTY_SPEED_R      @"#speed"
@@ -162,7 +163,11 @@
 /// pdparty extended touch event
 + (void)sendExtendedTouch:(NSString *)eventType forIndex:(int)index
                atPosition:(CGPoint)position
-               withRadius:(float)radius andForce:(float)force;;
+               withRadius:(float)radius andForce:(float)force;
+
+/// pdparty stylus event, arguments: [radius float azimuth elevation]
++ (void)sendStylus:(NSString *)eventType forIndex:(int)index
+        atPosition:(CGPoint)position withArguments:(NSArray *)arguments;
 
 /// rj accel event
 + (void)sendAccel:(float)x y:(float)y z:(float)z;

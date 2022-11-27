@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #define OSC_TOUCH_ADDR       @"/pdparty/touch"
+#define OSC_STYLUS_ADDR      @"/pdparty/stylus"
 #define OSC_ACCEL_ADDR       @"/pdparty/accelerate"
 #define OSC_GYRO_ADDR        @"/pdparty/gyro"
 #define OSC_LOCATION_ADDR    @"/pdparty/loc"
@@ -69,6 +70,10 @@
 - (void)sendExtendedTouch:(NSString *)eventType forIndex:(int)index
                atPosition:(CGPoint)position
                withRadius:(float)radius andForce:(float)force;
+
+/// pdparty stylus event, arguments: [radius float azimuth elevation]
+- (void)sendStylus:(NSString *)eventType forIndex:(int)index
+        atPosition:(CGPoint)position withArguments:(NSArray *)arguments;
 
 /// rj accel event
 - (void)sendAccel:(float)x y:(float)y z:(float)z;
