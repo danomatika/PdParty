@@ -12,7 +12,7 @@
 
 #import "Log.h"
 
-#define DEBUG_KEYGRABBER
+//#define DEBUG_KEYGRABBER
 
 // add PressGrabber when compiling with iOS 13.4+ SDK
 #ifdef __IPHONE_13_4
