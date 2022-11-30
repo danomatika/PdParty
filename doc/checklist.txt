@@ -12,6 +12,10 @@ Update CHANGES.txt from commit log (if not up to date). Helpful:
     -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
     --abbrev-commit --
 
+and
+
+    git log  --oneline
+
 Update user guide with any new documentation.
 
 Add any new icon or background sizes for new devices.
