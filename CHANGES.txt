@@ -18,7 +18,7 @@ beta6
 
 * viewport
   - added support for droidparty named ViewPort canvas, set it's size and pos to
-  render only a subsection of the overall patch (requested by Antoine Rousseau)
+    render only a subsection of overall patch (requested by Antoine Rousseau)
   - added ViewPort pdparty test scene
 
 * touch
