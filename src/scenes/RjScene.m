@@ -14,7 +14,7 @@
 #import "RjImage.h"
 #import "RjText.h"
 
-// TODO: decide on this
+// TODO: decide on this, leaving for now
 #define IPAD_ALLOW_LANDSCAPE
 
 @interface RjScene () {
@@ -253,6 +253,11 @@
 
 - (BOOL)requiresKeys {
 	return NO;
+}
+
+// original RjDj was portrait only
+- (BOOL)requiresAccelOrientation {
+	return YES;
 }
 
 - (BOOL)requiresOnscreenControls {

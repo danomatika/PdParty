@@ -60,6 +60,9 @@ typedef enum {
 /// preferred orientations, all by default
 @property (assign, nonatomic) UIInterfaceOrientationMask preferredOrientations;
 
+/// dpes the scene require accelerometer orientation to match patch view rotation? (default NO)
+@property (readonly, nonatomic) BOOL requiresAccelOrientation;
+
 /// does the scene require controls? (default YES)
 @property (readonly, nonatomic) BOOL requiresControls;
 

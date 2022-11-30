@@ -349,8 +349,9 @@ PdParty also supports running "scenes" which are basically folders with a specif
     + _description_
     + _name_
     + _category_
-  - requires #touch, #accelerate & #gyro events
+  - requires \#touch, \#accelerate & \#gyro events
   - \#touch positions are normalized from 0-320
+  - \#accelerate orientation is rotated to match interface
   - optional sensors accessed by abstractions: [rj\_loc], [rj\_compass], & [rj\_time]
   - does not support game controllers
   - fixed 22050 samplerate
@@ -555,9 +556,9 @@ _Note: Extended touch events and stylus events are separate: finger events go to
 
 By default, touch events over widgets are not sent to `#touch`.
 
-As of PdParty 1.3.0, touch events *everywhere* can be enabled to send when over any widget. This behavior is similar to `[cyclone/mousestate]` with mode 2 (coordinates within patch). Touches over canvas and comment widgets are always forwarded as they are largely on the patch background.
+As of PdParty 1.3.0, touch events *everywhere* can be enabled to send when over any widget via `#pdparty touch everywhere 1`. This behavior is similar to `[cyclone/mousestate]` with mode 2 (coordinates within patch). Touches over canvas and comment widgets are always forwarded as they are largely on the patch background.
 
-#### Accelerate, Gyro, Magnet, & Motion Control
+#### Accelerate, Gyro, Magnet, & Motion
 
 <p align="center">
   <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_events_scene_iPhone.png"/><br/>
@@ -579,10 +580,23 @@ Reading accelerometer, gyroscope, and/or magnetometer events will affect battery
     + normal: 30 Hz, normal movement (default)
     + fast: 60 Hz, suitable for gaming
     + fastest: 100 Hz, maximum firehose
+* **\#pdparty accelerate orientation _value_**: rotate accelerometer to match interface orientation?
+  - _value_: boolean 0-1 to enable/disable accelerometer orientation
 
 _Note: \#touch & \#accelerate events are automatically started for RjDj scenes for backward compatibility._
 
 The accelerometer, gyroscope, and magnetometer values are instantaneous raw values.
+
+##### Orientation
+
+Sensor orientation is relative to the device in portrait:
+* x axis: -left / +right
+* y axis: -bottom / +right
+* z axis: -back / +front
+
+...except for RjDj scenes where the accelerometer is rotated to match the interface orientation. As of PdParty 1.3.0, acceleromtation rotation is no longer the default for all scene types. Re-enable this behavior by sending `#pdparty accelerate orientation 1`.
+
+##### Motion
 
 Motion events are pre-processed orientation values using the accelerometer, gyroscope, and magnetometer relative to a default reference frame:
 * attitude: current orientation in space (pitch, roll, yaw)

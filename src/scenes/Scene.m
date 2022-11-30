@@ -113,6 +113,10 @@
 	return YES;
 }
 
+- (BOOL)requiresAccelOrientation {
+	return NO;
+}
+
 - (BOOL)requiresControls {
 	return YES;
 }

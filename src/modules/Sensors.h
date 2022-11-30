@@ -18,13 +18,14 @@
 
 @property (weak, nonatomic) Osc *osc; ///< pointer to osc instance
 
-/// accel orientation based on this
+/// set location (and optionally accel) orientation relative to the interface
+/// default portrait, ex. patch top +y axis regardless of rotation
 @property (assign, nonatomic) UIInterfaceOrientation currentOrientation;
 
 /// reset sensors back to default values
 - (void)reset;
 
-#pragma mark ExtendedTouch
+#pragma mark Extended Touch
 
 /// enable extended touch?
 @property (assign, nonatomic) BOOL extendedTouchEnabled;
@@ -36,6 +37,10 @@
 
 /// accel update speed: "slow", "normal", "fast", or "fastest" (default: "normal")
 @property (nonatomic) NSString *accelSpeed;
+
+/// set accel orientation relative to the interface? (default: NO)
+/// ex. patch top +y axis regardless of rotation
+@property (assign, nonatomic) BOOL accelOrientation;
 
 #pragma mark Gyro
 

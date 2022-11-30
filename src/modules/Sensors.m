@@ -42,7 +42,11 @@
 		// init motion manager
 		motionManager = [[CMMotionManager alloc] init];
 		motionQueue = [[NSOperationQueue alloc] init];
-		
+
+		// init location manager
+		locationManager = [[CLLocationManager alloc] init];
+		locationManager.delegate = self;
+
 		// current UI orientation for accel
 		if(Util.isDeviceATablet) { // iPad can start rotated
 			self.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
@@ -50,10 +54,6 @@
 		else { // do not start rotated on iPhone
 			self.currentOrientation = UIInterfaceOrientationPortrait;
 		}
-		
-		// init location manager
-		locationManager = [[CLLocationManager alloc] init];
-		locationManager.delegate = self;
 	
 		[self reset];
 	}
@@ -62,27 +62,12 @@
 
 - (void)setCurrentOrientation:(UIInterfaceOrientation)currentOrientation {
 	_currentOrientation = currentOrientation;
-	// TODO: currently doesn't handle faceup / facedown UIDeviceOrientations?
-	switch(currentOrientation) {
-		case UIInterfaceOrientationPortrait:
-			locationManager.headingOrientation = CLDeviceOrientationPortrait;
-			break;
-		case UIInterfaceOrientationPortraitUpsideDown:
-			locationManager.headingOrientation = CLDeviceOrientationPortraitUpsideDown;
-			break;
-		case UIInterfaceOrientationLandscapeLeft:
-			locationManager.headingOrientation = CLDeviceOrientationLandscapeLeft;
-			break;
-		case UIInterfaceOrientationLandscapeRight:
-			locationManager.headingOrientation = CLDeviceOrientationLandscapeRight;
-			break;
-		default:
-			break;
-	}
+	[self updateLocationOrientation];
 }
 
 - (void)reset {
 	self.accelSpeed = @"normal";
+	self.accelOrientation = NO;
 	self.gyroAutoUpdates = YES;
 	self.gyroSpeed = @"normal";
 	self.locationAutoUpdates = YES;
@@ -96,7 +81,7 @@
 	self.motionAutoUpdates = YES;
 }
 
-#pragma mark ExtendedTouch
+#pragma mark Extended Touch
 
 - (void)setExtendedTouchEnabled:(BOOL)extendedTouchEnabled {
 	if(self.extendedTouchEnabled == extendedTouchEnabled) {
@@ -164,7 +149,7 @@
 	if(gyroEnabled) { // start
 		if([motionManager isGyroAvailable]) {
 			if(self.gyroAutoUpdates) {
-				[motionManager startGyroUpdatesToQueue:motionQueue//[NSOperationQueue mainQueue]
+				[motionManager startGyroUpdatesToQueue:motionQueue
 					withHandler:^(CMGyroData *data, NSError *error) {
 					[self sendGyro:data];
 				}];
@@ -573,50 +558,23 @@
 
 #pragma mark Private
 
-// orient accel data to current orientation
+// reorient accel data to current orientation
 - (void)sendAccel:(CMAccelerometerData *)accel {
 	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"accel %f %f %f",
 			accel.acceleration.x, accel.acceleration.y, accel.acceleration.z);
 	#endif
-	switch(self.currentOrientation) {
-		case UIInterfaceOrientationPortrait:
-			[PureData sendAccel:accel.acceleration.x
-			                  y:accel.acceleration.y
-			                  z:accel.acceleration.z];
-			[self.osc sendAccel:accel.acceleration.x
-			                  y:accel.acceleration.y
-			                  z:accel.acceleration.z];
-			break;
-		case UIInterfaceOrientationLandscapeRight:
-			[PureData sendAccel:-accel.acceleration.y
-			                  y:accel.acceleration.x
-			                  z:accel.acceleration.z];
-			[self.osc sendAccel:-accel.acceleration.y
-			                  y:accel.acceleration.x
-			                  z:accel.acceleration.z];
-			break;
-		case UIInterfaceOrientationPortraitUpsideDown:
-			[PureData sendAccel:-accel.acceleration.x
-			                  y:-accel.acceleration.y
-			                  z:accel.acceleration.z];
-			[self.osc sendAccel:-accel.acceleration.x
-			                  y:-accel.acceleration.y
-			                  z:accel.acceleration.z];
-			break;
-		case UIInterfaceOrientationLandscapeLeft:
-			[PureData sendAccel:accel.acceleration.y
-			                  y:-accel.acceleration.x
-			                  z:accel.acceleration.z];
-			[self.osc sendAccel:accel.acceleration.y
-			                  y:-accel.acceleration.x
-			                  z:accel.acceleration.z];
-			break;
-		case UIInterfaceOrientationUnknown:
-			break;
+	float x = accel.acceleration.x;
+	float y = accel.acceleration.y;
+	float z = accel.acceleration.z;
+	if(self.accelOrientation) {
+		[self reorient:&x y:&y z:&z];
 	}
+	[PureData sendAccel:x y:y z:z];
+	[self.osc sendAccel:x y:y z:z];
 }
 
+// reorient gryo data to current orientation
 - (void)sendGyro:(CMGyroData *)gyro {
 	#ifdef DEBUG_SENSORS
 		DDLogVerbose(@"gyro %f %f %f", gyro.rotationRate.x, gyro.rotationRate.y, gyro.rotationRate.z);
@@ -657,6 +615,7 @@
 	[self.osc sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
 }
 
+/// oriented to reference frame already
 - (void)sendMotion:(CMDeviceMotion *)motion {
 
 	#ifdef DEBUG_SENSORS
@@ -684,8 +643,51 @@
 		DDLogVerbose(@"motion user %f %f %f",
 			motion.userAcceleration.x, motion.userAcceleration.y, motion.userAcceleration.z);
 	#endif
-	[PureData sendMotionUser:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
-	[self.osc sendMotionUser:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
+	[PureData sendMotionUser:motion.userAcceleration.x y:motion.userAcceleration.y z:motion.userAcceleration.z];
+	[self.osc sendMotionUser:motion.userAcceleration.x y:motion.userAcceleration.y z:motion.userAcceleration.z];
+}
+
+/// update location orientation based on current orientation
+- (void)updateLocationOrientation {
+	// faceup / facedown are ignored by location manager
+	switch(self.currentOrientation) {
+		case UIInterfaceOrientationPortrait:
+			locationManager.headingOrientation = CLDeviceOrientationPortrait;
+			break;
+		case UIInterfaceOrientationPortraitUpsideDown:
+			locationManager.headingOrientation = CLDeviceOrientationPortraitUpsideDown;
+			break;
+		case UIInterfaceOrientationLandscapeLeft:
+			locationManager.headingOrientation = CLDeviceOrientationLandscapeLeft;
+			break;
+		case UIInterfaceOrientationLandscapeRight:
+			locationManager.headingOrientation = CLDeviceOrientationLandscapeRight;
+			break;
+		default:
+			break;
+	}
+}
+
+/// reorient point to current orientation
+/// nominal orientation is portrait: x - left/right, y - top/bottom
+- (void)reorient:(float *)x y:(float *)y z:(float *)z {
+	switch(self.currentOrientation) {
+		case UIInterfaceOrientationPortrait:
+		case UIInterfaceOrientationUnknown:
+			break;
+		case UIInterfaceOrientationLandscapeRight:
+			(*x) = -(*y);
+			(*y) = (*x);
+			break;
+		case UIInterfaceOrientationPortraitUpsideDown:
+			(*x) = -(*x);
+			(*y) = -(*y);
+			break;
+		case UIInterfaceOrientationLandscapeLeft:
+			(*x) = (*y);
+			(*y) = -(*x);
+			break;
+	}
 }
 
 @end

@@ -352,6 +352,7 @@
 - (void)startRequiredSensors {
 	if([self.scene requiresSensor:SensorTypeAccel]) {
 		self.sensors.accelEnabled = YES;
+		self.sensors.accelOrientation = self.scene.requiresAccelOrientation;
 	}
 	if([self.scene requiresSensor:SensorTypeGyro]) {
 		self.sensors.gyroAutoUpdates = YES;

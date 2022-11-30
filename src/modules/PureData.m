@@ -445,6 +445,9 @@
 					self.sensors.accelSpeed = arguments[1];
 				}
 			}
+			else if([arguments[0] isEqualToString:@"orientation"] && [arguments isStringAt:1]) {
+				self.sensors.accelOrientation = arguments[1];
+			}
 		}
 		
 		// gyro control
