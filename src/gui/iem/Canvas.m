@@ -14,6 +14,8 @@
 #include "z_libpd.h"
 #include "g_all_guis.h" // iem gui
 
+#include "PatchView.h"
+
 @implementation Canvas
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
@@ -57,8 +59,23 @@
 	[self reshapeLabel];
 }
 
-- (void)setNeedsDisplay {
-	[super setNeedsDisplay];
+#pragma mark Touch Forwarding
+
+// always forward touch events since cnv objects are often used for backgrounds
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	[self.superview touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	[self.superview touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	[self.superview touchesEnded:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	[self.superview touchesCancelled:touches withEvent:event];
 }
 
 #pragma mark Overridden Getters / Setters

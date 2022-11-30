@@ -18,9 +18,6 @@
 /// DetailViewController for patches/scenes
 @interface PatchViewController : UIViewController <UISplitViewControllerDelegate, KeyGrabberDelegate>
 
-/// force a rotation of the view in degrees
-@property (assign, nonatomic) int rotation;
-
 /// onscreen/popup scene controls
 @property (strong, nonatomic) SceneControlsView *controlsView;
 

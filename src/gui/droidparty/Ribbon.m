@@ -88,6 +88,7 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesBegan:touches withEvent:event];
 	for(UITouch *touch in touches) {
 		CGPoint pos = [touch locationInView:self];
 		float controlWidth = MAX(5 * self.gui.scaleWidth, 10); // ensure grabbable control
@@ -103,6 +104,7 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesMoved:touches withEvent:event];
 	BOOL changed = NO;
 	for(UITouch *touch in touches) {
 		CGPoint pos = [touch locationInView:self];
@@ -128,6 +130,7 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesEnded:touches withEvent:event];
 	for(UITouch *touch in touches) {
 		if(touch == leftTouch) {
 			leftTouch = nil;
@@ -139,6 +142,7 @@
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesCancelled:touches withEvent:event];
 	for(UITouch *touch in touches) {
 		if(touch == leftTouch) {
 			leftTouch = nil;

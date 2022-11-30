@@ -44,6 +44,9 @@ typedef enum {
 /// widget array
 @property (strong, nonatomic) NSMutableArray *widgets;
 
+/// forward touch events from widgets to their superview? (default YES)
+@property (assign, nonatomic) BOOL forwardTouches;
+
 #pragma mark Patch Properties
 
 /// current view size, used to determine screen scaling

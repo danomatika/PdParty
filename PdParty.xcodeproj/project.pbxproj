@@ -143,6 +143,7 @@
 		30FAB41A17C50DEE00ED10BC /* RecordingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FAB41917C50DEE00ED10BC /* RecordingScene.m */; };
 		7E3FBB3E292C49A900F00CC0 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FBB3D292C49A900F00CC0 /* NavigationController.m */; };
 		7E3FBB41292C559600F00CC0 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FBB40292C559600F00CC0 /* SplitViewController.m */; };
+		7EC666ED2936D29B00F19553 /* PatchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC666EC2936D29B00F19553 /* PatchView.m */; };
 		7ED022E32879218D00069FFD /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED022E12879218D00069FFD /* List.m */; };
 		7EF040DB284D147200906906 /* liblo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA5A3D0284A9785009585C9 /* liblo.a */; };
 /* End PBXBuildFile section */
@@ -437,6 +438,8 @@
 		7EB18881281D78790099A401 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
 		7EB1888A281D79F40099A401 /* DDContextFilterLogFormatter+Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDContextFilterLogFormatter+Deprecated.h"; sourceTree = "<group>"; };
 		7EC666E72933FFAD00F19553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		7EC666EB2936D29B00F19553 /* PatchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatchView.h; sourceTree = "<group>"; };
+		7EC666EC2936D29B00F19553 /* PatchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatchView.m; sourceTree = "<group>"; };
 		7ED022E12879218D00069FFD /* List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
 		7ED022E22879218D00069FFD /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -681,6 +684,8 @@
 				30A319EA16B61FF700C7729B /* Gui.m */,
 				3028626F1C4325B000A176C6 /* PartyGui.h */,
 				302862701C4325B000A176C6 /* PartyGui.m */,
+				7EC666EB2936D29B00F19553 /* PatchView.h */,
+				7EC666EC2936D29B00F19553 /* PatchView.m */,
 				30E89D1F16EC46CE005B40C4 /* iem */,
 				30E89D2E16EC46CE005B40C4 /* pd */,
 				30A319F116B61FF700C7729B /* Widget.h */,
@@ -1183,6 +1188,7 @@
 				3057729D1E88A08A007F9A92 /* GCDWebServerDataResponse.m in Sources */,
 				30BC823A23E7A01B00C3BDA2 /* DDASLLogCapture.m in Sources */,
 				3083BD4B17F2867400EDF587 /* MBProgressHUD.m in Sources */,
+				7EC666ED2936D29B00F19553 /* PatchView.m in Sources */,
 				7E3FBB41292C559600F00CC0 /* SplitViewController.m in Sources */,
 				30DBD04C1C196B0500ABE9E1 /* moog~.c in Sources */,
 				30A319F716B61FF700C7729B /* Widget.m in Sources */,

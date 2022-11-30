@@ -188,6 +188,7 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesBegan:touches withEvent:event];
 	if(touch0) {
 		return;
 	}
@@ -207,6 +208,7 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesMoved:touches withEvent:event];
 	if([touches containsObject:touch0]) {
 		CGPoint pos = [touch0 locationInView:self];
 		if(self.mouse > 0) { // vertical/horizontal
@@ -249,12 +251,14 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesEnded:touches withEvent:event];
 	if([touches containsObject:touch0]) {
 		touch0 = nil;
 	}
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesCancelled:touches withEvent:event];
 	if([touches containsObject:touch0]) {
 		touch0 = nil;
 	}

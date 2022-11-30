@@ -50,6 +50,7 @@
 	self = [super init];
     if(self) {
 		self.widgets = [NSMutableArray array];
+		self.forwardTouches = NO;
 		self.patchWidth = 1;
 		self.patchHeight = 1;
 		self.fontName = nil; // sets default font

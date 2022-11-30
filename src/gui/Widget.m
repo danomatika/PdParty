@@ -104,6 +104,32 @@
 	self.receiveName = nil; // make sure widget is removed from pd dispatcher
 }
 
+#pragma mark Touch Forwarding
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if(self.gui.forwardTouches) {
+		[self.superview touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if(self.gui.forwardTouches) {
+		[self.superview touchesMoved:touches withEvent:event];
+	}
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if(self.gui.forwardTouches) {
+		[self.superview touchesEnded:touches withEvent:event];
+	}
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if(self.gui.forwardTouches) {
+		[self.superview touchesCancelled:touches withEvent:event];
+	}
+}
+
 #pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {

@@ -527,16 +527,21 @@ PdParty returns the following events:
 
 _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, DroidParty scenes do not receive any events, PdParty & Patch scenes receive all events. This is mainly for explicit compatibility. Extended RjDj sensor access is made via the [rj\_loc] & [rj\_compass] abstractions._
 
-#### Touch and Stylus
+#### Touch
 
 For compatibility, multi-touch `#touch` events conform to the original RjDj format by default: `eventType id x y`.
 
-As of PdParty 1.3.0, extended ouch information `eventType id x y radius force` can be enabled sending a message to the internal #pdparty receiver:
+Additional controls over touch events are available by sending a message to the internal #pdparty receiver:
 
 *** \#pdparty touch extended _value_**: extended touch control
   - _value_: boolean 0-1 to enable/disable extended info
+*** \#pdparty touch everywhere _value_**: receive touch events over widgets?
+  - _value_: boolean 0-1 to enable/disable touch events over widgets
 
-The extended information consists of:
+##### Extended and Stylus
+
+As of PdParty 1.3.0, touch events can be sent with extended information, ex: `eventType id x y radius force`
+
 * radius: touch radius in points (pixels)
 * force: touch force into screen, normalized 0-1
 
@@ -545,6 +550,12 @@ Additionally, enabling extended touch also enables separate `#stylus` events for
 * elevation: elevation angle in degrees above screen
 
 _Note: Extended touch events and stylus events are separate: finger events go to `#touch` and stylus events go to `#stylus`._
+
+##### Everywhere
+
+By default, touch events over widgets are not sent to `#touch`.
+
+As of PdParty 1.3.0, touch events *everywhere* can be enabled to send when over any widget. This behavior is similar to `[cyclone/mousestate]` with mode 2 (coordinates within patch). Touches over canvas and comment widgets are always forwarded as they are largely on the patch background.
 
 #### Accelerate, Gyro, Magnet, & Motion Control
 

@@ -211,7 +211,8 @@
 #pragma mark Touches
 
 // from g_hslider.c & g_vslider.c
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesBegan:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	
@@ -248,6 +249,7 @@
 
 // from g_hslider.c & g_vslider.c
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesMoved:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	
@@ -319,10 +321,12 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesEnded:touches withEvent:event];
 	isOneFinger = YES;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesCancelled:touches withEvent:event];
 	isOneFinger = YES;
 }
 

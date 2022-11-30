@@ -180,12 +180,13 @@
 		self.scene = nil;
 		[self stopSensors];
 		self.controllers.enabled = NO;
+		self.gui.isRotated = NO;
+		self.gui.forwardTouches = NO;
 		hasReshaped = NO;
 	}
 }
 
 - (void)reshapeToParentSize:(CGSize)size {
-	self.gui.isRotated = self.isRotated;
 	self.gui.parentViewSize = size;
 	if(!self.scene) {
 		return;
@@ -285,7 +286,7 @@
 	[self sendShake];
 }
 
-#pragma mark PdSensorSupportDelegate
+#pragma mark PdSensorDelegate
 
 - (BOOL)supportsExtendedTouch {
 	return [self.scene supportsSensor:SensorTypeExtendedTouch];
@@ -315,6 +316,10 @@
 	return [self.scene supportsSensor:SensorTypeMotion];
 }
 
+- (void)touchEverywhere:(BOOL)everywhere {
+	self.gui.forwardTouches = everywhere;
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (void)setPureData:(PureData *)pureData {
@@ -331,6 +336,14 @@
 
 - (UIInterfaceOrientation)currentOrientation {
 	return self.sensors.currentOrientation;
+}
+
+- (void)setIsRotated:(BOOL)isRotated {
+	self.gui.isRotated = isRotated;
+}
+
+- (BOOL)isRotated {
+	return self.gui.isRotated;
 }
 
 #pragma mark Private

@@ -210,7 +210,8 @@
 
 #pragma mark Touches
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesBegan:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	touchPrevY = pos.y;
@@ -223,6 +224,7 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesMoved:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	int diff = touchPrevY - pos.y;
@@ -245,11 +247,13 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesEnded:touches withEvent:event];
 	touchPrevY = 0;
 	isOneFinger = YES;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesCancelled:touches withEvent:event];
 	touchPrevY = 0;
 	isOneFinger = YES;
 }

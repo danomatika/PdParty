@@ -16,7 +16,7 @@
 #import "Sensors.h"
 #import "Controllers.h"
 
-@interface SceneManager : NSObject <PdSensorSupportDelegate>
+@interface SceneManager : NSObject <PdSensorDelegate>
 
 @property (strong, nonatomic) Gui *gui; ///< pd gui widgets
 @property (strong, nonatomic) Scene* scene; ///< current scene
@@ -27,7 +27,8 @@
 @property (strong, nonatomic) Sensors *sensors; ///< internal sensor manager
 @property (strong, nonatomic) Controllers *controllers; ///< internal game controller manager
 
-@property (assign, nonatomic) UIInterfaceOrientation currentOrientation; ///< accel orientation based on this
+/// set sensor orientation
+@property (assign, nonatomic) UIInterfaceOrientation currentOrientation;
 
 /// is the scene being displayed rotated from it's preferred orientation?
 @property (assign, nonatomic) BOOL isRotated;

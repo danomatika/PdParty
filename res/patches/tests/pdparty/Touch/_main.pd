@@ -11,7 +11,7 @@
 #X floatatom 115 167 5 0 0 1 y touch_up_y - 0;
 #X text 16 53 down;
 #N canvas 533 123 680 285 touch 0;
-#X obj 45 28 r #touch;
+#X obj 45 17 r #touch;
 #X obj 91 180 s touch_down_y;
 #X obj 68 204 s touch_down_x;
 #X obj 45 229 s touch_down_id;
@@ -31,8 +31,10 @@
 #X obj 570 130 s touch_up_f;
 #X obj 351 130 s touch_xy_f;
 #X obj 138 130 s touch_down_f;
-#X obj 378 28 r \$0-extended-out;
-#X msg 378 61 \; #pdparty touch extended \$1;
+#X obj 258 17 r \$0-extended-out;
+#X msg 258 48 \; #pdparty touch extended \$1;
+#X obj 475 17 r \$0-everywhere-out;
+#X msg 475 48 \; #pdparty touch everywhere \$1;
 #X connect 0 0 7 0;
 #X connect 7 0 16 0;
 #X connect 7 1 15 0;
@@ -53,6 +55,7 @@
 #X connect 16 3 11 0;
 #X connect 16 4 19 0;
 #X connect 20 0 21 0;
+#X connect 22 0 23 0;
 #X restore 89 33 pd touch;
 #X text 17 147 up;
 #X text 16 99 xy;
@@ -64,3 +67,4 @@
 #X floatatom 164 141 5 0 0 1 force touch_xy_f - 0;
 #X floatatom 164 187 5 0 0 1 force touch_up_f - 0;
 #X obj 164 33 tgl 16 0 \$0-extended-out empty extended 20 8 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 164 53 tgl 16 0 \$0-everywhere-out empty everywhere 20 8 0 8 #fcfcfc #000000 #000000 0 1;

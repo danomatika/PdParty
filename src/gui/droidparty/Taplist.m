@@ -120,6 +120,7 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesBegan:touches withEvent:event];
 	touchDown = YES;
 	self.value = (int)(self.value + 1) % self.list.count; // go to the next item in our list
 	[self sendValues];

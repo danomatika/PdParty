@@ -69,6 +69,7 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesBegan:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	[self sendList:@[
@@ -79,6 +80,7 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesMoved:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	[self sendList:@[
@@ -88,11 +90,13 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesEnded:touches withEvent:event];
 	touchDown = NO;
 	[self sendList:@[@(-1), @(-1)]];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesCancelled:touches withEvent:event];
 	touchDown = NO;
 	[self sendList:@[@(-1), @(-1)]];
 }

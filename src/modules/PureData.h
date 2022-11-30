@@ -68,7 +68,7 @@
 
 /// sensor delegate used to query whether a sensor is supported & can be started
 /// via a #pdparty message
-@protocol PdSensorSupportDelegate <NSObject>
+@protocol PdSensorDelegate <NSObject>
 - (BOOL)supportsExtendedTouch; ///< not a sensor, per se...
 - (BOOL)supportsAccel;
 - (BOOL)supportsGyro;
@@ -76,6 +76,7 @@
 - (BOOL)supportsCompass;
 - (BOOL)supportsMagnet;
 - (BOOL)supportsMotion;
+- (void)touchEverywhere:(BOOL)everywhere; ///< enable #touch over widgets?
 @end
 
 @protocol PdRecordEventDelegate <NSObject>
@@ -153,7 +154,7 @@
 @property (assign, nonatomic) id<PdRecordEventDelegate> recordDelegate;
 
 /// required for sensor control support queries
-@property (assign, nonatomic) id<PdSensorSupportDelegate> sensorDelegate;
+@property (assign, nonatomic) id<PdSensorDelegate> sensorDelegate;
 
 #pragma mark Send Events
 

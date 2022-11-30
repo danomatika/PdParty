@@ -15,6 +15,8 @@
 #import "AppDelegate.h"
 #import "Popover.h"
 
+#import "PatchView.h"
+
 //#define DEBUG_TOUCH
 
 @interface PatchViewController () {
@@ -34,8 +36,10 @@
 /// close the controls popover
 - (void)dismissControlsPopover;
 
-/// add/remove default background
+/// add default background
 - (void)addBackground;
+
+/// remove default background
 - (void)removeBackground;
 
 @end
@@ -48,6 +52,7 @@
 	// Now Playing button
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	self.sceneManager = app.sceneManager;
+	[(PatchView *)self.view setTouchResponder:self];
 
 	// clip anything outside of the current bounds, this is mostly applicable
 	// to scenes which change the gui viewport
@@ -72,7 +77,6 @@
 	// do not extend under nav bar
 	self.edgesForExtendedLayout = UIRectEdgeNone;
 
-	_rotation = 0;
 	activeTouches = [NSMutableDictionary dictionary];
 	
 	// set instance pointer
@@ -227,36 +231,11 @@
 	self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
 }
 
-#pragma mark Overridden Getters / Setters
-
-- (void)setRotation:(int)rotation {
-	if(rotation == _rotation) {
-		return;
-	}
-	_rotation = rotation;
-	if(self.rotation == 0) {
-		if(!CGAffineTransformIsIdentity(self.view.transform)) {
-			DDLogVerbose(@"PatchViewController: rotating view back to 0");
-			self.view.transform = CGAffineTransformIdentity;
-			self.view.bounds = CGRectMake(0, 0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds));
-		}
-		self.sceneManager.isRotated = NO;
-	}
-	else {
-		if(CGAffineTransformIsIdentity(self.view.transform)) {
-			self.view.transform = CGAffineTransformMakeRotation(self.rotation / 180.0 * M_PI);
-			self.view.bounds = CGRectMake(0, 0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds));
-		}
-		self.sceneManager.isRotated = YES;
-	}
-}
-
 #pragma mark Touches
 
 // persistent touch ids from ofxIPhone:
 // https://github.com/openframeworks/openFrameworks/blob/master/addons/ofxiPhone/src/core/ofxiOSEAGLView.mm
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	
 	for(UITouch *touch in touches) {
 		int touchIndex = 0;
 		while([[activeTouches allValues] containsObject:[NSNumber numberWithInt:touchIndex]]) {
@@ -264,12 +243,11 @@
 		}
 		[activeTouches setObject:[NSNumber numberWithInt:touchIndex]
 		                  forKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
-		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
 			#ifdef DEBUG_TOUCH
-				DDLogVerbose(@"touch %d: down %d %d %.4f %.4f",
-					touchIndex+1, (int)pos.x, (int)pos.y, touch.majorRadius,
+				DDLogVerbose(@"touch %d: down %.4f %.4f %.4f %.4f",
+					touchIndex+1, pos.x, pos.y, touch.majorRadius,
 					touch.force/touch.maximumPossibleForce);
 			#endif
 			[self.sceneManager sendEvent:RJ_TOUCH_DOWN forTouch:touch
@@ -279,15 +257,13 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-
 	for(UITouch *touch in touches) {
 		int touchIndex = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
-		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
 			#ifdef DEBUG_TOUCH
-				DDLogVerbose(@"touch %d: moved %d %d %.4f %.4f",
-				touchIndex+1, (int)pos.x, (int)pos.y, touch.majorRadius,
+				DDLogVerbose(@"touch %d: moved %.4f %.4f %.4f %.4f",
+				touchIndex+1, pos.x, pos.y, touch.majorRadius,
 				touch.force/touch.maximumPossibleForce);
 			#endif
 			[self.sceneManager sendEvent:RJ_TOUCH_XY forTouch:touch
@@ -297,16 +273,14 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-
 	for(UITouch *touch in touches) {
 		int touchIndex = [[activeTouches objectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]] intValue];
 		[activeTouches removeObjectForKey:[NSValue valueWithPointer:(__bridge const void *)(touch)]];
-		
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
 			#ifdef DEBUG_TOUCH
-				DDLogVerbose(@"touch %d: up %d %d %.4f %.4f",
-				touchIndex+1, (int)pos.x, (int)pos.y, touch.majorRadius,
+				DDLogVerbose(@"touch %d: up %.4f %.4f %.4f %.4f",
+				touchIndex+1, pos.x, pos.y, touch.majorRadius,
 				touch.force/touch.maximumPossibleForce);
 			#endif
 			[self.sceneManager sendEvent:RJ_TOUCH_UP forTouch:touch
@@ -364,40 +338,41 @@
 	UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	if((self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAll) ||
 	   (self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAllButUpsideDown)) {
-		self.rotation = 0;
+		[(PatchView *)self.view setRotation:0];
 	}
 	else if(UIInterfaceOrientationIsLandscape(currentOrientation)) {
 		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
 			DDLogVerbose(@"PatchViewController: rotating view to portrait for current scene");
 			if(currentOrientation == UIInterfaceOrientationLandscapeLeft) {
-				self.rotation = 90;
+				[(PatchView *)self.view setRotation:90];
 				self.sceneManager.currentOrientation = UIInterfaceOrientationLandscapeLeft;
 			}
 			else {
-				self.rotation = -90;
+				[(PatchView *)self.view setRotation:-90];
 				self.sceneManager.currentOrientation = UIInterfaceOrientationLandscapeRight;
 			}
 		}
 		else {
-			self.rotation = 0;
+			[(PatchView *)self.view setRotation:0];
 		}
 	}
 	else { // default is portrait
 		if(self.sceneManager.scene.preferredOrientations & UIInterfaceOrientationMaskLandscape) {
 			DDLogVerbose(@"PatchViewController: rotating view to landscape for current scene");
 			if(currentOrientation == UIInterfaceOrientationPortrait) {
-				self.rotation = -90;
+				[(PatchView *)self.view setRotation:-90];
 				self.sceneManager.currentOrientation = UIInterfaceOrientationPortrait;
 			}
 			else {
-				self.rotation = 90;
+				[(PatchView *)self.view setRotation:90];
 				self.sceneManager.currentOrientation = UIInterfaceOrientationPortraitUpsideDown;
 			}
 		}
 		else {
-			self.rotation = 0;
+			[(PatchView *)self.view setRotation:0];
 		}
 	}
+	self.sceneManager.isRotated = ([(PatchView *)self.view rotation] != 0);
 }
 
 - (void)updateControls {

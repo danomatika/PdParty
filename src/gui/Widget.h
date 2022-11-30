@@ -41,6 +41,9 @@ typedef enum {
 @class PdDispatcher;
 
 /// a widget baseclass
+///
+/// touch events are forwarded to the superview by default, so make sure to call
+/// super in touchesBegan:, touchesMoved:, touchesEnded:, and touchesCancelled:
 @interface Widget : UIView <WidgetListener>
 
 @property (weak, nonatomic) Gui *gui; ///< parent gui pointer

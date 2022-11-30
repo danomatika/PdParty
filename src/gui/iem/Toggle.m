@@ -139,7 +139,8 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self toggle];
+	[super touchesBegan:touches withEvent:event];
+	[self toggle];
 	[self sendFloat:self.value];
 }
 

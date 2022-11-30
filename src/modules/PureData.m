@@ -421,12 +421,15 @@
 		static NSString *sceneName = nil; // received scene name
 		static BOOL appendTimestamp = NO; // append timestamp to scene name?
 
-		// extended touch control
+		// touch control
 		if([message isEqualToString:@"touch"] && arguments.count > 1) {
 			if([arguments[0] isEqualToString:@"extended"] && [arguments isNumberAt:1]) {
 				if(self.sensorDelegate && [self.sensorDelegate supportsExtendedTouch]) {
 					self.sensors.extendedTouchEnabled = [arguments[1] boolValue];
 				}
+			}
+			else if([arguments[0] isEqualToString:@"everywhere"] && [arguments isNumberAt:1]) {
+				[self.sensorDelegate touchEverywhere:[arguments[1] boolValue]];
 			}
 		}
 

@@ -153,7 +153,8 @@
 
 #pragma mark Touches
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[super touchesBegan:touches withEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint pos = [touch locationInView:self];
 	if(self.orientation == WidgetOrientationHorizontal) {
