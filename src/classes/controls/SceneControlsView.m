@@ -189,6 +189,7 @@
 		else {
 			self.slider.value = (prevSliderValue > 0 ? prevSliderValue : 0.25);
 		}
+		[self sliderValueChanged:sender];
 	}
 }
 

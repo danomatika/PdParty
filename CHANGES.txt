@@ -5,8 +5,9 @@ beta6
 * replace nav and split view controller rotation handling categories with
   subclasses, this appears to fix rotation on iOS 14+ (hopefully)
 * fixed comment width value handling
-* fixed motion user accel sent using gravity values
 * fixed vumeter led scaling
+* fixed motion user accel sent using gravity values
+* fixed microphone image double-tap not actually sending mic volume
 
 * changed widget scaling mode to use aspect ratio, this should render smaller
   widgets instead of overlaps on oblique sizes, ex. 4:3 patch on 16:9
