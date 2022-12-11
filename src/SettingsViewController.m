@@ -64,10 +64,6 @@
 	[super viewDidLoad];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
-
 // lock orientation
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;

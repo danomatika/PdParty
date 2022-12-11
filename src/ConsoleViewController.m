@@ -66,10 +66,6 @@
 	Log.textViewLogger.textView = nil;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
-
 // update the scenemanager if there are rotations while the PatchView is hidden
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {

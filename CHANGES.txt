@@ -1,5 +1,11 @@
 1.3.0: TBA
 
+* fixed dark status bar in dark mode by setting always light as nav bar style is
+  always black
+
+* removed view controller preferredStatusBarStyle: as it was overriden by info
+  plist anyway
+
 beta6
 
 * replace nav and split view controller rotation handling categories with

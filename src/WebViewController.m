@@ -19,10 +19,6 @@
 
 @implementation WebViewController
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
-
 // lock to orientations allowed by the current scene
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if(sceneRotations) {

@@ -153,10 +153,6 @@
 	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
-
 // lock orientation based on scene's preferred orientation mask
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if(self.sceneManager.scene && !self.sceneManager.isRotated) {

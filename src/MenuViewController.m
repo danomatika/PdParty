@@ -72,10 +72,6 @@
 	infoButtonIndex = -1;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
-}
-
 #pragma Layout
 
 - (void)alignToSuperview {
