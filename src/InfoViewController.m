@@ -24,6 +24,12 @@
 	[super awakeFromNib];
 	// this should probably calculated using the default height of a cell, but that seems to return 0 ...
 	defaultCellHeight = 44; // reasonable default judging from values in the storyboard
+
+	// opaque nav bar if content is scrollable
+	if(@available(iOS 13.0, *)) {
+		self.navigationController.navigationBar.scrollEdgeAppearance =
+			self.navigationController.navigationBar.standardAppearance;
+	}
 }
 
 - (void)viewDidLoad {

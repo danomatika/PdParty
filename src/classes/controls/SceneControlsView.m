@@ -194,12 +194,7 @@
 }
 
 - (void)levelIconTo:(NSString *)name {
-	if(self.lightBackground) {
-		self.slider.minimumValueImage = [UIImage imageNamed:name];
-	}
-	else {
-		self.slider.minimumValueImage = [Util image:[UIImage imageNamed:name] withTint:UIColor.whiteColor];
-	}
+	self.slider.minimumValueImage = [UIImage imageNamed:name];
 }
 
 @end

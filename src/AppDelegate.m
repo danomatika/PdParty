@@ -40,7 +40,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	
-	// setup split view on iPad
+	// set up split view on iPad
 	if(Util.isDeviceATablet) {
 		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
 		UINavigationController *detailNavController = splitViewController.viewControllers.lastObject;
@@ -329,7 +329,11 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	
 	// wrap web view in nav controller
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-	nav.navigationBar.barStyle = UIBarStyleBlack;
+
+	// opaque nav bar if content is scrollable
+	if(@available(iOS 13.0, *)) {
+		nav.navigationBar.scrollEdgeAppearance = nav.navigationBar.standardAppearance;
+	}
 
 	// present nav controller
 	UIViewController *root = UIApplication.sharedApplication.keyWindow.rootViewController;

@@ -52,8 +52,13 @@
 	                                                                    views:@{@"view" : self.textView}]];
 
 	self.navigationItem.title = @"Console";
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
+
+	// opaque nav bar if content is scrollable
+	if(@available(iOS 13.0, *)) {
+		self.navigationController.navigationBar.scrollEdgeAppearance =
+			self.navigationController.navigationBar.standardAppearance;
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
