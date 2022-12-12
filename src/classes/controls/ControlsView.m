@@ -246,12 +246,13 @@
 	                                                                         views:@{@"view" : self}]];
 }
 
+// bottom constant 10 to make sure slider is not cutoff on rjdj scene on iPad landscape
 - (void)alignToSuperviewBottom {
 	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|"
 	                                                                       options:0
 	                                                                       metrics:nil
 	                                                                         views:@{@"view" : self}]];
-	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]|"
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-10-|"
 	                                                                       options:0
 	                                                                       metrics:nil
 	                                                                         views:@{@"view" : self}]];
