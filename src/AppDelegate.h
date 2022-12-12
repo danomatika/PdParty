@@ -41,6 +41,10 @@ extern NSString *const PdPartyMotionShakeEndedNotification;
 /// returns whether the patch view is currently visible
 @property (readonly, nonatomic) BOOL isPatchViewVisible;
 
+/// set up global resources, called manually on iPad since other views are
+/// loaded from the nib before applicationDidFinishLaunching:
+- (void)setup;
+
 #pragma mark App Behavior
 
 @property (assign, getter=isLockScreenDisabled, nonatomic) BOOL lockScreenDisabled;

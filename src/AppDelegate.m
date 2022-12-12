@@ -37,6 +37,41 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 
 @implementation AppDelegate
 
+ // call only once
+- (void)setup {
+	static BOOL setup = NO;
+	if(setup) {return;}
+	setup = YES;
+
+	// load defaults
+	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+	[defaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:
+		[NSBundle.mainBundle pathForResource:@"Defaults" ofType:@"plist"]]];
+
+	// init logger
+	[Log setup];
+
+	// set up midi
+	self.midi = [[MidiBridge alloc] init];
+
+	// set up osc
+	self.osc = [[Osc alloc] init];
+
+	// set up pd
+	self.pureData = [[PureData alloc] init];
+	[PdBase setMidiDelegate:self.midi pollingEnabled:NO];
+	self.pureData.osc = self.osc;
+	[Widget setDispatcher:self.pureData.dispatcher];
+
+	// set up the scene manager
+	self.sceneManager = [[SceneManager alloc] init];
+	self.sceneManager.pureData = self.pureData;
+	self.sceneManager.osc = self.osc;
+
+	// set up webserver
+	self.server = [[WebServer alloc] init];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	
@@ -50,19 +85,13 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 		detailNavController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
 		detailNavController.navigationItem.leftItemsSupplementBackButton = NO;
 	}
-	
-	// load defaults
-	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-	[defaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:
-		[NSBundle.mainBundle pathForResource:@"Defaults" ofType:@"plist"]]];
-	
-	// init logger
-	[Log setup];
-	
-	DDLogInfo(@"App resolution: %g %g", Util.appWidth, Util.appHeight);
+
+	// set up globals
+	[self setup];
 	
 	// copy patches in the resource folder on first run only,
 	// blocks UI with progress HUD until done
+	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 	if([NSUserDefaults.standardUserDefaults boolForKey:@"firstRun"]) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:YES];
 		hud.label.text = @"Setting up for the first time...";
@@ -84,30 +113,12 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 		[Util deleteContentsOfDirectory:inboxPath error:nil];
 	}
 	
-	// setup app behavior
+	// set up app behavior
 	self.lockScreenDisabled = [defaults boolForKey:@"lockScreenDisabled"];
 	self.runsInBackground = [defaults boolForKey:@"runsInBackground"];
-	
-	// setup midi
-	self.midi = [[MidiBridge alloc] init];
-	
-	// setup osc
-	self.osc = [[Osc alloc] init];
-	
-	// setup pd
-	self.pureData = [[PureData alloc] init];
-	[PdBase setMidiDelegate:self.midi pollingEnabled:NO];
-	self.pureData.osc = self.osc;
-	[Widget setDispatcher:self.pureData.dispatcher];
-	
-	// setup the scene manager
-	self.sceneManager = [[SceneManager alloc] init];
-	self.sceneManager.pureData = self.pureData;
-	self.sceneManager.osc = self.osc;
-	
-	// setup webserver
-	self.server = [[WebServer alloc] init];
-	
+
+	DDLogInfo(@"App resolution: %g %g", Util.appWidth, Util.appHeight);
+
 	return YES;
 }
 

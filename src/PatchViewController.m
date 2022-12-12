@@ -48,10 +48,16 @@
 
 - (void)awakeFromNib {
 
+	// make sure globals are set up as iPad will call this before AppDelegate
+	// applicationDidFinishLaunching:
+	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
+	[app setup];
+
 	// set here for when patch is pushed onto the nav controller manually by the
 	// Now Playing button
-	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	self.sceneManager = app.sceneManager;
+
+	// make sure touches are forwarded
 	[(PatchView *)self.view setTouchResponder:self];
 
 	// clip anything outside of the current bounds, this is mostly applicable
