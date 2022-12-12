@@ -73,7 +73,7 @@
 
 - (void)drawRect:(CGRect)rect {
 	CGSize charSize = [@"0" sizeWithAttributes:@{NSFontAttributeName:self.label.font}]; // assumes monospace font
-	int yOffset = ceil(charSize.height / 2);
+	int yOffset = charSize.height / 2;
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextTranslateCTM(context, 0.5, 0.5); // snap to nearest pixel
@@ -103,20 +103,20 @@
 	for(i = 1; i <= IEM_VU_STEPS; ++i) {
 		yyy = floor(((k4 + k1 * (k2 - i)) * self.gui.scaleHeight) + yOffset);
 		
-		// fat line for overlap since spacing between is not pixel perfect when scaling
-		CGContextSetLineWidth(context, self.gui.lineWidth * (ceil((ledSize - 1 + (i < IEM_VU_STEPS ? 2 : 1)) * self.gui.scaleWidth)));
-		
 		// led bar
 		if(i == peakLed || i <= rmsLed) {
+			int ledw = ledSize - 1 + (i < IEM_VU_STEPS ? 2 : 1);
 			UIColor *ledColor = [IEMWidget colorFromIntColor:iemgui_vu_col[i]];
 			CGContextSetStrokeColorWithColor(context, ledColor.CGColor);
 			if(i == peakLed) {
+				CGContextSetLineWidth(context, ledw + 1); // peak LED is slightly fatter
 				CGContextMoveToPoint(context, 0, yyy);
 				CGContextAddLineToPoint(context,
-					round((CGRectGetWidth(self.originalFrame) * self.gui.scaleWidth)),
+					floor((CGRectGetWidth(self.originalFrame) * self.gui.scaleWidth)),
 					yyy);
 			}
 			else {
+				CGContextSetLineWidth(context, ledw);
 				CGContextMoveToPoint(context, quad1, yyy);
 				CGContextAddLineToPoint(context, quad3, yyy);
 			}
