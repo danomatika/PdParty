@@ -53,6 +53,7 @@
 		self.toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), self.toolbarHeight)];
 		self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
 		self.toolbar.translucent = NO;
+		self.toolbar.clipsToBounds = YES; // hide top border/shadow
 		[self.toolbar setItems:@[leftSpace, self.leftButton, middleSpace, self.rightButton, rightSpace]];
 		[self addSubview:self.toolbar];
 
@@ -107,6 +108,22 @@
 			                             attribute:NSLayoutAttributeCenterY
 			                            multiplier:1.0
 			                              constant:self.defaultToolbarHeight/2];
+		NSLayoutConstraint *sliderTopConstraint =
+			[NSLayoutConstraint constraintWithItem:self.slider
+			                             attribute:NSLayoutAttributeTop
+			                             relatedBy:NSLayoutRelationEqual
+			                                toItem:self.toolbar
+			                             attribute:NSLayoutAttributeBottom
+			                            multiplier:1.0
+			                              constant:0];
+		NSLayoutConstraint *sliderBottomConstraint =
+			[NSLayoutConstraint constraintWithItem:self.slider
+			                             attribute:NSLayoutAttributeBottom
+			                             relatedBy:NSLayoutRelationEqual
+			                                toItem:self
+			                             attribute:NSLayoutAttributeBottom
+			                            multiplier:1.0
+			                              constant:0];
 		
 		[self addConstraints:@[heightConstraint, toolbarHeightConstraint,
 			
@@ -131,10 +148,11 @@
 			                                toItem:self
 			                             attribute:NSLayoutAttributeTop
 			                            multiplier:1.0
-			                              constant:10],
+			                              constant:16],
 			
 			// slider
-			sliderLeadingConstraint, sliderTrailingConstraint, sliderCenterYConstraint]
+			sliderLeadingConstraint, sliderTrailingConstraint, sliderCenterYConstraint,
+			sliderTopConstraint, sliderBottomConstraint]
 		];
 
 		// colors
@@ -208,7 +226,7 @@
 }
 
 + (float)baseHeight {
-	return Util.isDeviceATablet ? 222 : 126;
+	return Util.isDeviceATablet ? 222 : 140;
 }
 
 + (float)baseSpacing {
@@ -216,11 +234,11 @@
 }
 
 + (float)baseToolbarHeight {
-	return Util.isDeviceATablet ? 128 : 84;
+	return Util.isDeviceATablet ? 160 : 90;
 }
 
 - (void)halfSize {
-	self.height = 126;
+	self.height = 140;
 	self.spacing = self.defaultSpacing/2;
 	self.toolbarHeight = self.defaultToolbarHeight/2;
 	[self setNeedsUpdateConstraints];
@@ -252,7 +270,7 @@
 	                                                                       options:0
 	                                                                       metrics:nil
 	                                                                         views:@{@"view" : self}]];
-	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-10-|"
+	[self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]|"
 	                                                                       options:0
 	                                                                       metrics:nil
 	                                                                         views:@{@"view" : self}]];

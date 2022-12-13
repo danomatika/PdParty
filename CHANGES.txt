@@ -8,6 +8,7 @@
 * fixed rjdj scene slider cutoff on iPad landscape
 
 * now use default nav bar style to match light/dark mode
+* tweaked controls view layout and sizing
 * set osc send & receive port placeholders to match defaults
 
 * removed view controller preferredStatusBarStyle: as it was overriden by info
