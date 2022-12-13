@@ -384,10 +384,10 @@
 			_scaleWidth = _scaleX;
 			_scaleHeight = _scaleY;
 			if((float)self.patchWidth / (float)self.patchHeight < 1.0) { // portrait
-				_scaleWidth = _scaleHeight = self.isRotated ? _scaleY : _scaleX;
+				_scaleWidth = _scaleHeight = _scaleX;
 			}
 			else { // landscape
-				_scaleWidth = _scaleHeight = self.isRotated ? _scaleX : _scaleY;
+				_scaleWidth = _scaleHeight =  _scaleY;
 			}
 			break;
 		}

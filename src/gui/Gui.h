@@ -56,10 +56,6 @@ typedef enum {
 @property (assign, readonly, nonatomic) int patchWidth;
 @property (assign, readonly, nonatomic) int patchHeight;
 
-/// is the gui being displayed rotated from the original pd patch preferred
-/// orientation? applied on next update to parentViewSize or viewport
-@property (assign, nonatomic) BOOL isRotated;
-
 /// base font name, default is GUI_FONT_NAME
 /// setting to nil resets to default
 @property (strong, nonatomic) NSString *fontName;

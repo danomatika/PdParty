@@ -180,7 +180,7 @@
 		self.scene = nil;
 		[self stopSensors];
 		self.controllers.enabled = NO;
-		self.gui.isRotated = NO;
+		self.isRotated = NO;
 		self.gui.forwardTouches = NO;
 		hasReshaped = NO;
 	}
@@ -336,14 +336,6 @@
 
 - (UIInterfaceOrientation)currentOrientation {
 	return self.sensors.currentOrientation;
-}
-
-- (void)setIsRotated:(BOOL)isRotated {
-	self.gui.isRotated = isRotated;
-}
-
-- (BOOL)isRotated {
-	return self.gui.isRotated;
 }
 
 #pragma mark Private
