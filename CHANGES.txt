@@ -1,12 +1,19 @@
-1.3.0: TBA
+1.3.0: 2022-12-14
 
-* fixed dark status bar in dark mode by setting always light as nav bar style is
-  always black
+* fixed nil globals when patch view is loaded from nib on iPad, this caused the
+  controls view play/pause and record buttons to not work among other things
+* fixed dark status bar in dark mode
+* fixed translucent nav bars for form modals on iPad
+* fixed vu meter led drawing by no longer applying scale to line width
+* fixed rjdj scene slider cutoff on iPad landscape
+
+* now use default nav bar style to match light/dark mode
+* set osc send & receive port placeholders to match defaults
 
 * removed view controller preferredStatusBarStyle: as it was overriden by info
   plist anyway
 
-beta6
+1.3.0-beta6: 2022-11-30
 
 * replace nav and split view controller rotation handling categories with
   subclasses, this appears to fix rotation on iOS 14+ (hopefully)
@@ -45,7 +52,7 @@ beta6
 
 * removed dependence on [getdir] in OpenClose test
 
-beta5
+1.3.0-beta5: 2022-11-18
 
 * updated to libpd 0.13.1 (pd 0.53-0)
 
@@ -61,13 +68,13 @@ beta5
 * record timestamp now prepended and format now MM-dd-yyyy_HH-mm-ss to nominally
   match original robotcowboy project file naming 
 
-beta4
+1.3.0-beta4: 2022-07-31
 
 * added #motion events for processed device orientation, rotation, and separate
   gravity/user accel (developed from contribution by Tiago Brizolara)
 * added Motion pdparty test (run copy tests in settings to update)
 
-beta3
+1.3.0-beta3: 2022-07-11
 
 * fixed crash when using Bluetooth MIDI device due to missing privacy message
   (reported by Jonathan Pivar via TestFlight crashlog)
@@ -84,12 +91,12 @@ beta3
 * removed console view size constraint on ipad
 * removed unneeded patchview_bg
 
-beta2
+1.3.0-beta2: 2022-07-09
 
 * fixed Bluetooth and AirPlay not actually enabled (reported by Peter Gahn)
 * fixed open via pdparty:// url null path handling (reported by Josef Novotny)
 
-beta1
+1.3.0-beta1: 2022-07-07
 
 * updated to libpd 0.13.0 pre-release (pd 0.52-2)
 
