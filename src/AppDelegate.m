@@ -85,6 +85,9 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 		detailNavController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
 		detailNavController.navigationItem.leftItemsSupplementBackButton = NO;
 	}
+	else { // light content as default is black text on black nav bar
+		UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent;
+	}
 
 	// set up globals
 	[self setup];
