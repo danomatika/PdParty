@@ -829,6 +829,16 @@ Further message types may be added in the future.
 
 ### ViewPort
 
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_viewport_scene.png"/><br/>
+	Viewport test PdParty scene on desktop
+</p>
+
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_viewport_scene_iPhone.png"/><br/>
+	Viewport test PdParty scene
+</p>
+
 PdParty versions 1.3.0+ support the special ViewPort canvas from DroidParty in patches as well as DroidParty and PdParty scenes. The `pos` and `vis_size` messages send to the canvas with the "ViewPort" receive name are used to set the viewport within the main patch. This allows for segmenting complicated GUIs into separate areas whose large widgets should easier to control with "fat" multitouch fingers.
 
 From the PdDroidParty documentation on <http://droidparty.net>:
