@@ -46,6 +46,7 @@
 		// init location manager
 		locationManager = [[CLLocationManager alloc] init];
 		locationManager.delegate = self;
+		locationManager.allowsBackgroundLocationUpdates = YES;
 
 		// current UI orientation for accel
 		if(Util.isDeviceATablet) { // iPad can start rotated
@@ -240,11 +241,11 @@
 										   cancelButtonTitle:@"Ok"] show];
 			}
 			else {
+				if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+					[locationManager requestWhenInUseAuthorization];
+				}
 				[locationManager startUpdatingLocation];
 				[PureData sendPrint:@"location enabled"];
-				if([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-					[locationManager requestAlwaysAuthorization];
-				}
 			}
 		}
 		else {

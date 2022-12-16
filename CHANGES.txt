@@ -7,7 +7,11 @@
 * fixed vu meter led drawing by no longer applying scale to line width
 * fixed rjdj scene slider cutoff on iPad landscape
 
-* simplified gui aspect scaling to use scaleX in portrait and scaleY in landscape
+* simplified gui aspect scaling to use scaleX in portrait and scaleY in
+  landscape
+* changed location services to request "when in used" + background mode instead
+  of "always on", this also fixes permissions popup not appearing after
+  selecting "ask next time" 
 * now use default nav bar style to match light/dark mode
 * tweaked controls view layout and sizing
 * set osc send & receive port placeholders to match defaults
