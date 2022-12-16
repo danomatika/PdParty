@@ -69,8 +69,6 @@ This project uses:
 * [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack): logging
 * [minizip](http://zlib.net): support for decompressing zip archives
 * [MBProgressHUD](https://github.com/jdg/MBProgressHUD): progress spinner overlay
-* [UIAlertView+Blocks](https://github.com/ryanmaxwell/UIAlertView-Blocks)
-* [UIActionSheet+Blocks](https://github.com/ryanmaxwell/UIActionSheet-Blocks)
 
 ### 3rd Party Samples
 * CanOfBeats, drummachine, multibeat, & pure-widgets-demo: Chris McCormick
