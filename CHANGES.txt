@@ -1,4 +1,6 @@
-1.3.0: 2022-12-14
+1.3.0: 2022-12-16
+
+* updated to libpd 0.13.2 (pd 0.53-1)
 
 * fixed nil globals when patch view is loaded from nib on iPad, this caused the
   controls view play/pause and record buttons to not work among other things
@@ -22,7 +24,7 @@
 1.3.0-beta6: 2022-11-30
 
 * replace nav and split view controller rotation handling categories with
-  subclasses, this appears to fix rotation on iOS 14+ (hopefully)
+  subclasses, appears to fix rotation on iOS 14+ (Servando's dancing iPhone)
 * fixed comment width value handling
 * fixed vumeter led scaling
 * fixed motion user accel sent using gravity values
