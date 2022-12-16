@@ -387,7 +387,7 @@
 				_scaleWidth = _scaleHeight = ([Util isDeviceATablet] ? _scaleY : _scaleX);
 			}
 			else { // landscape
-				_scaleWidth = _scaleHeight = ([Util isDeviceATablet] ? _scaleX : _scaleX);
+				_scaleWidth = _scaleHeight = ([Util isDeviceATablet] ? _scaleX : _scaleY);
 			}
 			break;
 		}
