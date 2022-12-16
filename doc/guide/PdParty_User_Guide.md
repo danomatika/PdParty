@@ -2,7 +2,7 @@ PdParty User Guide
 ==================
 
 Version: **1.3.0**  
-Date: 2022-11-25
+Date: 2022-12-16
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
 
@@ -291,14 +291,16 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
         For zip files, the device will ask if you want to open in PdParty. Choosing this option will automatically copy the zip file into the PdParty where you can then unzip it by selecting it in the PdParty file browser.
 
-    * **iTunes File Sharing**
+    * **Finder/iTunes File Sharing**
 
-        Plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add..." and "Save to..." buttons.
+    	On macOS 10.15 or newer, plug in your iOS device and open a Finder window. Select the device in the sidebar, choose the Files tab, and select PdParty. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel.
 
-        *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that is simply how the iTunes file sharing system currently works.*
+        On older versions of macOS, plug in your iOS device and open iTunes. Select the device, choose the App tab, and choose PdParty in the File Sharing section. You should then see the contents of the PdParty Documents dir. You can drag and drop items onto this panel and/or use the "Add..." and "Save to..." buttons.
+
+        *Note: You can only see the top most level in the Documents folder and cannot enter subfolders. Sorry, that is simply how the Finder/iTunes file sharing system currently works. For lots of files: zip a folder, drag the zip into PdParty, then unzip the zip file in the PdParty file browser.*
 
         <p align="center">
-          <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/itunes_file_sharing.png"/>
+          <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/finder_file_sharing.png"/>
         </p>
 
     * **WebDAV**
@@ -321,7 +323,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
     * **Open in...**
 
-      PdParty registers Pd patch \*.pd files and Zip archives (\*.zip, \*.rjz, \*.pdz) with iOS as supported types. This allows for each of these file types to be opened in PdParty from another application ie. Mail, DropBox, etc. When choosing "Open in..." via the Share button, the file(s) will be copied into the main PdParty Documents folder. Zip archives can then be unpacked by clicking on them in the Patch Browser.
+      PdParty registers Pd patch \*.pd files and Zip archives (\*.zip, \*.rjz, \*.pdz) with iOS as supported types. This allows for each of these file types to be opened in PdParty from another application ie. Mail, DropBox, etc. When choosing "Open in..." via the Share button, the file(s) will be copied into the main PdParty Documents folder. Zip archives can then be unpacked by clicking on them in the file browser.
 
     * **Sharing recordings**
 
@@ -415,7 +417,7 @@ The symbol and list boxes currently only show their contents and cannot be inter
 All of the midi objects ([notein], [ctlout], etc) work. Obviously you'll need to have a USB MIDI interface (through a USB hub connected to the Apple Camera Connection Kit) or using Network MIDI and macOS.
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_midi_scene_iPad.png" width="600"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_midi_scene_iPhone.png" width="600"/><br/>
 	Midi test Pdparty scene
 </p>
 
@@ -530,6 +532,11 @@ _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, Droid
 
 #### Touch
 
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_touch_scene_iPhone.png" width="600"/><br/>
+	Touch test Pdparty scene
+</p>
+
 For compatibility, multi-touch `#touch` events conform to the original RjDj format by default: `eventType id x y`.
 
 Additional controls over touch events are available by sending a message to the internal #pdparty receiver:
@@ -561,8 +568,8 @@ As of PdParty 1.3.0, touch events *everywhere* can be enabled to send when over 
 #### Accelerate, Gyro, Magnet, & Motion
 
 <p align="center">
-  <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_events_scene_iPhone.png"/><br/>
-  PdParty accelerometer events
+  <img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_accelerate_scene_iPhone.png"/><br/>
+  Accelerate PdParty test scene
 </p>
 
 Reading accelerometer, gyroscope, and/or magnetometer events will affect battery life, so these must be manually started after the scene is loaded by sending messages to the internal #pdparty receiver:
@@ -597,6 +604,11 @@ Sensor orientation is relative to the device in portrait:
 ...except for RjDj scenes where the accelerometer is rotated to match the interface orientation. As of PdParty 1.3.0, acceleromtation rotation is no longer the default for all scene types. Re-enable this behavior by sending `#pdparty accelerate orientation 1`.
 
 ##### Motion
+
+<p align="center">
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_motion_scene_iPhone.png" width="600"/><br/>
+	Motion test Pdparty scene
+</p>
 
 Motion events are pre-processed orientation values using the accelerometer, gyroscope, and magnetometer relative to a default reference frame:
 * attitude: current orientation in space (pitch, roll, yaw)
