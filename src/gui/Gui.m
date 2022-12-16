@@ -384,10 +384,10 @@
 			_scaleWidth = _scaleX;
 			_scaleHeight = _scaleY;
 			if((float)self.patchWidth / (float)self.patchHeight < 1.0) { // portrait
-				_scaleWidth = _scaleHeight = _scaleX;
+				_scaleWidth = _scaleHeight = ([Util isDeviceATablet] ? _scaleY : _scaleX);
 			}
 			else { // landscape
-				_scaleWidth = _scaleHeight =  _scaleY;
+				_scaleWidth = _scaleHeight = ([Util isDeviceATablet] ? _scaleX : _scaleX);
 			}
 			break;
 		}

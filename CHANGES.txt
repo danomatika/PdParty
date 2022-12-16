@@ -8,7 +8,7 @@
 * fixed rjdj scene slider cutoff on iPad landscape
 
 * simplified gui aspect scaling to use scaleX in portrait and scaleY in
-  landscape
+  landscape for iPhone and vice versa on iPad
 * changed location services to request "when in used" + background mode instead
   of "always on", this also fixes permissions popup not appearing after
   selecting "ask next time" 

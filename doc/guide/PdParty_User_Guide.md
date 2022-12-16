@@ -79,7 +79,7 @@ There is a root settings screen and a patch/scene browser. Go to your patch and 
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/start_screen_iPad.png" width="500"/><br/>
-    <small> Start screen on iPad, activate by pressing the "Patches" nav button.</small>
+    <small> Start screen on iPad, activate by pressing the "Browser" nav button.</small>
 </p>
 
 This is the root of the app and is inspired by [TouchOSC](http://hexler.net/software/touchosc). Here you can launch the Patch Browser or change app settings.
