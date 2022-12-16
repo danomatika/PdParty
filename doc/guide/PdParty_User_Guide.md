@@ -835,7 +835,7 @@ Further message types may be added in the future.
 </p>
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_viewport_scene_iPhone.png"/><br/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_viewport_scene_iPhone.png" width="300"/><br/>
 	Viewport test PdParty scene
 </p>
 
