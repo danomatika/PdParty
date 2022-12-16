@@ -124,7 +124,7 @@ Gui elements work similarly to those in the Pure Data gui, except now you have m
 The desired aspect ratio is inferred from the patch canvas size and the Scene View is automatically rotated. Also, the device orientation is locked depending on if the Scene is in portrait or landscape. The exceptions to this are RjDj scenes which are portrait on iPhone & PdDroidParty scenes which are always landscape:
 
 <p align="center">
-	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/droidparty_scene_iPad.png" width="300"/>
+	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/droidparty_scene_iPad.png" width="600"/>
 </p>
 
 On iPad, however, RjDJ scenes can be both portrait or landscape:
@@ -539,11 +539,11 @@ _Note: RjDj scenes receive #touch, #accelerate, & #gyro events by default, Droid
 
 For compatibility, multi-touch `#touch` events conform to the original RjDj format by default: `eventType id x y`.
 
-Additional controls over touch events are available by sending a message to the internal #pdparty receiver:
+Additional controls over touch events are available by sending a message to the internal `#pdparty` receiver:
 
-*** \#pdparty touch extended _value_**: extended touch control
+* **\#pdparty touch extended _value_**: extended touch control
   - _value_: boolean 0-1 to enable/disable extended info
-*** \#pdparty touch everywhere _value_**: receive touch events over widgets?
+* **\#pdparty touch everywhere _value_**: receive touch events over widgets?
   - _value_: boolean 0-1 to enable/disable touch events over widgets
 
 ##### Extended and Stylus
@@ -836,7 +836,7 @@ Further message types may be added in the future.
 
 <p align="center">
 	<img src="https://raw.github.com/danomatika/PdParty/master/doc/guide/screenshots/pdparty_viewport_scene_iPhone.png" width="300"/><br/>
-	Viewport test PdParty scene
+	Viewport test PdParty scene, tab 1
 </p>
 
 PdParty versions 1.3.0+ support the special ViewPort canvas from DroidParty in patches as well as DroidParty and PdParty scenes. The `pos` and `vis_size` messages send to the canvas with the "ViewPort" receive name are used to set the viewport within the main patch. This allows for segmenting complicated GUIs into separate areas whose large widgets should easier to control with "fat" multitouch fingers.
