@@ -333,7 +333,7 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
 The audio device PdParty uses for input & output is the current device used by the system. If the device changes (something was plugged-in), PdParty will switch to this new device. There is currently no method for manually selecting audio routing.
 
-Input & output are stereo (2 channel) by default. As of version 1.2.0, PdParty will attempt to use the maximum number of input or output channels supported by the current device, depending whichever is greater. As with desktop Pure Data, any extra input or output channels beyond those used by the current device are ignored. Note that the [soundinput] and [soundoutput] abstractions are stereo only, so you will need to roll your own i/o using [adc\~] & [dac\~] objects.
+Input & output are stereo (2 channel) by default. As of version 1.2.0, PdParty will attempt to use the maximum number of input or output channels supported by the current device, depending whichever is greater. As with desktop Pure Data, any extra input or output channels beyond those used by the current device are ignored. Note that the [soundinput] and [soundoutput] abstractions are stereo only, so you will need to roll your own i/o using [adc~] & [dac~] objects.
 
 As of version 1.3.0, the audio samplerate for non-RjDj scenes is selectable between 48000 (default), 41000, and 96000.
 
@@ -386,7 +386,7 @@ Running a regular .pd patch (a Patch scene) is the same as running a PdParty sce
 
 PdParty is built using libpd and can be compared to Pd-vanilla with the following externals:
 
-* **extra**: bundled Pd-vanilla "extras", ie. [fiddle\~], [sigmund\~], [bob\~], etc
+* **extra**: bundled Pd-vanilla "extras", ie. [fiddle~], [sigmund~], [bob~], etc
 * **ggee**: [getdir], [stripdir]
 * **mrpeach**: [midifile]
 
@@ -427,12 +427,12 @@ PdParty currently supports:
 
 * PdDroidParty abstractions:
   - [loadsave]
-  - [menubang]\: buttons are added to the controls popup menu
+  - [menubang] buttons are added to the controls popup menu
   - [display]
-  - [droidsystem]\:
+  - [droidsystem]
     + receive messages: sensors, & openurl (vibrate\* is ignored)
     + send messages: accel, gyro, & magnet
-  - [knob]\: implementation of the moonlib external [mknob]
+  - [knob] implementation of the moonlib external [mknob]
   - [numberbox]
   - [ribbon]
   - [taplist]
@@ -453,17 +453,17 @@ SVG widget styling support is planned, but not an immediate priority as there is
 PdParty currently supports:
 
 * RjDj abstractions/objects:
-  - [rj\_image]\: implemented internally
-  - [rj\_text]\: implemented internally
+  - [rj\_image] implemented internally
+  - [rj\_text] implemented internally
   - [rj\_loc]
   - [rj\_compass]
   - [rj\_time]
 * RjDj externals:
   - [rj\_accum]
-  - [rj\_barkflux\_accum\~]
-  - [rj\_centroid\~]
-  - [rj\_senergy\~]
-  - [rj\_zcr\~]
+  - [rj\_barkflux\_accum~]
+  - [rj\_centroid~]
+  - [rj\_senergy~]
+  - [rj\_zcr~]
 * scene background image.jpg
 * scene browser icon thumb.jpg
 * scene Info.plist
