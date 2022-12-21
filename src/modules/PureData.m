@@ -83,8 +83,7 @@
 		}
 		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 
-		// TODO: remove or deprecate this to debugging only?
-		// observe audio route changes(?)
+		// observe audio route changes
 		routeChangeObserver = [NSNotificationCenter.defaultCenter addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *notification) {
 			NSDictionary *info = notification.userInfo;
 			if(info && info[AVAudioSessionRouteChangeReasonKey]) {
@@ -92,29 +91,26 @@
 				unsigned int reason = [info[AVAudioSessionRouteChangeReasonKey] unsignedIntValue];
 				switch(reason) {
 					case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
-						DDLogVerbose(@"PartyAudioController: new device available, now %d inputs %d outputs",
+						DDLogVerbose(@"PureData: new device available, now %d inputs %d outputs",
 							(int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
+						[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
 						break;
 					case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
-						DDLogVerbose(@"PartyAudioController: old device unavailable, now %d inputs %d outputs",
+						DDLogVerbose(@"PureData: old device unavailable, now %d inputs %d outputs",
 							(int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
+						[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
 						break;
 					case AVAudioSessionRouteChangeReasonOverride:
-						DDLogVerbose(@"PartyAudioController: device overidden, now %d inputs %d outputs",
+						DDLogVerbose(@"PureData: device overidden, now %d inputs %d outputs",
 							(int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
+						[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
 						break;
 					default:
 						return;
 				}
-				DDLogVerbose(@"PartyAudioController: input \"%@\" output \"%@\"",
+				DDLogVerbose(@"PureData: input \"%@\" output \"%@\"",
 						  [session.currentRoute.inputs.firstObject portName],
 						  [session.currentRoute.outputs.firstObject portName]);
-
-				// TODO: remove this? doesn't seem needed as pd audio unit now handles this internally
-				// delay to let audio unit handle max frames change
-//				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-//					[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
-//				});
 			}
 		}];
 	}
@@ -859,8 +855,8 @@ static NSNumberFormatter *s_numFormatter = nil;
 	}
 
 	audioController.active = NO;
-	int inputs = (session.inputNumberOfChannels < 2 ? 2 : (int)session.inputNumberOfChannels);
-	int outputs = (session.outputNumberOfChannels < 2 ? 2 : (int)session.outputNumberOfChannels);
+	int inputs = (int)session.inputNumberOfChannels;
+	int outputs = (int)session.outputNumberOfChannels;
 	int tpb = audioController.ticksPerBuffer;
 	PdAudioStatus status = [audioController configurePlaybackWithSampleRate:sampleRate
 	                                                          inputChannels:inputs
