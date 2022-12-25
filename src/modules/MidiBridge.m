@@ -60,7 +60,7 @@
 	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 	if(enabled) {
 		if([Midi available]) {
-			DDLogVerbose(@"MidiBridge: midi enabled");
+			LogVerbose(@"MidiBridge: midi enabled");
 			self.midi = nil;
 			self.midi = [[Midi alloc] initWithName:@"PdParty" andMaxIO:MIDI_MAX_IO];
 			self.midi.delegate = self;
@@ -69,14 +69,14 @@
 			[defaults setBool:YES forKey:@"midiEnabled"];
 		}
 		else {
-			DDLogWarn(@"MidiBridge: sorry, your OS version does not support CoreMIDI");
+			LogWarn(@"MidiBridge: sorry, your OS version does not support CoreMIDI");
 		}
 	}
 	else {
 		self.midi.delegate = nil;
 		self.midi = nil;
 		[defaults setBool:NO forKey:@"midiEnabled"];
-		DDLogVerbose(@"MidiBridge: midi disabled");
+		LogVerbose(@"MidiBridge: midi disabled");
 	}
 }
 
@@ -129,23 +129,23 @@
 -(void)midi:(Midi *)midi inputAdded:(MidiInput *)input {
 	input.delegate = self;
 	[self connectionEventReceived];
-	DDLogVerbose(@"MidiBridge: input added: \"%@\"", input.name);
+	LogVerbose(@"MidiBridge: input added: \"%@\"", input.name);
 }
 
 - (void)midi:(Midi *)midi inputRemoved:(MidiInput *)input {
 	input.delegate = nil;
 	[self connectionEventReceived];
-	DDLogVerbose(@"MidiBridge: input removed: \"%@\"", input.name);
+	LogVerbose(@"MidiBridge: input removed: \"%@\"", input.name);
 }
 
 - (void)midi:(Midi *)midi outputAdded:(MidiOutput *)output {
 	[self connectionEventReceived];
-	DDLogVerbose(@"MidiBridge: output added: \"%@\"", output.name);
+	LogVerbose(@"MidiBridge: output added: \"%@\"", output.name);
 }
 
 - (void)midi:(Midi *)midi outputRemoved:(MidiOutput *)output {
 	[self connectionEventReceived];
-	DDLogVerbose(@"MidiBridge: output removed: \"%@\"", output.name);
+	LogVerbose(@"MidiBridge: output removed: \"%@\"", output.name);
 }
 
 #pragma mark MidiInputDelegate
@@ -177,26 +177,26 @@
 		case MIDI_NOTE_ON:
 			[PdBase sendNoteOn:channel pitch:bytes[1] velocity:bytes[2]];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received Note On %d %d %d", channel, bytes[1], bytes[2]);
+				LogVerbose(@"MidiBridge: received Note On %d %d %d", channel, bytes[1], bytes[2]);
 			#endif
 			break;
 		case MIDI_NOTE_OFF: // ignore velocity a pd uses vel 0 to indicate note off
 			[PdBase sendNoteOn:channel pitch:bytes[1] velocity:0];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received Note Off %d %d %d -> 0", channel, bytes[1], bytes[2]);
+				LogVerbose(@"MidiBridge: received Note Off %d %d %d -> 0", channel, bytes[1], bytes[2]);
 			#endif
 			break;
 		case MIDI_CONTROL_CHANGE: {
 			[PdBase sendControlChange:channel controller:bytes[1] value:bytes[2]];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received Control %d %d %d", channel, bytes[1], bytes[2]);
+				LogVerbose(@"MidiBridge: received Control %d %d %d", channel, bytes[1], bytes[2]);
 			#endif
 			break;
 		}
 		case MIDI_PROGRAM_CHANGE:
 			[PdBase sendProgramChange:channel value:bytes[1]];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received Program %d %d", channel, bytes[1]);
+				LogVerbose(@"MidiBridge: received Program %d %d", channel, bytes[1]);
 			#endif
 			break;
 		case MIDI_PITCH_BEND: {
@@ -204,20 +204,20 @@
 			value -= 8192; // convert range from 0 - 16384 to libpd -8192 - 8192
 			[PdBase sendPitchBend:channel value:value];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received PitchBend %d %d", channel, value);
+				LogVerbose(@"MidiBridge: received PitchBend %d %d", channel, value);
 			#endif
 			break;
 		}
 		case MIDI_AFTERTOUCH:
 			[PdBase sendAftertouch:channel value:bytes[1]];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received Aftertouch %d %d", channel, bytes[1]);
+				LogVerbose(@"MidiBridge: received Aftertouch %d %d", channel, bytes[1]);
 			#endif
 			break;
 		case MIDI_POLY_AFTERTOUCH:
 			[PdBase sendPolyAftertouch:channel pitch:bytes[1] value:bytes[2]];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received PolyAftertouch %d %d %d", channel, bytes[1], bytes[2]);
+				LogVerbose(@"MidiBridge: received PolyAftertouch %d %d %d", channel, bytes[1], bytes[2]);
 			#endif
 			break;
 		case MIDI_SYSEX:
@@ -225,14 +225,14 @@
 				[PdBase sendSysex:channel byte:bytes[i]];
 			}
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received %d Sysex bytes to %d", (int)message.length, channel);
+				LogVerbose(@"MidiBridge: received %d Sysex bytes to %d", (int)message.length, channel);
 			#endif
 			break;
 		case MIDI_TIME_CLOCK: case MIDI_START: case MIDI_CONTINUE: case MIDI_STOP:
 		case MIDI_ACTIVE_SENSING: case MIDI_SYSTEM_RESET:
 			[PdBase sendSysRealTime:port byte:bytes[0]];
 			#ifdef DEBUG_MIDI
-				DDLogVerbose(@"MidiBridge: received %d Realtime bytes", (int)message.length);
+				LogVerbose(@"MidiBridge: received %d Realtime bytes", (int)message.length);
 			#endif
 			return; // realtime bytes do not go to [midiin]
 		default:
@@ -249,7 +249,7 @@
 
 - (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
 	#ifdef DEBUG_MIDI
-		DDLogVerbose(@"MidiBridge: sending Note %d %d %d", channel, pitch, velocity);
+		LogVerbose(@"MidiBridge: sending Note %d %d %d", channel, pitch, velocity);
 	#endif
 	[message setLength:3];
 	int port = 0;
@@ -266,7 +266,7 @@
 
 - (void)receiveControlChange:(int)value forController:(int)controller forChannel:(int)channel {
 	#ifdef DEBUG_MIDI
-		DDLogVerbose(@"MidiBridge: sending Control %d %d %d", channel, controller, value);
+		LogVerbose(@"MidiBridge: sending Control %d %d %d", channel, controller, value);
 	#endif
 	[message setLength:3];
 	int port = 0;
@@ -283,7 +283,7 @@
 
 - (void)receiveProgramChange:(int)value forChannel:(int)channel {
 	#ifdef DEBUG_MIDI
-		DDLogVerbose(@"MidiBridge: sending Program %d %d", channel, value);
+		LogVerbose(@"MidiBridge: sending Program %d %d", channel, value);
 	#endif
 	[message setLength:2];
 	int port = 0;
@@ -300,7 +300,7 @@
 - (void)receivePitchBend:(int)value forChannel:(int)channel {
 	value += 8192; // convert range from libpd -8192 - 8192 to 0 - 16384
 	#ifdef DEBUG_MIDI
-		DDLogVerbose(@"MidiBridge: sending PitchBend %d %d", channel, value);
+		LogVerbose(@"MidiBridge: sending PitchBend %d %d", channel, value);
 	#endif
 	[message setLength:3];
 	int port = 0;
@@ -317,7 +317,7 @@
 
 - (void)receiveAftertouch:(int)value forChannel:(int)channel {
 	#ifdef DEBUG_MIDI
-		DDLogVerbose(@"MidiBridge: sending Aftertouch %d %d", channel, value);
+		LogVerbose(@"MidiBridge: sending Aftertouch %d %d", channel, value);
 	#endif
 	[message setLength:2];
 	int port = 0;
@@ -333,7 +333,7 @@
 
 - (void)receivePolyAftertouch:(int)value forPitch:(int)pitch forChannel:(int)channel {
 	#ifdef DEBUG_MIDI
-		DDLogVerbose(@"MidiBridge: sending PolyAftertouch %d %d %d", channel, pitch, value);
+		LogVerbose(@"MidiBridge: sending PolyAftertouch %d %d %d", channel, pitch, value);
 	#endif
 	[message setLength:3];
 	int port = 0;
@@ -350,7 +350,7 @@
 
 - (void)receiveMidiByte:(int)byte forPort:(int)port {
 	#ifdef DEBUG_MIDI
-		DDLogVerbose(@"MidiBridge: sending Midi byte %02X", byte);
+		LogVerbose(@"MidiBridge: sending Midi byte %02X", byte);
 	#endif
 	[message setLength:1];
 	unsigned char *bytes = (unsigned char *)[message bytes];

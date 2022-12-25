@@ -247,7 +247,7 @@
 #pragma mark UI
 
 - (void)restartPressed:(id)sender {
-	DDLogVerbose(@"Menu: restart button pressed");
+	LogVerbose(@"Menu: restart button pressed");
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	[self.popover dismissPopoverAnimated:YES];
 	if(![app.sceneManager reloadScene]) {
@@ -259,14 +259,14 @@
 }
 
 - (void)speakerPressed:(id)sender {
-	DDLogVerbose(@"Menu: speaker button pressed");
+	LogVerbose(@"Menu: speaker button pressed");
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	app.pureData.earpieceSpeaker = !app.pureData.earpieceSpeaker;
 	[(UIButton *)sender setSelected:app.pureData.earpieceSpeaker];
 }
 
 - (void)showConsolePressed:(id)sender {
-	DDLogVerbose(@"Menu: show console button pressed");
+	LogVerbose(@"Menu: show console button pressed");
 	[self.popover dismissPopoverAnimated:YES];
 	ConsoleViewController *consoleView = [[ConsoleViewController alloc] init];
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:consoleView];
@@ -276,7 +276,7 @@
 }
 
 - (void)showInfoPressed:(id)sender {
-	DDLogVerbose(@"Menu: show info button pressed");
+	LogVerbose(@"Menu: show info button pressed");
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	[self.popover dismissPopoverAnimated:YES];
 	[app.patchViewController performSegueWithIdentifier:@"showInfo" sender:self];
@@ -285,10 +285,10 @@
 - (void)menubangPressed:(id)sender {
 	Menubang *m = [menubangButtons objectForKey:sender];
 	if(!m) {
-		DDLogWarn(@"Menu: menubang button pressed, but menubang not found %@", sender);
+		LogWarn(@"Menu: menubang button pressed, but menubang not found %@", sender);
 		return;
 	}
-	DDLogVerbose(@"Menu: menubang %@ button pressed", m.name);
+	LogVerbose(@"Menu: menubang %@ button pressed", m.name);
 	[m sendBang];
 	[self.popover dismissPopoverAnimated:YES];
 }

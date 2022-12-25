@@ -18,7 +18,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 19) { // sanity check
-		DDLogWarn(@"Radio: cannot create, atom line length < 19");
+		LogWarn(@"Radio: cannot create, atom line length < 19");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -32,7 +32,7 @@
 		self.receiveName = [Gui filterEmptyStringValues:line[10]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Radio: dropping, send/receive names are empty");
+			LogVerbose(@"Radio: dropping, send/receive names are empty");
 			return nil;
 		}
 		

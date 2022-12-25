@@ -62,10 +62,10 @@
 		// remove __MACOSX added to zip files by macOS
 		if([file isEqualToString:@"__MACOSX"]) {
 			if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
-				DDLogError(@"FileBrowser: couldn't remove %@, error: %@", file, error.localizedDescription);
+				LogError(@"FileBrowser: couldn't remove %@, error: %@", file, error.localizedDescription);
 			}
 			else {
-				DDLogVerbose(@"FileBrowser: removed %@", file);
+				LogVerbose(@"FileBrowser: removed %@", file);
 				return NO;
 			}
 		}
@@ -90,16 +90,16 @@
 			// remove Finder DS_Store garbage (created over WebDAV)
 			else if([file isEqualToString:@"._.DS_Store"] || [file isEqualToString:@".DS_Store"]) {
 				if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
-					DDLogError(@"FileBrowser: couldn't remove %@, error: %@", file, error.localizedDescription);
+					LogError(@"FileBrowser: couldn't remove %@, error: %@", file, error.localizedDescription);
 				}
 				else {
-					DDLogVerbose(@"FileBrowser: removed %@", file);
+					LogVerbose(@"FileBrowser: removed %@", file);
 					return NO;
 				}
 			}
 		}
 	}
-	DDLogVerbose(@"Browser: dropped path: %@", path.lastPathComponent);
+	LogVerbose(@"Browser: dropped path: %@", path.lastPathComponent);
 	return NO;
 }
 

@@ -66,7 +66,6 @@ This project uses:
   * _rjlib_: rj_accum, rj_barkflux_accum~, rj_centroid~, rj_senergy~, rj_zcr~
 * [liblo](http://liblo.sourceforge.net): Open Sound Control i/o
 * [GCDWebServer](https://github.com/swisspol/GCDWebServer): WebDAV server
-* [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack): logging
 * [minizip](http://zlib.net): support for decompressing zip archives
 * [MBProgressHUD](https://github.com/jdg/MBProgressHUD): progress spinner overlay
 

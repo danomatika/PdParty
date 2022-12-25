@@ -16,7 +16,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 11) { // sanity check
-		DDLogWarn(@"Symbol: cannot create, atom line length < 11");
+		LogWarn(@"Symbol: cannot create, atom line length < 11");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -25,7 +25,7 @@
 		self.receiveName = [Gui filterEmptyStringValues:line[9]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Symbol: dropping, send/receive names are empty");
+			LogVerbose(@"Symbol: dropping, send/receive names are empty");
 			return nil;
 		}
 		

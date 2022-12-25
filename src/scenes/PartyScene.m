@@ -30,7 +30,7 @@
 		// load info
 		info = [PartyScene infoForSceneAt:path];
 		if(info) {
-			DDLogInfo(@"PartyScene: loaded info");
+			LogInfo(@"PartyScene: loaded info");
 		}
 
 		return YES;

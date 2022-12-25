@@ -29,7 +29,7 @@
 	_rotation = rotation;
 	if(self.rotation == 0) {
 		if(!CGAffineTransformIsIdentity(self.transform)) {
-			DDLogVerbose(@"PatchView: rotating view back to 0");
+			LogVerbose(@"PatchView: rotating view back to 0");
 			self.transform = CGAffineTransformIdentity;
 			self.bounds = CGRectMake(0, 0,
 				CGRectGetHeight(self.bounds), CGRectGetWidth(self.bounds));
@@ -37,7 +37,7 @@
 	}
 	else {
 		if(CGAffineTransformIsIdentity(self.transform)) {
-			DDLogVerbose(@"PatchView: rotating view to %d", self.rotation);
+			LogVerbose(@"PatchView: rotating view to %d", self.rotation);
 			self.transform = CGAffineTransformMakeRotation(self.rotation / 180.0 * M_PI);
 			self.bounds = CGRectMake(0, 0,
 				CGRectGetHeight(self.bounds), CGRectGetWidth(self.bounds));

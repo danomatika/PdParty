@@ -55,7 +55,7 @@
 			self.controllers.osc = app.osc;
 		}
 		else {
-			DDLogVerbose(@"SceneManager: game controller support not available on this device");
+			LogVerbose(@"SceneManager: game controller support not available on this device");
 		}
 
 		// listen for shake events
@@ -86,7 +86,7 @@
 // helper
 - (BOOL)openScene:(NSString *)path withType:(NSString *)type forParent:(UIView *)parent allowReload:(BOOL)reload {
 	if(!reload && [self.currentPath isEqualToString:path]) {
-		DDLogVerbose(@"SceneManager openScene: ignoring scene with same path");
+		LogVerbose(@"SceneManager openScene: ignoring scene with same path");
 		return NO;
 	}
 	
@@ -119,7 +119,7 @@
 		self.scene = [RecordingScene sceneWithParent:parent];
 	}
 	else {
-		DDLogWarn(@"SceneManager: unknown scene type: %@", type);
+		LogWarn(@"SceneManager: unknown scene type: %@", type);
 		self.scene = [[Scene alloc] init];
 	}
 	if(self.scene.requiresPd) {
@@ -135,10 +135,10 @@
 	if([self.scene open:path]) {
 		[self startRequiredSensors];
 		self.controllers.enabled = self.scene.requiresControllers;
-		DDLogVerbose(@"SceneManager: opened %@", self.scene.name);
+		LogVerbose(@"SceneManager: opened %@", self.scene.name);
 	}
 	else {
-		DDLogError(@"SceneManager: couldn't open scene");
+		LogError(@"SceneManager: couldn't open scene");
 		[[UIAlertController alertControllerWithTitle:@"Open Failed"
 		                                     message:@"Couldn't open scene, file, or recording."
 		                           cancelButtonTitle:@"Ok"] show];
@@ -158,10 +158,10 @@
 
 - (BOOL)reloadScene {
 	if(!self.scene) {
-		DDLogVerbose(@"SceneManager reloadScene: ignoring empty scene reload");
+		LogVerbose(@"SceneManager reloadScene: ignoring empty scene reload");
 		return NO;
 	}
-	DDLogVerbose(@"SceneManager: reloading %@", self.scene.name);
+	LogVerbose(@"SceneManager: reloading %@", self.scene.name);
 	NSString *type = self.scene.type;
 	UIView *parent = self.scene.parentView;
 	[self closeScene];
@@ -282,7 +282,7 @@
 #pragma mark Shake Notifications
 
 - (void)shakeEndedNotification:(NSNotification *)notification {
-	DDLogInfo(@"shake");
+	LogInfo(@"shake");
 	[self sendShake];
 }
 

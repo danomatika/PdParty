@@ -100,14 +100,6 @@
 			                             attribute:NSLayoutAttributeTrailing
 			                            multiplier:1.0
 			                              constant:-self.defaultSpacing];
-		sliderCenterYConstraint =
-			[NSLayoutConstraint constraintWithItem:self.slider
-			                             attribute:NSLayoutAttributeCenterY
-			                             relatedBy:NSLayoutRelationEqual
-			                                toItem:self
-			                             attribute:NSLayoutAttributeCenterY
-			                            multiplier:1.0
-			                              constant:self.defaultToolbarHeight/2];
 		NSLayoutConstraint *sliderTopConstraint =
 			[NSLayoutConstraint constraintWithItem:self.slider
 			                             attribute:NSLayoutAttributeTop
@@ -151,7 +143,7 @@
 			                              constant:16],
 			
 			// slider
-			sliderLeadingConstraint, sliderTrailingConstraint, sliderCenterYConstraint,
+			sliderLeadingConstraint, sliderTrailingConstraint,
 			sliderTopConstraint, sliderBottomConstraint]
 		];
 
@@ -312,7 +304,6 @@
 
 - (void)setToolbarHeight:(float)toolbarHeight {
 	toolbarHeightConstraint.constant = toolbarHeight;
-	sliderCenterYConstraint.constant = toolbarHeight/2;
 }
 
 - (float)toolbarHeight {

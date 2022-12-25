@@ -77,7 +77,7 @@
 	Number *n = [[Number alloc] initWithAtomLine:atomLine andGui:self];
 	if(n) {
 		[self.widgets addObject:n];
-		DDLogVerbose(@"Gui: added %@", n.type);
+		LogVerbose(@"Gui: added %@", n.type);
 	}
 }
 
@@ -85,7 +85,7 @@
 	Symbol *s = [[Symbol alloc] initWithAtomLine:atomLine andGui:self];
 	if(s) {
 		[self.widgets addObject:s];
-		DDLogVerbose(@"Gui: added %@", s.type);
+		LogVerbose(@"Gui: added %@", s.type);
 	}
 }
 
@@ -93,7 +93,7 @@
 	List *l = [[List alloc] initWithAtomLine:atomLine andGui:self];
 	if(l) {
 		[self.widgets addObject:l];
-		DDLogVerbose(@"Gui: added %@", l.type);
+		LogVerbose(@"Gui: added %@", l.type);
 	}
 }
 
@@ -101,7 +101,7 @@
 	Comment *c = [[Comment alloc] initWithAtomLine:atomLine andGui:self];
 	if(c) {
 		[self.widgets addObject:c];
-		DDLogVerbose(@"Gui: added %@", c.type);
+		LogVerbose(@"Gui: added %@", c.type);
 	}
 }
 
@@ -109,7 +109,7 @@
 	Bang *b = [[Bang alloc] initWithAtomLine:atomLine andGui:self];
 	if(b) {
 		[self.widgets addObject:b];
-		DDLogVerbose(@"Gui: added %@", b.type);
+		LogVerbose(@"Gui: added %@", b.type);
 	}
 }
 
@@ -117,7 +117,7 @@
 	Toggle *t = [[Toggle alloc] initWithAtomLine:atomLine andGui:self];
 	if(t) {
 		[self.widgets addObject:t];
-		DDLogVerbose(@"Gui: added %@", t.type);
+		LogVerbose(@"Gui: added %@", t.type);
 	}
 }
 
@@ -125,7 +125,7 @@
 	Number2 *n = [[Number2 alloc] initWithAtomLine:atomLine andGui:self];
 	if(n) {
 		[self.widgets addObject:n];
-		DDLogVerbose(@"Gui: added %@", n.type);
+		LogVerbose(@"Gui: added %@", n.type);
 	}
 }
 
@@ -134,7 +134,7 @@
 	if(s) {
 		s.orientation = orientation;
 		[self.widgets addObject:s];
-		DDLogVerbose(@"Gui: added %@", s.type);
+		LogVerbose(@"Gui: added %@", s.type);
 	}
 }
 
@@ -143,7 +143,7 @@
 	if(r) {
 		r.orientation = orientation;
 		[self.widgets addObject:r];
-		DDLogVerbose(@"Gui: added %@", r.type);
+		LogVerbose(@"Gui: added %@", r.type);
 	}
 }
 
@@ -151,7 +151,7 @@
 	VUMeter *v = [[VUMeter alloc] initWithAtomLine:atomLine andGui:self];
 	if(v) {
 		[self.widgets addObject:v];
-		DDLogVerbose(@"Gui: added %@", v.type);
+		LogVerbose(@"Gui: added %@", v.type);
 	}
 }
 
@@ -159,7 +159,7 @@
 	Canvas *c = [[Canvas alloc] initWithAtomLine:atomLine andGui:self];
 	if(c) {
 		[self.widgets addObject:c];
-		DDLogVerbose(@"Gui: added %@", c.type);
+		LogVerbose(@"Gui: added %@", c.type);
 	}
 }
 
@@ -223,7 +223,7 @@
 					if(self.patchWidth < 20 || self.patchHeight < 20) {
 						self.patchWidth = self.parentViewSize.width;
 						self.patchHeight = self.parentViewSize.height;
-						DDLogWarn(@"Gui: patch size < 20x20, using screen size with scaling of 1.0");
+						LogWarn(@"Gui: patch size < 20x20, using screen size with scaling of 1.0");
 					}
 					else {
 						// set pd gui to ios gui scale amount based on relative sizes
@@ -368,7 +368,7 @@
 
 	// print warnings on objects that aren't completely compatible
 	if(!added && [objType isEqualToString:@"keyname"]) {
-		DDLogWarn(@"Gui: [keyname] can create, but won't return any events");
+		LogWarn(@"Gui: [keyname] can create, but won't return any events");
 	}
 }
 

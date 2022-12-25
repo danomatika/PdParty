@@ -31,7 +31,7 @@
 	Display *d = [[Display alloc] initWithAtomLine:atomLine andGui:self];
 	if(d) {
 		[self.widgets addObject:d];
-		DDLogVerbose(@"Gui: added %@", d.type);
+		LogVerbose(@"Gui: added %@", d.type);
 	}
 }
 
@@ -39,7 +39,7 @@
 	Numberbox *n = [[Numberbox alloc] initWithAtomLine:atomLine andGui:self];
 	if(n) {
 		[self.widgets addObject:n];
-		DDLogVerbose(@"Gui: added %@", n.type);
+		LogVerbose(@"Gui: added %@", n.type);
 	}
 }
 
@@ -47,7 +47,7 @@
 	Ribbon *r = [[Ribbon alloc] initWithAtomLine:atomLine andGui:self];
 	if(r) {
 		[self.widgets addObject:r];
-		DDLogVerbose(@"Gui: added %@", r.type);
+		LogVerbose(@"Gui: added %@", r.type);
 	}
 }
 
@@ -55,7 +55,7 @@
 	Taplist *t = [[Taplist alloc] initWithAtomLine:atomLine andGui:self];
 	if(t) {
 		[self.widgets addObject:t];
-		DDLogVerbose(@"Gui: added %@", t.type);
+		LogVerbose(@"Gui: added %@", t.type);
 	}
 }
 
@@ -63,7 +63,7 @@
 	Touch *t = [[Touch alloc] initWithAtomLine:atomLine andGui:self];
 	if(t) {
 		[self.widgets addObject:t];
-		DDLogVerbose(@"Gui: added %@", t.type);
+		LogVerbose(@"Gui: added %@", t.type);
 	}
 }
 
@@ -71,7 +71,7 @@
 	Wordbutton *w = [[Wordbutton alloc] initWithAtomLine:atomLine andGui:self];
 	if(w) {
 		[self.widgets addObject:w];
-		DDLogVerbose(@"Gui: added %@", w.type);
+		LogVerbose(@"Gui: added %@", w.type);
 	}
 }
 
@@ -79,7 +79,7 @@
 	Loadsave *l = [[Loadsave alloc] initWithAtomLine:atomLine andGui:self];
 	if(l) {
 		[self.widgets addObject:l];
-		DDLogVerbose(@"Gui: added %@", l.type);
+		LogVerbose(@"Gui: added %@", l.type);
 	}
 }
 
@@ -87,7 +87,7 @@
 	Knob *k = [[Knob alloc] initWithAtomLine:atomLine andGui:self];
 	if(k) {
 		[self.widgets addObject:k];
-		DDLogVerbose(@"Gui: added %@", k.type);
+		LogVerbose(@"Gui: added %@", k.type);
 	}
 }
 
@@ -95,7 +95,7 @@
 	Menubang *m = [[Menubang alloc] initWithAtomLine:atomLine andGui:self];
 	if(m) {
 		[self.widgets addObject:m];
-		DDLogVerbose(@"Gui: added %@", m.type);
+		LogVerbose(@"Gui: added %@", m.type);
 	}
 }
 
@@ -103,7 +103,7 @@
 	ViewPortCanvas *c = [[ViewPortCanvas alloc] initWithAtomLine:atomLine andGui:self];
 	if(c) {
 		[self.widgets addObject:c];
-		DDLogVerbose(@"Gui: added %@", c.type);
+		LogVerbose(@"Gui: added %@", c.type);
 	}
 }
 

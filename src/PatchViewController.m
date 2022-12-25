@@ -181,7 +181,7 @@
 		
 		// does the scene need key events?
 		keyGrabberView.active = self.sceneManager.scene.requiresKeys;
-		DDLogVerbose(@"PatchViewController: %@ key grabber",
+		LogVerbose(@"PatchViewController: %@ key grabber",
 			(keyGrabberView.active ? @"enabled" : @"disabled"));
 	
 		// set nav controller title
@@ -248,7 +248,7 @@
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
 			#ifdef DEBUG_TOUCH
-				DDLogVerbose(@"touch %d: down %.4f %.4f %.4f %.4f",
+				LogVerbose(@"touch %d: down %.4f %.4f %.4f %.4f",
 					touchIndex+1, pos.x, pos.y, touch.majorRadius,
 					touch.force/touch.maximumPossibleForce);
 			#endif
@@ -264,7 +264,7 @@
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
 			#ifdef DEBUG_TOUCH
-				DDLogVerbose(@"touch %d: moved %.4f %.4f %.4f %.4f",
+				LogVerbose(@"touch %d: moved %.4f %.4f %.4f %.4f",
 				touchIndex+1, pos.x, pos.y, touch.majorRadius,
 				touch.force/touch.maximumPossibleForce);
 			#endif
@@ -281,7 +281,7 @@
 		CGPoint pos = [touch locationInView:self.view];
 		if([self.sceneManager.scene scaleTouch:touch forPos:&pos]) {
 			#ifdef DEBUG_TOUCH
-				DDLogVerbose(@"touch %d: up %.4f %.4f %.4f %.4f",
+				LogVerbose(@"touch %d: up %.4f %.4f %.4f %.4f",
 				touchIndex+1, pos.x, pos.y, touch.majorRadius,
 				touch.force/touch.maximumPossibleForce);
 			#endif
@@ -344,7 +344,7 @@
 	}
 	else if(UIInterfaceOrientationIsLandscape(currentOrientation)) {
 		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
-			DDLogVerbose(@"PatchViewController: rotating view to portrait for current scene");
+			LogVerbose(@"PatchViewController: rotating view to portrait for current scene");
 			if(currentOrientation == UIInterfaceOrientationLandscapeLeft) {
 				[(PatchView *)self.view setRotation:90];
 				self.sceneManager.currentOrientation = UIInterfaceOrientationLandscapeLeft;
@@ -360,7 +360,7 @@
 	}
 	else { // default is portrait
 		if(self.sceneManager.scene.preferredOrientations & UIInterfaceOrientationMaskLandscape) {
-			DDLogVerbose(@"PatchViewController: rotating view to landscape for current scene");
+			LogVerbose(@"PatchViewController: rotating view to landscape for current scene");
 			if(currentOrientation == UIInterfaceOrientationPortrait) {
 				[(PatchView *)self.view setRotation:-90];
 				self.sceneManager.currentOrientation = UIInterfaceOrientationPortrait;

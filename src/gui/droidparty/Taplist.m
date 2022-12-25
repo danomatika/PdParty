@@ -24,7 +24,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 9) { // sanity check
-		DDLogWarn(@"Taplist: cannot create, atom line length < 9");
+		LogWarn(@"Taplist: cannot create, atom line length < 9");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -40,7 +40,7 @@
 		self.receiveName = [Gui filterEmptyStringValues:line[7]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Taplist: dropping, send/receive names are empty");
+			LogVerbose(@"Taplist: dropping, send/receive names are empty");
 			return nil;
 		}
 		

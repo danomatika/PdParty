@@ -14,6 +14,8 @@
 #import "Log.h"
 #include "m_pd.h" // for binbuf
 
+//#define DEBUG_PARSER
+
 @implementation PdParser
 
 + (void)printAtomLine:(NSArray *)line {
@@ -24,7 +26,7 @@
 			[string appendString:@" "];
 		}
 	}
-	DDLogVerbose(@"%@", string);
+	LogVerbose(@"%@", string);
 }
 
 + (void)printAtomLineArray:(NSArray *)atomLines {
@@ -41,11 +43,11 @@
 	}
 	
 	// verbose
-	DDLogVerbose(@"PdParser: opening patch \"%@\"", patch.lastPathComponent);
+	LogVerbose(@"PdParser: opening patch \"%@\"", patch.lastPathComponent);
 
 	if(![NSFileManager.defaultManager isReadableFileAtPath:absPath]) {
 		// error
-		DDLogError(@"PdParser: can't read patch: \"%@\"", patch.lastPathComponent);
+		LogError(@"PdParser: can't read patch: \"%@\"", patch.lastPathComponent);
 		return @"";
 	}
 
@@ -53,7 +55,7 @@
 	NSData *buffer = [NSData dataWithContentsOfFile:absPath options:NSDataReadingUncached error:&error];
 	if(!buffer) {
 		// error
-		DDLogError(@"PdParser: couldn't open patch \"%@\": %@", patch.lastPathComponent, error.localizedFailureReason);
+		LogError(@"PdParser: couldn't open patch \"%@\": %@", patch.lastPathComponent, error.localizedFailureReason);
 		return @"";
 	}
 	
@@ -69,9 +71,10 @@
 	NSMutableArray *atomLines = [NSMutableArray array];
 	
 	// break string into lines
-	NSRegularExpression *lineRegexp = [NSRegularExpression regularExpressionWithPattern:@"(#((.|\r|\n)*?)[^\\\\])\r{0,1}\n{0,1};\r{0,1}\n"
-	                                                                            options:NSRegularExpressionCaseInsensitive
-	                                                                              error:NULL];
+	NSRegularExpression *lineRegexp =
+		[NSRegularExpression regularExpressionWithPattern:@"(#((.|\r|\n)*?)[^\\\\])\r{0,1}\n{0,1};\r{0,1}\n"
+		                                          options:NSRegularExpressionCaseInsensitive
+		                                            error:NULL];
 	NSArray *lineMatches = [lineRegexp matchesInString:patchText options:0 range:NSMakeRange(0, patchText.length)];
 	t_binbuf *binbuf = binbuf_new();
 	for(NSTextCheckingResult *lineMatch in lineMatches) {
@@ -90,7 +93,13 @@
 					[atomLine addObject:[NSString stringWithFormat:@"%g", a->a_w.w_float]];
 					break;
 				case A_SYMBOL:
-					[atomLine addObject:[NSString stringWithUTF8String:a->a_w.w_symbol->s_name]];
+					if(strncmp(a->a_w.w_symbol->s_name, ",", MAXPDSTRING) == 0 && atomLine.lastObject) {
+						// concat single commas with previous words
+						atomLine[atomLine.count-1] = [NSString stringWithFormat:@"%@,", atomLine.lastObject];
+					}
+					else {
+						[atomLine addObject:[NSString stringWithUTF8String:a->a_w.w_symbol->s_name]];
+					}
 					break;
 				case A_COMMA: // separates main list from options afterward
 					[atomLine addObject:[NSNull null]];
@@ -111,20 +120,23 @@
 		}
 		[atomLines addObject:atomLine];
 		binbuf_clear(binbuf);
+
+		#ifdef DEBUG_PARSER
+			NSLog(@"%@", [atomLine componentsJoinedByString:@" "]);
+		#endif
 /*
 		// grab matching line as a string & remove trailing ";\n"
 		NSString *line = [patchText substringWithRange:NSMakeRange(lineMatch.range.location, lineMatch.range.length-2)];
 
-		...
-
 		// replace whitespace chars with a space
-		NSRegularExpression *atomRegexp = [NSRegularExpression regularExpressionWithPattern:@"\t|\r\n?|\n"
-																					options:NSRegularExpressionCaseInsensitive
-																					  error:NULL];
+		NSRegularExpression *atomRegexp =
+			[NSRegularExpression regularExpressionWithPattern:@"\t|\r\n?|\n"
+			                                          options:NSRegularExpressionCaseInsensitive
+			                                            error:NULL];
 		NSString *atom = [atomRegexp stringByReplacingMatchesInString:line
-															  options:NSMatchingWithTransparentBounds
-																range:NSMakeRange(0, line.length)
-														 withTemplate:@" "];
+		                                                      options:NSMatchingWithTransparentBounds
+		                                                        range:NSMakeRange(0, line.length)
+		                                                 withTemplate:@" "];
 		
 		// catch Pd 0.46+ variable width length info appended with a comma at the end of float & symbol atoms
 		//
@@ -145,13 +157,14 @@
 		//
 		// #X text 207 218 hello \, world \, foo & bar \,;
 		//
-		NSRegularExpression *commaRegexp = [NSRegularExpression regularExpressionWithPattern:@"(?<!\\\\),\\s"
-																					options:NSRegularExpressionCaseInsensitive
-																					  error:NULL];
+		NSRegularExpression *commaRegexp
+			[NSRegularExpression regularExpressionWithPattern:@"(?<!\\\\),\\s"
+			                                          options:NSRegularExpressionCaseInsensitive
+			                                            error:NULL];
 		atom = [commaRegexp stringByReplacingMatchesInString:atom
-													 options:NSMatchingWithTransparentBounds
-													   range:NSMakeRange(0, line.length)
-												withTemplate:@" , "]; // add preceding space
+		                                             options:NSMatchingWithTransparentBounds
+		                                               range:NSMakeRange(0, line.length)
+		                                        withTemplate:@" , "]; // add preceding space
 
 		// break line into strings delimited by spaces
 		[atomLines addObject:[atom componentsSeparatedByString:@" "]];
@@ -160,7 +173,7 @@
 	binbuf_free(binbuf);
 	
 	// verbose
-	DDLogVerbose(@"PdParser: parsed %lu atom lines", (unsigned long)atomLines.count);
+	LogVerbose(@"PdParser: parsed %lu atom lines", (unsigned long)atomLines.count);
 	
 	return atomLines;
 }

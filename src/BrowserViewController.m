@@ -104,18 +104,18 @@
 		if([zip unzipTo:directory overwrite:YES]) {
 			// remove existing file
 			if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
-				DDLogError(@"Browser: couldn't remove %@, error: %@",
+				LogError(@"Browser: couldn't remove %@, error: %@",
 					path, error.localizedDescription);
 			}
 		}
 		else {
-			DDLogError(@"Browser: couldn't open zipfile: %@", path);
+			LogError(@"Browser: couldn't open zipfile: %@", path);
 			failed = YES;
 		}
 		[zip close];
 	}
 	else {
-		DDLogError(@"Browser: couldn't unzip %@ to %@", path, directory.lastPathComponent);
+		LogError(@"Browser: couldn't unzip %@ to %@", path, directory.lastPathComponent);
 		failed = YES;
 	}
 	if(failed) {

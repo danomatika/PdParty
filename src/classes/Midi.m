@@ -310,19 +310,19 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 	NSString *clientName = [NSString stringWithFormat:@"%@ Client", self.name];
 	OSStatus s = MIDIClientCreate((__bridge CFStringRef)clientName, MIDINotify, (__bridge void*)self, &midiClient);
 	if(s != noErr) {
-		DDLogWarn(@"Midi: couldn't create client: %d", (int)s);
+		LogWarn(@"Midi: couldn't create client: %d", (int)s);
 		return;
 	}
 	NSString *inputName = [NSString stringWithFormat:@"%@ Input Port", self.name];
 	s = MIDIInputPortCreate(midiClient, (__bridge CFStringRef)inputName, MIDIReadInput, (__bridge void*)self, &midiInputPort);
 	if(s != noErr) {
-		DDLogWarn(@"Midi: couldn't create input port: %d", (int)s);
+		LogWarn(@"Midi: couldn't create input port: %d", (int)s);
 		return;
 	}
 	NSString *outputName = [NSString stringWithFormat:@"%@ Output Port", self.name];
 	s = MIDIOutputPortCreate(midiClient, (__bridge CFStringRef)outputName, &midiOutputPort);
 	if(s != noErr) {
-		DDLogWarn(@"Midi: couldn't create output port: %d", (int)s);
+		LogWarn(@"Midi: couldn't create output port: %d", (int)s);
 		return;
 	}
 }
@@ -336,19 +336,19 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 	if(midiInputPort) {
 		OSStatus s = MIDIPortDispose(midiInputPort);
 		if(s != noErr) {
-			DDLogWarn(@"Midi: couldn't delete input port: %d", (int)s);
+			LogWarn(@"Midi: couldn't delete input port: %d", (int)s);
 		}
 	}
 	if(midiOutputPort) {
 		OSStatus s = MIDIPortDispose(midiOutputPort);
 		if(s != noErr) {
-			DDLogWarn(@"Midi: couldn't delete output port: %d", (int)s);
+			LogWarn(@"Midi: couldn't delete output port: %d", (int)s);
 		}
 	}
 	if(midiClient) {
 		OSStatus s = MIDIClientDispose(midiClient);
 		if(s != noErr) {
-			DDLogWarn(@"Midi: couldn't delete client: %d", (int)s);
+			LogWarn(@"Midi: couldn't delete client: %d", (int)s);
 		}
 	}
 }
@@ -396,7 +396,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 		// create virtual input aka a destination for other clients
 		s = MIDIDestinationCreate(midiClient, (__bridge CFStringRef)self.name, MIDIReadVirtualInput, (__bridge void *)self, &virtualInputEndpoint);
 		if(s != noErr) {
-			DDLogWarn(@"Midi: could not create virtual input: %d", (int)s);
+			LogWarn(@"Midi: could not create virtual input: %d", (int)s);
 			return;
 		}
 		// set saved virtual ID, otherwise get from endpoint
@@ -410,7 +410,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 		if(uniqueID == 0) {
 			s = MIDIObjectGetIntegerProperty(virtualInputEndpoint, kMIDIPropertyUniqueID, &uniqueID);
 			if(s != noErr) {
-				DDLogWarn(@"Midi: could not get virtual input id: %d", (int)s);
+				LogWarn(@"Midi: could not get virtual input id: %d", (int)s);
 			}
 			else {
 				[NSUserDefaults.standardUserDefaults setInteger:uniqueID forKey:@"MidiVirtualInputID"];
@@ -421,7 +421,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 		// create virtual output aka a source for other clients
 		s = MIDISourceCreate(midiClient, (__bridge CFStringRef)self.name, &virtualOutputEndpoint);
 		if(s != noErr) {
-			DDLogWarn(@"Midi: could not create virtual output: %d", (int)s);
+			LogWarn(@"Midi: could not create virtual output: %d", (int)s);
 			return;
 		}
 		self.virtualOutput = [self connectOutput:virtualOutputEndpoint];
@@ -433,7 +433,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 		self.virtualInput = nil;
 		s = MIDIEndpointDispose(virtualInputEndpoint);
 		if(s != noErr) {
-			DDLogWarn(@"Midi: could not delete virtual input: %d", (int)s);
+			LogWarn(@"Midi: could not delete virtual input: %d", (int)s);
 		}
 		virtualInputEndpoint = 0;
 
@@ -442,7 +442,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 		self.virtualOutput = nil;
 		s = MIDIEndpointDispose(virtualOutputEndpoint);
 		if(s != noErr) {
-			DDLogWarn(@"Midi: could not delete virtual output: %d", (int)s);
+			LogWarn(@"Midi: could not delete virtual output: %d", (int)s);
 		}
 		virtualOutputEndpoint = 0;
 	}
@@ -502,7 +502,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 	if(endpoint != virtualInputEndpoint) {
 		OSStatus s = MIDIPortConnectSource(midiInputPort, endpoint, (__bridge void *)input);
 		if(s != noErr) {
-			DDLogWarn(@"Midi: could not connect input %@: %d", input.name, (int)s);
+			LogWarn(@"Midi: could not connect input %@: %d", input.name, (int)s);
 		}
 	}
 	return input;
@@ -528,7 +528,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 			if(endpoint != virtualInputEndpoint) {
 				OSStatus s = MIDIPortDisconnectSource(midiInputPort, endpoint);
 				if(s != noErr) {
-					DDLogWarn(@"Midi: could not disconnect input %@: %d", input.name, (int)s);
+					LogWarn(@"Midi: could not disconnect input %@: %d", input.name, (int)s);
 				}
 			}
 			[self.inputs removeObject:input];

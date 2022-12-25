@@ -18,7 +18,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 18) { // sanity check
-		DDLogWarn(@"Toggle: cannot create, atom line length < 18");
+		LogWarn(@"Toggle: cannot create, atom line length < 18");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -29,7 +29,7 @@
 		self.receiveName = [Gui filterEmptyStringValues:line[8]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Toggle: dropping, send/receive names are empty");
+			LogVerbose(@"Toggle: dropping, send/receive names are empty");
 			return nil;
 		}
 		

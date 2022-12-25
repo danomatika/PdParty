@@ -22,7 +22,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 7) { // sanity check
-		DDLogWarn(@"Ribbon: cannot create, atom line length < 7");
+		LogWarn(@"Ribbon: cannot create, atom line length < 7");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -35,7 +35,7 @@
 		self.sendName = [Gui filterEmptyStringValues:line[7]];
 		if(![self hasValidSendName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Ribbon: dropping, send name is empty");
+			LogVerbose(@"Ribbon: dropping, send name is empty");
 			return nil;
 		}
 		

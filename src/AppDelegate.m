@@ -120,7 +120,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	self.lockScreenDisabled = [defaults boolForKey:@"lockScreenDisabled"];
 	self.runsInBackground = [defaults boolForKey:@"runsInBackground"];
 
-	DDLogInfo(@"App resolution: %g %g", Util.appWidth, Util.appHeight);
+	LogInfo(@"App resolution: %g %g", Util.appWidth, Util.appHeight);
 
 	return YES;
 }
@@ -175,7 +175,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	// PdParty is invoked via the custom "pdparty://" scheme.
 
 	NSString *path = nil;
-	DDLogVerbose(@"AppDelegate: openURL %@ from %@", url, options[UIApplicationOpenURLOptionsSourceApplicationKey]);
+	LogVerbose(@"AppDelegate: openURL %@ from %@", url, options[UIApplicationOpenURLOptionsSourceApplicationKey]);
 
 	// open patch or scene via "pdparty://" scheme with "open" domain, ie. "pdparty://open/path/to/patch.pd"
 	if([url.scheme isEqualToString:@"pdparty"] && [url.host isEqualToString:@"open"] && url.path) {
@@ -188,11 +188,11 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 		path = url.URLByStandardizingPath.path;
 	}
 	if(path) {
-		DDLogVerbose(@"AppDelegate: opening path: %@", path);
+		LogVerbose(@"AppDelegate: opening path: %@", path);
 		if(![path hasPrefix:Util.documentsPath]) {
 			// refuse for now, opening single patches works but there doesn't seem to be an easy way to get permissions
 			// to access other files outside of the single security-scoped url
-			DDLogError(@"AppDelegate: refused to open path outside of sandbox: %@", path);
+			LogError(@"AppDelegate: refused to open path outside of sandbox: %@", path);
 			NSString *message = [NSString stringWithFormat:@"Could not open %@ outside of the PdParty sandbox.\n\nPlease copy the patch(es) or scene directory into PdParty.", path.lastPathComponent];
 			[[UIAlertController alertControllerWithTitle:@"Open Failed"
 			                                     message:message
@@ -200,7 +200,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 			return NO;
 		}
 		if(![self openPath:path]) {
-			DDLogError(@"AppDelegate: couldn't open path: %@", path);
+			LogError(@"AppDelegate: couldn't open path: %@", path);
 			NSString *message = [NSString stringWithFormat:@"Could not open %@", path.lastPathComponent];
 			[[UIAlertController alertControllerWithTitle:@"Open Failed"
 			                                     message:message
@@ -217,14 +217,14 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	NSError *error;
 	path = url.path;
 	NSString *filename = path.lastPathComponent;
-	DDLogVerbose(@"AppDelegate: receiving %@", filename);
+	LogVerbose(@"AppDelegate: receiving %@", filename);
 
 	// pd patch
 	if([path.pathExtension isEqualToString:@"pd"]) {
 		NSString *newPath = [Util.documentsPath stringByAppendingPathComponent:path.lastPathComponent];
 		newPath = [Util generateCopyPathForPath:newPath];
 		if(![NSFileManager.defaultManager copyItemAtPath:path toPath:newPath error:&error]) {
-			DDLogError(@"AppDelegate: couldn't copy %@, error: %@", path, error.localizedDescription);
+			LogError(@"AppDelegate: couldn't copy %@, error: %@", path, error.localizedDescription);
 			NSString *message = [NSString stringWithFormat:@"Could not copy %@ to Documents", filename];
 			[[UIAlertController alertControllerWithTitle:@"Copy Failed"
 			                                     message:message
@@ -232,7 +232,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 			return NO;
 		}
 		[NSFileManager.defaultManager removeItemAtURL:url error:&error]; // remove original file
-		DDLogVerbose(@"AppDelegate: copied %@ to Documents", filename);
+		LogVerbose(@"AppDelegate: copied %@ to Documents", filename);
 		NSString *message = [NSString stringWithFormat:@"%@ copied to Documents", newPath.lastPathComponent];
 		[[UIAlertController alertControllerWithTitle:@"Copy Succeeded"
 		                                     message:message
@@ -254,7 +254,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	
 	// reload if we're in the Documents dir
 	if([self.browserViewController.directory isEqualToString:Util.documentsPath]) {
-		DDLogInfo(@"AppDelegate: reloading Documents dir");
+		LogInfo(@"AppDelegate: reloading Documents dir");
 		[self.browserViewController reloadDirectory];
 	}
 	
@@ -278,7 +278,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 }
 
 - (void)nowPlayingPressed:(id)sender {
-	DDLogVerbose(@"AppDelegate: now playing button pressed");
+	LogVerbose(@"AppDelegate: now playing button pressed");
 	if(Util.isDeviceATablet) {
 		return;
 	}
@@ -292,7 +292,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 		UIStoryboard *board = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
 		patchView = (PatchViewController *)[board instantiateViewControllerWithIdentifier:@"PatchViewController"];
 		if(!patchView) {
-			DDLogError(@"AppDelegate: couldn't create patch view");
+			LogError(@"AppDelegate: couldn't create patch view");
 			return;
 		}
 	}
@@ -301,7 +301,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 		[(UINavigationController *)root pushViewController:(UIViewController *)patchView animated:YES];
 	}
 	else {
-		DDLogError(@"AppDelegate: can't push now playing, rootViewController is not a UINavigationController");
+		LogError(@"AppDelegate: can't push now playing, rootViewController is not a UINavigationController");
 	}
 }
 
@@ -404,13 +404,13 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 #pragma mark Private
 
 - (BOOL)copyResourcePatchDirectoryToDocuments:(NSString *)dirPath error:(NSError *)error {
-	DDLogVerbose(@"AppDelegate: copying %@ to Documents", dirPath);
+	LogVerbose(@"AppDelegate: copying %@ to Documents", dirPath);
 	
 	// create dest folder if it doesn't exist
 	NSString *destPath = [Util.documentsPath stringByAppendingPathComponent:dirPath];
 	if(![NSFileManager.defaultManager fileExistsAtPath:destPath]) {
 		if(![NSFileManager.defaultManager createDirectoryAtPath:destPath withIntermediateDirectories:NO attributes:NULL error:&error]) {
-			DDLogError(@"AppDelegate: couldn't create %@, error: %@", destPath, error.localizedDescription);
+			LogError(@"AppDelegate: couldn't create %@, error: %@", destPath, error.localizedDescription);
 			return NO;
 		}
 	}

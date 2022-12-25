@@ -14,25 +14,47 @@
 
 @implementation Log
 
+static NSMutableArray *s_loggers = nil;
 static TextViewLogger *s_textViewLogger = nil;
 
 + (void)setup {
-	[DDLog addLogger:DDTTYLogger.sharedInstance];
-	[DDLog addLogger:DDASLLogger.sharedInstance];
+	[Log addLogger:[ConsoleLogger new]];
 	if([NSUserDefaults.standardUserDefaults boolForKey:@"logTextView"]) {
 		[Log enableTextViewLogger:YES];
 	}
-	switch(ddLogLevel) {
-		case DDLogLevelInfo:
-			DDLogInfo(@"Log level: INFO");
+	switch(logLevel) {
+		case LogLevelInfo:
+			LogInfo(@"Log level: INFO");
 			break;
-		case DDLogLevelVerbose:
-			DDLogInfo(@"Log level: VERBOSE");
+		case LogLevelVerbose:
+			LogInfo(@"Log level: VERBOSE");
 			break;
 		default:
-			DDLogInfo(@"Log level: %d", (int)ddLogLevel);
+			LogInfo(@"Log level: %d", (int)logLevel);
 			break;
 	}
+}
+
++ (void)log:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) {
+	if(!format) {return;}
+	va_list args;
+	va_start(args, format);
+	NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
+	va_end(args);
+	for(Logger *logger in s_loggers) {
+		[logger logMessage:message];
+	}
+}
+
++ (void)addLogger:(Logger *)logger {
+	if(!s_loggers) {s_loggers = [NSMutableArray new];}
+	if(![s_loggers containsObject:logger]) {
+		[s_loggers addObject:logger];
+	}
+}
+
++ (void)removeLogger:(Logger *)logger {
+	[s_loggers removeObject:logger];
 }
 
 #pragma mark TextViewLogger
@@ -44,10 +66,10 @@ static TextViewLogger *s_textViewLogger = nil;
 + (void)enableTextViewLogger:(BOOL)enable {
 	if(!s_textViewLogger) {
 		s_textViewLogger = [[TextViewLogger alloc] init];
-		[DDLog addLogger:s_textViewLogger];
+		[Log addLogger:s_textViewLogger];
 	}
 	else {
-		[DDLog removeLogger:s_textViewLogger];
+		[Log removeLogger:s_textViewLogger];
 		s_textViewLogger = nil;
 	}
 	[NSUserDefaults.standardUserDefaults setBool:enable forKey:@"logTextView"];
@@ -57,4 +79,16 @@ static TextViewLogger *s_textViewLogger = nil;
 	return (s_textViewLogger != nil);
 }
 
+@end
+
+#pragma mark - Logger
+
+@implementation Logger
+- (void)logMessage:(NSString *)message {}
+@end
+
+#pragma mark - ConsoleLogger
+
+@implementation ConsoleLogger
+- (void)logMessage:(NSString *)message {NSLog(@"%@", message);}
 @end

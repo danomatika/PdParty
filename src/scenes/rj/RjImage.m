@@ -16,7 +16,7 @@
 	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
 		UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:path]];
 		if(!iv.image) {
-			DDLogError(@"RjImage: couldn't load: %@", path);
+			LogError(@"RjImage: couldn't load: %@", path);
 			return nil;
 		}
 		RjImage *image = [[RjImage alloc] initWithFrame:iv.frame];
@@ -29,7 +29,7 @@
 		return image;
 	}
 	else {
-		DDLogWarn(@"RjImage: %@ not found", path);
+		LogWarn(@"RjImage: %@ not found", path);
 	}
 	return nil;
 }

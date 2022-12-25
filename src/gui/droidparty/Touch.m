@@ -21,7 +21,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 7) { // sanity check
-		DDLogWarn(@"Touch: cannot create, atom line length < 7");
+		LogWarn(@"Touch: cannot create, atom line length < 7");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -31,7 +31,7 @@
 		self.sendName = [Gui filterEmptyStringValues:line[7]];
 		if(![self hasValidSendName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Touch: dropping, send name is empty");
+			LogVerbose(@"Touch: dropping, send name is empty");
 			return nil;
 		}
 		

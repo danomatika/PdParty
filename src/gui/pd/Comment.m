@@ -21,7 +21,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 4) { // sanity check
-		DDLogWarn(@"Comment: cannot create, atom line length < 4");
+		LogWarn(@"Comment: cannot create, atom line length < 4");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];

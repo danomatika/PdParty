@@ -76,17 +76,12 @@
 	}
 }
 
-#pragma mark DDAbstractLogger
+#pragma mark Logger
 
-- (void)logMessage:(DDLogMessage *)logMessage {
+- (void)logMessage:(NSString *)message {
+	if(!message) {return;}
 	@synchronized(self) {
-		NSString *logMsg = logMessage->_message;
-		if(self->_logFormatter) { // in case there is a formatter
-			logMsg = [self->_logFormatter formatLogMessage:logMessage];
-		}
-		if(logMsg) {
-			[self addLine:logMsg];
-		}
+		[self addLine:message];
 	}
 }
 

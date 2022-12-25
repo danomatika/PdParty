@@ -52,7 +52,7 @@
 		audioController.allowAirPlay = YES;
 		audioController.defaultToSpeaker = ![defaults boolForKey:@"earpieceSpeakerEnabled"];
 		self.sampleRate = (int)[defaults integerForKey:@"sampleRate"]; ///< audio unit set up here
-		if(ddLogLevel >= DDLogLevelVerbose) {
+		if(logLevel >= LogLevelVerbose) {
 			[audioController print];
 		}
 
@@ -91,26 +91,26 @@
 				unsigned int reason = [info[AVAudioSessionRouteChangeReasonKey] unsignedIntValue];
 				switch(reason) {
 					case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
-						DDLogVerbose(@"PureData: new device available, now %d inputs %d outputs",
+						LogVerbose(@"PureData: new device available, now %d inputs %d outputs",
 							(int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
 						[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
 						break;
 					case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
-						DDLogVerbose(@"PureData: old device unavailable, now %d inputs %d outputs",
+						LogVerbose(@"PureData: old device unavailable, now %d inputs %d outputs",
 							(int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
 						[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
 						break;
 					case AVAudioSessionRouteChangeReasonOverride:
-						DDLogVerbose(@"PureData: device overidden, now %d inputs %d outputs",
+						LogVerbose(@"PureData: device overidden, now %d inputs %d outputs",
 							(int)session.inputNumberOfChannels, (int)session.outputNumberOfChannels);
 						[self configureAudioUnitWithSampleRate:self->audioController.sampleRate];
 						break;
 					default:
 						return;
 				}
-				DDLogVerbose(@"PureData: input \"%@\" output \"%@\"",
-						  [session.currentRoute.inputs.firstObject portName],
-						  [session.currentRoute.outputs.firstObject portName]);
+				LogVerbose(@"PureData: input \"%@\" output \"%@\"",
+					[session.currentRoute.inputs.firstObject portName],
+					[session.currentRoute.outputs.firstObject portName]);
 			}
 		}];
 	}
@@ -156,14 +156,14 @@
 	[PdBase sendMessage:@"scene" withArguments:@[path] toReceiver:RJ_TRANSPORT_R];
 	[PdBase sendMessage:@"record" withArguments:@[@YES] toReceiver:RJ_TRANSPORT_R];
 	self.recording = YES;
-	DDLogVerbose(@"PureData: started recording to %@", path);
+	LogVerbose(@"PureData: started recording to %@", path);
 }
 
 - (void)stopRecording {
 	if(!self.isRecording) return;
 	[PdBase sendMessage:@"record" withArguments:@[@NO] toReceiver:RJ_TRANSPORT_R];
 	self.recording = NO;
-	DDLogVerbose(@"PureData: stopped recording");
+	LogVerbose(@"PureData: stopped recording");
 }
 
 - (BOOL)startedRecordingToRecordDir:(NSString *)path withTimestamp:(BOOL)timestamp {
@@ -171,10 +171,10 @@
 
 	NSString *recordDir = [Util.documentsPath stringByAppendingPathComponent:RECORDINGS_DIR];
 	if(![NSFileManager.defaultManager fileExistsAtPath:recordDir]) {
-		DDLogVerbose(@"PureData: recordings dir not found, creating %@", recordDir);
+		LogVerbose(@"PureData: recordings dir not found, creating %@", recordDir);
 		NSError *error;
 		if(![NSFileManager.defaultManager createDirectoryAtPath:recordDir withIntermediateDirectories:YES attributes:nil error:&error]) {
-			DDLogError(@"PureData: couldn't create %@, error: %@", recordDir, error.localizedDescription);
+			LogError(@"PureData: couldn't create %@, error: %@", recordDir, error.localizedDescription);
 			return NO;
 		}
 	}
@@ -316,7 +316,7 @@
 
 + (void)sendPrint:(NSString *)print {
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
-	DDLogInfo(@"Pd: %@", print);
+	LogInfo(@"Pd: %@", print);
 	[app.osc sendPrint:print];
 }
 
@@ -338,7 +338,7 @@
 	}
 	[list addObjectsFromArray:arguments];
 	if(!firstComponent) {
-		DDLogWarn(@"PureData: dropping OSC message with empty address");
+		LogWarn(@"PureData: dropping OSC message with empty address");
 		return;
 	}
 	if([firstComponent isEqualToString:PARTY_OSC_R]) { // catch incoming control messages
@@ -382,15 +382,15 @@
 #pragma mark PdReceiverDelegate
 
 - (void)receiveBangFromSource:(NSString *)source {
-	DDLogVerbose(@"PureData: dropped bang");
+	LogVerbose(@"PureData: dropped bang");
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	DDLogVerbose(@"PureData: dropped float: %f", received);
+	LogVerbose(@"PureData: dropped float: %f", received);
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	DDLogVerbose(@"PureData: dropped symbol: %@", symbol);
+	LogVerbose(@"PureData: dropped symbol: %@", symbol);
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
@@ -405,7 +405,7 @@
 		}
 	}
 	else {
-		DDLogVerbose(@"PureData: dropped list: %@", list.description);
+		LogVerbose(@"PureData: dropped list: %@", list.description);
 	}
 }
 
@@ -593,7 +593,7 @@
 		// open a url
 		else if([message isEqualToString:@"openurl"] && arguments.count > 0 && [arguments isStringAt:0]) {
 			NSURL *url = [NSURL URLWithString:arguments[0]];
-			DDLogVerbose(@"PureData: openurl %@", url);
+			LogVerbose(@"PureData: openurl %@", url);
 			// local file
 			if(!url.scheme || [url.scheme isEqualToString:@""] ||
 			   [url.scheme isEqualToString:@"file"]) {
@@ -611,14 +611,14 @@
 					// iOS 10+ aynchronous open
 					[application openURL:url options:@{} completionHandler:^(BOOL success) {
 						if(!success) {
-							DDLogError(@"PureData: could not open url: %@", url);
+							LogError(@"PureData: could not open url: %@", url);
 						}
 					}];
 				}
 				else {
 					// iOS < 10
 					if(![UIApplication.sharedApplication openURL:url]) {
-						DDLogError(@"PureData: could not open url: %@", url);
+						LogError(@"PureData: could not open url: %@", url);
 					}
 				}
 			}
@@ -632,7 +632,7 @@
 		}
 	}
 	else {
-		DDLogVerbose(@"PureData: dropped message: %@ %@", message, arguments.description);
+		LogVerbose(@"PureData: dropped message: %@ %@", message, arguments.description);
 	}
 }
 
@@ -645,7 +645,7 @@
 - (void)setSampleRate:(int)sampleRate {
 	if(audioController.sampleRate == sampleRate) return;
 	if(sampleRate <= 0) {
-		DDLogWarn(@"PureData: ignoring obviously bad sample rate: %d", sampleRate);
+		LogWarn(@"PureData: ignoring obviously bad sample rate: %d", sampleRate);
 		return;
 	}
 	[self configureAudioUnitWithSampleRate:sampleRate];
@@ -660,20 +660,20 @@
 	// may lead to a buffer duration not being updated after a samplerate change
 	
 	if(ticksPerBuffer <= 0 || ticksPerBuffer > 32) {
-		DDLogWarn(@"PureData: ignoring obviously bad ticks per buffer: %d", ticksPerBuffer);
+		LogWarn(@"PureData: ignoring obviously bad ticks per buffer: %d", ticksPerBuffer);
 		return;
 	}
 
 	PdAudioStatus status = [audioController configureTicksPerBuffer:ticksPerBuffer];
 	if(status == PdAudioError) {
-		DDLogError(@"PureData: could not set ticks per buffer");
+		LogError(@"PureData: could not set ticks per buffer");
 	}
 	else if(status == PdAudioPropertyChanged) {
-		DDLogWarn(@"PureData: ticks per buffer value was not acceptable, using %d instead", audioController.ticksPerBuffer);
+		LogWarn(@"PureData: ticks per buffer value was not acceptable, using %d instead", audioController.ticksPerBuffer);
 	}
 	else {
 		[NSUserDefaults.standardUserDefaults setInteger:ticksPerBuffer forKey:@"ticksPerBuffer"];
-		DDLogVerbose(@"PureData: ticks per buffer now %d", audioController.ticksPerBuffer);
+		LogVerbose(@"PureData: ticks per buffer now %d", audioController.ticksPerBuffer);
 	}
 }
 
@@ -863,26 +863,26 @@ static NSNumberFormatter *s_numFormatter = nil;
 	                                                         outputChannels:outputs
 	                                                           inputEnabled:YES];
 	if(status == PdAudioError) {
-		DDLogError(@"PureData: could not configure audio");
+		LogError(@"PureData: could not configure audio");
 	}
 	else if(status == PdAudioPropertyChanged) {
-		DDLogWarn(@"PureData: some of the audio properties were changed during configuration");
+		LogWarn(@"PureData: some of the audio properties were changed during configuration");
 		[audioController print];
 	}
-	DDLogVerbose(@"PureData: sampleRate %d inputs %d outputs %d",
+	LogVerbose(@"PureData: sampleRate %d inputs %d outputs %d",
 				 audioController.sampleRate, audioController.inputChannels, audioController.outputChannels);
 
 	// (re)set tpb if we're not letting the latency be chosen automatically
 	// by the audioController
 	if(!self.autoLatency && audioController.ticksPerBuffer != tpb) {
-		DDLogVerbose(@"PureData: resetting ticks per buffer");
+		LogVerbose(@"PureData: resetting ticks per buffer");
 		[self setTicksPerBuffer:tpb];
 	}
 
 	// catch zero ticks per buffer
 	if(audioController.ticksPerBuffer <= 0) {
 		[self setTicksPerBuffer:1];
-		DDLogVerbose(@"PureData: caught 0 ticksPerBuffer, setting to 1");
+		LogVerbose(@"PureData: caught 0 ticksPerBuffer, setting to 1");
 	}
 
 	audioController.active = YES;
@@ -904,7 +904,7 @@ static NSNumberFormatter *s_numFormatter = nil;
 			[data appendBytes:byte length:1];
 		}
 		else {
-			DDLogWarn(@"PureData: cannot encode non-numeric list argument: %@", o);
+			LogWarn(@"PureData: cannot encode non-numeric list argument: %@", o);
 			data = nil;
 			break;
 		}
@@ -917,7 +917,7 @@ static NSNumberFormatter *s_numFormatter = nil;
 @implementation PureDataDispatcher
 
 - (void)receivePrint:(NSString *)message {
-	DDLogInfo(@"%@", message);
+	LogInfo(@"%@", message);
 	[self.osc sendPrint:message];
 }
 
