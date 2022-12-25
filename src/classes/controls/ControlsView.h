@@ -27,7 +27,6 @@
 	NSLayoutConstraint *toolbarHeightConstraint;
 	NSLayoutConstraint *sliderLeadingConstraint;
 	NSLayoutConstraint *sliderTrailingConstraint;
-	NSLayoutConstraint *sliderCenterYConstraint;
 }
 
 /// controls event delegate
