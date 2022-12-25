@@ -72,20 +72,20 @@
 }
 
 - (BOOL)loadDirectory:(NSString *)dirPath relativeTo:(NSString *)basePath {
-	DDLogVerbose(@"Browser: loading directory %@ relative to %@", dirPath, basePath);
+	LogVerbose(@"Browser: loading directory %@ relative to %@", dirPath, basePath);
 	NSMutableArray *dirComponents = [NSMutableArray arrayWithArray:[dirPath componentsSeparatedByString:@"/"]];
 	NSMutableArray *baseComponents = [NSMutableArray arrayWithArray:[basePath componentsSeparatedByString:@"/"]];
 	if(baseComponents.count == 0 || dirComponents.count == 0) {
-		DDLogWarn(@"Browser: cannot loadDirectory, basePath and/or dirPath are empty");
+		LogWarn(@"Browser: cannot loadDirectory, basePath and/or dirPath are empty");
 		return NO;
 	}
 	if(baseComponents.count > dirComponents.count) {
-		DDLogWarn(@"Browser: cannot loadDirectory, basePath is longer than dirPath");
+		LogWarn(@"Browser: cannot loadDirectory, basePath is longer than dirPath");
 		return NO;
 	}
 	for(int i = 0; i < baseComponents.count; ++i) {
 		if(![dirComponents[i] isEqualToString:baseComponents[i]]) {
-			DDLogWarn(@"Browser: cannot loadDirectory, dirPath is not a child of basePath");
+			LogWarn(@"Browser: cannot loadDirectory, dirPath is not a child of basePath");
 			return NO;
 		}
 	}
@@ -98,14 +98,14 @@
 		BOOL isDir = NO;
 		NSString *path = [components componentsJoinedByString:@"/"];
 		if(![NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDir]) {
-			DDLogWarn(@"Browser: stopped loading, %@ doesn't exist", path.lastPathComponent);
+			LogWarn(@"Browser: stopped loading, %@ doesn't exist", path.lastPathComponent);
 			return NO;
 		}
 		if(!isDir) {
-			DDLogWarn(@"Browser: stopped loading, %@ is a file", path.lastPathComponent);
+			LogWarn(@"Browser: stopped loading, %@ is a file", path.lastPathComponent);
 			return NO;
 		}
-		DDLogVerbose(@"Browser: now pushing folder %@", path.lastPathComponent);
+		LogVerbose(@"Browser: now pushing folder %@", path.lastPathComponent);
 		if(i == count) { // load first layer, don't push
 			path = [components componentsJoinedByString:@"/"];
 			[self loadDirectory:path];
@@ -135,9 +135,9 @@
 #pragma mark Dialogs
 
 - (void)showNewFileDialog {
-	DDLogVerbose(@"Browser: new file dialog");
+	LogVerbose(@"Browser: new file dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"Browser: couldn't show new file dialog, directory not set (loadDirectory first?)");
+		LogWarn(@"Browser: couldn't show new file dialog, directory not set (loadDirectory first?)");
 		return;
 	}
 	NSString *title = @"Create New File", *message;
@@ -171,7 +171,7 @@
 			}
 			else {
 				if(![self.root.extensions containsObject:file.pathExtension]) {
-					DDLogWarn(@"Browser: couldn't create \"%@\", missing one of the required extensions: %@",
+					LogWarn(@"Browser: couldn't create \"%@\", missing one of the required extensions: %@",
 					          file.lastPathComponent, [self.root.extensions componentsJoinedByString:@", "]);
 					NSString *title = [NSString stringWithFormat:@"Couldn't create \"%@\"", file.lastPathComponent];
 					NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@",
@@ -183,7 +183,7 @@
 				}
 			}
 		}
-		DDLogVerbose(@"Browser: new file: %@", file);
+		LogVerbose(@"Browser: new file: %@", file);
 		file = [self.top.directory stringByAppendingPathComponent:file];
 		[self createFilePath:file];
 	}];
@@ -192,9 +192,9 @@
 }
 
 - (void)showNewDirectoryDialog {
-	DDLogVerbose(@"Browser: new directory dialog");
+	LogVerbose(@"Browser: new directory dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"Browser: couldn't show new dir dialog, directory not set (loadDirectory first?)");
+		LogWarn(@"Browser: couldn't show new dir dialog, directory not set (loadDirectory first?)");
 		return;
 	}
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Create New Folder"
@@ -208,7 +208,7 @@
 		if([dir isEqualToString:@""]) {
 			return;
 		}
-		DDLogVerbose(@"Browser: new dir: %@", dir);
+		LogVerbose(@"Browser: new dir: %@", dir);
 		dir = [self.top.directory stringByAppendingPathComponent:dir];
 		[self createDirectoryPath:dir];
 	}];
@@ -217,9 +217,9 @@
 }
 
 - (void)showRenameDialogForPath:(NSString *)path completion:(void (^)(void))completion {
-	DDLogVerbose(@"Browser: rename dialog");
+	LogVerbose(@"Browser: rename dialog");
 	if(!self.top.directory) {
-		DDLogWarn(@"Browser: couldn't show rename dialog, directory not set (loadDirectory first?)");
+		LogWarn(@"Browser: couldn't show rename dialog, directory not set (loadDirectory first?)");
 		return;
 	}
 	BOOL isDir = [Util isDirectory:path];
@@ -262,7 +262,7 @@
 			}
 			else if(![self.root.extensions containsObject:newPath.pathExtension]) {
 				// check for required extension
-				DDLogWarn(@"Browser: couldn't rename to \"%@\", missing one of the required extensions: %@",
+				LogWarn(@"Browser: couldn't rename to \"%@\", missing one of the required extensions: %@",
 				          newPath.lastPathComponent, [self.root.extensions componentsJoinedByString:@", "]);
 				NSString *title = [NSString stringWithFormat:@"Couldn't rename to \"%@\"", newPath.lastPathComponent];
 				NSString *message = [NSString stringWithFormat:@"Missing one of the required file extensions: .%@",
@@ -282,7 +282,7 @@
 				return;
 			}
 		}
-		DDLogVerbose(@"Browser: rename %@ to %@", path.lastPathComponent, newPath.lastPathComponent);
+		LogVerbose(@"Browser: rename %@ to %@", path.lastPathComponent, newPath.lastPathComponent);
 		if([self renamePath:path to:newPath completion:^(BOOL failed) {
 			if(completion) {
 				completion();
@@ -301,7 +301,7 @@
 
 - (BOOL)createFilePath:(NSString *)path {
 	NSError *error;
-	DDLogVerbose(@"Browser: creating file: %@", path.lastPathComponent);
+	LogVerbose(@"Browser: creating file: %@", path.lastPathComponent);
 	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
 		[self showExistsDialogForPath:path inDirectory:path.stringByDeletingLastPathComponent completion:^(BOOL failed, NSUInteger button) {
 			if(failed) {
@@ -340,10 +340,10 @@
 
 - (BOOL)createDirectoryPath:(NSString *)path {
 	NSError *error;
-	DDLogVerbose(@"Browser: creating dir: %@", path.lastPathComponent);
+	LogVerbose(@"Browser: creating dir: %@", path.lastPathComponent);
 	if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
 		if(![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:NULL error:&error]) {
-			DDLogError(@"Browser: couldn't create directory %@, error: %@", path.lastPathComponent, error.localizedDescription);
+			LogError(@"Browser: couldn't create directory %@, error: %@", path.lastPathComponent, error.localizedDescription);
 			[[UIAlertController alertControllerWithTitle:@"Create Failed"
 			                                     message:error.localizedDescription
 			                           cancelButtonTitle:@"Ok"] show];
@@ -370,7 +370,7 @@
 	NSError *error;
 	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
 		if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
-			DDLogError(@"Browser: couldn't rename %@ to %@, error: %@", path, newPath, error.localizedDescription);
+			LogError(@"Browser: couldn't rename %@ to %@, error: %@", path, newPath, error.localizedDescription);
 			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Rename Failed"
 			                                                               message:error.localizedDescription
 			                                                     cancelButtonTitle:nil];
@@ -386,11 +386,11 @@
 			return NO;
 		}
 		else {
-			DDLogVerbose(@"Browser: renamed %@ to %@", path, newPath);
+			LogVerbose(@"Browser: renamed %@ to %@", path, newPath);
 		}
 	}
 	else {
-		DDLogWarn(@"Browser: couldn't rename %@, path not found", path);
+		LogWarn(@"Browser: couldn't rename %@, path not found", path);
 	}
 	if(completion) {
 		completion(NO);
@@ -402,7 +402,7 @@
 	NSError *error;
 	NSString *newPath = [newDir stringByAppendingPathComponent:path.lastPathComponent];
 	if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
-		DDLogWarn(@"Browser: couldn't copy %@, path not found", path);
+		LogWarn(@"Browser: couldn't copy %@, path not found", path);
 		return NO;
 	}
 	if([NSFileManager.defaultManager fileExistsAtPath:newPath]) {
@@ -452,7 +452,7 @@
 	NSError *error;
 	NSString *newPath = [newDir stringByAppendingPathComponent:path.lastPathComponent];
 	if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
-		DDLogWarn(@"Browser: couldn't move %@, path not found", path);
+		LogWarn(@"Browser: couldn't move %@, path not found", path);
 		return NO;
 	}
 	if([NSFileManager.defaultManager fileExistsAtPath:newPath]) {
@@ -503,7 +503,7 @@
 	NSError *error;
 	if([NSFileManager.defaultManager fileExistsAtPath:path]) {
 		if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
-			DDLogError(@"Browser: couldn't delete %@, error: %@", path, error.localizedDescription);
+			LogError(@"Browser: couldn't delete %@, error: %@", path, error.localizedDescription);
 			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Delete Failed"
 			                                                               message:error.localizedDescription
 			                                                     cancelButtonTitle:nil];
@@ -519,11 +519,11 @@
 			return NO;
 		}
 		else {
-			DDLogVerbose(@"Browser: deleted %@", path);
+			LogVerbose(@"Browser: deleted %@", path);
 		}
 	}
 	else {
-		DDLogWarn(@"Browser: couldn't delete %@, path not found", path);
+		LogWarn(@"Browser: couldn't delete %@, path not found", path);
 	}
 	if(completion) {
 		completion(NO);
@@ -649,7 +649,7 @@
 - (BOOL)_createFilePath:(NSString *)path completion:(void (^)(BOOL failed))completion {
 	NSError *error;
 	if(![NSFileManager.defaultManager createFileAtPath:path contents:nil attributes:NULL]) {
-		DDLogError(@"Browser: couldn't create file %@", path);
+		LogError(@"Browser: couldn't create file %@", path);
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Create Failed"
 		                                                               message:error.localizedDescription
 		                                                     cancelButtonTitle:nil];
@@ -673,7 +673,7 @@
 - (BOOL)_copyPath:(NSString *)path toPath:(NSString *)newPath completion:(void (^)(BOOL failed))completion {
 	NSError *error;
 	if(![NSFileManager.defaultManager copyItemAtPath:path toPath:newPath error:&error]) {
-		DDLogError(@"Browser: couldn't copy %@ to %@, error: %@", path, newPath, error.localizedDescription);
+		LogError(@"Browser: couldn't copy %@ to %@, error: %@", path, newPath, error.localizedDescription);
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Copy Failed"
 		                                                               message:error.localizedDescription
 		                                                     cancelButtonTitle:nil];
@@ -697,7 +697,7 @@
 - (BOOL)_movePath:(NSString *)path toPath:(NSString *)newPath completion:(void (^)(BOOL failed))completion {
 	NSError *error;
 	if(![NSFileManager.defaultManager moveItemAtPath:path toPath:newPath error:&error]) {
-		DDLogError(@"Browser: couldn't move %@ to %@, error: %@", path, newPath, error.localizedDescription);
+		LogError(@"Browser: couldn't move %@ to %@, error: %@", path, newPath, error.localizedDescription);
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Move Failed"
 		                                                               message:error.localizedDescription
 		                                                     cancelButtonTitle:nil];
@@ -720,9 +720,9 @@
 
 - (void)showExistsDialogForPath:(NSString *)path inDirectory:(NSString *)directory
 					 completion:(void (^)(BOOL failed, NSUInteger button))completion {
-	DDLogVerbose(@"Browser: exists dialog for %@", path.lastPathComponent);
+	LogVerbose(@"Browser: exists dialog for %@", path.lastPathComponent);
 	if(!self.top.directory) {
-		DDLogWarn(@"Browser: couldn't show exists dialog, directory not set (loadDirectory first?)");
+		LogWarn(@"Browser: couldn't show exists dialog, directory not set (loadDirectory first?)");
 		return;
 	}
 	NSString *newPath = [directory stringByAppendingPathComponent:path.lastPathComponent];

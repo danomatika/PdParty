@@ -26,7 +26,7 @@
 			[string appendString:@" "];
 		}
 	}
-	DDLogVerbose(@"%@", string);
+	LogVerbose(@"%@", string);
 }
 
 + (void)printAtomLineArray:(NSArray *)atomLines {
@@ -43,11 +43,11 @@
 	}
 	
 	// verbose
-	DDLogVerbose(@"PdParser: opening patch \"%@\"", patch.lastPathComponent);
+	LogVerbose(@"PdParser: opening patch \"%@\"", patch.lastPathComponent);
 
 	if(![NSFileManager.defaultManager isReadableFileAtPath:absPath]) {
 		// error
-		DDLogError(@"PdParser: can't read patch: \"%@\"", patch.lastPathComponent);
+		LogError(@"PdParser: can't read patch: \"%@\"", patch.lastPathComponent);
 		return @"";
 	}
 
@@ -55,7 +55,7 @@
 	NSData *buffer = [NSData dataWithContentsOfFile:absPath options:NSDataReadingUncached error:&error];
 	if(!buffer) {
 		// error
-		DDLogError(@"PdParser: couldn't open patch \"%@\": %@", patch.lastPathComponent, error.localizedFailureReason);
+		LogError(@"PdParser: couldn't open patch \"%@\": %@", patch.lastPathComponent, error.localizedFailureReason);
 		return @"";
 	}
 	
@@ -173,7 +173,7 @@
 	binbuf_free(binbuf);
 	
 	// verbose
-	DDLogVerbose(@"PdParser: parsed %lu atom lines", (unsigned long)atomLines.count);
+	LogVerbose(@"PdParser: parsed %lu atom lines", (unsigned long)atomLines.count);
 	
 	return atomLines;
 }

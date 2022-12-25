@@ -20,7 +20,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 18) { // sanity check
-		DDLogWarn(@"Canvas: cannot create, atom line length < 18");
+		LogWarn(@"Canvas: cannot create, atom line length < 18");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -96,7 +96,7 @@
 	}
 	else if([message isEqualToString:@"size"]) {
 		// selectable object size, ignored here since we don't support editing patches
-		DDLogWarn(@"%@: ignoring size edit message", self.type);
+		LogWarn(@"%@: ignoring size edit message", self.type);
 	}
 	else if([message isEqualToString:@"vis_size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
 		// canvas size: width, height
@@ -133,13 +133,13 @@
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	BOOL ret = [super receiveEditMessage:message withArguments:arguments];
 	if([message isEqualToString:@"pos"]) {
-		DDLogVerbose(@"ViewPortCanvas: pos %g %g", self.originalFrame.origin.x, self.originalFrame.origin.y);
+		LogVerbose(@"ViewPortCanvas: pos %g %g", self.originalFrame.origin.x, self.originalFrame.origin.y);
 		if(self.delegate) {
 			[self.delegate receivePositionX:self.originalFrame.origin.x Y:self.originalFrame.origin.y];
 		}
 	}
 	else if([message isEqualToString:@"vis_size"]) {
-		DDLogVerbose(@"ViewPortCanvas: vis_size %g %g", self.originalFrame.size.width, self.originalFrame.size.height);
+		LogVerbose(@"ViewPortCanvas: vis_size %g %g", self.originalFrame.size.width, self.originalFrame.size.height);
 		if(self.delegate) {
 			[self.delegate receiveSizeW:self.originalFrame.size.width H:self.originalFrame.size.height];
 		}

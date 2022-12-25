@@ -72,8 +72,8 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		return NO;
 	}
 	self.isListening = YES;
-	DDLogVerbose(@"Osc: started listening on port %d", lo_server_thread_get_port(server));
-	DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
+	LogVerbose(@"Osc: started listening on port %d", lo_server_thread_get_port(server));
+	LogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
 
 	return YES;
 }
@@ -83,7 +83,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		lo_server_thread_stop(server);
 		lo_server_thread_free(server);
 		server = NULL;
-		DDLogVerbose(@"OSC: stopped listening");
+		LogVerbose(@"OSC: stopped listening");
 	}
 	self.isListening = NO;
 
@@ -110,7 +110,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 
 - (void)receiveMessage:(NSString *)address withArguments:(NSArray *)arguments {
 	#ifdef DEBUG_OSC
-		DDLogVerbose(@"OSC message to %@: %@", address, [arguments description]);
+		LogVerbose(@"OSC message to %@: %@", address, [arguments description]);
 	#endif
 	[PureData sendOscMessage:address withArguments:arguments];
 }
@@ -128,13 +128,13 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 			lo_message_add_string(m, [(NSString *)o UTF8String]);
 		}
 		else {
-			DDLogWarn(@"Osc: dropping non-numeric/string argument: %@", o);
+			LogWarn(@"Osc: dropping non-numeric/string argument: %@", o);
 		}
 	}
 	if(lo_send_message(sendAddress, [address UTF8String], m) < 0) {
 		int err = lo_address_errno(sendAddress);
 		const char *errstr = lo_address_errstr(sendAddress);
-		DDLogError(@"OSC: couldn't send message: %d %s", err, errstr);
+		LogError(@"OSC: couldn't send message: %d %s", err, errstr);
 	}
 	lo_message_free(m);
 }
@@ -149,7 +149,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		int res = 0;
 		lo_message m = lo_message_deserialise((void *)data.bytes, data.length, &res);
 		if(res != 0) {
-			DDLogError(@"Osc: couldn't send packet: parsing failed, error %d", res);
+			LogError(@"Osc: couldn't send packet: parsing failed, error %d", res);
 			lo_message_free(m);
 			return;
 		}
@@ -157,15 +157,15 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		if(lo_send_message(sendAddress, path, m) < 0) {
 			int err = lo_address_errno(sendAddress);
 			const char *errstr = lo_address_errstr(sendAddress);
-			DDLogError(@"OSC: couldn't send packet: %d %s", err, errstr);
+			LogError(@"OSC: couldn't send packet: %d %s", err, errstr);
 		}
 		lo_message_free(m);
 	}
 	else if(firstByte == '#') {
-		DDLogWarn(@"Osc: couldn't send packet: bundle not supported");
+		LogWarn(@"Osc: couldn't send packet: bundle not supported");
 	}
 	else {
-		DDLogWarn(@"Osc: couldn't send packet: unrecognized first byte '%c'", firstByte);
+		LogWarn(@"Osc: couldn't send packet: unrecognized first byte '%c'", firstByte);
 	}
 }
 
@@ -368,7 +368,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 - (void)setSendHost:(NSString *)sendHost {
 	_sendHost = sendHost;
 	if([self updateSendAddress]) {
-		DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
+		LogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
 	}
 	[NSUserDefaults.standardUserDefaults setObject:sendHost forKey:@"oscSendHost"];
 }
@@ -376,7 +376,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 - (void)setSendPort:(int)sendPort {
 	_sendPort = sendPort;
 	if([self updateSendAddress]) {
-		DDLogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
+		LogVerbose(@"Osc: sending to %s on port %s", lo_address_get_hostname(sendAddress), lo_address_get_port(sendAddress));
 	}
 	[NSUserDefaults.standardUserDefaults setInteger:sendPort forKey:@"oscSendPort"];
 }
@@ -384,7 +384,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 - (void)setListenPort:(int)listenPort {
 	_listenPort = listenPort;
 	if([self updateServer]) {
-		DDLogVerbose(@"Osc: listening on port %d", lo_server_thread_get_port(server));
+		LogVerbose(@"Osc: listening on port %d", lo_server_thread_get_port(server));
 	}
 	[NSUserDefaults.standardUserDefaults setInteger:listenPort forKey:@"oscListenPort"];
 }
@@ -393,7 +393,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	_listenGroup = listenGroup;
 	if([self updateServer]) {
 		if(![listenGroup isEqualToString:@""]) {
-			DDLogVerbose(@"Osc: listening on multicast group %@", listenGroup);
+			LogVerbose(@"Osc: listening on multicast group %@", listenGroup);
 		}
 	}
 	[NSUserDefaults.standardUserDefaults setObject:listenGroup forKey:@"oscListenGroup"];
@@ -438,7 +438,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	NSString *port = [NSString stringWithFormat:@"%d", self.sendPort];
 	sendAddress = lo_address_new([self.sendHost UTF8String], [port UTF8String]);
 	if(!sendAddress) {
-		DDLogError(@"Osc: could not create send address");
+		LogError(@"Osc: could not create send address");
 		return NO;
 	}
 	return YES;
@@ -457,7 +457,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 		server = lo_server_thread_new_multicast([self.listenGroup UTF8String], [port UTF8String], *errorCB);
 	}
 	if(!server) {
-		DDLogError(@"Osc: could not create server");
+		LogError(@"Osc: could not create server");
 		return NO;
 	}
 	lo_server_thread_add_method(server, NULL, NULL, *messageCB, (__bridge const void *)(self));
@@ -473,7 +473,7 @@ void errorCB(int num, const char *msg, const char *where) {
 	NSMutableString *s = [[NSMutableString alloc] initWithFormat:@"OSC: liblo server thread error %d", num];
 	if(msg) {[s appendFormat:@" : %s", msg];}     // might be NULL
 	if(where) {[s appendFormat:@" : %s", where];} // might be NULL
-	DDLogError(@"%@", s);
+	LogError(@"%@", s);
 }
 
 int messageCB(const char *path, const char *types, lo_arg **argv,

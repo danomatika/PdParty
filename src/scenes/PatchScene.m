@@ -40,12 +40,12 @@
 	[self.gui addWidgetsFromPatch:path];
 	self.preferredOrientations = [Scene orientationMaskFromWidth:self.gui.patchWidth andHeight:self.gui.patchHeight];
 	
-	DDLogVerbose(@"%@: opening %@ %@", self.type, fileName, dirPath);
+	LogVerbose(@"%@: opening %@ %@", self.type, fileName, dirPath);
 	
 	// load patch
 	self.patch = [PdFile openFileNamed:fileName path:dirPath];
 	if(!self.patch) {
-		DDLogError(@"%@: couldn't open %@ %@", self.type, fileName, dirPath);
+		LogError(@"%@: couldn't open %@ %@", self.type, fileName, dirPath);
 		[self.gui removeAllWidgets];
 		return NO;
 	}
@@ -53,7 +53,7 @@
 	// check for [soundoutput] which is used for recording
 	#ifdef CHECK_SOUNDOUTPUT
 		soundoutputFound = [PureData objectExists:@"soundoutput" inPatch:self.patch];
-		DDLogVerbose(@"%@: soundoutput found: %@", self.type, (soundoutputFound ? @"yes" : @"no"));
+		LogVerbose(@"%@: soundoutput found: %@", self.type, (soundoutputFound ? @"yes" : @"no"));
 	#else
 		soundoutputFound = YES:
 	#endif
@@ -61,7 +61,7 @@
 	// load widgets from gui
 	if(self.parentView) {
 		if(self.gui.widgets.count > 0) {
-			DDLogVerbose(@"%@: adding %lu widgets", self.type, (unsigned long)self.gui.widgets.count);
+			LogVerbose(@"%@: adding %lu widgets", self.type, (unsigned long)self.gui.widgets.count);
 		}
 		[self.gui initWidgetsFromPatch:self.patch andAddToView:self.parentView];
 	}
@@ -72,7 +72,7 @@
 			if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
 				ViewPortCanvas *cnv = (ViewPortCanvas *)w;
 				cnv.delegate = self;
-				DDLogInfo(@"DroidScene: found ViewPort canvas");
+				LogInfo(@"DroidScene: found ViewPort canvas");
 			}
 		}
 	}
@@ -91,7 +91,7 @@
 			self.parentView = nil;
 		}
 		[PdBase clearSearchPath];
-		DDLogVerbose(@"%@: closed", self.type);
+		LogVerbose(@"%@: closed", self.type);
 	}
 }
 

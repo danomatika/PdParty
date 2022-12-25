@@ -139,20 +139,20 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 
 - (BOOL)loadDirectory:(NSString *)dirPath {
 	NSError *error;
-	DDLogVerbose(@"Browser: loading directory %@", dirPath);
+	LogVerbose(@"Browser: loading directory %@", dirPath);
 
 	// search for files in the given path and sort
 	NSArray *contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:dirPath error:&error];
 	if(!contents) {
-		DDLogError(@"Browser: couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
+		LogError(@"Browser: couldn't load directory %@, error: %@", dirPath, error.localizedDescription);
 		return NO;
 	}
 	contents = [contents sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
 	
 	// add contents to pathArray as absolute paths
-	DDLogVerbose(@"Browser: found %d paths", (int) contents.count);
+	LogVerbose(@"Browser: found %d paths", (int) contents.count);
 	for(NSString *p in contents) {
-		DDLogVerbose(@"Browser: 	%@", p);
+		LogVerbose(@"Browser: 	%@", p);
 		NSString *fullPath = [dirPath stringByAppendingPathComponent:p];
 		if([self.root.dataDelegate browser:self.root shouldAddPath:fullPath isDir:[Util isDirectory:fullPath]]) {
 			[_paths addObject:fullPath];
@@ -378,7 +378,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 		[self.root.dataDelegate browser:self.root styleCell:cell forPath:path isDir:isDir isSelectable:isSelectable];
 	}
 	else {
-		DDLogWarn(@"Browser: couldn't customize cell, path doesn't exist: %@", path);
+		LogWarn(@"Browser: couldn't customize cell, path doesn't exist: %@", path);
 		[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	}
 	return cell;
@@ -394,7 +394,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 				return;
 			}
 			if(isDir) {
-				DDLogVerbose(@"Browser: now selected dir %@", path.lastPathComponent);
+				LogVerbose(@"Browser: now selected dir %@", path.lastPathComponent);
 				BOOL pushLayer = YES;
 				if([self.root.delegate respondsToSelector:@selector(browser:selectedDirectory:)]) {
 					pushLayer = [self.root.delegate browser:self.root selectedDirectory:path];
@@ -410,7 +410,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 				}
 			}
 			else {
-				DDLogVerbose(@"Browser: selected file %@", path.lastPathComponent);
+				LogVerbose(@"Browser: selected file %@", path.lastPathComponent);
 				if([self.root.delegate respondsToSelector:@selector(browser:selectedFile:)]) {
 					[self.root.delegate browser:self.root selectedFile:path];
 				}
@@ -420,7 +420,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 			scrollPosSet = YES;
 		}
 		else {
-			DDLogError(@"Browser: can't select row in table view, file dosen't exist: %@", path);
+			LogError(@"Browser: can't select row in table view, file dosen't exist: %@", path);
 			[tableView deselectRowAtIndexPath:indexPath animated:NO];
 		}
 	}
@@ -457,7 +457,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 #pragma mark Browsing UI
 
 - (void)addButtonPressed {
-	DDLogVerbose(@"Browser: add button pressed");
+	LogVerbose(@"Browser: add button pressed");
 	// show action sheet
 	if(self.root.canAddFiles && self.root.canAddDirectories) {
 		UIAlertController *sheet = [UIAlertController alertControllerWithTitle:nil
@@ -502,14 +502,14 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 }
 
 - (void)chooseFolderButtonPressed {
-	DDLogVerbose(@"Browser: choose folder button pressed");
+	LogVerbose(@"Browser: choose folder button pressed");
 	if([self.root.delegate respondsToSelector:@selector(browser:selectedDirectory:)]) {
 		[self.root.delegate browser:self.root selectedDirectory:_directory];
 	}
 }
 
 - (void)editButtonPressed {
-	DDLogVerbose(@"Browser: edit button pressed");
+	LogVerbose(@"Browser: edit button pressed");
 	self.mode = BrowserModeEdit;
 }
 
@@ -522,14 +522,14 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 }
 
 - (void)backButtonPressed {
-	DDLogVerbose(@"Browser: back button pressed");
+	LogVerbose(@"Browser: back button pressed");
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark Edit UI
 
 - (void)moveButtonPressed {
-	DDLogVerbose(@"Browser: move button pressed");
+	LogVerbose(@"Browser: move button pressed");
 	UIAlertController *sheet = [UIAlertController alertControllerWithTitle:nil message:nil
 	                                                        preferredStyle:UIAlertControllerStyleActionSheet];
 	UIAlertAction *moveAction = [UIAlertAction actionWithTitle:@"Move" style:UIAlertActionStyleDefault
@@ -552,7 +552,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 }
 
 - (void)renameButtonPressed {
-	DDLogVerbose(@"Browser: rename button pressed");
+	LogVerbose(@"Browser: rename button pressed");
 	NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
 	if(indexPaths.count < 1) {
 		return;
@@ -566,7 +566,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 }
 
 - (void)deleteButtonPressed {
-	DDLogVerbose(@"Browser: delete button pressed");
+	LogVerbose(@"Browser: delete button pressed");
 	NSArray *indexPaths = [self.tableView indexPathsForSelectedRows];
 	if(indexPaths.count < 1) {
 		return;
@@ -581,7 +581,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 }
 
 - (void)doneButtonPressed {
-	DDLogVerbose(@"Browser: done button pressed");
+	LogVerbose(@"Browser: done button pressed");
 	if(self.mode == BrowserModeMove) {
 		[self dismissViewControllerAnimated:YES completion:nil];
 		return;
@@ -592,12 +592,12 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 #pragma mark Move UI
 
 - (void)newFolderButtonPressed {
-	DDLogVerbose(@"Browser: new folder button pressed");
+	LogVerbose(@"Browser: new folder button pressed");
 	[self.root showNewDirectoryDialog];
 }
 
 - (void)moveHereButtonPressed {
-	DDLogVerbose(@"Browser: move here button pressed");
+	LogVerbose(@"Browser: move here button pressed");
 	if(!s_movePaths || s_movePaths.count < 1) {
 		return;
 	}
@@ -606,7 +606,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 }
 
 - (void)copyHereButtonPressed {
-	DDLogVerbose(@"Browser: copy here button pressed");
+	LogVerbose(@"Browser: copy here button pressed");
 	if(!s_movePaths || s_movePaths.count < 1) {
 		return;
 	}

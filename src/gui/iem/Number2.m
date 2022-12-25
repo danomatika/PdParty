@@ -27,7 +27,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 23) { // sanity check
-		DDLogWarn(@"Number2: cannot create, atom line length < 23");
+		LogWarn(@"Number2: cannot create, atom line length < 23");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -52,7 +52,7 @@
 		self.receiveName = [Gui filterEmptyStringValues:line[12]];
 		if(![self hasValidSendName] && ![self hasValidReceiveName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Numberbox2: dropping, send/receive names are empty");
+			LogVerbose(@"Numberbox2: dropping, send/receive names are empty");
 			return nil;
 		}
 		

@@ -65,20 +65,20 @@
 		GCDWebServerOption_AutomaticallySuspendInBackground : @NO // run in background
 	};
 	if(![server startWithOptions:options error:&error]) {
-		DDLogError(@"WebServer: error starting: %@", error.localizedDescription);
+		LogError(@"WebServer: error starting: %@", error.localizedDescription);
 		[[UIAlertController alertControllerWithTitle:@"Starting Server Failed"
 		                                     message:error.localizedDescription
 		                           cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
-	DDLogVerbose(@"WebServer: started");
+	LogVerbose(@"WebServer: started");
 	return YES;
 }
 
 - (void)stop {
 	if(server.isRunning) {
 		[server stop];
-		DDLogVerbose(@"WebServer: stopped");
+		LogVerbose(@"WebServer: stopped");
 	}
 }
 
@@ -89,7 +89,7 @@
 		return;
 	}
 	[NSUserDefaults.standardUserDefaults setInteger:port forKey:@"webServerPort"];
-	DDLogVerbose(@"WebServer: port set to %d", port);
+	LogVerbose(@"WebServer: port set to %d", port);
 }
 
 - (int)port {

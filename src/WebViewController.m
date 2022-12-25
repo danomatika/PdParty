@@ -43,7 +43,7 @@
 	// assume relative file path if no http:, file:, etc
 	if(!url.scheme) {
 		if(!app.sceneManager.scene) {
-			DDLogError(@"AppDelegate: can't open relative path url without scene: %@", url.path);
+			LogError(@"AppDelegate: can't open relative path url without scene: %@", url.path);
 			return;
 		}
 		url = [NSURL fileURLWithPath:[app.sceneManager.currentPath stringByAppendingPathComponent:url.path]];

@@ -72,7 +72,7 @@
 		// load background
 		NSString *backgroundPath = [path stringByAppendingPathComponent:@"image.jpg"];
 		if(![NSFileManager.defaultManager fileExistsAtPath:backgroundPath]) {
-			DDLogWarn(@"RjScene: no background image, loading default background");
+			LogWarn(@"RjScene: no background image, loading default background");
 			backgroundPath = [Util.bundlePath stringByAppendingPathComponent:@"images/rjdj_default.jpg"];
 		}
 		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
@@ -81,7 +81,7 @@
 			self.background.layer.shouldRasterize = YES;
 		}
 		else {
-			DDLogError(@"RjScene: couldn't load background image");
+			LogError(@"RjScene: couldn't load background image");
 		}
 		self.background.contentMode = UIViewContentModeScaleAspectFill;
 		[self.parentView addSubview:self.background];
@@ -89,7 +89,7 @@
 		// load info
 		info = [RjScene infoForSceneAt:path];
 		if(info) {
-			DDLogInfo(@"RjScene: loaded info");
+			LogInfo(@"RjScene: loaded info");
 		}
 		
 		// check sensor requirements
@@ -357,18 +357,18 @@
 		if([cmd isEqualToString:@"load"]) {
 			widget = [RjImage imageWithFile:[self.patch.pathName stringByAppendingPathComponent:arg] andParent:self];
 			if(!widget) return;
-			DDLogVerbose(@"RjScene: loading RjImage %@", arg);
+			LogVerbose(@"RjScene: loading RjImage %@", arg);
 		}
 		else if([cmd isEqualToString:@"text"]) {
 			widget = [RjText textWithText:arg andParent:self];
 			if(!widget) return;
-			DDLogVerbose(@"RjScene: loading RjText %@", arg);
+			LogVerbose(@"RjScene: loading RjText %@", arg);
 		}
 		else return;
 		[self.background addSubview:widget];
 		[self.background bringSubviewToFront:widget];
 		[widgets setValue:widget forKey:key];
-		DDLogVerbose(@"RjScene: added %@ with key: %@", widget.type, key);
+		LogVerbose(@"RjScene: added %@ with key: %@", widget.type, key);
 	}
 }
 
@@ -390,10 +390,10 @@
 		   [file isEqualToString:@"rj_compass.pd"] || [file isEqualToString:@"rj_loc.pd"] || [file isEqualToString:@"rj_time.pd"] ||
 		   [file isEqualToString:@"soundinput.pd"] || [file isEqualToString:@"soundoutput.pd"]) {
 			if(![NSFileManager.defaultManager removeItemAtPath:[directory stringByAppendingPathComponent:path] error:&error]) {
-				DDLogError(@"RjScene: couldn't remove %@, error: %@", path, error.localizedDescription);
+				LogError(@"RjScene: couldn't remove %@, error: %@", path, error.localizedDescription);
 			}
 			else {
-				DDLogVerbose(@"RjScene: removed %@", file);
+				LogVerbose(@"RjScene: removed %@", file);
 			}
 		}
 	}

@@ -39,7 +39,7 @@
 	// load player
 	self.player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:path]];
 	if(self.player.error) {
-		DDLogWarn(@"RecordingScene: couldn't create player for %@: %@",
+		LogWarn(@"RecordingScene: couldn't create player for %@: %@",
 			self.file.lastPathComponent, self.player.error);
 		self.player = nil;
 		return NO;
@@ -77,11 +77,11 @@
 			[self.parentView addSubview:self.background];
 		}
 		else {
-			DDLogError(@"RecordingScene: couldn't load background image");
+			LogError(@"RecordingScene: couldn't load background image");
 		}
 	}
 	else {
-		DDLogWarn(@"RecordingScene: no background image");
+		LogWarn(@"RecordingScene: no background image");
 	}
 
 	// load controls

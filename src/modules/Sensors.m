@@ -89,7 +89,7 @@
 		return;
 	}
 	_extendedTouchEnabled = extendedTouchEnabled;
-	DDLogVerbose(@"Sensors: extended touch %@",
+	LogVerbose(@"Sensors: extended touch %@",
 	             (_extendedTouchEnabled ? @"enabled" : @"disabled"));
 }
 
@@ -106,16 +106,16 @@
 				withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
 					[self sendAccel:accelerometerData];
 			}];
-			DDLogVerbose(@"Sensors: accel enabled");
+			LogVerbose(@"Sensors: accel enabled");
 		}
 		else {
-			DDLogWarn(@"Sensors: accel not available on this device");
+			LogWarn(@"Sensors: accel not available on this device");
 		}
 	}
 	else { // stop
 		if([motionManager isAccelerometerActive]) {
 			[motionManager stopAccelerometerUpdates];
-			DDLogVerbose(@"Sensors: accel disabled");
+			LogVerbose(@"Sensors: accel disabled");
 		}
 	}
 }
@@ -137,7 +137,7 @@
 		[PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown accelerate speed string: %@", speed]];
 		return;
 	}
-	DDLogVerbose(@"Sensors: accel speed: %@", speed);
+	LogVerbose(@"Sensors: accel speed: %@", speed);
 }
 
 #pragma mark Gyro
@@ -158,16 +158,16 @@
 			else {
 				[motionManager startGyroUpdates];
 			}
-			DDLogVerbose(@"Sensors: gyro enabled");
+			LogVerbose(@"Sensors: gyro enabled");
 		}
 		else {
-			DDLogWarn(@"Sensors: gyro not available on this device");
+			LogWarn(@"Sensors: gyro not available on this device");
 		}
 	}
 	else { // stop
 		if([motionManager isGyroActive]) {
 			[motionManager stopGyroUpdates];
-			DDLogVerbose(@"Sensors: gyro disabled");
+			LogVerbose(@"Sensors: gyro disabled");
 		}
 	}
 }
@@ -189,7 +189,7 @@
 		[PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown gyro speed string: %@", speed]];
 		return;
 	}
-	DDLogVerbose(@"Sensors: gyro speed: %@", speed);
+	LogVerbose(@"Sensors: gyro speed: %@", speed);
 }
 
 - (void)setGyroAutoUpdates:(BOOL)gyroAutoUpdates {
@@ -207,7 +207,7 @@
 			[motionManager startGyroUpdates];
 		}
 	}
-	DDLogVerbose(@"Sensors: gyro updates: %d", (int)gyroAutoUpdates);
+	LogVerbose(@"Sensors: gyro updates: %d", (int)gyroAutoUpdates);
 }
 
 - (void)sendGyro {
@@ -283,17 +283,17 @@
 		[PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown location accuracy string: %@", accuracy]];
 		return;
 	}
-	DDLogVerbose(@"Sensors: location accuracy: %@", accuracy);
+	LogVerbose(@"Sensors: location accuracy: %@", accuracy);
 }
 
 - (void)setLocationFilter:(float)distance {
 	if(distance > 0 ) {
 		locationManager.distanceFilter = distance;
-		DDLogVerbose(@"Sensors: location distance filter: +/- %f", distance);
+		LogVerbose(@"Sensors: location distance filter: +/- %f", distance);
 	}
 	else { // clip 0 & negative values
 		locationManager.distanceFilter = kCLDistanceFilterNone;
-		DDLogVerbose(@"Sensors: location distance filter: none");
+		LogVerbose(@"Sensors: location distance filter: none");
 	}
 }
 
@@ -330,11 +330,11 @@
 - (void)setCompassFilter:(float)degrees {
 	if(degrees > 0 ) {
 		locationManager.headingFilter = degrees;
-		DDLogVerbose(@"Sensors: compass filter: +/- %f", degrees);
+		LogVerbose(@"Sensors: compass filter: +/- %f", degrees);
 	}
 	else { // clip 0 & negative values
 		locationManager.headingFilter = kCLHeadingFilterNone;
-		DDLogVerbose(@"Sensors: compass filter: none");
+		LogVerbose(@"Sensors: compass filter: none");
 	}
 }
 
@@ -362,16 +362,16 @@
 			else {
 				[motionManager startMagnetometerUpdates];
 			}
-			DDLogVerbose(@"Sensors: magnetometer enabled");
+			LogVerbose(@"Sensors: magnetometer enabled");
 		}
 		else {
-			DDLogWarn(@"Sensors: magnetometer not available on this device");
+			LogWarn(@"Sensors: magnetometer not available on this device");
 		}
 	}
 	else { // stop
 		if([motionManager isMagnetometerActive]) {
 			[motionManager stopMagnetometerUpdates];
-			DDLogVerbose(@"Sensors: magnetometer disabled");
+			LogVerbose(@"Sensors: magnetometer disabled");
 		}
 	}
 }
@@ -393,7 +393,7 @@
 		[PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown magnet speed string: %@", speed]];
 		return;
 	}
-	DDLogVerbose(@"Sensors: magnet speed: %@", speed);
+	LogVerbose(@"Sensors: magnet speed: %@", speed);
 }
 
 - (void)setMagnetAutoUpdates:(BOOL)magnetAutoUpdates {
@@ -411,7 +411,7 @@
 			[motionManager startMagnetometerUpdates];
 		}
 	}
-	DDLogVerbose(@"Sensors: magnet updates: %d", (int)magnetAutoUpdates);
+	LogVerbose(@"Sensors: magnet updates: %d", (int)magnetAutoUpdates);
 }
 
 - (void)sendMagnet {
@@ -438,16 +438,16 @@
 			else {
 				[motionManager startDeviceMotionUpdates];
 			}
-			DDLogVerbose(@"Sensors: motion enabled");
+			LogVerbose(@"Sensors: motion enabled");
 		}
 		else {
-			DDLogWarn(@"Sensors: motion not available on this device");
+			LogWarn(@"Sensors: motion not available on this device");
 		}
 	}
 	else { // stop
 		if([motionManager isDeviceMotionActive]) {
 			[motionManager stopDeviceMotionUpdates];
-			DDLogVerbose(@"Sensors: motion disabled");
+			LogVerbose(@"Sensors: motion disabled");
 		}
 	}
 }
@@ -469,7 +469,7 @@
 		[PureData sendPrint:[NSString stringWithFormat:@"ignoring unknown motion speed string: %@", speed]];
 		return;
 	}
-	DDLogVerbose(@"Sensors: motion speed: %@", speed);
+	LogVerbose(@"Sensors: motion speed: %@", speed);
 }
 
 - (void)setMotionAutoUpdates:(BOOL)motionAutoUpdates {
@@ -487,7 +487,7 @@
 			[motionManager startDeviceMotionUpdates];
 		}
 	}
-	DDLogVerbose(@"Sensors: motion updates: %d", (int)motionAutoUpdates);
+	LogVerbose(@"Sensors: motion updates: %d", (int)motionAutoUpdates);
 }
 
 - (void)sendMotion {
@@ -521,7 +521,7 @@
 			statusString = @"not determined";
 			break;
 	}
-	DDLogVerbose(@"Sensors: location authorization: %@", statusString);
+	LogVerbose(@"Sensors: location authorization: %@", statusString);
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -540,11 +540,11 @@
 }
 
 - (void)locationManagerDidPauseLocationUpdates:(CLLocationManager *)manager {
-	DDLogVerbose(@"Sensors: location updates paused");
+	LogVerbose(@"Sensors: location updates paused");
 }
 
 - (void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager {
-	DDLogVerbose(@"Sensors: location updates resumed");
+	LogVerbose(@"Sensors: location updates resumed");
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
@@ -554,7 +554,7 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-	DDLogError(@"Sensors: location manager error: %@", error.localizedDescription);
+	LogError(@"Sensors: location manager error: %@", error.localizedDescription);
 }
 
 #pragma mark Private
@@ -562,7 +562,7 @@
 // reorient accel data to current orientation
 - (void)sendAccel:(CMAccelerometerData *)accel {
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"accel %f %f %f",
+		LogVerbose(@"accel %f %f %f",
 			accel.acceleration.x, accel.acceleration.y, accel.acceleration.z);
 	#endif
 	float x = accel.acceleration.x;
@@ -578,7 +578,7 @@
 // reorient gryo data to current orientation
 - (void)sendGyro:(CMGyroData *)gyro {
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"gyro %f %f %f", gyro.rotationRate.x, gyro.rotationRate.y, gyro.rotationRate.z);
+		LogVerbose(@"gyro %f %f %f", gyro.rotationRate.x, gyro.rotationRate.y, gyro.rotationRate.z);
 	#endif
 	[PureData sendGyro:gyro.rotationRate.x y:gyro.rotationRate.y z:gyro.rotationRate.z];
 	[self.osc sendGyro:gyro.rotationRate.x y:gyro.rotationRate.y z:gyro.rotationRate.z];
@@ -586,7 +586,7 @@
 
 - (void)sendLocation:(CLLocation *)location {
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"locate %@", location.description);
+		LogVerbose(@"locate %@", location.description);
 	#endif
 	[PureData sendLocation:location.coordinate.latitude
 	                   lon:location.coordinate.longitude
@@ -602,7 +602,7 @@
 
 - (void)sendCompass:(CLHeading *)heading {
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"heading %@", heading.description);
+		LogVerbose(@"heading %@", heading.description);
 	#endif
 	[PureData sendCompass:heading.magneticHeading];
 	[self.osc sendCompass:heading.magneticHeading];
@@ -610,7 +610,7 @@
 
 - (void)sendMagnet:(CMMagnetometerData *)magnet {
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"magnet %f %f %f", magnet.magneticField.x, magnet.magneticField.y, magnet.magneticField.z);
+		LogVerbose(@"magnet %f %f %f", magnet.magneticField.x, magnet.magneticField.y, magnet.magneticField.z);
 	#endif
 	[PureData sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
 	[self.osc sendMagnet:magnet.magneticField.x y:magnet.magneticField.y z:magnet.magneticField.z];
@@ -620,28 +620,28 @@
 - (void)sendMotion:(CMDeviceMotion *)motion {
 
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"motion attitude %f %f %f",
+		LogVerbose(@"motion attitude %f %f %f",
 			motion.attitude.pitch, motion.attitude.roll, motion.attitude.yaw);
 	#endif
 	[PureData sendMotionAttitude:motion.attitude.pitch roll:motion.attitude.roll yaw:motion.attitude.yaw];
 	[self.osc sendMotionAttitude:motion.attitude.pitch roll:motion.attitude.roll yaw:motion.attitude.yaw];
 
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"motion rotation %f %f %f",
+		LogVerbose(@"motion rotation %f %f %f",
 			motion.rotationRate.x, motion.rotationRate.y, motion.rotationRate.z);
 	#endif
 	[PureData sendMotionRotation:motion.rotationRate.x y:motion.rotationRate.y z:motion.rotationRate.z];
 	[self.osc sendMotionRotation:motion.rotationRate.x y:motion.rotationRate.y z:motion.rotationRate.z];
 
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"motion gravity %f %f %f",
+		LogVerbose(@"motion gravity %f %f %f",
 			motion.gravity.x, motion.gravity.y, motion.gravity.z);
 	#endif
 	[PureData sendMotionGravity:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
 	[self.osc sendMotionGravity:motion.gravity.x y:motion.gravity.y z:motion.gravity.z];
 
 	#ifdef DEBUG_SENSORS
-		DDLogVerbose(@"motion user %f %f %f",
+		LogVerbose(@"motion user %f %f %f",
 			motion.userAcceleration.x, motion.userAcceleration.y, motion.userAcceleration.z);
 	#endif
 	[PureData sendMotionUser:motion.userAcceleration.x y:motion.userAcceleration.y z:motion.userAcceleration.z];

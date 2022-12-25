@@ -35,7 +35,7 @@
 			[self.parentView addSubview:self.background];
 		}
 		else {
-			DDLogError(@"DroidScene: couldn't load background image");
+			LogError(@"DroidScene: couldn't load background image");
 		}
 	}
 	
@@ -121,7 +121,7 @@
 			return YES;
 		}
 		else {
-			DDLogError(@"DroidScene: couldn't load font");
+			LogError(@"DroidScene: couldn't load font");
 		}
 	}
 	return NO;

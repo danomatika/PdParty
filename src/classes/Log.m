@@ -24,13 +24,13 @@ static TextViewLogger *s_textViewLogger = nil;
 	}
 	switch(logLevel) {
 		case LogLevelInfo:
-			DDLogInfo(@"Log level: INFO");
+			LogInfo(@"Log level: INFO");
 			break;
 		case LogLevelVerbose:
-			DDLogInfo(@"Log level: VERBOSE");
+			LogInfo(@"Log level: VERBOSE");
 			break;
 		default:
-			DDLogInfo(@"Log level: %d", (int)logLevel);
+			LogInfo(@"Log level: %d", (int)logLevel);
 			break;
 	}
 }

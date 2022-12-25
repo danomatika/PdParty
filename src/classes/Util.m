@@ -72,11 +72,11 @@
 #pragma mark Logging Shortcuts
 
 + (void)logRect:(CGRect)rect {
-	DDLogVerbose(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+	LogVerbose(@"%.2f %.2f %.2f %.2f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 }
 
 + (void)logRect:(CGRect)rect withHeader:(NSString *)header {
-	DDLogVerbose(@"%@: %.2f %.2f %.2f %.2f", header, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+	LogVerbose(@"%@: %.2f %.2f %.2f %.2f", header, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 }
 
 + (void)logArray:(NSArray *)array {
@@ -84,7 +84,7 @@
 	for(NSObject *object in array) {
 		[arrayString appendFormat:@"%@ ", object.description];
 	}
-	DDLogVerbose(@"[ %@]", arrayString);
+	LogVerbose(@"[ %@]", arrayString);
 }
 
 + (void)logData:(NSData *)data withHeader:(NSString *)header {
@@ -93,13 +93,13 @@
 	for(int i = 0; i < data.length; ++i) {
 		[byteString appendFormat:@"%02X ", bytes[i]];
 	}
-	DDLogVerbose(@"%@[ %@]", header, byteString);
+	LogVerbose(@"%@[ %@]", header, byteString);
 }
 
 + (void)logColor:(UIColor *)color {
 	CGFloat r, g, b, a;
 	if([color getRed:&r green:&g blue:&b alpha:&a]) {
-		DDLogVerbose(@"%f %f %f %f", r, g, b, a);
+		LogVerbose(@"%f %f %f %f", r, g, b, a);
 	}
 }
 
@@ -129,7 +129,7 @@
 	// create dest folder if it doesn't exist
 	if(![NSFileManager.defaultManager fileExistsAtPath:destDir isDirectory:nil]) {
 		if(![NSFileManager.defaultManager createDirectoryAtPath:destDir withIntermediateDirectories:NO attributes:nil error:&error]) {
-			DDLogError(@"Util: couldn't create %@, error: %@", destDir, error.localizedDescription);
+			LogError(@"Util: couldn't create %@, error: %@", destDir, error.localizedDescription);
 			return NO;
 		}
 	}
@@ -149,7 +149,7 @@
 		
 			// remove existing file
 			if(!isDir && ![NSFileManager.defaultManager removeItemAtPath:destPath error:&error]) {
-				DDLogError(@"Util: couldn't remove %@, error: %@", destPath, error.localizedDescription);
+				LogError(@"Util: couldn't remove %@, error: %@", destPath, error.localizedDescription);
 				return NO;
 			}
 		}
@@ -160,7 +160,7 @@
 		}
 		else { // copy file
 			if(![NSFileManager.defaultManager copyItemAtPath:srcPath toPath:destPath error:&error]) {
-				DDLogError(@"Util: couldn't copy %@ to %@, error: %@", srcPath, destPath, error.localizedDescription);
+				LogError(@"Util: couldn't copy %@ to %@, error: %@", srcPath, destPath, error.localizedDescription);
 				return NO;
 			}
 		}
@@ -177,7 +177,7 @@
 	for(NSString *p in contents) {
 		NSString *path = [dir stringByAppendingPathComponent:p];
 		if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
-			DDLogError(@"Util: couldn't delete %@, error: %@", path, error.localizedDescription);
+			LogError(@"Util: couldn't delete %@, error: %@", path, error.localizedDescription);
 			return count;
 		}
 		count++;
@@ -187,7 +187,7 @@
 
 + (NSArray *)whichFilenames:(NSArray *)filenames existInDirectory:(NSString *)dir {
 	if(![NSFileManager.defaultManager fileExistsAtPath:dir isDirectory:nil]) {
-		DDLogError(@"Util: couldn't check if filenames exist, dir does not exist: %@", dir);
+		LogError(@"Util: couldn't check if filenames exist, dir does not exist: %@", dir);
 		return nil;
 	}
 	NSMutableArray *found = [NSMutableArray array];
@@ -260,7 +260,7 @@
 	CGFontRef font = CGFontCreateWithDataProvider(provider);
 	if(!CTFontManagerRegisterGraphicsFont(font, &error)) {
 		CFStringRef errorDescription = CFErrorCopyDescription(error);
-		DDLogError(@"Util: Failed to register font: %@", errorDescription);
+		LogError(@"Util: Failed to register font: %@", errorDescription);
 		CFRelease(errorDescription);
 	}
 	else {
@@ -276,7 +276,7 @@
 	CFErrorRef error;
 	if(!CTFontManagerUnregisterFontsForURL((__bridge CFURLRef)url, kCTFontManagerScopeProcess, &error)) {
 		CFStringRef errorDescription = CFErrorCopyDescription(error);
-		DDLogError(@"Util: Failed to unregister font: %@", errorDescription);
+		LogError(@"Util: Failed to unregister font: %@", errorDescription);
 		CFRelease(errorDescription);
 	}
 }
@@ -287,7 +287,7 @@
 	NSError *error;
 	id data = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:&error];
 	if(!data) {
-		DDLogError(@"Util: parsing JSON from %@ failed: %@", path, error.debugDescription);
+		LogError(@"Util: parsing JSON from %@ failed: %@", path, error.debugDescription);
 	}
 	return data;
 }

@@ -49,7 +49,7 @@
 		PressesGrabber *inputView = [[PressesGrabber alloc] initWithFrame:CGRectZero];
 		inputView.parent = self;
 		self.inputView = inputView;
-		DDLogVerbose(@"KeyGrabberView: using Presses backend");
+		LogVerbose(@"KeyGrabberView: using Presses backend");
 	}
 	else
 #endif
@@ -57,7 +57,7 @@
 		KeyInputGrabber *inputView = [[KeyInputGrabber alloc] initWithFrame:CGRectZero];
 		inputView.parent = self;
 		self.inputView = inputView;
-		DDLogVerbose(@"KeyGrabberView: using UIKeyInput backend");
+		LogVerbose(@"KeyGrabberView: using UIKeyInput backend");
 	}
 	[self addSubview:self.inputView];
 	[NSNotificationCenter.defaultCenter addObserver:self
@@ -107,12 +107,12 @@
 #ifdef DEBUG_KEYGRABBER
 	#ifdef KEYGRABBER_PRESSES
 	if([self.inputView isKindOfClass:PressesGrabber.class] ) {
-		DDLogVerbose(@"KeyGrabberView: Presses backend");
+		LogVerbose(@"KeyGrabberView: Presses backend");
 	}
 	else
 	#endif
 	{
-		DDLogVerbose(@"KeyGrabberView: UIKeyInput backend");
+		LogVerbose(@"KeyGrabberView: UIKeyInput backend");
 	}
 #endif
 }
@@ -134,8 +134,8 @@
 			unichar key = [PressesGrabber characterForPress:press];
 			NSString *name = [PressesGrabber nameForPress:press];
 			#ifdef DEBUG_KEYGRABBER
-				DDLogVerbose(@"KeyGrabberView: presses began %d %@", (int)key, name);
-				DDLogVerbose(@"KeyGrabberView: code %ldl chars \"%@\"",
+				LogVerbose(@"KeyGrabberView: presses began %d %@", (int)key, name);
+				LogVerbose(@"KeyGrabberView: code %ldl chars \"%@\"",
 					(long)press.key.keyCode, press.key.characters);
 			#endif
 			[self.parent.delegate keyPressed:(int)key];
@@ -151,8 +151,8 @@
 			unichar key = [PressesGrabber characterForPress:press];
 			NSString *name = [PressesGrabber nameForPress:press];
 			#ifdef DEBUG_KEYGRABBER
-				DDLogVerbose(@"KeyGrabberView: presses ended %d %@", (int)key, name);
-				DDLogVerbose(@"KeyGrabberView: code %ldl chars %@",
+				LogVerbose(@"KeyGrabberView: presses ended %d %@", (int)key, name);
+				LogVerbose(@"KeyGrabberView: code %ldl chars %@",
 					(long)press.key.keyCode, press.key.characters);
 			#endif
 			[self.parent.delegate keyReleased:(int)key];
@@ -168,8 +168,8 @@
 			unichar key = [PressesGrabber characterForPress:press];
 			NSString *name = [PressesGrabber nameForPress:press];
 			#ifdef DEBUG_KEYGRABBER
-				DDLogVerbose(@"KeyGrabberView: presses cancelled %d %@", (int)key, name);
-				DDLogVerbose(@"KeyGrabberView: code %ldl chars %@",
+				LogVerbose(@"KeyGrabberView: presses cancelled %d %@", (int)key, name);
+				LogVerbose(@"KeyGrabberView: code %ldl chars %@",
 					(long)press.key.keyCode, press.key.characters);
 			#endif
 			[self.parent.delegate keyReleased:(int)key];
@@ -277,7 +277,7 @@
 - (void)insertText:(NSString *)theText {
 	unichar key = [theText characterAtIndex:0];
 	#ifdef DEBUG_KEYGRABBER
-		DDLogVerbose(@"KeyGrabberView: insert text \"%@\" %d", theText, key);
+		LogVerbose(@"KeyGrabberView: insert text \"%@\" %d", theText, key);
 	#endif
 	if(self.parent.delegate) {
 		[self.parent.delegate keyPressed:(int)key];
@@ -287,7 +287,7 @@
 // translate to ASCII Backspace char value
 - (void)deleteBackward {
 	#ifdef DEBUG_KEYGRABBER
-		DDLogVerbose(@"KeyGrabberView: delete backward 8");
+		LogVerbose(@"KeyGrabberView: delete backward 8");
 	#endif
 	if(self.parent.delegate) {
 		[self.parent.delegate keyPressed:8];

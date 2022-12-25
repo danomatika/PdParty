@@ -19,7 +19,7 @@ static NSMutableArray *s_menubangs;
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 6) { // sanity check
-		DDLogWarn(@"Menubang: cannot create, atom line length < 6");
+		LogWarn(@"Menubang: cannot create, atom line length < 6");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -30,7 +30,7 @@ static NSMutableArray *s_menubangs;
 		self.sendName = [NSString stringWithFormat:@"menubang-%@", self.name];
 		if(!self.name || [self.name isEqualToString:@""]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Menubang: dropping, name is empty");
+			LogVerbose(@"Menubang: dropping, name is empty");
 			return nil;
 		}
 		
@@ -50,7 +50,7 @@ static NSMutableArray *s_menubangs;
 	AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	self.imagePath = [NSString stringWithFormat:@"%@/%@.png", app.sceneManager.scene.patch.pathName, self.sendName];
 	if(![NSFileManager.defaultManager fileExistsAtPath:self.imagePath]) {
-		DDLogVerbose(@"Menubang %@: no image found at %@", self.name, self.imagePath);
+		LogVerbose(@"Menubang %@: no image found at %@", self.name, self.imagePath);
 		self.imagePath = nil;
 	}
 }

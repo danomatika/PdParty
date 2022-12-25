@@ -55,11 +55,11 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         do { if((level & flag) != 0) LOG_MACRO(format, ##__VA_ARGS__); } while(0)
 
 // NSLog replacements
-#define DDLogError(format, ...)   LOG_MAYBE(LOG_LEVEL_DEF, LogFlagError,   format, ##__VA_ARGS__)
-#define DDLogWarn(format, ...)    LOG_MAYBE(LOG_LEVEL_DEF, LogFlagWarning, format, ##__VA_ARGS__)
-#define DDLogInfo(format, ...)    LOG_MAYBE(LOG_LEVEL_DEF, LogFlagInfo,    format, ##__VA_ARGS__)
-#define DDLogDebug(format, ...)   LOG_MAYBE(LOG_LEVEL_DEF, LogFlagDebug,   format, ##__VA_ARGS__)
-#define DDLogVerbose(format, ...) LOG_MAYBE(LOG_LEVEL_DEF, LogFlagVerbose, format, ##__VA_ARGS__)
+#define LogError(format, ...)   LOG_MAYBE(LOG_LEVEL_DEF, LogFlagError,   format, ##__VA_ARGS__)
+#define LogWarn(format, ...)    LOG_MAYBE(LOG_LEVEL_DEF, LogFlagWarning, format, ##__VA_ARGS__)
+#define LogInfo(format, ...)    LOG_MAYBE(LOG_LEVEL_DEF, LogFlagInfo,    format, ##__VA_ARGS__)
+#define LogDebug(format, ...)   LOG_MAYBE(LOG_LEVEL_DEF, LogFlagDebug,   format, ##__VA_ARGS__)
+#define LogVerbose(format, ...) LOG_MAYBE(LOG_LEVEL_DEF, LogFlagVerbose, format, ##__VA_ARGS__)
 
 #pragma mark - Log
 
@@ -68,12 +68,12 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 
 /// logging static methods
 ///
-/// log using Lumberjack DDLog macros in place of NSLog:
+/// log using Log* macros in place of NSLog:
 ///
-/// DDLogError("an error ocurred");
-/// DDLogWarn("something didn't happen right at %@", "some place");
-/// DDLogInfo("1 + 1 = %d", 1+1);
-/// DDLogVerbose("let me tell you the story of my life: %@", bioString);
+/// LogError("an error ocurred");
+/// LogWarn("something didn't happen right at %@", "some place");
+/// LogInfo("1 + 1 = %d", 1+1);
+/// LogVerbose("let me tell you the story of my life: %@", bioString);
 ///
 @interface Log : NSObject
 

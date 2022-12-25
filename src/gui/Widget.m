@@ -133,15 +133,15 @@
 #pragma mark WidgetListener
 
 - (void)receiveBangFromSource:(NSString *)source {
-	DDLogVerbose(@"%@: dropped bang", self.type);
+	LogVerbose(@"%@: dropped bang", self.type);
 }
 
 - (void)receiveFloat:(float)received fromSource:(NSString *)source {
-	DDLogVerbose(@"%@: dropped float", self.type);
+	LogVerbose(@"%@: dropped float", self.type);
 }
 
 - (void)receiveSymbol:(NSString *)symbol fromSource:(NSString *)source {
-	DDLogVerbose(@"%@: dropped symbol", self.type);
+	LogVerbose(@"%@: dropped symbol", self.type);
 }
 
 - (void)receiveList:(NSArray *)list fromSource:(NSString *)source {
@@ -166,7 +166,7 @@
 		}
 	}
 	else {
-		DDLogVerbose(@"%@: dropped list", self.type);
+		LogVerbose(@"%@: dropped list", self.type);
 	}
 }
 
@@ -186,21 +186,21 @@
 	}
 	else { // everything else
 		if(![self receiveEditMessage:message withArguments:arguments]) {
-			DDLogVerbose(@"%@: dropped message: %@", self.type, message);
+			LogVerbose(@"%@: dropped message: %@", self.type, message);
 		}
 	}
 }
 
 - (void)receiveSetFloat:(float)received {
-	DDLogVerbose(@"%@: dropped set float", self.type);
+	LogVerbose(@"%@: dropped set float", self.type);
 }
 
 - (void)receiveSetSymbol:(NSString *)symbol {
-	DDLogVerbose(@"%@: dropped set symbol", self.type);
+	LogVerbose(@"%@: dropped set symbol", self.type);
 }
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-	DDLogVerbose(@"%@: dropped edit message", self.type);
+	LogVerbose(@"%@: dropped edit message", self.type);
 	return NO;
 }
 

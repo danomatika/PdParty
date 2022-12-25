@@ -17,7 +17,7 @@
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
 	if(line.count < 6) { // sanity check
-		DDLogWarn(@"Loadsave: cannot create, atom line length < 6");
+		LogWarn(@"Loadsave: cannot create, atom line length < 6");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -28,7 +28,7 @@
 		self.receiveName = self.name;
 		if(![self hasValidReceiveName]) {
 			// drop something we can't interact with
-			DDLogVerbose(@"Loadsave: dropping, receive name is empty");
+			LogVerbose(@"Loadsave: dropping, receive name is empty");
 			return nil;
 		}
 		
@@ -70,11 +70,11 @@
 			self.extension = nil;
 		}
 		self.sendName = [self.receiveName stringByAppendingFormat:@"-%@", message];
-		DDLogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
+		LogVerbose(@"Loadsave %@: received %@ message: %@ %@", self.receiveName, message, self.directory, self.extension);
 		
 		AppDelegate *app = (AppDelegate *)UIApplication.sharedApplication.delegate;
 		if(!app.isPatchViewVisible) {
-			DDLogWarn(@"Loadsave %@: cannot open dialog when patch view is not visible", self.receiveName);
+			LogWarn(@"Loadsave %@: cannot open dialog when patch view is not visible", self.receiveName);
 			return YES;
 		}
 		
@@ -107,7 +107,7 @@
 		if(self.directory) {
 			NSString *path = [app.sceneManager.currentPath stringByAppendingPathComponent:self.directory];
 			if(![NSFileManager.defaultManager fileExistsAtPath:path]) {
-				DDLogInfo(@"LoadSave: %@ doesn't exist, create it?", self.directory);
+				LogInfo(@"LoadSave: %@ doesn't exist, create it?", self.directory);
 				NSString *title = [NSString stringWithFormat:@"%@ folder doesn't exist", self.extension];
 				UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
 				                                                               message:@"Create it?"
@@ -130,7 +130,7 @@
 		}
 		if(self.directory && self.extension && [browser fileCountForExtensions] == 0) {
 			if([message isEqualToString:@"load"]) {
-				DDLogVerbose(@"Loadsave: dir & extension set when loading, but no files to load");
+				LogVerbose(@"Loadsave: dir & extension set when loading, but no files to load");
 				NSString *title = [NSString stringWithFormat:@"No .%@ files found", self.extension];
 				UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
 				                                                               message:@"Save one first?"
@@ -166,7 +166,7 @@
 #pragma mark Private
 
 - (void)sendPath:(NSString *)path {
-	DDLogVerbose(@"Loadsave %@: sending %@", self.sendName, path);
+	LogVerbose(@"Loadsave %@: sending %@", self.sendName, path);
 	NSArray *detail = @[ // ext file dir
 		path.pathExtension,
 		path.lastPathComponent.stringByDeletingPathExtension,

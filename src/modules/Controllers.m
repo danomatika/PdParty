@@ -41,20 +41,20 @@
 	_discovering = YES;
 	[GCController startWirelessControllerDiscoveryWithCompletionHandler: ^(void) {
 		self->_discovering = NO;
-		DDLogVerbose(@"Controllers: discovery timed out");
+		LogVerbose(@"Controllers: discovery timed out");
 	}];
-	DDLogVerbose(@"Controllers: discovery enabled");
+	LogVerbose(@"Controllers: discovery enabled");
 }
 
 - (void)stopDiscovery {
 	if(self.discovering) {
 		[GCController stopWirelessControllerDiscovery];
-		DDLogVerbose(@"Controllers: discovery disabled");
+		LogVerbose(@"Controllers: discovery disabled");
 	}
 }
 
 - (void)updateConnectedControllers {
-	DDLogVerbose(@"Controllers: updating");
+	LogVerbose(@"Controllers: updating");
 	
 	// build array of currently known controllers
 	NSMutableArray *known = [NSMutableArray array];
@@ -71,14 +71,14 @@
 			[known removeObject:c];
 		}
 		else { // if a controller is not known, connect to it
-			DDLogVerbose(@"Controllers: found new controller");
+			LogVerbose(@"Controllers: found new controller");
 			[self connect:c];
 		}
 	}
 	
 	// anything left over can be removed
 	for(GCController *c in known) {
-		DDLogVerbose(@"Controllers: disconnecting stale controller");
+		LogVerbose(@"Controllers: disconnecting stale controller");
 		[self disconnect:c unset:NO];
 	}
 }
@@ -110,7 +110,7 @@
 		                                       selector:@selector(controllerDidDisconnect:)
 		                                           name:GCControllerDidDisconnectNotification
 		                                         object:nil];
-		DDLogVerbose(@"Controllers: enabled");
+		LogVerbose(@"Controllers: enabled");
 		[self updateConnectedControllers];
 	}
 	else {
@@ -121,7 +121,7 @@
 		[NSNotificationCenter.defaultCenter removeObserver:self
 		                                              name:GCControllerDidDisconnectNotification
 		                                            object:nil];
-		DDLogVerbose(@"Controllers: disabled");
+		LogVerbose(@"Controllers: disabled");
 	}
 }
 
@@ -138,10 +138,10 @@
 	[PureData sendEvent:@"connect" forController:c.name];
 	[self.osc sendEvent:@"connect" forController:c.name];
 	if(controller.vendorName) {
-		DDLogVerbose(@"Controllers: connected %@ (%@)", c.name, controller.vendorName);
+		LogVerbose(@"Controllers: connected %@ (%@)", c.name, controller.vendorName);
 	}
 	else {
-		DDLogVerbose(@"Controllers: connected %@", c.name);
+		LogVerbose(@"Controllers: connected %@", c.name);
 	}
 }
 
@@ -163,10 +163,10 @@
 	[PureData sendEvent:@"disconnect" forController:name];
 	[self.osc sendEvent:@"disconnect" forController:name];
 	if(controller.vendorName) {
-		DDLogVerbose(@"Controllers: disconnected %@ (%@)", name, controller.vendorName);
+		LogVerbose(@"Controllers: disconnected %@ (%@)", name, controller.vendorName);
 	}
 	else {
-		DDLogVerbose(@"Controllers: disconnected %@", name);
+		LogVerbose(@"Controllers: disconnected %@", name);
 	}
 }
 
@@ -254,7 +254,7 @@
 	// gamepad mappings
 	self.controller.controllerPausedHandler = ^(GCController *controller) {
 		#ifdef DEBUG_CONTROLLERS
-			DDLogVerbose(@"%@ pause", weakSelf.name);
+			LogVerbose(@"%@ pause", weakSelf.name);
 		#endif
 		[PureData sendControllerPause:weakSelf.name];
 		[weakSelf.parent.osc sendControllerPause:weakSelf.name];
@@ -263,7 +263,7 @@
 	self.controller.gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		if([self->buttonStates[@"a"] boolValue] != pressed) {
 			#ifdef DEBUG_CONTROLLERS
-				DDLogVerbose(@"%@ button: a %d", weakSelf.name, (int)pressed);
+				LogVerbose(@"%@ button: a %d", weakSelf.name, (int)pressed);
 			#endif
 			[PureData sendController:weakSelf.name button:@"a" state:pressed];
 			[weakSelf.parent.osc sendController:weakSelf.name button:@"a" state:pressed];
@@ -273,7 +273,7 @@
 	self.controller.gamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		if([self->buttonStates[@"b"] boolValue] != pressed) {
 			#ifdef DEBUG_CONTROLLERS
-				DDLogVerbose(@"%@ button: b %d", weakSelf.name, (int)pressed);
+				LogVerbose(@"%@ button: b %d", weakSelf.name, (int)pressed);
 			#endif
 			[PureData sendController:weakSelf.name button:@"b" state:pressed];
 			[weakSelf.parent.osc sendController:weakSelf.name button:@"b" state:pressed];
@@ -283,7 +283,7 @@
 	self.controller.gamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		if([self->buttonStates[@"x"] boolValue] != pressed) {
 			#ifdef DEBUG_CONTROLLERS
-				DDLogVerbose(@"%@ button: x %d", weakSelf.name, (int)pressed);
+				LogVerbose(@"%@ button: x %d", weakSelf.name, (int)pressed);
 			#endif
 			[PureData sendController:weakSelf.name button:@"x" state:pressed];
 			[weakSelf.parent.osc sendController:weakSelf.name button:@"x" state:pressed];
@@ -293,7 +293,7 @@
 	self.controller.gamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		if([self->buttonStates[@"y"] boolValue] != pressed) {
 			#ifdef DEBUG_CONTROLLERS
-				DDLogVerbose(@"%@ button: y %d", weakSelf.name, (int)pressed);
+				LogVerbose(@"%@ button: y %d", weakSelf.name, (int)pressed);
 			#endif
 			[PureData sendController:weakSelf.name button:@"y" state:pressed];
 			[weakSelf.parent.osc sendController:weakSelf.name button:@"y" state:pressed];
@@ -304,7 +304,7 @@
 		if(value < 0) {
 			if(![self->buttonStates[@"dpleft"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: dpleft 1", weakSelf.name);
+					LogVerbose(@"%@ button: dpleft 1", weakSelf.name);
 				#endif
 				[PureData sendController:weakSelf.name button:@"dpleft" state:YES];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"dpleft" state:YES];
@@ -314,7 +314,7 @@
 		else if(value > 0) {
 			if(![self->buttonStates[@"dpright"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: dpright 1", weakSelf.name);
+					LogVerbose(@"%@ button: dpright 1", weakSelf.name);
 				#endif
 				[PureData sendController:weakSelf.name button:@"dpright" state:YES];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"dpright" state:YES];
@@ -324,7 +324,7 @@
 		else {
 			if([self->buttonStates[@"dpleft"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: dpleft 0", weakSelf.name);
+					LogVerbose(@"%@ button: dpleft 0", weakSelf.name);
 				#endif
 				[PureData sendController:weakSelf.name button:@"dpleft" state:NO];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"dpleft" state:NO];
@@ -332,7 +332,7 @@
 			}
 			if([self->buttonStates[@"dpright"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: dpright 0", weakSelf.name);
+					LogVerbose(@"%@ button: dpright 0", weakSelf.name);
 				#endif
 				[PureData sendController:weakSelf.name button:@"dpright" state:NO];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"dpright" state:NO];
@@ -344,7 +344,7 @@
 		if(value < 0) {
 			if(![self->buttonStates[@"dpdown"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: dpdown 1", weakSelf.name);
+					LogVerbose(@"%@ button: dpdown 1", weakSelf.name);
 				#endif
 				[PureData sendController:weakSelf.name button:@"dpdown" state:YES];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"dpdown" state:YES];
@@ -354,7 +354,7 @@
 		else if(value > 0) {
 			if(![self->buttonStates[@"dpup"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: dpup 1", weakSelf.name);
+					LogVerbose(@"%@ button: dpup 1", weakSelf.name);
 				#endif
 				[PureData sendController:weakSelf.name button:@"dpup" state:YES];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"dpup" state:YES];
@@ -364,7 +364,7 @@
 		else {
 			if([self->buttonStates[@"dpdown"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: dpdown 0", weakSelf.name);
+					LogVerbose(@"%@ button: dpdown 0", weakSelf.name);
 				#endif
 				[PureData sendController:weakSelf.name button:@"dpdown" state:NO];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"dpdown" state:NO];
@@ -372,7 +372,7 @@
 			}
 			if([self->buttonStates[@"dpup"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: dpup 0", weakSelf.name);
+					LogVerbose(@"%@ button: dpup 0", weakSelf.name);
 				#endif
 				[PureData sendController:weakSelf.name button:@"dpup" state:NO];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"dpup" state:NO];
@@ -386,7 +386,7 @@
 		self.controller.extendedGamepad.leftShoulder.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 			if([self->buttonStates[@"leftshoulder"] boolValue] != pressed) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: leftshoulder %d", weakSelf.name, (int)pressed);
+					LogVerbose(@"%@ button: leftshoulder %d", weakSelf.name, (int)pressed);
 				#endif
 				[PureData sendController:weakSelf.name button:@"leftshoulder" state:pressed];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"leftshoulder" state:pressed];
@@ -396,7 +396,7 @@
 		self.controller.extendedGamepad.leftTrigger.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 			if([self->buttonStates[@"lefttrigger"] boolValue] != pressed) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: lefttrigger %d", weakSelf.name, (int)pressed);
+					LogVerbose(@"%@ button: lefttrigger %d", weakSelf.name, (int)pressed);
 				#endif
 				[PureData sendController:weakSelf.name button:@"lefttrigger" state:pressed];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"lefttrigger" state:pressed];
@@ -406,7 +406,7 @@
 		self.controller.extendedGamepad.rightShoulder.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 			if([self->buttonStates[@"rightshoulder"] boolValue] != pressed) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: rightshoulder %d", weakSelf.name, (int)pressed);
+					LogVerbose(@"%@ button: rightshoulder %d", weakSelf.name, (int)pressed);
 				#endif
 				[PureData sendController:weakSelf.name button:@"rightshoulder" state:pressed];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"rightshoulder" state:pressed];
@@ -416,7 +416,7 @@
 		self.controller.extendedGamepad.rightTrigger.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 			if([self->buttonStates[@"righttrigger"] boolValue] != pressed) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ button: righttrigger %d", weakSelf.name, (int)pressed);
+					LogVerbose(@"%@ button: righttrigger %d", weakSelf.name, (int)pressed);
 				#endif
 				[PureData sendController:weakSelf.name button:@"righttrigger" state:pressed];
 				[weakSelf.parent.osc sendController:weakSelf.name button:@"righttrigger" state:pressed];
@@ -426,7 +426,7 @@
 		self.controller.extendedGamepad.leftThumbstick.xAxis.valueChangedHandler = ^ (GCControllerAxisInput *axis, float value) {
 			if([self->axisStates[@"leftx"] floatValue] != value) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ axis: leftx %f", weakSelf.name, value);
+					LogVerbose(@"%@ axis: leftx %f", weakSelf.name, value);
 				#endif
 				[PureData sendController:weakSelf.name axis:@"leftx" value:value];
 				[weakSelf.parent.osc sendController:weakSelf.name axis:@"leftx" value:value];
@@ -436,7 +436,7 @@
 		self.controller.extendedGamepad.leftThumbstick.yAxis.valueChangedHandler = ^ (GCControllerAxisInput *axis, float value) {
 			if([self->axisStates[@"lefty"] floatValue] != value) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ axis: lefty %f", weakSelf.name, value);
+					LogVerbose(@"%@ axis: lefty %f", weakSelf.name, value);
 				#endif
 				[PureData sendController:weakSelf.name axis:@"lefty" value:value];
 				[weakSelf.parent.osc sendController:weakSelf.name axis:@"lefty" value:value];
@@ -446,7 +446,7 @@
 		self.controller.extendedGamepad.rightThumbstick.xAxis.valueChangedHandler = ^ (GCControllerAxisInput *axis, float value) {
 			if([self->axisStates[@"rightx"] floatValue] != value) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ axis: rightx %f", weakSelf.name, value);
+					LogVerbose(@"%@ axis: rightx %f", weakSelf.name, value);
 				#endif
 				[PureData sendController:weakSelf.name axis:@"rightx" value:value];
 				[weakSelf.parent.osc sendController:weakSelf.name axis:@"rightx" value:value];
@@ -456,17 +456,17 @@
 		self.controller.extendedGamepad.rightThumbstick.yAxis.valueChangedHandler = ^ (GCControllerAxisInput *axis, float value) {
 			if([self->axisStates[@"righty"] floatValue] != value) {
 				#ifdef DEBUG_CONTROLLERS
-					DDLogVerbose(@"%@ axis: righty %f", weakSelf.name, value);
+					LogVerbose(@"%@ axis: righty %f", weakSelf.name, value);
 				#endif
 				[PureData sendController:weakSelf.name axis:@"righty" value:value];
 				[weakSelf.parent.osc sendController:weakSelf.name axis:@"righty" value:value];
 				self->axisStates[@"righty"] = [NSNumber numberWithFloat:value];
 			}
 		};
-		DDLogVerbose(@"Controllers: extended gamepad");
+		LogVerbose(@"Controllers: extended gamepad");
 	}
 	else {
-		DDLogVerbose(@"Controllers: gamepad");
+		LogVerbose(@"Controllers: gamepad");
 	}
 }
 
