@@ -52,7 +52,7 @@
 		audioController.allowAirPlay = YES;
 		audioController.defaultToSpeaker = ![defaults boolForKey:@"earpieceSpeakerEnabled"];
 		self.sampleRate = (int)[defaults integerForKey:@"sampleRate"]; ///< audio unit set up here
-		if(ddLogLevel >= DDLogLevelVerbose) {
+		if(logLevel >= LogLevelVerbose) {
 			[audioController print];
 		}
 

@@ -3,7 +3,7 @@
 #import "Log.h"
 
 /// a threadsafe Lumberjack logger that writes to a given text view
-@interface TextViewLogger : DDAbstractLogger <DDLogger, UIScrollViewDelegate>
+@interface TextViewLogger : Logger <UIScrollViewDelegate>
 
 /// set this as the target for text updates
 @property (weak, nonatomic) UITextView *textView;
