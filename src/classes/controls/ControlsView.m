@@ -218,7 +218,7 @@
 }
 
 + (float)baseHeight {
-	return Util.isDeviceATablet ? 222 : 140;
+	return Util.isDeviceATablet ? 222 : 144;
 }
 
 + (float)baseSpacing {
@@ -230,7 +230,7 @@
 }
 
 - (void)halfSize {
-	self.height = 140;
+	self.height = 144;
 	self.spacing = self.defaultSpacing/2;
 	self.toolbarHeight = self.defaultToolbarHeight/2;
 	[self setNeedsUpdateConstraints];
