@@ -759,15 +759,15 @@ static int atoms_match(int inargc, t_atom *inargv, int searchargc,
 			else if(a1->a_type == A_FLOAT || a1->a_type == A_DOLLAR) {
 				if(a2->a_type != a1->a_type ||
 				   a1->a_w.w_float != a2->a_w.w_float) {
-						goto nomatch;
+					goto nomatch;
 				}
 			}
 			else if(a1->a_type == A_SYMBOL || a1->a_type == A_DOLLSYM) {
-				if((a2->a_type != A_SYMBOL && a2->a_type != A_DOLLSYM)
-					|| (wholeword && a1->a_w.w_symbol != a2->a_w.w_symbol)
-					|| (!wholeword &&  !strstr(a1->a_w.w_symbol->s_name,
-										a2->a_w.w_symbol->s_name))) {
-						goto nomatch;
+				if((a2->a_type != A_SYMBOL && a2->a_type != A_DOLLSYM) ||
+				   (wholeword && a1->a_w.w_symbol != a2->a_w.w_symbol) ||
+				   (!wholeword &&  !strstr(a1->a_w.w_symbol->s_name,
+					                       a2->a_w.w_symbol->s_name))) {
+					goto nomatch;
 				}
 			}
 		}
