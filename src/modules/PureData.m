@@ -44,6 +44,11 @@
 		_playing = YES;
 		_recording = NO;
 
+		// set PlayAndRecord category so number of inputs will not be 0 when calling
+		// AVAUdioSession.sharedInstance.inputNumberOfChannels the first time
+		[AVAudioSession.sharedInstance setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+		[AVAudioSession.sharedInstance setActive:YES error:nil];
+
 		// configure a typical audio session with the current # of i/o channels
 		audioController = [[PdAudioController alloc] init];
 		audioController.mixWithOthers = YES;
