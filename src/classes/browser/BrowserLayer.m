@@ -87,6 +87,15 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 		self.clearsSelectionOnViewWillAppear = NO;
 		self.preferredContentSize = CGSizeMake(320.0, 600.0);
 	}
+
+	// FIXME: remove when no longer needed
+	// force toolbar width so auto layout can handle bar items on iOS 11+ without exceptions,
+	// from https://stackoverflow.com/a/58524360/2146055
+	self.navigationController.toolbar.frame = CGRectMake(
+		0, 0,
+		self.navigationController.view.bounds.size.width,
+		self.navigationController.toolbar.bounds.size.height
+	);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
