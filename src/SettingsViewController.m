@@ -38,7 +38,7 @@
 	self.oscKeyEnabledSwitch.on = app.osc.keySendingEnabled;
 	self.oscPrintEnabledSwitch.on = app.osc.printSendingEnabled;
 
-	sampleRateValues = @[@(48000), @(41000), @(96000)];
+	sampleRateValues = @[@(48000), @(44100), @(96000)];
 	int userSampleRate = [app.pureData userSampleRate];
 	for(int i = 0; i < (int)sampleRateValues.count; ++i) {
 		NSNumber *value = sampleRateValues[i];
