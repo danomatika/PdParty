@@ -1,3 +1,14 @@
+1.3.2: 2022-12-29
+
+* fixed no initial audio inputs by setting audio session category and activating
+  on start (reported by Josef Novotny)
+* fixed #pdparty acceleration orientation message handling
+
+* force browser toolbar width so auto layout can handle bar items on iOS 11+
+  without exceptions
+* slightly increase controls view height to keep mic icon from being cut off on
+  iphone
+
 1.3.1: 2022-12-26
 
 * fixed multi-channel audio by re-enabling reconfiguration on route change
