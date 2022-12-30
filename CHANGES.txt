@@ -20,7 +20,7 @@
 * fixed controls view layout exception by removing unneeded controls view y
   center constraint
 
-* added multi_channel test patch
+* added multi_channel test patch (run copy tests in settings to update)
 
 * replaced cocoa lumberjack with simplified logging using the same approach
 * don't need to check for max stereo channels since auto controller preferStereo
