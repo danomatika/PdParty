@@ -255,7 +255,8 @@
 
 		// pass the rest through, ie. printable "a", "A", etc
 		// non-printable characters will already be an empty string
-		default: return press.key.characters;
+		// ... but catch nil in the case of a controller pause button event
+		default: return (press.key.characters ? press.key.characters : @"");
 	}
 }
 
