@@ -368,6 +368,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
 * PdParty scenes
   - a folder that contains a _main.pd patch
   - portrait or landscape
+  - an optional background image named "background.png" or "background.jpg"
   - an optional browser icon named "thumb.png" or "thumb.jpg" and a min size of 55x55
   - an optional info json file named "info.json" with a dictionary & the following keys:
     + _author_
@@ -381,7 +382,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   - supports game controllers
   - supports setting a background image dynamically
 
-Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene, except for dynamic background support.
+Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene, except for background support.
 
 ### Pure Data Compatibility
 
@@ -870,6 +871,11 @@ PdParty versions 1.4.0+ support setting a background image dynamically in PdPart
   - _filename_: path to an image file (PNG, JPG) to set as the background image, path is relative to scene directory
 * **\#pdparty background clear**: clear current background
 
-Images are set to fill the available space while keeping the original aspect ratio. To avoid stretching or distortion, try to size them as close to the displayed canvas background on your particular device, ie. device screen size - navigation bar. The same is true when matching GUI widget position to a background image: size the patch canvas as close to the target device as possible. It's best (and more realistic) to plan for a little extra space here and there as opposed to expecting pixel-perfect accuracy, especially between different device types and screen sizes.
+Images are set to fill the available space while keeping the original aspect ratio. To avoid stretching or distortion, try to size them as close to the displayed canvas background on your particular device, ie. device screen size - navigation bar height. The same is true when matching GUI widget position to a background image: size the patch canvas as close to the target device as possible. It's best (and more realistic) to plan for a little extra space here and there as opposed to expecting pixel-perfect accuracy, especially between different device types and screen sizes.
 
-See the template generator script's pixel sizes for reference: `doc/composerpack/templates/generate_templates.sh`
+See <https://iosref.com/res> for device screen sizes and subtract the navbar height (currently the following as of Summer 2023):
+
+* iPhone: 44
+* iPad: 64
+
+Also see the template generator script's pixel sizes: `doc/composerpack/templates/generate_templates.sh`

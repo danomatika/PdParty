@@ -334,7 +334,6 @@
 - (void)loadBackground:(NSString *)path {
 	NSString *backgroundPath = [self.scene.patch.pathName stringByAppendingPathComponent:path];
 	if([self.scene loadBackground:backgroundPath]) {
-		self.scene.background.contentMode = UIViewContentModeScaleToFill;
 		if(self.isRotated) {
 			self.scene.background.frame = CGRectMake(
 				0, 0,

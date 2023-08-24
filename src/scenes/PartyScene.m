@@ -26,7 +26,14 @@
 
 - (BOOL)open:(NSString *)path {
 	if([super open:[path stringByAppendingPathComponent:@"_main.pd"]]) {
-	
+
+		// load background
+		NSArray *backgroundPaths = [Util whichFilenames:@[@"background.png", @"background.jpg"] existInDirectory:path];
+		for(NSString *backgroundPath in backgroundPaths) {
+			if([self loadBackground:[path stringByAppendingPathComponent:backgroundPath]]) {break;}
+			LogError(@"PartyScene: couldn't load %@", backgroundPath);
+		}
+
 		// load info
 		info = [PartyScene infoForSceneAt:path];
 		if(info) {

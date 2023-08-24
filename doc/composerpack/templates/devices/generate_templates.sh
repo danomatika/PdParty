@@ -8,8 +8,8 @@
 
 ##### variables
 
-TB_H_IPHONE=44
-TB_H_IPAD=64
+NAVBAR_H_IPHONE=44
+NAVBAR_H_IPAD=64
 
 ##### functions
 
@@ -29,8 +29,8 @@ function create_patch() {
 # $2 portrait width
 # $3 portrait height
 function iphone_template() {
-	create_patch "iphone/${1}-portrait.pd"  $2 $3 $TB_H_IPHONE
-	create_patch "iphone/${1}-landscape.pd" $3 $2 $TB_H_IPHONE
+	create_patch "iphone/${1}-portrait.pd"  $2 $3 $NAVBAR_H_IPHONE
+	create_patch "iphone/${1}-landscape.pd" $3 $2 $NAVBAR_H_IPHONE
 }
 
 # create template ipad set: -landscape.pd & -portrait.pd
@@ -41,8 +41,8 @@ function ipad_template() {
 	# half-size template patches, otherwise they are too big
 	local w=$(expr $2 / 2)
 	local h=$(expr $3 / 2)
-	create_patch "ipad/${1}-portrait.pd"  $w $h $TB_H_IPAD
-	create_patch "ipad/${1}-landscape.pd" $h $w $TB_H_IPAD
+	create_patch "ipad/${1}-portrait.pd"  $w $h $NAVBAR_H_IPAD
+	create_patch "ipad/${1}-landscape.pd" $h $w $NAVBAR_H_IPAD
 }
 
 ##### main

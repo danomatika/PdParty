@@ -85,8 +85,8 @@
 - (void)reshapeBackground {
 	self.background.frame = CGRectMake(
 		0, 0,
-		CGRectGetWidth(self.parentView.frame),
-		CGRectGetHeight(self.parentView.frame)
+		CGRectGetWidth(self.parentView.bounds),
+		CGRectGetHeight(self.parentView.bounds)
 	);
 }
 
