@@ -1,5 +1,8 @@
 1.4.0: TBD
 
+* fixed crash in key handling due to nil key chars for controller pause button
+  UIPress event
+
 * added dynamic background support for PdParty scenes via #pdparty background
 
 1.3.2: 2022-12-29
