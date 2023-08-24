@@ -19,8 +19,8 @@
 1.3.1: 2022-12-26
 
 * fixed multi-channel audio by re-enabling reconfiguration on route change
-* fixed dangling , in comments by concatting single commas with previous words
-  when parsing patch
+* fixed dangling , in comments by concatenating single commas with previous
+  words when parsing patch
 * fixed controls view layout exception by removing unneeded controls view y
   center constraint
 
@@ -50,7 +50,7 @@
 * tweaked controls view layout and sizing
 * set osc send & receive port placeholders to match defaults
 
-* removed view controller preferredStatusBarStyle: as it was overriden by info
+* removed view controller preferredStatusBarStyle: as it was overridden by info
   plist anyway
 
 1.3.0-beta6: 2022-11-30
@@ -395,7 +395,7 @@ major overhaul for beta release via TestFlight/iTunesConnect
 * added loading screens: "[bang<-[until]-[PdParty]"
 * added default background on iPad
 * added Droidparty demo scenes
-* added StreatBeatz, ApolloVoice, & Boomerange rj samples
+* added StreatBeatz, ApolloVoice, & Boomerang rj samples
 * added libpd as a submodule
 
 * fixed memory leak due to widgets being retained by the PdDispatcher
