@@ -379,8 +379,9 @@ PdParty also supports running "scenes" which are basically folders with a specif
   - sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, \#motion, & \#time
   - sensors are enabled & updated via control messages to \#pdparty
   - supports game controllers
+  - supports setting a background image dynamically
 
-Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene.
+Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene, except for dynamic background support.
 
 ### Pure Data Compatibility
 
@@ -860,3 +861,11 @@ The selected viewport area will be rescaled in order to fill the screen of the d
 ~~~
 
 See the DroidParty `pure-widgets-demo` sample and the PdParty `ViewPort` test.
+
+### Dynamic Background
+
+PdParty versions 1.4.0+ support setting a background image dynamically in PdParty scenes via sending a message to \#pdparty:
+
+* **\#pdparty background load _path_**: load image and set as background
+  - _filename_: path to an image file (PNG, JPG) to set as the background image, path is relative to scene directory
+* **\#pdparty background clear**: clear current background

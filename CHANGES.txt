@@ -1,3 +1,7 @@
+1.4.0: TBD
+
+* added dynamic background support for PdParty scenes via #pdparty background
+
 1.3.2: 2022-12-29
 
 * fixed 44.1k samplerate "41000" typo (reported by thumpclang)
