@@ -869,3 +869,7 @@ PdParty versions 1.4.0+ support setting a background image dynamically in PdPart
 * **\#pdparty background load _path_**: load image and set as background
   - _filename_: path to an image file (PNG, JPG) to set as the background image, path is relative to scene directory
 * **\#pdparty background clear**: clear current background
+
+Images are set to fill the available space while keeping the original aspect ratio. To avoid stretching or distortion, try to size them as close to the displayed canvas background on your particular device, ie. device screen size - navigation bar. The same is true when matching GUI widget position to a background image: size the patch canvas as close to the target device as possible. It's best (and more realistic) to plan for a little extra space here and there as opposed to expecting pixel-perfect accuracy, especially between different device types and screen sizes.
+
+See the template generator script's pixel sizes for reference: `doc/composerpack/templates/generate_templates.sh`
