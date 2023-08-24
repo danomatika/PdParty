@@ -26,8 +26,8 @@
 /// parse a given pd patch text into an array of atom lines,
 /// NSString objects until NSNull which denotes variable width option follows
 ///
-/// note: Pd 0.46+ includes variable width obj infomation appended at the end of
-/// atom lines as ", f #" with # being the width
+/// note: Pd 0.46+ includes variable width obj information appended at the end
+/// of atom lines as ", f #" with # being the width
 ///
 /// example: #X floatatom 137 84 5 0 0 0 - - send-name, f 5;
 ///
