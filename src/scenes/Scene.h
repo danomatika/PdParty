@@ -46,6 +46,9 @@ typedef enum {
 @property (weak, nonatomic) UIView *parentView; ///< parent UIView
 @property (weak, nonatomic) Gui *gui; ///< PD gui (optional, leave nil if not used)
 
+/// background image (optional)
+@property (strong, nonatomic) UIImageView *background;
+
 /// desired scene sample rate (default USER_SAMPLERATE)
 @property (readonly, nonatomic) int sampleRate;
 
@@ -73,6 +76,9 @@ typedef enum {
 /// does the scene require droidparty-style ViewPort cnv support? (default NO)
 @property (readonly, nonatomic) BOOL requiresViewport;
 
+/// returns YES if the scene supports setting a background view while running (default NO)
+@property (readonly, nonatomic) BOOL supportsDynamicBackground;
+
 - (BOOL)open:(NSString *)path; ///< expects full path
 - (void)close;
 
@@ -88,6 +94,18 @@ typedef enum {
 
 /// returns YES if a sensor is supported & can be started after opening (default NO)
 - (BOOL)supportsSensor:(SensorType)sensor;
+
+#pragma mark Background
+
+/// load background view from image at path, assumes parentView is set
+/// returns YES on success
+- (BOOL)loadBackground:(NSString *)fullpath;
+
+/// clear current background view
+- (void)clearBackground;
+
+/// update background to current parentView size
+- (void)reshapeBackground;
 
 #pragma mark Util
 

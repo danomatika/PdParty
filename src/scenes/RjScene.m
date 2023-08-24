@@ -75,16 +75,14 @@
 			LogWarn(@"RjScene: no background image, loading default background");
 			backgroundPath = [Util.bundlePath stringByAppendingPathComponent:@"images/rjdj_default.jpg"];
 		}
-		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
-		if(self.background.image) { // don't smooth when scaling
+		if([self loadBackground:backgroundPath]) {
+			// don't smooth when scaling
 			self.background.layer.magnificationFilter = kCAFilterNearest;
 			self.background.layer.shouldRasterize = YES;
 		}
 		else {
 			LogError(@"RjScene: couldn't load background image");
 		}
-		self.background.contentMode = UIViewContentModeScaleAspectFill;
-		[self.parentView addSubview:self.background];
 		
 		// load info
 		info = [RjScene infoForSceneAt:path];
@@ -282,7 +280,7 @@
 	return NO;
 }
 
-+ (UIImage*)thumbnailForSceneAt:(NSString *)fullpath {
++ (UIImage *)thumbnailForSceneAt:(NSString *)fullpath {
 	NSArray *imagePaths = [Util whichFilenames:@[@"thumb.jpg", @"Thumb.jpg", @"image.jpg", @"Image.jpg"] existInDirectory:fullpath];
 	if(imagePaths) {
 		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:imagePaths.firstObject]];
@@ -290,7 +288,7 @@
 	return nil;
 }
 
-+ (NSDictionary*)infoForSceneAt:(NSString *)fullpath {
++ (NSDictionary *)infoForSceneAt:(NSString *)fullpath {
 	NSArray *infoPaths = [Util whichFilenames:@[@"Info.plist", @"info.plist"] existInDirectory:fullpath];
 	if(infoPaths) {
 		return [[NSDictionary dictionaryWithContentsOfFile:[fullpath stringByAppendingPathComponent:infoPaths.firstObject]] objectForKey:@"info"];

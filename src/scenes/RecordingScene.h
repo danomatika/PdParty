@@ -15,6 +15,7 @@
 
 /// Recording scene (wav or aiff file playback)
 /// scene path is to .wav/.wave/.aif/.aiff file
+/// square background image (nominally 320x320)
 @interface RecordingScene : Scene <ControlsViewDelegate>
 
 /// file to play
@@ -25,9 +26,6 @@
 
 /// extended info label for iPhone as filename is cut off in nav bar
 @property (strong, nonatomic) UILabel *infoLabel;
-
-/// square background image (nominally 320x320)
-@property (strong, nonatomic) UIImageView *background;
 
 /// player controls
 @property (strong, nonatomic) PlayerControlsView *controlsView;

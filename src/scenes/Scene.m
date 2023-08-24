@@ -55,6 +55,41 @@
 	return NO;
 }
 
+#pragma Background
+
+- (BOOL)loadBackground:(NSString *)fullpath {
+	if([NSFileManager.defaultManager fileExistsAtPath:fullpath]) {
+		[self clearBackground];
+		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:fullpath]];
+		if(self.background.image) {
+			[self reshapeBackground];
+			self.background.contentMode = UIViewContentModeScaleAspectFill;
+			[self.parentView addSubview:self.background];
+			[self.parentView sendSubviewToBack:self.background];
+			return YES;
+		}
+		else {
+			self.background = nil;
+		}
+	}
+	return NO;
+}
+
+- (void)clearBackground {
+	if(self.background) {
+		[self.background removeFromSuperview];
+		self.background = nil;
+	}
+}
+
+- (void)reshapeBackground {
+	self.background.frame = CGRectMake(
+		0, 0,
+		CGRectGetWidth(self.parentView.frame),
+		CGRectGetHeight(self.parentView.frame)
+	);
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {
@@ -130,6 +165,10 @@
 }
 
 - (BOOL)requiresViewport {
+	return NO;
+}
+
+- (BOOL)supportsDynamicBackground {
 	return NO;
 }
 

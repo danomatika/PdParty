@@ -11,7 +11,7 @@
 #import "PatchScene.h"
 
 /// PdParty scene (folder with _main.pd)
-/// path is to scene folder
+/// path is to scene folder, optional background image
 @interface PartyScene : PatchScene
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
@@ -19,12 +19,12 @@
 /// returns YES if the given path is a PdParty scene dir
 + (BOOL)isPdPartyDirectory:(NSString *)fullpath;
 
-/// returns a thumbnail.jpg for a given RjDj scene dir, falls back to image.jpg
+/// returns a thumbnail.jpg for a given scene dir, falls back to image.jpg
 /// return nil if images not found
-+ (UIImage*)thumbnailForSceneAt:(NSString *)fullpath;
++ (UIImage *)thumbnailForSceneAt:(NSString *)fullpath;
 
 /// returns a dictionary loaded from the info.json or Info.json in a given scene dir,
 /// returns nil if not found or is empty
-+ (NSDictionary*)infoForSceneAt:(NSString *)fullpath;
++ (NSDictionary *)infoForSceneAt:(NSString *)fullpath;
 
 @end

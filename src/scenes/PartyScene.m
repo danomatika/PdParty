@@ -48,7 +48,17 @@
 			}
 		}
 	}
+	if(self.background) {
+		[self clearBackground];
+	}
 	[super close];
+}
+
+- (void)reshape {
+	[super reshape];
+	if(self.background) {
+		[self reshapeBackground];
+	}
 }
 
 #pragma mark Overridden Getters / Setters
@@ -101,13 +111,17 @@
 	return @"PartyScene";
 }
 
+- (BOOL)supportsDynamicBackground {
+	return YES;
+}
+
 #pragma mark Util
 
 + (BOOL)isPdPartyDirectory:(NSString *)fullpath {
 	return [NSFileManager.defaultManager fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"_main.pd"]];
 }
 
-+ (UIImage*)thumbnailForSceneAt:(NSString *)fullpath {
++ (UIImage *)thumbnailForSceneAt:(NSString *)fullpath {
 	NSArray *imagePaths = [Util whichFilenames:@[@"thumb.png", @"Thumb.png", @"thumb.jpg", @"Thumb.jpg"] existInDirectory:fullpath];
 	if(imagePaths) {
 		return [[UIImage alloc] initWithContentsOfFile:[fullpath stringByAppendingPathComponent:imagePaths.firstObject]];
@@ -115,7 +129,7 @@
 	return nil;
 }
 
-+ (NSDictionary*)infoForSceneAt:(NSString *)fullpath {
++ (NSDictionary *)infoForSceneAt:(NSString *)fullpath {
 	NSArray *infoPaths = [Util whichFilenames:@[@"info.json", @"Info.json"] existInDirectory:fullpath];
 	if(infoPaths) {
 		return [Util parseJSONFromFile:[fullpath stringByAppendingPathComponent:infoPaths.firstObject]];

@@ -66,7 +66,7 @@
 @property (weak, nonatomic) Osc *osc; ///< pointer to osc instance
 @end
 
-/// sensor delegate used to query whether a sensor is supported & can be started
+/// sensor delegate, used to query whether a sensor is supported & can be started
 /// via a #pdparty message
 @protocol PdSensorDelegate <NSObject>
 - (BOOL)supportsExtendedTouch; ///< not a sensor, per se...
@@ -77,6 +77,12 @@
 - (BOOL)supportsMagnet;
 - (BOOL)supportsMotion;
 - (void)touchEverywhere:(BOOL)everywhere; ///< enable #touch over widgets?
+@end
+
+/// background event delegate
+@protocol PdBackgroundDelegate <NSObject>
+- (void)loadBackground:(NSString *)fullpath; ///< load background image
+- (void)clearBackground; ///< clear background image
 @end
 
 @protocol PdRecordEventDelegate <NSObject>
@@ -150,11 +156,14 @@
 /// optionally appends a timestamp string to the filename, returns NO if not started
 - (BOOL)startedRecordingToRecordDir:(NSString *)path withTimestamp:(BOOL)timestamp;
 
-/// receives event when playback is finished
-@property (assign, nonatomic) id<PdRecordEventDelegate> recordDelegate;
-
 /// required for sensor control support queries
 @property (assign, nonatomic) id<PdSensorDelegate> sensorDelegate;
+
+/// receives background events
+@property (assign, nonatomic) id<PdBackgroundDelegate> backgroundDelegate;
+
+/// receives event when playback is finished
+@property (assign, nonatomic) id<PdRecordEventDelegate> recordDelegate;
 
 #pragma mark Send Events
 

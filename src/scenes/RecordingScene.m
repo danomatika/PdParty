@@ -66,7 +66,7 @@
 		[self.parentView addSubview:self.infoLabel];
 	}
 
-	// load background
+	// load background manually to tint
 	NSString *backgroundPath = [Util.bundlePath stringByAppendingPathComponent:@"images/tape_drive-512.png"];
 	if([NSFileManager.defaultManager fileExistsAtPath:backgroundPath]) {
 		UIImage *image = [UIImage imageWithContentsOfFile:backgroundPath];

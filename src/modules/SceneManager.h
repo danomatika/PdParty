@@ -16,7 +16,7 @@
 #import "Sensors.h"
 #import "Controllers.h"
 
-@interface SceneManager : NSObject <PdSensorDelegate>
+@interface SceneManager : NSObject <PdSensorDelegate, PdBackgroundDelegate>
 
 @property (strong, nonatomic) Gui *gui; ///< pd gui widgets
 @property (strong, nonatomic) Scene* scene; ///< current scene

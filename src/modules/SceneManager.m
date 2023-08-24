@@ -144,6 +144,9 @@
 		                           cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
+	if(self.scene.supportsDynamicBackground) {
+		self.pureData.backgroundDelegate = self;
+	}
 	
 	// turn up volume & turn on transport, update gui
 	if(self.scene.requiresPd) {
@@ -176,6 +179,7 @@
 		if(self.scene.requiresPd) {
 			[PureData sendCloseBang];
 		}
+		self.pureData.backgroundDelegate = nil;
 		[self.scene close];
 		self.scene = nil;
 		[self stopSensors];
@@ -198,6 +202,13 @@
 		[UIView beginAnimations:nil context:nil];
 	}
 	[self.scene reshape];
+	if(self.isRotated) {
+		self.scene.background.frame = CGRectMake(
+			0, 0,
+			CGRectGetHeight(self.scene.background.frame),
+			CGRectGetWidth(self.scene.background.frame)
+		);
+	}
 	if(hasReshaped) {
 		[UIView commitAnimations];
 	}
@@ -318,6 +329,24 @@
 
 - (void)touchEverywhere:(BOOL)everywhere {
 	self.gui.forwardTouches = everywhere;
+}
+
+- (void)loadBackground:(NSString *)path {
+	NSString *backgroundPath = [self.scene.patch.pathName stringByAppendingPathComponent:path];
+	if([self.scene loadBackground:backgroundPath]) {
+		self.scene.background.contentMode = UIViewContentModeScaleToFill;
+		if(self.isRotated) {
+			self.scene.background.frame = CGRectMake(
+				0, 0,
+				CGRectGetHeight(self.scene.background.frame),
+				CGRectGetWidth(self.scene.background.frame)
+			);
+		}
+	}
+}
+
+- (void)clearBackground {
+	[self.scene clearBackground];
 }
 
 #pragma mark Overridden Getters / Setters

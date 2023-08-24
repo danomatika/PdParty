@@ -430,7 +430,9 @@
 				}
 			}
 			else if([arguments[0] isEqualToString:@"everywhere"] && [arguments isNumberAt:1]) {
-				[self.sensorDelegate touchEverywhere:[arguments[1] boolValue]];
+				if(self.sensorDelegate) {
+					[self.sensorDelegate touchEverywhere:[arguments[1] boolValue]];
+				}
 			}
 		}
 
@@ -613,7 +615,7 @@
 			else { // pass to openURL to open in Safari or some other app
 				UIApplication *application = UIApplication.sharedApplication;
 				if([application respondsToSelector:@selector(openURL:options:completionHandler:)]) {
-					// iOS 10+ aynchronous open
+					// iOS 10+ asynchronous open
 					[application openURL:url options:@{} completionHandler:^(BOOL success) {
 						if(!success) {
 							LogError(@"PureData: could not open url: %@", url);
@@ -634,6 +636,20 @@
 			NSArray *time = [PureData timestamp];
 			[PureData sendTime:time];
 			[self.osc sendTime:time];
+		}
+
+		// dynamic background
+		if([message isEqualToString:@"background"] && arguments.count > 0) {
+			if([arguments[0] isEqualToString:@"load"] && arguments.count > 1 && [arguments isStringAt:1]) {
+				if(self.backgroundDelegate) {
+					[self.backgroundDelegate loadBackground:arguments[1]];
+				}
+			}
+			else if([arguments[0] isEqualToString:@"clear"]) {
+				if(self.backgroundDelegate) {
+					[self.backgroundDelegate clearBackground];
+				}
+			}
 		}
 	}
 	else {
@@ -803,6 +819,7 @@ static int canvas_dofind(t_canvas *x, int *myindexp) {
 	return didit;
 }
 
+// TODO: move this to PdParser when parsing
 + (BOOL)objectExists:(NSString *)name inPatch:(PdFile *)patch {
 	t_canvas *canvas = (t_canvas *)[patch.fileReference pointerValue];
 	t_symbol *n = gensym([name cStringUsingEncoding:NSUTF8StringEncoding]);

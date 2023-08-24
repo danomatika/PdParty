@@ -28,15 +28,8 @@
 	
 	// load background
 	NSString *backgroundPath = [path stringByAppendingPathComponent:@"background.png"];
-	if([NSFileManager.defaultManager fileExistsAtPath:backgroundPath]) {
-		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:backgroundPath]];
-		if(self.background.image) {
-			self.background.contentMode = UIViewContentModeScaleAspectFill;
-			[self.parentView addSubview:self.background];
-		}
-		else {
-			LogError(@"DroidScene: couldn't load background image");
-		}
+	if(![self loadBackground:backgroundPath]) {
+		LogError(@"DroidScene: couldn't load background image");
 	}
 	
 	// load font
@@ -58,6 +51,13 @@
 		self.fontPath = nil;
 	}
 	[super close];
+}
+
+- (void)reshape {
+	[super reshape];
+	if(self.background) {
+		[self reshapeBackground];
+	}
 }
 
 - (BOOL)scaleTouch:(UITouch *)touch forPos:(CGPoint *)pos {
