@@ -879,3 +879,17 @@ See <https://iosref.com/res> for device screen sizes and subtract the navbar hei
 * iPad: 64
 
 Also see the template generator script's pixel sizes: `doc/composerpack/templates/generate_templates.sh`
+
+### Guided Access (Kiosk Mode)
+
+To run PdParty in a sort of kiosk mode, use Guided Access which is an accessibility feature in iOS/iPadOS:
+
+> Guided Access limits your device to a single app and lets you control which features are available. You can turn on Guided Access when you let a child use your device, or when accidental gestures might distract you.
+
+For an overview and usage, see the Apple doc: http://support.apple.com/kb/HT5509
+
+As of PdParty 1.4.0, the following app-specific options are also available:
+* Back Button: enable/disable the left back button to return to the Browser
+* Controls Button: enable/disable the right controls button
+
+If both buttons are disabled, when a scene is run in PdParty with Guided Access enabled, the patch view cannot be exited and the hon-screen home indicator, notifications, and control center are disabled. If the physical home button and side buttons are inaccessible, such as when the device is enclosed in a security case, the scene can be presented in a public environment, ie as an art installation.
