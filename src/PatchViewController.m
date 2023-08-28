@@ -401,6 +401,10 @@
 }
 
 - (void)updateControls {
+	if(self.navigationItem.hidesBackButton != self.hidesBackButton) {
+		[self.navigationItem setHidesBackButton:self.hidesBackButton animated:YES];
+	}
+
 	if(!self.sceneManager.scene.requiresControls) {
 		[self.controlsView removeFromSuperview];
 		[self dismissControlsPopover];
