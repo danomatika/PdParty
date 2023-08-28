@@ -24,7 +24,7 @@
 /// popup grid of menu buttons
 @property (strong, nonatomic) MenuViewController *menuViewController;
 
-/// loaded background image, used if scene didn;t load or there is no scene
+/// loaded background image, used if scene didn't load or there is no scene
 @property (strong, nonatomic) UIImageView *background;
 
 #pragma mark Scene Management
@@ -38,6 +38,12 @@
 - (void)closeScene;
 
 #pragma mark UI
+
+/// hide left back nav bar button? (default NO)
+@property (assign, nonatomic) BOOL hidesBackButton;
+
+/// hide right controls/info nav bar button? (default NO)
+@property (assign, nonatomic) BOOL hidesControlsButton;
 
 /// called when a right nav bar button is pressed
 - (void)controlsNavButtonPressed:(id)sender;

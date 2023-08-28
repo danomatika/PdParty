@@ -167,6 +167,14 @@
 	return UIInterfaceOrientationMaskAll;
 }
 
+- (UIRectEdge)preferredScreenEdgesDeferringSystemGestures {
+	return UIRectEdgeAll;
+}
+
+- (BOOL)prefersHomeIndicatorAutoHidden {
+	return YES;
+}
+
 #pragma mark Scene Management
 
 - (void)openScene:(NSString *)path withType:(NSString *)type {
@@ -213,6 +221,20 @@
 
 #pragma mark UI
 
+// remove button item to hide on iPad
+- (void)setHidesBackButton:(BOOL)hidesBackButton {
+	_hidesBackButton = hidesBackButton;
+	[self.navigationItem setHidesBackButton:hidesBackButton animated:YES];
+	if([Util isDeviceATablet]) {
+		self.navigationItem.leftBarButtonItem = (hidesBackButton ? nil : self.splitViewController.displayModeButtonItem);
+	}
+}
+
+- (void)setHidesControlsButton:(BOOL)hidesControlsButton {
+	_hidesControlsButton = hidesControlsButton;
+	self.navigationItem.rightBarButtonItem = (hidesControlsButton ? nil : self.controlsBarButtonItem);
+}
+
 - (void)controlsNavButtonPressed:(id)sender {
 	if(!self.controlsPopover.popoverVisible) {
 		[self.controlsPopover presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
@@ -224,8 +246,8 @@
 	}
 }
 
+// cause transition to info view
 - (void)infoNavButtonPressed:(id)sender {
-	// cause transition to info view
 	[self performSegueWithIdentifier:@"showInfo" sender:self];
 }
 
@@ -325,7 +347,8 @@
 - (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
 	if(displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
 		[self dismissControlsPopover];
-		self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+		// re-add unless button should be hidden
+		self.navigationItem.leftBarButtonItem = (self.navigationItem.hidesBackButton ? nil : self.splitViewController.displayModeButtonItem);
 	}
 	else { // PrimaryOverlay
 		self.navigationItem.leftBarButtonItem = nil;
@@ -400,16 +423,8 @@
 			self.controlsView.lightBackground = NO;
 			
 			// create nav button if the scene has any info to show
-			if(self.sceneManager.scene.hasInfo) {
-				self.navigationItem.rightBarButtonItem =
-					[[UIBarButtonItem alloc] initWithTitle:nil
-					                                 style:UIBarButtonItemStylePlain
-					                                target:self
-					                                action:@selector(infoNavButtonPressed:)];
-				self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"info"];
-				if(!self.navigationItem.rightBarButtonItem.image) { // fallback
-					self.navigationItem.rightBarButtonItem.title = @"Info";
-				}
+			if(self.sceneManager.scene.hasInfo && !self.hidesControlsButton) {
+				self.navigationItem.rightBarButtonItem = self.infoBarButtonItem;
 			}
 			else {
 				self.navigationItem.rightBarButtonItem = nil;
@@ -436,17 +451,12 @@
 			self.controlsView.lightBackground = YES;
 			
 			// create nav button
-			self.navigationItem.rightBarButtonItem =
-				[[UIBarButtonItem alloc] initWithTitle:nil
-				                                 style:UIBarButtonItemStylePlain
-				                                target:self
-				                                action:@selector(controlsNavButtonPressed:)];
-			self.navigationItem.rightBarButtonItem.image = [UIImage imageNamed:@"controls"];
-			
-			if(!self.navigationItem.rightBarButtonItem.image) { // fallback
-				self.navigationItem.rightBarButtonItem.title = @"Controls";
+			if(!self.hidesControlsButton) {
+				self.navigationItem.rightBarButtonItem = self.controlsBarButtonItem;
 			}
-			self.navigationItem.rightBarButtonItem.enabled = YES;
+			else {
+				self.navigationItem.rightBarButtonItem = nil;
+			}
 			
 			// smaller controls in iPad popover
 			if(Util.isDeviceATablet) {
@@ -497,6 +507,32 @@
 - (void)removeBackground {
 	[self.background removeFromSuperview];
 	self.background = nil;
+}
+
+- (UIBarButtonItem *)controlsBarButtonItem {
+	UIBarButtonItem *button =
+		[[UIBarButtonItem alloc] initWithTitle:nil
+										 style:UIBarButtonItemStylePlain
+										target:self
+										action:@selector(controlsNavButtonPressed:)];
+	button.image = [UIImage imageNamed:@"controls"];
+	if(!button.image) { // fallback
+		button.title = @"Controls";
+	}
+	return button;
+}
+
+- (UIBarButtonItem *)infoBarButtonItem {
+	UIBarButtonItem *button =
+		[[UIBarButtonItem alloc] initWithTitle:nil
+										 style:UIBarButtonItemStylePlain
+										target:self
+										action:@selector(infoNavButtonPressed:)];
+	button.image = [UIImage imageNamed:@"info"];
+	if(!button.image) { // fallback
+		button.title = @"Info";
+	}
+	return button;
 }
 
 @end

@@ -10,7 +10,8 @@
  */
 #import <UIKit/UIKit.h>
 
-/// ask child view controller for supported interface orientations
+/// ask child view controller for supported interface orientations,
+/// home indicator option, etc
 @interface SplitViewController : UISplitViewController
 
 @end

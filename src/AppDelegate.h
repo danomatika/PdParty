@@ -16,14 +16,14 @@
 #import "SceneManager.h"
 #import "WebServer.h"
 
-// shake event notification names
+/// shake event notification name
 extern NSString *const PdPartyMotionShakeEndedNotification;
 
 @class StartViewController;
 @class PatchViewController;
 @class BrowserViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIGuidedAccessRestrictionDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -52,7 +52,7 @@ extern NSString *const PdPartyMotionShakeEndedNotification;
 
 #pragma mark Now Playing
 
-/// create "Now Playing" nav bar button, target:self action:@selector(cNowPlayingPressed)
+/// create "Now Playing" nav bar button, target:self action:@selectorcNowPlayingPressed)
 /// returns nil on iPad
 - (UIBarButtonItem *)nowPlayingButton;
 

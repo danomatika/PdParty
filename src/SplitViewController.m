@@ -24,4 +24,12 @@
 	return self.viewControllers.lastObject.preferredInterfaceOrientationForPresentation;
 }
 
+- (UIViewController *)childViewControllerForScreenEdgesDeferringSystemGestures {
+	return self.viewControllers.lastObject;
+}
+
+- (UIViewController *)childViewControllerForHomeIndicatorAutoHidden {
+	return self.viewControllers.lastObject;
+}
+
 @end

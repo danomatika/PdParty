@@ -78,7 +78,7 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	// set up split view on iPad
 	if(Util.isDeviceATablet) {
 		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-		UINavigationController *detailNavController = splitViewController.viewControllers.lastObject;
+		UINavigationController *detailNavController = splitViewController.viewControllers.lastObject; // PatchViewController
 		splitViewController.delegate = (id)detailNavController.topViewController;
 		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
 		splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
@@ -384,7 +384,65 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	}
 }
 
+#pragma mark UIGuidedAccessRestrictionDelegate
+
+// add custom restrictions which appear as switches in the Guided Access Options view
+// ref: https://developer.apple.com/documentation/uikit/uiguidedaccessrestrictiondelegate?language=objc
+// ref: https://developer.apple.com/library/archive/samplecode/sc2216/Listings/CustomContentAccessibility_APLAppDelegate_m.html
+
+static NSString *const PdPartyBackButtonRestrictionIdentifier = @"com.danomatika.CustomContentAccessibility.BackButtonRestrictionIdentifier";
+static NSString *const PdPartyControlsButtonRestrictionIdentifier = @"com.danomatika.CustomContentAccessibility.ControlsButtonRestrictionIdentifier";
+
+// custom restrictions
+- (NSArray *)guidedAccessRestrictionIdentifiers {
+	return @[PdPartyBackButtonRestrictionIdentifier, PdPartyControlsButtonRestrictionIdentifier];
+}
+
+// title
+- (NSString *)textForGuidedAccessRestrictionWithIdentifier:(NSString *)restrictionIdentifier {
+	if([restrictionIdentifier isEqualToString:PdPartyBackButtonRestrictionIdentifier]) {
+		return NSLocalizedString(@"Back Button", nil);
+	}
+	else if([restrictionIdentifier isEqualToString:PdPartyControlsButtonRestrictionIdentifier]) {
+		return NSLocalizedString(@"Controls Button", nil);
+	}
+	return nil;
+}
+
+// detail text description
+- (NSString *)detailTextForGuidedAccessRestrictionWithIdentifier:(NSString *)restrictionIdentifier {
+	if([restrictionIdentifier isEqualToString:PdPartyBackButtonRestrictionIdentifier]) {
+		return NSLocalizedString(@"Return to browser from current PdParty scene", nil);
+	}
+	else if([restrictionIdentifier isEqualToString:PdPartyControlsButtonRestrictionIdentifier]) {
+		return NSLocalizedString(@"Open PdParty controls popover", nil);
+	}
+	return nil;
+}
+
+// restriction state change event handler
+- (void)guidedAccessRestrictionWithIdentifier:(NSString *)restrictionIdentifier didChangeState:(UIGuidedAccessRestrictionState)newRestrictionState {
+	BOOL allowed = (newRestrictionState == UIGuidedAccessRestrictionStateAllow);
+	if([restrictionIdentifier isEqualToString:PdPartyBackButtonRestrictionIdentifier]) {
+		self.patchViewController.hidesBackButton = !allowed;
+	}
+	else if([restrictionIdentifier isEqualToString:PdPartyControlsButtonRestrictionIdentifier]) {
+		self.patchViewController.hidesControlsButton = !allowed;
+	}
+	else {return;}
+	LogVerbose(@"%@ %@", restrictionIdentifier, (allowed ? @"allow" : @"deny"));
+}
+
 #pragma mark Overridden Getters / Setters
+
+// update button state when view is loaded on iPhone
+- (void)setPatchViewController:(PatchViewController *)patchViewController {
+	_patchViewController = patchViewController;
+	self.patchViewController.hidesBackButton =
+		(UIGuidedAccessRestrictionStateForIdentifier(PdPartyBackButtonRestrictionIdentifier) == UIGuidedAccessRestrictionStateDeny);
+	self.patchViewController.hidesControlsButton =
+		(UIGuidedAccessRestrictionStateForIdentifier(PdPartyControlsButtonRestrictionIdentifier) == UIGuidedAccessRestrictionStateDeny);
+}
 
 - (BOOL)isPatchViewVisible {
 	return self.patchViewController && self.patchViewController.isViewLoaded && self.patchViewController.view.window;
