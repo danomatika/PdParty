@@ -38,9 +38,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	if(!Util.isDeviceATablet) {
-		if([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-			self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-		}
+		self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 	}
 }
 

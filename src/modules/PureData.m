@@ -83,9 +83,7 @@
 
 		// setup display link for faster message polling
 		updateLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMessages:)];
-		if([updateLink respondsToSelector:@selector(setPreferredFramesPerSecond:)]) {
-			updateLink.preferredFramesPerSecond = 60;
-		}
+		updateLink.preferredFramesPerSecond = 60;
 		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 
 		// observe audio route changes
@@ -614,20 +612,11 @@
 			}
 			else { // pass to openURL to open in Safari or some other app
 				UIApplication *application = UIApplication.sharedApplication;
-				if([application respondsToSelector:@selector(openURL:options:completionHandler:)]) {
-					// iOS 10+ asynchronous open
-					[application openURL:url options:@{} completionHandler:^(BOOL success) {
-						if(!success) {
-							LogError(@"PureData: could not open url: %@", url);
-						}
-					}];
-				}
-				else {
-					// iOS < 10
-					[UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
-						if(!success) {LogError(@"PureData: could not open url: %@", url);}
-					}];
-				}
+				[application openURL:url options:@{} completionHandler:^(BOOL success) {
+					if(!success) {
+						LogError(@"PureData: could not open url: %@", url);
+					}
+				}];
 			}
 		}
 		

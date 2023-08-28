@@ -234,18 +234,19 @@
 		#else
 			float force = touch.force / touch.maximumPossibleForce;
 		#endif
-		if(@available(iOS 9.1, *)) {
-			if(touch.type == UITouchTypePencil) { // stylus
-				float azimuth = [touch azimuthAngleInView:nil]; // docs note this is expensive
-				if(self.scene.requiresTouch) {
-					[PureData sendStylus:eventType forIndex:index atPosition:position
-					       withArguments:@[@(touch.majorRadius), @(force), @(azimuth), @(touch.altitudeAngle)]];
-				}
-				[self.osc sendStylus:eventType forIndex:index atPosition:position
-				       withArguments:@[@(touch.majorRadius), @(force), @(azimuth), @(touch.altitudeAngle)]];
-				return;
+
+		// stylus
+		if(touch.type == UITouchTypePencil) {
+			float azimuth = [touch azimuthAngleInView:nil]; // docs note this is expensive
+			if(self.scene.requiresTouch) {
+				[PureData sendStylus:eventType forIndex:index atPosition:position
+					   withArguments:@[@(touch.majorRadius), @(force), @(azimuth), @(touch.altitudeAngle)]];
 			}
+			[self.osc sendStylus:eventType forIndex:index atPosition:position
+				   withArguments:@[@(touch.majorRadius), @(force), @(azimuth), @(touch.altitudeAngle)]];
+			return;
 		}
+
 		// extended touch
 		if(self.scene.requiresTouch) {
 			[PureData sendExtendedTouch:eventType forIndex:index atPosition:position
