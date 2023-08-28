@@ -892,4 +892,4 @@ As of PdParty 1.4.0, the following app-specific options are also available:
 * Back Button: enable/disable the left back button to return to the Browser
 * Controls Button: enable/disable the right controls button
 
-If both buttons are disabled, when a scene is run in PdParty with Guided Access enabled, the patch view cannot be exited and the hon-screen home indicator, notifications, and control center are disabled. If the physical home button and side buttons are inaccessible, such as when the device is enclosed in a security case, the scene can be presented in a public environment, ie as an art installation.
+If both buttons are disabled, when a scene is run in PdParty with Guided Access enabled, the patch view cannot be exited and the on-screen home indicator, notifications, and control center are disabled. If the physical home button and side buttons are inaccessible, such as when the device is enclosed in a security case, the scene can be presented in a public environment, ie. as an art installation.
