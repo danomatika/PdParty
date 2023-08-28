@@ -624,9 +624,9 @@
 				}
 				else {
 					// iOS < 10
-					if(![UIApplication.sharedApplication openURL:url]) {
-						LogError(@"PureData: could not open url: %@", url);
-					}
+					[UIApplication.sharedApplication openURL:url options:@{} completionHandler:^(BOOL success) {
+						if(!success) {LogError(@"PureData: could not open url: %@", url);}
+					}];
 				}
 			}
 		}

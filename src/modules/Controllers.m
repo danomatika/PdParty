@@ -260,7 +260,7 @@
 		[weakSelf.parent.osc sendControllerPause:weakSelf.name];
 		
 	};
-	self.controller.gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+	self.controller.extendedGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		if([self->buttonStates[@"a"] boolValue] != pressed) {
 			#ifdef DEBUG_CONTROLLERS
 				LogVerbose(@"%@ button: a %d", weakSelf.name, (int)pressed);
@@ -270,7 +270,7 @@
 			self->buttonStates[@"a"] = [NSNumber numberWithBool:pressed];
 		}
 	};
-	self.controller.gamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+	self.controller.extendedGamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		if([self->buttonStates[@"b"] boolValue] != pressed) {
 			#ifdef DEBUG_CONTROLLERS
 				LogVerbose(@"%@ button: b %d", weakSelf.name, (int)pressed);
@@ -280,7 +280,7 @@
 			self->buttonStates[@"b"] = [NSNumber numberWithBool:pressed];
 		}
 	};
-	self.controller.gamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+	self.controller.extendedGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		if([self->buttonStates[@"x"] boolValue] != pressed) {
 			#ifdef DEBUG_CONTROLLERS
 				LogVerbose(@"%@ button: x %d", weakSelf.name, (int)pressed);
@@ -290,7 +290,7 @@
 			self->buttonStates[@"x"] = [NSNumber numberWithBool:pressed];
 		}
 	};
-	self.controller.gamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+	self.controller.extendedGamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		if([self->buttonStates[@"y"] boolValue] != pressed) {
 			#ifdef DEBUG_CONTROLLERS
 				LogVerbose(@"%@ button: y %d", weakSelf.name, (int)pressed);
@@ -300,7 +300,7 @@
 			self->buttonStates[@"y"] = [NSNumber numberWithBool:pressed];
 		}
 	};
-	self.controller.gamepad.dpad.xAxis.valueChangedHandler = ^ (GCControllerAxisInput *axis, float value) {
+	self.controller.extendedGamepad.dpad.xAxis.valueChangedHandler = ^ (GCControllerAxisInput *axis, float value) {
 		if(value < 0) {
 			if(![self->buttonStates[@"dpleft"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS
@@ -340,7 +340,7 @@
 			}
 		}
 	};
-	self.controller.gamepad.dpad.yAxis.valueChangedHandler = ^ (GCControllerAxisInput *axis, float value) {
+	self.controller.extendedGamepad.dpad.yAxis.valueChangedHandler = ^ (GCControllerAxisInput *axis, float value) {
 		if(value < 0) {
 			if(![self->buttonStates[@"dpdown"] boolValue]) {
 				#ifdef DEBUG_CONTROLLERS

@@ -36,9 +36,7 @@
 	self.textView.bounces = NO;
 	self.textView.font = [UIFont fontWithName:GUI_FONT_NAME size:12];
 	self.textView.minimumZoomScale = self.textView.maximumZoomScale; // no zooming
-	if([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
-		self.automaticallyAdjustsScrollViewInsets = NO;
-	}
+	self.textView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
 	
 	[self.view addSubview:self.textView];
 	self.textView.translatesAutoresizingMaskIntoConstraints = NO;
