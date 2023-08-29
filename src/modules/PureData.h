@@ -225,7 +225,7 @@
 /// pdparty game controller axis event
 + (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value;
 
-/// pdparty game controller pause event (no state)
+/// pdparty game controller pause event (no state, iOS 12 and earlier)
 + (void)sendControllerPause:(NSString *)controller;
 
 /// pdparty shake event

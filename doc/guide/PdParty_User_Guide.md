@@ -747,7 +747,7 @@ Controller events can be read via the [r \#controller] receiver with the followi
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
   - _axisname_: symbol "leftx", "lefty", "rightx", or "righty"
   - _value_: -1 to 1 with 0 centered
-* **[r \#controller] _name_ pause**: pause event
+* **[r \#controller] _name_ pause**: original stateless pause event (iOS 12 and earlier, sent as "back" button on iOS 13+)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 * **[r \#controller] connect _name_**: connect event
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
@@ -758,9 +758,21 @@ There is no direct control over enabling/disabling game controller support. This
 
 Game controller button & axis names are based on the [SDL 2.0 GameController enumerations](http://wiki.libsdl.org/CategoryGameController) where "dpup" refers to digital pad up, "dpleft" refers to digital pad left, etc. This format is compatible with the OSC messages sent by the [joyosc](https://github.com/danomatika/joyosc) desktop HID device to OSC event daemon.
 
-Buttons: "a", "b", "x", "y", "leftshoulder", "lefttrigger", "rightshoulder", "righttrigger", "dpup", "dpdown", "dpleft", "dpright"
+Buttons: "a", "b", "x", "y", "leftshoulder", "lefttrigger", "rightshoulder", "righttrigger", "leftstick", "rightstick", "dpup", "dpdown", "dpleft", "dpright", "back", "guide", "start"
 
 Axes: "leftx", "lefty", "rightx", "righty"
+
+Additional behavior as of PdParty 1.4.0:
+* "pause" stateless event used only on iOS 11 & 12, sent as "back" button on iOS 13+
+* "back", "start", and thumbstick buttons available on iOS 13+
+* "guide" button available on iOS 14+
+
+The menu button layout seems to generally follow the Playstation controller design:
+~~~
+PS3: select -  home  - start
+iOS:   menu - [home] - [options] (not all devices have a home or options button)
+SDL:   back -  guide - start (PdParty uses this)
+~~~
 
 #### OSC
 

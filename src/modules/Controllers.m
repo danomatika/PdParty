@@ -366,9 +366,9 @@
 
 	// menu buttons
 	if(@available(iOS 13.0, *)) {
-		// iOS:    back - home  - options (options & home optional)
-		// PS3:  select - home  - start
-		// SDL:    back - guide - start (used here)
+		// iOS:    back - [home] - [options] (options & home optional)
+		// PS3:  select -  home  - start
+		// SDL:    back -  guide - start (used here)
 		if(self.controller.microGamepad) {
 			self.controller.microGamepad.buttonMenu.valueChangedHandler = buttonMenuHandler;
 		}
