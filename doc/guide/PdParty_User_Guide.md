@@ -173,7 +173,7 @@ The cassette background is a placeholder for now. When metadata is added, it may
 
 Enable the OSC server and update its send and receive settings: ports, host (destination address), etc. The network IP address of the device itself is shown so you know where to send OSC messages to from another device. The server supports both IPv4 and IPv6.
 
-If you have trouble sending or receiving OSC messages on iOS 14+, double check that PdParty has permission to access the local network: Settings->Privacy->Local Network.
+If you have trouble sending or receiving OSC messages on iOS 14.0+, double check that PdParty has permission to access the local network: Settings->Privacy->Local Network.
 
 #### Multicast
 
@@ -726,7 +726,7 @@ _title_ is an open ended list of arguments that will be appended together and us
 
 Local files are opened in a slide up web view within PdParty while all others are opened by the system in their respective apps: "http://" & "https://" in Safari, "maps://" in Maps, etc.
 
-On iOS 10+, non-local URLs are opened asynchronously.
+On iOS 10.0+, non-local URLs are opened asynchronously.
 
 #### Game Controllers
 
@@ -747,7 +747,7 @@ Controller events can be read via the [r \#controller] receiver with the followi
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
   - _axisname_: symbol "leftx", "lefty", "rightx", or "righty"
   - _value_: -1 to 1 with 0 centered
-* **[r \#controller] _name_ pause**: original stateless pause event (iOS 12 and earlier, sent as "back" button on iOS 13+)
+* **[r \#controller] _name_ pause**: original stateless pause event (iOS 12.0 and earlier, sent as "back" button on iOS 13.0+)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 * **[r \#controller] connect _name_**: connect event
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
@@ -763,9 +763,10 @@ Buttons: "a", "b", "x", "y", "leftshoulder", "lefttrigger", "rightshoulder", "ri
 Axes: "leftx", "lefty", "rightx", "righty"
 
 Additional behavior as of PdParty 1.4.0:
-* "pause" stateless event used only on iOS 11 & 12, sent as "back" button on iOS 13+
-* "back", "start", and thumbstick buttons available on iOS 13+
-* "guide" button available on iOS 14+
+* "pause" stateless event used only on iOS 11.0 & 12.0, sent as "back" button on iOS 13.0+
+* "leftstick" and "rightstick" thumbstick buttons available on iOS 12.1+
+* "back" and "start" buttons available on iOS 13.0+
+* "guide" button available on iOS 14.0+
 
 The menu button layout seems to generally follow the Playstation controller design:
 ~~~
