@@ -35,21 +35,17 @@
 	// load font
 	NSArray *fontPaths = [Util whichFilenames:@[@"font.ttf", @"font-antialiased.ttf"] existInDirectory:path];
 	if(fontPaths) {
-		[self loadFont:[path stringByAppendingPathComponent:fontPaths.firstObject]];
+		if(![self loadFont:[path stringByAppendingPathComponent:fontPaths.firstObject]]) {
+			LogError(@"DroidScene: couldn't load font");
+		}
 	}
 	
 	return ret;
 }
 
 - (void)close {
-	if(self.background) {
-		[self.background removeFromSuperview];
-		self.background = nil;
-	}
-	if(self.fontPath) {
-		[Util unregisterFont:self.fontPath];
-		self.fontPath = nil;
-	}
+	[self clearBackground];
+	[self clearFont];
 	[super close];
 }
 
@@ -108,23 +104,6 @@
 
 + (BOOL)isDroidPartyDirectory:(NSString *)fullpath {
 	return [NSFileManager.defaultManager fileExistsAtPath:[fullpath stringByAppendingPathComponent:@"droidparty_main.pd"]];
-}
-
-#pragma mark Private
-
-- (BOOL)loadFont:(NSString *)fontPath {
-	if([NSFileManager.defaultManager fileExistsAtPath:fontPath]) {
-		NSString *fontName = [Util registerFont:fontPath];
-		if(fontName) {
-			self.fontPath = fontPath;
-			self.gui.fontName = fontName;
-			return YES;
-		}
-		else {
-			LogError(@"DroidScene: couldn't load font");
-		}
-	}
-	return NO;
 }
 
 @end

@@ -14,9 +14,6 @@
 /// path is to scene folder, optional background image
 @interface DroidScene : PatchScene
 
-/// loaded custom font, if one
-@property (strong, nonatomic) NSString *fontPath;
-
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
 /// returns YES if a given path is a DroidParty scene dir

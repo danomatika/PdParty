@@ -20,4 +20,16 @@
 /// returns YES if the given path is an patch file
 + (BOOL)isPatchFile:(NSString *)fullpath;
 
+#pragma mark Font
+
+/// loaded custom font, if one
+@property (strong, nonatomic) NSString *fontPath;
+
+/// load custom GUI font, replaces default pd gui font
+/// note: only works on scene load, not dynamically
+- (BOOL)loadFont:(NSString *)fontPath;
+
+/// clear custom font
+- (void)clearFont;
+
 @end

@@ -252,32 +252,39 @@
 
 #pragma mark Fonts
 
+/// try loading first as registration fails if the font is already available
 + (NSString *)registerFont:(NSString *)fontPath {
 	NSString *name = nil;
 	NSData *inData = [NSData dataWithContentsOfFile:fontPath];
+	if(!inData) {return nil;}
 	CFErrorRef error;
 	CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)inData);
 	CGFontRef font = CGFontCreateWithDataProvider(provider);
-	if(!CTFontManagerRegisterGraphicsFont(font, &error)) {
-		CFStringRef errorDescription = CFErrorCopyDescription(error);
-		LogError(@"Util: Failed to register font: %@", errorDescription);
-		CFRelease(errorDescription);
-	}
-	else {
+	if(font) {
 		name = CFBridgingRelease(CGFontCopyFullName(font));
+		if([UIFont fontWithName:name size:10]) {
+			// loaded, so must be registered
+		}
+		else if(!CTFontManagerRegisterGraphicsFont(font, &error)) {
+			CFStringRef errorDescription = CFErrorCopyDescription(error);
+			LogError(@"Util: Failed to register font: %@", errorDescription);
+			CFRelease(errorDescription);
+			name = nil;
+		}
 	}
 	CFRelease(font);
 	CFRelease(provider);
 	return name;
 }
 
+// quiet errors for now
 + (void)unregisterFont:(NSString *)fontPath {
 	NSURL *url = [[NSURL alloc] initFileURLWithPath:fontPath];
 	CFErrorRef error;
 	if(!CTFontManagerUnregisterFontsForURL((__bridge CFURLRef)url, kCTFontManagerScopeProcess, &error)) {
-		CFStringRef errorDescription = CFErrorCopyDescription(error);
-		LogError(@"Util: Failed to unregister font: %@", errorDescription);
-		CFRelease(errorDescription);
+		//CFStringRef errorDescription = CFErrorCopyDescription(error);
+		//LogError(@"Util: Failed to unregister font: %@", errorDescription);
+		//CFRelease(errorDescription);
 	}
 }
 

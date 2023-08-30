@@ -118,6 +118,27 @@
 	return YES;
 }
 
+#pragma mark Font
+
+- (BOOL)loadFont:(NSString *)fontPath {
+	if([NSFileManager.defaultManager fileExistsAtPath:fontPath]) {
+		NSString *fontName = [Util registerFont:fontPath];
+		if(fontName) {
+			self.fontPath = fontPath;
+			self.gui.fontName = fontName;
+			return YES;
+		}
+	}
+	return NO;
+}
+
+- (void)clearFont {
+	if(self.fontPath) {
+		[Util unregisterFont:self.fontPath];
+		self.fontPath = nil;
+	}
+}
+
 #pragma mark Overridden Getters / Setters
 
 - (NSString *)name {

@@ -37,6 +37,14 @@
 			LogError(@"PartyScene: couldn't load %@", backgroundPath);
 		}
 
+		// load font
+		NSArray *fontPaths = [Util whichFilenames:@[@"font.ttf"] existInDirectory:path];
+		if(fontPaths) {
+			if(![self loadFont:[path stringByAppendingPathComponent:fontPaths.firstObject]]) {
+				LogError(@"PartyScene: couldn't load font");
+			}
+		}
+
 		// load info
 		info = [PartyScene infoForSceneAt:path];
 		if(info) {
@@ -58,9 +66,8 @@
 			}
 		}
 	}
-	if(self.background) {
-		[self clearBackground];
-	}
+	[self clearBackground];
+	[self clearFont];
 	[super close];
 }
 
