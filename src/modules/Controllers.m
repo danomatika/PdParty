@@ -15,7 +15,7 @@
 #import "Util.h"
 #import "Log.h"
 
-#define DEBUG_CONTROLLERS
+//#define DEBUG_CONTROLLERS
 
 @implementation Controllers
 
