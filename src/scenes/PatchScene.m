@@ -72,7 +72,7 @@
 			if([w isKindOfClass:ViewPortCanvas.class] && [w.receiveName isEqualToString:@"ViewPort"]) {
 				ViewPortCanvas *cnv = (ViewPortCanvas *)w;
 				cnv.delegate = self;
-				LogInfo(@"DroidScene: found ViewPort canvas");
+				LogInfo(@"PatchScene: found ViewPort canvas");
 			}
 		}
 	}
