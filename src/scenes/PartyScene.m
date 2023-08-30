@@ -30,7 +30,10 @@
 		// load background
 		NSArray *backgroundPaths = [Util whichFilenames:@[@"background.png", @"background.jpg"] existInDirectory:path];
 		for(NSString *backgroundPath in backgroundPaths) {
-			if([self loadBackground:[path stringByAppendingPathComponent:backgroundPath]]) {break;}
+			if([self loadBackground:[path stringByAppendingPathComponent:backgroundPath]]) {
+				self.background.contentMode = UIViewContentModeScaleToFill;
+				break;
+			}
 			LogError(@"PartyScene: couldn't load %@", backgroundPath);
 		}
 
