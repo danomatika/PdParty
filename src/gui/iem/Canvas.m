@@ -131,20 +131,30 @@
 
 // FIXME: this ends up calling reshape on the cnv twice
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-	BOOL ret = [super receiveEditMessage:message withArguments:arguments];
 	if([message isEqualToString:@"pos"]) {
+		[super receiveEditMessage:message withArguments:arguments];
 		LogVerbose(@"ViewPortCanvas: pos %g %g", self.originalFrame.origin.x, self.originalFrame.origin.y);
 		if(self.delegate) {
 			[self.delegate receivePositionX:self.originalFrame.origin.x Y:self.originalFrame.origin.y];
 		}
 	}
 	else if([message isEqualToString:@"vis_size"]) {
+		[super receiveEditMessage:message withArguments:arguments];
 		LogVerbose(@"ViewPortCanvas: vis_size %g %g", self.originalFrame.size.width, self.originalFrame.size.height);
 		if(self.delegate) {
 			[self.delegate receiveSizeW:self.originalFrame.size.width H:self.originalFrame.size.height];
 		}
 	}
-	return ret;
+	else if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
+		// use size to set visibility of the cnv itself: size > 0
+		self.alpha = ([arguments[0] boolValue] > 0 ? 1.0 : 0.0);
+		LogVerbose(@"ViewPortCanvas: visible %d", (int)self.alpha);
+		[self setNeedsDisplay];
+	}
+	else {
+		return [super receiveEditMessage:message withArguments:arguments];
+	}
+	return YES;
 }
 
 #pragma mark Overridden Getters / Setters

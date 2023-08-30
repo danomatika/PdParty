@@ -876,6 +876,16 @@ The selected viewport area will be rescaled in order to fill the screen of the d
 
 See the DroidParty `pure-widgets-demo` sample and the PdParty `ViewPort` test.
 
+#### Hiding the ViewPort
+
+PdParty versions 1.4.0+ support hiding the ViewPort canvas itself. This is useful, for instance, when used in conjunction with background images. To hide the ViewPort, send a `size` message of 0 or less. To show the ViewPort again, send a size greater than zero.
+
+For example:
+* hide: `size 0`
+* show: `size 19` (default size with font 12)
+
+_Note: In desktop Pd, the `size` message controls the selection size of the cnv and has a minimum value of 1._
+
 ### Dynamic Background
 
 PdParty versions 1.4.0+ support setting a background image dynamically in PdParty scenes via sending a message to \#pdparty:
