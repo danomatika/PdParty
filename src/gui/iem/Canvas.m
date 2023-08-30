@@ -88,9 +88,11 @@
 
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
 	if([message isEqualToString:@"color"] && [arguments count] > 1) {
-		// background, label-color
+		// background, label-color (pre-0.47) *or*
+		// background, _, label-color (control color ignored by cnv)
+		int label = ([arguments count] > 2 ? 2 : 1);
 		self.backgroundColor = [IEMWidget colorFromEditColor:arguments[0]];
-		self.label.textColor = [IEMWidget colorFromEditColor:arguments[1]];
+		self.label.textColor = [IEMWidget colorFromEditColor:arguments[label]];
 		[self reshape];
 		[self setNeedsDisplay];
 	}
