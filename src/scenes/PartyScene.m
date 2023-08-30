@@ -38,7 +38,7 @@
 		}
 
 		// load font
-		NSArray *fontPaths = [Util whichFilenames:@[@"font.ttf"] existInDirectory:path];
+		NSArray *fontPaths = [Util whichFilenames:@[@"font.ttf", @"font.otf"] existInDirectory:path];
 		if(fontPaths) {
 			if(![self loadFont:[path stringByAppendingPathComponent:fontPaths.firstObject]]) {
 				LogError(@"PartyScene: couldn't load font");

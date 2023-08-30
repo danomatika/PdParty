@@ -369,6 +369,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
   - a folder that contains a _main.pd patch
   - portrait or landscape
   - an optional background image named "background.png" or "background.jpg"
+  - an optional font named "font.ttf" or "font.otf"
   - an optional browser icon named "thumb.png" or "thumb.jpg" and a min size of 55x55
   - an optional info json file named "info.json" with a dictionary & the following keys:
     + _author_
