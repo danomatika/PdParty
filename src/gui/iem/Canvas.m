@@ -131,9 +131,25 @@
 
 @implementation ViewPortCanvas
 
+// set clear color for UIKit to ignore the view
+- (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
+	self = [super initWithAtomLine:line andGui:gui];
+	if(self) {
+		self.backgroundColor = UIColor.clearColor;
+		self.label.text = @"";
+	}
+	return self;
+}
+
+// don't draw
+- (void)drawRect:(CGRect)rect {}
+
 // FIXME: this ends up calling reshape on the cnv twice
 - (BOOL)receiveEditMessage:(NSString *)message withArguments:(NSArray *)arguments {
-	if([message isEqualToString:@"pos"]) {
+	if([message isEqualToString:@"color"]) {
+		// ignore color messages, keep clear color
+	}
+	else if([message isEqualToString:@"pos"]) {
 		[super receiveEditMessage:message withArguments:arguments];
 		LogVerbose(@"ViewPortCanvas: pos %g %g", self.originalFrame.origin.x, self.originalFrame.origin.y);
 		if(self.delegate) {
@@ -147,11 +163,10 @@
 			[self.delegate receiveSizeW:self.originalFrame.size.width H:self.originalFrame.size.height];
 		}
 	}
-	else if([message isEqualToString:@"size"] && [arguments count] > 0 && [arguments isNumberAt:0]) {
-		// use size to set visibility of the cnv itself: size > 0
-		self.alpha = ([arguments[0] boolValue] > 0 ? 1.0 : 0.0);
-		LogVerbose(@"ViewPortCanvas: visible %d", (int)self.alpha);
-		[self setNeedsDisplay];
+	else if([message isEqualToString:@"label"] ||
+	        [message isEqualToString:@"label_pos"] ||
+	        [message isEqualToString:@"label_font"]) {
+		// don't draw labels
 	}
 	else {
 		return [super receiveEditMessage:message withArguments:arguments];

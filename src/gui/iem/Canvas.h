@@ -21,7 +21,8 @@
 - (void)receiveSizeW:(float)w H:(float)h;
 @end
 
-/// special canvas with "ViewPort" receive name
+/// special canvas with "ViewPort" receive name to define subview area within
+/// main patch, not drawn to the screen
 @interface ViewPortCanvas : Canvas
 @property (assign, nonatomic) id<ViewPortDelegate> delegate;
 @end
