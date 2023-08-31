@@ -70,6 +70,7 @@ This project uses:
 * [MBProgressHUD](https://github.com/jdg/MBProgressHUD): progress spinner overlay
 
 ### 3rd Party Samples
+
 * CanOfBeats, drummachine, multibeat, & pure-widgets-demo: Chris McCormick
 * Atsuke: Frank Barknecht
 * Eargasm: Damian Stewart
