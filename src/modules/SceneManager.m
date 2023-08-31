@@ -144,7 +144,7 @@
 		                           cancelButtonTitle:@"Ok"] show];
 		return NO;
 	}
-	if(self.scene.supportsDynamicBackground) {
+	if([self.scene isKindOfClass:PatchScene.class] &&  [(PatchScene *)self.scene supportsDynamicBackground]) {
 		self.pureData.backgroundDelegate = self;
 	}
 	
@@ -334,7 +334,7 @@
 
 - (void)loadBackground:(NSString *)path {
 	NSString *backgroundPath = [self.scene.patch.pathName stringByAppendingPathComponent:path];
-	if([self.scene loadBackground:backgroundPath]) {
+	if([(PatchScene *)self.scene loadBackground:backgroundPath]) {
 		self.scene.background.contentMode = UIViewContentModeScaleToFill;
 		if(self.isRotated) {
 			self.scene.background.frame = CGRectMake(
@@ -347,7 +347,7 @@
 }
 
 - (void)clearBackground {
-	[self.scene clearBackground];
+	[(PatchScene *) self.scene clearBackground];
 }
 
 #pragma mark Overridden Getters / Setters

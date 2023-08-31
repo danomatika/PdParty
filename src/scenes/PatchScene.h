@@ -20,6 +20,21 @@
 /// returns YES if the given path is an patch file
 + (BOOL)isPatchFile:(NSString *)fullpath;
 
+#pragma mark Background
+
+/// returns YES if the scene supports setting a background view while running (default NO)
+@property (readonly, nonatomic) BOOL supportsDynamicBackground;
+
+/// load background view from image at path, assumes parentView is set
+/// returns YES on success
+- (BOOL)loadBackground:(NSString *)fullpath;
+
+/// clear current background view
+- (void)clearBackground;
+
+/// update background to current parentView size
+- (void)reshapeBackground;
+
 #pragma mark Font
 
 /// loaded custom font, if one
