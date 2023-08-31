@@ -202,13 +202,6 @@
 		[UIView beginAnimations:nil context:nil];
 	}
 	[self.scene reshape];
-	if(self.isRotated) {
-		self.scene.background.frame = CGRectMake(
-			0, 0,
-			CGRectGetHeight(self.scene.background.frame),
-			CGRectGetWidth(self.scene.background.frame)
-		);
-	}
 	if(hasReshaped) {
 		[UIView commitAnimations];
 	}
