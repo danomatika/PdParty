@@ -126,9 +126,12 @@
 
 - (BOOL)loadBackground:(NSString *)fullpath {
 	if([NSFileManager.defaultManager fileExistsAtPath:fullpath]) {
-		[self clearBackground];
-		self.background = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:fullpath]];
-		if(self.background.image) {
+		if(!self.background) {
+			self.background = [[UIImageView alloc] init];
+		}
+		UIImage *image = [UIImage imageWithContentsOfFile:fullpath];
+		if(image) {
+			self.background.image = image;
 			[self reshapeBackground];
 			self.background.contentMode = UIViewContentModeScaleAspectFill;
 			[self.parentView addSubview:self.background];
@@ -136,7 +139,7 @@
 			return YES;
 		}
 		else {
-			self.background = nil;
+			self.background.image = nil;
 		}
 	}
 	return NO;
