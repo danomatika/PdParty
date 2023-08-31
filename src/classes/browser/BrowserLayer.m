@@ -96,6 +96,7 @@ static NSMutableArray *s_movePaths; ///< paths to move/copy
 		self.navigationController.view.bounds.size.width,
 		self.navigationController.toolbar.bounds.size.height
 	);
+	self.navigationController.toolbar.autoresizesSubviews = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
