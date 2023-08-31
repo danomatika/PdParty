@@ -1,3 +1,20 @@
+1.4.0-beta2: TBD
+
+* fixed cnv and vu not handling color messages with 3 args
+* fixed bug where custom font is lost on scene reload
+* fixed missing cd before running submodule update in readme clone info
+
+* added support for custom font.ttf or font.otf in PdParty scenes
+
+* controller
+  - updated gamepad handling for new thumbstick, menu, options, and home buttons
+  - deprecated pause button to iOS 12 and earlier (use back button in iOS 13+)
+  - replaced gamepad usage with microGamepad and extendedGamepad
+
+* no longer draw ViewPort cnv to match DroidParty behavior (use additional cnv
+  objects for per-view area backgrounds)
+* background content mode scale to fill for party scenes
+
 1.4.0-beta1: 2023-08-29
 
 * updated to prelim libpd 0.14.0 (pd 0.54-0)
