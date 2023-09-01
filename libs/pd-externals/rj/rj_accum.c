@@ -1,5 +1,5 @@
 /* code for the "rj_accum" pd class. 
-ver 0.2
+ver 0.3
 Amaury Hazan 
 Damian Stewart
 */
@@ -185,11 +185,11 @@ void rj_accum_setup(void)
     /* We specify "A_GIMME" as creation argument for both the creation
 	routine and the method (callback) for the "conf" message.  */
     rj_accum_class = class_new(gensym("rj_accum"), (t_newmethod)rj_accum_new,
-    	0, sizeof(t_rj_accum), 0, A_GIMME, 0);
+    	(t_method)rj_accumulator_free, sizeof(t_rj_accum), 0, A_GIMME, 0);
     
     class_addfloat(rj_accum_class, rj_accum_float);
     class_addmethod(rj_accum_class, (t_method)rj_accum_set_st, gensym("st"), A_FLOAT, 0);
 	class_addmethod(rj_accum_class, (t_method)rj_accum_set_lt, gensym("lt"), A_FLOAT, 0);
-    post("rj_accum version 0.2");
+    post("rj_accum version 0.3");
 }
 

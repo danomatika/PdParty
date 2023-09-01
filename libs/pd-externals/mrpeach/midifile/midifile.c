@@ -122,7 +122,7 @@ static int midifile_read_chunks(t_midifile *x);
 static void midifile_close(t_midifile *x);
 static void midifile_free_file(t_midifile *x);
 static void midifile_free(t_midifile *x);
-static int midifile_open_path(t_midifile *x, char *path, char *mode);
+static int midifile_open_path(t_midifile *x, const char *path, char *mode);
 static void midifile_flush(t_midifile *x);
 static uint32_t midifile_write_header(t_midifile *x, int nTracks);
 static void midifile_read(t_midifile *x, t_symbol *path);
@@ -196,6 +196,8 @@ static void *midifile_new(t_symbol *s, int argc, t_atom *argv)
     t_midifile  *x = (t_midifile *)pd_new(midifile_class);
     t_symbol    *pathSymbol;
     int         i;
+
+    (void)s; /* silence unused param warning */
 
     x->fP = NULL;
     x->fPath[0] = '\0';
@@ -298,7 +300,7 @@ static void midifile_free(t_midifile *x)
 - x->fPath will be used as a file name to open.
 - Returns 1 if successful, else 0. 
 */
-static int midifile_open_path(t_midifile *x, char *path, char *mode)
+static int midifile_open_path(t_midifile *x, const char *path, char *mode)
 {
     FILE    *fP = NULL;
     char    tryPath[PATH_BUF_SIZE];
@@ -433,7 +435,7 @@ static FILE *midifile_open_track_file(t_midifile *x, int trackNr)
 
     strncpy(trackPath, x->fPath, PATH_BUF_SIZE);
     if (x->verbosity > 2) post("midifile_open_track_file: main file path is %s", trackPath);
-    i = strlen(trackPath);
+    i = (int)strlen(trackPath);
     sprintf(&trackPath[i], "%d.trk", trackNr);
     if (x->verbosity > 2) post("midifile_open_track_file: track path is %s", trackPath);
     fP = sys_fopen(trackPath, "w+b");
@@ -453,7 +455,7 @@ static int midifile_delete_track_file(t_midifile *x, int trackNr)
 
     strncpy(trackPath, x->fPath, PATH_BUF_SIZE);
     if (x->verbosity > 2) post("midifile_delete_track_file: main file path is %s", trackPath);
-    i = strlen(trackPath);
+    i = (int)strlen(trackPath);
     sprintf(&trackPath[i], "%d.trk", trackNr);
     if (x->verbosity > 2) post("midifile_delete_track_file: \"%s\"", trackPath);
     result = remove(trackPath);
@@ -482,7 +484,9 @@ static void midifile_write(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
     int         frames_per_second = 0;/* default */
     int         ticks_per_frame = 90; /* default*/
 
-    if ((argc >= 1) && (argv[0].a_type == A_SYMBOL)) path = argv[0].a_w.w_symbol->s_name;
+    (void)s; /* silence unused param warning */
+
+    if ((argc >= 1) && (argv[0].a_type == A_SYMBOL)) path = (char *)argv[0].a_w.w_symbol->s_name;
     else pd_error(x, "midifile_write: No valid path name");
     if (argc == 2)
     {
@@ -563,6 +567,8 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
     char    c;
     uint32_t  len;
 
+    (void)s; /* silence unused param warning */
+
     if ((x->state != mfWriting) || (x->tmpFP[x->track] == NULL))
     { /* list only works for writing */
         pd_error (x, "midifile_meta: no file is open for writing");
@@ -578,7 +584,7 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
         pd_error (x, "midifile_meta: first argument not an integer on [0..255]");
         return;
     }
-    metaType = atom_getint(&argv[0]);
+    metaType = (int)atom_getint(&argv[0]);
     if (x->verbosity > 1) post ("midifile_meta: metaType %d", metaType);
     switch (metaType)
     {
@@ -597,7 +603,7 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                 post ("midifile_meta: parameter not a number");
                 return;
             }
-            j = atom_getint(&argv[1]);
+            j = (int)atom_getint(&argv[1]);
             if (x->verbosity > 1) post ("midifile_meta: Sequence Number %d", j);
             nbWritten = midifile_begin_meta(x, metaType);
             // Sequence Number Meta
@@ -634,10 +640,10 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                 post ("midifile_meta: parameter not a symbol");
                 return;
             }
-            sPtr = argv[1].a_w.w_symbol->s_name;
+            sPtr = (char *)argv[1].a_w.w_symbol->s_name;
             nbWritten = midifile_begin_meta(x, metaType);
             // a textual Event Meta
-            len = strlen(sPtr);
+            len = (int)strlen(sPtr);
             nbWritten += midifile_write_variable_length_value(x->tmpFP[x->track], len);
             for (jj = 0; jj < len; ++jj)
             {
@@ -661,7 +667,7 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                 post ("midifile_meta: parameter not a number");
                 return;
             }
-            j = atom_getint(&argv[1]);
+            j = (int)atom_getint(&argv[1]);
             if (j <0 || j >15)
             {
                 post ("midifile_meta: channel number out of range [0-15]");
@@ -697,7 +703,7 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                 post ("midifile_meta: parameter not a number");
                 return;
             }
-            jj = atom_getint(&argv[1]);
+            jj = (int)atom_getint(&argv[1]);
             if ((jj < 0) || (jj > 0xFFFFFF))
             {
                 post ("midifile_meta: Tempo out of range [0-16777215]");
@@ -728,7 +734,7 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                     post ("midifile_meta: parameter %d not a number", i);
                     return;
                 }
-                j = atom_getint(&argv[i]);
+                j = (int)atom_getint(&argv[i]);
                 if ((j < 0) || (j > 127))
                 {
                   post ("midifile_meta: SMPTE value out of range [0-127]"); // this won't catch all range errors
@@ -762,7 +768,7 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                     post ("midifile_meta: parameter %d not a number", i);
                     return;
                 }
-                j = atom_getint(&argv[i]);
+                j = (int)atom_getint(&argv[i]);
                 if ((j < 0) || (j > 127))
                 {
                   post ("midifile_meta: Time Signature value out of range [0-127]"); // this won't catch all range errors
@@ -796,7 +802,7 @@ static void midifile_meta(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                     post ("midifile_meta: parameter %d not a number", i);
                     return;
                 }
-                j = atom_getint(&argv[i]);
+                j = (int)atom_getint(&argv[i]);
                 if ((i == 1) && ((j < -7) || (j > 7)))
                 {
                   post ("midifile_meta: Key Signature value out of range [-7-+7]");
@@ -926,6 +932,8 @@ static void midifile_list(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
     uint32_t      len, written = 0L;
     static int  warnings = 0;
 
+    (void)s; /* silence unused param warning */
+
     if (x->state != mfWriting) return;/* list only works for writing */
     if (x->tmpFP[x->track] == NULL)
     {
@@ -941,7 +949,7 @@ static void midifile_list(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
     {
         if (A_FLOAT == argv[i].a_type)
         {
-            j = atom_getint(&argv[i]);
+            j = (int)atom_getint(&argv[i]);
             if (x->verbosity > 2) post ("midifile_list. j[%d]	= 0x%lX", i, j);
             if (j < 0x100)
             {
@@ -969,7 +977,7 @@ static void midifile_list(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                                 x->track_chunk[x->track].chunk_length += written;
                                 return;
                             }
-                            m = atom_getint(&argv[k]);
+                            m = (int)atom_getint(&argv[k]);
                             if (m & 0x80) break;/* take any non-data as end of exclusive */
                         }
                         if (m != 0xF7)
@@ -987,7 +995,7 @@ static void midifile_list(t_midifile *x, t_symbol *s, int argc, t_atom *argv)
                         /* write the rest of the sysex message */
                         for (k = i+1; j != 0xF7; ++k)
                         {
-                            j = atom_getint(&argv[k]);
+                            j = (int)atom_getint(&argv[k]);
                             putc (j, x->tmpFP[x->track]);
                             ++written;
                         }
@@ -1119,7 +1127,7 @@ static int midifile_read_header_chunk(t_midifile *x)
     }
     rewind(x->fP);
     x->offset = 0L;
-    n = fread(cP, 1L, 4L, x->fP);
+    n = (uint32_t)fread(cP, 1L, 4L, x->fP);
     x->offset += n;
     if (n != 4L)
     {
@@ -1133,21 +1141,21 @@ static int midifile_read_header_chunk(t_midifile *x)
         return 0;
     }
     cP = (unsigned char *)buf;
-    n = fread(cP, 1L, 4L, x->fP);
+    n = (uint32_t)fread(cP, 1L, 4L, x->fP);
     x->offset += n;
     if (n != 4L)
     {
         pd_error(x, "midifile: read %d instead of 4", n);
         return 0;
     }
-    x->header_chunk.chunk_length = midifile_get_multibyte_4(cP);
+    x->header_chunk.chunk_length = (uint32_t)midifile_get_multibyte_4(cP);
     if (x->verbosity) post("midifile: Header chunk length: %lu", x->header_chunk.chunk_length);
     if (x->header_chunk.chunk_length != 6L)
     {
         pd_error (x, "midifile: bad file format: bad header chunk length");
         return 0;
     }
-    n = fread(cP, 1L, 2L, x->fP);
+    n = (uint32_t)fread(cP, 1L, 2L, x->fP);
     x->offset += n;
     if (n != 2L)
     {
@@ -1173,7 +1181,7 @@ static int midifile_read_header_chunk(t_midifile *x)
     SETFLOAT(&output_atom, x->header_chunk.chunk_format);
     outlet_anything( x->status_outlet, gensym("format"), 1, &output_atom);
 
-    n = fread(cP, 1L, 2L, x->fP);
+    n = (uint32_t)fread(cP, 1L, 2L, x->fP);
     x->offset += n;
     if (n != 2L)
     {
@@ -1190,7 +1198,7 @@ static int midifile_read_header_chunk(t_midifile *x)
             x->header_chunk.chunk_ntrks, MAX_TRACKS);
         x->header_chunk.chunk_ntrks = MAX_TRACKS;
     }
-    n = fread(cP, 1L, 2L, x->fP);
+    n = (uint32_t)fread(cP, 1L, 2L, x->fP);
     x->offset += n;
     if (n != 2L)
     {
@@ -1238,7 +1246,7 @@ static int midifile_read_track_chunk(t_midifile *x, int mfTrack)
         pd_error(x, "midifile: no open file");
         return 0;/* no open file */
     }
-    n = fread(cP, 1L, 4L, x->fP);
+    n = (uint32_t)fread(cP, 1L, 4L, x->fP);
     x->offset += n;
     if (n != 4L)
     {
@@ -1256,14 +1264,14 @@ static int midifile_read_track_chunk(t_midifile *x, int mfTrack)
     type[3] = cP[3];
     type[4] = '\0';
     cP = (unsigned char *)buf;
-    n = fread(cP, 1L, 4L, x->fP);
+    n = (uint32_t)fread(cP, 1L, 4L, x->fP);
     x->offset += n;
     if (n != 4L)
     {
         pd_error(x, "midifile: read %d instead of 4", n);
         return 0;
     }
-    len = midifile_get_multibyte_4(cP);
+    len = (uint32_t)midifile_get_multibyte_4(cP);
     x->track_chunk[mfTrack].chunk_length = len;
     if (x->verbosity) post("midifile: Track chunk %d type: %s, length %d", mfTrack, type, len);
     if ((cP = getbytes(len)) == NULL)
@@ -1272,7 +1280,7 @@ static int midifile_read_track_chunk(t_midifile *x, int mfTrack)
         return 0;
     }
     x->track_chunk[mfTrack].track_data = (unsigned char*)cP;	
-    n = fread(cP, 1L, len, x->fP);
+    n = (uint32_t)fread(cP, 1L, len, x->fP);
 
     return 1;
 }
@@ -1367,7 +1375,7 @@ static unsigned char *midifile_read_var_len (unsigned char *cP, uint32_t *delta)
             value = (value << 7) + ((c = *(cP++)) & 0x7f);
         } while (c & 0x80);
     }
-    *delta = value;
+    *delta = (uint32_t)value;
     return cP;
 }
 
@@ -1910,7 +1918,7 @@ static void midifile_get_next_track_chunk_data(t_midifile *x, int mfTrack)
                             tt[0] = *cP++;
                             tt[1] = *cP++;
                             tt[2] = *cP++;
-                            time_sig = midifile_get_multibyte_3(tt);
+                            time_sig = (uint32_t)midifile_get_multibyte_3(tt);
                             if (x->verbosity) post ("midifile: %lu microseconds per MIDI quarter-note", time_sig);
                             SETFLOAT(&output_atom[0], time_sig);
                             outlet_anything( x->status_outlet, gensym("microsec_per_quarternote"), 1, output_atom);
@@ -2059,7 +2067,7 @@ static void midifile_get_next_track_chunk_data(t_midifile *x, int mfTrack)
                     mfTrack, x->track_chunk[mfTrack].total_time + delta_time);
         }
     }
-    x->track_chunk[mfTrack].track_index = (char *)cP - (char *)x->track_chunk[mfTrack].track_data;
+    x->track_chunk[mfTrack].track_index = (uint32_t)((char *)cP - (char *)x->track_chunk[mfTrack].track_data);
     x->track_chunk[mfTrack].delta_time = delta_time;
     if (delta_time == NO_MORE_ELEMENTS) x->track_chunk[mfTrack].total_time = delta_time;
     else x->track_chunk[mfTrack].total_time += delta_time;
@@ -2154,7 +2162,7 @@ static void midifile_skip_next_track_chunk_data(t_midifile *x, int mfTrack)
             cP += n;
         }
     }
-    x->track_chunk[mfTrack].track_index = (char *)cP - (char *)x->track_chunk[mfTrack].track_data;
+    x->track_chunk[mfTrack].track_index = (uint32_t)((char *)cP - (char *)x->track_chunk[mfTrack].track_data);
     x->track_chunk[mfTrack].delta_time = delta_time;
     if (delta_time == NO_MORE_ELEMENTS) x->track_chunk[mfTrack].total_time = delta_time;
     else x->track_chunk[mfTrack].total_time += delta_time;
