@@ -1,4 +1,4 @@
-1.4.0-beta2: TBD
+1.4.0-beta2: 2023-09-01
 
 * fixed cnv and vu not handling color messages with 3 args
 * fixed bug where custom font is lost on scene reload
