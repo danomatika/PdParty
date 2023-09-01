@@ -21,7 +21,7 @@ This project has been supported in part by:
 * A visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/)
 * My time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab)
 * A pair of workshops given at the [LEONARDO – Zentrum für Kreativität und Innovation Nürnberg](https://leonardo-zentrum.de)
-* The [Oribotics instruments](https://github.com/oribotic/oribotic-instruments) research project by artist [Matthew Gardiner]([ORI*lab](https://orilab.art), presentated at the Ars Electronica Festival 2023's Open Futurelab
+* The [Oribotics instruments](https://github.com/oribotic/oribotic-instruments) research project by artist [Matthew Gardiner](https://orilab.art), presented at the Ars Electronica Festival 2023's Open Futurelab
 
 Description
 -----------
