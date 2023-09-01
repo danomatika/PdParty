@@ -5,7 +5,7 @@ PdParty
 	<img src="http://danomatika.com/code/pdparty/patchview_bg.png"/>
 </p>
 
-Copyright (c) [Dan Wilcox](danomatika.com) 2011-22
+Copyright (c) [Dan Wilcox](danomatika.com) 2011-23
 
 BSD Simplified License.
 
@@ -16,11 +16,12 @@ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 <a href="http://danomatika.com/code/pdparty"><b>PdParty website</b></a> | <a href="https://itunes.apple.com/app/id970528308"><b>PdParty on the App Store</b></a>
 </a>
 
-This project has been supported, in part, by:
+This project has been supported in part by:
 * The CMU [Frank-Ratchye STUDIO for Creative Inquiry](http://studioforcreativeinquiry.org)
 * A visiting professorship at the DU [Emergent Digital Practices Program](https://www.du.edu/ahss/edp/)
 * My time at the [ZKM | Hertz-Lab](https://zkm.de/en/about-the-zkm/organisation/hertz-lab)
 * A pair of workshops given at the [LEONARDO – Zentrum für Kreativität und Innovation Nürnberg](https://leonardo-zentrum.de)
+* The [Oribotics instruments](https://github.com/oribotic/oribotic-instruments) research project by artist [Matthew Gardiner]([ORI*lab](https://orilab.art), presentated at the Ars Electronica Festival 2023's Open Futurelab
 
 Description
 -----------

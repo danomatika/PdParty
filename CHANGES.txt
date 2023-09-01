@@ -5,6 +5,7 @@
 * fixed missing cd before running submodule update in readme clone info
 
 * added support for custom font.ttf or font.otf in PdParty scenes
+  (for Matthew Gardiner)
 
 * controller
   - updated gamepad handling for new thumbstick, menu, options, and home buttons
@@ -13,7 +14,10 @@
 
 * no longer draw ViewPort cnv to match DroidParty behavior (use additional cnv
   objects for per-view area backgrounds)
+* enable multitouch for cnv and comment and always forward cnv touch events
+  regardless of everywhere setting (requested by Josef Novotny)
 * background content mode scale to fill for party scenes
+* updated to minzip 1.3
 
 1.4.0-beta1: 2023-08-29
 
@@ -23,9 +27,10 @@
 * fixed crash in key handling due to nil key chars for controller pause button
   UIPress event
 
-* added Guided Access options to hide back button and controls button
-* added dynamic background support for PdParty scenes via #pdparty background
-* added Background test PdParty scene
+* kiosk updates (for Matthew Gardiner):
+  - added Guided Access options to hide back button and controls button
+  - added dynamic background support for PdParty scenes via #pdparty background
+  - added Background test PdParty scene
 
 1.3.2: 2022-12-29
 
