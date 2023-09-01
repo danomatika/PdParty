@@ -26,6 +26,8 @@
 	self = [super initWithAtomLine:line andGui:gui];
 	if(self) {
 		self.labelFontSize = 14;
+		self.userInteractionEnabled = NO; // not interactive, touch events handled by parent
+		self.multipleTouchEnabled = YES;
 
 		self.sendName = [Gui filterEmptyStringValues:line[8]];
 		self.receiveName = [Gui filterEmptyStringValues:line[9]];
@@ -57,25 +59,6 @@
 
 	// label
 	[self reshapeLabel];
-}
-
-#pragma mark Touch Forwarding
-
-// always forward touch events since cnv objects are often used for backgrounds
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-	[self.superview touchesBegan:touches withEvent:event];
-}
-
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-	[self.superview touchesMoved:touches withEvent:event];
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-	[self.superview touchesEnded:touches withEvent:event];
-}
-
-- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-	[self.superview touchesCancelled:touches withEvent:event];
 }
 
 #pragma mark Overridden Getters / Setters
