@@ -291,10 +291,7 @@
 		// iOS:    back - [home] - [options] (options & home optional)
 		// PS3:  select -  home  - start
 		// SDL:    back -  guide - start (used here)
-		if(self.controller.microGamepad) {
-			self.controller.microGamepad.buttonMenu.valueChangedHandler = buttonMenuHandler;
-		}
-		else if(self.controller.extendedGamepad) {
+		if(self.controller.extendedGamepad) {
 			self.controller.extendedGamepad.buttonMenu.valueChangedHandler = buttonMenuHandler;
 			self.controller.extendedGamepad.buttonOptions.valueChangedHandler = ^(GCControllerButtonInput * _Nonnull button, float value, BOOL pressed) {
 				[weakSelf sendButton:@"start" state:pressed];
@@ -304,6 +301,9 @@
 					[weakSelf sendButton:@"guide" state:pressed];
 				};
 			}
+		}
+		else if(self.controller.microGamepad) {
+			self.controller.microGamepad.buttonMenu.valueChangedHandler = buttonMenuHandler;
 		}
 	}
 	else {
@@ -319,14 +319,7 @@
 	}
 
 	// gamepad mappings
-	if(self.controller.microGamepad) {
-		self.controller.microGamepad.buttonA.valueChangedHandler = buttonAHandler;
-		self.controller.microGamepad.buttonX.valueChangedHandler = buttonXHandler;
-		self.controller.microGamepad.dpad.xAxis.valueChangedHandler = dpadAxisXHandler;
-		self.controller.microGamepad.dpad.yAxis.valueChangedHandler = dpadAxisYHandler;
-		self.controller.microGamepad.allowsRotation = YES; // match dpad orientation to device rotation
-		LogVerbose(@"Controllers: micro gamepad");
-	}
+	// check extendedGamepad first as it will also appear as a (limited) microGamepad
 	if(self.controller.extendedGamepad) {
 		self.controller.extendedGamepad.buttonA.valueChangedHandler = buttonAHandler;
 		self.controller.extendedGamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
@@ -371,6 +364,14 @@
 			};
 		}
 		LogVerbose(@"Controllers: extended gamepad");
+	}
+	else if(self.controller.microGamepad) {
+		self.controller.microGamepad.buttonA.valueChangedHandler = buttonAHandler;
+		self.controller.microGamepad.buttonX.valueChangedHandler = buttonXHandler;
+		self.controller.microGamepad.dpad.xAxis.valueChangedHandler = dpadAxisXHandler;
+		self.controller.microGamepad.dpad.yAxis.valueChangedHandler = dpadAxisYHandler;
+		self.controller.microGamepad.allowsRotation = YES; // match dpad orientation to device rotation
+		LogVerbose(@"Controllers: micro gamepad");
 	}
 }
 
