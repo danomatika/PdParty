@@ -72,7 +72,7 @@ static BOOL isNetworkSession(MIDIEndpointRef ref) {
 }
 
 - (NSString *)debugDescription {
-	return [NSString stringWithFormat:@"%@ %u", self.name, (unsigned int)self.endpoint];
+	return [NSString stringWithFormat:@"%d %@ %u", self.port, self.name, (unsigned int)self.endpoint];
 }
 
 @end
@@ -351,6 +351,22 @@ static void MIDINotify(const MIDINotification *message, void *refCon);
 			LogWarn(@"Midi: couldn't delete client: %d", (int)s);
 		}
 	}
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"%@ %lu inputs %lu outputs", NSStringFromClass(self.class), self.inputs.count, self.outputs.count];
+}
+
+- (NSString *)debugDescription {
+	NSMutableString *string = [NSMutableString stringWithFormat:@"%@\n%lu inputs:\n", NSStringFromClass(self.class), self.inputs.count];
+	for(MidiConnection *c in self.inputs) {
+		[string appendFormat:@"%@\n", c.debugDescription];
+	}
+	[string appendFormat:@"%lu outputs:\n", self.outputs.count];
+	for(MidiConnection *c in self.outputs) {
+		[string appendFormat:@"%@\n", c.debugDescription];
+	}
+	return string;
 }
 
 - (BOOL)moveInputPort:(int)port toPort:(int)newPort {

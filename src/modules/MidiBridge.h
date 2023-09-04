@@ -11,7 +11,11 @@
 #import "Midi.h"
 #import "PdBase.h"
 
-#define MIDI_MAX_IO 4
+// max allowed input & output ports (to show)
+#define MIDI_MAX_IO 16
+
+// max input/output port (to use), comm with ports from 0 to this-1
+#define MIDI_MAX_PORT 4
 
 /// midi connection event delegate
 @protocol MidiBridgeDelegate <NSObject>

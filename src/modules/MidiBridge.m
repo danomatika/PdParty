@@ -43,6 +43,14 @@
 	self.midi.delegate = nil;
 }
 
+- (NSString *)description {
+	return (self.midi ? [self.midi description] : [super description]);
+}
+
+- (NSString *)debugDescription {
+	return (self.midi ? [self.midi debugDescription] : [super debugDescription]);
+}
+
 - (BOOL)moveInputPort:(int)port toPort:(int)newPort {
 	return [self.midi moveInputPort:port toPort:newPort];
 }
@@ -151,10 +159,12 @@
 #pragma mark MidiInputDelegate
 
 - (void)midiInput:(MidiInput *)input receivedMessage:(NSData *)message {
+	if(_multiDeviceMode && input.port >= MIDI_MAX_PORT) {return;}
+
 	const unsigned char *bytes = (const unsigned char *)[message bytes];
 	int statusByte = bytes[0];
 	int channel = 0;
-	int port = (self.multiDeviceMode ? input.port : 0);
+	int port = (_multiDeviceMode ? input.port : 0);
 
 	if(bytes[0] >= MIDI_SYSEX) {
 		statusByte = bytes[0] & 0xFF;
@@ -248,15 +258,16 @@
 #pragma mark PdMidiReceiverDelegate
 
 - (void)receiveNoteOn:(int)pitch withVelocity:(int)velocity forChannel:(int)channel {
-	#ifdef DEBUG_MIDI
-		LogVerbose(@"MidiBridge: sending Note %d %d %d", channel, pitch, velocity);
-	#endif
-	[message setLength:3];
 	int port = 0;
 	if(channel >= 16) {
 		port = channel / 16;
 		channel = channel % 16;
+		if(_multiDeviceMode && port >= MIDI_MAX_PORT) {return;}
 	}
+	#ifdef DEBUG_MIDI
+		LogVerbose(@"MidiBridge: sending Note %d %d %d", channel, pitch, velocity);
+	#endif
+	[message setLength:3];
 	unsigned char *bytes = (unsigned char *)[message bytes];
 	bytes[0] = MIDI_NOTE_ON+channel;
 	bytes[1] = pitch;
@@ -265,15 +276,16 @@
 }
 
 - (void)receiveControlChange:(int)value forController:(int)controller forChannel:(int)channel {
-	#ifdef DEBUG_MIDI
-		LogVerbose(@"MidiBridge: sending Control %d %d %d", channel, controller, value);
-	#endif
-	[message setLength:3];
 	int port = 0;
 	if(channel >= 16) {
 		port = channel / 16;
 		channel = channel % 16;
+		if(_multiDeviceMode && port >= MIDI_MAX_PORT) {return;}
 	}
+	#ifdef DEBUG_MIDI
+		LogVerbose(@"MidiBridge: sending Control %d %d %d", channel, controller, value);
+	#endif
+	[message setLength:3];
 	unsigned char *bytes = (unsigned char *)[message bytes];
 	bytes[0] = MIDI_CONTROL_CHANGE+channel;
 	bytes[1] = controller;
@@ -282,15 +294,16 @@
 }
 
 - (void)receiveProgramChange:(int)value forChannel:(int)channel {
-	#ifdef DEBUG_MIDI
-		LogVerbose(@"MidiBridge: sending Program %d %d", channel, value);
-	#endif
-	[message setLength:2];
 	int port = 0;
 	if(channel >= 16) {
 		port = channel / 16;
 		channel = channel % 16;
+		if(_multiDeviceMode && port >= MIDI_MAX_PORT) {return;}
 	}
+	#ifdef DEBUG_MIDI
+		LogVerbose(@"MidiBridge: sending Program %d %d", channel, value);
+	#endif
+	[message setLength:2];
 	unsigned char *bytes = (unsigned char *)[message bytes];
 	bytes[0] = MIDI_PROGRAM_CHANGE+channel;
 	bytes[1] = value;
@@ -299,15 +312,16 @@
 
 - (void)receivePitchBend:(int)value forChannel:(int)channel {
 	value += 8192; // convert range from libpd -8192 - 8192 to 0 - 16384
-	#ifdef DEBUG_MIDI
-		LogVerbose(@"MidiBridge: sending PitchBend %d %d", channel, value);
-	#endif
-	[message setLength:3];
 	int port = 0;
 	if(channel >= 16) {
 		port = channel / 16;
 		channel = channel % 16;
+		if(_multiDeviceMode && port >= MIDI_MAX_PORT) {return;}
 	}
+	#ifdef DEBUG_MIDI
+		LogVerbose(@"MidiBridge: sending PitchBend %d %d", channel, value);
+	#endif
+	[message setLength:3];
 	unsigned char *bytes = (unsigned char *)[message bytes];
 	bytes[0] = MIDI_PITCH_BEND+channel;
 	bytes[1] = value & 0x7F; // lsb 7bit
@@ -316,15 +330,16 @@
 }
 
 - (void)receiveAftertouch:(int)value forChannel:(int)channel {
-	#ifdef DEBUG_MIDI
-		LogVerbose(@"MidiBridge: sending Aftertouch %d %d", channel, value);
-	#endif
-	[message setLength:2];
 	int port = 0;
 	if(channel >= 16) {
 		port = channel / 16;
 		channel = channel % 16;
+		if(_multiDeviceMode && port >= MIDI_MAX_PORT) {return;}
 	}
+	#ifdef DEBUG_MIDI
+		LogVerbose(@"MidiBridge: sending Aftertouch %d %d", channel, value);
+	#endif
+	[message setLength:2];
 	unsigned char *bytes = (unsigned char *)[message bytes];
 	bytes[0] = MIDI_AFTERTOUCH+channel;
 	bytes[1] = value;
@@ -332,15 +347,16 @@
 }
 
 - (void)receivePolyAftertouch:(int)value forPitch:(int)pitch forChannel:(int)channel {
-	#ifdef DEBUG_MIDI
-		LogVerbose(@"MidiBridge: sending PolyAftertouch %d %d %d", channel, pitch, value);
-	#endif
-	[message setLength:3];
 	int port = 0;
 	if(channel >= 16) {
 		port = channel / 16;
 		channel = channel % 16;
+		if(_multiDeviceMode && port >= MIDI_MAX_PORT) {return;}
 	}
+	#ifdef DEBUG_MIDI
+		LogVerbose(@"MidiBridge: sending PolyAftertouch %d %d %d", channel, pitch, value);
+	#endif
+	[message setLength:3];
 	unsigned char *bytes = (unsigned char *)[message bytes];
 	bytes[0] = MIDI_POLY_AFTERTOUCH+channel;
 	bytes[1] = pitch;
@@ -349,6 +365,7 @@
 }
 
 - (void)receiveMidiByte:(int)byte forPort:(int)port {
+	if(_multiDeviceMode && port >= MIDI_MAX_PORT) {return;}
 	#ifdef DEBUG_MIDI
 		LogVerbose(@"MidiBridge: sending Midi byte %02X", byte);
 	#endif

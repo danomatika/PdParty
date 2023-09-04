@@ -22,6 +22,7 @@
 
 // placeholder string for unused i/o ports
 #define EMPTY_CELL @"none"
+#define EMPTY_INDEX @"-"
 
 #pragma mark - MidiConnectionCell
 
@@ -83,7 +84,11 @@
 	self.virtualEnabledSwitch.on = midi.virtualEnabled;
 	self.networkMidiEnabledSwitch.on = midi.networkEnabled;
 	self.multiDeviceModeSwitch.on = midi.multiDeviceMode;
-	self.navigationItem.rightBarButtonItem.enabled = midi.multiDeviceMode;
+	self.navigationItem.rightBarButtonItem.enabled = midi.enabled && midi.multiDeviceMode;
+	if(self.tableView.editing) { // stop editing
+		[self setEditing:NO];
+		[self rightNavToEditButton];
+	}
 	[self.tableView reloadData];
 }
 
@@ -127,13 +132,13 @@
 	}
 	else if(section == INPUTS_SECTION) {
 		if(midi.enabled) {
-			return (midi.multiDeviceMode ? MIDI_MAX_IO : midi.inputs.count);
+			return (midi.multiDeviceMode ? MAX(midi.inputs.count, MIDI_MAX_PORT) : midi.inputs.count);
 		}
 		return 0;
 	}
 	else if(section == OUTPUTS_SECTION) {
 		if(midi.enabled) {
-			return (midi.multiDeviceMode ? MIDI_MAX_IO : midi.outputs.count);
+			return (midi.multiDeviceMode ? MAX(midi.outputs.count, MIDI_MAX_PORT) : midi.outputs.count);
 		}
 		return 0;
 	}
@@ -183,7 +188,12 @@
 			// existing connection
 			cell.textLabel.text = connection.name;
 			if(midi.multiDeviceMode) {
-				cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", connection.port+1];
+				if(connection.port < MIDI_MAX_PORT) {
+					cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", connection.port+1];
+				}
+				else {
+					cell.detailTextLabel.text = EMPTY_INDEX;
+				}
 			}
 			else {
 				cell.detailTextLabel.text = @"";
@@ -192,7 +202,12 @@
 		else {
 			// dummy placeholder
 			cell.textLabel.text = EMPTY_CELL;
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row+1];
+			if(indexPath.row < MIDI_MAX_PORT) {
+				cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row+1];
+			}
+			else {
+				cell.detailTextLabel.text = EMPTY_INDEX;
+			}
 			cell.textLabel.textColor = UIColor.lightGrayColor;
 			cell.detailTextLabel.textColor = UIColor.lightGrayColor;
 		}
@@ -242,7 +257,7 @@
 	switch(section) {
 		case SETTINGS_SECTION:
 			if(midi.enabled) {
-				return @"Max 4 inputs & 4 outputs";
+				return [NSString stringWithFormat:@"Max 4 inputs & 4 outputs"];
 			}
 		case CHANNELS_SECTION:
 			if(midi.enabled) {
@@ -294,14 +309,12 @@
 // reorder inputs / outputs when editing
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(nonnull NSIndexPath *)sourceIndexPath toIndexPath:(nonnull NSIndexPath *)destinationIndexPath {
 	if(sourceIndexPath.section == INPUTS_SECTION) {
-		if([midi moveInputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row]) {
-			[tableView reloadData];
-		}
+		[midi moveInputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row];
+		[tableView reloadData];
 	}
 	else if(sourceIndexPath.section == OUTPUTS_SECTION) {
-		if([midi moveOutputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row]) {
-			[tableView reloadData];
-		}
+		[midi moveOutputPort:(int)sourceIndexPath.row toPort:(int)destinationIndexPath.row];
+		[tableView reloadData];
 	}
 	else {
 		// static sections, should never be called
@@ -329,7 +342,7 @@
 	}
 }
 
-// if dynamic section make all rows the same indentation level as row 0
+// if dynamic section, make all rows the same indentation level as row 0
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section == INPUTS_SECTION || indexPath.section == OUTPUTS_SECTION) {
 		return [super tableView:tableView indentationLevelForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
