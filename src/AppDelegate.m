@@ -178,8 +178,14 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	LogVerbose(@"AppDelegate: openURL %@ from %@", url, options[UIApplicationOpenURLOptionsSourceApplicationKey]);
 
 	// open patch or scene via "pdparty://" scheme with "open" domain, ie. "pdparty://open/path/to/patch.pd"
-	if([url.scheme isEqualToString:@"pdparty"] && [url.host isEqualToString:@"open"] && url.path) {
-		path = [Util.documentsPath stringByAppendingPathComponent:url.path];
+	if([url.scheme isEqualToString:@"pdparty"] && url.path) {
+		if([url.host isEqualToString:@"open"]) {
+			path = [Util.documentsPath stringByAppendingPathComponent:url.path];
+		}
+		else { // other message types currently ignored
+			LogWarn(@"AppDelegate: ignoring unknown pdparty:// message type: %@", url.host);
+			return NO;
+		}
 	}
 	// open in place from Files app or other file provider (iCloud?)
 	else if(options[UIApplicationOpenURLOptionsOpenInPlaceKey] &&

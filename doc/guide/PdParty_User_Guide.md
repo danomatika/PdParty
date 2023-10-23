@@ -828,7 +828,11 @@ Also, this is where the default PdParty libraries are copied when the app is fir
 
 ### PdParty URL Scheme
 
-As of version 1.1.0, PdParty has a custom URL scheme "pdparty://" for opening PdParty from other apps on iOS. The domain portion of the URL is used as a message type and the following messages are supported:
+As of version 1.1.0, PdParty has a custom URL scheme "pdparty://" for opening PdParty from other apps on iOS. The host portion of the URL is used as a message type:
+
+    pdparty://MESSAGE/DATA...
+
+ The following messages are supported:
 
 * pdparty:// - empty, simply opens PdParty
 * pdparty://_**open**_/path/... - open a patch, scene, or folder inside the Documents folder
@@ -840,6 +844,14 @@ To test, enter the following into the address bar in Safari and hit enter:
 This should open PdParty. To open the `all_pd_guis.pd` test patch in the `tests` folder:
 
     pdparty://open/tests/all_pd_guis.pd
+
+To open a scene contained in a folder, use the path to the folder itself, not any patches within:
+
+    pdparty://open/samples/pdparty/TriSamp
+
+All URLs with unknown message types are treated as the empty "pdparty://" URL:
+
+    pdparty://hello/world/foo/bar
 
 Further message types may be added in the future.
 
