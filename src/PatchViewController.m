@@ -398,6 +398,12 @@
 		}
 	}
 	self.sceneManager.isRotated = ([(PatchView *)self.view rotation] != 0);
+
+	// iOS 16+ requries the following to know when to update rotation, otherwise
+	// the view ends up "dancing" when rotation re-triggers itself in a loop
+	if(@available(iOS 16.0, *)) {
+		[self setNeedsUpdateOfSupportedInterfaceOrientations];
+	}
 }
 
 - (void)updateControls {
