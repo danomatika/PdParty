@@ -1,3 +1,23 @@
+1.4.0-beta3: 2023-11-08
+
+* updated to prelim libpd 0.14.0 (pd 0.54-1)
+
+* fixed dancing rotation bug on iOS 16 by setting new rotation flag
+  (reported by many!)
+* fixed midi settings edit mode remaining on after disabling midi
+
+* added note about two-finger drag over GUI widgets to user guide
+* added notes to user guide about opening scene folders
+
+* midi multiple device mode now shows up to 16 available devices, usable devices
+  remain limited to ports 1-4 (requested by Serafino Di Rosario)
+* updated info view description handling to expand as needed by content
+* info view itself now scrolls instead of description only
+* improved pdparty:// url scheme handling to ignore unknown host message types
+  (reported by Jason Corder)
+* now map extendedGamepad before microGamepad as both pointers appear to be set
+  when an extended gamepad appears
+
 1.4.0-beta2: 2023-09-01
 
 * fixed cnv and vu not handling color messages with 3 args
