@@ -13,7 +13,6 @@
 #import "AppDelegate.h"
 
 @interface InfoViewController () {
-	int defaultCellHeight;
 	SceneManager *sceneManager;
 }
 @end
@@ -22,8 +21,6 @@
 
 - (void)awakeFromNib {
 	[super awakeFromNib];
-	// this should probably calculated using the default height of a cell, but that seems to return 0 ...
-	defaultCellHeight = 44; // reasonable default judging from values in the storyboard
 
 	// opaque nav bar if content is scrollable
 	if(@available(iOS 13.0, *)) {
@@ -52,6 +49,8 @@
 	}
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
+
+	[self.descriptionTextView sizeToFit];
 }
 
 // update the scenemanager if there are rotations while the PatchView is hidden
@@ -90,13 +89,16 @@
 #pragma mark UITableViewDelegate
 
 // make sure the text view cell expands to fill the empty space in the parent view
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section == 1) { // description text view
+		int defaultRowHeight = [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+		int space = defaultRowHeight * 2; // approx space between groups
 		int numCells = (Util.isDeviceAPhone ? 5 : 4);
-		float size = CGRectGetHeight(self.view.bounds) - (defaultCellHeight * numCells) - 88; // 88 for space between groups
-		return MAX(size, 2 * 22); // min size is 2 lines
+		float height = CGRectGetHeight(self.view.bounds) - (defaultRowHeight * numCells) - space; // leftover visible height
+		height = MAX(height, self.descriptionTextView.contentSize.height); // max content height
+		return MAX(height, 2 * 22); // min height 2 lines
 	}
-	return defaultCellHeight;
+	return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 @end
