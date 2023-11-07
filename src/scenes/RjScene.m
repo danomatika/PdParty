@@ -111,25 +111,27 @@
 }
 
 - (void)reshape {
-	CGSize viewSize, backgroundSize;
-	CGFloat xPos = 0;
-	
-	// rj backgrounds are always square
-	viewSize = self.parentView.bounds.size;
-	UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
-	if(orientation == UIInterfaceOrientationPortrait ||
-	   orientation == UIInterfaceOrientationPortraitUpsideDown) {
-		backgroundSize.width = viewSize.width;
-		backgroundSize.height = backgroundSize.width;
-	}
-	else {
-		backgroundSize.width = round(viewSize.height * 0.8);
-		backgroundSize.height = backgroundSize.width;
-		xPos = round((viewSize.width - backgroundSize.width)/2);
-	}
-	
-	// set background
+
 	if(self.background) {
+		CGSize viewSize, backgroundSize;
+		CGFloat xPos = 0;
+
+		// rj backgrounds are always square
+		viewSize = self.parentView.bounds.size;
+		UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
+		if(orientation == UIInterfaceOrientationPortrait ||
+		   orientation == UIInterfaceOrientationPortraitUpsideDown) {
+			backgroundSize.width = viewSize.width;
+			backgroundSize.height = backgroundSize.width;
+		}
+		else {
+			// approximate height, would be better to use the controls height to calc
+			backgroundSize.width = round(viewSize.height * 0.7);
+			backgroundSize.height = backgroundSize.width;
+			xPos = round((viewSize.width - backgroundSize.width)/2);
+		}
+
+		// set background
 		self.background.frame = CGRectMake(xPos, 0, backgroundSize.width, backgroundSize.height);
 		self.scale = backgroundSize.width / self.background.image.size.width;
 	}
