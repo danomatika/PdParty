@@ -28,7 +28,7 @@
 
 /// check the current orientation against the scene's prefferred orientations &
 /// manually rotate the view if needed
-- (void)checkOrientation;
+- (void)updateOrientation;
 
 /// display the controls on screen or in a popup as required by the current scene
 - (void)updateControls;
@@ -139,7 +139,7 @@
 
 	// update parent, orient, and reshape scene
 	[self.sceneManager updateParent:self.view];
-	[self checkOrientation];
+	[self updateOrientation];
 	[self.sceneManager reshapeToParentSize:self.view.bounds.size];
 
 	// update on screen controls
@@ -357,7 +357,7 @@
 
 #pragma mark Private
 
-- (void)checkOrientation {
+- (void)updateOrientation {
 
 	// rotates toward home button on bottom or left
 	UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
@@ -399,7 +399,7 @@
 	}
 	self.sceneManager.isRotated = ([(PatchView *)self.view rotation] != 0);
 
-	// iOS 16+ requries the following to know when to update rotation, otherwise
+	// iOS 16+ requires the following to know when to update rotation, otherwise
 	// the view ends up "dancing" when rotation re-triggers itself in a loop
 	if(@available(iOS 16.0, *)) {
 		[self setNeedsUpdateOfSupportedInterfaceOrientations];
