@@ -1,0 +1,30 @@
+{
+	"audio": {
+		"micvolume": 0.5
+	},
+	"osc": {
+		"enabled": true,
+		"send": {
+			"host": "192.168.236.101",
+			"port": 1234
+		},
+		"receive": {
+			"port": 5678,
+			"group": "239.200.200.200"
+		}
+	},
+	"midi": {
+		"enabled": true,
+		"virtual": false,
+		"network": false,
+		"multimode": false
+	},
+	"behavior": {
+		"nolockscreen": true,
+		"background": true,
+		"console": true
+	},
+	"startup": {
+		"path": "tests/all_pd_guis.pd"
+	}
+}

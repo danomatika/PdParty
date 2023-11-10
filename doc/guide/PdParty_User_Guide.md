@@ -921,3 +921,48 @@ As of PdParty 1.4.0, the following app-specific options are also available:
 * Controls Button: enable/disable the right controls button
 
 If both buttons are disabled, when a scene is run in PdParty with Guided Access enabled, the patch view cannot be exited and the on-screen home indicator, notifications, and control center are disabled. If the physical home button and side buttons are inaccessible, such as when the device is enclosed in a security case, the scene can be presented in a public environment, ie. as an art installation.
+
+### Startup Configuration File: config.json
+
+As of PdParty 1.4.0, basic configuration settings can be loaded from a JSON file at startup. This should allow for easier deployment of configrations across multiple devices.
+
+A file named `config.json` or `Config.json` placed in the Documents directory must have a root dictionary and contain any of the following:
+* audio: dict
+  + mivcolume: float 0-1, microphone / input volume
+* osc: dict
+  + enabled: bool, enable/disable the OSC server
+  + send: dict
+    - host: string, IP address or hostname to send to
+    - port: int, port to send to must be > 1024 
+  + receive: dict
+    - port: int, port to listen on, must be > 1024
+    - group: string, multicast group, set "" for none
+* midi: dict
+  + enabled: bool, enable/disable MIDI I/O
+  + virtual: bool, enable/disable PdParty's virtual MIDI ports
+  + network: bool, enable/disable network MIDI ports
+  + multimode: bool, enable/disable multiple device mode
+* behavior: dict
+  + nolockscreen: bool, disable the device lockscreen while running?
+  + background: bool, keep running in the background?
+  + console: bool, enable/disable the console control button
+* startup: dict
+  * path: string, relative path to patch or scene directory to open at startup, ex. "tests/all_pd_guis.pd"
+
+_Note: Configuration settings **override** previous defaults on load._
+
+No settings are required, all are optional. An example configuration with all keys can be found with the project source files in `docs/config.json`. A minimal example with a few settings:
+
+```json
+{
+	"osc": {
+		"enabled": true,
+		"send": {
+			"host": "192.168.100.110",
+			"port": 1234
+		},
+	"startup": {
+		"path": "my_cool_patch.pd"
+	}
+}
+```
