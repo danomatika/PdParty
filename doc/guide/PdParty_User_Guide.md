@@ -927,27 +927,27 @@ If both buttons are disabled, when a scene is run in PdParty with Guided Access 
 As of PdParty 1.4.0, basic configuration settings can be loaded from a JSON file at startup. This should allow for easier deployment of configrations across multiple devices.
 
 A file named `config.json` or `Config.json` placed in the Documents directory must have a root dictionary and contain any of the following:
-* audio: dict
-  + mivcolume: float 0-1, microphone / input volume
-* osc: dict
-  + enabled: bool, enable/disable the OSC server
-  + send: dict
-    - host: string, IP address or hostname to send to
-    - port: int, port to send to must be > 1024 
-  + receive: dict
-    - port: int, port to listen on, must be > 1024
-    - group: string, multicast group, set "" for none
-* midi: dict
-  + enabled: bool, enable/disable MIDI I/O
-  + virtual: bool, enable/disable PdParty's virtual MIDI ports
-  + network: bool, enable/disable network MIDI ports
-  + multimode: bool, enable/disable multiple device mode
-* behavior: dict
-  + nolockscreen: bool, disable the device lockscreen while running?
-  + background: bool, keep running in the background?
-  + console: bool, enable/disable the console control button
-* startup: dict
-  * path: string, relative path to patch or scene directory to open at startup, ex. "tests/all_pd_guis.pd"
+* **audio**: dict
+  + _mivcolume_: float 0-1, microphone / input volume
+* **osc**: dict
+  + _enabled_: bool, enable/disable the OSC server
+  + **send**: dict
+    - _host_: string, IP address or hostname to send to
+    - _port_: int, port to send to must be > 1024 
+  + **receive**: dict
+    - _port_: int, port to listen on, must be > 1024
+    - _group_: string, multicast group, set "" for none
+* **midi**: dict
+  + _enabled_: bool, enable/disable MIDI I/O
+  + _virtual_: bool, enable/disable PdParty's virtual MIDI ports
+  + _network_: bool, enable/disable network MIDI ports
+  + _multimode_: bool, enable/disable multiple device mode
+* **behavior**: dict
+  + _nolockscreen_: bool, disable the device lockscreen while running?
+  + _background_: bool, keep running in the background?
+  + _console_: bool, enable/disable the console control button
+* **startup**: dict
+  * _path_: string, relative path to patch or scene directory to open at startup, ex. "tests/all_pd_guis.pd"
 
 _Note: Configuration settings **override** previous defaults on load._
 
