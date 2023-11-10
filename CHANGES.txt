@@ -1,3 +1,8 @@
+1.4.0: 2023-11-10
+
+* updated to libpd 0.14.0 (pd 0.54-1)
+* catch empty config.json osc send host string, default to "localhost"
+
 1.4.0-beta4: 2023-11-10
 
 * added support for loading basic settings in a config.json file and opening a

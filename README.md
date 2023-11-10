@@ -5,7 +5,7 @@ PdParty
 	<img src="http://danomatika.com/code/pdparty/patchview_bg.png"/>
 </p>
 
-Copyright (c) [Dan Wilcox](danomatika.com) 2011-23
+Copyright (c) [Dan Wilcox](danomatika.com) 2011-2023
 
 BSD Simplified License.
 
