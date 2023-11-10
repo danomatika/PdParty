@@ -3,7 +3,7 @@ Howdy
 
 This folder contains the basics you need in order to start creating scenes for the PdParty iOS app using Pure Data 0.46+ (vanilla).
 
-Copyright (c) [Dan Wilcox](danomatika.com) 2011-22
+Copyright (c) [Dan Wilcox](danomatika.com) 2011-2023
 
 User Guide
 ----------
@@ -17,7 +17,7 @@ This short readme is just a small overview by comparison.
 Requirements
 ------------
 
-PdParty is built using libpd which is based on Pure Data "vanilla", *not* Pd-extended. It is recommended that you work with Pd vanilla versions 0.46+.
+PdParty is built using libpd which is based on Pure Data "vanilla", *not* Pd-extended or other forks. It is recommended that you work with Pd vanilla versions 0.46+.
 
 Download Pd vanilla here: http://msp.ucsd.edu/software.html
 
@@ -89,11 +89,14 @@ This scene type provided compatibility with PdDroidParty on Android, except for 
 This scene type basically acts as a wrapper around a patch folder.
 
 * a folder that contains a _main.pd patch
+* an optional background image named "background.png" or "background.jpg"
+* an optional font named "font.ttf" or "font.otf"
+* an optional browser icon named "thumb.png" or "thumb.jpg" and a min size of 55x55
 * an optional info json file named "info.json"
 * requires all event types
 * landscape or portrait orientation is interpreted from the canvas size
   
-Running a regular .pd patch is the same as running a PdParty scene.
+Running a regular .pd patch (a Patch scene) is the same as running a PdParty scene, except for background support.
 
 Samples & Tests
 ---------------
