@@ -966,8 +966,5 @@ No settings are required, all are optional. An example configuration with all ke
 	}
 }
 ```
-<<<<<<< HEAD
 
 The file is shown in the PdParty Browser but cannot be edited within PdParty. It can, however, be deleted by swiping left to reveal the delete button. It may be possible to edit the file using a 3rd-party text editor, but this is an exercise left up to the reader.
-=======
->>>>>>> 9abab7ed7abeb321b0a95362c7df504c75b05c23
