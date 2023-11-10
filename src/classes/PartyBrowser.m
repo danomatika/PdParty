@@ -32,6 +32,11 @@
 	        [ext isEqualToString:@"rjz"]);
 }
 
++ (BOOL)isConfigFile:(NSString *)path {
+	return ([path.lastPathComponent isEqualToString:@"config.json"] ||
+			[path.lastPathComponent isEqualToString:@"Config.json"]);
+}
+
 #pragma mark Subclassing
 
 // disable swipe back gesture on iPhone as it interferes with patch view gestures
@@ -85,6 +90,9 @@
 			else if([PartyBrowser isZipFile:path]) { // add zipfiles
 				return YES;
 			}
+			else if(self.isRootLayer && [PartyBrowser isConfigFile:path]) {// add config file
+				return YES;
+			}
 			// remove Finder DS_Store garbage (created over WebDAV)
 			else if([file isEqualToString:@"._.DS_Store"] || [file isEqualToString:@".DS_Store"]) {
 				if(![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
@@ -101,14 +109,18 @@
 	return NO;
 }
 
-// make sure we can't navigate into known scene folder types
 - (BOOL)browser:(Browser *)browser isPathSelectable:(NSString *)path isDir:(BOOL)isDir {
+	// make sure we can't navigate into known scene folder types
 	if(browser.mode == BrowserModeMove) {
 		if([RjScene isRjDjDirectory:path] ||
 		   [DroidScene isDroidPartyDirectory:path] ||
 		   [PartyScene isPdPartyDirectory:path]) {
 			return NO;
 		}
+	}
+	// config files are visible, but not selectable
+	if(browser.isRootLayer && [PartyBrowser isConfigFile:path]) {
+		return NO;
 	}
 	return YES;
 }

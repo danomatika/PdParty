@@ -48,6 +48,13 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	[defaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:
 		[NSBundle.mainBundle pathForResource:@"Defaults" ofType:@"plist"]]];
 
+	// load optional config, overrides defaults
+	NSArray *configPaths = [Util whichFilenames:@[@"config.json", @"Config.json"] existInDirectory:Util.documentsPath];
+	if(configPaths) {
+		NSLog(@"AppDelegate: loading %@", [configPaths.firstObject lastPathComponent]);
+		[self loadConfigFile:configPaths.firstObject];
+	}
+
 	// init logger
 	[Log setup];
 
@@ -70,31 +77,15 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 
 	// set up webserver
 	self.server = [[WebServer alloc] init];
-}
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	// Override point for customization after application launch.
-	
-	// set up split view on iPad
-	if(Util.isDeviceATablet) {
-		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-		UINavigationController *detailNavController = splitViewController.viewControllers.lastObject; // PatchViewController
-		splitViewController.delegate = (id)detailNavController.topViewController;
-		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
-		splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
-		detailNavController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-		detailNavController.navigationItem.leftItemsSupplementBackButton = NO;
-	}
-	else { // light content as default is black text on black nav bar
-		UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent;
-	}
+	// set up app behavior
+	self.lockScreenDisabled = [defaults boolForKey:@"lockScreenDisabled"];
+	self.runsInBackground = [defaults boolForKey:@"runsInBackground"];
 
-	// set up globals
-	[self setup];
-	
+	LogInfo(@"AppDelegate: app resolution %g %g", Util.appWidth, Util.appHeight);
+
 	// copy patches in the resource folder on first run only,
 	// blocks UI with progress HUD until done
-	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 	if([NSUserDefaults.standardUserDefaults boolForKey:@"firstRun"]) {
 		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:YES];
 		hud.label.text = @"Setting up for the first time...";
@@ -115,12 +106,27 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	if([NSFileManager.defaultManager fileExistsAtPath:inboxPath]) {
 		[Util deleteContentsOfDirectory:inboxPath error:nil];
 	}
-	
-	// set up app behavior
-	self.lockScreenDisabled = [defaults boolForKey:@"lockScreenDisabled"];
-	self.runsInBackground = [defaults boolForKey:@"runsInBackground"];
+}
 
-	LogInfo(@"App resolution: %g %g", Util.appWidth, Util.appHeight);
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	// Override point for customization after application launch.
+	
+	// set up split view on iPad
+	if(Util.isDeviceATablet) {
+		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+		UINavigationController *detailNavController = splitViewController.viewControllers.lastObject; // PatchViewController
+		splitViewController.delegate = (id)detailNavController.topViewController;
+		splitViewController.presentsWithGesture = NO; // disable swipe gesture for master view
+		splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+		detailNavController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+		detailNavController.navigationItem.leftItemsSupplementBackButton = NO;
+	}
+	else { // light content as default is black text on black nav bar
+		UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent;
+	}
+
+	// set up globals, etc
+	[self setup];
 
 	return YES;
 }
@@ -359,6 +365,107 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	UIViewController *root = UIApplication.sharedApplication.keyWindow.rootViewController;
 	[self.patchViewController dismissMasterPopover]; // hide master popover if visible
 	[root presentViewController:nav animated:YES completion:nil];
+}
+
+#pragma mark Config
+
+//#define DEBUG_CONFIG
+
+#define DICT_EXISTS(parent, name) parent[name] && [parent[name] isKindOfClass:NSDictionary.class]
+#define STRING_EXISTS(parent, name) parent[name] && [parent[name] isKindOfClass:NSString.class]
+#define NUMBER_EXISTS(parent, name) parent[name] && [parent[name] isKindOfClass:NSNumber.class]
+
+#define READ_BOOL(parent, name, defaultkey) \
+if(NUMBER_EXISTS(parent, name)) { \
+	BOOL b = [parent[name] boolValue]; \
+	pairs[defaultkey] = (b ? @YES : @NO); \
+}
+
+#define READ_STRING(parent, name, defaultkey) \
+if(STRING_EXISTS(parent, name)) { \
+	NSString *s = parent[name]; \
+	pairs[defaultkey] = s; \
+}
+
+#define READ_PORT(parent, name, defaultkey) \
+if(NUMBER_EXISTS(parent, name)) { \
+	int i = [parent[name] intValue]; \
+	if(i > 1024) {pairs[defaultkey] = @(i);} \
+}
+
+- (void)loadConfigFile:(NSString *)path {
+	path = [Util.documentsPath stringByAppendingPathComponent:path];
+	NSError *error;
+	id data = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:&error];
+	if(!data) {
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+			LogError(@"AppDelegate: parsing JSON from %@ failed: %@", path, error.debugDescription);
+			NSString *title = [NSString stringWithFormat:@"Parsing %@ failed", path.lastPathComponent];
+			[[UIAlertController alertControllerWithTitle:title
+		                                         message:error.userInfo[NSDebugDescriptionErrorKey]
+		                               cancelButtonTitle:@"Ok"] show];
+		});
+		return;
+	}
+	if(![data isKindOfClass:NSDictionary.class]) {return;}
+	NSDictionary *config = data;
+	NSMutableDictionary *pairs = [NSMutableDictionary new]; // defaultsKey: value
+	NSDictionary *dict = nil;
+	if(DICT_EXISTS(config, @"audio")) {
+		dict = config[@"audio"];
+		if(NUMBER_EXISTS(dict, @"micvolume")) {
+			float f = CLAMP([dict[@"micvolume"] floatValue], 0, 1);
+			pairs[@"micVolume"] = @(f);
+		}
+	}
+	if(DICT_EXISTS(config, @"osc")) {
+		dict = config[@"osc"];
+		READ_BOOL(dict, @"enabled", @"oscServerEnabled");
+		if(DICT_EXISTS(dict, @"send")) {
+			READ_STRING(dict[@"send"], @"host", @"oscSendHost");
+			READ_PORT(dict[@"send"], @"port", @"oscSendPort");
+		}
+		if(DICT_EXISTS(dict, @"receive")) {
+			READ_PORT(dict[@"receive"], @"port", @"oscListenPort");
+			READ_STRING(dict[@"receive"], @"group", @"oscListenGroup");
+		}
+	}
+	if(DICT_EXISTS(config, @"midi")) {
+		dict = config[@"midi"];
+		READ_BOOL(dict, @"enabled", @"midiEnabled");
+		READ_BOOL(dict, @"virtual", @"virtualMidiEnabled");
+		READ_BOOL(dict, @"network", @"networkMidiEnabled");
+		READ_BOOL(dict, @"multimode", @"multiMidiDeviceMode");
+	}
+	if(DICT_EXISTS(config, @"behavior")) {
+		dict = config[@"behavior"];
+		READ_BOOL(dict, @"nolockscreen", @"lockScreenDisabled");
+		READ_BOOL(dict, @"background", @"runsInBackground");
+		READ_BOOL(dict, @"console", @"logTextView");
+	}
+	if(DICT_EXISTS(config, @"startup")) {
+		dict = config[@"startup"];
+		if(STRING_EXISTS(dict, @"path")) {
+			NSString *s = [Util.documentsPath stringByAppendingPathComponent:dict[@"path"]];
+			if(s) {
+				NSLog(@"AppDelegate: startup path %@", s);
+				// wait a second to give the rest of the ui time to load
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+					if(![self openPath:s]) {
+						NSLog(@"AppDelegate: couldn't open path: %@", s);
+					}
+				});
+			}
+		}
+	}
+	#ifdef DEBUG_CONFIG
+		NSLog(@"AppDelegate: config kv pairs");
+		for(NSString *key in pairs.allKeys) {
+			NSLog(@"AppDelegate:   %@: %@", key, pairs[key]);
+		}
+	#else
+		[NSUserDefaults.standardUserDefaults setValuesForKeysWithDictionary:pairs];
+	#endif
 }
 
 #pragma mark Util

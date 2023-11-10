@@ -75,6 +75,11 @@ extern NSString *const PdPartyMotionShakeEndedNotification;
 /// set sceneRotationsOnly if launched from a scene
 - (void)launchWebViewForURL:(NSURL *)url withTitle:(NSString *)title sceneRotationsOnly:(BOOL)sceneRotationsOnly;
 
+#pragma mark Config
+
+/// load app configuration json file, overwrites current defaults
+- (void)loadConfigFile:(NSString *)path;
+
 #pragma mark Util
 
 /// recursively copy dirs and patches in the resource patches dir to the
