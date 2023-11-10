@@ -1,7 +1,7 @@
 PdParty User Guide
 ==================
 
-Version: **1.4.0**  
+Version: **1.4.0**
 Date: 2023-11-10
 
 PdParty is an iOS app that allows you to run [Pure Data](http://puredata.info/) patches on Apple mobile devices using libpd. It is directly inspired by Chris McCormick's [PdDroidParty](http://droidparty.net/) and the original RjDj app by [Reality Jockey](http://rjdj.me/). It takes a step further by supporting OSC and MIDI and by implementing the native Pd gui objects for a WYSIWYG patch -> mobile device experience:
@@ -933,7 +933,7 @@ A file named `config.json` or `Config.json` placed in the Documents directory mu
   + _enabled_: bool, enable/disable the OSC server
   + **send**: dict
     - _host_: string, IP address or hostname to send to
-    - _port_: int, port to send to must be > 1024 
+    - _port_: int, port to send to must be > 1024
   + **receive**: dict
     - _port_: int, port to listen on, must be > 1024
     - _group_: string, multicast group, set "" for none
