@@ -1,3 +1,8 @@
+1.4.0-beta4: 2023-11-10
+
+* added support for loading basic settings in a config.json file and opening a
+  patch or scene at startup (requested by Jason Corder)
+
 1.4.0-beta3: 2023-11-08
 
 * updated to prelim libpd 0.14.0 (pd 0.54-1)
