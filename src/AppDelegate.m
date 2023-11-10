@@ -378,19 +378,19 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 #define READ_BOOL(parent, name, defaultkey) \
 if(NUMBER_EXISTS(parent, name)) { \
 	BOOL b = [parent[name] boolValue]; \
-	pairs[defaultkey] = (b ? @YES : @NO); \
+	kvpairs[defaultkey] = (b ? @YES : @NO); \
 }
 
 #define READ_STRING(parent, name, defaultkey) \
 if(STRING_EXISTS(parent, name)) { \
 	NSString *s = parent[name]; \
-	pairs[defaultkey] = s; \
+	kvpairs[defaultkey] = s; \
 }
 
 #define READ_PORT(parent, name, defaultkey) \
 if(NUMBER_EXISTS(parent, name)) { \
 	int i = [parent[name] intValue]; \
-	if(i > 1024) {pairs[defaultkey] = @(i);} \
+	if(i > 1024) {kvpairs[defaultkey] = @(i);} \
 }
 
 - (void)loadConfigFile:(NSString *)path {
@@ -408,14 +408,13 @@ if(NUMBER_EXISTS(parent, name)) { \
 		return;
 	}
 	if(![data isKindOfClass:NSDictionary.class]) {return;}
-	NSDictionary *config = data;
-	NSMutableDictionary *pairs = [NSMutableDictionary new]; // defaultsKey: value
-	NSDictionary *dict = nil;
+	NSDictionary *config = data, *dict = nil;
+	NSMutableDictionary *kvpairs = [NSMutableDictionary new]; // defaultsKey: value
 	if(DICT_EXISTS(config, @"audio")) {
 		dict = config[@"audio"];
 		if(NUMBER_EXISTS(dict, @"micvolume")) {
 			float f = CLAMP([dict[@"micvolume"] floatValue], 0, 1);
-			pairs[@"micVolume"] = @(f);
+			kvpairs[@"micVolume"] = @(f);
 		}
 	}
 	if(DICT_EXISTS(config, @"osc")) {
@@ -424,6 +423,9 @@ if(NUMBER_EXISTS(parent, name)) { \
 		if(DICT_EXISTS(dict, @"send")) {
 			READ_STRING(dict[@"send"], @"host", @"oscSendHost");
 			READ_PORT(dict[@"send"], @"port", @"oscSendPort");
+			if([kvpairs[@"oscSendHost"] isEqualToString:@""]) {
+				kvpairs[@"oscSendHost"] = @"localhost"; // default
+			}
 		}
 		if(DICT_EXISTS(dict, @"receive")) {
 			READ_PORT(dict[@"receive"], @"port", @"oscListenPort");
@@ -464,7 +466,7 @@ if(NUMBER_EXISTS(parent, name)) { \
 			NSLog(@"AppDelegate:   %@: %@", key, pairs[key]);
 		}
 	#else
-		[NSUserDefaults.standardUserDefaults setValuesForKeysWithDictionary:pairs];
+		[NSUserDefaults.standardUserDefaults setValuesForKeysWithDictionary:kvpairs];
 	#endif
 }
 
