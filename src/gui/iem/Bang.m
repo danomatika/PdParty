@@ -27,8 +27,8 @@
 @implementation Bang
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
-	if(line.count < 18) { // sanity check
-		LogWarn(@"Bang: cannot create, atom line length < 18");
+	if(line.count < 19) { // sanity check
+		LogWarn(@"Bang: cannot create, atom line length < 19");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];

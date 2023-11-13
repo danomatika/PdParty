@@ -17,8 +17,8 @@
 @implementation Toggle
 
 - (id)initWithAtomLine:(NSArray *)line andGui:(Gui *)gui {
-	if(line.count < 18) { // sanity check
-		LogWarn(@"Toggle: cannot create, atom line length < 18");
+	if(line.count < 19) { // sanity check
+		LogWarn(@"Toggle: cannot create, atom line length < 19");
 		return nil;
 	}
 	self = [super initWithAtomLine:line andGui:gui];
@@ -47,7 +47,7 @@
 		self.fillColor = [IEMWidget colorFromAtomColor:line[14]];
 		self.controlColor = [IEMWidget colorFromAtomColor:line[15]];
 		self.label.textColor = [IEMWidget colorFromAtomColor:line[16]];
-		
+
 		self.nonZeroValue = [line[18] floatValue];
 		if(self.inits) {
 			self.value = [line[17] floatValue];
