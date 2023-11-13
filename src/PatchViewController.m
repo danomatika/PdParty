@@ -150,15 +150,6 @@
 	[self.view layoutSubviews];
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size
-       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
-                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-		self.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
-	}];
-	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-}
-
 // lock orientation based on scene's preferred orientation mask
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if(self.sceneManager.scene && !self.sceneManager.isRotated) {
@@ -364,6 +355,7 @@
 	if((self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAll) ||
 	   (self.sceneManager.scene.preferredOrientations == UIInterfaceOrientationMaskAllButUpsideDown)) {
 		[(PatchView *)self.view setRotation:0];
+		self.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 	}
 	else if(UIInterfaceOrientationIsLandscape(currentOrientation)) {
 		if(self.sceneManager.scene.preferredOrientations & (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown)) {
@@ -379,6 +371,7 @@
 		}
 		else {
 			[(PatchView *)self.view setRotation:0];
+			self.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 		}
 	}
 	else { // default is portrait
@@ -395,6 +388,7 @@
 		}
 		else {
 			[(PatchView *)self.view setRotation:0];
+			self.sceneManager.currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
 		}
 	}
 	self.sceneManager.isRotated = ([(PatchView *)self.view rotation] != 0);

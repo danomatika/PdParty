@@ -575,7 +575,6 @@
 	[self.osc sendAccel:x y:y z:z];
 }
 
-// reorient gryo data to current orientation
 - (void)sendGyro:(CMGyroData *)gyro {
 	#ifdef DEBUG_SENSORS
 		LogVerbose(@"gyro %f %f %f", gyro.rotationRate.x, gyro.rotationRate.y, gyro.rotationRate.z);
