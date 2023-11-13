@@ -1,3 +1,10 @@
+1.4.1: 2023-11-14
+
+* fixed accel orientation when switching between rotated and non-rotated scenes,
+  bug only affected rjdj scenes and pdparty scenes using accel orientation
+* fixed potential crash when loading tgl or bng if atom line is < 19 in length
+  (tangentially reported by Coti Kappa)
+
 1.4.0: 2023-11-10
 
 * updated to libpd 0.14.0 (pd 0.54-1)
