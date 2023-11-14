@@ -889,7 +889,7 @@ The selected viewport area will be rescaled in order to fill the screen of the d
 
 See the DroidParty `pure-widgets-demo` sample and the PdParty `ViewPort` test.
 
-As of PdParty 1.4.0+, the ViewPort canvas is *not* drawn in PdParty. This matches behavior in DroidParty. If you need a background color, you will can use additional cnv objects.
+As of PdParty 1.4.0+, the ViewPort canvas is *not* drawn in PdParty. This matches behavior in DroidParty. If you need a background color, you can use additional cnv objects.
 
 ### Dynamic Background
 
