@@ -34,6 +34,7 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <sys/socket.h>
+#include <sys/un.h>
 #include <arpa/inet.h>
 #include <netinet/tcp.h>
 #ifdef HAVE_GETIFADDRS
@@ -189,6 +190,12 @@ static void lo_address_resolve_source(lo_address a)
 
         a->host = strdup(hostname);
         a->port = strdup(portname);
+#if !defined(WIN32) && !defined(_MSC_VER)
+    } else if (a->protocol== LO_UNIX) {
+        struct sockaddr_un * addr = (struct sockaddr_un *) &s->addr;
+        a->host = strdup("");
+        a->port = strdup(addr->sun_path);
+#endif
     } else {
         a->host = strdup("");
         a->port = strdup("");
@@ -538,6 +545,7 @@ void lo_address_copy(lo_address to, lo_address from)
         to->port = strdup(from->port);
     }
     to->protocol = from->protocol;
+    to->flags = from->flags;
     to->ttl = from->ttl;
     to->addr = from->addr;
     if (from->addr.iface)
@@ -676,12 +684,12 @@ int lo_inaddr_find_iface(lo_inaddr t, int fam,
             if (strcmp(iface, aa->AdapterName)==0)
                 found = 1;
             else {
-				WCHAR ifaceW[256];
-				MultiByteToWideChar(CP_ACP, 0, iface, strlen(iface),
-									ifaceW, 256);
-				if (lstrcmpW(ifaceW, aa->FriendlyName)==0)
-					found = 1;
-			}
+                WCHAR ifaceW[256];
+                MultiByteToWideChar(CP_ACP, 0, iface, -1,
+                                    ifaceW, 256);
+                if (lstrcmpW(ifaceW, aa->FriendlyName)==0)
+                    found = 1;
+            }
         }
         if (ip) {
             PIP_ADAPTER_UNICAST_ADDRESS pua = aa->FirstUnicastAddress;

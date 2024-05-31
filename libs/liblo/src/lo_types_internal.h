@@ -30,7 +30,7 @@
 typedef SSIZE_T ssize_t;
 #endif
 
-#ifndef UINT_PTR
+#if !defined(UINT_PTR) && !defined(WIN32)
   #ifdef HAVE_UINTPTR_T
     #include <stdint.h>
     #define UINT_PTR uintptr_t
@@ -141,8 +141,8 @@ struct socket_context {
     size_t buffer_size;
     unsigned int buffer_msg_offset;
     unsigned int buffer_read_offset;
-    int is_slip;                        /*!< 1 if slip mode, 0 otherwise, -1 for unknown */
-    int slip_state;                     /*!< state variable for slip decoding */
+    int is_slip;    /*!< 1 if slip mode, 0 otherwise, -1 for unknown */
+    int slip_state; /*!< state variable for slip decoding */
 };
 
 #ifdef HAVE_POLL

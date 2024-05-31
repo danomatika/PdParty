@@ -16,7 +16,7 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
-/* Define to 1 if you have the `getifaddrs' function. */
+/* Define to 1 if you have the 'getifaddrs' function. */
 #define HAVE_GETIFADDRS 1
 
 /* Define to 1 if inet_pton() is available. */
@@ -25,7 +25,7 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
-/* Define to 1 if you have the `m' library (-lm). */
+/* Define to 1 if you have the 'm' library (-lm). */
 /* #undef HAVE_LIBM */
 
 /* Define to use the pthread library for threading. */
@@ -70,7 +70,7 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
-/* Define to 1 if the system has the type `uintptr_t'. */
+/* Define to 1 if the system has the type 'uintptr_t'. */
 #define HAVE_UINTPTR_T 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
@@ -83,7 +83,7 @@
 #define LO_BIGENDIAN "0"
 
 /* Libtool compatibility version */
-#define LO_SO_VERSION {11, 1, 4}
+#define LO_SO_VERSION {12, 0, 5}
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
@@ -98,7 +98,7 @@
 #define PACKAGE_NAME "liblo"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "liblo 0.31"
+#define PACKAGE_STRING "liblo 0.32"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "liblo"
@@ -107,18 +107,18 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.31"
+#define PACKAGE_VERSION "0.32"
 
 /* printf code for type long long int */
 #define PRINTF_LL "ll"
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.31"
+#define VERSION "0.32"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
@@ -132,10 +132,10 @@
 # endif
 #endif
 
-/* Define to empty if `const' does not conform to ANSI C. */
+/* Define to empty if 'const' does not conform to ANSI C. */
 /* #undef const */
 
-/* Define to `unsigned int' if <sys/types.h> does not define. */
+/* Define as 'unsigned int' if <stddef.h> doesn't define. */
 /* #undef size_t */
 
 /* Define to the type of an unsigned integer type wide enough to hold a

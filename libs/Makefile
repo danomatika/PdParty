@@ -28,7 +28,7 @@ clobber: liblo-clobber
 ##### liblo
 
 # git tag, branch, or commit
-LO_VER = master
+LO_VER = 0.32
 
 LO_META = config.h AUTHORS ChangeLog COPYING README.md
 

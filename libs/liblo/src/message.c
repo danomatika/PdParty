@@ -479,7 +479,7 @@ int lo_message_add_infinitum(lo_message m)
 static int lo_message_add_typechar(lo_message m, char t)
 {
     if (m->typelen + 1 >= m->typesize) {
-        int new_typesize = (int)m->typesize * 2;
+        int new_typesize = (int) m->typesize * 2;
         char *new_types = 0;
         if (!new_typesize)
             new_typesize = LO_DEF_TYPE_SIZE;
@@ -501,8 +501,8 @@ static int lo_message_add_typechar(lo_message m, char t)
 
 static void *lo_message_add_data(lo_message m, size_t s)
 {
-    uint32_t old_dlen = (uint32_t)m->datalen;
-    int new_datasize = (int)m->datasize;
+    uint32_t old_dlen = (uint32_t) m->datalen;
+    int new_datasize = (int) m->datasize;
     int new_datalen = (int) (m->datalen + s);
     void *new_data = 0;
 

@@ -415,7 +415,7 @@ static int lo_server_set_iface(lo_server s, int fam, const char *iface, const ch
 
     if (s->addr_if.size == sizeof(struct in_addr)) {
         if (setsockopt(s->sockets[0].fd, IPPROTO_IP, IP_MULTICAST_IF,
-                       (const char*)&s->addr_if.a.addr, (socklen_t)s->addr_if.size) < 0)
+                       (const char*)&s->addr_if.a.addr, (socklen_t) s->addr_if.size) < 0)
 		{
             err = geterror();
             lo_throw(s, err, strerror(err), "setsockopt(IP_MULTICAST_IF)");
@@ -425,7 +425,7 @@ static int lo_server_set_iface(lo_server s, int fam, const char *iface, const ch
 #ifdef ENABLE_IPV6 // TODO: this setsockopt fails on linux
     else if (s->addr_if.size == sizeof(struct in6_addr)) {
         if (setsockopt(s->sockets[0].fd, IPPROTO_IP, IPV6_MULTICAST_IF,
-                       &s->addr_if.a.addr6, (socklen_t)s->addr_if.size) < 0) {
+                       &s->addr_if.a.addr6, (socklen_t) s->addr_if.size) < 0) {
             err = geterror();
             lo_throw(s, err, strerror(err), "setsockopt(IPV6_MULTICAST_IF)");
             return err;
@@ -626,17 +626,15 @@ lo_server lo_server_new_with_proto_internal(const char *group,
         }
 
 #ifdef ENABLE_IPV6
-    if (ai->ai_family==AF_INET6) {
-        unsigned int v6only_off = 0;
-        if (setsockopt(s->sockets[0].fd, IPPROTO_IPV6, IPV6_V6ONLY,
-                       &v6only_off, sizeof(v6only_off)) < 0) {
-            err = geterror();
-            /* Ignore the error if the option is simply not supported. */
-            if (err!=ENOPROTOOPT) {
-                lo_throw(s, err, strerror(err), "setsockopt(IPV6_V6ONLY)");
-                lo_server_free(s);
-                return NULL;
-            }
+    unsigned int v6only_off = 0;
+    if (setsockopt(s->sockets[0].fd, IPPROTO_IPV6, IPV6_V6ONLY,
+                   &v6only_off, sizeof(v6only_off)) < 0) {
+        err = geterror();
+        /* Ignore the error if the option is simply not supported. */
+        if (err!=ENOPROTOOPT) {
+            lo_throw(s, err, strerror(err), "setsockopt(IPV6_V6ONLY)");
+            lo_server_free(s);
+            return NULL;
         }
     }
 #endif
@@ -683,7 +681,7 @@ lo_server lo_server_new_with_proto_internal(const char *group,
              0)) {
             err = geterror();
 #ifdef WIN32
-            if (err == EINVAL || err == WSAEADDRINUSE) {
+            if (err == WSAEINVAL || err == WSAEADDRINUSE) {
 #else
             if (err == EINVAL || err == EADDRINUSE) {
 #endif
@@ -925,8 +923,8 @@ void *lo_server_recv_raw(lo_server s, size_t * size)
 
     s->addr_len = sizeof(s->addr);
 
-    ret = (int)recvfrom(s->sockets[0].fd, buffer, s->max_msg_size, 0,
-                        (struct sockaddr *) &s->addr, &s->addr_len);
+    ret = (int) recvfrom(s->sockets[0].fd, buffer, s->max_msg_size, 0,
+                         (struct sockaddr *) &s->addr, &s->addr_len);
     if (ret <= 0) {
         if (heap_buffer) free(buffer);
         return NULL;
@@ -1109,7 +1107,7 @@ int lo_server_recv_raw_stream_socket(lo_server s, int isock,
         return 1;
     }
 
-    buffer_bytes_left = (int)(sc->buffer_size - sc->buffer_read_offset);
+    buffer_bytes_left = (int) (sc->buffer_size - sc->buffer_read_offset);
 
     // If we need more than half the buffer, double the buffer size.
     size = sc->buffer_size;
@@ -1129,7 +1127,7 @@ int lo_server_recv_raw_stream_socket(lo_server s, int isock,
             break;
         }
 
-        buffer_bytes_left = (int)(size - sc->buffer_read_offset);
+        buffer_bytes_left = (int) (size - sc->buffer_read_offset);
     }
 
     if ((size_t)size > sc->buffer_size)
@@ -1143,7 +1141,7 @@ int lo_server_recv_raw_stream_socket(lo_server s, int isock,
     }
 
     // Read as much as we can into the remaining buffer memory.
-    buffer_bytes_left = (int)(sc->buffer_size - sc->buffer_read_offset);
+    buffer_bytes_left = (int) (sc->buffer_size - sc->buffer_read_offset);
 
     read_into = sc->buffer + sc->buffer_read_offset;
 
@@ -1154,9 +1152,9 @@ int lo_server_recv_raw_stream_socket(lo_server s, int isock,
         read_into = stack_buffer;
     }
 
-    bytes_recv = (int)recv(s->sockets[isock].fd,
-                           read_into,
-                           buffer_bytes_left, 0);
+    bytes_recv = (int) recv(s->sockets[isock].fd,
+                            read_into,
+                            buffer_bytes_left, 0);
 
     if (bytes_recv <= 0)
     {
@@ -1311,8 +1309,7 @@ void *lo_server_recv_raw_stream(lo_server s, size_t * size, int *psock)
     poll(s->sockets, s->sockets_len, -1);
 
     for (i = s->sockets_len - 1; i >= 0 && !data; --i) {
-        if (s->sockets[i].revents == POLLERR
-            || s->sockets[i].revents == POLLHUP) {
+        if (s->sockets[i].revents & (POLLERR | POLLHUP)) {
             if (i > 0) {
                 closesocket(s->sockets[i].fd);
                 lo_server_del_socket(s, i, s->sockets[i].fd);
@@ -1334,9 +1331,10 @@ void *lo_server_recv_raw_stream(lo_server s, size_t * size, int *psock)
     FD_ZERO(&ps);
     for (i = (s->sockets_len - 1); i >= 0; --i) {
         FD_SET(s->sockets[i].fd, &ps);
+#ifndef WIN32
         if (s->sockets[i].fd > nfds)
             nfds = s->sockets[i].fd;
-
+#endif
         if ((data = lo_server_buffer_copy_for_dispatch(s, i, size))) {
             *psock = s->sockets[i].fd;
             return data;
@@ -1361,7 +1359,6 @@ void *lo_server_recv_raw_stream(lo_server s, size_t * size, int *psock)
                 sock = accept(sock, (struct sockaddr *) &addr, &addr_len);
 
                 i = lo_server_add_socket(s, sock, 0, &addr, addr_len);
-                init_context(&s->contexts[i]);
 
                 /* after adding a new socket, call select()/poll()
                  * again, since we are supposed to block until a
@@ -1397,7 +1394,7 @@ int lo_server_wait(lo_server s, int timeout)
 
 int lo_servers_wait(lo_server *s, int *status, int num_servers, int timeout)
 {
-    int i, j, sched_timeout;
+    int i, j, k, sched_timeout;
 
     if (!status)
         status = alloca(sizeof(int) * num_servers);
@@ -1421,19 +1418,23 @@ int lo_servers_wait(lo_server *s, int *status, int num_servers, int timeout)
 
   again:
     num_sockets = 0;
-    for (j = 0; j < num_servers; j++) {
+    for (j = 0, k = 0; j < num_servers; j++) {
         for (i = 0; i < s[j]->sockets_len; i++) {
             if (lo_server_buffer_contains_msg(s[j], i)) {
                 status[j] = 1;
+                ++k;
             }
             ++num_sockets;
         }
     }
 
+    // Return immediately if one or more servers already have messages waiting.
+    if (k > 0)
+      return k;
+
     struct pollfd *sockets = alloca(sizeof(struct pollfd) * num_sockets);
 
     sched_timeout = timeout;
-    int k;
     for (j = 0, k = 0; j < num_servers; j++) {
         for (i = 0; i < s[j]->sockets_len; i++) {
             sockets[k].fd = s[j]->sockets[i].fd;
@@ -1453,39 +1454,43 @@ int lo_servers_wait(lo_server *s, int *status, int num_servers, int timeout)
     // If poll() was reporting a new connection on the listening
     // socket rather than a ready message, accept it and check again.
     for (j = 0, k = 0; j < num_servers; j++) {
-        if (sockets[k].revents && sockets[k].revents != POLLERR
-            && sockets[k].revents != POLLHUP) {
-            if (s[j]->protocol == LO_TCP) {
-                int sock = accept(sockets[k].fd, (struct sockaddr *) &addr[j],
-                                  &addr_len);
+        if (sockets[k].revents) {
+            if (sockets[k].revents & (POLLIN | POLLPRI)) {
+                if (s[j]->protocol == LO_TCP) {
+                    int sock = accept(sockets[k].fd, (struct sockaddr *) &addr[j],
+                                      &addr_len);
 
-                i = lo_server_add_socket(s[j], sock, 0, &addr[j], addr_len);
-                if (i < 0)
-                    closesocket(sock);
+                    i = lo_server_add_socket(s[j], sock, 0, &addr[j], addr_len);
+                    if (i < 0)
+                        closesocket(sock);
 
-                init_context(&s[j]->contexts[i]);
+                    lo_timetag_now(&now);
 
-                lo_timetag_now(&now);
+                    double diff = lo_timetag_diff(now, then);
 
-                double diff = lo_timetag_diff(now, then);
+                    timeout -= (int)(diff*1000);
+                    if (timeout < 0)
+                        timeout = 0;
 
-                timeout -= (int)(diff*1000);
-                if (timeout < 0)
-                    timeout = 0;
-
-                goto again;
-            }
-            else {
-                status[j] = 1;
+                    goto again;
+                }
+                else {
+                    status[j] = 1;
+                }
             }
         }
         k += s[j]->sockets_len;
     }
 
-    for (j = 0, k = 1; j < num_servers; j++, k++) {
-        for (i = 1; i < s[j]->sockets_len; i++, k++) {
-            if (sockets[k].revents && sockets[k].revents != POLLERR
-                && sockets[k].revents != POLLHUP)
+    for (j = num_servers - 1, k = num_sockets - 1; j >= 0; j--, k--) {
+        for (i = s[j]->sockets_len - 1; i > 0; i--, k--) {
+            if (!sockets[k].revents)
+                continue;
+            if (sockets[k].revents & (POLLERR | POLLHUP)) {
+                closesocket(sockets[k].fd);
+                lo_server_del_socket(s[j], i, sockets[k].fd);
+            }
+            else
                 status[j] = 1;
         }
     }
@@ -1520,9 +1525,10 @@ int lo_servers_wait(lo_server *s, int *status, int num_servers, int timeout)
     for (j = 0; j < num_servers; j++) {
         for (i = 0; i < s[j]->sockets_len; i++) {
             FD_SET(s[j]->sockets[i].fd, &ps);
+#ifndef WIN32
             if (s[j]->sockets[i].fd > nfds)
                 nfds = s[j]->sockets[i].fd;
-
+#endif
             if (lo_server_buffer_contains_msg(s[j], i)) {
                 status[j] = 1;
             }
@@ -1548,8 +1554,6 @@ int lo_servers_wait(lo_server *s, int *status, int num_servers, int timeout)
                     i = lo_server_add_socket(s[j], sock, 0, &addr, addr_len);
                     if (i < 0)
                         closesocket(sock);
-
-                    init_context(&s[j]->contexts[i]);
 
                     lo_timetag_now(&now);
 
@@ -1660,12 +1664,17 @@ int lo_server_recv(lo_server s)
         poll(s->sockets, s->sockets_len, (int) (sched_time * 1000.0));
 
         for (i = 0; i < s->sockets_len; i++) {
-            if (s->sockets[i].revents == POLLERR
-                || s->sockets[i].revents == POLLHUP)
-                return 0;
-
-            if (s->sockets[i].revents)
-                break;
+            if (!s->sockets[i].revents)
+                continue;
+            if (s->sockets[i].revents & (POLLERR | POLLHUP)) {
+                if (i > 0) {
+                    closesocket(s->sockets[i].fd);
+                    lo_server_del_socket(s, i, s->sockets[i].fd);
+                    continue;
+                } else
+                    return 0;
+            }
+            break;
         }
 
         if (i >= s->sockets_len) {
@@ -1686,9 +1695,10 @@ int lo_server_recv(lo_server s)
         FD_ZERO(&ps);
         for (i = 0; i < s->sockets_len; i++) {
             FD_SET(s->sockets[i].fd, &ps);
+#ifndef WIN32
             if (s->sockets[i].fd > nfds)
                 nfds = s->sockets[i].fd;
-
+#endif
             if (s->protocol == LO_TCP
                 && (data = lo_server_buffer_copy_for_dispatch(s, i, &size)))
             {
@@ -1732,7 +1742,7 @@ int lo_server_recv(lo_server s)
         return -1;
     }
     free(data);
-    return (int)size;
+    return (int) size;
 }
 
 int lo_server_add_socket(lo_server s, int socket, lo_address a,
@@ -1765,13 +1775,14 @@ int lo_server_add_socket(lo_server s, int socket, lo_address a,
         if (!sc)
             return -1;
         s->contexts = (struct socket_context *) sc;
-        memset((char*)sc + s->sockets_alloc*sizeof(*s->contexts),
-               0, s->sockets_alloc*sizeof(*s->contexts));
 
         s->sockets_alloc *= 2;
     }
 
+    /* Initialize new socket and context */
     s->sockets[s->sockets_len].fd = socket;
+    init_context(&s->contexts[s->sockets_len]);
+
     s->sockets_len++;
 
     /* Update socket-indexed array of sources */
@@ -1811,8 +1822,10 @@ void lo_server_del_socket(lo_server s, int index, int socket)
     lo_address_free_mem(&s->sources[s->sockets[index].fd]);
     cleanup_context(&s->contexts[index]);
 
-    for (i = index + 1; i < s->sockets_len; i++)
+    for (i = index + 1; i < s->sockets_len; i++) {
         s->sockets[i - 1] = s->sockets[i];
+        s->contexts[i - 1] = s->contexts[i];
+    }
     s->sockets_len--;
 }
 
@@ -2275,11 +2288,9 @@ int lo_server_del_lo_method(lo_server s, lo_method m)
             } else {
                 prev->next = it->next;
             }
-            next = it->next;
             free((void *) it->path);
             free((void *) it->typespec);
             free(it);
-            it = prev;
             return 0;
         }
         prev = it;
