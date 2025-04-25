@@ -60,6 +60,7 @@
 
 @class Osc;
 @class Sensors;
+@class Controllers;
 
 /// custom dispatcher to grab print events
 @interface PureDataDispatcher : PdDispatcher
@@ -95,6 +96,7 @@
 @property (strong, nonatomic) PureDataDispatcher *dispatcher; ///< message dispatcher
 @property (weak, nonatomic) Osc *osc; ///< pointer to osc instance
 @property (weak, nonatomic) Sensors *sensors; ///< pointer to sensor manager instance
+@property (weak, nonatomic) Controllers *controllers; ///< pointer to controller manager instance
 
 /// enable / disable PD audio processing
 @property (getter=isAudioEnabled, nonatomic) BOOL audioEnabled;
@@ -227,6 +229,11 @@
 
 /// pdparty game controller pause event (no state, iOS 12 and earlier)
 + (void)sendControllerPause:(NSString *)controller;
+
+/// pdparty game controller touchpad event
++ (void)sendController:(NSString *)controller touchpadEvent:(NSString *)eventType
+              forIndex:(int)index finger:(int)finger x:(float)x y:(float)y
+              pressure:(float)pressure;
 
 /// pdparty shake event
 + (void)sendShake;

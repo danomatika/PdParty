@@ -776,6 +776,14 @@ iOS:   menu - [home] - [options] (not all devices have a home or options button)
 SDL:   back -  guide - start (PdParty uses this)
 ~~~
 
+* **\#pdparty controller _name_ color _r_ _g_ _b_**: set the led color for _name_ (if supported)
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _r_, _g_, _b_: color components, float 0-255, ex. red is "255 0 0"
+* **\#pdparty controller _name_ rumble _strength_ _duration_**: enable haptic rumble for _name_ (if supported)
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _strength_: normalized percentage, float 0-1
+  - _duration_: duration in ms, float 0-5000 (5 seconds)
+
 #### OSC
 
 PdParty sends and receives OSC (Open Sound Control) messages internally between the PureData instance and the OSC server:

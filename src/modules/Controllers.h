@@ -16,6 +16,7 @@
 #import <GameController/GameController.h>
 
 @class Osc;
+@class Controller;
 
 /// iOS GameController manager
 @interface Controllers : NSObject
@@ -37,6 +38,10 @@
 /// register any new ones and remove any that are no longer connected
 - (void)updateConnectedControllers;
 
+/// get controller by name, ie. "gc1", "gc2", "gc3", or "gc4"
+/// returns controller on success or nil on failure
+- (Controller *)controllerWithName:(NSString *)name;
+
 /// returns YES if game controller support is available on this device
 + (BOOL)controllersAvailable;
 
@@ -50,5 +55,14 @@
 @property (nonatomic) int index; ///< current device index
 @property (nonatomic) Controllers *parent; ///< parent controllers object
 @property (nonatomic) GCController *controller; ///< base controller object
+
+/// set LED color (if supported by the device)
+/// color range is 0-255
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue;
+
+/// rumble at strength % 0-1 for duration ms
+/// ex. 75% for half a second: rumble(0.75, 500)
+/// rumble at 0% to stop
+- (void)rumbleAtStrength:(float)percent duration:(unsigned int)ms;
 
 @end

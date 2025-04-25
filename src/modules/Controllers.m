@@ -15,7 +15,9 @@
 #import "Util.h"
 #import "Log.h"
 
-//#define DEBUG_CONTROLLERS
+#import "CoreHaptics/CoreHaptics.h"
+
+#define DEBUG_CONTROLLERS
 
 @implementation Controllers
 
@@ -81,6 +83,15 @@
 		LogVerbose(@"Controllers: disconnecting stale controller");
 		[self disconnect:c unset:NO];
 	}
+}
+
+- (Controller *)controllerWithName:(NSString *)name {
+	for(Controller *c in self.controllers) {
+		if([c.name isEqualToString:name]) {
+			return c;
+		}
+	}
+	return nil;
 }
 
 + (BOOL)controllersAvailable {
@@ -197,10 +208,205 @@
 
 @end
 
+#pragma mark -
+
+// touchpad state object for use in NSArray
+@interface ControllerTouchpadState : NSObject {
+@public
+	BOOL pressed;
+	float x;
+	float y;
+}
+@end
+
+@implementation ControllerTouchpadState
+@end
+
+#pragma mark -
+
+// haptics handling adapted from SDL3: src/joystick/apple/SDL_mfijoystick.m
+
+@interface ControllerRumbleMotor : NSObject
+@property(nonatomic, strong) CHHapticEngine *engine API_AVAILABLE(ios(14.0));
+@property(nonatomic, strong) id<CHHapticPatternPlayer> player API_AVAILABLE(ios(14.0));
+@property BOOL active;
+@end
+
+@implementation ControllerRumbleMotor
+
+- (void)dealloc {
+	if(@available(iOS 14.0, *)) {
+		if(self.player) {
+			[self.player cancelAndReturnError:nil];
+			self.player = nil;
+		}
+		if(self.engine) {
+			[self.engine stopWithCompletionHandler:nil];
+			self.engine = nil;
+		}
+	}
+}
+
+- (instancetype)initWithController:(GCController *)controller locality:(GCHapticsLocality)locality API_AVAILABLE(ios(14.0)) {
+	self = [super init];
+	if(self) {
+		self.engine = [controller.haptics createEngineWithLocality:locality];
+		if(self.engine == nil) {
+			LogError(@"Controller: could not create haptics engine");
+			return nil;
+		}
+		NSError *error;
+		[self.engine startAndReturnError:&error];
+		if(error != nil) {
+			LogError(@"Controller: could not start haptics engine");
+			return nil;
+		}
+		__weak ControllerRumbleMotor *weakSelf = self;
+		self.engine.stoppedHandler = ^(CHHapticEngineStoppedReason stoppedReason) {
+			if(weakSelf) {
+				weakSelf.player = nil;
+				weakSelf.engine = nil;
+			}
+		};
+		self.engine.resetHandler = ^{
+			if(weakSelf) {
+				weakSelf.player = nil;
+				[weakSelf.engine startAndReturnError:nil];
+			}
+		};
+	}
+	return self;
+}
+
+// ref: https://developer.apple.com/documentation/corehaptics/playing-a-single-tap-haptic-pattern?language=objc
+- (BOOL)setIntensity:(float)intensity {
+	if(@available(iOS 14.0, *)) {
+		NSError *error = nil;
+		if(self.engine == nil) {
+			LogError(@"Controller: haptics engine was stopped");
+			return NO;
+		}
+		if(intensity == 0.0f) {
+			if(self.player && self.active) {
+				[self.player stopAtTime:0 error:&error];
+			}
+			self.active = NO;
+			return YES;
+		}
+		if(self.player == nil) {
+			NSDictionary *hapticDict = @{
+				CHHapticPatternKeyPattern: @[
+					@{ CHHapticPatternKeyEvent: @{
+						CHHapticPatternKeyTime: @(CHHapticTimeImmediate),
+						CHHapticPatternKeyEventType: CHHapticEventTypeHapticContinuous,
+						CHHapticPatternKeyEventDuration: @(GCHapticDurationInfinite),
+						CHHapticPatternKeyEventParameters: @[
+							@{
+								CHHapticPatternKeyParameterID: CHHapticEventParameterIDHapticIntensity,
+								CHHapticPatternKeyParameterValue: @(1)
+							},
+						],
+					},
+					},
+				],
+			};
+			NSError *error;
+			CHHapticPattern *pattern = [[CHHapticPattern alloc] initWithDictionary:hapticDict error:&error];
+			if(error != nil) {
+				LogError(@"Controller: could not create haptic pattern: %@", error.localizedDescription);
+				return NO;
+			}
+			self.player = [self.engine createPlayerWithPattern:pattern error:&error];
+			if(error != nil) {
+				LogError(@"Controller: could not create haptic player: %@", error.localizedDescription);
+				return NO;
+			}
+			self.active = NO;
+		}
+		CHHapticDynamicParameter *param = [[CHHapticDynamicParameter alloc] initWithParameterID:CHHapticDynamicParameterIDHapticIntensityControl value:intensity relativeTime:0];
+		[self.player sendParameters:@[param] atTime:0 error:&error];
+		if(error != nil) {
+			LogError(@"Controller: could not update haptic player: %@", error.localizedDescription);
+			return NO;
+		}
+		if (!self.active) {
+			[self.player startAtTime:0 error:&error];
+			self.active = YES;
+		}
+	}
+	return YES;
+}
+
+@end
+
+#pragma mark -
+@interface ControllerRumbleContext : NSObject {
+	dispatch_block_t rumbleStop; // current stop block
+}
+@property(nonatomic, strong) ControllerRumbleMotor *lowFrequencyMotor;
+@property(nonatomic, strong) ControllerRumbleMotor *highFrequencyMotor;
+@end
+
+@implementation ControllerRumbleContext
+
++ (instancetype)rumbleContextForController:(GCController *)controller {
+	if (@available(iOS 14.0, *)) {
+		ControllerRumbleMotor *low = [[ControllerRumbleMotor alloc] initWithController:controller locality:GCHapticsLocalityLeftHandle];
+		ControllerRumbleMotor *high = [[ControllerRumbleMotor alloc] initWithController:controller locality:GCHapticsLocalityRightHandle];
+		if(low && high) {
+			return [[ControllerRumbleContext alloc] initWithLowFrequencyMotor:low andHighFrequencyMotor:high];
+		}
+	}
+	return nil;
+}
+
+- (instancetype)initWithLowFrequencyMotor:(ControllerRumbleMotor *)lowfreq
+                    andHighFrequencyMotor:(ControllerRumbleMotor *)highfreq {
+	self = [super init];
+	if(self) {
+		self.lowFrequencyMotor = lowfreq;
+		self.highFrequencyMotor = highfreq;
+	}
+	return self;
+}
+
+// high level rumble
+- (void)rumbleAtStrength:(float)percent duration:(unsigned int)ms {
+	if(@available(iOS 14.0, *)) {
+		if(rumbleStop) {
+			// ref: https://www.mattrajca.com/2016/04/23/canceling-blocks-in-gcd.html
+			dispatch_block_cancel(rumbleStop);
+			rumbleStop = nil;
+		}
+		percent = CLAMP(percent, 0, 1);
+		[self rumbleWithLowFrequency:percent andHighFrequency:percent]; // on
+		rumbleStop = dispatch_block_create(0, ^{
+			[self rumbleWithLowFrequency:0 andHighFrequency:0]; // off
+		});
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, CLAMP(ms / 1000.f, 0, 5000) * NSEC_PER_SEC), dispatch_get_main_queue(), rumbleStop);
+	}
+}
+
+// low level rumble
+- (BOOL)rumbleWithLowFrequency:(float)low andHighFrequency:(float)high {
+	bool result = YES;
+	result &= [self.lowFrequencyMotor setIntensity:low];
+	result &= [self.highFrequencyMotor setIntensity:high];
+	return result;
+}
+
+@end
+
+#pragma mark -
+
 @interface Controller () {
 	NSMutableDictionary *buttonStates;
 	NSMutableDictionary *axisStates;
+	NSMutableArray *touchpadStates;
+	NSObject *hapticEngine;
+	id hapticPlayer;
 }
+@property(nonatomic, strong) ControllerRumbleContext *rumble API_AVAILABLE(ios(14.0));
 @end
 
 @implementation Controller
@@ -363,6 +569,34 @@
 				[weakSelf sendButton:@"rightstick" state:pressed];
 			};
 		}
+		if(@available(iOS 14.5, *)) {
+			if([self.controller.extendedGamepad isKindOfClass:GCDualSenseGamepad.class]) { // PS5 controller
+				if(!self->touchpadStates) {self->touchpadStates = [NSMutableArray arrayWithArray:@[[ControllerTouchpadState new], [ControllerTouchpadState new]]];}
+				GCDualSenseGamepad *dualsense = (GCDualSenseGamepad *)self.controller.extendedGamepad;
+				dualsense.touchpadButton.valueChangedHandler = ^(GCControllerButtonInput * _Nonnull button, float value, BOOL pressed) {
+					[weakSelf sendButton:@"touchpad" state:pressed];
+				};
+				dualsense.touchpadPrimary.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
+					[weakSelf sendTouchpad:0 finger:0 x:xValue y:yValue];
+				};
+				dualsense.touchpadSecondary.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
+					[weakSelf sendTouchpad:0 finger:1 x:xValue y:yValue];
+				};
+			}
+			else if([self.controller.extendedGamepad isKindOfClass:GCDualShockGamepad.class]) { // PS4 controller
+				if(!self->touchpadStates) {self->touchpadStates = [NSMutableArray arrayWithArray:@[[ControllerTouchpadState new], [ControllerTouchpadState new]]];}
+				GCDualShockGamepad *dualshock = (GCDualShockGamepad *)self.controller.extendedGamepad;
+				dualshock.touchpadButton.valueChangedHandler = ^(GCControllerButtonInput * _Nonnull button, float value, BOOL pressed) {
+					[weakSelf sendButton:@"touchpad" state:pressed];
+				};
+				dualshock.touchpadPrimary.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
+					[weakSelf sendTouchpad:0 finger:0 x:xValue y:yValue];
+				};
+				dualshock.touchpadSecondary.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
+					[weakSelf sendTouchpad:0 finger:1 x:xValue y:yValue];
+				};
+			}
+		}
 		LogVerbose(@"Controllers: extended gamepad");
 	}
 	else if(self.controller.microGamepad) {
@@ -372,6 +606,20 @@
 		self.controller.microGamepad.dpad.yAxis.valueChangedHandler = dpadAxisYHandler;
 		self.controller.microGamepad.allowsRotation = YES; // match dpad orientation to device rotation
 		LogVerbose(@"Controllers: micro gamepad");
+	}
+
+	if(@available(iOS 14.0, *)) {
+		if(self.controller.motion) {
+			LogVerbose(@"Controllers: gamepad has motion");
+		}
+		if(self.controller.light) {
+			LogVerbose(@"Controllers: gamepad has light");
+		}
+
+		if(self.controller.haptics) {
+			LogVerbose(@"Controllers: gamepad has haptics");
+			self.rumble = [ControllerRumbleContext rumbleContextForController:self.controller];
+		}
 	}
 }
 
@@ -389,11 +637,57 @@
 - (void)sendAxis:(NSString *)axis value:(double)value {
 	if([self->axisStates[axis] floatValue] != value) {
 		#ifdef DEBUG_CONTROLLERS
-			LogVerbose(@"%@ axis: %@ %f", self.name, axis, value);
+			LogVerbose(@"%@ axis: %@ %g", self.name, axis, value);
 		#endif
 		[PureData sendController:self.name axis:axis value:value];
 		[self.parent.osc sendController:self.name axis:axis value:value];
 		self->axisStates[axis] = [NSNumber numberWithFloat:value];
+	}
+}
+
+// simple dpad event -> SDL-style touchpad event
+// from SDL3 src/joystick/apple/SDL_mfijoystick.m
+- (void)sendTouchpad:(int)touchpad finger:(int)finger x:(float)x y:(float)y {
+	ControllerTouchpadState *state = self->touchpadStates[touchpad];
+	NSString *eventType = @"up";
+	if(x != 0.f || y != 0.f) { // press
+		eventType = (!state->pressed ? @"down" : @"xy");
+		x = (1.0f + x) * 0.5f;
+		y = 1.0f - (1.0f + y) * 0.5f;
+		state->pressed = YES;
+		state->x = x;
+		state->y = y;
+	}
+	else { // release, reuse last position
+		x = state->x;
+		y = state->y;
+		state->pressed = NO;
+	}
+	#ifdef DEBUG_CONTROLLERS
+		LogVerbose(@"%@ touchpad: %@ %d %d %g %g %g", self.name, eventType, touchpad, finger, x, y, 1.0);
+	#endif
+	[PureData sendController:self.name touchpadEvent:eventType forIndex:touchpad finger:finger x:x y:y pressure:1];
+	[self.parent.osc sendController:self.name touchpadEvent:eventType forIndex:touchpad finger:finger x:x y:y pressure:1];
+}
+
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue {
+	if(@available(iOS 14.0, *)) {
+		if(self.controller.light) {
+			#ifdef DEBUG_CONTROLLERS
+				LogVerbose(@"%@ color: %g %g %g", self.name, red, green, blue);
+			#endif
+			self.controller.light.color =
+				[[GCColor alloc] initWithRed:red/255.f green:green/255.f blue:blue/255.f];
+		}
+	}
+}
+
+- (void)rumbleAtStrength:(float)percent duration:(unsigned int)ms {
+		if(@available(iOS 14.0, *)) {
+			#ifdef DEBUG_CONTROLLERS
+				LogDebug(@"%@ rumble: %g %d", self.name, percent, ms);
+			#endif
+			[self.rumble rumbleAtStrength:percent duration:ms];
 	}
 }
 

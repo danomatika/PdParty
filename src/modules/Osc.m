@@ -316,6 +316,16 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
+- (void)sendController:(NSString *)controller touchpadEvent:(NSString *)eventType
+              forIndex:(int)index finger:(int)finger x:(float)x y:(float)y
+              pressure:(float)pressure {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "ssiiifff", [controller UTF8String], "touchpad", [eventType UTF8String], index, finger, x, y, pressure);
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
 - (void)sendControllerPause:(NSString *)controller {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
 	lo_message m = lo_message_new();

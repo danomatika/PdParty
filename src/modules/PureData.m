@@ -301,6 +301,14 @@
 	         toReceiver:PARTY_CONTROLLER_R];
 }
 
++ (void)sendController:(NSString *)controller touchpadEvent:(NSString *)eventType
+              forIndex:(int)index finger:(int)finger x:(float)x y:(float)y
+              pressure:(float)pressure {
+	[PdBase sendMessage:[NSString stringWithString:controller]
+		  withArguments:@[@"touchpad", [NSString stringWithString:eventType], @(index), @(finger), @(x), @(y), @(pressure)]
+			 toReceiver:PARTY_CONTROLLER_R];
+}
+
 + (void)sendShake {
 	[PdBase sendBangToReceiver:PARTY_SHAKE_R];
 }
@@ -543,7 +551,7 @@
 		}
 
 		// motion control
-		if([message isEqualToString:@"motion"]) {
+		else if([message isEqualToString:@"motion"]) {
 			if(arguments.count == 0) {
 				[self.sensors sendMotion];
 			}
@@ -563,7 +571,28 @@
 				}
 			}
 		}
-	
+
+		// game controller control
+		else if([message isEqualToString:@"controller"]) {
+			if(arguments.count == 0 || ![arguments isStringAt:0]) {return;}
+			if([arguments[0] isEqualToString:@"devices"]) {
+				if(arguments.count < 4 || ![arguments isStringAt:1] || ![arguments isStringAt:2]) {return;}
+				Controller *c = [self.controllers controllerWithName:arguments[1]];
+				if(!c) {
+					LogWarn(@"PureData: unknown controller: %@", arguments[1]);
+					return;
+				}
+				if([arguments[2] isEqualToString:@"color"]) {
+					if(arguments.count < 6 || ![arguments isNumberAt:3] || ![arguments isNumberAt:4] || ![arguments isNumberAt:5]) {return;}
+					[c setColorRed:[arguments[3] floatValue] green:[arguments[4] floatValue] blue:[arguments[5] floatValue]];
+				}
+				else if([arguments[2] isEqualToString:@"rumble"]) {
+					if(arguments.count < 5 || ![arguments isNumberAt:3] || ![arguments isNumberAt:4]) {return;}
+					[c rumbleAtStrength:[arguments[3] floatValue] duration:[arguments[4] floatValue]];
+				}
+			}
+		}
+
 		// set the scene name for remote recording
 		else if([message isEqualToString:@"scene"] && arguments.count > 0 && [arguments isStringAt:0]) {
 			sceneName = arguments[0];
@@ -628,7 +657,7 @@
 		}
 
 		// dynamic background
-		if([message isEqualToString:@"background"] && arguments.count > 0) {
+		else if([message isEqualToString:@"background"] && arguments.count > 0) {
 			if([arguments[0] isEqualToString:@"load"] && arguments.count > 1 && [arguments isStringAt:1]) {
 				if(self.backgroundDelegate) {
 					[self.backgroundDelegate loadBackground:arguments[1]];
