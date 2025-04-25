@@ -309,6 +309,26 @@
 			 toReceiver:PARTY_CONTROLLER_R];
 }
 
++ (void)sendControllerQuery:(NSUInteger)count devices:(NSArray *)devices {
+	[PdBase sendMessage:@"query"
+	      withArguments:@[@"count", @(devices.count)]
+	         toReceiver:PARTY_CONTROLLER_R];
+	for(NSArray *device in devices) {
+		if(device.count < 8) {continue;}
+		[PdBase sendMessage:@"query"
+	      withArguments:@[@"device", @"controller",
+			devices[0], // index
+			devices[1], // name
+			devices[2], // buttons
+			devices[3], // axes
+			devices[4], // touchpads
+			devices[5], // sensors
+			devices[6], // rumble
+			devices[7]]  // led
+	         toReceiver:PARTY_CONTROLLER_R];
+	}
+}
+
 + (void)sendShake {
 	[PdBase sendBangToReceiver:PARTY_SHAKE_R];
 }
@@ -590,6 +610,11 @@
 					if(arguments.count < 5 || ![arguments isNumberAt:3] || ![arguments isNumberAt:4]) {return;}
 					[c rumbleAtStrength:[arguments[3] floatValue] duration:[arguments[4] floatValue]];
 				}
+			}
+			else if([arguments[0] isEqualToString:@"query"]) {
+				NSArray *query = [self.controllers query];
+				[PureData sendControllerQuery:query.count devices:query];
+				[self.osc sendControllerQuery:query.count devices:query];
 			}
 		}
 

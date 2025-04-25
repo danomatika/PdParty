@@ -94,6 +94,18 @@
 	return nil;
 }
 
+- (NSArray *)query {
+	NSMutableArray *array = [NSMutableArray array];
+	for(NSUInteger i = 0; i < self.controllers.count; i++) {
+		Controller *controller = self.controllers[i];
+		NSMutableArray *info = [NSMutableArray array];
+		[info addObject:@(i)];
+		[info addObjectsFromArray:[controller query]];
+		[array addObject:info];
+	}
+	return array;
+}
+
 + (BOOL)controllersAvailable {
 	return Util.deviceOSVersion >= 7.0;
 }
@@ -615,7 +627,6 @@
 		if(self.controller.light) {
 			LogVerbose(@"Controllers: gamepad has light");
 		}
-
 		if(self.controller.haptics) {
 			LogVerbose(@"Controllers: gamepad has haptics");
 			self.rumble = [ControllerRumbleContext rumbleContextForController:self.controller];
@@ -683,12 +694,55 @@
 }
 
 - (void)rumbleAtStrength:(float)percent duration:(unsigned int)ms {
-		if(@available(iOS 14.0, *)) {
-			#ifdef DEBUG_CONTROLLERS
-				LogDebug(@"%@ rumble: %g %d", self.name, percent, ms);
-			#endif
-			[self.rumble rumbleAtStrength:percent duration:ms];
+	if(@available(iOS 14.0, *)) {
+		#ifdef DEBUG_CONTROLLERS
+			LogDebug(@"%@ rumble: %g %d", self.name, percent, ms);
+		#endif
+		[self.rumble rumbleAtStrength:percent duration:ms];
 	}
+}
+
+- (NSArray *)query {
+	int buttons = 0;
+	int axes = 0;
+	int touchpads = 0;
+	int sensors = 0;
+	BOOL rumble = NO;
+	BOOL led = NO;
+	if(self.controller.extendedGamepad) {
+		buttons = 13; // 4 buttons, 4 dpad, 2 shoulders, 2 triggers, 1 menu
+		axes = 4; // 2 thumbsticks
+		if(@available(iOS 12.1, *)) { // optional thumbstick buttons
+			if(self.controller.extendedGamepad.leftThumbstickButton) {buttons++;}
+			if(self.controller.extendedGamepad.rightThumbstickButton) {buttons++;}
+		}
+		if(@available(iOS 14.0, *)) { // optional home and options
+			if(self.controller.extendedGamepad.buttonHome) {buttons++;}
+			if(self.controller.extendedGamepad.buttonOptions) {buttons++;}
+		}
+		if(@available(iOS 14.5, *)) { // optional touchpads
+			if([self.controller.extendedGamepad isKindOfClass:GCDualSenseGamepad.class] || // PS5 controller
+			   [self.controller.extendedGamepad isKindOfClass:GCDualSenseGamepad.class]) { // PS4 controller
+				touchpads = 1;
+			}
+		}
+	}
+	else if(self.controller.microGamepad) {
+		buttons = 3; // 2 buttons, 1 menu
+		axes = 2; // analog dpad
+	}
+	if(@available(iOS 14.0, *)) {
+		if(self.controller.motion) {
+			sensors = 1; // TODO
+		}
+		if(self.rumble) {
+			rumble = YES;
+		}
+		if(self.controller.light) {
+			led = YES;
+		}
+	}
+	return @[self.name, @(buttons), @(axes), @(touchpads), @(sensors), @(rumble), @(led)];
 }
 
 @end

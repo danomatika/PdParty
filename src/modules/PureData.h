@@ -235,6 +235,9 @@
               forIndex:(int)index finger:(int)finger x:(float)x y:(float)y
               pressure:(float)pressure;
 
+/// pdparty controller query response: count & device info arrays
++ (void)sendControllerQuery:(NSUInteger)count devices:(NSArray *)devices;
+
 /// pdparty shake event
 + (void)sendShake;
 

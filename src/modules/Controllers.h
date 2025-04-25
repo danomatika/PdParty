@@ -42,6 +42,10 @@
 /// returns controller on success or nil on failure
 - (Controller *)controllerWithName:(NSString *)name;
 
+/// get controller query info:
+/// name buttons axes touchpads sensors rumble led
+- (NSArray *)query;
+
 /// returns YES if game controller support is available on this device
 + (BOOL)controllersAvailable;
 
@@ -64,5 +68,8 @@
 /// ex. 75% for half a second: rumble(0.75, 500)
 /// rumble at 0% to stop
 - (void)rumbleAtStrength:(float)percent duration:(unsigned int)ms;
+
+/// get query info: name buttons axes touchpads sensors rumble led
+- (NSArray *)query;
 
 @end

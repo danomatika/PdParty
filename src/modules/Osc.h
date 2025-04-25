@@ -121,13 +121,16 @@
 /// pdparty game controller axis event
 - (void)sendController:(NSString *)controller axis:(NSString *)axis value:(float)value;
 
+/// pdparty game controller pause event (no state, iOS 12 and earlier)
+- (void)sendControllerPause:(NSString *)controller;
+
 /// pdparty game controller touchpad event
 - (void)sendController:(NSString *)controller touchpadEvent:(NSString *)eventType
               forIndex:(int)index finger:(int)finger x:(float)x y:(float)y
               pressure:(float)pressure;
 
-/// pdparty game controller pause event (no state, iOS 12 and earlier)
-- (void)sendControllerPause:(NSString *)controller;
+/// pdparty controller query response: count & device info arrays
+- (void)sendControllerQuery:(NSUInteger)count devices:(NSArray *)devices;
 
 /// pdparty shake event
 - (void)sendShake;

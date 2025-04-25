@@ -316,6 +316,14 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
+- (void)sendControllerPause:(NSString *)controller {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "ss", [controller UTF8String], "pause");
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
 - (void)sendController:(NSString *)controller touchpadEvent:(NSString *)eventType
               forIndex:(int)index finger:(int)finger x:(float)x y:(float)y
               pressure:(float)pressure {
@@ -326,12 +334,28 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
-- (void)sendControllerPause:(NSString *)controller {
+- (void)sendControllerQuery:(NSUInteger)count devices:(NSArray *)devices {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
 	lo_message m = lo_message_new();
-	lo_message_add(m, "ss", [controller UTF8String], "pause");
+	lo_message_add(m, "ssf", "query", "count", (float)count);
 	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
 	lo_message_free(m);
+	for(NSArray *device in devices) {
+		if(device.count < 8) {continue;}
+		m = lo_message_new();
+		lo_message_add(m, "sssfsffffff", "query", "device", "controller",
+			[device[0] floatValue], // index
+			 device[1], // name
+			[device[2] floatValue], // buttons
+			[device[3] floatValue], // axes
+			[device[4] floatValue], // touchpads
+			[device[5] floatValue], // sensors
+			[device[6] floatValue], // rumble
+			[device[7] floatValue]  // led
+		);
+		lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+		lo_message_free(m);
+	}
 }
 
 - (void)sendShake {
