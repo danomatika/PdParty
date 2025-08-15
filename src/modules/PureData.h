@@ -235,8 +235,18 @@
               forIndex:(int)index finger:(int)finger x:(float)x y:(float)y
               pressure:(float)pressure;
 
-/// pdparty controller query response: count & device info arrays
-+ (void)sendControllerQuery:(NSUInteger)count devices:(NSArray *)devices;
+/// pdparty game controller sensor accel event
++ (void)sendController:(NSString *)controller accel:(float)x y:(float)y z:(float)z;
+
+/// pdparty game controller sensor gyro event
++ (void)sendController:(NSString *)controller gyro:(float)x y:(float)y z:(float)z;
+
+/// pdparty controller query response: connected device count
++ (void)sendControllerQueryCount:(NSUInteger)count;
+
+/// pdparty controller query response: single device info array
+/// index, name, buttons, axes, touchpads, sensors, rumble?, led?
++ (void)sendControllerQuery:(NSArray *)device;
 
 /// pdparty shake event
 + (void)sendShake;

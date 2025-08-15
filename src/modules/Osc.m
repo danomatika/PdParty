@@ -334,28 +334,46 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 	lo_message_free(m);
 }
 
-- (void)sendControllerQuery:(NSUInteger)count devices:(NSArray *)devices {
+- (void)sendController:(NSString *)controller accel:(float)x y:(float)y z:(float)z {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "ssfff", [controller UTF8String], "accel", x, y, z);
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
+- (void)sendController:(NSString *)controller gyro:(float)x y:(float)y z:(float)z {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	lo_message m = lo_message_new();
+	lo_message_add(m, "ssfff", [controller UTF8String], "gyro", x, y, z);
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
+}
+
+- (void)sendControllerQueryCount:(NSUInteger)count {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
 	lo_message m = lo_message_new();
 	lo_message_add(m, "ssf", "query", "count", (float)count);
 	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
 	lo_message_free(m);
-	for(NSArray *device in devices) {
-		if(device.count < 8) {continue;}
-		m = lo_message_new();
-		lo_message_add(m, "sssfsffffff", "query", "device", "controller",
-			[device[0] floatValue], // index
-			 device[1], // name
-			[device[2] floatValue], // buttons
-			[device[3] floatValue], // axes
-			[device[4] floatValue], // touchpads
-			[device[5] floatValue], // sensors
-			[device[6] floatValue], // rumble
-			[device[7] floatValue]  // led
-		);
-		lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
-		lo_message_free(m);
-	}
+}
+
+- (void)sendControllerQuery:(NSArray *)device {
+	if(!self.isListening || !self.controllerSendingEnabled) return;
+	if(device.count < 8) {return;}
+	lo_message m = lo_message_new();
+	lo_message_add(m, "sssfsffffff", "query", "device", "controller",
+		[device[0] floatValue], // index
+		 device[1], // name
+		[device[2] floatValue], // buttons
+		[device[3] floatValue], // axes
+		[device[4] floatValue], // touchpads
+		[device[5] floatValue], // sensors
+		[device[6] floatValue], // rumble
+		[device[7] floatValue]  // led
+	);
+	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
+	lo_message_free(m);
 }
 
 - (void)sendShake {

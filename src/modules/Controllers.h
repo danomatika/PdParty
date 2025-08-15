@@ -38,12 +38,16 @@
 /// register any new ones and remove any that are no longer connected
 - (void)updateConnectedControllers;
 
+/// get controller by index
+/// returns controller on success or nil on failure
+- (Controller *)controllerAtIndex:(NSUInteger)index;
+
 /// get controller by name, ie. "gc1", "gc2", "gc3", or "gc4"
 /// returns controller on success or nil on failure
 - (Controller *)controllerWithName:(NSString *)name;
 
 /// get controller query info:
-/// name buttons axes touchpads sensors rumble led
+/// index, name, buttons, axes, touchpads, sensors, rumble?, led?
 - (NSArray *)query;
 
 /// returns YES if game controller support is available on this device
@@ -59,6 +63,7 @@
 @property (nonatomic) int index; ///< current device index
 @property (nonatomic) Controllers *parent; ///< parent controllers object
 @property (nonatomic) GCController *controller; ///< base controller object
+@property (nonatomic) BOOL sensorsEnabled; ///< enable motion sensors? (if available)
 
 /// set LED color (if supported by the device)
 /// color range is 0-255
@@ -69,7 +74,7 @@
 /// rumble at 0% to stop
 - (void)rumbleAtStrength:(float)percent duration:(unsigned int)ms;
 
-/// get query info: name buttons axes touchpads sensors rumble led
+/// get query info: index, name, buttons, axes, touchpads, sensors, rumble?, led?
 - (NSArray *)query;
 
 @end

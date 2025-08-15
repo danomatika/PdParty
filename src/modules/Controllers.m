@@ -17,6 +17,9 @@
 
 #import "CoreHaptics/CoreHaptics.h"
 
+// borrowed from SDL: SDL_STANDARD_GRAVITY
+#define CONTROLLER_STANDARD_GRAVITY 9.80665f
+
 #define DEBUG_CONTROLLERS
 
 @implementation Controllers
@@ -85,6 +88,11 @@
 	}
 }
 
+- (Controller *)controllerAtIndex:(NSUInteger)index {
+	if(index < 0 || index >= self.controllers.count) {return nil;}
+	return self.controllers[index];
+}
+
 - (Controller *)controllerWithName:(NSString *)name {
 	for(Controller *c in self.controllers) {
 		if([c.name isEqualToString:name]) {
@@ -98,10 +106,7 @@
 	NSMutableArray *array = [NSMutableArray array];
 	for(NSUInteger i = 0; i < self.controllers.count; i++) {
 		Controller *controller = self.controllers[i];
-		NSMutableArray *info = [NSMutableArray array];
-		[info addObject:@(i)];
-		[info addObjectsFromArray:[controller query]];
-		[array addObject:info];
+		[array addObject:[controller query]];
 	}
 	return array;
 }
@@ -433,6 +438,10 @@
 	return self;
 }
 
+- (void)dealloc {
+	self.sensorsEnabled = NO;
+}
+
 - (void)setIndex:(int)index {
 	_index = index;
 	_name = [NSString stringWithFormat:@"gc%d", index+1];
@@ -622,13 +631,24 @@
 
 	if(@available(iOS 14.0, *)) {
 		if(self.controller.motion) {
-			LogVerbose(@"Controllers: gamepad has motion");
+			LogVerbose(@"Controllers: gamepad has sensors");
+			// match SDL orientation
+			self.controller.motion.valueChangedHandler = ^(GCMotion * _Nonnull motion) {
+				[weakSelf sendAccel:motion.acceleration.x * CONTROLLER_STANDARD_GRAVITY
+				                  y:motion.acceleration.y * CONTROLLER_STANDARD_GRAVITY
+				                  z:-motion.acceleration.z * CONTROLLER_STANDARD_GRAVITY];
+				if(motion.hasRotationRate) { // gyro
+					[weakSelf sendGyro:motion.rotationRate.x
+					                 y:motion.rotationRate.z
+					                 z:-motion.rotationRate.y];
+				}
+			};
 		}
 		if(self.controller.light) {
-			LogVerbose(@"Controllers: gamepad has light");
+			LogVerbose(@"Controllers: gamepad has led");
 		}
 		if(self.controller.haptics) {
-			LogVerbose(@"Controllers: gamepad has haptics");
+			LogVerbose(@"Controllers: gamepad has rumble");
 			self.rumble = [ControllerRumbleContext rumbleContextForController:self.controller];
 		}
 	}
@@ -702,6 +722,22 @@
 	}
 }
 
+- (void)sendAccel:(float)x y:(float)y z:(float)z {
+	#ifdef DEBUG_CONTROLLERS
+		LogDebug(@"%@ accel: %g %g %g", self.name, x, y, z);
+	#endif
+	[self.parent.osc sendController:self.name accel:x y:y z:z];
+	[PureData sendController:self.name accel:x y:y z:z];
+}
+
+- (void)sendGyro:(float)x y:(float)y z:(float)z {
+	#ifdef DEBUG_CONTROLLERS
+		LogDebug(@"%@ gyro: %g %g %g", self.name, x, y, z);
+	#endif
+	[self.parent.osc sendController:self.name gyro:x y:y z:z];
+	[PureData sendController:self.name gyro:x y:y z:z];
+}
+
 - (NSArray *)query {
 	int buttons = 0;
 	int axes = 0;
@@ -733,7 +769,8 @@
 	}
 	if(@available(iOS 14.0, *)) {
 		if(self.controller.motion) {
-			sensors = 1; // TODO
+			if(self.controller.motion.hasRotationRate) {sensors++;} // gyro
+			if(self.controller.motion.hasGravityAndUserAcceleration) {sensors++;} // accel
 		}
 		if(self.rumble) {
 			rumble = YES;
@@ -742,7 +779,26 @@
 			led = YES;
 		}
 	}
-	return @[self.name, @(buttons), @(axes), @(touchpads), @(sensors), @(rumble), @(led)];
+	return @[@(self.index), self.name, @(buttons), @(axes), @(touchpads), @(sensors), @(rumble), @(led)];
+}
+
+#pragma mark Overridden Getters/Setters
+
+- (BOOL)sensorsEnabled {
+	if(@available(iOS 14.0, *)) {
+		if(self.controller.motion) {
+			return self.controller.motion.sensorsActive;
+		}
+	}
+	return NO;
+}
+
+- (void)setSensorsEnabled:(BOOL)sensorsEnabled {
+	if(@available(iOS 14.0, *)) {
+		if(self.controller.motion) {
+			self.controller.motion.sensorsActive = sensorsEnabled;
+		}
+	}
 }
 
 @end

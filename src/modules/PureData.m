@@ -309,24 +309,37 @@
 			 toReceiver:PARTY_CONTROLLER_R];
 }
 
-+ (void)sendControllerQuery:(NSUInteger)count devices:(NSArray *)devices {
++ (void)sendController:(NSString *)controller accel:(float)x y:(float)y z:(float)z {
+	[PdBase sendMessage:[NSString stringWithString:controller]
+		  withArguments:@[@"accel", @(x), @(y), @(z)]
+			 toReceiver:PARTY_CONTROLLER_R];
+}
+
++ (void)sendController:(NSString *)controller gyro:(float)x y:(float)y z:(float)z {
+	[PdBase sendMessage:[NSString stringWithString:controller]
+		  withArguments:@[@"gyro", @(x), @(y), @(z)]
+			 toReceiver:PARTY_CONTROLLER_R];
+}
+
++ (void)sendControllerQueryCount:(NSUInteger)count {
 	[PdBase sendMessage:@"query"
-	      withArguments:@[@"count", @(devices.count)]
+	      withArguments:@[@"count", @(count)]
 	         toReceiver:PARTY_CONTROLLER_R];
-	for(NSArray *device in devices) {
-		if(device.count < 8) {continue;}
-		[PdBase sendMessage:@"query"
-	      withArguments:@[@"device", @"controller",
-			devices[0], // index
-			devices[1], // name
-			devices[2], // buttons
-			devices[3], // axes
-			devices[4], // touchpads
-			devices[5], // sensors
-			devices[6], // rumble
-			devices[7]]  // led
-	         toReceiver:PARTY_CONTROLLER_R];
-	}
+}
+
++ (void)sendControllerQuery:(NSArray *)device {
+	if(device.count < 8) {return;}
+	[PdBase sendMessage:@"query"
+	  withArguments:@[@"device", @"controller",
+		device[0], // index
+		device[1], // name
+		device[2], // buttons
+		device[3], // axes
+		device[4], // touchpads
+		device[5], // sensors
+		device[6], // rumble?
+		device[7]] // led?
+		 toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendShake {
@@ -610,11 +623,39 @@
 					if(arguments.count < 5 || ![arguments isNumberAt:3] || ![arguments isNumberAt:4]) {return;}
 					[c rumbleAtStrength:[arguments[3] floatValue] duration:[arguments[4] floatValue]];
 				}
+				else if([arguments[2] isEqualToString:@"sensors"]) {
+					if(arguments.count < 4 || ![arguments isNumberAt:3]) {return;}
+					c.sensorsEnabled = [arguments[3] boolValue];
+				}
 			}
 			else if([arguments[0] isEqualToString:@"query"]) {
-				NSArray *query = [self.controllers query];
-				[PureData sendControllerQuery:query.count devices:query];
-				[self.osc sendControllerQuery:query.count devices:query];
+				if(arguments.count < 2) { // all devices
+					NSArray *query = [self.controllers query];
+					for(NSArray *device in query) {
+						[PureData sendControllerQuery:device];
+						[self.osc sendControllerQuery:device];
+					}
+				}
+				else if([arguments isStringAt:1] && [arguments[1] isEqualToString:@"count"]) { // send count
+					[PureData sendControllerQueryCount:self.controllers.controllers.count];
+					[self.osc sendControllerQueryCount:self.controllers.controllers.count];
+				}
+				else {
+					Controller *c = nil;
+					if([arguments isNumberAt:1]) { // index query
+						c = [self.controllers controllerAtIndex:[arguments[1] integerValue]];
+					}
+					else if([arguments isStringAt:1]) { // name query
+						c = [self.controllers controllerWithName:arguments[1]];
+					}
+					if(!c) {
+						LogWarn(@"PureData: unknown controller: %@", arguments[1]);
+						return;
+					}
+					NSArray *device = [c query];
+					[PureData sendControllerQuery:device];
+					[self.osc sendControllerQuery:device];
+				}
 			}
 		}
 

@@ -604,7 +604,7 @@ Sensor orientation is relative to the device in portrait:
 * y axis: -bottom / +right
 * z axis: -back / +front
 
-...except for RjDj scenes where the accelerometer is rotated to match the interface orientation. As of PdParty 1.3.0, acceleromtation rotation is no longer the default for all scene types. Re-enable this behavior by sending `#pdparty accelerate orientation 1`.
+...except for RjDj scenes where the accelerometer is rotated to match the interface orientation. As of PdParty 1.3.0, accelerometer rotation is no longer the default for all scene types. Re-enable this behavior by sending `#pdparty accelerate orientation 1`.
 
 ##### Motion
 
@@ -750,6 +750,12 @@ Controller events can be read via the [r \#controller] receiver with the followi
   - _value_: -1 to 1 with 0 centered
 * **[r \#controller] _name_ pause**: original stateless pause event (iOS 12.0 and earlier, sent as "back" button on iOS 13.0+)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+* **[r \#controller] _name_ accel _x_ _y_ _z_**: accelerometer event on supported devices (controller sensors must be enabled)
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _x_, _y_, _z_: 3 axis accelerometer values in m/s^2 (note: different from \#accelerate which uses Gs)
+* **[r \#controller] _name_ gyro _x_ _y_ _z_**: gyro event on supported devices (controller sensors must be enabled)
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _x_, _y_, _z_: 3 axis gyroscope rotation rate in radians/s
 * **[r \#controller] connect _name_**: connect event
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 * **[r \#controller] disconnect _name_**: disconnect event
@@ -776,6 +782,10 @@ iOS:   menu - [home] - [options] (not all devices have a home or options button)
 SDL:   back -  guide - start (PdParty uses this)
 ~~~
 
+##### Color, Rumble, and Sensors
+
+On iOS 14.0+, gamepads such as Playstation 4 (DualShock 4) or Playstation 5 (DualSense) controllers may support setting the LED color, haptic rumble events, and/or sensor (accelerometer and gyro) events. These capabilities are accessed by sending control messages \#pdparty:
+
 * **\#pdparty controller _name_ color _r_ _g_ _b_**: set the led color for _name_ (if supported)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
   - _r_, _g_, _b_: color components, float 0-255, ex. red is "255 0 0"
@@ -783,6 +793,44 @@ SDL:   back -  guide - start (PdParty uses this)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
   - _strength_: normalized percentage, float 0-1
   - _duration_: duration in ms, float 0-5000 (5 seconds)
+* **\#pdparty controller _name_ sensors _value_**: enable accel/gyro sensor events
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _value_: boolean to start/stop sensor updates, if supported by device
+
+_The message format is designed for compatibility with [joyosc](https://github.com/danomatika/joyosc)._
+
+##### Device Queries
+
+To query the currently connected controllers, the following control messages can be sent to \#pdparty:
+
+* **\#pdparty controller query count**: query connected device count
+* **\#pdparty controller query**: query all connected devices
+* **\#pdparty controller query _index_**: query device by index
+  - _index_: game controller index, float 0-3
+* **\#pdparty controller query _name_**: query device by name
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+
+In response, PdParty will send connected device info messages to [r \#controller]:
+
+* **[r \#controller] query count _value_**:
+  - _value_: current connected device count
+* **[r \#controller] query device controller _index_ _name_ _buttons_ _axes_ _touchpads_ _sensors_ _rumble_ _led_**:
+  - _index_:  game controller index, float 0-3
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _buttons_, _axes_, _touchpads_: float, number of each type of input
+  - _sensors_: float, number of sensors (available)
+  - _rumble_: bool, 1 if rumble available
+  - _led_: bool, 1 if controller has a color LED
+
+For example, the output from querying the count and a single connected Playstation 5 controller:
+~~~
+query count 1
+query device controller 0 gc1 17 4 1 1 1 1
+~~~
+
+The controller has 17 buttons, 4 axes, 1 touchpad, sensors, a color LED, can rumble.
+
+_The message format is designed for compatibility with [joyosc](https://github.com/danomatika/joyosc)._
 
 #### OSC
 
