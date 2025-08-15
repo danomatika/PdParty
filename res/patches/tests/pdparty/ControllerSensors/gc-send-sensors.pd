@@ -1,4 +1,4 @@
-#N canvas 633 216 439 217 10;
+#N canvas 633 216 716 219 10;
 #X obj 48 22 inlet;
 #X obj 93 82 outlet;
 #X obj 48 113 route accel gyro;
@@ -11,6 +11,11 @@
 #X obj 203 113 pack s f;
 #X obj 203 82 symbol \$2;
 #X msg 203 141 controller devices \$1 sensors \$2;
+#X obj 419 22 r \$1-\$2-norm;
+#X msg 419 141 controller devices \$1 sensors normalize \$2;
+#X obj 419 52 t b f;
+#X obj 419 113 pack s f;
+#X obj 419 82 symbol \$2;
 #X connect 0 0 3 0;
 #X connect 2 0 4 0;
 #X connect 2 1 5 0;
@@ -22,3 +27,9 @@
 #X connect 9 0 11 0;
 #X connect 10 0 9 0;
 #X connect 11 0 7 0;
+#X connect 12 0 14 0;
+#X connect 13 0 7 0;
+#X connect 14 0 16 0;
+#X connect 14 1 15 1;
+#X connect 15 0 13 0;
+#X connect 16 0 15 0;

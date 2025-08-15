@@ -624,8 +624,14 @@
 					[c rumbleAtStrength:[arguments[3] floatValue] duration:[arguments[4] floatValue]];
 				}
 				else if([arguments[2] isEqualToString:@"sensors"]) {
-					if(arguments.count < 4 || ![arguments isNumberAt:3]) {return;}
-					c.sensorsEnabled = [arguments[3] boolValue];
+					if(arguments.count < 4) {return;}
+					if([arguments isNumberAt:3]) {
+						c.sensorsEnabled = [arguments[3] boolValue];
+					}
+					else if([arguments isStringAt:3] && [arguments[3] isEqualToString:@"normalize"]) {
+						if(arguments.count < 5 || ![arguments isNumberAt:4]) {return;}
+						c.normalizeSensors = [arguments[4] boolValue];
+					}
 				}
 			}
 			else if([arguments[0] isEqualToString:@"query"]) {

@@ -634,13 +634,25 @@
 			LogVerbose(@"Controllers: gamepad has sensors");
 			// match SDL orientation
 			self.controller.motion.valueChangedHandler = ^(GCMotion * _Nonnull motion) {
-				[weakSelf sendAccel:motion.acceleration.x * CONTROLLER_STANDARD_GRAVITY
-				                  y:motion.acceleration.y * CONTROLLER_STANDARD_GRAVITY
-				                  z:-motion.acceleration.z * CONTROLLER_STANDARD_GRAVITY];
-				if(motion.hasRotationRate) { // gyro
-					[weakSelf sendGyro:motion.rotationRate.x
-					                 y:motion.rotationRate.z
-					                 z:-motion.rotationRate.y];
+				if(weakSelf.normalizeSensors) {
+					[weakSelf sendAccel:motion.acceleration.x
+									  y:motion.acceleration.y
+									  z:-motion.acceleration.z];
+					if(motion.hasRotationRate) {
+						[weakSelf sendGyro:motion.rotationRate.x / M_2_PI
+										 y:motion.rotationRate.z / M_2_PI
+										 z:-motion.rotationRate.y / M_2_PI];
+					}
+				}
+				else {
+					[weakSelf sendAccel:motion.acceleration.x * CONTROLLER_STANDARD_GRAVITY
+									  y:motion.acceleration.y * CONTROLLER_STANDARD_GRAVITY
+									  z:-motion.acceleration.z * CONTROLLER_STANDARD_GRAVITY];
+					if(motion.hasRotationRate) {
+						[weakSelf sendGyro:motion.rotationRate.x
+										 y:motion.rotationRate.z
+										 z:-motion.rotationRate.y];
+					}
 				}
 			};
 		}

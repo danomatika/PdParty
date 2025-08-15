@@ -64,6 +64,7 @@
 @property (nonatomic) Controllers *parent; ///< parent controllers object
 @property (nonatomic) GCController *controller; ///< base controller object
 @property (nonatomic) BOOL sensorsEnabled; ///< enable motion sensors? (if available)
+@property (nonatomic) BOOL normalizeSensors; ///< normalize sensor values?
 
 /// set LED color (if supported by the device)
 /// color range is 0-255
