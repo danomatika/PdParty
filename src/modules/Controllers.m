@@ -634,25 +634,13 @@
 			LogVerbose(@"Controllers: gamepad has sensors");
 			// match SDL orientation
 			self.controller.motion.valueChangedHandler = ^(GCMotion * _Nonnull motion) {
-				if(weakSelf.normalizeSensors) {
-					[weakSelf sendAccel:motion.acceleration.x
-									  y:motion.acceleration.y
-									  z:-motion.acceleration.z];
-					if(motion.hasRotationRate) {
-						[weakSelf sendGyro:motion.rotationRate.x / M_2_PI
-										 y:motion.rotationRate.z / M_2_PI
-										 z:-motion.rotationRate.y / M_2_PI];
-					}
-				}
-				else {
-					[weakSelf sendAccel:motion.acceleration.x * CONTROLLER_STANDARD_GRAVITY
-									  y:motion.acceleration.y * CONTROLLER_STANDARD_GRAVITY
-									  z:-motion.acceleration.z * CONTROLLER_STANDARD_GRAVITY];
-					if(motion.hasRotationRate) {
-						[weakSelf sendGyro:motion.rotationRate.x
-										 y:motion.rotationRate.z
-										 z:-motion.rotationRate.y];
-					}
+				[weakSelf sendAccel:motion.acceleration.x
+								  y:motion.acceleration.y
+								  z:-motion.acceleration.z];
+				if(motion.hasRotationRate) {
+					[weakSelf sendGyro:motion.rotationRate.x
+									 y:motion.rotationRate.z
+									 z:-motion.rotationRate.y];
 				}
 			};
 		}
@@ -735,6 +723,11 @@
 }
 
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
+	if(!self.normalizeSensors) {
+		x *= CONTROLLER_STANDARD_GRAVITY;
+		y *= CONTROLLER_STANDARD_GRAVITY;
+		z *= CONTROLLER_STANDARD_GRAVITY;
+	}
 	#ifdef DEBUG_CONTROLLERS
 		LogDebug(@"%@ accel: %g %g %g", self.name, x, y, z);
 	#endif
@@ -743,6 +736,11 @@
 }
 
 - (void)sendGyro:(float)x y:(float)y z:(float)z {
+	if(self.normalizeSensors) {
+		x /=  M_2_PI;
+		y /=  M_2_PI;
+		z /=  M_2_PI;
+	}
 	#ifdef DEBUG_CONTROLLERS
 		LogDebug(@"%@ gyro: %g %g %g", self.name, x, y, z);
 	#endif
