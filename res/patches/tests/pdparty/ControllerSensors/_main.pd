@@ -23,9 +23,5 @@
 #X listbox 14 253 32 0 0 0 - \$0-gc2-gyro - 0;
 #X listbox 14 339 32 0 0 0 - \$0-gc3-gyro - 0;
 #X listbox 14 424 32 0 0 0 - \$0-gc4-gyro - 0;
-#X text 10 75 controller devices NAME sensors 0/1;
-#X text 12 43 Turn on by sending to #pdparty:;
-#X obj 74 120 tgl 25 0 \$0-gc1-norm empty normalize 28 11 0 12 #fcfcfc #000000 #000000 0 1;
-#X obj 74 204 tgl 25 0 \$0-gc2-norm empty normalize 28 11 0 12 #fcfcfc #000000 #000000 0 1;
-#X obj 74 290 tgl 25 0 \$0-gc2-norm empty normalize 28 11 0 12 #fcfcfc #000000 #000000 0 1;
-#X obj 74 375 tgl 25 0 \$0-gc2-norm empty normalize 28 11 0 12 #fcfcfc #000000 #000000 0 1;
+#X text 12 42 Connect controller \, then turn on by sending to #pdparty:, f 31;
+#X text 12 80 controller devices NAME sensors 1;

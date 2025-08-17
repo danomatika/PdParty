@@ -17,8 +17,8 @@
 
 #import "CoreHaptics/CoreHaptics.h"
 
-// borrowed from SDL: SDL_STANDARD_GRAVITY
-#define CONTROLLER_STANDARD_GRAVITY 9.80665f
+// borrowed from SDL
+#define SDL_STANDARD_GRAVITY 9.80665f
 
 //#define DEBUG_CONTROLLERS
 
@@ -632,15 +632,27 @@
 	if(@available(iOS 14.0, *)) {
 		if(self.controller.motion) {
 			LogVerbose(@"Controllers: gamepad has sensors");
-			// match SDL orientation
 			self.controller.motion.valueChangedHandler = ^(GCMotion * _Nonnull motion) {
-				[weakSelf sendAccel:motion.acceleration.x
-								  y:motion.acceleration.y
-								  z:-motion.acceleration.z];
-				if(motion.hasRotationRate) {
-					[weakSelf sendGyro:motion.rotationRate.x
-									 y:motion.rotationRate.z
-									 z:-motion.rotationRate.y];
+				if(weakSelf.nativeSensors) {
+					[weakSelf sendAccel:motion.acceleration.x
+					                  y:motion.acceleration.y
+					                  z:motion.acceleration.z];
+					if(motion.hasRotationRate) {
+						[weakSelf sendGyro:motion.rotationRate.x
+						                 y:motion.rotationRate.y
+						                 z:motion.rotationRate.z];
+					}
+				}
+				else { // match SDL values and orientation
+					[weakSelf sendAccel:-motion.acceleration.x * SDL_STANDARD_GRAVITY
+					                  y:-motion.acceleration.y * SDL_STANDARD_GRAVITY
+					                  z:-motion.acceleration.z * SDL_STANDARD_GRAVITY];
+					if(motion.hasRotationRate) {
+						[weakSelf sendGyro:motion.rotationRate.x
+						                 y:motion.rotationRate.z
+						                 z:-motion.rotationRate.y];
+					}
+
 				}
 			};
 		}
@@ -723,11 +735,6 @@
 }
 
 - (void)sendAccel:(float)x y:(float)y z:(float)z {
-	if(!self.normalizeSensors) {
-		x *= CONTROLLER_STANDARD_GRAVITY;
-		y *= CONTROLLER_STANDARD_GRAVITY;
-		z *= CONTROLLER_STANDARD_GRAVITY;
-	}
 	#ifdef DEBUG_CONTROLLERS
 		LogDebug(@"%@ accel: %g %g %g", self.name, x, y, z);
 	#endif
@@ -736,11 +743,6 @@
 }
 
 - (void)sendGyro:(float)x y:(float)y z:(float)z {
-	if(self.normalizeSensors) {
-		x /=  M_2_PI;
-		y /=  M_2_PI;
-		z /=  M_2_PI;
-	}
 	#ifdef DEBUG_CONTROLLERS
 		LogDebug(@"%@ gyro: %g %g %g", self.name, x, y, z);
 	#endif

@@ -752,10 +752,10 @@ Controller events can be read via the [r \#controller] receiver with the followi
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 * **[r \#controller] _name_ sensor accel _x_ _y_ _z_**: accelerometer event on supported devices (controller sensors must be enabled)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-  - _x_, _y_, _z_: 3 axis accelerometer values in m/s^2 or Gs when normalized (note: default is different from \#accelerate which uses Gs)
+  - _x_, _y_, _z_: 3 axis accelerometer values in m/s^2
 * **[r \#controller] _name_ sensor gyro _x_ _y_ _z_**: gyro event on supported devices (controller sensors must be enabled)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-  - _x_, _y_, _z_: 3 axis gyroscope rotation rate in radians/s or circles when normalized
+  - _x_, _y_, _z_: 3 axis gyroscope rotation rate in radians/s
 * **[r \#controller] connect _name_**: connect event
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
 * **[r \#controller] disconnect _name_**: disconnect event
@@ -796,11 +796,22 @@ On iOS 14.0+, gamepads such as Playstation 4 (DualShock 4) or Playstation 5 (Dua
 * **\#pdparty controller _name_ sensors _value_**: enable accel/gyro sensor events
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
   - _value_: boolean to start/stop sensor updates, if supported by device
-* **\#pdparty controller _name_ sensors normalize _value_**: normalize sensors
-  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-  - _value_: boolean to enable/disable sensor normalization
 
 _The message format is designed for compatibility with [joyosc](https://github.com/danomatika/joyosc)._
+
+Controller accel and gyro event values and orientation are adjusted to match those of SDL by default:
+* accel: values in m/s^2
+* orientation: user holding controller, viewer's perspective -> "backwards"
+while iOS uses:
+* accel: values in Gs
+* orientation: user holding controller, user's perspective
+See the [SDL docs](https://wiki.libsdl.org/SDL2/SDL_SensorType#remarks) for details.
+
+To receive native iOS values and orientation, send a control message to \#pdparty:
+
+* **\#pdparty controller _name_ sensors native _value_**: use native iOS sensor values and orientation to match SDL
+  - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
+  - _value_: boolean to enable/disable native sensor values
 
 ##### Device Queries
 
