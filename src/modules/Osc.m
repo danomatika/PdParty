@@ -337,7 +337,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 - (void)sendController:(NSString *)controller accel:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
 	lo_message m = lo_message_new();
-	lo_message_add(m, "ssfff", [controller UTF8String], "accel", x, y, z);
+	lo_message_add(m, "sssfff", [controller UTF8String], "sensor", "accel", x, y, z);
 	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
 	lo_message_free(m);
 }
@@ -345,7 +345,7 @@ int messageCB(const char *path, const char *types, lo_arg **argv,
 - (void)sendController:(NSString *)controller gyro:(float)x y:(float)y z:(float)z {
 	if(!self.isListening || !self.controllerSendingEnabled) return;
 	lo_message m = lo_message_new();
-	lo_message_add(m, "ssfff", [controller UTF8String], "gyro", x, y, z);
+	lo_message_add(m, "sssfff", [controller UTF8String], "sensor", "gyro", x, y, z);
 	lo_send_message(sendAddress, [OSC_CONTROLLER_ADDR UTF8String], m);
 	lo_message_free(m);
 }

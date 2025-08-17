@@ -311,13 +311,13 @@
 
 + (void)sendController:(NSString *)controller accel:(float)x y:(float)y z:(float)z {
 	[PdBase sendMessage:[NSString stringWithString:controller]
-		  withArguments:@[@"accel", @(x), @(y), @(z)]
+		  withArguments:@[@"sensor", @"accel", @(x), @(y), @(z)]
 			 toReceiver:PARTY_CONTROLLER_R];
 }
 
 + (void)sendController:(NSString *)controller gyro:(float)x y:(float)y z:(float)z {
 	[PdBase sendMessage:[NSString stringWithString:controller]
-		  withArguments:@[@"gyro", @(x), @(y), @(z)]
+		  withArguments:@[@"sensor", @"gyro", @(x), @(y), @(z)]
 			 toReceiver:PARTY_CONTROLLER_R];
 }
 

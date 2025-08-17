@@ -750,10 +750,10 @@ Controller events can be read via the [r \#controller] receiver with the followi
   - _value_: -1 to 1 with 0 centered
 * **[r \#controller] _name_ pause**: original stateless pause event (iOS 12.0 and earlier, sent as "back" button on iOS 13.0+)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
-* **[r \#controller] _name_ accel _x_ _y_ _z_**: accelerometer event on supported devices (controller sensors must be enabled)
+* **[r \#controller] _name_ sensor accel _x_ _y_ _z_**: accelerometer event on supported devices (controller sensors must be enabled)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
   - _x_, _y_, _z_: 3 axis accelerometer values in m/s^2 or Gs when normalized (note: default is different from \#accelerate which uses Gs)
-* **[r \#controller] _name_ gyro _x_ _y_ _z_**: gyro event on supported devices (controller sensors must be enabled)
+* **[r \#controller] _name_ sensor gyro _x_ _y_ _z_**: gyro event on supported devices (controller sensors must be enabled)
   - _name_: game controller name, symbol "gc1", "gc1", "gc2", or "gc3"
   - _x_, _y_, _z_: 3 axis gyroscope rotation rate in radians/s or circles when normalized
 * **[r \#controller] connect _name_**: connect event
