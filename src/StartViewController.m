@@ -84,21 +84,28 @@
 	
 		// check if wifi is on/reachable
 		if(![WebServer isLocalWifiReachable]) {
-			NSString *message = @"You need a Wifi connection in order to enable the server.";
-			[[UIAlertController alertControllerWithTitle:@"Wifi?"
-			                                     message:message
-			                           cancelButtonTitle:@"Ok"] show];
-			self.serverEnabledSwitch.on = NO; // reset switch
+			NSString *message = @"Wifi connection not found.\n\nServer will not be reachable unless device is plugged into computer.";
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wifi?"
+			                                                               message:message
+			                                                     cancelButtonTitle:nil];
+			UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                                   style:UIAlertActionStyleCancel
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+				self.serverEnabledSwitch.on = NO; // reset switch
+			}];
+			UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"Start Anyway"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * _Nonnull action) {
+				[self startServer];
+			}];
+			[alert addAction:cancelAction];
+			[alert addAction:doneAction];
+			[alert show];
 			return;
 		}
-	
+
 		// wifi is good, start server
-		if(![self.server start]) {
-			return;
-		}
-		self.serverPortLabel.enabled = NO;
-		self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
-		self.serverPortTextField.enabled = NO;
+		[self startServer];
 	}
 	else {
 		[self.server stop];
@@ -147,9 +154,15 @@
 	switch(section) {
 		case 1:
 			if(self.server.isRunning) {
-				if(self.server.bonjourUrl) {
+				NSString *hostNameUrl = self.server.hostNameUrl;
+				NSString *bonjourUrl = self.server.bonjourUrl;
+				if(hostNameUrl) {
 					return [NSString stringWithFormat:@"Connect to %@\nor %@",
-						self.server.hostUrl, self.server.bonjourUrl];
+						self.server.hostUrl, hostNameUrl];
+				}
+				else if(bonjourUrl) {
+					return [NSString stringWithFormat:@"Connect to %@\nor %@",
+						self.server.hostUrl, bonjourUrl];
 				}
 				else {
 					return [NSString stringWithFormat:@"Connect to %@",
@@ -183,6 +196,17 @@
 
 - (void)webServerDidStop {
 	[self updateServerInfo];
+}
+
+#pragma mark Private
+
+- (void)startServer {
+	if(![self.server start]) {
+		return;
+	}
+	self.serverPortLabel.enabled = NO;
+	self.serverPortTextField.text = [NSString stringWithFormat:@"%d", self.server.port];
+	self.serverPortTextField.enabled = NO;
 }
 
 @end

@@ -24,7 +24,8 @@
 
 @property (assign, nonatomic) int port; ///< change only takes effect on server restart
 @property (weak, readonly, nonatomic) NSString *hostUrl; ///< host url, nil if server not running
-@property (weak, readonly, nonatomic) NSString *bonjourUrl; ///< Bonjour host url, nil if server not running
+@property (weak, readonly, nonatomic) NSString *hostNameUrl; ///< resolved host name url, nil if none or server not running
+@property (weak, readonly, nonatomic) NSString *bonjourUrl; ///< Bonjour host url, nil if none or server not running
 @property (assign, readonly, getter=isRunning, nonatomic) BOOL running;
 
 /// called when server starts or stops

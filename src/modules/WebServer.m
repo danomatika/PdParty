@@ -13,6 +13,7 @@
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 #include <net/if.h>
+#include <netdb.h>
 
 #import "Reachability.h"
 
@@ -108,6 +109,20 @@
 		return [url substringToIndex:url.length-1];
 	}
 	return url;
+}
+
+- (NSString *)hostNameUrl {
+	NSURL *url = server.serverURL;
+	if(server.publicServerURL) {
+		url = server.publicServerURL;
+	}
+	if(url) {
+		NSString *hostname = [self getHostname:url.host];
+		NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+		components.host = hostname;
+		return components.URL.absoluteString;
+	}
+	return nil;
 }
 
 - (NSString *)bonjourUrl {
@@ -245,6 +260,26 @@
 		freeifaddrs(interfaces);
 	}
 	return [addresses count] ? addresses : nil;
+}
+
+- (NSString*)getHostname:(NSString *)address {
+	struct addrinfo *results = NULL;
+	char hostname[NI_MAXHOST] = {0};
+	if(!address || getaddrinfo(address.UTF8String, NULL, NULL, &results) != 0) {
+		return nil;
+	}
+	NSString *host = nil;
+	for(struct addrinfo *r = results; r; r = r->ai_next) {
+		if(getnameinfo(r->ai_addr, r->ai_addrlen, hostname, sizeof(hostname), NULL, 0 , 0) != 0) {
+			continue; // try next one
+		}
+		else {
+			host = [NSString stringWithUTF8String:hostname];
+			break;
+		}
+	}
+	freeaddrinfo(results);
+	return host;
 }
 
 @end
