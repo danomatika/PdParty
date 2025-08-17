@@ -63,7 +63,8 @@
 	NSDictionary *options = @{
 		GCDWebServerOption_Port : [NSNumber numberWithInteger:port],
 		GCDWebServerOption_BonjourName : @"", // empty string to use default device name
-		GCDWebServerOption_AutomaticallySuspendInBackground : @NO // run in background
+		GCDWebServerOption_AutomaticallySuspendInBackground : @NO, // run in background
+		GCDWebServerOption_DispatchQueuePriority: @(DISPATCH_QUEUE_PRIORITY_HIGH)
 	};
 	if(![server startWithOptions:options error:&error]) {
 		LogError(@"WebServer: error starting: %@", error.localizedDescription);
