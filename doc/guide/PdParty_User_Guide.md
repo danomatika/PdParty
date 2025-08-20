@@ -329,6 +329,8 @@ Naturally, you can also download the PdParty source and open the test patches & 
 
       Sharing recordings or other files created by a patch or scene can be done either through the WebDAV server or the Files app. If connected to the WebDAV server on a desktop computer, files can be copied from the device running PdParty back to the computer. If the Files app is available, files in the PdParty folder can be selected and shared, either to other apps, email, or AirDrop.
 
+_Note: If not using Wifi, the WebDAV server will still be reachable if the device is plugged into a host Apple computer. This *may* work with computers running Linux or Windows, but has not been tested._
+
 ### Audio I/O
 
 The audio device PdParty uses for input & output is the current device used by the system. If the device changes (something was plugged-in), PdParty will switch to this new device. There is currently no method for manually selecting audio routing.
