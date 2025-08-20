@@ -645,8 +645,8 @@
 				}
 				else { // match SDL values and orientation
 					[weakSelf sendAccel:-motion.acceleration.x * SDL_STANDARD_GRAVITY
-					                  y:-motion.acceleration.y * SDL_STANDARD_GRAVITY
-					                  z:-motion.acceleration.z * SDL_STANDARD_GRAVITY];
+					                  y:-motion.acceleration.z * SDL_STANDARD_GRAVITY
+					                  z:motion.acceleration.y * SDL_STANDARD_GRAVITY];
 					if(motion.hasRotationRate) {
 						[weakSelf sendGyro:motion.rotationRate.x
 						                 y:motion.rotationRate.z
