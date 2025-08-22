@@ -20,7 +20,7 @@
 // borrowed from SDL
 #define SDL_STANDARD_GRAVITY 9.80665f
 
-#define DEBUG_CONTROLLERS
+//#define DEBUG_CONTROLLERS
 
 @implementation Controllers
 
