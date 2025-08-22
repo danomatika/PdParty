@@ -20,7 +20,7 @@
 // borrowed from SDL
 #define SDL_STANDARD_GRAVITY 9.80665f
 
-//#define DEBUG_CONTROLLERS
+#define DEBUG_CONTROLLERS
 
 @implementation Controllers
 
@@ -598,10 +598,26 @@
 					[weakSelf sendButton:@"touchpad" state:pressed];
 				};
 				dualsense.touchpadPrimary.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
-					[weakSelf sendTouchpad:0 finger:0 x:xValue y:yValue];
+					if(dpad.xAxis.value != 0.f || dpad.yAxis.value != 0.f) {
+						[weakSelf sendTouchpad:0 finger:0
+						                     x:((1.0f + dpad.xAxis.value) * 0.5f)
+						                     y:(1.0f - (1.0f + dpad.yAxis.value) * 0.5f)
+						                     pressure:1];
+					}
+					else {
+						[weakSelf sendTouchpad:0 finger:0 x:0 y:0 pressure:0];
+					}
 				};
 				dualsense.touchpadSecondary.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
-					[weakSelf sendTouchpad:0 finger:1 x:xValue y:yValue];
+					if(dpad.xAxis.value != 0.f || dpad.yAxis.value != 0.f) {
+						[weakSelf sendTouchpad:0 finger:1
+						                     x:((1.0f + dpad.xAxis.value) * 0.5f)
+						                     y:(1.0f - (1.0f + dpad.yAxis.value) * 0.5f)
+						                     pressure:1];
+					}
+					else {
+						[weakSelf sendTouchpad:0 finger:1 x:0 y:0 pressure:0];
+					}
 				};
 			}
 			else if([self.controller.extendedGamepad isKindOfClass:GCDualShockGamepad.class]) { // PS4 controller
@@ -611,10 +627,26 @@
 					[weakSelf sendButton:@"touchpad" state:pressed];
 				};
 				dualshock.touchpadPrimary.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
-					[weakSelf sendTouchpad:0 finger:0 x:xValue y:yValue];
+					if(dpad.xAxis.value != 0.f || dpad.yAxis.value != 0.f) {
+						[weakSelf sendTouchpad:0 finger:0
+						                     x:((1.0f + dpad.xAxis.value) * 0.5f)
+						                     y:(1.0f - (1.0f + dpad.yAxis.value) * 0.5f)
+						                     pressure:1];
+					}
+					else {
+						[weakSelf sendTouchpad:0 finger:0 x:0 y:0 pressure:0];
+					}
 				};
 				dualshock.touchpadSecondary.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
-					[weakSelf sendTouchpad:0 finger:1 x:xValue y:yValue];
+					if(dpad.xAxis.value != 0.f || dpad.yAxis.value != 0.f) {
+						[weakSelf sendTouchpad:0 finger:1
+						                     x:((1.0f + dpad.xAxis.value) * 0.5f)
+						                     y:(1.0f - (1.0f + dpad.yAxis.value) * 0.5f)
+						                     pressure:1];
+					}
+					else {
+						[weakSelf sendTouchpad:0 finger:1 x:0 y:0 pressure:0];
+					}
 				};
 			}
 		}
@@ -688,29 +720,29 @@
 	}
 }
 
-// simple dpad event -> SDL-style touchpad event
+// simple dpad event -> SDL-style touchpad event, assume input 0,0 to be touch release
 // from SDL3 src/joystick/apple/SDL_mfijoystick.m
-- (void)sendTouchpad:(int)touchpad finger:(int)finger x:(float)x y:(float)y {
+- (void)sendTouchpad:(int)touchpad finger:(int)finger x:(float)x y:(float)y pressure:(float)pressure {
 	ControllerTouchpadState *state = self->touchpadStates[touchpad];
-	NSString *eventType = @"up";
-	if(x != 0.f || y != 0.f) { // press
-		eventType = (!state->pressed ? @"down" : @"xy");
-		x = (1.0f + x) * 0.5f;
-		y = 1.0f - (1.0f + y) * 0.5f;
+	NSString *eventType;
+	if(x != 0.f && y != 0.f) { // press
+		eventType = (state->pressed ? @"xy" : @"down");
 		state->pressed = YES;
 		state->x = x;
 		state->y = y;
 	}
 	else { // release, reuse last position
+		if(state->x == 0.f && state->y == 0.f) {return;} // swallow double-releases
+		eventType = @"up";
+		state->pressed = NO;
 		x = state->x;
 		y = state->y;
-		state->pressed = NO;
 	}
 	#ifdef DEBUG_CONTROLLERS
-		LogVerbose(@"%@ touchpad: %@ %d %d %g %g %g", self.name, eventType, touchpad, finger, x, y, 1.0);
+		LogVerbose(@"%@ touchpad: %@ %d %d %g %g %g", self.name, eventType, touchpad, finger, x, y, pressure);
 	#endif
-	[PureData sendController:self.name touchpadEvent:eventType forIndex:touchpad finger:finger x:x y:y pressure:1];
-	[self.parent.osc sendController:self.name touchpadEvent:eventType forIndex:touchpad finger:finger x:x y:y pressure:1];
+	[PureData sendController:self.name touchpadEvent:eventType forIndex:touchpad finger:finger x:x y:y pressure:pressure];
+	[self.parent.osc sendController:self.name touchpadEvent:eventType forIndex:touchpad finger:finger x:x y:y pressure:pressure];
 }
 
 - (void)setColorRed:(float)red green:(float)green blue:(float)blue {
