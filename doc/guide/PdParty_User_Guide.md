@@ -784,6 +784,8 @@ iOS:   menu - [home] - [options] (not all devices have a home or options button)
 SDL:   back -  guide - start (PdParty uses this)
 ~~~
 
+Nintendo Joy Cons appear to work, however iOS will combine L and R controllers to make a single controller. As of iOS 18, the JoyCon sensors are not accessible.
+
 ##### Color, Rumble, and Sensors
 
 On iOS 14.0+, gamepads such as Playstation 4 (DualShock 4) or Playstation 5 (DualSense) controllers may support setting the LED color, haptic rumble events, and/or sensor (accelerometer and gyro) events. These capabilities are accessed by sending control messages \#pdparty:
