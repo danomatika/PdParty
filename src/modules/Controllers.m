@@ -480,7 +480,7 @@
 
 	// shared handlers
 	GCControllerButtonValueChangedHandler buttonMenuHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
-		[weakSelf sendButton:@"back" state:pressed];
+		[weakSelf sendButton:@"start" state:pressed];
 	};
 	GCControllerButtonValueChangedHandler buttonAHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
 		[weakSelf sendButton:@"a" state:pressed];
@@ -521,7 +521,7 @@
 		if(self.controller.extendedGamepad) {
 			self.controller.extendedGamepad.buttonMenu.valueChangedHandler = buttonMenuHandler;
 			self.controller.extendedGamepad.buttonOptions.valueChangedHandler = ^(GCControllerButtonInput * _Nonnull button, float value, BOOL pressed) {
-				[weakSelf sendButton:@"start" state:pressed];
+				[weakSelf sendButton:@"back" state:pressed];
 			};
 			if(@available(iOS 14.0, *)) {
 				self.controller.extendedGamepad.buttonHome.valueChangedHandler = ^(GCControllerButtonInput * _Nonnull button, float value, BOOL pressed) {
