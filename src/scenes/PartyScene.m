@@ -124,6 +124,16 @@
 	return [super description];
 }
 
+- (NSDictionary *)controllers {
+	if(self.hasInfo) {
+		NSObject *c = info[@"controllers"];
+		if(c && [c isKindOfClass:NSDictionary.class]) {
+			return (NSDictionary *)c;
+		}
+	}
+	return nil;
+}
+
 - (NSString *)type {
 	return @"PartyScene";
 }

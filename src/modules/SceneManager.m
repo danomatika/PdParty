@@ -135,6 +135,9 @@
 	}
 	if([self.scene open:path]) {
 		[self startRequiredSensors];
+		if(self.scene.requiresControllers && [self.scene isKindOfClass:PartyScene.class]) {
+			self.controllers.mappings = [(PartyScene *)self.scene controllers];
+		}
 		self.controllers.enabled = self.scene.requiresControllers;
 		LogVerbose(@"SceneManager: opened %@", self.scene.name);
 	}
@@ -185,6 +188,7 @@
 		self.scene = nil;
 		[self stopSensors];
 		self.controllers.enabled = NO;
+		self.controllers.mappings = nil;
 		self.isRotated = NO;
 		self.gui.forwardTouches = NO;
 		hasReshaped = NO;

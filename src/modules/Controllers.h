@@ -28,6 +28,18 @@
 /// currently connected controllers
 @property (nonatomic) NSMutableArray *controllers;
 
+/// optional controller mappings
+/// * key: name to match
+/// * value: dictionary with one of the following keys
+///   - index: int, player index 1-4
+///   - name: string, send name - alphanumeric chars only
+///   - color: array, 0-255 RGB color value: [red, green, blue}, ex. [255, 0, 0]
+/// ex. {"DualSense Wireless Controller" : {index : 2} ->
+///     events sent to /gc2, player led index 2
+/// ex. {"DualSense Wireless Controller" : {name : "pad", index : 2} ->
+///     events sent to /pad, player led index 2
+@property (nonatomic) NSDictionary *mappings;
+
 /// start new controller discovery, not needed for previously connected controllers
 - (void)startDiscovery;
 
@@ -58,7 +70,7 @@
 /// iOS GameController wrapper
 @interface Controller : NSObject
 
-@property (readonly, nonatomic) NSString *name; ///< unique name based on index+1 ie. "gc1"
+@property (nonatomic) NSString *name; ///< unique name based on index+1 ie. "gc1"
 
 @property (nonatomic) int index; ///< current device index
 @property (nonatomic) Controllers *parent; ///< parent controllers object

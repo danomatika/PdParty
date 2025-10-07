@@ -14,6 +14,9 @@
 /// path is to scene folder, optional background image
 @interface PartyScene : PatchScene
 
+/// optional controller mappings, see Controllers.h
+@property (readonly, nonatomic) NSDictionary *controllers;
+
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 
 /// returns YES if the given path is a PdParty scene dir

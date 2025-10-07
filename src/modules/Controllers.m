@@ -161,6 +161,35 @@
 	c.parent = self;
 	c.controller = controller;
 	c.index = [self firstAvailableIndex];
+	NSDictionary *mapping = self.mappings[controller.vendorName];
+	if(mapping) {
+		NSObject *name = mapping[@"name"];
+		NSObject *index = mapping[@"index"];
+		NSObject *color = mapping[@"color"];
+		if(index && [index isKindOfClass:NSNumber.class]) {
+			int n = [(NSNumber *)index intValue];
+			if(n > 0 && n < 5) {
+				c.index = n - 1;
+			}
+		}
+		if(name && [name isKindOfClass:NSString.class]) {
+			NSString *s = (NSString *)name;
+			if(s && s.length > 0) {
+				if([s rangeOfCharacterFromSet:NSCharacterSet.alphanumericCharacterSet.invertedSet].location == NSNotFound) {
+					c.name = s;
+				}
+			}
+		}
+		if(color && [color isKindOfClass:NSArray.class]) {
+			NSArray *a = (NSArray *)color;
+			if(a.count > 2 && [a[0] isKindOfClass:NSNumber.class] &&
+			   [a[1] isKindOfClass:NSNumber.class] && [a[2] isKindOfClass:NSNumber.class]) {
+				[c setColorRed:CLAMP([a[0] intValue], 0, 255)
+				         green:CLAMP([a[1] intValue], 0, 255)
+				          blue:CLAMP([a[2] intValue], 0, 255)];
+			}
+		}
+	}
 	[self.controllers addObject:c];
 	[self sortControllers];
 	[PureData sendEvent:@"connect" forController:c.name];
