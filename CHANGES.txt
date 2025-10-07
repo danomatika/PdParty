@@ -1,3 +1,8 @@
+1.5.0: TBA
+
+* added controller name, index, & color mapping support to PdParty scene
+  info.json 
+
 1.4.1: 2023-11-14
 
 * fixed accel orientation when switching between rotated and non-rotated scenes,

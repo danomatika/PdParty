@@ -144,13 +144,13 @@
 			// info
 			NSDictionary *info = [RjScene infoForSceneAt:path];
 			if(info) {
-				if(info[@"name"]) {
+				if(info[@"name"] && [info[@"name"] isKindOfClass:NSString.class]) {
 					cell.textLabel.text = info[@"name"];
 				}
 				else {
 					cell.textLabel.text = path.lastPathComponent;
 				}
-				if(info[@"author"]) {
+				if(info[@"author"] && [info[@"author"] isKindOfClass:NSString.class]) {
 					cell.detailTextLabel.text = info[@"author"];
 				}
 			}
@@ -172,13 +172,13 @@
 			// info
 			NSDictionary *info = [PartyScene infoForSceneAt:path];
 			if(info) {
-				if(info[@"name"]) {
+				if(info[@"name"] && [info[@"name"] isKindOfClass:NSString.class]) {
 					cell.textLabel.text = info[@"name"];
 				}
 				else {
 					cell.textLabel.text = path.lastPathComponent;
 				}
-				if(info[@"author"]) {
+				if(info[@"author"] && [info[@"author"] isKindOfClass:NSString.class]) {
 					cell.detailTextLabel.text = info[@"author"];
 				}
 			}

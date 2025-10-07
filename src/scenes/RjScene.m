@@ -178,9 +178,9 @@
 
 - (NSString *)name {
 	if(self.hasInfo) {
-		NSString *n = info[@"name"];
-		if(n) {
-			return n;
+		NSObject *n = info[@"name"];
+		if(n && [n isKindOfClass:NSString.class]) {
+			return (NSString *)n;
 		}
 	}
 	return self.patch.pathName.lastPathComponent.stringByDeletingPathExtension;
@@ -192,9 +192,9 @@
 
 - (NSString *)artist {
 	if(self.hasInfo) {
-		NSString *a = info[@"author"];
-		if(a) {
-			return a;
+		NSObject *a = info[@"author"];
+		if(a && [a isKindOfClass:NSString.class]) {
+			return (NSString *)a;
 		}
 	}
 	return [super artist];
@@ -202,9 +202,9 @@
 
 - (NSString *)category {
 	if(self.hasInfo) {
-		NSString *c = info[@"category"];
-		if(c) {
-			return c;
+		NSObject *c = info[@"category"];
+		if(c && [c isKindOfClass:NSString.class]) {
+			return (NSString *)c;
 		}
 	}
 	return [super category];
@@ -212,9 +212,9 @@
 
 - (NSString *)description {
 	if(self.hasInfo) {
-		NSString *d = info[@"description"];
-		if(d) {
-			return d;
+		NSObject *d = info[@"description"];
+		if(d && [d isKindOfClass:NSString.class]) {
+			return (NSString *)d;
 		}
 	}
 	return [super description];
