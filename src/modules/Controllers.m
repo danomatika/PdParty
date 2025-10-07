@@ -161,35 +161,7 @@
 	c.parent = self;
 	c.controller = controller;
 	c.index = [self firstAvailableIndex];
-	NSDictionary *mapping = self.mappings[controller.vendorName];
-	if(mapping) {
-		NSObject *name = mapping[@"name"];
-		NSObject *index = mapping[@"index"];
-		NSObject *color = mapping[@"color"];
-		if(index && [index isKindOfClass:NSNumber.class]) {
-			int n = [(NSNumber *)index intValue];
-			if(n > 0 && n < 5) {
-				c.index = n - 1;
-			}
-		}
-		if(name && [name isKindOfClass:NSString.class]) {
-			NSString *s = (NSString *)name;
-			if(s && s.length > 0) {
-				if([s rangeOfCharacterFromSet:NSCharacterSet.alphanumericCharacterSet.invertedSet].location == NSNotFound) {
-					c.name = s;
-				}
-			}
-		}
-		if(color && [color isKindOfClass:NSArray.class]) {
-			NSArray *a = (NSArray *)color;
-			if(a.count > 2 && [a[0] isKindOfClass:NSNumber.class] &&
-			   [a[1] isKindOfClass:NSNumber.class] && [a[2] isKindOfClass:NSNumber.class]) {
-				[c setColorRed:CLAMP([a[0] intValue], 0, 255)
-				         green:CLAMP([a[1] intValue], 0, 255)
-				          blue:CLAMP([a[2] intValue], 0, 255)];
-			}
-		}
-	}
+	[self applyMappings:c];
 	[self.controllers addObject:c];
 	[self sortControllers];
 	[PureData sendEvent:@"connect" forController:c.name];
@@ -250,6 +222,49 @@
 - (void)sortControllers {
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
 	[self.controllers sortedArrayUsingDescriptors:@[sortDescriptor]];
+}
+
+// apply a controller mapping by matching device name
+- (void)applyMappings:(Controller *)c {
+	NSDictionary *mapping = nil;
+	for(NSObject *m in self.mappings) {
+		if([m isKindOfClass:NSDictionary.class]) {
+			NSObject *name = ((NSDictionary *)m)[@"name"];
+			if(name && [name isKindOfClass:NSString.class] &&
+			   [c.controller.vendorName isEqualToString:(NSString *)name]) {
+				mapping = (NSDictionary *)m;
+				break;
+			}
+		}
+	}
+	if(!mapping) {return;}
+	NSObject *index = mapping[@"index"];
+	NSObject *address = mapping[@"address"];
+	NSObject *color = mapping[@"color"];
+	if(index && [index isKindOfClass:NSNumber.class]) {
+		int n = [(NSNumber *)index intValue];
+		if(n > 0 && n < 5) {
+			c.index = n - 1;
+		}
+	}
+	if(address && [address isKindOfClass:NSString.class]) {
+		NSString *s = (NSString *)address;
+		if(s && s.length > 0) {
+			if([s rangeOfCharacterFromSet:NSCharacterSet.alphanumericCharacterSet.invertedSet].location == NSNotFound) {
+				c.name = s;
+			}
+		}
+	}
+	if(color && [color isKindOfClass:NSArray.class]) {
+		NSArray *a = (NSArray *)color;
+		if(a.count > 2 && [a[0] isKindOfClass:NSNumber.class] &&
+		                  [a[1] isKindOfClass:NSNumber.class] &&
+		                  [a[2] isKindOfClass:NSNumber.class]) {
+			[c setColorRed:CLAMP([a[0] intValue], 0, 255)
+					 green:CLAMP([a[1] intValue], 0, 255)
+					  blue:CLAMP([a[2] intValue], 0, 255)];
+		}
+	}
 }
 
 @end

@@ -378,6 +378,7 @@ PdParty also supports running "scenes" which are basically folders with a specif
     + _description_
     + _name_
     + _category_
+    + _controllers_ (see "Controller Mappings" subsection for more info)
   - requires all event types
   - \#touch positions are normalized from 0-1, extended touch supported
   - sensors are accessed via receivers: \#gyro, \#loc, \#speed, \#altitude, \#compass, \#magnet, \#motion, & \#time
@@ -849,6 +850,37 @@ query device controller 0 gc1 17 4 1 1 1 1
 The controller has 17 buttons, 4 axes, 1 touchpad, sensors, a color LED, can rumble.
 
 _The message format is designed for compatibility with [joyosc](https://github.com/danomatika/joyosc)._
+
+##### Controller Mappings
+
+PdParty scenes with an Info.json metadata file can specify controller mappings by device name on connect using the "controllers" JSON array, one JSON object for each device:
+
+* **name**: string, device name to match, usually displayed in the Bluetooth settings (required)
+* **index**: int, player index 1-4
+* **address**: string, send address, alphanumeric chars only
+* **color**: array, 0-255 RGB color value: [red, green, blue]
+
+Example:
+```json
+"controllers" : [
+	{
+		"name": "DualSense Wireless Controller",
+		"address" : "pad",
+		"index" : 2,
+		"color" : [255, 255, 0]
+	},
+	{
+		"name" : "Nimbus",
+		"index" : 1
+	}
+]
+```
+
+When a device with the matching name of "DualSense Wireless Controller" is connected, controller events will be sent to "#controller pad" and the player LED index will be 2. If the controller supports an LED color, the LED should change as well.
+
+When a device with the matching name of "Nimbus" is connected, events will be sent to "#controller gc1" no matter which order the devices are connected.
+
+Note: There doesn't appear to currently be a way to differentiate between controllers of the same name.
 
 #### OSC
 

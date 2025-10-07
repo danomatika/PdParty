@@ -127,7 +127,7 @@
 - (NSDictionary *)controllers {
 	if(self.hasInfo) {
 		NSObject *c = info[@"controllers"];
-		if(c && [c isKindOfClass:NSDictionary.class]) {
+		if(c && [c isKindOfClass:NSArray.class]) {
 			return (NSDictionary *)c;
 		}
 	}

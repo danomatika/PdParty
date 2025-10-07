@@ -28,17 +28,16 @@
 /// currently connected controllers
 @property (nonatomic) NSMutableArray *controllers;
 
-/// optional controller mappings
-/// * key: name to match
-/// * value: dictionary with one of the following keys
-///   - index: int, player index 1-4
-///   - name: string, send name - alphanumeric chars only
-///   - color: array, 0-255 RGB color value: [red, green, blue}, ex. [255, 0, 0]
-/// ex. {"DualSense Wireless Controller" : {index : 2} ->
-///     events sent to /gc2, player led index 2
-/// ex. {"DualSense Wireless Controller" : {name : "pad", index : 2} ->
-///     events sent to /pad, player led index 2
-@property (nonatomic) NSDictionary *mappings;
+/// optional controller mappings array containing dictionarys with the following keys
+/// * name: string, device name to match
+/// * index: int, player index 1-4
+/// * address: string, send address, alphanumeric chars only
+/// * color: array, 0-255 RGB color value: [red, green, blue}, ex. [255, 0, 0]
+/// ex. {"name" : "DualSense Wireless Controller", "index" : 2} ->
+///     events sent to #controller gc2", player led index 2
+/// ex. {"name" : "DualSense Wireless Controller", "address" : "pad", index : 2} ->
+///     events sent to #controller pad, player led index 2
+@property (nonatomic) NSArray *mappings;
 
 /// start new controller discovery, not needed for previously connected controllers
 - (void)startDiscovery;
