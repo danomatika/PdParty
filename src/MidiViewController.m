@@ -60,7 +60,9 @@
 	[self rightNavToEditButton];
 }
 
+// force reload table to show device changes when view is not current, ie. under bt midi view
 - (void)viewWillAppear:(BOOL)animated {
+	[self.tableView reloadData];
 	midi.delegate = self;
 	[super viewWillAppear:animated];
 }
