@@ -95,7 +95,6 @@
 ///
 + (NSString *)generateCopyPathForPath:(NSString *)path;
 
-
 #pragma mark Images
 
 /// renders a given string into a UIImage

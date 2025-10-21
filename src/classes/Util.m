@@ -215,7 +215,6 @@
 	return copy;
 }
 
-
 #pragma mark Images
 
 // from:
