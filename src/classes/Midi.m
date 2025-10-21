@@ -737,6 +737,7 @@ static void MIDINotify(const MIDINotification *message, void *refCon) {
 		case kMIDIMsgThruConnectionsChanged:
 		case kMIDIMsgSerialPortOwnerChanged:
 		case kMIDIMsgIOError:
+		case kMIDIMsgInternalStart:
 			break;
 	}
 }
