@@ -144,10 +144,20 @@ lo_message lo_message_new(void);
  *
  * Messages are reference counted. If a message is multiply referenced,
  * the message's counter should be incremented. It is automatically
- * decremented by lo_message_free lo_message_free_recursive, with
- * lo_message_free_recursive being the preferable method.
+ * decremented by `lo_message_free` or `lo_bundle_free_recursive`, with
+ * `lo_bundle_free_recursive` being the preferable method if bundles are used.
  */
 void lo_message_incref(lo_message m);
+
+/**
+ * \brief Subtract one from a message's reference count.
+ *
+ * Messages are reference counted. In general decrementing the counter
+ * should be handled automatically using `lo_message_free` or
+ * `lo_bundle_free_recursive`, however if necessary the counter can be
+ * decremented manually.
+ */
+int lo_message_decref(lo_message m);
 
 /**
  * \brief Create a new lo_message object by cloning an already existing one
@@ -159,6 +169,11 @@ lo_message lo_message_clone(lo_message m);
  * \ref lo_message_add_int32 lo_message_add*() calls.
  */
 void lo_message_free(lo_message m);
+
+/**
+ * \brief Clear elements from a lo_message but do not free allocated memory.
+ */
+void lo_message_clear(lo_message m);
 
 /**
  * \brief Append a number of arguments to a message.
@@ -799,8 +814,9 @@ void lo_server_free(lo_server s);
  * \param timeout A timeout in milliseconds to wait for the incoming packet.
  * a value of 0 will return immediately.
  *
- * The return value is 1 if there is a message waiting or 0 if
- * there is no message. If there is a message waiting you can now
+ * The return value is 1 if there is a message waiting, 0 if
+ * there is no message, and -1 if there is an error that causes the
+ * function to return early. If there is a message waiting you can now
  * call lo_server_recv() to receive that message.
  */
 int lo_server_wait(lo_server s, int timeout);
@@ -815,7 +831,8 @@ int lo_server_wait(lo_server s, int timeout);
  * a value of 0 will return immediately.
  *
  * The return value is the number of servers with a message waiting or
- * 0 if there is no message. If there is a message waiting you can now
+ * -1 if there is an error that causes the function to return early.
+ * If there is a message waiting you can now
  * call lo_server_recv() to receive that message.
  */
 int lo_servers_wait(lo_server *s, int *status, int num_servers, int timeout);

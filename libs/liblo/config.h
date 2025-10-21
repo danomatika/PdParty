@@ -83,7 +83,7 @@
 #define LO_BIGENDIAN "0"
 
 /* Libtool compatibility version */
-#define LO_SO_VERSION {12, 0, 5}
+#define LO_SO_VERSION {13, 0, 6}
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
@@ -98,7 +98,7 @@
 #define PACKAGE_NAME "liblo"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "liblo 0.32"
+#define PACKAGE_STRING "liblo 0.33"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "liblo"
@@ -107,7 +107,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.32"
+#define PACKAGE_VERSION "0.33"
 
 /* printf code for type long long int */
 #define PRINTF_LL "ll"
@@ -118,7 +118,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.32"
+#define VERSION "0.33"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
