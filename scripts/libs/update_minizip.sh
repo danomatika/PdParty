@@ -13,7 +13,7 @@
 # stop on error
 set -e
 
-VER=v1.3
+VER=v1.3.1
 
 SRC_DIR=zlib
 DEST_DIR=../../libs/minizip
