@@ -743,7 +743,7 @@ Note: If local file html renders small in the web view, make sure to set the vie
 	Controller PdParty scene
 </p>
 
-Compatible iOS MFi game controllers can be read in PdParty if your device supports them. If the controller uses Bluetooth, enable Bluetooth in your iOS settings and make sure the controller is paired to your device. Currently, iOS limits the number of simultaneous controllers to 4.
+Compatible iOS MFi game controllers can be read in PdParty if your device supports them. If the controller uses Bluetooth, enable Bluetooth in your iOS settings and make sure the controller is paired to your device. Currently, iOS limits the number of simultaneous controllers to 4. The screen must be on and PdParty in the foreground for controllers to be active.
 
 Controller events can be read via the [r \#controller] receiver with the following format:
 
