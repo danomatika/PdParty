@@ -9,7 +9,7 @@
 #X obj 30 371 s #pdparty;
 #X obj 30 47 r google-out;
 #X obj 69 114 r local-out;
-#X msg 30 77 openurl http://google.com Google;
+#X msg 30 77 openurl https://google.com Google;
 #X msg 69 141 openurl local.html Hello World;
 #X obj 98 176 r maps-out;
 #X msg 98 204 openurl maps://maps.apple.com/?q=Electronic+Music;

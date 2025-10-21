@@ -10,6 +10,7 @@
  */
 #import "WebViewController.h"
 
+#import <WebKit/WebKit.h>
 #import "AppDelegate.h"
 
 @interface WebViewController () {
@@ -50,8 +51,9 @@
 	}
 	
 	// create web view and load
-	UIWebView *webView = [[UIWebView alloc] init];
-	webView.dataDetectorTypes = UIDataDetectorTypeNone;
+	WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+	config.dataDetectorTypes = WKDataDetectorTypeNone;
+	WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:config];
 	if([url isFileURL]) {
 		NSError *error;
 		if(![url checkResourceIsReachableAndReturnError:&error]) {

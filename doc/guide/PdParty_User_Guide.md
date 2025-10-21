@@ -722,7 +722,7 @@ You can launch a web view with a given url via sending a message to \#pdparty:
 
 _url_ can be:
 
-* a full URL path: "http://google.com"
+* a full URL path: "https://google.com"
 * a relative local file path: "local.html" or "../html/index.html"
 * a custom URL scheme to open another app: "maps://...", "twitter://...", etc
 
@@ -731,6 +731,10 @@ _title_ is an open ended list of arguments that will be appended together and us
 Local files are opened in a slide up web view within PdParty while all others are opened by the system in their respective apps: "http://" & "https://" in Safari, "maps://" in Maps, etc.
 
 On iOS 10.0+, non-local URLs are opened asynchronously.
+
+Note: If local file html renders small in the web view, make sure to set the viewport in the header:
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 
 #### Game Controllers
 
