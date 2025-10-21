@@ -1391,7 +1391,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/liblo",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.5.0;
 				OTHER_CFLAGS = (
 					"-DPD",
 					"-DHAVE_UNISTD_H",
@@ -1444,7 +1444,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/liblo",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.5.0;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DPD",
