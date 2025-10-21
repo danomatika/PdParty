@@ -1,7 +1,43 @@
 1.5.0: TBA
 
-* added controller name, index, & color mapping support to PdParty scene
-  info.json 
+* updated to libpd 0.15.0 (pd 0.55-2)
+* min deployment target now iOS 12.0
+
+* fixed swapped controller start and back button names,
+  now -> left button - back, right button - start
+* fixed browser crash do to scene meta info values not being strings
+* fixed midi view not showing device changes when bluetooth midi view has been
+  pushed on top
+* force webserver to run on higher dispatch queue to avoid priority inversion
+  error when stopping
+
+* controller
+  - added LED color support
+  - added rumble support
+  - added ps4 & ps5 controller touchpad support
+  - added count and device query support
+  - added sensor support (accel & gyro)
+  - sensor and query format matches joyosc behavior
+  - sensor values and orientation match that of SDL, use 'native' control
+    message for iOS values
+  - added controller name, index, & color mapping support to PdParty scene
+    info.json
+
+* replaced displaylink with gcd timer, pd message and midi handling should now
+  work when screen is off (requested by Jason Corder)
+
+* webserver
+  -  allow webserver to start even if wifi is reachable as device could be
+     plugged into host computer
+  - now show device hostname url in webserver section footer if available when
+    server is started, hopefully this will be more useful than the bonjour name
+  - added note to guide about webdav server working over cable without wifi
+
+* replaced deprecated UIWebView with WKWebView, new web view does not scale by
+  default so add html head meta viewport scaling to any local files that now
+  render smaller than before
+
+* updated to liblo 0.32
 
 1.4.1: 2023-11-14
 
