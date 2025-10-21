@@ -24,10 +24,10 @@ void stripdir_symbol(t_stripdir *x,t_symbol* s)
      int len = (int)strlen(s->s_name);
 
      while (len--)
-	  if (*(s->s_name + len) == '/') {
-	       outlet_symbol(x->x_obj.ob_outlet,gensym(s->s_name + len + 1));
-	       break;
-	  }
+          if (*(s->s_name + len) == '/') {
+               outlet_symbol(x->x_obj.ob_outlet,gensym(s->s_name + len + 1));
+               break;
+          }
 
 }
 
@@ -41,6 +41,6 @@ static void *stripdir_new(void)
 void stripdir_setup(void)
 {
     stripdir_class = class_new(gensym("stripdir"), (t_newmethod)stripdir_new, 0,
-				sizeof(t_stripdir), 0,0);
+                                sizeof(t_stripdir), 0,0);
     class_addsymbol(stripdir_class,stripdir_symbol);
 }

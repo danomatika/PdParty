@@ -50,6 +50,6 @@ static void *getdir_new(t_floatarg level)
 void getdir_setup(void)
 {
     getdir_class = class_new(gensym("getdir"), (t_newmethod)getdir_new, 0,
-    	sizeof(t_getdir), 0, A_DEFFLOAT,0);
+        sizeof(t_getdir), 0, A_DEFFLOAT,0);
     class_addbang(getdir_class, getdir_bang);
 }

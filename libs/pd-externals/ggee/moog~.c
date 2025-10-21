@@ -18,8 +18,8 @@ typedef struct _moog
 
 static void moog_reset(t_moog *x)
 {
-	x->x_1 = x->x_2 = x->x_3 = x->x_4 = 0.0;
-	x->y_1 = x->y_2 = x->y_3 = x->y_4 = 0.0;
+        x->x_1 = x->x_2 = x->x_3 = x->x_4 = 0.0;
+        x->y_1 = x->y_2 = x->y_3 = x->y_4 = 0.0;
 
 }
 
@@ -29,12 +29,12 @@ static void *moog_new(t_symbol *s, int argc, t_atom *argv)
 {
     if (argc > 1) post("moog~: extra arguments ignored");
     {
-	t_moog *x = (t_moog *)pd_new(moog_class);
-	outlet_new(&x->x_obj, &s_signal);
-	inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
-	inlet_new(&x->x_obj, &x->in2, &s_signal, &s_signal);
-	moog_reset(x);
-	return (x);
+        t_moog *x = (t_moog *)pd_new(moog_class);
+        outlet_new(&x->x_obj, &s_signal);
+        inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+        inlet_new(&x->x_obj, &x->in2, &s_signal, &s_signal);
+        moog_reset(x);
+        return (x);
     }
 
 
@@ -161,9 +161,9 @@ t_int *moog_perf8(t_int *w)
 void dsp_add_moog(t_moog *x, t_sample *in1, t_sample *in2, t_sample *in3, t_sample *out, int n)
 {
     if (n&7)
-    	dsp_add(moog_perform, 6,(t_int)x, in1,in2,in3, out, n);
+        dsp_add(moog_perform, 6,(t_int)x, in1,in2,in3, out, n);
     else
-    	dsp_add(moog_perf8, 6,(t_int) x, in1, in2, in3, out, n);
+        dsp_add(moog_perf8, 6,(t_int) x, in1, in2, in3, out, n);
 }
 
 static void moog_dsp(t_moog *x, t_signal **sp)
@@ -175,7 +175,7 @@ static void moog_dsp(t_moog *x, t_signal **sp)
 void moog_tilde_setup(void)
 {
     moog_class = class_new(gensym("moog~"), (t_newmethod)moog_new, 0,
-    	sizeof(t_moog), 0, A_GIMME, 0);
+        sizeof(t_moog), 0, A_GIMME, 0);
     class_addmethod(moog_class, nullfn, gensym("signal"), 0);
     class_addmethod(moog_class, (t_method)moog_reset, gensym("reset"), 0);
     class_addmethod(moog_class, (t_method)moog_dsp, gensym("dsp"), A_NULL);
