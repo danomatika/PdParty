@@ -26,12 +26,16 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
-@implementation GCDWebServerURLEncodedFormRequest
+@implementation ReadiumGCDWebServerURLEncodedFormRequest
 
 + (NSString*)mimeType {
   return @"application/x-www-form-urlencoded";
@@ -42,9 +46,9 @@
     return NO;
   }
 
-  NSString* charset = GCDWebServerExtractHeaderValueParameter(self.contentType, @"charset");
-  NSString* string = [[NSString alloc] initWithData:self.data encoding:GCDWebServerStringEncodingFromCharset(charset)];
-  _arguments = GCDWebServerParseURLEncodedForm(string);
+  NSString* charset = ReadiumGCDWebServerExtractHeaderValueParameter(self.contentType, @"charset");
+  NSString* string = [[NSString alloc] initWithData:self.data encoding:ReadiumGCDWebServerStringEncodingFromCharset(charset)];
+  _arguments = ReadiumGCDWebServerParseURLEncodedForm(string);
   return YES;
 }
 

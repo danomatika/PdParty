@@ -20,7 +20,7 @@
 @end
 
 /// webdav server
-@interface WebServer : NSObject <GCDWebDAVServerDelegate>
+@interface WebServer : NSObject <ReadiumGCDWebDAVServerDelegate>
 
 @property (assign, nonatomic) int port; ///< change only takes effect on server restart
 @property (weak, readonly, nonatomic) NSString *hostUrl; ///< host url, nil if server not running

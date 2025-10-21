@@ -30,25 +30,25 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Attribute key to retrieve an NSArray containing NSStrings from a GCDWebServerRequest
+ *  Attribute key to retrieve an NSArray containing NSStrings from a ReadiumGCDWebServerRequest
  *  with the contents of any regular expression captures done on the request path.
  *
  *  @warning This attribute will only be set on the request if adding a handler using 
  *  -addHandlerForMethod:pathRegex:requestClass:processBlock:.
  */
-extern NSString* const GCDWebServerRequestAttribute_RegexCaptures;
+extern NSString* const ReadiumGCDWebServerRequestAttribute_RegexCaptures;
 
 /**
- *  This protocol is used by the GCDWebServerConnection to communicate with
- *  the GCDWebServerRequest and write the received HTTP body data.
+ *  This protocol is used by the ReadiumGCDWebServerConnection to communicate with
+ *  the ReadiumGCDWebServerRequest and write the received HTTP body data.
  *
- *  Note that multiple GCDWebServerBodyWriter objects can be chained together
+ *  Note that multiple ReadiumGCDWebServerBodyWriter objects can be chained together
  *  internally e.g. to automatically decode gzip encoded content before
- *  passing it on to the GCDWebServerRequest.
+ *  passing it on to the ReadiumGCDWebServerRequest.
  *
  *  @warning These methods can be called on any GCD thread.
  */
-@protocol GCDWebServerBodyWriter <NSObject>
+@protocol ReadiumGCDWebServerBodyWriter <NSObject>
 
 /**
  *  This method is called before any body data is received.
@@ -77,17 +77,17 @@ extern NSString* const GCDWebServerRequestAttribute_RegexCaptures;
 @end
 
 /**
- *  The GCDWebServerRequest class is instantiated by the GCDWebServerConnection
+ *  The ReadiumGCDWebServerRequest class is instantiated by the ReadiumGCDWebServerConnection
  *  after the HTTP headers have been received. Each instance wraps a single HTTP
- *  request. If a body is present, the methods from the GCDWebServerBodyWriter
- *  protocol will be called by the GCDWebServerConnection to receive it.
+ *  request. If a body is present, the methods from the ReadiumGCDWebServerBodyWriter
+ *  protocol will be called by the ReadiumGCDWebServerConnection to receive it.
  *
- *  The default implementation of the GCDWebServerBodyWriter protocol on the class
+ *  The default implementation of the ReadiumGCDWebServerBodyWriter protocol on the class
  *  simply ignores the body data.
  *
- *  @warning GCDWebServerRequest instances can be created and used on any GCD thread.
+ *  @warning ReadiumGCDWebServerRequest instances can be created and used on any GCD thread.
  */
-@interface GCDWebServerRequest : NSObject <GCDWebServerBodyWriter>
+@interface ReadiumGCDWebServerRequest : NSObject <ReadiumGCDWebServerBodyWriter>
 
 /**
  *  Returns the HTTP method for the request.

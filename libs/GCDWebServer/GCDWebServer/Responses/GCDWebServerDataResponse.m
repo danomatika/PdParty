@@ -26,12 +26,16 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
-@implementation GCDWebServerDataResponse {
+@implementation ReadiumGCDWebServerDataResponse {
   NSData* _data;
   BOOL _done;
 }
@@ -39,7 +43,7 @@
 @dynamic contentType;
 
 + (instancetype)responseWithData:(NSData*)data contentType:(NSString*)type {
-  return [(GCDWebServerDataResponse*)[[self class] alloc] initWithData:data contentType:type];
+  return [(ReadiumGCDWebServerDataResponse*)[[self class] alloc] initWithData:data contentType:type];
 }
 
 - (instancetype)initWithData:(NSData*)data contentType:(NSString*)type {
@@ -66,32 +70,32 @@
 - (NSString*)description {
   NSMutableString* description = [NSMutableString stringWithString:[super description]];
   [description appendString:@"\n\n"];
-  [description appendString:GCDWebServerDescribeData(_data, self.contentType)];
+  [description appendString:ReadiumGCDWebServerDescribeData(_data, self.contentType)];
   return description;
 }
 
 @end
 
-@implementation GCDWebServerDataResponse (Extensions)
+@implementation ReadiumGCDWebServerDataResponse (Extensions)
 
 + (instancetype)responseWithText:(NSString*)text {
-  return [(GCDWebServerDataResponse*)[self alloc] initWithText:text];
+  return [(ReadiumGCDWebServerDataResponse*)[self alloc] initWithText:text];
 }
 
 + (instancetype)responseWithHTML:(NSString*)html {
-  return [(GCDWebServerDataResponse*)[self alloc] initWithHTML:html];
+  return [(ReadiumGCDWebServerDataResponse*)[self alloc] initWithHTML:html];
 }
 
 + (instancetype)responseWithHTMLTemplate:(NSString*)path variables:(NSDictionary<NSString*, NSString*>*)variables {
-  return [(GCDWebServerDataResponse*)[self alloc] initWithHTMLTemplate:path variables:variables];
+  return [(ReadiumGCDWebServerDataResponse*)[self alloc] initWithHTMLTemplate:path variables:variables];
 }
 
 + (instancetype)responseWithJSONObject:(id)object {
-  return [(GCDWebServerDataResponse*)[self alloc] initWithJSONObject:object];
+  return [(ReadiumGCDWebServerDataResponse*)[self alloc] initWithJSONObject:object];
 }
 
 + (instancetype)responseWithJSONObject:(id)object contentType:(NSString*)type {
-  return [(GCDWebServerDataResponse*)[self alloc] initWithJSONObject:object contentType:type];
+  return [(ReadiumGCDWebServerDataResponse*)[self alloc] initWithJSONObject:object contentType:type];
 }
 
 - (instancetype)initWithText:(NSString*)text {

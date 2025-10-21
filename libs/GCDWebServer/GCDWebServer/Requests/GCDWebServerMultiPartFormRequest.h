@@ -30,10 +30,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The GCDWebServerMultiPart class is an abstract class that wraps the content
+ *  The ReadiumGCDWebServerMultiPart class is an abstract class that wraps the content
  *  of a part.
  */
-@interface GCDWebServerMultiPart : NSObject
+@interface ReadiumGCDWebServerMultiPart : NSObject
 
 /**
  *  Returns the control name retrieved from the part headers.
@@ -54,10 +54,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  The GCDWebServerMultiPartArgument subclass of GCDWebServerMultiPart wraps
+ *  The ReadiumGCDWebServerMultiPartArgument subclass of ReadiumGCDWebServerMultiPart wraps
  *  the content of a part as data in memory.
  */
-@interface GCDWebServerMultiPartArgument : GCDWebServerMultiPart
+@interface ReadiumGCDWebServerMultiPartArgument : ReadiumGCDWebServerMultiPart
 
 /**
  *  Returns the data for the part.
@@ -76,10 +76,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  The GCDWebServerMultiPartFile subclass of GCDWebServerMultiPart wraps
+ *  The ReadiumGCDWebServerMultiPartFile subclass of ReadiumGCDWebServerMultiPart wraps
  *  the content of a part as a file on disk.
  */
-@interface GCDWebServerMultiPartFile : GCDWebServerMultiPart
+@interface ReadiumGCDWebServerMultiPartFile : ReadiumGCDWebServerMultiPart
 
 /**
  *  Returns the file name retrieved from the part headers.
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Returns the path to the temporary file containing the part data.
  *
  *  @warning This temporary file will be automatically deleted when the
- *  GCDWebServerMultiPartFile is deallocated. If you want to preserve this file,
+ *  ReadiumGCDWebServerMultiPartFile is deallocated. If you want to preserve this file,
  *  you must move it to a different location beforehand.
  */
 @property(nonatomic, readonly) NSString* temporaryPath;
@@ -98,22 +98,22 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  The GCDWebServerMultiPartFormRequest subclass of GCDWebServerRequest
+ *  The ReadiumGCDWebServerMultiPartFormRequest subclass of ReadiumGCDWebServerRequest
  *  parses the body of the HTTP request as a multipart encoded form.
  */
-@interface GCDWebServerMultiPartFormRequest : GCDWebServerRequest
+@interface ReadiumGCDWebServerMultiPartFormRequest : ReadiumGCDWebServerRequest
 
 /**
  *  Returns the argument parts from the multipart encoded form as
- *  name / GCDWebServerMultiPartArgument pairs.
+ *  name / ReadiumGCDWebServerMultiPartArgument pairs.
  */
-@property(nonatomic, readonly) NSArray<GCDWebServerMultiPartArgument*>* arguments;
+@property(nonatomic, readonly) NSArray<ReadiumGCDWebServerMultiPartArgument*>* arguments;
 
 /**
  *  Returns the files parts from the multipart encoded form as
- *  name / GCDWebServerMultiPartFile pairs.
+ *  name / ReadiumGCDWebServerMultiPartFile pairs.
  */
-@property(nonatomic, readonly) NSArray<GCDWebServerMultiPartFile*>* files;
+@property(nonatomic, readonly) NSArray<ReadiumGCDWebServerMultiPartFile*>* files;
 
 /**
  *  Returns the MIME type for multipart encoded forms
@@ -124,12 +124,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Returns the first argument for a given control name or nil if not found.
  */
-- (nullable GCDWebServerMultiPartArgument*)firstArgumentForControlName:(NSString*)name;
+- (nullable ReadiumGCDWebServerMultiPartArgument*)firstArgumentForControlName:(NSString*)name;
 
 /**
  *  Returns the first file for a given control name or nil if not found.
  */
-- (nullable GCDWebServerMultiPartFile*)firstFileForControlName:(NSString*)name;
+- (nullable ReadiumGCDWebServerMultiPartFile*)firstFileForControlName:(NSString*)name;
 
 @end
 

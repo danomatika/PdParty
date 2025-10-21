@@ -26,7 +26,7 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
 #import <TargetConditionals.h>
@@ -35,7 +35,11 @@
 #import <libkern/OSAtomic.h>
 #endif
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
 #define kHeadersReadCapacity (1 * 1024)
 #define kBodyReadCapacity (256 * 1024)
@@ -59,14 +63,14 @@ static int32_t _connectionCounter = 0;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GCDWebServerConnection (Read)
+@interface ReadiumGCDWebServerConnection (Read)
 - (void)readData:(NSMutableData*)data withLength:(NSUInteger)length completionBlock:(ReadDataCompletionBlock)block;
 - (void)readHeaders:(NSMutableData*)headersData withCompletionBlock:(ReadHeadersCompletionBlock)block;
 - (void)readBodyWithRemainingLength:(NSUInteger)length completionBlock:(ReadBodyCompletionBlock)block;
 - (void)readNextBodyChunk:(NSMutableData*)chunkData completionBlock:(ReadBodyCompletionBlock)block;
 @end
 
-@interface GCDWebServerConnection (Write)
+@interface ReadiumGCDWebServerConnection (Write)
 - (void)writeData:(NSData*)data withCompletionBlock:(WriteDataCompletionBlock)block;
 - (void)writeHeadersWithCompletionBlock:(WriteHeadersCompletionBlock)block;
 - (void)writeBodyWithCompletionBlock:(WriteBodyCompletionBlock)block;
@@ -74,15 +78,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-@implementation GCDWebServerConnection {
+@implementation ReadiumGCDWebServerConnection {
   CFSocketNativeHandle _socket;
   BOOL _virtualHEAD;
 
   CFHTTPMessageRef _requestMessage;
-  GCDWebServerRequest* _request;
-  GCDWebServerHandler* _handler;
+  ReadiumGCDWebServerRequest* _request;
+  ReadiumGCDWebServerHandler* _handler; // this is where the response is received
   CFHTTPMessageRef _responseMessage;
-  GCDWebServerResponse* _response;
+  ReadiumGCDWebServerResponse* _response;
   NSInteger _statusCode;
 
   BOOL _opened;
@@ -115,7 +119,7 @@ NS_ASSUME_NONNULL_END
   }
   if (_digestAuthenticationNonce == nil) {
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-    _digestAuthenticationNonce = GCDWebServerComputeMD5Digest(@"%@", CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, uuid)));
+    _digestAuthenticationNonce = ReadiumGCDWebServerComputeMD5Digest(@"%@", CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, uuid)));
     CFRelease(uuid);
   }
 }
@@ -130,25 +134,25 @@ NS_ASSUME_NONNULL_END
   _responseMessage = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, NULL, kCFHTTPVersion1_1);
   CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Connection"), CFSTR("Close"));
   CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Server"), (__bridge CFStringRef)_server.serverName);
-  CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Date"), (__bridge CFStringRef)GCDWebServerFormatRFC822([NSDate date]));
+  CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Date"), (__bridge CFStringRef)ReadiumGCDWebServerFormatRFC822([NSDate date]));
 }
 
 - (void)_startProcessingRequest {
   GWS_DCHECK(_responseMessage == NULL);
 
-  GCDWebServerResponse* preflightResponse = [self preflightRequest:_request];
+  ReadiumGCDWebServerResponse* preflightResponse = [self preflightRequest:_request];
   if (preflightResponse) {
     [self _finishProcessingRequest:preflightResponse];
   } else {
     [self processRequest:_request
-              completion:^(GCDWebServerResponse* processResponse) {
+              completion:^(ReadiumGCDWebServerResponse* processResponse) {
                 [self _finishProcessingRequest:processResponse];
               }];
   }
 }
 
 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
-- (void)_finishProcessingRequest:(GCDWebServerResponse*)response {
+- (void)_finishProcessingRequest:(ReadiumGCDWebServerResponse*)response {
   GWS_DCHECK(_responseMessage == NULL);
   BOOL hasBody = NO;
 
@@ -171,7 +175,7 @@ NS_ASSUME_NONNULL_END
   if (_response) {
     [self _initializeResponseHeadersWithStatusCode:_response.statusCode];
     if (_response.lastModifiedDate) {
-      CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Last-Modified"), (__bridge CFStringRef)GCDWebServerFormatRFC822((NSDate*)_response.lastModifiedDate));
+      CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Last-Modified"), (__bridge CFStringRef)ReadiumGCDWebServerFormatRFC822((NSDate*)_response.lastModifiedDate));
     }
     if (_response.eTag) {
       CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("ETag"), (__bridge CFStringRef)_response.eTag);
@@ -184,7 +188,7 @@ NS_ASSUME_NONNULL_END
       }
     }
     if (_response.contentType != nil) {
-      CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Content-Type"), (__bridge CFStringRef)GCDWebServerNormalizeHeaderValue(_response.contentType));
+      CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Content-Type"), (__bridge CFStringRef)ReadiumGCDWebServerNormalizeHeaderValue(_response.contentType));
     }
     if (_response.contentLength != NSUIntegerMax) {
       CFHTTPMessageSetHeaderFieldValue(_responseMessage, CFSTR("Content-Length"), (__bridge CFStringRef)[NSString stringWithFormat:@"%lu", (unsigned long)_response.contentLength]);
@@ -294,9 +298,9 @@ NS_ASSUME_NONNULL_END
           if (urlPath == nil) {
             urlPath = @"/";  // CFURLCopyPath() returns NULL for a relative URL with path "//" contrary to -[NSURL path] which returns "/"
           }
-          NSString* requestPath = urlPath ? GCDWebServerUnescapeURLString(urlPath) : nil;
+          NSString* requestPath = urlPath ? ReadiumGCDWebServerUnescapeURLString(urlPath) : nil;
           NSString* queryString = requestURL ? CFBridgingRelease(CFURLCopyQueryString((CFURLRef)requestURL, NULL)) : nil;  // Don't use -[NSURL query] to make sure query is not unescaped;
-          NSDictionary* requestQuery = queryString ? GCDWebServerParseURLEncodedForm(queryString) : @{};
+          NSDictionary* requestQuery = queryString ? ReadiumGCDWebServerParseURLEncodedForm(queryString) : @{};
           if (requestMethod && requestURL && requestHeaders && requestPath && requestQuery) {
             for (self->_handler in self->_server.handlers) {
               self->_request = self->_handler.matchBlock(requestMethod, requestURL, requestHeaders, requestPath, requestQuery);
@@ -342,7 +346,7 @@ NS_ASSUME_NONNULL_END
                 [self _startProcessingRequest];
               }
             } else {
-              self->_request = [[GCDWebServerRequest alloc] initWithMethod:requestMethod url:requestURL headers:requestHeaders path:requestPath query:requestQuery];
+              self->_request = [[ReadiumGCDWebServerRequest alloc] initWithMethod:requestMethod url:requestURL headers:requestHeaders path:requestPath query:requestQuery];
               GWS_DCHECK(self->_request);
               [self abortRequest:self->_request withStatusCode:kGCDWebServerHTTPStatusCode_NotImplemented];
             }
@@ -356,7 +360,7 @@ NS_ASSUME_NONNULL_END
       }];
 }
 
-- (instancetype)initWithServer:(GCDWebServer*)server localAddress:(NSData*)localAddress remoteAddress:(NSData*)remoteAddress socket:(CFSocketNativeHandle)socket {
+- (instancetype)initWithServer:(ReadiumGCDWebServer*)server localAddress:(NSData*)localAddress remoteAddress:(NSData*)remoteAddress socket:(CFSocketNativeHandle)socket {
   if ((self = [super init])) {
     _server = server;
     _localAddressData = localAddress;
@@ -378,11 +382,11 @@ NS_ASSUME_NONNULL_END
 }
 
 - (NSString*)localAddressString {
-  return GCDWebServerStringFromSockAddr(_localAddressData.bytes, YES);
+  return ReadiumGCDWebServerStringFromSockAddr(_localAddressData.bytes, YES);
 }
 
 - (NSString*)remoteAddressString {
-  return GCDWebServerStringFromSockAddr(_remoteAddressData.bytes, YES);
+  return ReadiumGCDWebServerStringFromSockAddr(_remoteAddressData.bytes, YES);
 }
 
 - (void)dealloc {
@@ -410,7 +414,7 @@ NS_ASSUME_NONNULL_END
 
 @end
 
-@implementation GCDWebServerConnection (Read)
+@implementation ReadiumGCDWebServerConnection (Read)
 
 - (void)readData:(NSMutableData*)data withLength:(NSUInteger)length completionBlock:(ReadDataCompletionBlock)block {
   dispatch_read(_socket, length, dispatch_get_global_queue(_server.dispatchQueuePriority, 0), ^(dispatch_data_t buffer, int error) {
@@ -567,7 +571,7 @@ static inline NSUInteger _ScanHexNumber(const void* bytes, NSUInteger size) {
 
 @end
 
-@implementation GCDWebServerConnection (Write)
+@implementation ReadiumGCDWebServerConnection (Write)
 
 - (void)writeData:(NSData*)data withCompletionBlock:(WriteDataCompletionBlock)block {
   dispatch_data_t buffer = dispatch_data_create(data.bytes, data.length, dispatch_get_global_queue(_server.dispatchQueuePriority, 0), ^{
@@ -649,7 +653,7 @@ static inline NSUInteger _ScanHexNumber(const void* bytes, NSUInteger size) {
 
 @end
 
-@implementation GCDWebServerConnection (Subclassing)
+@implementation ReadiumGCDWebServerConnection (Subclassing)
 
 - (BOOL)open {
 #ifdef __GCDWEBSERVER_ENABLE_TESTING__
@@ -703,9 +707,9 @@ static inline NSUInteger _ScanHexNumber(const void* bytes, NSUInteger size) {
 }
 
 // https://tools.ietf.org/html/rfc2617
-- (GCDWebServerResponse*)preflightRequest:(GCDWebServerRequest*)request {
+- (ReadiumGCDWebServerResponse*)preflightRequest:(ReadiumGCDWebServerRequest*)request {
   GWS_LOG_DEBUG(@"Connection on socket %i preflighting request \"%@ %@\" with %lu bytes body", _socket, _virtualHEAD ? @"HEAD" : _request.method, _request.path, (unsigned long)_totalBytesRead);
-  GCDWebServerResponse* response = nil;
+  ReadiumGCDWebServerResponse* response = nil;
   if (_server.authenticationBasicAccounts) {
     __block BOOL authenticated = NO;
     NSString* authorizationHeader = [request.headers objectForKey:@"Authorization"];
@@ -719,7 +723,7 @@ static inline NSUInteger _ScanHexNumber(const void* bytes, NSUInteger size) {
       }];
     }
     if (!authenticated) {
-      response = [GCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_Unauthorized];
+      response = [ReadiumGCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_Unauthorized];
       [response setValue:[NSString stringWithFormat:@"Basic realm=\"%@\"", _server.authenticationRealm] forAdditionalHeader:@"WWW-Authenticate"];
     }
   } else if (_server.authenticationDigestAccounts) {
@@ -727,16 +731,16 @@ static inline NSUInteger _ScanHexNumber(const void* bytes, NSUInteger size) {
     BOOL isStaled = NO;
     NSString* authorizationHeader = [request.headers objectForKey:@"Authorization"];
     if ([authorizationHeader hasPrefix:@"Digest "]) {
-      NSString* realm = GCDWebServerExtractHeaderValueParameter(authorizationHeader, @"realm");
+      NSString* realm = ReadiumGCDWebServerExtractHeaderValueParameter(authorizationHeader, @"realm");
       if (realm && [_server.authenticationRealm isEqualToString:realm]) {
-        NSString* nonce = GCDWebServerExtractHeaderValueParameter(authorizationHeader, @"nonce");
+        NSString* nonce = ReadiumGCDWebServerExtractHeaderValueParameter(authorizationHeader, @"nonce");
         if ([nonce isEqualToString:_digestAuthenticationNonce]) {
-          NSString* username = GCDWebServerExtractHeaderValueParameter(authorizationHeader, @"username");
-          NSString* uri = GCDWebServerExtractHeaderValueParameter(authorizationHeader, @"uri");
-          NSString* actualResponse = GCDWebServerExtractHeaderValueParameter(authorizationHeader, @"response");
+          NSString* username = ReadiumGCDWebServerExtractHeaderValueParameter(authorizationHeader, @"username");
+          NSString* uri = ReadiumGCDWebServerExtractHeaderValueParameter(authorizationHeader, @"uri");
+          NSString* actualResponse = ReadiumGCDWebServerExtractHeaderValueParameter(authorizationHeader, @"response");
           NSString* ha1 = [_server.authenticationDigestAccounts objectForKey:username];
-          NSString* ha2 = GCDWebServerComputeMD5Digest(@"%@:%@", request.method, uri);  // We cannot use "request.path" as the query string is required
-          NSString* expectedResponse = GCDWebServerComputeMD5Digest(@"%@:%@:%@", ha1, _digestAuthenticationNonce, ha2);
+          NSString* ha2 = ReadiumGCDWebServerComputeMD5Digest(@"%@:%@", request.method, uri);  // We cannot use "request.path" as the query string is required
+          NSString* expectedResponse = ReadiumGCDWebServerComputeMD5Digest(@"%@:%@:%@", ha1, _digestAuthenticationNonce, ha2);
           if ([actualResponse isEqualToString:expectedResponse]) {
             authenticated = YES;
           }
@@ -746,15 +750,16 @@ static inline NSUInteger _ScanHexNumber(const void* bytes, NSUInteger size) {
       }
     }
     if (!authenticated) {
-      response = [GCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_Unauthorized];
+      response = [ReadiumGCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_Unauthorized];
       [response setValue:[NSString stringWithFormat:@"Digest realm=\"%@\", nonce=\"%@\"%@", _server.authenticationRealm, _digestAuthenticationNonce, isStaled ? @", stale=TRUE" : @""] forAdditionalHeader:@"WWW-Authenticate"];  // TODO: Support Quality of Protection ("qop")
     }
   }
   return response;
 }
 
-- (void)processRequest:(GCDWebServerRequest*)request completion:(GCDWebServerCompletionBlock)completion {
+- (void)processRequest:(ReadiumGCDWebServerRequest*)request completion:(ReadiumGCDWebServerCompletionBlock)completion {
   GWS_LOG_DEBUG(@"Connection on socket %i processing request \"%@ %@\" with %lu bytes body", _socket, _virtualHEAD ? @"HEAD" : _request.method, _request.path, (unsigned long)_totalBytesRead);
+  // `completion` will receive the `ReadiumGCDWebServerResponse` object
   _handler.asyncProcessBlock(request, [completion copy]);
 }
 
@@ -777,10 +782,10 @@ static inline BOOL _CompareResources(NSString* responseETag, NSString* requestET
   return NO;
 }
 
-- (GCDWebServerResponse*)overrideResponse:(GCDWebServerResponse*)response forRequest:(GCDWebServerRequest*)request {
+- (ReadiumGCDWebServerResponse*)overrideResponse:(ReadiumGCDWebServerResponse*)response forRequest:(ReadiumGCDWebServerRequest*)request {
   if ((response.statusCode >= 200) && (response.statusCode < 300) && _CompareResources(response.eTag, request.ifNoneMatch, response.lastModifiedDate, request.ifModifiedSince)) {
     NSInteger code = [request.method isEqualToString:@"HEAD"] || [request.method isEqualToString:@"GET"] ? kGCDWebServerHTTPStatusCode_NotModified : kGCDWebServerHTTPStatusCode_PreconditionFailed;
-    GCDWebServerResponse* newResponse = [GCDWebServerResponse responseWithStatusCode:code];
+    ReadiumGCDWebServerResponse* newResponse = [ReadiumGCDWebServerResponse responseWithStatusCode:code];
     newResponse.cacheControlMaxAge = response.cacheControlMaxAge;
     newResponse.lastModifiedDate = response.lastModifiedDate;
     newResponse.eTag = response.eTag;
@@ -790,12 +795,12 @@ static inline BOOL _CompareResources(NSString* responseETag, NSString* requestET
   return response;
 }
 
-- (void)abortRequest:(GCDWebServerRequest*)request withStatusCode:(NSInteger)statusCode {
+- (void)abortRequest:(ReadiumGCDWebServerRequest*)request withStatusCode:(NSInteger)statusCode {
   GWS_DCHECK(_responseMessage == NULL);
   GWS_DCHECK((statusCode >= 400) && (statusCode < 600));
   [self _initializeResponseHeadersWithStatusCode:statusCode];
-  [self writeHeadersWithCompletionBlock:^(BOOL success){
-      // Nothing more to do
+  [self writeHeadersWithCompletionBlock:^(BOOL success) {
+    ;  // Nothing more to do
   }];
   GWS_LOG_DEBUG(@"Connection aborted with status code %i on socket %i", (int)statusCode, _socket);
 }

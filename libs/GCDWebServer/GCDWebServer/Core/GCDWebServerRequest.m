@@ -26,30 +26,34 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
 #import <zlib.h>
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
-NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerRequestAttribute_RegexCaptures";
+NSString* const ReadiumGCDWebServerRequestAttribute_RegexCaptures = @"ReadiumGCDWebServerRequestAttribute_RegexCaptures";
 
 #define kZlibErrorDomain @"ZlibErrorDomain"
 #define kGZipInitialBufferSize (256 * 1024)
 
-@interface GCDWebServerBodyDecoder : NSObject <GCDWebServerBodyWriter>
+@interface ReadiumGCDWebServerBodyDecoder : NSObject <ReadiumGCDWebServerBodyWriter>
 @end
 
-@interface GCDWebServerGZipDecoder : GCDWebServerBodyDecoder
+@interface ReadiumGCDWebServerGZipDecoder : ReadiumGCDWebServerBodyDecoder
 @end
 
-@implementation GCDWebServerBodyDecoder {
-  GCDWebServerRequest* __unsafe_unretained _request;
-  id<GCDWebServerBodyWriter> __unsafe_unretained _writer;
+@implementation ReadiumGCDWebServerBodyDecoder {
+  ReadiumGCDWebServerRequest* __unsafe_unretained _request;
+  id<ReadiumGCDWebServerBodyWriter> __unsafe_unretained _writer;
 }
 
-- (instancetype)initWithRequest:(GCDWebServerRequest* _Nonnull)request writer:(id<GCDWebServerBodyWriter> _Nonnull)writer {
+- (instancetype)initWithRequest:(ReadiumGCDWebServerRequest* _Nonnull)request writer:(id<ReadiumGCDWebServerBodyWriter> _Nonnull)writer {
   if ((self = [super init])) {
     _request = request;
     _writer = writer;
@@ -71,7 +75,7 @@ NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerReque
 
 @end
 
-@implementation GCDWebServerGZipDecoder {
+@implementation ReadiumGCDWebServerGZipDecoder {
   z_stream _stream;
   BOOL _finished;
 }
@@ -134,10 +138,10 @@ NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerReque
 
 @end
 
-@implementation GCDWebServerRequest {
+@implementation ReadiumGCDWebServerRequest {
   BOOL _opened;
-  NSMutableArray<GCDWebServerBodyDecoder*>* _decoders;
-  id<GCDWebServerBodyWriter> __unsafe_unretained _writer;
+  NSMutableArray<ReadiumGCDWebServerBodyDecoder*>* _decoders;
+  id<ReadiumGCDWebServerBodyWriter> __unsafe_unretained _writer;
   NSMutableDictionary<NSString*, id>* _attributes;
 }
 
@@ -149,8 +153,8 @@ NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerReque
     _path = [path copy];
     _query = query;
 
-    _contentType = GCDWebServerNormalizeHeaderValue([_headers objectForKey:@"Content-Type"]);
-    _usesChunkedTransferEncoding = [GCDWebServerNormalizeHeaderValue([_headers objectForKey:@"Transfer-Encoding"]) isEqualToString:@"chunked"];
+    _contentType = ReadiumGCDWebServerNormalizeHeaderValue([_headers objectForKey:@"Content-Type"]);
+    _usesChunkedTransferEncoding = [ReadiumGCDWebServerNormalizeHeaderValue([_headers objectForKey:@"Transfer-Encoding"]) isEqualToString:@"chunked"];
     NSString* lengthHeader = [_headers objectForKey:@"Content-Length"];
     if (lengthHeader) {
       NSInteger length = [lengthHeader integerValue];
@@ -178,12 +182,12 @@ NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerReque
 
     NSString* modifiedHeader = [_headers objectForKey:@"If-Modified-Since"];
     if (modifiedHeader) {
-      _ifModifiedSince = [GCDWebServerParseRFC822(modifiedHeader) copy];
+      _ifModifiedSince = [ReadiumGCDWebServerParseRFC822(modifiedHeader) copy];
     }
     _ifNoneMatch = [_headers objectForKey:@"If-None-Match"];
 
     _byteRange = NSMakeRange(NSUIntegerMax, 0);
-    NSString* rangeHeader = GCDWebServerNormalizeHeaderValue([_headers objectForKey:@"Range"]);
+    NSString* rangeHeader = ReadiumGCDWebServerNormalizeHeaderValue([_headers objectForKey:@"Range"]);
     if (rangeHeader) {
       if ([rangeHeader hasPrefix:@"bytes="]) {
         NSArray* components = [[rangeHeader substringFromIndex:6] componentsSeparatedByString:@","];
@@ -227,7 +231,7 @@ NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerReque
 }
 
 - (BOOL)hasByteRange {
-  return GCDWebServerIsValidByteRange(_byteRange);
+  return ReadiumGCDWebServerIsValidByteRange(_byteRange);
 }
 
 - (id)attributeForKey:(NSString*)key {
@@ -248,8 +252,8 @@ NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerReque
 
 - (void)prepareForWriting {
   _writer = self;
-  if ([GCDWebServerNormalizeHeaderValue([self.headers objectForKey:@"Content-Encoding"]) isEqualToString:@"gzip"]) {
-    GCDWebServerGZipDecoder* decoder = [[GCDWebServerGZipDecoder alloc] initWithRequest:self writer:_writer];
+  if ([ReadiumGCDWebServerNormalizeHeaderValue([self.headers objectForKey:@"Content-Encoding"]) isEqualToString:@"gzip"]) {
+    ReadiumGCDWebServerGZipDecoder* decoder = [[ReadiumGCDWebServerGZipDecoder alloc] initWithRequest:self writer:_writer];
     [_decoders addObject:decoder];
     _writer = decoder;
   }
@@ -281,11 +285,11 @@ NSString* const GCDWebServerRequestAttribute_RegexCaptures = @"GCDWebServerReque
 }
 
 - (NSString*)localAddressString {
-  return GCDWebServerStringFromSockAddr(_localAddressData.bytes, YES);
+  return ReadiumGCDWebServerStringFromSockAddr(_localAddressData.bytes, YES);
 }
 
 - (NSString*)remoteAddressString {
-  return GCDWebServerStringFromSockAddr(_remoteAddressData.bytes, YES);
+  return ReadiumGCDWebServerStringFromSockAddr(_remoteAddressData.bytes, YES);
 }
 
 - (NSString*)description {

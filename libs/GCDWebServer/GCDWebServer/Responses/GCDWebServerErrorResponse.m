@@ -26,45 +26,51 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
-@implementation GCDWebServerErrorResponse
+@implementation ReadiumGCDWebServerErrorResponse {
+    NSError *_error;
+}
 
-+ (instancetype)responseWithClientError:(GCDWebServerClientErrorHTTPStatusCode)errorCode message:(NSString*)format, ... {
++ (instancetype)responseWithClientError:(ReadiumGCDWebServerClientErrorHTTPStatusCode)errorCode message:(NSString*)format, ... {
   GWS_DCHECK(((NSInteger)errorCode >= 400) && ((NSInteger)errorCode < 500));
   va_list arguments;
   va_start(arguments, format);
-  GCDWebServerErrorResponse* response = [(GCDWebServerErrorResponse*)[self alloc] initWithStatusCode:errorCode underlyingError:nil messageFormat:format arguments:arguments];
+  ReadiumGCDWebServerErrorResponse* response = [(ReadiumGCDWebServerErrorResponse*)[self alloc] initWithStatusCode:errorCode underlyingError:nil messageFormat:format arguments:arguments];
   va_end(arguments);
   return response;
 }
 
-+ (instancetype)responseWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode message:(NSString*)format, ... {
++ (instancetype)responseWithServerError:(ReadiumGCDWebServerServerErrorHTTPStatusCode)errorCode message:(NSString*)format, ... {
   GWS_DCHECK(((NSInteger)errorCode >= 500) && ((NSInteger)errorCode < 600));
   va_list arguments;
   va_start(arguments, format);
-  GCDWebServerErrorResponse* response = [(GCDWebServerErrorResponse*)[self alloc] initWithStatusCode:errorCode underlyingError:nil messageFormat:format arguments:arguments];
+  ReadiumGCDWebServerErrorResponse* response = [(ReadiumGCDWebServerErrorResponse*)[self alloc] initWithStatusCode:errorCode underlyingError:nil messageFormat:format arguments:arguments];
   va_end(arguments);
   return response;
 }
 
-+ (instancetype)responseWithClientError:(GCDWebServerClientErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... {
++ (instancetype)responseWithClientError:(ReadiumGCDWebServerClientErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... {
   GWS_DCHECK(((NSInteger)errorCode >= 400) && ((NSInteger)errorCode < 500));
   va_list arguments;
   va_start(arguments, format);
-  GCDWebServerErrorResponse* response = [(GCDWebServerErrorResponse*)[self alloc] initWithStatusCode:errorCode underlyingError:underlyingError messageFormat:format arguments:arguments];
+  ReadiumGCDWebServerErrorResponse* response = [(ReadiumGCDWebServerErrorResponse*)[self alloc] initWithStatusCode:errorCode underlyingError:underlyingError messageFormat:format arguments:arguments];
   va_end(arguments);
   return response;
 }
 
-+ (instancetype)responseWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... {
++ (instancetype)responseWithServerError:(ReadiumGCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... {
   GWS_DCHECK(((NSInteger)errorCode >= 500) && ((NSInteger)errorCode < 600));
   va_list arguments;
   va_start(arguments, format);
-  GCDWebServerErrorResponse* response = [(GCDWebServerErrorResponse*)[self alloc] initWithStatusCode:errorCode underlyingError:underlyingError messageFormat:format arguments:arguments];
+  ReadiumGCDWebServerErrorResponse* response = [(ReadiumGCDWebServerErrorResponse*)[self alloc] initWithStatusCode:errorCode underlyingError:underlyingError messageFormat:format arguments:arguments];
   va_end(arguments);
   return response;
 }
@@ -85,7 +91,14 @@ static inline NSString* _EscapeHTMLString(NSString* string) {
   return self;
 }
 
-- (instancetype)initWithClientError:(GCDWebServerClientErrorHTTPStatusCode)errorCode message:(NSString*)format, ... {
+- (instancetype)initWithStatusCode:(NSInteger)statusCode error:(NSError*)error {
+  if ((self = [super initWithStatusCode:statusCode])) {
+    _error = error;
+  }
+  return self;
+}
+
+- (instancetype)initWithClientError:(ReadiumGCDWebServerClientErrorHTTPStatusCode)errorCode message:(NSString*)format, ... {
   GWS_DCHECK(((NSInteger)errorCode >= 400) && ((NSInteger)errorCode < 500));
   va_list arguments;
   va_start(arguments, format);
@@ -94,7 +107,7 @@ static inline NSString* _EscapeHTMLString(NSString* string) {
   return self;
 }
 
-- (instancetype)initWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode message:(NSString*)format, ... {
+- (instancetype)initWithServerError:(ReadiumGCDWebServerServerErrorHTTPStatusCode)errorCode message:(NSString*)format, ... {
   GWS_DCHECK(((NSInteger)errorCode >= 500) && ((NSInteger)errorCode < 600));
   va_list arguments;
   va_start(arguments, format);
@@ -103,7 +116,7 @@ static inline NSString* _EscapeHTMLString(NSString* string) {
   return self;
 }
 
-- (instancetype)initWithClientError:(GCDWebServerClientErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... {
+- (instancetype)initWithClientError:(ReadiumGCDWebServerClientErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... {
   GWS_DCHECK(((NSInteger)errorCode >= 400) && ((NSInteger)errorCode < 500));
   va_list arguments;
   va_start(arguments, format);
@@ -112,7 +125,7 @@ static inline NSString* _EscapeHTMLString(NSString* string) {
   return self;
 }
 
-- (instancetype)initWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... {
+- (instancetype)initWithServerError:(ReadiumGCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... {
   GWS_DCHECK(((NSInteger)errorCode >= 500) && ((NSInteger)errorCode < 600));
   va_list arguments;
   va_start(arguments, format);

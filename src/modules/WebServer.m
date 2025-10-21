@@ -21,7 +21,7 @@
 #import "Util.h"
 
 @interface WebServer () {
-	GCDWebDAVServer *server;
+	ReadiumGCDWebDAVServer *server;
 }
 @end
 
@@ -30,8 +30,8 @@
 - (id)init {
 	self = [super init];
 	if(self) {
-		[GCDWebServer setLogLevel:4]; // ERROR
-		server = [[GCDWebDAVServer alloc] initWithUploadDirectory:Util.documentsPath];
+		[ReadiumGCDWebServer setLogLevel:4]; // ERROR
+		server = [[ReadiumGCDWebDAVServer alloc] initWithUploadDirectory:Util.documentsPath];
 		server.delegate = self;
 	}
 	return self;
@@ -47,7 +47,7 @@
 	}
 	server.delegate = nil;
 	server = nil;
-	server = [[GCDWebDAVServer alloc] initWithUploadDirectory:directory];
+	server = [[ReadiumGCDWebDAVServer alloc] initWithUploadDirectory:directory];
 	server.delegate = self;
 	return [self start];
 }
@@ -61,10 +61,10 @@
 	NSError *error = nil;
 	NSInteger port = [NSUserDefaults.standardUserDefaults integerForKey:@"webServerPort"];
 	NSDictionary *options = @{
-		GCDWebServerOption_Port : [NSNumber numberWithInteger:port],
-		GCDWebServerOption_BonjourName : @"", // empty string to use default device name
-		GCDWebServerOption_AutomaticallySuspendInBackground : @NO, // run in background
-		GCDWebServerOption_DispatchQueuePriority: @(DISPATCH_QUEUE_PRIORITY_HIGH)
+		ReadiumGCDWebServerOption_Port : [NSNumber numberWithInteger:port],
+		ReadiumGCDWebServerOption_BonjourName : @"", // empty string to use default device name
+		ReadiumGCDWebServerOption_AutomaticallySuspendInBackground : @NO, // run in background
+		ReadiumGCDWebServerOption_DispatchQueuePriority: @(DISPATCH_QUEUE_PRIORITY_HIGH)
 	};
 	if(![server startWithOptions:options error:&error]) {
 		LogError(@"WebServer: error starting: %@", error.localizedDescription);
@@ -171,19 +171,19 @@
 
 #pragma mark GCDWebServerDelegate
 
-- (void)webServerDidStart:(GCDWebServer *)server {
+- (void)webServerDidStart:(ReadiumGCDWebServer *)server {
 	if(self.delegate) {
 		[self.delegate webServerDidStart];
 	}
 }
 
-- (void)webServerDidCompleteBonjourRegistration:(GCDWebServer *)server {
+- (void)webServerDidCompleteBonjourRegistration:(ReadiumGCDWebServer *)server {
 	if(self.delegate) {
 		[self.delegate webServerBonjourRegistered];
 	}
 }
 
-- (void)webServerDidStop:(GCDWebServer *)server {
+- (void)webServerDidStop:(ReadiumGCDWebServer *)server {
 	if(self.delegate) {
 		[self.delegate webServerDidStop];
 	}

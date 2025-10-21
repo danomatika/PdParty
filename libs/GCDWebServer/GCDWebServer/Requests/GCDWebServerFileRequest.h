@@ -30,16 +30,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The GCDWebServerFileRequest subclass of GCDWebServerRequest stores the body
+ *  The ReadiumGCDWebServerFileRequest subclass of ReadiumGCDWebServerRequest stores the body
  *  of the HTTP request to a file on disk.
  */
-@interface GCDWebServerFileRequest : GCDWebServerRequest
+@interface ReadiumGCDWebServerFileRequest : ReadiumGCDWebServerRequest
 
 /**
  *  Returns the path to the temporary file containing the request body.
  *
  *  @warning This temporary file will be automatically deleted when the
- *  GCDWebServerFileRequest is deallocated. If you want to preserve this file,
+ *  ReadiumGCDWebServerFileRequest is deallocated. If you want to preserve this file,
  *  you must move it to a different location beforehand.
  */
 @property(nonatomic, readonly) NSString* temporaryPath;

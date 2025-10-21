@@ -30,10 +30,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The GCDWebServerDataRequest subclass of GCDWebServerRequest stores the body
+ *  The ReadiumGCDWebServerDataRequest subclass of ReadiumGCDWebServerRequest stores the body
  *  of the HTTP request in memory.
  */
-@interface GCDWebServerDataRequest : GCDWebServerRequest
+@interface ReadiumGCDWebServerDataRequest : ReadiumGCDWebServerRequest
 
 /**
  *  Returns the data for the request body.
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface GCDWebServerDataRequest (Extensions)
+@interface ReadiumGCDWebServerDataRequest (Extensions)
 
 /**
  *  Returns the data for the request body interpreted as text. If the content

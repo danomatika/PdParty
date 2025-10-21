@@ -33,7 +33,7 @@
 /**
  *  Convenience constants for "informational" HTTP status codes.
  */
-typedef NS_ENUM(NSInteger, GCDWebServerInformationalHTTPStatusCode) {
+typedef NS_ENUM(NSInteger, ReadiumGCDWebServerInformationalHTTPStatusCode) {
   kGCDWebServerHTTPStatusCode_Continue = 100,
   kGCDWebServerHTTPStatusCode_SwitchingProtocols = 101,
   kGCDWebServerHTTPStatusCode_Processing = 102
@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, GCDWebServerInformationalHTTPStatusCode) {
 /**
  *  Convenience constants for "successful" HTTP status codes.
  */
-typedef NS_ENUM(NSInteger, GCDWebServerSuccessfulHTTPStatusCode) {
+typedef NS_ENUM(NSInteger, ReadiumGCDWebServerSuccessfulHTTPStatusCode) {
   kGCDWebServerHTTPStatusCode_OK = 200,
   kGCDWebServerHTTPStatusCode_Created = 201,
   kGCDWebServerHTTPStatusCode_Accepted = 202,
@@ -57,7 +57,7 @@ typedef NS_ENUM(NSInteger, GCDWebServerSuccessfulHTTPStatusCode) {
 /**
  *  Convenience constants for "redirection" HTTP status codes.
  */
-typedef NS_ENUM(NSInteger, GCDWebServerRedirectionHTTPStatusCode) {
+typedef NS_ENUM(NSInteger, ReadiumGCDWebServerRedirectionHTTPStatusCode) {
   kGCDWebServerHTTPStatusCode_MultipleChoices = 300,
   kGCDWebServerHTTPStatusCode_MovedPermanently = 301,
   kGCDWebServerHTTPStatusCode_Found = 302,
@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, GCDWebServerRedirectionHTTPStatusCode) {
 /**
  *  Convenience constants for "client error" HTTP status codes.
  */
-typedef NS_ENUM(NSInteger, GCDWebServerClientErrorHTTPStatusCode) {
+typedef NS_ENUM(NSInteger, ReadiumGCDWebServerClientErrorHTTPStatusCode) {
   kGCDWebServerHTTPStatusCode_BadRequest = 400,
   kGCDWebServerHTTPStatusCode_Unauthorized = 401,
   kGCDWebServerHTTPStatusCode_PaymentRequired = 402,
@@ -102,7 +102,7 @@ typedef NS_ENUM(NSInteger, GCDWebServerClientErrorHTTPStatusCode) {
 /**
  *  Convenience constants for "server error" HTTP status codes.
  */
-typedef NS_ENUM(NSInteger, GCDWebServerServerErrorHTTPStatusCode) {
+typedef NS_ENUM(NSInteger, ReadiumGCDWebServerServerErrorHTTPStatusCode) {
   kGCDWebServerHTTPStatusCode_InternalServerError = 500,
   kGCDWebServerHTTPStatusCode_NotImplemented = 501,
   kGCDWebServerHTTPStatusCode_BadGateway = 502,

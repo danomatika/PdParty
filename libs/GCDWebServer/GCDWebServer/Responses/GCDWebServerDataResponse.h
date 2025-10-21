@@ -30,10 +30,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The GCDWebServerDataResponse subclass of GCDWebServerResponse reads the body
+ *  The ReadiumGCDWebServerDataResponse subclass of ReadiumGCDWebServerResponse reads the body
  *  of the HTTP response from memory.
  */
-@interface GCDWebServerDataResponse : GCDWebServerResponse
+@interface ReadiumGCDWebServerDataResponse : ReadiumGCDWebServerResponse
 @property(nonatomic, copy) NSString* contentType;  // Redeclare as non-null
 
 /**
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface GCDWebServerDataResponse (Extensions)
+@interface ReadiumGCDWebServerDataResponse (Extensions)
 
 /**
  *  Creates a data response from text encoded using UTF-8.

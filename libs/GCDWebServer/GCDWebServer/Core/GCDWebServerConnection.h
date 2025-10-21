@@ -29,26 +29,26 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class GCDWebServerHandler;
+@class ReadiumGCDWebServerHandler;
 
 /**
- *  The GCDWebServerConnection class is instantiated by GCDWebServer to handle
+ *  The ReadiumGCDWebServerConnection class is instantiated by ReadiumGCDWebServer to handle
  *  each new HTTP connection. Each instance stays alive until the connection is
  *  closed.
  *
  *  You cannot use this class directly, but it is made public so you can
- *  subclass it to override some hooks. Use the GCDWebServerOption_ConnectionClass
- *  option for GCDWebServer to install your custom subclass.
+ *  subclass it to override some hooks. Use the ReadiumGCDWebServerOption_ConnectionClass
+ *  option for ReadiumGCDWebServer to install your custom subclass.
  *
- *  @warning The GCDWebServerConnection retains the GCDWebServer until the
+ *  @warning The ReadiumGCDWebServerConnection retains the ReadiumGCDWebServer until the
  *  connection is closed.
  */
-@interface GCDWebServerConnection : NSObject
+@interface ReadiumGCDWebServerConnection : NSObject
 
 /**
- *  Returns the GCDWebServer that owns the connection.
+ *  Returns the ReadiumGCDWebServer that owns the connection.
  */
-@property(nonatomic, readonly) GCDWebServer* server;
+@property(nonatomic, readonly) ReadiumGCDWebServer* server;
 
 /**
  *  Returns YES if the connection is using IPv6.
@@ -93,12 +93,12 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Hooks to customize the behavior of GCDWebServer HTTP connections.
+ *  Hooks to customize the behavior of ReadiumGCDWebServer HTTP connections.
  *
  *  @warning These methods can be called on any GCD thread.
  *  Be sure to also call "super" when overriding them.
  */
-@interface GCDWebServerConnection (Subclassing)
+@interface ReadiumGCDWebServerConnection (Subclassing)
 
 /**
  *  This method is called when the connection is opened.
@@ -136,23 +136,23 @@ NS_ASSUME_NONNULL_BEGIN
  *  Assuming a valid HTTP request was received, this method is called before
  *  the request is processed.
  *
- *  Return a non-nil GCDWebServerResponse to bypass the request processing entirely.
+ *  Return a non-nil ReadiumGCDWebServerResponse to bypass the request processing entirely.
  *
  *  The default implementation checks for HTTP authentication if applicable
  *  and returns a barebone 401 status code response if authentication failed.
  */
-- (nullable GCDWebServerResponse*)preflightRequest:(GCDWebServerRequest*)request;
+- (nullable ReadiumGCDWebServerResponse*)preflightRequest:(ReadiumGCDWebServerRequest*)request;
 
 /**
  *  Assuming a valid HTTP request was received and -preflightRequest: returned nil,
  *  this method is called to process the request by executing the handler's
  *  process block.
  */
-- (void)processRequest:(GCDWebServerRequest*)request completion:(GCDWebServerCompletionBlock)completion;
+- (void)processRequest:(ReadiumGCDWebServerRequest*)request completion:(ReadiumGCDWebServerCompletionBlock)completion;
 
 /**
  *  Assuming a valid HTTP request was received and either -preflightRequest:
- *  or -processRequest:completion: returned a non-nil GCDWebServerResponse,
+ *  or -processRequest:completion: returned a non-nil ReadiumGCDWebServerResponse,
  *  this method is called to override the response.
  *
  *  You can either modify the current response and return it, or return a
@@ -162,16 +162,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  "Last-Modified-Date" header of the request by a barebone "Not-Modified" (304)
  *  one.
  */
-- (GCDWebServerResponse*)overrideResponse:(GCDWebServerResponse*)response forRequest:(GCDWebServerRequest*)request;
+- (ReadiumGCDWebServerResponse*)overrideResponse:(ReadiumGCDWebServerResponse*)response forRequest:(ReadiumGCDWebServerRequest*)request;
 
 /**
  *  This method is called if any error happens while validing or processing
- *  the request or if no GCDWebServerResponse was generated during processing.
+ *  the request or if no ReadiumGCDWebServerResponse was generated during processing.
  *
  *  @warning If the request was invalid (e.g. the HTTP headers were malformed),
  *  the "request" argument will be nil.
  */
-- (void)abortRequest:(nullable GCDWebServerRequest*)request withStatusCode:(NSInteger)statusCode;
+- (void)abortRequest:(nullable ReadiumGCDWebServerRequest*)request withStatusCode:(NSInteger)statusCode;
 
 /**
  *  Called when the connection is closed.

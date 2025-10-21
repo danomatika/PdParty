@@ -30,11 +30,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The GCDWebServerURLEncodedFormRequest subclass of GCDWebServerRequest
+ *  The ReadiumGCDWebServerURLEncodedFormRequest subclass of ReadiumGCDWebServerRequest
  *  parses the body of the HTTP request as a URL encoded form using
- *  GCDWebServerParseURLEncodedForm().
+ *  ReadiumGCDWebServerParseURLEncodedForm().
  */
-@interface GCDWebServerURLEncodedFormRequest : GCDWebServerDataRequest
+@interface ReadiumGCDWebServerURLEncodedFormRequest : ReadiumGCDWebServerDataRequest
 
 /**
  *  Returns the unescaped control names and values for the URL encoded form.

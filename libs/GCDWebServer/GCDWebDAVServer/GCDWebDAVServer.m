@@ -26,7 +26,7 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebDAVServer requires ARC
+#error ReadiumGCDWebDAVServer requires ARC
 #endif
 
 // WebDAV specifications: http://webdav.org/specs/rfc4918.html
@@ -57,96 +57,96 @@ typedef NS_ENUM(NSInteger, DAVProperties) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GCDWebDAVServer (Methods)
-- (nullable GCDWebServerResponse*)performOPTIONS:(GCDWebServerRequest*)request;
-- (nullable GCDWebServerResponse*)performGET:(GCDWebServerRequest*)request;
-- (nullable GCDWebServerResponse*)performPUT:(GCDWebServerFileRequest*)request;
-- (nullable GCDWebServerResponse*)performDELETE:(GCDWebServerRequest*)request;
-- (nullable GCDWebServerResponse*)performMKCOL:(GCDWebServerDataRequest*)request;
-- (nullable GCDWebServerResponse*)performCOPY:(GCDWebServerRequest*)request isMove:(BOOL)isMove;
-- (nullable GCDWebServerResponse*)performPROPFIND:(GCDWebServerDataRequest*)request;
-- (nullable GCDWebServerResponse*)performLOCK:(GCDWebServerDataRequest*)request;
-- (nullable GCDWebServerResponse*)performUNLOCK:(GCDWebServerRequest*)request;
+@interface ReadiumGCDWebDAVServer (Methods)
+- (nullable ReadiumGCDWebServerResponse*)performOPTIONS:(ReadiumGCDWebServerRequest*)request;
+- (nullable ReadiumGCDWebServerResponse*)performGET:(ReadiumGCDWebServerRequest*)request;
+- (nullable ReadiumGCDWebServerResponse*)performPUT:(ReadiumGCDWebServerFileRequest*)request;
+- (nullable ReadiumGCDWebServerResponse*)performDELETE:(ReadiumGCDWebServerRequest*)request;
+- (nullable ReadiumGCDWebServerResponse*)performMKCOL:(ReadiumGCDWebServerDataRequest*)request;
+- (nullable ReadiumGCDWebServerResponse*)performCOPY:(ReadiumGCDWebServerRequest*)request isMove:(BOOL)isMove;
+- (nullable ReadiumGCDWebServerResponse*)performPROPFIND:(ReadiumGCDWebServerDataRequest*)request;
+- (nullable ReadiumGCDWebServerResponse*)performLOCK:(ReadiumGCDWebServerDataRequest*)request;
+- (nullable ReadiumGCDWebServerResponse*)performUNLOCK:(ReadiumGCDWebServerRequest*)request;
 @end
 
 NS_ASSUME_NONNULL_END
 
-@implementation GCDWebDAVServer
+@implementation ReadiumGCDWebDAVServer
 
 @dynamic delegate;
 
 - (instancetype)initWithUploadDirectory:(NSString*)path {
   if ((self = [super init])) {
     _uploadDirectory = [path copy];
-    GCDWebDAVServer* __unsafe_unretained server = self;
+    ReadiumGCDWebDAVServer* __unsafe_unretained server = self;
 
     // 9.1 PROPFIND method
     [self addDefaultHandlerForMethod:@"PROPFIND"
-                        requestClass:[GCDWebServerDataRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
-                          return [server performPROPFIND:(GCDWebServerDataRequest*)request];
+                        requestClass:[ReadiumGCDWebServerDataRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
+                          return [server performPROPFIND:(ReadiumGCDWebServerDataRequest*)request];
                         }];
 
     // 9.3 MKCOL Method
     [self addDefaultHandlerForMethod:@"MKCOL"
-                        requestClass:[GCDWebServerDataRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
-                          return [server performMKCOL:(GCDWebServerDataRequest*)request];
+                        requestClass:[ReadiumGCDWebServerDataRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
+                          return [server performMKCOL:(ReadiumGCDWebServerDataRequest*)request];
                         }];
 
     // 9.4 GET & HEAD methods
     [self addDefaultHandlerForMethod:@"GET"
-                        requestClass:[GCDWebServerRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
+                        requestClass:[ReadiumGCDWebServerRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
                           return [server performGET:request];
                         }];
 
     // 9.6 DELETE method
     [self addDefaultHandlerForMethod:@"DELETE"
-                        requestClass:[GCDWebServerRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
+                        requestClass:[ReadiumGCDWebServerRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
                           return [server performDELETE:request];
                         }];
 
     // 9.7 PUT method
     [self addDefaultHandlerForMethod:@"PUT"
-                        requestClass:[GCDWebServerFileRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
-                          return [server performPUT:(GCDWebServerFileRequest*)request];
+                        requestClass:[ReadiumGCDWebServerFileRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
+                          return [server performPUT:(ReadiumGCDWebServerFileRequest*)request];
                         }];
 
     // 9.8 COPY method
     [self addDefaultHandlerForMethod:@"COPY"
-                        requestClass:[GCDWebServerRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
+                        requestClass:[ReadiumGCDWebServerRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
                           return [server performCOPY:request isMove:NO];
                         }];
 
     // 9.9 MOVE method
     [self addDefaultHandlerForMethod:@"MOVE"
-                        requestClass:[GCDWebServerRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
+                        requestClass:[ReadiumGCDWebServerRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
                           return [server performCOPY:request isMove:YES];
                         }];
 
     // 9.10 LOCK method
     [self addDefaultHandlerForMethod:@"LOCK"
-                        requestClass:[GCDWebServerDataRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
-                          return [server performLOCK:(GCDWebServerDataRequest*)request];
+                        requestClass:[ReadiumGCDWebServerDataRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
+                          return [server performLOCK:(ReadiumGCDWebServerDataRequest*)request];
                         }];
 
     // 9.11 UNLOCK method
     [self addDefaultHandlerForMethod:@"UNLOCK"
-                        requestClass:[GCDWebServerRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
+                        requestClass:[ReadiumGCDWebServerRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
                           return [server performUNLOCK:request];
                         }];
 
     // 10.1 OPTIONS method / DAV Header
     [self addDefaultHandlerForMethod:@"OPTIONS"
-                        requestClass:[GCDWebServerRequest class]
-                        processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
+                        requestClass:[ReadiumGCDWebServerRequest class]
+                        processBlock:^ReadiumGCDWebServerResponse*(ReadiumGCDWebServerRequest* request) {
                           return [server performOPTIONS:request];
                         }];
   }
@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_END
 
 @end
 
-@implementation GCDWebDAVServer (Methods)
+@implementation ReadiumGCDWebDAVServer (Methods)
 
 - (BOOL)_checkFileExtension:(NSString*)fileName {
   if (_allowedFileExtensions && ![_allowedFileExtensions containsObject:[[fileName pathExtension] lowercaseString]]) {
@@ -164,13 +164,13 @@ NS_ASSUME_NONNULL_END
   return YES;
 }
 
-static inline BOOL _IsMacFinder(GCDWebServerRequest* request) {
+static inline BOOL _IsMacFinder(ReadiumGCDWebServerRequest* request) {
   NSString* userAgentHeader = [request.headers objectForKey:@"User-Agent"];
   return ([userAgentHeader hasPrefix:@"WebDAVFS/"] || [userAgentHeader hasPrefix:@"WebDAVLib/"]);  // OS X WebDAV client
 }
 
-- (GCDWebServerResponse*)performOPTIONS:(GCDWebServerRequest*)request {
-  GCDWebServerResponse* response = [GCDWebServerResponse response];
+- (ReadiumGCDWebServerResponse*)performOPTIONS:(ReadiumGCDWebServerRequest*)request {
+  ReadiumGCDWebServerResponse* response = [ReadiumGCDWebServerResponse response];
   if (_IsMacFinder(request)) {
     [response setValue:@"1, 2" forAdditionalHeader:@"DAV"];  // Classes 1 and 2
   } else {
@@ -179,22 +179,22 @@ static inline BOOL _IsMacFinder(GCDWebServerRequest* request) {
   return response;
 }
 
-- (GCDWebServerResponse*)performGET:(GCDWebServerRequest*)request {
+- (ReadiumGCDWebServerResponse*)performGET:(ReadiumGCDWebServerRequest*)request {
   NSString* relativePath = request.path;
-  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(relativePath)];
+  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(relativePath)];
   BOOL isDirectory = NO;
   if (![[NSFileManager defaultManager] fileExistsAtPath:absolutePath isDirectory:&isDirectory]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
   }
 
   NSString* itemName = [absolutePath lastPathComponent];
   if (([itemName hasPrefix:@"."] && !_allowHiddenItems) || (!isDirectory && ![self _checkFileExtension:itemName])) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Downlading item name \"%@\" is not allowed", itemName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Downlading item name \"%@\" is not allowed", itemName];
   }
 
   // Because HEAD requests are mapped to GET ones, we need to handle directories but it's OK to return nothing per http://webdav.org/specs/rfc4918.html#rfc.section.9.4
   if (isDirectory) {
-    return [GCDWebServerResponse response];
+    return [ReadiumGCDWebServerResponse response];
   }
 
   if ([self.delegate respondsToSelector:@selector(davServer:didDownloadFileAtPath:)]) {
@@ -204,42 +204,42 @@ static inline BOOL _IsMacFinder(GCDWebServerRequest* request) {
   }
 
   if ([request hasByteRange]) {
-    return [GCDWebServerFileResponse responseWithFile:absolutePath byteRange:request.byteRange];
+    return [ReadiumGCDWebServerFileResponse responseWithFile:absolutePath byteRange:request.byteRange];
   }
 
-  return [GCDWebServerFileResponse responseWithFile:absolutePath];
+  return [ReadiumGCDWebServerFileResponse responseWithFile:absolutePath];
 }
 
-- (GCDWebServerResponse*)performPUT:(GCDWebServerFileRequest*)request {
+- (ReadiumGCDWebServerResponse*)performPUT:(ReadiumGCDWebServerFileRequest*)request {
   if ([request hasByteRange]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Range uploads not supported"];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Range uploads not supported"];
   }
 
   NSString* relativePath = request.path;
-  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(relativePath)];
+  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(relativePath)];
   BOOL isDirectory;
   if (![[NSFileManager defaultManager] fileExistsAtPath:[absolutePath stringByDeletingLastPathComponent] isDirectory:&isDirectory] || !isDirectory) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Conflict message:@"Missing intermediate collection(s) for \"%@\"", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Conflict message:@"Missing intermediate collection(s) for \"%@\"", relativePath];
   }
 
   BOOL existing = [[NSFileManager defaultManager] fileExistsAtPath:absolutePath isDirectory:&isDirectory];
   if (existing && isDirectory) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_MethodNotAllowed message:@"PUT not allowed on existing collection \"%@\"", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_MethodNotAllowed message:@"PUT not allowed on existing collection \"%@\"", relativePath];
   }
 
   NSString* fileName = [absolutePath lastPathComponent];
   if (([fileName hasPrefix:@"."] && !_allowHiddenItems) || ![self _checkFileExtension:fileName]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Uploading file name \"%@\" is not allowed", fileName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Uploading file name \"%@\" is not allowed", fileName];
   }
 
   if (![self shouldUploadFileAtPath:absolutePath withTemporaryFile:request.temporaryPath]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Uploading file to \"%@\" is not permitted", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Uploading file to \"%@\" is not permitted", relativePath];
   }
 
   [[NSFileManager defaultManager] removeItemAtPath:absolutePath error:NULL];
   NSError* error = nil;
   if (![[NSFileManager defaultManager] moveItemAtPath:request.temporaryPath toPath:absolutePath error:&error]) {
-    return [GCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed moving uploaded file to \"%@\"", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed moving uploaded file to \"%@\"", relativePath];
   }
 
   if ([self.delegate respondsToSelector:@selector(davServer:didUploadFileAtPath:)]) {
@@ -247,34 +247,34 @@ static inline BOOL _IsMacFinder(GCDWebServerRequest* request) {
       [self.delegate davServer:self didUploadFileAtPath:absolutePath];
     });
   }
-  return [GCDWebServerResponse responseWithStatusCode:(existing ? kGCDWebServerHTTPStatusCode_NoContent : kGCDWebServerHTTPStatusCode_Created)];
+  return [ReadiumGCDWebServerResponse responseWithStatusCode:(existing ? kGCDWebServerHTTPStatusCode_NoContent : kGCDWebServerHTTPStatusCode_Created)];
 }
 
-- (GCDWebServerResponse*)performDELETE:(GCDWebServerRequest*)request {
+- (ReadiumGCDWebServerResponse*)performDELETE:(ReadiumGCDWebServerRequest*)request {
   NSString* depthHeader = [request.headers objectForKey:@"Depth"];
   if (depthHeader && ![depthHeader isEqualToString:@"infinity"]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Unsupported 'Depth' header: %@", depthHeader];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Unsupported 'Depth' header: %@", depthHeader];
   }
 
   NSString* relativePath = request.path;
-  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(relativePath)];
+  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(relativePath)];
   BOOL isDirectory = NO;
   if (![[NSFileManager defaultManager] fileExistsAtPath:absolutePath isDirectory:&isDirectory]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
   }
 
   NSString* itemName = [absolutePath lastPathComponent];
   if (([itemName hasPrefix:@"."] && !_allowHiddenItems) || (!isDirectory && ![self _checkFileExtension:itemName])) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Deleting item name \"%@\" is not allowed", itemName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Deleting item name \"%@\" is not allowed", itemName];
   }
 
   if (![self shouldDeleteItemAtPath:absolutePath]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Deleting \"%@\" is not permitted", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Deleting \"%@\" is not permitted", relativePath];
   }
 
   NSError* error = nil;
   if (![[NSFileManager defaultManager] removeItemAtPath:absolutePath error:&error]) {
-    return [GCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed deleting \"%@\"", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed deleting \"%@\"", relativePath];
   }
 
   if ([self.delegate respondsToSelector:@selector(davServer:didDeleteItemAtPath:)]) {
@@ -282,40 +282,40 @@ static inline BOOL _IsMacFinder(GCDWebServerRequest* request) {
       [self.delegate davServer:self didDeleteItemAtPath:absolutePath];
     });
   }
-  return [GCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_NoContent];
+  return [ReadiumGCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_NoContent];
 }
 
-- (GCDWebServerResponse*)performMKCOL:(GCDWebServerDataRequest*)request {
+- (ReadiumGCDWebServerResponse*)performMKCOL:(ReadiumGCDWebServerDataRequest*)request {
   if ([request hasBody] && (request.contentLength > 0)) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_UnsupportedMediaType message:@"Unexpected request body for MKCOL method"];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_UnsupportedMediaType message:@"Unexpected request body for MKCOL method"];
   }
 
   NSString* relativePath = request.path;
-  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(relativePath)];
+  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(relativePath)];
   BOOL isDirectory;
   if (![[NSFileManager defaultManager] fileExistsAtPath:[absolutePath stringByDeletingLastPathComponent] isDirectory:&isDirectory] || !isDirectory) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Conflict message:@"Missing intermediate collection(s) for \"%@\"", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Conflict message:@"Missing intermediate collection(s) for \"%@\"", relativePath];
   }
 
   NSString* directoryName = [absolutePath lastPathComponent];
   if (!_allowHiddenItems && [directoryName hasPrefix:@"."]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Creating directory name \"%@\" is not allowed", directoryName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Creating directory name \"%@\" is not allowed", directoryName];
   }
 
   if (![self shouldCreateDirectoryAtPath:absolutePath]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Creating directory \"%@\" is not permitted", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Creating directory \"%@\" is not permitted", relativePath];
   }
 
   NSError* error = nil;
   if (![[NSFileManager defaultManager] createDirectoryAtPath:absolutePath withIntermediateDirectories:NO attributes:nil error:&error]) {
-    return [GCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed creating directory \"%@\"", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed creating directory \"%@\"", relativePath];
   }
 #ifdef __GCDWEBSERVER_ENABLE_TESTING__
-  NSString* creationDateHeader = [request.headers objectForKey:@"X-GCDWebServer-CreationDate"];
+  NSString* creationDateHeader = [request.headers objectForKey:@"X-ReadiumGCDWebServer-CreationDate"];
   if (creationDateHeader) {
-    NSDate* date = GCDWebServerParseISO8601(creationDateHeader);
+    NSDate* date = ReadiumGCDWebServerParseISO8601(creationDateHeader);
     if (!date || ![[NSFileManager defaultManager] setAttributes:@{NSFileCreationDate : date} ofItemAtPath:absolutePath error:&error]) {
-      return [GCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed setting creation date for directory \"%@\"", relativePath];
+      return [ReadiumGCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed setting creation date for directory \"%@\"", relativePath];
     }
   }
 #endif
@@ -325,62 +325,62 @@ static inline BOOL _IsMacFinder(GCDWebServerRequest* request) {
       [self.delegate davServer:self didCreateDirectoryAtPath:absolutePath];
     });
   }
-  return [GCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_Created];
+  return [ReadiumGCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_Created];
 }
 
-- (GCDWebServerResponse*)performCOPY:(GCDWebServerRequest*)request isMove:(BOOL)isMove {
+- (ReadiumGCDWebServerResponse*)performCOPY:(ReadiumGCDWebServerRequest*)request isMove:(BOOL)isMove {
   if (!isMove) {
     NSString* depthHeader = [request.headers objectForKey:@"Depth"];  // TODO: Support "Depth: 0"
     if (depthHeader && ![depthHeader isEqualToString:@"infinity"]) {
-      return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Unsupported 'Depth' header: %@", depthHeader];
+      return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Unsupported 'Depth' header: %@", depthHeader];
     }
   }
 
   NSString* srcRelativePath = request.path;
-  NSString* srcAbsolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(srcRelativePath)];
+  NSString* srcAbsolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(srcRelativePath)];
 
   NSString* dstRelativePath = [request.headers objectForKey:@"Destination"];
   NSRange range = [dstRelativePath rangeOfString:(NSString*)[request.headers objectForKey:@"Host"]];
   if ((dstRelativePath == nil) || (range.location == NSNotFound)) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Malformed 'Destination' header: %@", dstRelativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Malformed 'Destination' header: %@", dstRelativePath];
   }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   dstRelativePath = [[dstRelativePath substringFromIndex:(range.location + range.length)] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 #pragma clang diagnostic pop
-  NSString* dstAbsolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(dstRelativePath)];
+  NSString* dstAbsolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(dstRelativePath)];
   if (!dstAbsolutePath) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", srcRelativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", srcRelativePath];
   }
 
   BOOL isDirectory;
   if (![[NSFileManager defaultManager] fileExistsAtPath:[dstAbsolutePath stringByDeletingLastPathComponent] isDirectory:&isDirectory] || !isDirectory) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Conflict message:@"Invalid destination \"%@\"", dstRelativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Conflict message:@"Invalid destination \"%@\"", dstRelativePath];
   }
 
   NSString* srcName = [srcAbsolutePath lastPathComponent];
   if ((!_allowHiddenItems && [srcName hasPrefix:@"."]) || (!isDirectory && ![self _checkFileExtension:srcName])) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"%@ from item name \"%@\" is not allowed", isMove ? @"Moving" : @"Copying", srcName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"%@ from item name \"%@\" is not allowed", isMove ? @"Moving" : @"Copying", srcName];
   }
 
   NSString* dstName = [dstAbsolutePath lastPathComponent];
   if ((!_allowHiddenItems && [dstName hasPrefix:@"."]) || (!isDirectory && ![self _checkFileExtension:dstName])) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"%@ to item name \"%@\" is not allowed", isMove ? @"Moving" : @"Copying", dstName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"%@ to item name \"%@\" is not allowed", isMove ? @"Moving" : @"Copying", dstName];
   }
 
   NSString* overwriteHeader = [request.headers objectForKey:@"Overwrite"];
   BOOL existing = [[NSFileManager defaultManager] fileExistsAtPath:dstAbsolutePath];
   if (existing && ((isMove && ![overwriteHeader isEqualToString:@"T"]) || (!isMove && [overwriteHeader isEqualToString:@"F"]))) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_PreconditionFailed message:@"Destination \"%@\" already exists", dstRelativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_PreconditionFailed message:@"Destination \"%@\" already exists", dstRelativePath];
   }
 
   if (isMove) {
     if (![self shouldMoveItemFromPath:srcAbsolutePath toPath:dstAbsolutePath]) {
-      return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Moving \"%@\" to \"%@\" is not permitted", srcRelativePath, dstRelativePath];
+      return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Moving \"%@\" to \"%@\" is not permitted", srcRelativePath, dstRelativePath];
     }
   } else {
     if (![self shouldCopyItemFromPath:srcAbsolutePath toPath:dstAbsolutePath]) {
-      return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Copying \"%@\" to \"%@\" is not permitted", srcRelativePath, dstRelativePath];
+      return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Copying \"%@\" to \"%@\" is not permitted", srcRelativePath, dstRelativePath];
     }
   }
 
@@ -388,11 +388,11 @@ static inline BOOL _IsMacFinder(GCDWebServerRequest* request) {
   if (isMove) {
     [[NSFileManager defaultManager] removeItemAtPath:dstAbsolutePath error:NULL];
     if (![[NSFileManager defaultManager] moveItemAtPath:srcAbsolutePath toPath:dstAbsolutePath error:&error]) {
-      return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden underlyingError:error message:@"Failed copying \"%@\" to \"%@\"", srcRelativePath, dstRelativePath];
+      return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden underlyingError:error message:@"Failed copying \"%@\" to \"%@\"", srcRelativePath, dstRelativePath];
     }
   } else {
     if (![[NSFileManager defaultManager] copyItemAtPath:srcAbsolutePath toPath:dstAbsolutePath error:&error]) {
-      return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden underlyingError:error message:@"Failed copying \"%@\" to \"%@\"", srcRelativePath, dstRelativePath];
+      return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden underlyingError:error message:@"Failed copying \"%@\" to \"%@\"", srcRelativePath, dstRelativePath];
     }
   }
 
@@ -410,7 +410,7 @@ static inline BOOL _IsMacFinder(GCDWebServerRequest* request) {
     }
   }
 
-  return [GCDWebServerResponse responseWithStatusCode:(existing ? kGCDWebServerHTTPStatusCode_NoContent : kGCDWebServerHTTPStatusCode_Created)];
+  return [ReadiumGCDWebServerResponse responseWithStatusCode:(existing ? kGCDWebServerHTTPStatusCode_NoContent : kGCDWebServerHTTPStatusCode_Created)];
 }
 
 static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name) {
@@ -448,11 +448,11 @@ static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name
       }
 
       if ((properties & kDAVProperty_CreationDate) && [attributes objectForKey:NSFileCreationDate]) {
-        [xmlString appendFormat:@"<D:creationdate>%@</D:creationdate>", GCDWebServerFormatISO8601((NSDate*)[attributes fileCreationDate])];
+        [xmlString appendFormat:@"<D:creationdate>%@</D:creationdate>", ReadiumGCDWebServerFormatISO8601((NSDate*)[attributes fileCreationDate])];
       }
 
       if ((properties & kDAVProperty_LastModified) && isFile && [attributes objectForKey:NSFileModificationDate]) {  // Last modification date is not useful for directories as it changes implicitely and 'Last-Modified' header is not provided for directories anyway
-        [xmlString appendFormat:@"<D:getlastmodified>%@</D:getlastmodified>", GCDWebServerFormatRFC822((NSDate*)[attributes fileModificationDate])];
+        [xmlString appendFormat:@"<D:getlastmodified>%@</D:getlastmodified>", ReadiumGCDWebServerFormatRFC822((NSDate*)[attributes fileModificationDate])];
       }
 
       if ((properties & kDAVProperty_ContentLength) && !isDirectory && [attributes objectForKey:NSFileSize]) {
@@ -470,7 +470,7 @@ static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name
   }
 }
 
-- (GCDWebServerResponse*)performPROPFIND:(GCDWebServerDataRequest*)request {
+- (ReadiumGCDWebServerResponse*)performPROPFIND:(ReadiumGCDWebServerDataRequest*)request {
   NSInteger depth;
   NSString* depthHeader = [request.headers objectForKey:@"Depth"];
   if ([depthHeader isEqualToString:@"0"]) {
@@ -478,7 +478,7 @@ static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name
   } else if ([depthHeader isEqualToString:@"1"]) {
     depth = 1;
   } else {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Unsupported 'Depth' header: %@", depthHeader];  // TODO: Return 403 / propfind-finite-depth for "infinity" depth
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Unsupported 'Depth' header: %@", depthHeader];  // TODO: Return 403 / propfind-finite-depth for "infinity" depth
   }
 
   DAVProperties properties = 0;
@@ -516,22 +516,22 @@ static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name
     }
     if (!success) {
       NSString* string = [[NSString alloc] initWithData:request.data encoding:NSUTF8StringEncoding];
-      return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Invalid DAV properties:\n%@", string];
+      return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Invalid DAV properties:\n%@", string];
     }
   } else {
     properties = kDAVAllProperties;
   }
 
   NSString* relativePath = request.path;
-  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(relativePath)];
+  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(relativePath)];
   BOOL isDirectory = NO;
   if (![[NSFileManager defaultManager] fileExistsAtPath:absolutePath isDirectory:&isDirectory]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
   }
 
   NSString* itemName = [absolutePath lastPathComponent];
   if (([itemName hasPrefix:@"."] && !_allowHiddenItems) || (!isDirectory && ![self _checkFileExtension:itemName])) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Retrieving properties for item name \"%@\" is not allowed", itemName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Retrieving properties for item name \"%@\" is not allowed", itemName];
   }
 
   NSArray* items = nil;
@@ -539,7 +539,7 @@ static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name
     NSError* error = nil;
     items = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:absolutePath error:&error] sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
     if (items == nil) {
-      return [GCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed listing directory \"%@\"", relativePath];
+      return [ReadiumGCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed listing directory \"%@\"", relativePath];
     }
   }
 
@@ -561,22 +561,22 @@ static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name
   }
   [xmlString appendString:@"</D:multistatus>"];
 
-  GCDWebServerDataResponse* response = [GCDWebServerDataResponse responseWithData:(NSData*)[xmlString dataUsingEncoding:NSUTF8StringEncoding]
+  ReadiumGCDWebServerDataResponse* response = [ReadiumGCDWebServerDataResponse responseWithData:(NSData*)[xmlString dataUsingEncoding:NSUTF8StringEncoding]
                                                                       contentType:@"application/xml; charset=\"utf-8\""];
   response.statusCode = kGCDWebServerHTTPStatusCode_MultiStatus;
   return response;
 }
 
-- (GCDWebServerResponse*)performLOCK:(GCDWebServerDataRequest*)request {
+- (ReadiumGCDWebServerResponse*)performLOCK:(ReadiumGCDWebServerDataRequest*)request {
   if (!_IsMacFinder(request)) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_MethodNotAllowed message:@"LOCK method only allowed for Mac Finder"];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_MethodNotAllowed message:@"LOCK method only allowed for Mac Finder"];
   }
 
   NSString* relativePath = request.path;
-  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(relativePath)];
+  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(relativePath)];
   BOOL isDirectory = NO;
   if (![[NSFileManager defaultManager] fileExistsAtPath:absolutePath isDirectory:&isDirectory]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
   }
 
   NSString* depthHeader = [request.headers objectForKey:@"Depth"];
@@ -614,20 +614,20 @@ static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name
   }
   if (!success) {
     NSString* string = [[NSString alloc] initWithData:request.data encoding:NSUTF8StringEncoding];
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Invalid DAV properties:\n%@", string];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Invalid DAV properties:\n%@", string];
   }
 
   if (![scope isEqualToString:@"exclusive"] || ![type isEqualToString:@"write"] || ![depthHeader isEqualToString:@"0"]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Locking request \"%@/%@/%@\" for \"%@\" is not allowed", scope, type, depthHeader, relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Locking request \"%@/%@/%@\" for \"%@\" is not allowed", scope, type, depthHeader, relativePath];
   }
 
   NSString* itemName = [absolutePath lastPathComponent];
   if ((!_allowHiddenItems && [itemName hasPrefix:@"."]) || (!isDirectory && ![self _checkFileExtension:itemName])) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Locking item name \"%@\" is not allowed", itemName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Locking item name \"%@\" is not allowed", itemName];
   }
 
 #ifdef __GCDWEBSERVER_ENABLE_TESTING__
-  NSString* lockTokenHeader = [request.headers objectForKey:@"X-GCDWebServer-LockToken"];
+  NSString* lockTokenHeader = [request.headers objectForKey:@"X-ReadiumGCDWebServer-LockToken"];
   if (lockTokenHeader) {
     token = lockTokenHeader;
   }
@@ -659,40 +659,40 @@ static inline xmlNodePtr _XMLChildWithName(xmlNodePtr child, const xmlChar* name
   [xmlString appendString:@"</D:prop>"];
 
   [self logVerbose:@"WebDAV pretending to lock \"%@\"", relativePath];
-  GCDWebServerDataResponse* response = [GCDWebServerDataResponse responseWithData:(NSData*)[xmlString dataUsingEncoding:NSUTF8StringEncoding]
+  ReadiumGCDWebServerDataResponse* response = [ReadiumGCDWebServerDataResponse responseWithData:(NSData*)[xmlString dataUsingEncoding:NSUTF8StringEncoding]
                                                                       contentType:@"application/xml; charset=\"utf-8\""];
   return response;
 }
 
-- (GCDWebServerResponse*)performUNLOCK:(GCDWebServerRequest*)request {
+- (ReadiumGCDWebServerResponse*)performUNLOCK:(ReadiumGCDWebServerRequest*)request {
   if (!_IsMacFinder(request)) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_MethodNotAllowed message:@"UNLOCK method only allowed for Mac Finder"];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_MethodNotAllowed message:@"UNLOCK method only allowed for Mac Finder"];
   }
 
   NSString* relativePath = request.path;
-  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:GCDWebServerNormalizePath(relativePath)];
+  NSString* absolutePath = [_uploadDirectory stringByAppendingPathComponent:ReadiumGCDWebServerNormalizePath(relativePath)];
   BOOL isDirectory = NO;
   if (![[NSFileManager defaultManager] fileExistsAtPath:absolutePath isDirectory:&isDirectory]) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_NotFound message:@"\"%@\" does not exist", relativePath];
   }
 
   NSString* tokenHeader = [request.headers objectForKey:@"Lock-Token"];
   if (!tokenHeader.length) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Missing 'Lock-Token' header"];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_BadRequest message:@"Missing 'Lock-Token' header"];
   }
 
   NSString* itemName = [absolutePath lastPathComponent];
   if ((!_allowHiddenItems && [itemName hasPrefix:@"."]) || (!isDirectory && ![self _checkFileExtension:itemName])) {
-    return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Unlocking item name \"%@\" is not allowed", itemName];
+    return [ReadiumGCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Unlocking item name \"%@\" is not allowed", itemName];
   }
 
   [self logVerbose:@"WebDAV pretending to unlock \"%@\"", relativePath];
-  return [GCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_NoContent];
+  return [ReadiumGCDWebServerResponse responseWithStatusCode:kGCDWebServerHTTPStatusCode_NoContent];
 }
 
 @end
 
-@implementation GCDWebDAVServer (Subclassing)
+@implementation ReadiumGCDWebDAVServer (Subclassing)
 
 - (BOOL)shouldUploadFileAtPath:(NSString*)path withTemporaryFile:(NSString*)tempPath {
   return YES;

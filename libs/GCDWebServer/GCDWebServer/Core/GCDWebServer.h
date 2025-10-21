@@ -33,78 +33,71 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The GCDWebServerMatchBlock is called for every handler added to the
- *  GCDWebServer whenever a new HTTP request has started (i.e. HTTP headers have
+ *  The ReadiumGCDWebServerMatchBlock is called for every handler added to the
+ *  ReadiumGCDWebServer whenever a new HTTP request has started (i.e. HTTP headers have
  *  been received). The block is passed the basic info for the request (HTTP method,
  *  URL, headers...) and must decide if it wants to handle it or not.
  *
  *  If the handler can handle the request, the block must return a new
- *  GCDWebServerRequest instance created with the same basic info.
+ *  ReadiumGCDWebServerRequest instance created with the same basic info.
  *  Otherwise, it simply returns nil.
  */
-typedef GCDWebServerRequest* _Nullable (^GCDWebServerMatchBlock)(NSString* requestMethod, NSURL* requestURL, NSDictionary<NSString*, NSString*>* requestHeaders, NSString* urlPath, NSDictionary<NSString*, NSString*>* urlQuery);
+typedef ReadiumGCDWebServerRequest* _Nullable (^ReadiumGCDWebServerMatchBlock)(NSString* requestMethod, NSURL* requestURL, NSDictionary<NSString*, NSString*>* requestHeaders, NSString* urlPath, NSDictionary<NSString*, NSString*>* urlQuery);
 
 /**
- *  The GCDWebServerProcessBlock is called after the HTTP request has been fully
+ *  The ReadiumGCDWebServerProcessBlock is called after the HTTP request has been fully
  *  received (i.e. the entire HTTP body has been read). The block is passed the
- *  GCDWebServerRequest created at the previous step by the GCDWebServerMatchBlock.
+ *  ReadiumGCDWebServerRequest created at the previous step by the ReadiumGCDWebServerMatchBlock.
  *
- *  The block must return a GCDWebServerResponse or nil on error, which will
+ *  The block must return a ReadiumGCDWebServerResponse or nil on error, which will
  *  result in a 500 HTTP status code returned to the client. It's however
- *  recommended to return a GCDWebServerErrorResponse on error so more useful
+ *  recommended to return a ReadiumGCDWebServerErrorResponse on error so more useful
  *  information can be returned to the client.
  */
-typedef GCDWebServerResponse* _Nullable (^GCDWebServerProcessBlock)(__kindof GCDWebServerRequest* request);
+typedef ReadiumGCDWebServerResponse* _Nullable (^ReadiumGCDWebServerProcessBlock)(__kindof ReadiumGCDWebServerRequest* request);
 
 /**
- *  The GCDWebServerAsynchronousProcessBlock works like the GCDWebServerProcessBlock
- *  except the GCDWebServerResponse can be returned to the server at a later time
+ *  The ReadiumGCDWebServerAsynchronousProcessBlock works like the ReadiumGCDWebServerProcessBlock
+ *  except the ReadiumGCDWebServerResponse can be returned to the server at a later time
  *  allowing for asynchronous generation of the response.
  *
- *  The block must eventually call "completionBlock" passing a GCDWebServerResponse
+ *  The block must eventually call "completionBlock" passing a ReadiumGCDWebServerResponse
  *  or nil on error, which will result in a 500 HTTP status code returned to the client.
- *  It's however recommended to return a GCDWebServerErrorResponse on error so more
+ *  It's however recommended to return a ReadiumGCDWebServerErrorResponse on error so more
  *  useful information can be returned to the client.
  */
-typedef void (^GCDWebServerCompletionBlock)(GCDWebServerResponse* _Nullable response);
-typedef void (^GCDWebServerAsyncProcessBlock)(__kindof GCDWebServerRequest* request, GCDWebServerCompletionBlock completionBlock);
+typedef void (^ReadiumGCDWebServerCompletionBlock)(ReadiumGCDWebServerResponse* _Nullable response);
+typedef void (^ReadiumGCDWebServerAsyncProcessBlock)(__kindof ReadiumGCDWebServerRequest* request, ReadiumGCDWebServerCompletionBlock completionBlock);
 
 /**
- *  The GCDWebServerBuiltInLoggerBlock is used to override the built-in logger at runtime.
+ *  The ReadiumGCDWebServerBuiltInLoggerBlock is used to override the built-in logger at runtime.
  *  The block will be passed the log level and the log message, see setLogLevel for
  *  documentation of the log levels for the built-in logger.
  */
-typedef void (^GCDWebServerBuiltInLoggerBlock)(int level, NSString* _Nonnull message);
+typedef void (^ReadiumGCDWebServerBuiltInLoggerBlock)(int level, NSString* _Nonnull message);
 
 /**
- *  The port used by the GCDWebServer (NSNumber / NSUInteger).
+ *  The port used by the ReadiumGCDWebServer (NSNumber / NSUInteger).
  *
  *  The default value is 0 i.e. let the OS pick a random port.
  */
-extern NSString* const GCDWebServerOption_Port;
+extern NSString* const ReadiumGCDWebServerOption_Port;
 
 /**
- *  The Bonjour name used by the GCDWebServer (NSString). If set to an empty string,
- *  the name will automatically take the value of the GCDWebServerOption_ServerName
+ *  The Bonjour name used by the ReadiumGCDWebServer (NSString). If set to an empty string,
+ *  the name will automatically take the value of the ReadiumGCDWebServerOption_ServerName
  *  option. If this option is set to nil, Bonjour will be disabled.
  *
  *  The default value is nil.
  */
-extern NSString* const GCDWebServerOption_BonjourName;
+extern NSString* const ReadiumGCDWebServerOption_BonjourName;
 
 /**
-*  The Bonjour TXT Data used by the GCDWebServer (NSDictionary<NSString, NSString>).
-*
-*  The default value is nil.
-*/
-extern NSString* const GCDWebServerOption_BonjourTXTData;
-
-/**
- *  The Bonjour service type used by the GCDWebServer (NSString).
+ *  The Bonjour service type used by the ReadiumGCDWebServer (NSString).
  *
  *  The default value is "_http._tcp", the service type for HTTP web servers.
  */
-extern NSString* const GCDWebServerOption_BonjourType;
+extern NSString* const ReadiumGCDWebServerOption_BonjourType;
 
 /**
  *  Request a port mapping in the NAT gateway (NSNumber / BOOL).
@@ -114,9 +107,9 @@ extern NSString* const GCDWebServerOption_BonjourType;
  *  The default value is NO.
  *
  *  @warning The external port set up by the NAT gateway may be different than
- *  the one used by the GCDWebServer.
+ *  the one used by the ReadiumGCDWebServer.
  */
-extern NSString* const GCDWebServerOption_RequestNATPortMapping;
+extern NSString* const ReadiumGCDWebServerOption_RequestNATPortMapping;
 
 /**
  *  Only accept HTTP requests coming from localhost i.e. not from the outside
@@ -127,7 +120,7 @@ extern NSString* const GCDWebServerOption_RequestNATPortMapping;
  *  @warning Bonjour and NAT port mapping should be disabled if using this option
  *  since the server will not be reachable from the outside network anyway.
  */
-extern NSString* const GCDWebServerOption_BindToLocalhost;
+extern NSString* const ReadiumGCDWebServerOption_BindToLocalhost;
 
 /**
  *  The maximum number of incoming HTTP requests that can be queued waiting to
@@ -135,62 +128,62 @@ extern NSString* const GCDWebServerOption_BindToLocalhost;
  *
  *  The default value is 16.
  */
-extern NSString* const GCDWebServerOption_MaxPendingConnections;
+extern NSString* const ReadiumGCDWebServerOption_MaxPendingConnections;
 
 /**
- *  The value for "Server" HTTP header used by the GCDWebServer (NSString).
+ *  The value for "Server" HTTP header used by the ReadiumGCDWebServer (NSString).
  *
- *  The default value is the GCDWebServer class name.
+ *  The default value is the ReadiumGCDWebServer class name.
  */
-extern NSString* const GCDWebServerOption_ServerName;
+extern NSString* const ReadiumGCDWebServerOption_ServerName;
 
 /**
- *  The authentication method used by the GCDWebServer
- *  (one of "GCDWebServerAuthenticationMethod_...").
+ *  The authentication method used by the ReadiumGCDWebServer
+ *  (one of "ReadiumGCDWebServerAuthenticationMethod_...").
  *
  *  The default value is nil i.e. authentication is disabled.
  */
-extern NSString* const GCDWebServerOption_AuthenticationMethod;
+extern NSString* const ReadiumGCDWebServerOption_AuthenticationMethod;
 
 /**
- *  The authentication realm used by the GCDWebServer (NSString).
+ *  The authentication realm used by the ReadiumGCDWebServer (NSString).
  *
- *  The default value is the same as the GCDWebServerOption_ServerName option.
+ *  The default value is the same as the ReadiumGCDWebServerOption_ServerName option.
  */
-extern NSString* const GCDWebServerOption_AuthenticationRealm;
+extern NSString* const ReadiumGCDWebServerOption_AuthenticationRealm;
 
 /**
- *  The authentication accounts used by the GCDWebServer
+ *  The authentication accounts used by the ReadiumGCDWebServer
  *  (NSDictionary of username / password pairs).
  *
  *  The default value is nil i.e. no accounts.
  */
-extern NSString* const GCDWebServerOption_AuthenticationAccounts;
+extern NSString* const ReadiumGCDWebServerOption_AuthenticationAccounts;
 
 /**
- *  The class used by the GCDWebServer when instantiating GCDWebServerConnection
- *  (subclass of GCDWebServerConnection).
+ *  The class used by the ReadiumGCDWebServer when instantiating ReadiumGCDWebServerConnection
+ *  (subclass of ReadiumGCDWebServerConnection).
  *
- *  The default value is the GCDWebServerConnection class.
+ *  The default value is the ReadiumGCDWebServerConnection class.
  */
-extern NSString* const GCDWebServerOption_ConnectionClass;
+extern NSString* const ReadiumGCDWebServerOption_ConnectionClass;
 
 /**
- *  Allow the GCDWebServer to pretend "HEAD" requests are actually "GET" ones
+ *  Allow the ReadiumGCDWebServer to pretend "HEAD" requests are actually "GET" ones
  *  and automatically discard the HTTP body of the response (NSNumber / BOOL).
  *
  *  The default value is YES.
  */
-extern NSString* const GCDWebServerOption_AutomaticallyMapHEADToGET;
+extern NSString* const ReadiumGCDWebServerOption_AutomaticallyMapHEADToGET;
 
 /**
- *  The interval expressed in seconds used by the GCDWebServer to decide how to
+ *  The interval expressed in seconds used by the ReadiumGCDWebServer to decide how to
  *  coalesce calls to -webServerDidConnect: and -webServerDidDisconnect:
  *  (NSNumber / double). Coalescing will be disabled if the interval is <= 0.0.
  *
  *  The default value is 1.0 second.
  */
-extern NSString* const GCDWebServerOption_ConnectedStateCoalescingInterval;
+extern NSString* const ReadiumGCDWebServerOption_ConnectedStateCoalescingInterval;
 
 /**
  *  Set the dispatch queue priority on which server connection will be 
@@ -199,23 +192,23 @@ extern NSString* const GCDWebServerOption_ConnectedStateCoalescingInterval;
  *
  *  The default value is DISPATCH_QUEUE_PRIORITY_DEFAULT.
  */
-extern NSString* const GCDWebServerOption_DispatchQueuePriority;
+extern NSString* const ReadiumGCDWebServerOption_DispatchQueuePriority;
 
 #if TARGET_OS_IPHONE
 
 /**
- *  Enables the GCDWebServer to automatically suspend itself (as if -stop was
+ *  Enables the ReadiumGCDWebServer to automatically suspend itself (as if -stop was
  *  called) when the iOS app goes into the background and the last
- *  GCDWebServerConnection is closed, then resume itself (as if -start was called)
+ *  ReadiumGCDWebServerConnection is closed, then resume itself (as if -start was called)
  *  when the iOS app comes back to the foreground (NSNumber / BOOL).
  *
  *  See the README.md file for more information about this option.
  *
  *  The default value is YES.
  *
- *  @warning The running property will be NO while the GCDWebServer is suspended.
+ *  @warning The running property will be NO while the ReadiumGCDWebServer is suspended.
  */
-extern NSString* const GCDWebServerOption_AutomaticallySuspendInBackground;
+extern NSString* const ReadiumGCDWebServerOption_AutomaticallySuspendInBackground;
 
 #endif
 
@@ -225,27 +218,27 @@ extern NSString* const GCDWebServerOption_AutomaticallySuspendInBackground;
  *  @warning Use of this authentication scheme is not recommended as the
  *  passwords are sent in clear.
  */
-extern NSString* const GCDWebServerAuthenticationMethod_Basic;
+extern NSString* const ReadiumGCDWebServerAuthenticationMethod_Basic;
 
 /**
  *  HTTP Digest Access Authentication scheme (see https://tools.ietf.org/html/rfc2617).
  */
-extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
+extern NSString* const ReadiumGCDWebServerAuthenticationMethod_DigestAccess;
 
-@class GCDWebServer;
+@class ReadiumGCDWebServer;
 
 /**
- *  Delegate methods for GCDWebServer.
+ *  Delegate methods for ReadiumGCDWebServer.
  *
  *  @warning These methods are always called on the main thread in a serialized way.
  */
-@protocol GCDWebServerDelegate <NSObject>
+@protocol ReadiumGCDWebServerDelegate <NSObject>
 @optional
 
 /**
  *  This method is called after the server has successfully started.
  */
-- (void)webServerDidStart:(GCDWebServer*)server;
+- (void)webServerDidStart:(ReadiumGCDWebServer*)server;
 
 /**
  *  This method is called after the Bonjour registration for the server has
@@ -254,7 +247,7 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *  Use the "bonjourServerURL" property to retrieve the Bonjour address of the
  *  server.
  */
-- (void)webServerDidCompleteBonjourRegistration:(GCDWebServer*)server;
+- (void)webServerDidCompleteBonjourRegistration:(ReadiumGCDWebServer*)server;
 
 /**
  *  This method is called after the NAT port mapping for the server has been
@@ -263,55 +256,55 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *  Use the "publicServerURL" property to retrieve the public address of the
  *  server.
  */
-- (void)webServerDidUpdateNATPortMapping:(GCDWebServer*)server;
+- (void)webServerDidUpdateNATPortMapping:(ReadiumGCDWebServer*)server;
 
 /**
- *  This method is called when the first GCDWebServerConnection is opened by the
+ *  This method is called when the first ReadiumGCDWebServerConnection is opened by the
  *  server to serve a series of HTTP requests.
  *
  *  A series of HTTP requests is considered ongoing as long as new HTTP requests
- *  keep coming (and new GCDWebServerConnection instances keep being opened),
+ *  keep coming (and new ReadiumGCDWebServerConnection instances keep being opened),
  *  until before the last HTTP request has been responded to (and the
- *  corresponding last GCDWebServerConnection closed).
+ *  corresponding last ReadiumGCDWebServerConnection closed).
  */
-- (void)webServerDidConnect:(GCDWebServer*)server;
+- (void)webServerDidConnect:(ReadiumGCDWebServer*)server;
 
 /**
- *  This method is called when the last GCDWebServerConnection is closed after
+ *  This method is called when the last ReadiumGCDWebServerConnection is closed after
  *  the server has served a series of HTTP requests.
  *
- *  The GCDWebServerOption_ConnectedStateCoalescingInterval option can be used
+ *  The ReadiumGCDWebServerOption_ConnectedStateCoalescingInterval option can be used
  *  to have the server wait some extra delay before considering that the series
  *  of HTTP requests has ended (in case there some latency between consecutive
  *  requests). This effectively coalesces the calls to -webServerDidConnect:
  *  and -webServerDidDisconnect:.
  */
-- (void)webServerDidDisconnect:(GCDWebServer*)server;
+- (void)webServerDidDisconnect:(ReadiumGCDWebServer*)server;
 
 /**
  *  This method is called after the server has stopped.
  */
-- (void)webServerDidStop:(GCDWebServer*)server;
+- (void)webServerDidStop:(ReadiumGCDWebServer*)server;
 
 @end
 
 /**
- *  The GCDWebServer class listens for incoming HTTP requests on a given port,
+ *  The ReadiumGCDWebServer class listens for incoming HTTP requests on a given port,
  *  then passes each one to a "handler" capable of generating an HTTP response
  *  for it, which is then sent back to the client.
  *
- *  GCDWebServer instances can be created and used from any thread but it's
+ *  ReadiumGCDWebServer instances can be created and used from any thread but it's
  *  recommended to have the main thread's runloop be running so internal callbacks
  *  can be handled e.g. for Bonjour registration.
  *
- *  See the README.md file for more information about the architecture of GCDWebServer.
+ *  See the README.md file for more information about the architecture of ReadiumGCDWebServer.
  */
-@interface GCDWebServer : NSObject
+@interface ReadiumGCDWebServer : NSObject
 
 /**
  *  Sets the delegate for the server.
  */
-@property(nonatomic, weak, nullable) id<GCDWebServerDelegate> delegate;
+@property(nonatomic, weak, nullable) id<ReadiumGCDWebServerDelegate> delegate;
 
 /**
  *  Returns YES if the server is currently running.
@@ -354,7 +347,7 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *
  *  @warning Addling handlers while the server is running is not allowed.
  */
-- (void)addHandlerWithMatchBlock:(GCDWebServerMatchBlock)matchBlock processBlock:(GCDWebServerProcessBlock)processBlock;
+- (void)addHandlerWithMatchBlock:(ReadiumGCDWebServerMatchBlock)matchBlock processBlock:(ReadiumGCDWebServerProcessBlock)processBlock;
 
 /**
  *  Adds to the server a handler that generates responses asynchronously when handling incoming HTTP requests.
@@ -364,7 +357,7 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *
  *  @warning Addling handlers while the server is running is not allowed.
  */
-- (void)addHandlerWithMatchBlock:(GCDWebServerMatchBlock)matchBlock asyncProcessBlock:(GCDWebServerAsyncProcessBlock)processBlock;
+- (void)addHandlerWithMatchBlock:(ReadiumGCDWebServerMatchBlock)matchBlock asyncProcessBlock:(ReadiumGCDWebServerAsyncProcessBlock)processBlock;
 
 /**
  *  Removes all handlers previously added to the server.
@@ -384,7 +377,7 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
 /**
  *  Stops the server and prevents it to accepts new HTTP requests.
  *
- *  @warning Stopping the server does not abort GCDWebServerConnection instances
+ *  @warning Stopping the server does not abort ReadiumGCDWebServerConnection instances
  *  currently handling already received HTTP requests. These connections will
  *  continue to execute normally until completion.
  */
@@ -392,7 +385,7 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
 
 @end
 
-@interface GCDWebServer (Extensions)
+@interface ReadiumGCDWebServer (Extensions)
 
 /**
  *  Returns the server's URL.
@@ -464,51 +457,51 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
 
 @end
 
-@interface GCDWebServer (Handlers)
+@interface ReadiumGCDWebServer (Handlers)
 
 /**
  *  Adds a default handler to the server to handle all incoming HTTP requests
  *  with a given HTTP method and generate responses synchronously.
  */
-- (void)addDefaultHandlerForMethod:(NSString*)method requestClass:(Class)aClass processBlock:(GCDWebServerProcessBlock)block;
+- (void)addDefaultHandlerForMethod:(NSString*)method requestClass:(Class)aClass processBlock:(ReadiumGCDWebServerProcessBlock)block;
 
 /**
  *  Adds a default handler to the server to handle all incoming HTTP requests
  *  with a given HTTP method and generate responses asynchronously.
  */
-- (void)addDefaultHandlerForMethod:(NSString*)method requestClass:(Class)aClass asyncProcessBlock:(GCDWebServerAsyncProcessBlock)block;
+- (void)addDefaultHandlerForMethod:(NSString*)method requestClass:(Class)aClass asyncProcessBlock:(ReadiumGCDWebServerAsyncProcessBlock)block;
 
 /**
  *  Adds a handler to the server to handle incoming HTTP requests with a given
  *  HTTP method and a specific case-insensitive path  and generate responses
  *  synchronously.
  */
-- (void)addHandlerForMethod:(NSString*)method path:(NSString*)path requestClass:(Class)aClass processBlock:(GCDWebServerProcessBlock)block;
+- (void)addHandlerForMethod:(NSString*)method path:(NSString*)path requestClass:(Class)aClass processBlock:(ReadiumGCDWebServerProcessBlock)block;
 
 /**
  *  Adds a handler to the server to handle incoming HTTP requests with a given
  *  HTTP method and a specific case-insensitive path and generate responses
  *  asynchronously.
  */
-- (void)addHandlerForMethod:(NSString*)method path:(NSString*)path requestClass:(Class)aClass asyncProcessBlock:(GCDWebServerAsyncProcessBlock)block;
+- (void)addHandlerForMethod:(NSString*)method path:(NSString*)path requestClass:(Class)aClass asyncProcessBlock:(ReadiumGCDWebServerAsyncProcessBlock)block;
 
 /**
  *  Adds a handler to the server to handle incoming HTTP requests with a given
  *  HTTP method and a path matching a case-insensitive regular expression and
  *  generate responses synchronously.
  */
-- (void)addHandlerForMethod:(NSString*)method pathRegex:(NSString*)regex requestClass:(Class)aClass processBlock:(GCDWebServerProcessBlock)block;
+- (void)addHandlerForMethod:(NSString*)method pathRegex:(NSString*)regex requestClass:(Class)aClass processBlock:(ReadiumGCDWebServerProcessBlock)block;
 
 /**
  *  Adds a handler to the server to handle incoming HTTP requests with a given
  *  HTTP method and a path matching a case-insensitive regular expression and
  *  generate responses asynchronously.
  */
-- (void)addHandlerForMethod:(NSString*)method pathRegex:(NSString*)regex requestClass:(Class)aClass asyncProcessBlock:(GCDWebServerAsyncProcessBlock)block;
+- (void)addHandlerForMethod:(NSString*)method pathRegex:(NSString*)regex requestClass:(Class)aClass asyncProcessBlock:(ReadiumGCDWebServerAsyncProcessBlock)block;
 
 @end
 
-@interface GCDWebServer (GETHandlers)
+@interface ReadiumGCDWebServer (GETHandlers)
 
 /**
  *  Adds a handler to the server to respond to incoming "GET" HTTP requests
@@ -536,22 +529,22 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
 @end
 
 /**
- *  GCDWebServer provides its own built-in logging facility which is used by
+ *  ReadiumGCDWebServer provides its own built-in logging facility which is used by
  *  default. It simply sends log messages to stderr assuming it is connected
  *  to a terminal type device.
  *
- *  GCDWebServer is also compatible with a limited set of third-party logging
- *  facilities. If one of them is available at compile time, GCDWebServer will
+ *  ReadiumGCDWebServer is also compatible with a limited set of third-party logging
+ *  facilities. If one of them is available at compile time, ReadiumGCDWebServer will
  *  automatically use it in place of the built-in one.
  *
  *  Currently supported third-party logging facilities are:
- *  - XLFacility (by the same author as GCDWebServer): https://github.com/swisspol/XLFacility
+ *  - XLFacility (by the same author as ReadiumGCDWebServer): https://github.com/swisspol/XLFacility
  *
  *  For the built-in logging facility, the default logging level is INFO
  *  (or DEBUG if the preprocessor constant "DEBUG" evaluates to non-zero at
  *  compile time).
  *
- *  It's possible to have GCDWebServer use a custom logging facility by defining
+ *  It's possible to have ReadiumGCDWebServer use a custom logging facility by defining
  *  the "__GCDWEBSERVER_LOGGING_HEADER__" preprocessor constant in Xcode build
  *  settings to the name of a custom header file (escaped like \"MyLogging.h\").
  *  This header file must define the following set of macros:
@@ -567,10 +560,10 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *  to non-zero.
  *
  *  The logging methods below send log messages to the same logging facility
- *  used by GCDWebServer. They can be used for consistency wherever you interact
- *  with GCDWebServer in your code (e.g. in the implementation of handlers).
+ *  used by ReadiumGCDWebServer. They can be used for consistency wherever you interact
+ *  with ReadiumGCDWebServer in your code (e.g. in the implementation of handlers).
  */
-@interface GCDWebServer (Logging)
+@interface ReadiumGCDWebServer (Logging)
 
 /**
  *  Sets the log level of the logging facility below which log messages are discarded.
@@ -593,7 +586,7 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  *  IMPORTANT: In order for this override to work, you should not be specifying
  *  a custom logger at compile time with "__GCDWEBSERVER_LOGGING_HEADER__".
  */
-+ (void)setBuiltInLogger:(GCDWebServerBuiltInLoggerBlock)block;
++ (void)setBuiltInLogger:(ReadiumGCDWebServerBuiltInLoggerBlock)block;
 
 /**
  *  Logs a message to the logging facility at the VERBOSE level.
@@ -619,7 +612,7 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
 
 #ifdef __GCDWEBSERVER_ENABLE_TESTING__
 
-@interface GCDWebServer (Testing)
+@interface ReadiumGCDWebServer (Testing)
 
 /**
  *  Activates recording of HTTP requests and responses which create files in the

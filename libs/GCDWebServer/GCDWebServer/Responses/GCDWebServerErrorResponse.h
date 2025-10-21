@@ -31,54 +31,59 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The GCDWebServerDataResponse subclass of GCDWebServerDataResponse generates
+ *  The ReadiumGCDWebServerDataResponse subclass of ReadiumGCDWebServerDataResponse generates
  *  an HTML body from an HTTP status code and an error message.
  */
-@interface GCDWebServerErrorResponse : GCDWebServerDataResponse
+@interface ReadiumGCDWebServerErrorResponse : ReadiumGCDWebServerDataResponse
 
 /**
  *  Creates a client error response with the corresponding HTTP status code.
  */
-+ (instancetype)responseWithClientError:(GCDWebServerClientErrorHTTPStatusCode)errorCode message:(NSString*)format, ... NS_FORMAT_FUNCTION(2, 3);
++ (instancetype)responseWithClientError:(ReadiumGCDWebServerClientErrorHTTPStatusCode)errorCode message:(NSString*)format, ... NS_FORMAT_FUNCTION(2, 3);
 
 /**
  *  Creates a server error response with the corresponding HTTP status code.
  */
-+ (instancetype)responseWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode message:(NSString*)format, ... NS_FORMAT_FUNCTION(2, 3);
++ (instancetype)responseWithServerError:(ReadiumGCDWebServerServerErrorHTTPStatusCode)errorCode message:(NSString*)format, ... NS_FORMAT_FUNCTION(2, 3);
 
 /**
  *  Creates a client error response with the corresponding HTTP status code
  *  and an underlying NSError.
  */
-+ (instancetype)responseWithClientError:(GCDWebServerClientErrorHTTPStatusCode)errorCode underlyingError:(nullable NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3, 4);
++ (instancetype)responseWithClientError:(ReadiumGCDWebServerClientErrorHTTPStatusCode)errorCode underlyingError:(nullable NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3, 4);
 
 /**
  *  Creates a server error response with the corresponding HTTP status code
  *  and an underlying NSError.
  */
-+ (instancetype)responseWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(nullable NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3, 4);
++ (instancetype)responseWithServerError:(ReadiumGCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(nullable NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3, 4);
+
+/**
+ *  Initializes an empty response with a specific HTTP status code and error.
+ */
+- (instancetype)initWithStatusCode:(NSInteger)statusCode error:(NSError*)error;
 
 /**
  *  Initializes a client error response with the corresponding HTTP status code.
  */
-- (instancetype)initWithClientError:(GCDWebServerClientErrorHTTPStatusCode)errorCode message:(NSString*)format, ... NS_FORMAT_FUNCTION(2, 3);
+- (instancetype)initWithClientError:(ReadiumGCDWebServerClientErrorHTTPStatusCode)errorCode message:(NSString*)format, ... NS_FORMAT_FUNCTION(2, 3);
 
 /**
  *  Initializes a server error response with the corresponding HTTP status code.
  */
-- (instancetype)initWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode message:(NSString*)format, ... NS_FORMAT_FUNCTION(2, 3);
+- (instancetype)initWithServerError:(ReadiumGCDWebServerServerErrorHTTPStatusCode)errorCode message:(NSString*)format, ... NS_FORMAT_FUNCTION(2, 3);
 
 /**
  *  Initializes a client error response with the corresponding HTTP status code
  *  and an underlying NSError.
  */
-- (instancetype)initWithClientError:(GCDWebServerClientErrorHTTPStatusCode)errorCode underlyingError:(nullable NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3, 4);
+- (instancetype)initWithClientError:(ReadiumGCDWebServerClientErrorHTTPStatusCode)errorCode underlyingError:(nullable NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3, 4);
 
 /**
  *  Initializes a server error response with the corresponding HTTP status code
  *  and an underlying NSError.
  */
-- (instancetype)initWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(nullable NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3, 4);
+- (instancetype)initWithServerError:(ReadiumGCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(nullable NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3, 4);
 
 @end
 

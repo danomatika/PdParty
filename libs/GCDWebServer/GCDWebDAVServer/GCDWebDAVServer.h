@@ -29,56 +29,56 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class GCDWebDAVServer;
+@class ReadiumGCDWebDAVServer;
 
 /**
- *  Delegate methods for GCDWebDAVServer.
+ *  Delegate methods for ReadiumGCDWebDAVServer.
  *
  *  @warning These methods are always called on the main thread in a serialized way.
  */
-@protocol GCDWebDAVServerDelegate <GCDWebServerDelegate>
+@protocol ReadiumGCDWebDAVServerDelegate <ReadiumGCDWebServerDelegate>
 @optional
 
 /**
  *  This method is called whenever a file has been downloaded.
  */
-- (void)davServer:(GCDWebDAVServer*)server didDownloadFileAtPath:(NSString*)path;
+- (void)davServer:(ReadiumGCDWebDAVServer*)server didDownloadFileAtPath:(NSString*)path;
 
 /**
  *  This method is called whenever a file has been uploaded.
  */
-- (void)davServer:(GCDWebDAVServer*)server didUploadFileAtPath:(NSString*)path;
+- (void)davServer:(ReadiumGCDWebDAVServer*)server didUploadFileAtPath:(NSString*)path;
 
 /**
  *  This method is called whenever a file or directory has been moved.
  */
-- (void)davServer:(GCDWebDAVServer*)server didMoveItemFromPath:(NSString*)fromPath toPath:(NSString*)toPath;
+- (void)davServer:(ReadiumGCDWebDAVServer*)server didMoveItemFromPath:(NSString*)fromPath toPath:(NSString*)toPath;
 
 /**
  *  This method is called whenever a file or directory has been copied.
  */
-- (void)davServer:(GCDWebDAVServer*)server didCopyItemFromPath:(NSString*)fromPath toPath:(NSString*)toPath;
+- (void)davServer:(ReadiumGCDWebDAVServer*)server didCopyItemFromPath:(NSString*)fromPath toPath:(NSString*)toPath;
 
 /**
  *  This method is called whenever a file or directory has been deleted.
  */
-- (void)davServer:(GCDWebDAVServer*)server didDeleteItemAtPath:(NSString*)path;
+- (void)davServer:(ReadiumGCDWebDAVServer*)server didDeleteItemAtPath:(NSString*)path;
 
 /**
  *  This method is called whenever a directory has been created.
  */
-- (void)davServer:(GCDWebDAVServer*)server didCreateDirectoryAtPath:(NSString*)path;
+- (void)davServer:(ReadiumGCDWebDAVServer*)server didCreateDirectoryAtPath:(NSString*)path;
 
 @end
 
 /**
- *  The GCDWebDAVServer subclass of GCDWebServer implements a class 1 compliant
+ *  The ReadiumGCDWebDAVServer subclass of ReadiumGCDWebServer implements a class 1 compliant
  *  WebDAV server. It is also partially class 2 compliant but only when the
  *  client is the OS X WebDAV implementation (so it can work with the OS X Finder).
  *
- *  See the README.md file for more information about the features of GCDWebDAVServer.
+ *  See the README.md file for more information about the features of ReadiumGCDWebDAVServer.
  */
-@interface GCDWebDAVServer : GCDWebServer
+@interface ReadiumGCDWebDAVServer : ReadiumGCDWebServer
 
 /**
  *  Returns the upload directory as specified when the server was initialized.
@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Sets the delegate for the server.
  */
-@property(nonatomic, weak, nullable) id<GCDWebDAVServerDelegate> delegate;
+@property(nonatomic, weak, nullable) id<ReadiumGCDWebDAVServerDelegate> delegate;
 
 /**
  *  Sets which files are allowed to be operated on depending on their extension.
@@ -113,11 +113,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Hooks to customize the behavior of GCDWebDAVServer.
+ *  Hooks to customize the behavior of ReadiumGCDWebDAVServer.
  *
  *  @warning These methods can be called on any GCD thread.
  */
-@interface GCDWebDAVServer (Subclassing)
+@interface ReadiumGCDWebDAVServer (Subclassing)
 
 /**
  *  This method is called to check if a file upload is allowed to complete.

@@ -20,7 +20,8 @@ DEST_DIR=../../libs/GCDWebServer
 cd $(dirname $0)
 
 # get latest source
-git clone https://github.com/swisspol/GCDWebServer.git
+# original archived repo: https://github.com/swisspol/GCDWebServer.git
+git clone https://github.com/readium/GCDWebServer.git
 
 # make folder
 mkdir -p $DEST_DIR

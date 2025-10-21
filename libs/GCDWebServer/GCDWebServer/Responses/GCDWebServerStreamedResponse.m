@@ -26,35 +26,39 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
-@implementation GCDWebServerStreamedResponse {
-  GCDWebServerAsyncStreamBlock _block;
+@implementation ReadiumGCDWebServerStreamedResponse {
+  ReadiumGCDWebServerAsyncStreamBlock _block;
 }
 
 @dynamic contentType;
 
-+ (instancetype)responseWithContentType:(NSString*)type streamBlock:(GCDWebServerStreamBlock)block {
-  return [(GCDWebServerStreamedResponse*)[[self class] alloc] initWithContentType:type streamBlock:block];
++ (instancetype)responseWithContentType:(NSString*)type streamBlock:(ReadiumGCDWebServerStreamBlock)block {
+  return [(ReadiumGCDWebServerStreamedResponse*)[[self class] alloc] initWithContentType:type streamBlock:block];
 }
 
-+ (instancetype)responseWithContentType:(NSString*)type asyncStreamBlock:(GCDWebServerAsyncStreamBlock)block {
-  return [(GCDWebServerStreamedResponse*)[[self class] alloc] initWithContentType:type asyncStreamBlock:block];
++ (instancetype)responseWithContentType:(NSString*)type asyncStreamBlock:(ReadiumGCDWebServerAsyncStreamBlock)block {
+  return [(ReadiumGCDWebServerStreamedResponse*)[[self class] alloc] initWithContentType:type asyncStreamBlock:block];
 }
 
-- (instancetype)initWithContentType:(NSString*)type streamBlock:(GCDWebServerStreamBlock)block {
+- (instancetype)initWithContentType:(NSString*)type streamBlock:(ReadiumGCDWebServerStreamBlock)block {
   return [self initWithContentType:type
-                  asyncStreamBlock:^(GCDWebServerBodyReaderCompletionBlock completionBlock) {
+                  asyncStreamBlock:^(ReadiumGCDWebServerBodyReaderCompletionBlock completionBlock) {
                     NSError* error = nil;
                     NSData* data = block(&error);
                     completionBlock(data, error);
                   }];
 }
 
-- (instancetype)initWithContentType:(NSString*)type asyncStreamBlock:(GCDWebServerAsyncStreamBlock)block {
+- (instancetype)initWithContentType:(NSString*)type asyncStreamBlock:(ReadiumGCDWebServerAsyncStreamBlock)block {
   if ((self = [super init])) {
     _block = [block copy];
 
@@ -63,7 +67,7 @@
   return self;
 }
 
-- (void)asyncReadDataWithCompletion:(GCDWebServerBodyReaderCompletionBlock)block {
+- (void)asyncReadDataWithCompletion:(ReadiumGCDWebServerBodyReaderCompletionBlock)block {
   _block(block);
 }
 

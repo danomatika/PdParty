@@ -26,12 +26,12 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
 #import <TargetConditionals.h>
 #if TARGET_OS_IPHONE
-#import <CoreServices/CoreServices.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 #else
 #import <SystemConfiguration/SystemConfiguration.h>
 #endif
@@ -41,14 +41,18 @@
 #import <net/if.h>
 #import <netdb.h>
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
 static NSDateFormatter* _dateFormatterRFC822 = nil;
 static NSDateFormatter* _dateFormatterISO8601 = nil;
 static dispatch_queue_t _dateFormatterQueue = NULL;
 
 // TODO: Handle RFC 850 and ANSI C's asctime() format
-void GCDWebServerInitializeFunctions() {
+void ReadiumGCDWebServerInitializeFunctions(void) {
   GWS_DCHECK([NSThread isMainThread]);  // NSDateFormatter should be initialized on main thread
   if (_dateFormatterRFC822 == nil) {
     _dateFormatterRFC822 = [[NSDateFormatter alloc] init];
@@ -70,7 +74,7 @@ void GCDWebServerInitializeFunctions() {
   }
 }
 
-NSString* GCDWebServerNormalizeHeaderValue(NSString* value) {
+NSString* ReadiumGCDWebServerNormalizeHeaderValue(NSString* value) {
   if (value) {
     NSRange range = [value rangeOfString:@";"];  // Assume part before ";" separator is case-insensitive
     if (range.location != NSNotFound) {
@@ -82,7 +86,7 @@ NSString* GCDWebServerNormalizeHeaderValue(NSString* value) {
   return value;
 }
 
-NSString* GCDWebServerTruncateHeaderValue(NSString* value) {
+NSString* ReadiumGCDWebServerTruncateHeaderValue(NSString* value) {
   if (value) {
     NSRange range = [value rangeOfString:@";"];
     if (range.location != NSNotFound) {
@@ -92,7 +96,7 @@ NSString* GCDWebServerTruncateHeaderValue(NSString* value) {
   return value;
 }
 
-NSString* GCDWebServerExtractHeaderValueParameter(NSString* value, NSString* name) {
+NSString* ReadiumGCDWebServerExtractHeaderValueParameter(NSString* value, NSString* name) {
   NSString* parameter = nil;
   if (value) {
     NSScanner* scanner = [[NSScanner alloc] initWithString:value];
@@ -111,7 +115,7 @@ NSString* GCDWebServerExtractHeaderValueParameter(NSString* value, NSString* nam
 }
 
 // http://www.w3schools.com/tags/ref_charactersets.asp
-NSStringEncoding GCDWebServerStringEncodingFromCharset(NSString* charset) {
+NSStringEncoding ReadiumGCDWebServerStringEncodingFromCharset(NSString* charset) {
   NSStringEncoding encoding = kCFStringEncodingInvalidId;
   if (charset) {
     encoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)charset));
@@ -119,7 +123,7 @@ NSStringEncoding GCDWebServerStringEncodingFromCharset(NSString* charset) {
   return (encoding != kCFStringEncodingInvalidId ? encoding : NSUTF8StringEncoding);
 }
 
-NSString* GCDWebServerFormatRFC822(NSDate* date) {
+NSString* ReadiumGCDWebServerFormatRFC822(NSDate* date) {
   __block NSString* string;
   dispatch_sync(_dateFormatterQueue, ^{
     string = [_dateFormatterRFC822 stringFromDate:date];
@@ -127,7 +131,7 @@ NSString* GCDWebServerFormatRFC822(NSDate* date) {
   return string;
 }
 
-NSDate* GCDWebServerParseRFC822(NSString* string) {
+NSDate* ReadiumGCDWebServerParseRFC822(NSString* string) {
   __block NSDate* date;
   dispatch_sync(_dateFormatterQueue, ^{
     date = [_dateFormatterRFC822 dateFromString:string];
@@ -135,7 +139,7 @@ NSDate* GCDWebServerParseRFC822(NSString* string) {
   return date;
 }
 
-NSString* GCDWebServerFormatISO8601(NSDate* date) {
+NSString* ReadiumGCDWebServerFormatISO8601(NSDate* date) {
   __block NSString* string;
   dispatch_sync(_dateFormatterQueue, ^{
     string = [_dateFormatterISO8601 stringFromDate:date];
@@ -143,7 +147,7 @@ NSString* GCDWebServerFormatISO8601(NSDate* date) {
   return string;
 }
 
-NSDate* GCDWebServerParseISO8601(NSString* string) {
+NSDate* ReadiumGCDWebServerParseISO8601(NSString* string) {
   __block NSDate* date;
   dispatch_sync(_dateFormatterQueue, ^{
     date = [_dateFormatterISO8601 dateFromString:string];
@@ -151,14 +155,14 @@ NSDate* GCDWebServerParseISO8601(NSString* string) {
   return date;
 }
 
-BOOL GCDWebServerIsTextContentType(NSString* type) {
+BOOL ReadiumGCDWebServerIsTextContentType(NSString* type) {
   return ([type hasPrefix:@"text/"] || [type hasPrefix:@"application/json"] || [type hasPrefix:@"application/xml"]);
 }
 
-NSString* GCDWebServerDescribeData(NSData* data, NSString* type) {
-  if (GCDWebServerIsTextContentType(type)) {
-    NSString* charset = GCDWebServerExtractHeaderValueParameter(type, @"charset");
-    NSString* string = [[NSString alloc] initWithData:data encoding:GCDWebServerStringEncodingFromCharset(charset)];
+NSString* ReadiumGCDWebServerDescribeData(NSData* data, NSString* type) {
+  if (ReadiumGCDWebServerIsTextContentType(type)) {
+    NSString* charset = ReadiumGCDWebServerExtractHeaderValueParameter(type, @"charset");
+    NSString* string = [[NSString alloc] initWithData:data encoding:ReadiumGCDWebServerStringEncodingFromCharset(charset)];
     if (string) {
       return string;
     }
@@ -166,7 +170,7 @@ NSString* GCDWebServerDescribeData(NSData* data, NSString* type) {
   return [NSString stringWithFormat:@"<%lu bytes>", (unsigned long)data.length];
 }
 
-NSString* GCDWebServerGetMimeTypeForExtension(NSString* extension, NSDictionary<NSString*, NSString*>* overrides) {
+NSString* ReadiumGCDWebServerGetMimeTypeForExtension(NSString* extension, NSDictionary<NSString*, NSString*>* overrides) {
   NSDictionary* builtInOverrides = @{@"css" : @"text/css"};
   NSString* mimeType = nil;
   extension = [extension lowercaseString];
@@ -186,21 +190,21 @@ NSString* GCDWebServerGetMimeTypeForExtension(NSString* extension, NSDictionary<
   return mimeType ? mimeType : kGCDWebServerDefaultMimeType;
 }
 
-NSString* GCDWebServerEscapeURLString(NSString* string) {
+NSString* ReadiumGCDWebServerEscapeURLString(NSString* string) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, CFSTR(":@/?&=+"), kCFStringEncodingUTF8));
 #pragma clang diagnostic pop
 }
 
-NSString* GCDWebServerUnescapeURLString(NSString* string) {
+NSString* ReadiumGCDWebServerUnescapeURLString(NSString* string) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   return CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)string, CFSTR(""), kCFStringEncodingUTF8));
 #pragma clang diagnostic pop
 }
 
-NSDictionary<NSString*, NSString*>* GCDWebServerParseURLEncodedForm(NSString* form) {
+NSDictionary<NSString*, NSString*>* ReadiumGCDWebServerParseURLEncodedForm(NSString* form) {
   NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
   NSScanner* scanner = [[NSScanner alloc] initWithString:form];
   [scanner setCharactersToBeSkipped:nil];
@@ -218,9 +222,9 @@ NSDictionary<NSString*, NSString*>* GCDWebServerParseURLEncodedForm(NSString* fo
     }
 
     key = [key stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    NSString* unescapedKey = key ? GCDWebServerUnescapeURLString(key) : nil;
+    NSString* unescapedKey = key ? ReadiumGCDWebServerUnescapeURLString(key) : nil;
     value = [value stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    NSString* unescapedValue = value ? GCDWebServerUnescapeURLString(value) : nil;
+    NSString* unescapedValue = value ? ReadiumGCDWebServerUnescapeURLString(value) : nil;
     if (unescapedKey && unescapedValue) {
       [parameters setObject:unescapedValue forKey:unescapedKey];
     } else {
@@ -236,7 +240,7 @@ NSDictionary<NSString*, NSString*>* GCDWebServerParseURLEncodedForm(NSString* fo
   return parameters;
 }
 
-NSString* GCDWebServerStringFromSockAddr(const struct sockaddr* addr, BOOL includeService) {
+NSString* ReadiumGCDWebServerStringFromSockAddr(const struct sockaddr* addr, BOOL includeService) {
   char hostBuffer[NI_MAXHOST];
   char serviceBuffer[NI_MAXSERV];
   if (getnameinfo(addr, addr->sa_len, hostBuffer, sizeof(hostBuffer), serviceBuffer, sizeof(serviceBuffer), NI_NUMERICHOST | NI_NUMERICSERV | NI_NOFQDN) != 0) {
@@ -249,7 +253,7 @@ NSString* GCDWebServerStringFromSockAddr(const struct sockaddr* addr, BOOL inclu
   return includeService ? [NSString stringWithFormat:@"%s:%s", hostBuffer, serviceBuffer] : (NSString*)[NSString stringWithUTF8String:hostBuffer];
 }
 
-NSString* GCDWebServerGetPrimaryIPAddress(BOOL useIPv6) {
+NSString* ReadiumGCDWebServerGetPrimaryIPAddress(BOOL useIPv6) {
   NSString* address = nil;
 #if TARGET_OS_IPHONE
 #if !TARGET_IPHONE_SIMULATOR && !TARGET_OS_TV
@@ -257,7 +261,7 @@ NSString* GCDWebServerGetPrimaryIPAddress(BOOL useIPv6) {
 #endif
 #else
   const char* primaryInterface = NULL;
-  SCDynamicStoreRef store = SCDynamicStoreCreate(kCFAllocatorDefault, CFSTR("GCDWebServer"), NULL, NULL);
+  SCDynamicStoreRef store = SCDynamicStoreCreate(kCFAllocatorDefault, CFSTR("ReadiumGCDWebServer"), NULL, NULL);
   if (store) {
     CFPropertyListRef info = SCDynamicStoreCopyValue(store, CFSTR("State:/Network/Global/IPv4"));  // There is no equivalent for IPv6 but the primary interface should be the same
     if (info) {
@@ -287,7 +291,7 @@ NSString* GCDWebServerGetPrimaryIPAddress(BOOL useIPv6) {
         continue;
       }
       if ((ifap->ifa_flags & IFF_UP) && ((!useIPv6 && (ifap->ifa_addr->sa_family == AF_INET)) || (useIPv6 && (ifap->ifa_addr->sa_family == AF_INET6)))) {
-        address = GCDWebServerStringFromSockAddr(ifap->ifa_addr, NO);
+        address = ReadiumGCDWebServerStringFromSockAddr(ifap->ifa_addr, NO);
         break;
       }
     }
@@ -296,16 +300,13 @@ NSString* GCDWebServerGetPrimaryIPAddress(BOOL useIPv6) {
   return address;
 }
 
-NSString* GCDWebServerComputeMD5Digest(NSString* format, ...) {
+NSString* ReadiumGCDWebServerComputeMD5Digest(NSString* format, ...) {
   va_list arguments;
   va_start(arguments, format);
   const char* string = [[[NSString alloc] initWithFormat:format arguments:arguments] UTF8String];
   va_end(arguments);
   unsigned char md5[CC_MD5_DIGEST_LENGTH];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   CC_MD5(string, (CC_LONG)strlen(string), md5);
-#pragma clang diagnostic pop
   char buffer[2 * CC_MD5_DIGEST_LENGTH + 1];
   for (int i = 0; i < CC_MD5_DIGEST_LENGTH; ++i) {
     unsigned char byte = md5[i];
@@ -318,7 +319,7 @@ NSString* GCDWebServerComputeMD5Digest(NSString* format, ...) {
   return (NSString*)[NSString stringWithUTF8String:buffer];
 }
 
-NSString* GCDWebServerNormalizePath(NSString* path) {
+NSString* ReadiumGCDWebServerNormalizePath(NSString* path) {
   NSMutableArray* components = [[NSMutableArray alloc] init];
   for (NSString* component in [path componentsSeparatedByString:@"/"]) {
     if ([component isEqualToString:@".."]) {

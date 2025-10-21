@@ -26,16 +26,20 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
 #import <sys/stat.h>
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
 #define kFileReadBufferSize (32 * 1024)
 
-@implementation GCDWebServerFileResponse {
+@implementation ReadiumGCDWebServerFileResponse {
   NSString* _path;
   NSUInteger _offset;
   NSUInteger _size;
@@ -45,19 +49,19 @@
 @dynamic contentType, lastModifiedDate, eTag;
 
 + (instancetype)responseWithFile:(NSString*)path {
-  return [(GCDWebServerFileResponse*)[[self class] alloc] initWithFile:path];
+  return [(ReadiumGCDWebServerFileResponse*)[[self class] alloc] initWithFile:path];
 }
 
 + (instancetype)responseWithFile:(NSString*)path isAttachment:(BOOL)attachment {
-  return [(GCDWebServerFileResponse*)[[self class] alloc] initWithFile:path isAttachment:attachment];
+  return [(ReadiumGCDWebServerFileResponse*)[[self class] alloc] initWithFile:path isAttachment:attachment];
 }
 
 + (instancetype)responseWithFile:(NSString*)path byteRange:(NSRange)range {
-  return [(GCDWebServerFileResponse*)[[self class] alloc] initWithFile:path byteRange:range];
+  return [(ReadiumGCDWebServerFileResponse*)[[self class] alloc] initWithFile:path byteRange:range];
 }
 
 + (instancetype)responseWithFile:(NSString*)path byteRange:(NSRange)range isAttachment:(BOOL)attachment {
-  return [(GCDWebServerFileResponse*)[[self class] alloc] initWithFile:path byteRange:range isAttachment:attachment mimeTypeOverrides:nil];
+  return [(ReadiumGCDWebServerFileResponse*)[[self class] alloc] initWithFile:path byteRange:range isAttachment:attachment mimeTypeOverrides:nil];
 }
 
 - (instancetype)initWithFile:(NSString*)path {
@@ -90,7 +94,7 @@ static inline NSDate* _NSDateFromTimeSpec(const struct timespec* t) {
 #endif
   NSUInteger fileSize = (NSUInteger)info.st_size;
 
-  BOOL hasByteRange = GCDWebServerIsValidByteRange(range);
+  BOOL hasByteRange = ReadiumGCDWebServerIsValidByteRange(range);
   if (hasByteRange) {
     if (range.location != NSUIntegerMax) {
       range.location = MIN(range.location, fileSize);
@@ -122,14 +126,14 @@ static inline NSDate* _NSDateFromTimeSpec(const struct timespec* t) {
       NSData* data = [[fileName stringByReplacingOccurrencesOfString:@"\"" withString:@""] dataUsingEncoding:NSISOLatin1StringEncoding allowLossyConversion:YES];
       NSString* lossyFileName = data ? [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding] : nil;
       if (lossyFileName) {
-        NSString* value = [NSString stringWithFormat:@"attachment; filename=\"%@\"; filename*=UTF-8''%@", lossyFileName, GCDWebServerEscapeURLString(fileName)];
+        NSString* value = [NSString stringWithFormat:@"attachment; filename=\"%@\"; filename*=UTF-8''%@", lossyFileName, ReadiumGCDWebServerEscapeURLString(fileName)];
         [self setValue:value forAdditionalHeader:@"Content-Disposition"];
       } else {
         GWS_DNOT_REACHED();
       }
     }
 
-    self.contentType = GCDWebServerGetMimeTypeForExtension([_path pathExtension], overrides);
+    self.contentType = ReadiumGCDWebServerGetMimeTypeForExtension([_path pathExtension], overrides);
     self.contentLength = _size;
     self.lastModifiedDate = _NSDateFromTimeSpec(&info.st_mtimespec);
     self.eTag = [NSString stringWithFormat:@"%llu/%li/%li", info.st_ino, info.st_mtimespec.tv_sec, info.st_mtimespec.tv_nsec];
@@ -141,13 +145,13 @@ static inline NSDate* _NSDateFromTimeSpec(const struct timespec* t) {
   _file = open([_path fileSystemRepresentation], O_NOFOLLOW | O_RDONLY);
   if (_file <= 0) {
     if (error) {
-      *error = GCDWebServerMakePosixError(errno);
+      *error = ReadiumGCDWebServerMakePosixError(errno);
     }
     return NO;
   }
   if (lseek(_file, _offset, SEEK_SET) != (off_t)_offset) {
     if (error) {
-      *error = GCDWebServerMakePosixError(errno);
+      *error = ReadiumGCDWebServerMakePosixError(errno);
     }
     close(_file);
     return NO;
@@ -161,7 +165,7 @@ static inline NSDate* _NSDateFromTimeSpec(const struct timespec* t) {
   ssize_t result = read(_file, data.mutableBytes, length);
   if (result < 0) {
     if (error) {
-      *error = GCDWebServerMakePosixError(errno);
+      *error = ReadiumGCDWebServerMakePosixError(errno);
     }
     return nil;
   }

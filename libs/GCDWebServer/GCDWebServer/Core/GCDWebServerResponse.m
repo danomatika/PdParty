@@ -26,28 +26,32 @@
  */
 
 #if !__has_feature(objc_arc)
-#error GCDWebServer requires ARC
+#error ReadiumGCDWebServer requires ARC
 #endif
 
 #import <zlib.h>
 
+#ifdef SWIFT_PACKAGE
+#import "../Core/GCDWebServerPrivate.h"
+#else
 #import "GCDWebServerPrivate.h"
+#endif
 
 #define kZlibErrorDomain @"ZlibErrorDomain"
 #define kGZipInitialBufferSize (256 * 1024)
 
-@interface GCDWebServerBodyEncoder : NSObject <GCDWebServerBodyReader>
+@interface R2GCDWebServerBodyEncoder : NSObject <ReadiumGCDWebServerBodyReader>
 @end
 
-@interface GCDWebServerGZipEncoder : GCDWebServerBodyEncoder
+@interface ReadiumGCDWebServerGZipEncoder : R2GCDWebServerBodyEncoder
 @end
 
-@implementation GCDWebServerBodyEncoder {
-  GCDWebServerResponse* __unsafe_unretained _response;
-  id<GCDWebServerBodyReader> __unsafe_unretained _reader;
+@implementation R2GCDWebServerBodyEncoder {
+  ReadiumGCDWebServerResponse* __unsafe_unretained _response;
+  id<ReadiumGCDWebServerBodyReader> __unsafe_unretained _reader;
 }
 
-- (instancetype)initWithResponse:(GCDWebServerResponse* _Nonnull)response reader:(id<GCDWebServerBodyReader> _Nonnull)reader {
+- (instancetype)initWithResponse:(ReadiumGCDWebServerResponse* _Nonnull)response reader:(id<ReadiumGCDWebServerBodyReader> _Nonnull)reader {
   if ((self = [super init])) {
     _response = response;
     _reader = reader;
@@ -69,12 +73,12 @@
 
 @end
 
-@implementation GCDWebServerGZipEncoder {
+@implementation ReadiumGCDWebServerGZipEncoder {
   z_stream _stream;
   BOOL _finished;
 }
 
-- (instancetype)initWithResponse:(GCDWebServerResponse* _Nonnull)response reader:(id<GCDWebServerBodyReader> _Nonnull)reader {
+- (instancetype)initWithResponse:(ReadiumGCDWebServerResponse* _Nonnull)response reader:(id<ReadiumGCDWebServerBodyReader> _Nonnull)reader {
   if ((self = [super initWithResponse:response reader:reader])) {
     response.contentLength = NSUIntegerMax;  // Make sure "Content-Length" header is not set since we don't know it
     [response setValue:@"gzip" forAdditionalHeader:@"Content-Encoding"];
@@ -148,14 +152,14 @@
 
 @end
 
-@implementation GCDWebServerResponse {
+@implementation ReadiumGCDWebServerResponse {
   BOOL _opened;
-  NSMutableArray<GCDWebServerBodyEncoder*>* _encoders;
-  id<GCDWebServerBodyReader> __unsafe_unretained _reader;
+  NSMutableArray<R2GCDWebServerBodyEncoder*>* _encoders;
+  id<ReadiumGCDWebServerBodyReader> __unsafe_unretained _reader;
 }
 
 + (instancetype)response {
-  return [(GCDWebServerResponse*)[[self class] alloc] init];
+  return [(ReadiumGCDWebServerResponse*)[[self class] alloc] init];
 }
 
 - (instancetype)init {
@@ -197,7 +201,7 @@
 - (void)prepareForReading {
   _reader = self;
   if (_gzipContentEncodingEnabled) {
-    GCDWebServerGZipEncoder* encoder = [[GCDWebServerGZipEncoder alloc] initWithResponse:self reader:_reader];
+    ReadiumGCDWebServerGZipEncoder* encoder = [[ReadiumGCDWebServerGZipEncoder alloc] initWithResponse:self reader:_reader];
     [_encoders addObject:encoder];
     _reader = encoder;
   }
@@ -214,7 +218,7 @@
   return [_reader open:error];
 }
 
-- (void)performReadDataWithCompletion:(GCDWebServerBodyReaderCompletionBlock)block {
+- (void)performReadDataWithCompletion:(ReadiumGCDWebServerBodyReaderCompletionBlock)block {
   GWS_DCHECK(_opened);
   if ([_reader respondsToSelector:@selector(asyncReadDataWithCompletion:)]) {
     [_reader asyncReadDataWithCompletion:[block copy]];
@@ -256,14 +260,14 @@
 
 @end
 
-@implementation GCDWebServerResponse (Extensions)
+@implementation ReadiumGCDWebServerResponse (Extensions)
 
 + (instancetype)responseWithStatusCode:(NSInteger)statusCode {
-  return [(GCDWebServerResponse*)[self alloc] initWithStatusCode:statusCode];
+  return [(ReadiumGCDWebServerResponse*)[self alloc] initWithStatusCode:statusCode];
 }
 
 + (instancetype)responseWithRedirect:(NSURL*)location permanent:(BOOL)permanent {
-  return [(GCDWebServerResponse*)[self alloc] initWithRedirect:location permanent:permanent];
+  return [(ReadiumGCDWebServerResponse*)[self alloc] initWithRedirect:location permanent:permanent];
 }
 
 - (instancetype)initWithStatusCode:(NSInteger)statusCode {

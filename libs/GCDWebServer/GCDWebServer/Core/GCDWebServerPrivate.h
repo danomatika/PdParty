@@ -29,7 +29,7 @@
 #import <sys/socket.h>
 
 /**
- *  All GCDWebServer headers.
+ *  All ReadiumGCDWebServer headers.
  */
 
 #import "GCDWebServerHTTPStatusCodes.h"
@@ -38,6 +38,17 @@
 #import "GCDWebServer.h"
 #import "GCDWebServerConnection.h"
 
+#ifdef SWIFT_PACKAGE
+#import "../Requests/GCDWebServerDataRequest.h"
+#import "../Requests/GCDWebServerFileRequest.h"
+#import "../Requests/GCDWebServerMultiPartFormRequest.h"
+#import "../Requests/GCDWebServerURLEncodedFormRequest.h"
+
+#import "../Responses/GCDWebServerDataResponse.h"
+#import "../Responses/GCDWebServerErrorResponse.h"
+#import "../Responses/GCDWebServerFileResponse.h"
+#import "../Responses/GCDWebServerStreamedResponse.h"
+#else
 #import "GCDWebServerDataRequest.h"
 #import "GCDWebServerFileRequest.h"
 #import "GCDWebServerMultiPartFormRequest.h"
@@ -47,6 +58,7 @@
 #import "GCDWebServerErrorResponse.h"
 #import "GCDWebServerFileResponse.h"
 #import "GCDWebServerStreamedResponse.h"
+#endif
 
 /**
  *  Check if a custom logging facility should be used instead.
@@ -82,7 +94,7 @@
 #define GWS_DNOT_REACHED() XLOG_DEBUG_UNREACHABLE()
 
 /**
- *  If all of the above fail, then use GCDWebServer built-in
+ *  If all of the above fail, then use ReadiumGCDWebServer built-in
  *  logging facility.
  */
 
@@ -90,7 +102,7 @@
 
 #define __GCDWEBSERVER_LOGGING_FACILITY_BUILTIN__
 
-typedef NS_ENUM(int, GCDWebServerLoggingLevel) {
+typedef NS_ENUM(int, ReadiumGCDWebServerLoggingLevel) {
   kGCDWebServerLoggingLevel_Debug = 0,
   kGCDWebServerLoggingLevel_Verbose,
   kGCDWebServerLoggingLevel_Info,
@@ -98,32 +110,32 @@ typedef NS_ENUM(int, GCDWebServerLoggingLevel) {
   kGCDWebServerLoggingLevel_Error
 };
 
-extern GCDWebServerLoggingLevel GCDWebServerLogLevel;
-extern void GCDWebServerLogMessage(GCDWebServerLoggingLevel level, NSString* _Nonnull format, ...) NS_FORMAT_FUNCTION(2, 3);
+extern ReadiumGCDWebServerLoggingLevel ReadiumGCDWebServerLogLevel;
+extern void ReadiumGCDWebServerLogMessage(ReadiumGCDWebServerLoggingLevel level, NSString* _Nonnull format, ...) NS_FORMAT_FUNCTION(2, 3);
 
 #if DEBUG
 #define GWS_LOG_DEBUG(...)                                                                                                             \
   do {                                                                                                                                 \
-    if (GCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Debug) GCDWebServerLogMessage(kGCDWebServerLoggingLevel_Debug, __VA_ARGS__); \
+    if (ReadiumGCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Debug) ReadiumGCDWebServerLogMessage(kGCDWebServerLoggingLevel_Debug, __VA_ARGS__); \
   } while (0)
 #else
 #define GWS_LOG_DEBUG(...)
 #endif
 #define GWS_LOG_VERBOSE(...)                                                                                                               \
   do {                                                                                                                                     \
-    if (GCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Verbose) GCDWebServerLogMessage(kGCDWebServerLoggingLevel_Verbose, __VA_ARGS__); \
+    if (ReadiumGCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Verbose) ReadiumGCDWebServerLogMessage(kGCDWebServerLoggingLevel_Verbose, __VA_ARGS__); \
   } while (0)
 #define GWS_LOG_INFO(...)                                                                                                            \
   do {                                                                                                                               \
-    if (GCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Info) GCDWebServerLogMessage(kGCDWebServerLoggingLevel_Info, __VA_ARGS__); \
+    if (ReadiumGCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Info) ReadiumGCDWebServerLogMessage(kGCDWebServerLoggingLevel_Info, __VA_ARGS__); \
   } while (0)
 #define GWS_LOG_WARNING(...)                                                                                                               \
   do {                                                                                                                                     \
-    if (GCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Warning) GCDWebServerLogMessage(kGCDWebServerLoggingLevel_Warning, __VA_ARGS__); \
+    if (ReadiumGCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Warning) ReadiumGCDWebServerLogMessage(kGCDWebServerLoggingLevel_Warning, __VA_ARGS__); \
   } while (0)
 #define GWS_LOG_ERROR(...)                                                                                                             \
   do {                                                                                                                                 \
-    if (GCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Error) GCDWebServerLogMessage(kGCDWebServerLoggingLevel_Error, __VA_ARGS__); \
+    if (ReadiumGCDWebServerLogLevel <= kGCDWebServerLoggingLevel_Error) ReadiumGCDWebServerLogMessage(kGCDWebServerLoggingLevel_Error, __VA_ARGS__); \
   } while (0)
 
 #endif
@@ -134,74 +146,74 @@ extern void GCDWebServerLogMessage(GCDWebServerLoggingLevel level, NSString* _No
 
 #if !defined(GWS_DCHECK) || !defined(GWS_DNOT_REACHED)
 
-#if DEBUG
-
-#define GWS_DCHECK(__CONDITION__) \
-  do {                            \
-    if (!(__CONDITION__)) {       \
-      abort();                    \
-    }                             \
-  } while (0)
-#define GWS_DNOT_REACHED() abort()
-
-#else
+//#if DEBUG
+//
+//#define GWS_DCHECK(__CONDITION__) \
+//  do {                            \
+//    if (!(__CONDITION__)) {       \
+//      abort();                    \
+//    }                             \
+//  } while (0)
+//#define GWS_DNOT_REACHED() abort()
+//
+//#else
 
 #define GWS_DCHECK(__CONDITION__)
 #define GWS_DNOT_REACHED()
 
-#endif
+//#endif
 
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  GCDWebServer internal constants and APIs.
+ *  ReadiumGCDWebServer internal constants and APIs.
  */
 
 #define kGCDWebServerDefaultMimeType @"application/octet-stream"
-#define kGCDWebServerErrorDomain @"GCDWebServerErrorDomain"
+#define kGCDWebServerErrorDomain @"ReadiumGCDWebServerErrorDomain"
 
-static inline BOOL GCDWebServerIsValidByteRange(NSRange range) {
+static inline BOOL ReadiumGCDWebServerIsValidByteRange(NSRange range) {
   return ((range.location != NSUIntegerMax) || (range.length > 0));
 }
 
-static inline NSError* GCDWebServerMakePosixError(int code) {
+static inline NSError* ReadiumGCDWebServerMakePosixError(int code) {
   return [NSError errorWithDomain:NSPOSIXErrorDomain code:code userInfo:@{NSLocalizedDescriptionKey : (NSString*)[NSString stringWithUTF8String:strerror(code)]}];
 }
 
-extern void GCDWebServerInitializeFunctions(void);
-extern NSString* _Nullable GCDWebServerNormalizeHeaderValue(NSString* _Nullable value);
-extern NSString* _Nullable GCDWebServerTruncateHeaderValue(NSString* _Nullable value);
-extern NSString* _Nullable GCDWebServerExtractHeaderValueParameter(NSString* _Nullable value, NSString* attribute);
-extern NSStringEncoding GCDWebServerStringEncodingFromCharset(NSString* charset);
-extern BOOL GCDWebServerIsTextContentType(NSString* type);
-extern NSString* GCDWebServerDescribeData(NSData* data, NSString* contentType);
-extern NSString* GCDWebServerComputeMD5Digest(NSString* format, ...) NS_FORMAT_FUNCTION(1, 2);
-extern NSString* GCDWebServerStringFromSockAddr(const struct sockaddr* addr, BOOL includeService);
+extern void ReadiumGCDWebServerInitializeFunctions(void);
+extern NSString* _Nullable ReadiumGCDWebServerNormalizeHeaderValue(NSString* _Nullable value);
+extern NSString* _Nullable ReadiumGCDWebServerTruncateHeaderValue(NSString* _Nullable value);
+extern NSString* _Nullable ReadiumGCDWebServerExtractHeaderValueParameter(NSString* _Nullable value, NSString* attribute);
+extern NSStringEncoding ReadiumGCDWebServerStringEncodingFromCharset(NSString* charset);
+extern BOOL ReadiumGCDWebServerIsTextContentType(NSString* type);
+extern NSString* ReadiumGCDWebServerDescribeData(NSData* data, NSString* contentType);
+extern NSString* ReadiumGCDWebServerComputeMD5Digest(NSString* format, ...) NS_FORMAT_FUNCTION(1, 2);
+extern NSString* ReadiumGCDWebServerStringFromSockAddr(const struct sockaddr* addr, BOOL includeService);
 
-@interface GCDWebServerConnection ()
-- (instancetype)initWithServer:(GCDWebServer*)server localAddress:(NSData*)localAddress remoteAddress:(NSData*)remoteAddress socket:(CFSocketNativeHandle)socket;
+@interface ReadiumGCDWebServerConnection ()
+- (instancetype)initWithServer:(ReadiumGCDWebServer*)server localAddress:(NSData*)localAddress remoteAddress:(NSData*)remoteAddress socket:(CFSocketNativeHandle)socket;
 @end
 
-@interface GCDWebServer ()
-@property(nonatomic, readonly) NSMutableArray<GCDWebServerHandler*>* handlers;
+@interface ReadiumGCDWebServer ()
+@property(nonatomic, readonly) NSMutableArray<ReadiumGCDWebServerHandler*>* handlers;
 @property(nonatomic, readonly, nullable) NSString* serverName;
 @property(nonatomic, readonly, nullable) NSString* authenticationRealm;
 @property(nonatomic, readonly, nullable) NSMutableDictionary<NSString*, NSString*>* authenticationBasicAccounts;
 @property(nonatomic, readonly, nullable) NSMutableDictionary<NSString*, NSString*>* authenticationDigestAccounts;
 @property(nonatomic, readonly) BOOL shouldAutomaticallyMapHEADToGET;
 @property(nonatomic, readonly) dispatch_queue_priority_t dispatchQueuePriority;
-- (void)willStartConnection:(GCDWebServerConnection*)connection;
-- (void)didEndConnection:(GCDWebServerConnection*)connection;
+- (void)willStartConnection:(ReadiumGCDWebServerConnection*)connection;
+- (void)didEndConnection:(ReadiumGCDWebServerConnection*)connection;
 @end
 
-@interface GCDWebServerHandler : NSObject
-@property(nonatomic, readonly) GCDWebServerMatchBlock matchBlock;
-@property(nonatomic, readonly) GCDWebServerAsyncProcessBlock asyncProcessBlock;
+@interface ReadiumGCDWebServerHandler : NSObject
+@property(nonatomic, readonly) ReadiumGCDWebServerMatchBlock matchBlock;
+@property(nonatomic, readonly) ReadiumGCDWebServerAsyncProcessBlock asyncProcessBlock;
 @end
 
-@interface GCDWebServerRequest ()
+@interface ReadiumGCDWebServerRequest ()
 @property(nonatomic, readonly) BOOL usesChunkedTransferEncoding;
 @property(nonatomic) NSData* localAddressData;
 @property(nonatomic) NSData* remoteAddressData;
@@ -212,12 +224,12 @@ extern NSString* GCDWebServerStringFromSockAddr(const struct sockaddr* addr, BOO
 - (void)setAttribute:(nullable id)attribute forKey:(NSString*)key;
 @end
 
-@interface GCDWebServerResponse ()
+@interface ReadiumGCDWebServerResponse ()
 @property(nonatomic, readonly) NSDictionary<NSString*, NSString*>* additionalHeaders;
 @property(nonatomic, readonly) BOOL usesChunkedTransferEncoding;
 - (void)prepareForReading;
 - (BOOL)performOpen:(NSError**)error;
-- (void)performReadDataWithCompletion:(GCDWebServerBodyReaderCompletionBlock)block;
+- (void)performReadDataWithCompletion:(ReadiumGCDWebServerBodyReaderCompletionBlock)block;
 - (void)performClose;
 @end
 
