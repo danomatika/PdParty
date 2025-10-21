@@ -1382,7 +1382,7 @@
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PdParty;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/liblo",
@@ -1435,7 +1435,7 @@
 				INFOPLIST_FILE = "res/PdParty-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PdParty;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/liblo",
