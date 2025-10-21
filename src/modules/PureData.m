@@ -26,7 +26,8 @@
 @interface PureData () {
 	PdAudioController *audioController;
 	PdFile *playbackPatch;
-	CADisplayLink *updateLink;
+	dispatch_source_t messageTimer;
+	CADisplayLink *updateLink; // TODO: remove display link?
 	id routeChangeObserver; ///< opaque route change notification handle
 }
 @property (assign, readwrite, getter=isRecording, nonatomic) BOOL recording;
@@ -81,10 +82,21 @@
 		// this fixes that
 		self.ticksPerBuffer = (int)[defaults integerForKey:@"ticksPerBuffer"];
 
-		// setup display link for faster message polling
-		updateLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMessages:)];
-		updateLink.preferredFramesPerSecond = 60;
-		[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+		// GCD timer for faster polling
+		// ref https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/GCDWorkQueues/GCDWorkQueues.html#//apple_ref/doc/uid/TP40008091-CH103-SW2
+		messageTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+		if(messageTimer) { // interval 16 ms (60 fps), leeway 2 ms
+			dispatch_source_set_timer(messageTimer, dispatch_walltime(NULL, 0), 16ull * NSEC_PER_MSEC, 2ull * NSEC_PER_MSEC);
+			dispatch_source_set_event_handler(messageTimer, ^{
+				[self updateMessages:nil];
+			});
+			dispatch_resume(messageTimer);
+		}
+		else { // fall back to display link (60 fps)
+			updateLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMessages:)];
+			updateLink.preferredFramesPerSecond = 60;
+			[updateLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+		}
 
 		// observe audio route changes
 		routeChangeObserver = [NSNotificationCenter.defaultCenter addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *notification) {
@@ -124,6 +136,10 @@
 	[NSNotificationCenter.defaultCenter removeObserver:routeChangeObserver];
 	playbackPatch = nil;
 	audioController = nil;
+	if(messageTimer) {
+		dispatch_source_cancel(messageTimer);
+	}
+	messageTimer = nil;
 	if(updateLink) {
 		[updateLink invalidate];
 	}
