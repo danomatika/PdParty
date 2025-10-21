@@ -15,7 +15,7 @@
 @interface PartyScene : PatchScene
 
 /// optional controller mappings, see Controllers.h
-@property (readonly, nonatomic) NSDictionary *controllers;
+@property (readonly, nonatomic) NSArray *controllers;
 
 + (id)sceneWithParent:(UIView *)parent andGui:(Gui *)gui;
 

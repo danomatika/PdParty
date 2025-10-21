@@ -124,11 +124,11 @@
 	return [super description];
 }
 
-- (NSDictionary *)controllers {
+- (NSArray *)controllers {
 	if(self.hasInfo) {
 		NSObject *c = info[@"controllers"];
 		if(c && [c isKindOfClass:NSArray.class]) {
-			return (NSDictionary *)c;
+			return (NSArray *)c;
 		}
 	}
 	return nil;
