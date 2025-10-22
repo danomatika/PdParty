@@ -21,6 +21,7 @@
 #import "PatchViewController.h"
 #import "BrowserViewController.h"
 #import "WebViewController.h"
+#import "SceneDelegate.h"
 
 NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedNotification";
 
@@ -84,21 +85,9 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 
 	LogInfo(@"AppDelegate: app resolution %g %g", Util.appWidth, Util.appHeight);
 
-	// copy patches in the resource folder on first run only,
-	// blocks UI with progress HUD until done
-	if([NSUserDefaults.standardUserDefaults boolForKey:@"firstRun"]) {
-		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:YES];
-		hud.label.text = @"Setting up for the first time...";
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
-			[self copyLibDirectory];
-			[self copySamplesDirectory];
-			[self copyTestsDirectory];
-			[defaults setBool:NO forKey:@"firstRun"];
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[hud hideAnimated:YES];
-			});
-		});
+	// self.window should be set on iOS 12 but not iOS 13 (SceneDelegate)
+	if(self.window) {
+		[self checkFirstRun];
 	}
 
 	// clear any Documents/Inbox leftovers
@@ -108,9 +97,28 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	}
 }
 
+// copy patches in the resource folder on first run only,
+// blocks UI with progress HUD until done
+- (void)checkFirstRun {
+	if([NSUserDefaults.standardUserDefaults boolForKey:@"firstRun"]) {
+		MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.window.rootViewController.view animated:YES];
+		hud.label.text = @"Setting up for the first time...";
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+			[NSThread sleepForTimeInterval:1.0]; // time for popup to show
+			[self copyLibDirectory];
+			[self copySamplesDirectory];
+			[self copyTestsDirectory];
+			[NSUserDefaults.standardUserDefaults setBool:NO forKey:@"firstRun"];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[hud hideAnimated:YES];
+			});
+		});
+	}
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
-	
+
 	// set up split view on iPad
 	if(Util.isDeviceATablet) {
 		UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
@@ -271,6 +279,21 @@ NSString *const PdPartyMotionShakeEndedNotification = @"PdPartyMotionShakeEndedN
 	}
 	
 	return YES;
+}
+
+#pragma mark UISceneSession lifecycle
+
+- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options API_AVAILABLE(ios(13.0)) {
+	// Called when a new scene session is being created.
+	// Use this method to select a configuration to create the new scene with.
+	return [[UISceneConfiguration alloc] initWithName:(Util.isDeviceAPhone ? @"iPhone Configuration" : @"iPad Configuration")
+	                                      sessionRole:connectingSceneSession.role];
+}
+
+- (void)application:(UIApplication *)application didDiscardSceneSessions:(NSSet<UISceneSession *> *)sceneSessions API_AVAILABLE(ios(13.0)) {
+	// Called when the user discards a scene session.
+	// If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
+	// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 }
 
 #pragma mark Now Playing

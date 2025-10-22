@@ -45,6 +45,9 @@ extern NSString *const PdPartyMotionShakeEndedNotification;
 /// loaded from the nib before applicationDidFinishLaunching:
 - (void)setup;
 
+/// check if this is the first run, copy resources if so
+- (void)checkFirstRun;
+
 #pragma mark App Behavior
 
 @property (assign, getter=isLockScreenDisabled, nonatomic) BOOL lockScreenDisabled;

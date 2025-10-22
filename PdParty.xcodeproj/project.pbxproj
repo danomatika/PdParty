@@ -137,6 +137,7 @@
 		7E3FBB3E292C49A900F00CC0 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FBB3D292C49A900F00CC0 /* NavigationController.m */; };
 		7E3FBB41292C559600F00CC0 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FBB40292C559600F00CC0 /* SplitViewController.m */; };
 		7E6A74E52EA8284D00558340 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6A74E42EA8284D00558340 /* WebKit.framework */; };
+		7E6A75172EA859DE00558340 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6A75162EA859DE00558340 /* SceneDelegate.m */; };
 		7E86D0132D03AFEA00F34758 /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E86D00D2D03AFEA00F34758 /* CoreHaptics.framework */; };
 		7EC666ED2936D29B00F19553 /* PatchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC666EC2936D29B00F19553 /* PatchView.m */; };
 		7ED022E32879218D00069FFD /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED022E12879218D00069FFD /* List.m */; };
@@ -409,6 +410,8 @@
 		7E3FBB3F292C559600F00CC0 /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplitViewController.h; path = src/SplitViewController.h; sourceTree = "<group>"; };
 		7E3FBB40292C559600F00CC0 /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SplitViewController.m; path = src/SplitViewController.m; sourceTree = "<group>"; };
 		7E6A74E42EA8284D00558340 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		7E6A75152EA859DE00558340 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SceneDelegate.h; path = src/SceneDelegate.h; sourceTree = "<group>"; };
+		7E6A75162EA859DE00558340 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SceneDelegate.m; path = src/SceneDelegate.m; sourceTree = "<group>"; };
 		7E86D00D2D03AFEA00F34758 /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
 		7EA5A3CB284A9785009585C9 /* liblo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = liblo.xcodeproj; sourceTree = "<group>"; };
 		7EC666E72933FFAD00F19553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -701,6 +704,8 @@
 				3070AE492598D744000A5CE8 /* App.h */,
 				3070AE4A2598D744000A5CE8 /* App.m */,
 				30ABE2E516B5D0FB00464926 /* main.m */,
+				7E6A75152EA859DE00558340 /* SceneDelegate.h */,
+				7E6A75162EA859DE00558340 /* SceneDelegate.m */,
 				302E895E17E668300004B935 /* MidiViewController.h */,
 				302E895F17E668320004B935 /* MidiViewController.m */,
 				7E3FBB37292C49A900F00CC0 /* NavigationController.h */,
@@ -1106,6 +1111,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ED022E32879218D00069FFD /* List.m in Sources */,
+				7E6A75172EA859DE00558340 /* SceneDelegate.m in Sources */,
 				305772931E88A08A007F9A92 /* GCDWebDAVServer.m in Sources */,
 				30ABE2EC16B5D0FB00464926 /* AppDelegate.m in Sources */,
 				30ABE2EE16B5D0FB00464926 /* main.m in Sources */,
