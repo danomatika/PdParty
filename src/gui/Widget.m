@@ -70,6 +70,14 @@
 	if(self) {
 		[self _init];
 		self.gui = gui;
+        if ([self.type isEqual:@"Symbol"] ||
+            [self.type isEqual:@"List"] ||
+            [self.type isEqual:@"Knob"] ||
+            [self.type hasPrefix:@"Number"] ||
+            [self.type hasSuffix:@"Radio"] ||
+            [self.type hasSuffix:@"Slider"]) {
+            [self addDoubleTabInputToWidget:self];
+        }
 	}
 	return self;
 }
@@ -335,6 +343,76 @@ static PdDispatcher *dispatcher = nil;
 		}
 	}
 	return string;
+}
+
+- (void) addDoubleTabInputToWidget:(Widget*)w {
+    UITapGestureRecognizer *tab = [[UITapGestureRecognizer alloc]
+                                           initWithTarget:self
+                                   action:@selector(handleWidgetTap:)];
+    tab.numberOfTapsRequired = 2;
+    [w addGestureRecognizer:tab];
+}
+
+- (void)handleWidgetTap:(UITapGestureRecognizer *)gestureRecognizer {
+    Widget *control = (Widget *)gestureRecognizer.view;
+    if (control) {
+        [self showInputDialogForWidget:control withNumberPad:!([control.type isEqual:@"Symbol"] || [control.type isEqual:@"List"])];
+    }
+}
+
+- (void) showInputDialogForWidget: (Widget*)w withNumberPad: (BOOL) pad {
+    dispatch_async(dispatch_get_main_queue(), ^{    // make shure we dont affect audio
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
+                                                                                     message:@"set value:"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            if (pad) {
+                textField.keyboardType = UIKeyboardTypeDecimalPad;
+                // add button to toggle positive/negative
+                UIButton *minusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                [minusBtn addTarget:self action:@selector(toggleNegative:) forControlEvents:UIControlEventTouchUpInside];
+                [minusBtn setTitle:@"-/+" forState:UIControlStateNormal];
+
+                textField.leftView = minusBtn;
+                textField.leftViewMode = UITextFieldViewModeAlways;
+            }
+            textField.textAlignment = NSTextAlignmentCenter;
+            [textField becomeFirstResponder];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                                   style:UIAlertActionStyleCancel
+                                                                 handler:nil];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Set"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+            UITextField *textField = alertController.textFields.firstObject;
+            if (textField) {
+                if (![textField.text  isEqual: @""] && ![textField.text  isEqual: @"-"]) {
+                    if (pad) {
+                        float value = [[textField.text stringByReplacingOccurrencesOfString:@"," withString:@"."] floatValue];
+                        // in case the widget's min and max range is set
+                        if ((w.minValue != 0) && (w.maxValue != 0)) {
+                            // reflect the widget's min/max range
+                            value = ((value >= w.minValue) && (value <= w.maxValue)) ? value : (value >= w.minValue) ? w.maxValue : w.minValue;
+                        }
+                        [w receiveFloat:value fromSource:@"user"]; // source has no effect here
+                    }
+                    else {
+                        [w receiveSymbol:textField.text fromSource:@"user"]; // source has no effect here
+                    }
+                }
+            }
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+        [rootViewController presentViewController:alertController animated:YES completion:nil];
+    });
+}
+
+- (void) toggleNegative: (UIButton*) btn {
+    UITextField *tf = (UITextField*) [btn superview];
+    tf.text = ([tf.text hasPrefix:@"-"]) ? [tf.text substringFromIndex:1] : [@"-" stringByAppendingString:tf.text];
 }
 
 @end
